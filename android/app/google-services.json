@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "626724068663",
+    "project_id": "bikersworld-c9147",
+    "storage_bucket": "bikersworld-c9147.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:626724068663:android:f734b72274f066afae0eb2",
+        "android_client_info": {
+          "package_name": "com.techrics.bikersworld"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "626724068663-nk4ucivq98nvftb44ejligrmd6bnho5s.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.techrics.bikersworld",
+            "certificate_hash": "e62d4a7f77295e81e339e3e0bceae5fb141ba27a"
+          }
+        },
+        {
+          "client_id": "626724068663-c36990flsv4e01v1s2j00m76la23ojcl.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC44nGjyDhF3rNHNRe74xSQzwTh_zvYk4Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "626724068663-c36990flsv4e01v1s2j00m76la23ojcl.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
