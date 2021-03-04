@@ -1,4 +1,4 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:bikersworld/screen/workshop/addServices.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -12,8 +12,6 @@ import 'package:bikersworld/screen/workshop/addServices.dart';
 import 'package:bikersworld/screen/workshop/reviews/reviews.dart';
 import 'package:bikersworld/screen/workshop/viewMechanics.dart';
 import 'package:lite_rolling_switch/lite_rolling_switch.dart';
-import 'package:bikersworld/widgets/drawer.dart';
-import 'package:bikersworld/screen/workshop/workshopStatus.dart';
 
 class workshopdashboard extends StatefulWidget {
   @override
@@ -38,31 +36,10 @@ class _workshopdashboardState extends State<workshopdashboard> {
           ),
         ),
         iconTheme: IconThemeData(
-          color: Colors.orangeAccent,
+          color: Colors.white,
         ),
       ),
-      body: FutureWorkshopBuilder(),
-      drawer: drawer(),
-    );
-  }
-}
-
-class FutureWorkshopBuilder extends StatelessWidget {
-  const FutureWorkshopBuilder({
-    Key key,
-  }) : super(key: key);
-
-  String shopTitle;
-  String shopCity;
-  String shopArea;
-  String ownerName;
-  String ownerContact;
-
-  @override
-  Widget build(BuildContext context) {
-    return FutureBuilder<DocumentSnapshot>(
-      future: getWorkshopDetails(shopTitle,shopCity,shopArea,ownerName,ownerContact),
-      child: Container(
+      body: Container(
         color: Color(0xfff0f0f0),
         width: MediaQuery.of(context).size.width,
         child: SingleChildScrollView(
@@ -78,17 +55,18 @@ class FutureWorkshopBuilder extends StatelessWidget {
                 child: Container(
                   child: Column(
                     children: <Widget>[
+
                       Container(
                         margin: EdgeInsets.symmetric(horizontal: 10,vertical: 10,),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
                             Text(
-                              "Information",
-                              style: GoogleFonts.kodchasan(
-                                color: Colors.white,
-                                fontSize: 20,
-                              )
+                                "Information",
+                                style: GoogleFonts.kodchasan(
+                                  color: Colors.white,
+                                  fontSize: 20,
+                                )
                             ),
                             Text(
                               "ISB",
@@ -320,7 +298,7 @@ class FutureWorkshopBuilder extends StatelessWidget {
                         ),
                       ),
                       onPressed: (){
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => AddServices()));
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => AddServices()));
                       },
                     ),
 
@@ -337,30 +315,48 @@ class FutureWorkshopBuilder extends StatelessWidget {
                   color: Colors.black,
                   fontSize: 22,
                   fontWeight: FontWeight.w500,
-                 ),
+
+                ),
                 ),
               ),
               SizedBox(height: 20,),
               Container(
+                height: 80,
                 margin: EdgeInsets.only(left: 20, right: 20),
                 child: Card(
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8),
                   ),
-                  child: ListTile(
-                    contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                    leading: CircleAvatar(
-                      backgroundColor: Color(0xffecf0f1),
-                      child: Icon(FontAwesomeIcons.clock, color: Colors.orange,),
+                  child: Container(
+                    margin: EdgeInsets.only(left: 15 , right: 15),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        CircleAvatar(
+                          backgroundColor: Color(0xffecf0f1),
+                          child: Icon(FontAwesomeIcons.clock, color: Color(0xfff7892b),),
+                        ),
+
+                        SizedBox(width: 60,),
+                        LiteRollingSwitch(
+                          value: true,
+                          textOn: 'ON',
+                          textOff: 'OFF',
+                          colorOn: Colors.greenAccent[700],
+                          colorOff: Colors.redAccent[700],
+                          iconOn: Icons.done,
+                          iconOff: Icons.remove_circle_outline,
+                          textSize: 16.0,
+                          onChanged: (bool state) {
+//Use it to manage the different states
+                            print('Current State of SWITCH IS: $state');
+                          },
+                        ),
+                      ],
                     ),
-                    title: Text("Shop Status"),
-                    onTap: (){
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => workshopStatus()));
-                    },
                   ),
                 ),
               ),
-
 
               SizedBox(height: 20,),
 
@@ -371,7 +367,7 @@ class FutureWorkshopBuilder extends StatelessWidget {
                   color: Colors.black,
                   fontSize: 20,
                   fontWeight: FontWeight.w500,
-                 ),
+                ),
                 ),
               ),
 
@@ -433,11 +429,10 @@ class FutureWorkshopBuilder extends StatelessWidget {
           ),
         ),
       ),
+
+
     );
   }
-}
-Future<DocumentSnapshot> getWorkshopDetails(String shopTitle,String shopCity,String shopArea,String ownerName,String ownerContact) async{
-
 }
 //
 //Container(
