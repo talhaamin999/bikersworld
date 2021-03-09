@@ -26,12 +26,12 @@ bool _isNameEmpty = false;
 bool _isContactEmpty = false;
 int fieldEmptyChecker = 0;
 
-class registerWorkshop extends StatefulWidget {
+class RegisterWorkshop extends StatefulWidget {
   @override
-  _registerWorkshopState createState() => _registerWorkshopState();
+  _RegisterWorkshopState createState() => _RegisterWorkshopState();
 }
 
-class _registerWorkshopState extends State<registerWorkshop> {
+class _RegisterWorkshopState extends State<RegisterWorkshop> {
   int currentIndex;
 
   TextEditingController _textFieldController = new TextEditingController();

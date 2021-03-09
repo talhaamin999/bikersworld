@@ -6,12 +6,12 @@ import 'package:bikersworld/screen/workshop/reviews/mechanicsReviews.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 
-class viewMechanics extends StatefulWidget {
+class ViewMechanics extends StatefulWidget {
   @override
-  _viewMechanicsState createState() => _viewMechanicsState();
+  _ViewMechanicsState createState() => _ViewMechanicsState();
 }
 
-class _viewMechanicsState extends State<viewMechanics> {
+class _ViewMechanicsState extends State<ViewMechanics> {
   int currentIndex;
 
   TextEditingController _textFieldController = new TextEditingController();

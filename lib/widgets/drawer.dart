@@ -113,7 +113,7 @@ class _drawerState extends State<drawer> {
             title: Text("Register Workshop",style: GoogleFonts.montserrat(fontSize: 15,color: Colors.black),),
             trailing: Icon(Icons.arrow_forward_ios, size: 15.0,),
             onTap: (){
-              Navigator.push(context, MaterialPageRoute(builder: (context) => registerWorkshop()));
+              Navigator.push(context, MaterialPageRoute(builder: (context) => RegisterWorkshop()));
             },
           ),
 

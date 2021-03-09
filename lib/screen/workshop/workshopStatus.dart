@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lite_rolling_switch/lite_rolling_switch.dart';
 
-class workshopStatus extends StatefulWidget {
+class WorkshopStatus extends StatefulWidget {
   @override
-  _workshopStatusState createState() => _workshopStatusState();
+  _WorkshopStatusState createState() => _WorkshopStatusState();
 }
 
-class _workshopStatusState extends State<workshopStatus> {
+class _WorkshopStatusState extends State<WorkshopStatus> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(

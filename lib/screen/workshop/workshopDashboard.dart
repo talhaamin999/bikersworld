@@ -173,7 +173,7 @@ class _workshopdashboardState extends State<workshopdashboard> {
                     ),
                     title: Text("Add Mechanics"),
                     onTap: (){
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => addMechanics()));
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => AddMechanics()));
                     },
                   ),
                 ),
@@ -194,7 +194,7 @@ class _workshopdashboardState extends State<workshopdashboard> {
                     ),
                     title: Text("View Mechanics"),
                     onTap: (){
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => viewMechanics()));
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => ViewMechanics()));
                     },
                   ),
                 ),

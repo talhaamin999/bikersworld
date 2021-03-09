@@ -8,12 +8,12 @@ import 'package:bikersworld/screen/workshop/addServices.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 
-class addMechanics extends StatefulWidget {
+class AddMechanics extends StatefulWidget {
   @override
-  _addMechanicsState createState() => _addMechanicsState();
+  _AddMechanicsState createState() => _AddMechanicsState();
 }
 
-class _addMechanicsState extends State<addMechanics> {
+class _AddMechanicsState extends State<AddMechanics> {
   int currentIndex;
 
   final _formKey = GlobalKey<FormState>();
