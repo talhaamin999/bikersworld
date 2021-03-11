@@ -102,7 +102,7 @@ class _registerAutoPartsState extends State<registerAutoParts> {
                           Navigator.of(context)
                               .push(
                             MaterialPageRoute(
-                                builder: (context) => autoPartStoreDashboardOwner()
+                                builder: (context) => AutoPartStoreDashboardOwner()
                             ),
                           );
                         },
