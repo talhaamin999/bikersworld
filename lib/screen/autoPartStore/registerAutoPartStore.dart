@@ -5,12 +5,12 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:bikersworld/widgets/drawer.dart';
 import 'package:bikersworld/screen/autoPartStore/registerAutoParts.dart';
 
-class registerAutoPartStore extends StatefulWidget {
+class RegisterAutoPartStore extends StatefulWidget {
   @override
-  _registerAutoPartStoreState createState() => _registerAutoPartStoreState();
+  _RegisterAutoPartStoreState createState() => _RegisterAutoPartStoreState();
 }
 
-class _registerAutoPartStoreState extends State<registerAutoPartStore> {
+class _RegisterAutoPartStoreState extends State<RegisterAutoPartStore> {
   int currentIndex;
 
   TextEditingController _textFieldController = new TextEditingController();

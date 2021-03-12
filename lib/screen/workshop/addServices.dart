@@ -135,13 +135,13 @@ class _AddServicesState extends State<AddServices> {
                         ),
                       ),
                       onPressed: (){
-                        if(!_formKey.currentState.validate()){
+                      /*  if(!_formKey.currentState.validate()){
                           return;
                         }
                         else{
                           validateFields();
-                        }
-                        //Navigator.push(context, MaterialPageRoute(builder: (context) =>workshopdashboard()));
+                        }*/
+                        Navigator.push(context, MaterialPageRoute(builder: (context) =>Workshopdashboard()));
                       },
                     ),
                       SizedBox(height: 20),

@@ -1,4 +1,9 @@
 import 'package:bikersworld/screen/workshop/workshopDashboard.dart';
+import 'package:bikersworld/services/toast_service.dart';
+import 'package:bikersworld/services/validate_service.dart';
+import 'package:bikersworld/services/workshop_queries/mechanic_queries.dart';
+import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:path/path.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -7,6 +12,10 @@ import 'package:bikersworld/widgets/drawer.dart';
 import 'package:bikersworld/screen/workshop/addServices.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+TextEditingController _mechanicNameController = TextEditingController();
+TextEditingController _mechanicContactController = TextEditingController();
+final _formKey = GlobalKey<FormState>();
+String _currentItemselected = 'Electrition';
 
 class AddMechanics extends StatefulWidget {
   @override
@@ -15,11 +24,7 @@ class AddMechanics extends StatefulWidget {
 
 class _AddMechanicsState extends State<AddMechanics> {
   int currentIndex;
-
-  final _formKey = GlobalKey<FormState>();
-
-
-  TextEditingController _textFieldController = new TextEditingController();
+  ToastErrorMessage _error;
   @override
   void initState() {
     super.initState();
@@ -32,10 +37,43 @@ class _AddMechanicsState extends State<AddMechanics> {
       currentIndex = index;
     });
   }
+
+  validateFields() async{
+
+    final ValidateWorkshopMechanics mechanic = ValidateWorkshopMechanics();
+    if(!mechanic.validateMechanicName(_mechanicNameController.text.trim()) && !mechanic.validateMechanicContact(_mechanicContactController.text.trim()) && !mechanic.validateMechanicSpeciality(_currentItemselected)){
+      _error = ToastErrorMessage(errorMessage: "Enter Valid Data in Each Field");
+      _error.errorToastMessage();
+    }
+    else if(!mechanic.validateMechanicName(_mechanicNameController.text.trim())){
+      _error = ToastErrorMessage(errorMessage: "Mechanic Name Must Only contain Alphabets");
+      _error.errorToastMessage();
+    }
+    else if(!mechanic.validateMechanicContact(_mechanicContactController.text.trim())){
+      _error = ToastErrorMessage(errorMessage: "Mechanic Contact Must Only contain Numbers");
+      _error.errorToastMessage();
+    }
+    else if(!mechanic.validateMechanicSpeciality(_currentItemselected)){
+      _error = ToastErrorMessage(errorMessage: "Mechanic Speciality Must Be Selected");
+      _error.errorToastMessage();
+    }
+    else{
+      await registerMechanic();
+    }
+  }
+  Future<void> registerMechanic() async{
+    try {
+      final RegisterMechanicQueries _register = RegisterMechanicQueries();
+      await _register.regesterMechanic(_mechanicNameController.text.trim(), _mechanicContactController.text.trim(), _currentItemselected);
+    }catch(e){
+      _error = ToastErrorMessage(errorMessage: e.toString());
+      _error.errorToastMessage();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
-
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
@@ -97,12 +135,18 @@ class _AddMechanicsState extends State<AddMechanics> {
                           ),
                         ),
                         onPressed: (){
-                          Navigator.of(context)
+                          /*Navigator.of(context)
                               .push(
                             MaterialPageRoute(
-                                builder: (context) => workshopdashboard()
+                                builder: (context) => Workshopdashboard()
                             ),
-                          );
+                          );*/
+                          if(!_formKey.currentState.validate()){
+                            return;
+                          }
+                          else{
+                            validateFields();
+                          }
                         },
                       ),
                     ],
@@ -117,56 +161,72 @@ class _AddMechanicsState extends State<AddMechanics> {
   }
 }
 
-Widget _entryField(String title)
+Widget _entryField(String title,String hintText,TextEditingController controller,TextInputType inputType,FilteringTextInputFormatter filter)
 {
-  final _formKey = GlobalKey<FormState>();
-
-  return Form(
-    key: _formKey,
-    child: Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        Text(
-            title,
-            style: GoogleFonts.quicksand(
-              fontSize: 18,
-            )
-        ),
-        SizedBox(
-          height: 10,
-        ),
-        TextFormField(
-          decoration: InputDecoration(
-            border: InputBorder.none,
-            fillColor: Color(0xfff3f3f4),
-            filled: true,
-          ),
-        ),
-      ],
-    ),
-  );
+  return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Text(
+                title,
+                style: GoogleFonts.quicksand(
+                  fontSize: 18,
+                )
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            TextFormField(
+              keyboardType: inputType,
+              inputFormatters: <TextInputFormatter>[
+                filter,
+              ],
+              controller: controller,
+              validator: (value){
+                if(value.isEmpty){
+                  return "$title is a Required Field";
+                }
+                return null;
+              },
+              decoration: InputDecoration(
+                hintText: hintText,
+                border: InputBorder.none,
+                fillColor: Color(0xfff3f3f4),
+                filled: true,
+                errorBorder: new OutlineInputBorder(
+                  borderSide: new BorderSide(color: Colors.red),
+                ),
+                errorStyle: TextStyle(
+                  fontSize: 15,
+                ),
+              ),
+            ),
+          ],
+        );
 }
 
 Widget _registerWorkshopWidget() {
-  return Column(
-    crossAxisAlignment: CrossAxisAlignment.start,
-    children: <Widget>[
-      _entryField("Name"),
-      SizedBox(height:15,),
-      _entryField("Contact"),
-      SizedBox(height:15,),
-
-      Text(
-          "Specilization",
-          style: GoogleFonts.quicksand(
-            fontSize: 18,
-          )
-      ),
-      SizedBox(
-        height: 15,
-      ),
-      specializationComboBox(),
-    ],
+  return Form(
+    key: _formKey,
+    autovalidateMode: AutovalidateMode.disabled,
+    child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            _entryField("Name","Abdullah",_mechanicNameController,TextInputType.text,FilteringTextInputFormatter.allow(RegExp("[a-zA-Z ]"))),
+            SizedBox(height:15),
+            _entryField("Contact","0310345635",_mechanicContactController,TextInputType.number,FilteringTextInputFormatter.digitsOnly),
+            SizedBox(height:15),
+            Text(
+                "Specilization",
+                style: GoogleFonts.quicksand(
+                  fontSize: 18,
+                )
+            ),
+            SizedBox(
+              height: 15,
+            ),
+            SpecializationComboBox(),
+         ],
+        ),
   );
 }
 
@@ -193,29 +253,33 @@ Widget _title() {
 }
 
 
-class specializationComboBox extends StatefulWidget {
-  specializationComboBox({Key key}) : super(key: key);
+class SpecializationComboBox extends StatefulWidget {
+  SpecializationComboBox({Key key}) : super(key: key);
 
   @override
-  _specializationComboBoxState createState() => _specializationComboBoxState();
+  _SpecializationComboBoxState createState() => _SpecializationComboBoxState();
 }
 
-class _specializationComboBoxState extends State<specializationComboBox> {
+class _SpecializationComboBoxState extends State<SpecializationComboBox> {
+
+  var _dropDownItems = ['Electrition', 'Mechanic', 'Both'];
+
 
   Widget build(BuildContext context) {
-    String dropdownValue = 'Electrical';
-
     return Container(
       color: Color(0xfff3f3f4),
       width: 380,
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: DropdownButton<String>(
-          value: dropdownValue,
+          value: _currentItemselected,
           icon: Container(
             margin: EdgeInsets.only(left: 200),
-            child: Icon(
-              FontAwesomeIcons.caretDown,
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(35.0, 0, 0, 0),
+              child: Icon(
+                FontAwesomeIcons.caretDown,
+              ),
             ),
           ),
           iconSize: 24,
@@ -226,14 +290,14 @@ class _specializationComboBoxState extends State<specializationComboBox> {
           ),
           onChanged: (String newValue) {
             setState(() {
-              dropdownValue = newValue;
+              _currentItemselected = newValue;
             });
           },
-          items: <String>['Electrical', 'Mechanical', 'Oil and tuning', 'Others']
-              .map<DropdownMenuItem<String>>((String value) {
+          items: _dropDownItems
+              .map((String dropDownStringItem) {
             return DropdownMenuItem<String>(
-              value: value,
-              child: Text(value, style: GoogleFonts.quicksand(fontSize: 15),),
+              value: dropDownStringItem,
+              child: Text(dropDownStringItem, style: GoogleFonts.quicksand(fontSize: 15)),
             );
           }).toList(),
         ),

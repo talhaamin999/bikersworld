@@ -13,12 +13,12 @@ import 'package:bikersworld/screen/workshop/reviews/reviews.dart';
 import 'package:bikersworld/screen/workshop/viewMechanics.dart';
 import 'package:lite_rolling_switch/lite_rolling_switch.dart';
 
-class workshopdashboard extends StatefulWidget {
+class Workshopdashboard extends StatefulWidget {
   @override
-  _workshopdashboardState createState() => _workshopdashboardState();
+  _WorkshopdashboardState createState() => _WorkshopdashboardState();
 }
 
-class _workshopdashboardState extends State<workshopdashboard> {
+class _WorkshopdashboardState extends State<Workshopdashboard> {
 
   int _checkboxValue;
   @override

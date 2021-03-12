@@ -6,13 +6,13 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:bikersworld/screen/autoPartStore/registerAutoParts.dart';
 import 'package:bikersworld/screen/autoPartStore/viewPartsPage.dart';
 
-class autoPartStoreDashboardOwner extends StatefulWidget {
+class AutoPartStoreDashboardOwner extends StatefulWidget {
   @override
-  _autoPartStoreDashboardOwnerState createState() => _autoPartStoreDashboardOwnerState();
+  _AutoPartStoreDashboardOwnerState createState() => _AutoPartStoreDashboardOwnerState();
 }
 
 
-class _autoPartStoreDashboardOwnerState extends State<autoPartStoreDashboardOwner>
+class _AutoPartStoreDashboardOwnerState extends State<AutoPartStoreDashboardOwner>
     with SingleTickerProviderStateMixin {
   TabController _tabController;
   ScrollController _scrollViewController;
@@ -67,7 +67,7 @@ class _autoPartStoreDashboardOwnerState extends State<autoPartStoreDashboardOwne
         },
         body: TabBarView(
           children: <Widget>[
-            informationTab(),
+            InformationTab(),
             ReviewTab(),
           ],
           controller: _tabController,
@@ -78,7 +78,7 @@ class _autoPartStoreDashboardOwnerState extends State<autoPartStoreDashboardOwne
   }
 }
 
-class informationTab extends StatelessWidget {
+class InformationTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return  SingleChildScrollView(

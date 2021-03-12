@@ -88,7 +88,7 @@ class _RegisterWorkshopState extends State<RegisterWorkshop> {
   void validateFields(){
 
     if(fieldEmptyChecker == 1){
-      ValidateShop _workShop = ValidateShop();
+      ValidateWorkshop _workShop = ValidateWorkshop();
       if(!_workShop.validateShopTitle(shopTitleController.text.trim()) && !_workShop.validateShopCity(shopCityController.text.trim()) && !_workShop.validateShopArea(shopSpecificAreaController.text.trim()) && !_workShop.validateOwnerName(ownerNameController.text.trim()) && !_workShop.validateOwnerContact(ownerContactController.text.trim())){
         ToastErrorMessage error = ToastErrorMessage(errorMessage: "You Need To Enter Valid Data in every Fields");
         error.errorToastMessage();
