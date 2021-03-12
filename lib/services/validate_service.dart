@@ -1,11 +1,13 @@
 
+final String _namePattern = r"^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$";
+final String _contactPattern = r'^((\+92)|(0092))-{0,1}\d{3}-{0,1}\d{7}$|^\d{11}$|^\d{4}-\d{7}$';
 
-class ValidateShop {
+class ValidateWorkshop {
 
   bool validateOwnerName(String name){
 
-    String namePattern = r"^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$";
-    RegExp regExp = RegExp(namePattern);
+    //String namePattern = r"^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$";
+    RegExp regExp = RegExp(_namePattern);
     if(!regExp.hasMatch(name)){
       return false;
     }
@@ -15,7 +17,7 @@ class ValidateShop {
   }
   bool validateOwnerContact(String contact){
 
-    String _contactPattern = r'^((\+92)|(0092))-{0,1}\d{3}-{0,1}\d{7}$|^\d{11}$|^\d{4}-\d{7}$';
+    //String _contactPattern = r'^((\+92)|(0092))-{0,1}\d{3}-{0,1}\d{7}$|^\d{11}$|^\d{4}-\d{7}$';
     RegExp _regExp = RegExp(_contactPattern);
     if(!_regExp.hasMatch(contact)){
       return false;
@@ -62,11 +64,10 @@ class ValidateShop {
 
 class ValidateWorkshopServices {
 
-  final ValidateShop shop = ValidateShop();
+  final ValidateWorkshop shop = ValidateWorkshop();
 
   bool validateServiceCategory(String category) {
-    String _categoryPattern = r"^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$";
-    RegExp regExp = RegExp(_categoryPattern);
+    RegExp regExp = RegExp(_namePattern);
     if(!regExp.hasMatch(category)){
       return false;
     }
@@ -75,8 +76,7 @@ class ValidateWorkshopServices {
     }
   }
   bool validateServiceTitle(String title) {
-    String _titlePattern = r"^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$";
-    RegExp regExp = RegExp(_titlePattern);
+    RegExp regExp = RegExp(_namePattern);
     if(!regExp.hasMatch(title)){
       return false;
     }
@@ -91,5 +91,35 @@ class ValidateWorkshopServices {
      else{
        return false;
      }
+  }
+}
+class ValidateWorkshopMechanics {
+
+  bool validateMechanicName(String name) {
+    RegExp regExp = RegExp(_namePattern);
+    if(!regExp.hasMatch(name)){
+      return false;
+    }
+    else{
+      return true;
+    }
+  }
+  bool validateMechanicContact(String contact) {
+    RegExp regExp = RegExp(_contactPattern);
+    if(!regExp.hasMatch(contact)){
+      return false;
+    }
+    else{
+      return true;
+    }
+  }
+  bool validateMechanicSpeciality(String speciality) {
+    RegExp regExp = RegExp(_namePattern);
+    if(!regExp.hasMatch(speciality)){
+      return false;
+    }
+    else{
+      return true;
+    }
   }
 }
