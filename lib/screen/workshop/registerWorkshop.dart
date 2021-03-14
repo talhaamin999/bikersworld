@@ -1,6 +1,7 @@
+import 'dart:async';
 import 'package:bikersworld/services/toast_service.dart';
 import 'package:bikersworld/services/validate_service.dart';
-import 'package:bikersworld/services/workshop_queries/register_workshop_queries.dart';
+import 'package:bikersworld/services/workshop_queries/workshop_queries.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
@@ -19,6 +20,8 @@ final TextEditingController shopCityController = TextEditingController();
 final TextEditingController shopSpecificAreaController = TextEditingController();
 final TextEditingController ownerNameController = TextEditingController();
 final TextEditingController ownerContactController = TextEditingController();
+ToastErrorMessage error;
+ToastValidMessage valid;
 bool _isTitleEmpty = false;
 bool _isCityEmpty = false;
 bool _isAreaEmpty = false;
@@ -90,27 +93,27 @@ class _RegisterWorkshopState extends State<RegisterWorkshop> {
     if(fieldEmptyChecker == 1){
       ValidateWorkshop _workShop = ValidateWorkshop();
       if(!_workShop.validateShopTitle(shopTitleController.text.trim()) && !_workShop.validateShopCity(shopCityController.text.trim()) && !_workShop.validateShopArea(shopSpecificAreaController.text.trim()) && !_workShop.validateOwnerName(ownerNameController.text.trim()) && !_workShop.validateOwnerContact(ownerContactController.text.trim())){
-        ToastErrorMessage error = ToastErrorMessage(errorMessage: "You Need To Enter Valid Data in every Fields");
+        error = ToastErrorMessage(errorMessage: "You Need To Enter Valid Data in every Fields");
         error.errorToastMessage();
       }
       else if(!_workShop.validateShopTitle(shopTitleController.text.trim())){
-        ToastErrorMessage error = ToastErrorMessage(errorMessage: "You Need To Enter Valid Shop Title");
+        error = ToastErrorMessage(errorMessage: "You Need To Enter Valid Shop Title");
         error.errorToastMessage();
       }
       else if(!_workShop.validateShopCity(shopCityController.text.trim())){
-        ToastErrorMessage error = ToastErrorMessage(errorMessage: "You Need To Enter Valid City Name");
+        error = ToastErrorMessage(errorMessage: "You Need To Enter Valid City Name");
         error.errorToastMessage();
       }
       else if(!_workShop.validateShopArea(shopSpecificAreaController.text.trim())){
-        ToastErrorMessage error = ToastErrorMessage(errorMessage: "You Need To Enter Valid Specific Area Title");
+        error = ToastErrorMessage(errorMessage: "You Need To Enter Valid Specific Area Title");
         error.errorToastMessage();
       }
       else if(!_workShop.validateOwnerName(ownerNameController.text.trim())){
-        ToastErrorMessage error = ToastErrorMessage(errorMessage: "You Need To Enter Valid Owner Name");
+        error = ToastErrorMessage(errorMessage: "You Need To Enter Valid Owner Name");
         error.errorToastMessage();
       }
       else if(!_workShop.validateOwnerContact(ownerContactController.text.trim())){
-        ToastErrorMessage error = ToastErrorMessage(errorMessage: "You Need To Enter Valid Pakistan Number");
+        error = ToastErrorMessage(errorMessage: "You Need To Enter Valid Pakistan Number");
         error.errorToastMessage();
       }
       else{
@@ -121,13 +124,35 @@ class _RegisterWorkshopState extends State<RegisterWorkshop> {
   }
 
   Future<void> addWorkshop() async{
-    RegisterWorkshopQueries register = RegisterWorkshopQueries();
-    await register.registerWorkshop(shopTitleController.text, shopCityController.text, shopSpecificAreaController.text, ownerNameController.text, ownerContactController.text);
+    try {
+      RegisterWorkshopQueries register = RegisterWorkshopQueries();
+      await register.registerWorkshop(
+          shopTitleController.text, shopCityController.text,
+          shopSpecificAreaController.text, ownerNameController.text,
+          ownerContactController.text);
+        if(RegisterWorkshopQueries.resultMessage == "Workshop Successfully Registered"){
+          valid = ToastValidMessage(validMessage: RegisterWorkshopQueries.resultMessage);
+          valid.validToastMessage();
+          Future.delayed(
+              new Duration(seconds: 2),
+                (){
+                Navigator.of(this.context).push(MaterialPageRoute(builder: (context) => AddServices())
+                );
+          },
+          );
+        }
+        else{
+          error = ToastErrorMessage(errorMessage: RegisterWorkshopQueries.resultMessage);
+          error.errorToastMessage();
+        }
+    }catch(e){
+      error = ToastErrorMessage(errorMessage: e.toString());
+      error.errorToastMessage();
+    }
   }
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
-
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
@@ -187,9 +212,8 @@ class _RegisterWorkshopState extends State<RegisterWorkshop> {
                         ),
                       ),
                       onPressed: (){
-                       // checkEmptyField();
-                       // validateFields();
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => AddServices()));
+                        checkEmptyField();
+                        validateFields();
                       },
                     ),
                       SizedBox(height: 20),

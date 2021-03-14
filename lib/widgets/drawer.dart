@@ -1,5 +1,6 @@
 import 'package:bikersworld/screen/dashboard/Ads/seller/sellerDashbaord.dart';
 import 'package:bikersworld/screen/dashboard/searchPages/autoPartStoreSearchPage.dart';
+import 'package:bikersworld/screen/workshop/workshopDashboard.dart';
 import 'package:bikersworld/services/authenticate_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -113,7 +114,7 @@ class _drawerState extends State<drawer> {
             title: Text("Register Workshop",style: GoogleFonts.montserrat(fontSize: 15,color: Colors.black),),
             trailing: Icon(Icons.arrow_forward_ios, size: 15.0,),
             onTap: (){
-              Navigator.push(context, MaterialPageRoute(builder: (context) => RegisterWorkshop()));
+              Navigator.push(context, MaterialPageRoute(builder: (context) => Workshopdashboard()));
             },
           ),
 

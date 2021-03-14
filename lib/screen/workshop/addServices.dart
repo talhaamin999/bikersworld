@@ -1,6 +1,8 @@
+import 'dart:async';
+
 import 'package:bikersworld/services/toast_service.dart';
 import 'package:bikersworld/services/validate_service.dart';
-import 'package:bikersworld/services/workshop_queries/add_service_queries.dart';
+import 'package:bikersworld/services/workshop_queries/service_queries.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -9,7 +11,7 @@ import 'package:bikersworld/widgets/drawer.dart';
 import 'package:bikersworld/widgets/customeTextArea.dart';
 import 'package:bikersworld/screen/workshop/workshopDashboard.dart';
 
-final _formKey = GlobalKey<FormState>();
+GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 TextEditingController _serviceTitleController = TextEditingController();
 TextEditingController _serviceCategoryController = TextEditingController();
 TextEditingController _servicePriceController = TextEditingController();
@@ -66,6 +68,21 @@ class _AddServicesState extends State<AddServices> {
       final WorkshopServiceQueries _add = WorkshopServiceQueries();
       await _add.addWorkshopService(_serviceTitleController.text.trim(),
           _serviceCategoryController.text.trim(), price);
+      if(WorkshopServiceQueries.resultMessage == WorkshopServiceQueries.completionMessage){
+        _valid = ToastValidMessage(validMessage: WorkshopServiceQueries.resultMessage);
+        _valid.validToastMessage();
+        Future.delayed(
+          new Duration(seconds: 2),
+              (){
+            Navigator.of(this.context).push(MaterialPageRoute(builder: (context) => Workshopdashboard())
+            );
+          },
+        );
+      }
+      else{
+        _error = ToastErrorMessage(errorMessage: WorkshopServiceQueries.resultMessage);
+        _error.errorToastMessage();
+      }
     }catch(e){
        _error = ToastErrorMessage(errorMessage: e.toString());
        _error.errorToastMessage();
@@ -77,7 +94,6 @@ class _AddServicesState extends State<AddServices> {
 
     final height = MediaQuery.of(context).size.height;
     int _checkboxValue;
-
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
@@ -135,13 +151,12 @@ class _AddServicesState extends State<AddServices> {
                         ),
                       ),
                       onPressed: (){
-                      /*  if(!_formKey.currentState.validate()){
+                        if(!_formKey.currentState.validate()){
                           return;
                         }
                         else{
                           validateFields();
-                        }*/
-                        Navigator.push(context, MaterialPageRoute(builder: (context) =>Workshopdashboard()));
+                        }
                       },
                     ),
                       SizedBox(height: 20),
