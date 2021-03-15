@@ -30,6 +30,9 @@ class _ViewMechanicsState extends State<ViewMechanics> {
 
   @override
   Widget build(BuildContext context) {
+
+    bool isVisible = false;
+
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
@@ -62,7 +65,7 @@ class _ViewMechanicsState extends State<ViewMechanics> {
                         ),
                         children: [
                           TextSpan(
-                              text: 'Mechanics',
+                              text: ' Mechanics',
                               style: GoogleFonts.quicksand(
                                 fontSize: 30,
                                 color: Colors.black,
@@ -74,243 +77,102 @@ class _ViewMechanicsState extends State<ViewMechanics> {
                   ),
                 ),
 
-                SizedBox(height: 20,),
-
-                FlatButton(
-                  child: Container(
-                    margin: EdgeInsets.only(left: 10, right: 10),
-                    child: Card(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      child: ListTile(
-                        contentPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                        leading: CircleAvatar(
-                          backgroundColor: Color(0xffecf0f1),
-                          child: Icon(FontAwesomeIcons.user, color: Color(0xffc4040e),),
-                        ),
-                        title: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Container(
-                              child: Row(
-                                children: <Widget>[
-                                  SizedBox(
-                                    width: 15,
-                                  ),
-                                  Container(
-                                    child: AutoSizeText(
-                                      "Hasham Ur Rehman",
-                                      style: GoogleFonts.quicksand(
-                                        fontSize: 18,
-                                      ),
-                                      maxLines: 2,
-                                    ),
-                                  ),
-
-                                ],
-                              ),
-                            ),
-                            SizedBox(height: 5,),
-                            Container(
-                              margin: EdgeInsets.only(left: 15),
-                              child: Text(
-                                "03355437782",
-                                style: GoogleFonts.quicksand(
-                                  fontSize: 15,
-                                ),
-                              ),
-                            ),
-                            SizedBox(height: 10,),
-                            ratingBar(),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                  onPressed: (){
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => mechanicsReviews()));
-                  },
-                ),
-
                 SizedBox(height: 10,),
 
-                FlatButton(
-                  child: Container(
-                    margin: EdgeInsets.only(left: 10, right: 10),
-                    child: Card(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      child: ListTile(
-                        contentPadding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-                        leading: CircleAvatar(
-                          backgroundColor: Color(0xffecf0f1),
-                          child: Icon(FontAwesomeIcons.user, color: Color(0xffc4040e),),
+                Container(
+                  padding: EdgeInsets.all(5),
+                  child: Card(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        const ListTile(
+                          leading: Icon(Icons.person),
+                          title: Text('Ibtasam Ur Rehman',style: TextStyle(fontSize: 20),),
+                          subtitle: Text('03355437782' , style: TextStyle(fontSize: 17),),
                         ),
-                        title: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Container(
-                              child: Row(
-                                children: <Widget>[
-                                  SizedBox(
-                                    width: 15,
-                                  ),
-                                  Container(
-                                    child: Text(
-                                      "Hasham Ur Rehman",
-                                      style: GoogleFonts.quicksand(
-                                        fontSize: 18,
-                                      ),
+                        Padding(
+                          padding: const EdgeInsets.only(left:8.0, bottom: 8 , right: 8),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: <Widget>[
+                              RaisedButton(
+                                color: Colors.orange,
+                                child: Row(
+                                  children: [
+                                    Icon(
+                                      Icons.info_outline,
+                                      size: 15,
+                                      color: Colors.white,
                                     ),
-                                  ),
-
-                                ],
-                              ),
-                            ),
-                            SizedBox(height: 5,),
-                            Container(
-                              margin: EdgeInsets.only(left: 15),
-                              child: Text(
-                                "03355437782",
-                                style: GoogleFonts.quicksand(
-                                  fontSize: 15,
+                                    SizedBox(width: 5,),
+                                    Text(
+                                      "Info",
+                                      style: GoogleFonts.raleway(
+                                        fontSize: 17,
+                                        color: Colors.white,
+                                      ),
+                                    )
+                                  ],
                                 ),
+                                onPressed: () {
+                                  Navigator.push(context, MaterialPageRoute(builder: (context) => mechanicsReviews()));
+                                },
                               ),
-                            ),
-                            SizedBox(height: 10,),
-                            ratingBar(),
-                          ],
+                              const SizedBox(width: 8),
+                              RaisedButton(
+                                color: Colors.blue,
+                                child: Row(
+                                  children: [
+                                    Icon(
+                                      Icons.edit,
+                                      size: 15,
+                                      color: Colors.white,
+                                    ),
+                                    SizedBox(width: 5,),
+                                    Text(
+                                      "Edit",
+                                      style: GoogleFonts.raleway(
+                                        fontSize: 17,
+                                        color: Colors.white,
+                                      ),
+                                    )
+                                  ],
+                                ),
+                                onPressed: () {/* ... */},
+                              ),
+                              const SizedBox(width: 8),
+                              RaisedButton(
+                                color: Colors.red,
+                                child: Row(
+                                  children: [
+                                    Icon(
+                                      FontAwesomeIcons.userMinus,
+                                      size: 15,
+                                      color: Colors.white,
+                                    ),
+                                    SizedBox(width: 16,),
+                                    Text(
+                                        "Delete",
+                                      style: GoogleFonts.raleway(
+                                        fontSize: 17,
+                                        color: Colors.white,
+                                      ),
+                                    )
+                                  ],
+                                ),
+                                onPressed: () {/* ... */},
+                              ),
+                            ],
+                          ),
                         ),
-
-                      ),
+                      ],
                     ),
                   ),
-                  onPressed: (){
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => mechanicsReviews()));
-
-                  },
-                ),
-                SizedBox(height: 10,),
-
-
-                FlatButton(
-                  child: Container(
-                    margin: EdgeInsets.only(left: 10, right: 10),
-                    child: Card(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      child: ListTile(
-                        contentPadding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-                        leading: CircleAvatar(
-                          backgroundColor: Color(0xffecf0f1),
-                          child: Icon(FontAwesomeIcons.user, color: Color(0xffc4040e),),
-                        ),
-                        title: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Container(
-                              child: Row(
-                                children: <Widget>[
-                                  SizedBox(
-                                    width: 15,
-                                  ),
-                                  Container(
-                                    child: Text(
-                                      "Qasim Shah",
-                                      style: GoogleFonts.quicksand(
-                                        fontSize: 18,
-                                      ),
-                                    ),
-                                  ),
-
-                                ],
-                              ),
-                            ),
-                            SizedBox(height: 5,),
-                            Container(
-                              margin: EdgeInsets.only(left: 15),
-                              child: Text(
-                                "03355437782",
-                                style: GoogleFonts.quicksand(
-                                  fontSize: 15,
-                                ),
-                              ),
-                            ),
-                            SizedBox(height: 10,),
-                            ratingBar(),
-                          ],
-                        ),
-
-                      ),
-                    ),
-                  ),
-                  onPressed: (){
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => mechanicsReviews()));
-
-                  },
                 ),
 
-                SizedBox(height: 10,),
 
-                FlatButton(
-                  child: Container(
-                    margin: EdgeInsets.only(left: 10, right: 10),
-                    child: Card(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      child: ListTile(
-                        contentPadding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-                        leading: CircleAvatar(
-                          backgroundColor: Color(0xffecf0f1),
-                          child: Icon(FontAwesomeIcons.user, color: Color(0xffc4040e),),
-                        ),
-                        title: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Container(
-                              child: Row(
-                                children: <Widget>[
-                                  SizedBox(
-                                    width: 15,
-                                  ),
-                                  Container(
-                                    child: Text(
-                                      "Waseem khan",
-                                      style: GoogleFonts.quicksand(
-                                        fontSize: 18,
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            SizedBox(height: 5,),
-                            Container(
-                              margin: EdgeInsets.only(left: 15),
-                              child: Text(
-                                "03355437782",
-                                style: GoogleFonts.quicksand(
-                                  fontSize: 15,
-                                ),
-                              ),
-                            ),
-                            SizedBox(height: 10,),
-                            ratingBar(),
-                          ],
 
-                        ),
 
-                      ),
-                    ),
-                  ),
-                  onPressed: (){
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => mechanicsReviews()));
-                  },
-                ),
                 SizedBox(height: 30,),
                 FlatButton(
                   child: Container(
@@ -353,34 +215,3 @@ class _ViewMechanicsState extends State<ViewMechanics> {
     );
   }
 }
-
-class ratingBar extends StatelessWidget {
-  const ratingBar({
-    Key key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.only(left: 15),
-      child: RatingBar.builder(
-        initialRating: 4,
-        minRating: 1,
-        direction: Axis.horizontal,
-        allowHalfRating: true,
-        itemCount: 5,
-        itemSize: 20,
-        itemBuilder: (context, _) => Icon(
-          Icons.star,
-          color: Colors.amber,
-          size: 5.0,
-        ),
-        onRatingUpdate: (rating) {
-          print(rating);
-        },
-      ),
-    );
-  }
-}
-
-

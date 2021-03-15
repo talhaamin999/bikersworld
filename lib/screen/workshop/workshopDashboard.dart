@@ -17,6 +17,7 @@ import 'package:bikersworld/screen/workshop/addServices.dart';
 import 'package:bikersworld/screen/workshop/reviews/reviews.dart';
 import 'package:bikersworld/screen/workshop/viewMechanics.dart';
 import 'package:lite_rolling_switch/lite_rolling_switch.dart';
+import 'package:bikersworld/widgets/constants.dart';
 
 //var data;
 WorkshopDashboardModel data;
@@ -50,20 +51,21 @@ class _WorkshopdashboardState extends State<Workshopdashboard> {
   }
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       appBar: AppBar(
-        title: Text("Dashboard"),
+        title: Text("BikersWorld"),
         elevation: 0,
         backgroundColor: Color(0XFF012A4A),
         brightness: Brightness.dark,
         textTheme: TextTheme(
-          title: GoogleFonts.kodchasan(
+          title: GoogleFonts.quicksand(
             color: Colors.white,
-            fontSize: 20,
+            fontSize: 22,
           ),
         ),
         iconTheme: IconThemeData(
-          color: Colors.white,
+          color: Colors.orangeAccent,
         ),
       ),
       body: StreamBuilder(
@@ -95,6 +97,7 @@ class Dashboard extends StatelessWidget {
     Key key,
   }) : super(key: key);
 
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -104,110 +107,184 @@ class Dashboard extends StatelessWidget {
         child: Column(
           children: <Widget>[
             Container(
+              padding: const EdgeInsets.only(left: 20.0, right: 20, bottom: 30),
               decoration: BoxDecoration(
-                  color: Color(0XFF012A4A),
-                  borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(40),
-                    bottomRight: Radius.circular(40),
-                  )),
-              child: Container(
-                child: Column(
-                  children: <Widget>[
-
-                    Container(
-                      margin: EdgeInsets.symmetric(horizontal: 10,vertical: 10,),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Text(
-                              data.shopTitle,
-                              style: GoogleFonts.kodchasan(
-                                color: Colors.white,
-                                fontSize: 20,
-                              )
-                          ),
-                          Text(
-                            "ISB",
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 20,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-
-                    Container(
-                      margin: EdgeInsets.symmetric(horizontal: 20,),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-
-                          Text(
-                            data.city,
-                            style: GoogleFonts.krub(
-                              color: Colors.white,
-                              fontSize: 20,
-                            ),
-                          ),
-
-                          Container(
-                            decoration: BoxDecoration(
-                              color: Color(0xFF2ecc71),
-                              borderRadius: BorderRadius.circular(16),
-                            ),
-                            padding: EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-                            child: Text(
-                              "Rating 10",
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold
-                              ),
-                            ),
-                          ),
-
-                        ],
-                      ),
-                    ),
-                    Container(
-                      margin: EdgeInsets.symmetric(horizontal: 20,vertical: 10),
-                      child: Row(
-                        children: <Widget>[
-                          Text(
-                            data.area,
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 16,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-
-                  ],
+                color: Color(0XFF012A4A),
+                borderRadius: BorderRadius.only(
+                  bottomLeft: Radius.circular(40.0),
+                  bottomRight: Radius.circular(40.0),
                 ),
-                margin: EdgeInsets.symmetric(
-                  horizontal: 20,
-                  vertical: 40,
-                ),
-                width: MediaQuery.of(context).size.width,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(16),
-                  gradient: LinearGradient(
-                    colors: [
-                      Color(0xfffbb448),
-                      Color(0xfff7892b),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Text(
+                        data.shopTitle,
+                        style: GoogleFonts.quicksand(
+                          color: Colors.white,
+                          fontSize: 32.0,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+
+                      CircleAvatar(
+                        radius: 38,
+                        backgroundImage: AssetImage('assets/autoPartStore/autoPartStore2.png',),
+                      ),
                     ],
                   ),
-                ),
+
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Text(
+                        'DashBoard',
+                        style: GoogleFonts.krub(
+                          color: Colors.white,
+                          fontSize: 25.0,
+                        ),
+                      ),
+                      SizedBox(height:10),
+
+                      Container(
+                        child: Column(
+                          children: [
+                            Container(
+                              child: Row(
+                                children: [
+                                  Text(
+                                    'Owner Name',
+                                    style: const TextStyle(
+                                      color: Colors.white70,
+                                      fontSize: 15.0,
+                                    ),
+                                  ),
+                                  SizedBox(width: 10,),
+                                  Text(
+                                    data.ownerName,
+                                    style: const TextStyle(
+                                      color: Colors.white70,
+                                      fontSize: 15.0,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+
+                            SizedBox(height: 10,),
+
+                            Container(
+                              child: Row(
+                                children: [
+                                  Text(
+                                    'City',
+                                    style: const TextStyle(
+                                      color: Colors.white70,
+                                      fontSize: 15.0,
+                                    ),
+                                  ),
+                                  SizedBox(width: 10,),
+                                  Text(
+                                    data.city,
+                                    style: const TextStyle(
+                                      color: Colors.white70,
+                                      fontSize: 15.0,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            SizedBox(height: 10,),
+                            Container(
+                              child: Row(
+                                children: [
+                                  Text(
+                                    'Area',
+                                    style: const TextStyle(
+                                      color: Colors.white70,
+                                      fontSize: 15.0,
+                                    ),
+                                  ),
+                                  SizedBox(width: 10,),
+                                  Text(
+                                    data.area,
+                                    style: const TextStyle(
+                                      color: Colors.white70,
+                                      fontSize: 15.0,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+
+                      SizedBox(height: 20),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+
+                          FlatButton.icon(
+                            padding: const EdgeInsets.symmetric(
+                              vertical: 10.0,
+                              horizontal: 20.0,
+                            ),
+                            onPressed: () {},
+                            color: Colors.red,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(30.0),
+                            ),
+
+                            icon: const Icon(
+                              Icons.phone,
+                              color: Colors.white,
+                            ),
+
+                            label: Text(
+                              'Contact Us',
+                              style: Styles.buttonTextStyle,
+                            ),
+
+                            textColor: Colors.white,
+                          ),
+
+                          FlatButton.icon(
+                            padding: const EdgeInsets.symmetric(
+                              vertical: 10.0,
+                              horizontal: 20.0,
+                            ),
+
+                            onPressed: () {},
+                            color: Colors.blue,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(30.0),
+                            ),
+                            icon: const Icon(
+                              Icons.info_outline,
+                              color: Colors.white,
+                            ),
+
+                            label: Text(
+                              'Information',
+                              style: Styles.buttonTextStyle,
+                            ),
+                            textColor: Colors.white,
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ],
               ),
             ),
 
             SizedBox(height: 20,),
-
             Container(
-              margin: EdgeInsets.symmetric(horizontal: 23,),
+              margin: EdgeInsets.symmetric(horizontal: 23),
               alignment: Alignment.topLeft,
               child: Text("Mechanics", style: GoogleFonts.quicksand(
                 color: Colors.black,
@@ -365,6 +442,7 @@ class Dashboard extends StatelessWidget {
             ),
 
 
+
             SizedBox(height: 20,),
             Container(
               margin: EdgeInsets.symmetric(horizontal: 30,),
@@ -379,58 +457,6 @@ class Dashboard extends StatelessWidget {
             ),
             SizedBox(height: 20,),
             Container(
-              height: 80,
-              margin: EdgeInsets.only(left: 20, right: 20),
-              child: Card(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: Container(
-                  margin: EdgeInsets.only(left: 15 , right: 15),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      CircleAvatar(
-                        backgroundColor: Color(0xffecf0f1),
-                        child: Icon(FontAwesomeIcons.clock, color: Color(0xfff7892b),),
-                      ),
-
-                      SizedBox(width: 60,),
-                      LiteRollingSwitch(
-                        value: true,
-                        textOn: 'ON',
-                        textOff: 'OFF',
-                        colorOn: Colors.greenAccent[700],
-                        colorOff: Colors.redAccent[700],
-                        iconOn: Icons.done,
-                        iconOff: Icons.remove_circle_outline,
-                        textSize: 16.0,
-                        onChanged: (bool state) {
-//Use it to manage the different states
-                          print('Current State of SWITCH IS: $state');
-                        },
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-
-            SizedBox(height: 20,),
-
-            Container(
-              margin: EdgeInsets.symmetric(horizontal: 23,),
-              alignment: Alignment.topLeft,
-              child: Text("Reference", style: GoogleFonts.quicksand(
-                color: Colors.black,
-                fontSize: 20,
-                fontWeight: FontWeight.w500,
-              ),
-              ),
-            ),
-
-            SizedBox(height: 20,),
-            Container(
               margin: EdgeInsets.only(left: 20, right: 20),
               child: Card(
                 shape: RoundedRectangleBorder(
@@ -440,11 +466,11 @@ class Dashboard extends StatelessWidget {
                   contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                   leading: CircleAvatar(
                     backgroundColor: Color(0xffecf0f1),
-                    child: Icon(FontAwesomeIcons.store, color: Color(0xff322770),),
+                    child: Icon(FontAwesomeIcons.clock, color: Colors.deepOrange,),
                   ),
-                  title: Text("Make Reference"),
+                  title: Text("Status"),
                   onTap: (){
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => referenceWorkshop()));
+
                   },
                 ),
               ),
@@ -489,41 +515,3 @@ class Dashboard extends StatelessWidget {
     );
   }
 }
-//
-//Container(
-//height: 85,
-//width: 360,
-//color:Color(0xffecf0f1),
-//child: Card(
-//shape: RoundedRectangleBorder(
-//borderRadius: BorderRadius.circular(8),
-//),
-//child: Container(
-//margin: EdgeInsets.only(left: 15),
-//child: Row(
-//children: <Widget>[
-//CircleAvatar(
-//backgroundColor: Color(0xffecf0f1),
-//child: Icon(FontAwesomeIcons.clock, color: Color(0xfff7892b),),
-//),
-//
-//SizedBox(width: 60,),
-//LiteRollingSwitch(
-//value: true,
-//textOn: 'ON',
-//textOff: 'OFF',
-//colorOn: Colors.greenAccent[700],
-//colorOff: Colors.redAccent[700],
-//iconOn: Icons.done,
-//iconOff: Icons.remove_circle_outline,
-//textSize: 16.0,
-//onChanged: (bool state) {
-////Use it to manage the different states
-//print('Current State of SWITCH IS: $state');
-//},
-//),
-//],
-//),
-//),
-//),
-//),

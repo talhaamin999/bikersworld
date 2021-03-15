@@ -9,3 +9,22 @@ const Color primary = Color(0xFF292929);
 const Color warning = Color(0xFFda4167);
 const Color white = Color(0xFFFFFFFF);
 const Color black = Color(0xFF000000);
+
+
+class Styles {
+  static const buttonTextStyle = TextStyle(
+    fontSize: 16.0,
+    fontWeight: FontWeight.w600,
+  );
+
+  static const chartLabelsTextStyle = TextStyle(
+    color: Colors.grey,
+    fontSize: 14.0,
+    fontWeight: FontWeight.w500,
+  );
+
+  static const tabTextStyle = TextStyle(
+    fontSize: 16.0,
+    fontWeight: FontWeight.w600,
+  );
+}
