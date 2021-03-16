@@ -1,3 +1,5 @@
+import 'dart:async';
+import 'package:bikersworld/model/workshop_model.dart';
 import 'package:bikersworld/screen/workshop/addServices.dart';
 import 'package:bikersworld/services/workshop_queries/workshop_queries.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -17,7 +19,7 @@ import 'package:bikersworld/screen/workshop/viewMechanics.dart';
 import 'package:lite_rolling_switch/lite_rolling_switch.dart';
 
 //var data;
-WorkshopDashboardData data;
+WorkshopDashboardModel data;
 
 class Workshopdashboard extends StatefulWidget {
   @override
@@ -29,7 +31,8 @@ class _WorkshopdashboardState extends State<Workshopdashboard> {
 
   int _checkboxValue;
   static final String _WORKSHOP_COLLECTION = "workshop";
-
+  final _firebaseUser = FirebaseAuth.instance.currentUser;
+/*
   Future fetchWorkshopData() async {
     final _firebaseUser = FirebaseAuth.instance.currentUser;
     final CollectionReference _firestoreInstance = FirebaseFirestore.instance.collection(_WORKSHOP_COLLECTION);
@@ -39,14 +42,14 @@ class _WorkshopdashboardState extends State<Workshopdashboard> {
         data = WorkshopDashboardData(snapshot.get('title'),snapshot.get('city'),snapshot.get('area'),snapshot.get('owner_name'),snapshot.get('owner_contact'));
     });
   }
+  */
   @override
   void initState() {
     super.initState();
-    fetchWorkshopData();
+    //fetchWorkshopData();
   }
   @override
   Widget build(BuildContext context) {
-    fetchWorkshopData();
     return Scaffold(
       appBar: AppBar(
         title: Text("Dashboard"),
@@ -63,28 +66,24 @@ class _WorkshopdashboardState extends State<Workshopdashboard> {
           color: Colors.white,
         ),
       ),
-      body: FutureBuilder(
-        future: fetchWorkshopData(),
-        builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-          if(snapshot.connectionState == ConnectionState.done){
-            if(snapshot.hasError){
-              return Center(
-                child: Text("${snapshot.error}"),
-              );
-            }
-            return Dashboard();
-          }
-          else if(snapshot.connectionState == ConnectionState.waiting || snapshot.connectionState == ConnectionState.active){
-            return CircularProgressIndicator();
-          }
+      body: StreamBuilder(
+        stream: FirebaseFirestore.instance.collection(_WORKSHOP_COLLECTION).doc(_firebaseUser.uid).snapshots(),
+        // ignore: missing_return
+        builder: (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
+          if(snapshot.connectionState == ConnectionState.done && snapshot.hasData && snapshot.data != null){
+            data = WorkshopDashboardModel(snapshot.data.get('title'),snapshot.data.get('city'),snapshot.data.get('area'),snapshot.data.get('owner_name'),snapshot.data.get('owner_contact'));
+             return Dashboard();
+           }
+          else if(snapshot.connectionState == ConnectionState.active){
+            data = WorkshopDashboardModel(snapshot.data.get('title'),snapshot.data.get('city'),snapshot.data.get('area'),snapshot.data.get('owner_name'),snapshot.data.get('owner_contact'));
+               return Dashboard();
+           }
           else if(snapshot.hasError){
-            return Center(
-              child: Text(snapshot.error.toString()),
-            );
+             return Center(
+             child: Text(snapshot.error.toString()),
+             );
           }
-          else{
-            return CircularProgressIndicator();
-          }
+          return Center(child: CircularProgressIndicator());
         },
       ),
     );
@@ -489,25 +488,6 @@ class Dashboard extends StatelessWidget {
       ),
     );
   }
-}
-class WorkshopDashboardData{
-  
-  String _ownerName;
-  String _ownerContact;
-  String _shopTitle;
-  String _city;
-  String _area;
-  WorkshopDashboardData(this._shopTitle,this._city,this._area,this._ownerName,this._ownerContact);
-
-  String get ownerName => _ownerName;
-
-  String get ownerContact => _ownerContact;
-
-  String get shopTitle => _shopTitle;
-
-  String get city => _city;
-
-  String get area => _area;
 }
 //
 //Container(
