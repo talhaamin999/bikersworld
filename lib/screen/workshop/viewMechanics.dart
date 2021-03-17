@@ -1,3 +1,5 @@
+import 'package:bikersworld/model/workshop_model.dart';
+import 'package:bikersworld/services/workshop_queries/mechanic_queries.dart';
 import 'package:flutter/material.dart';
 import 'package:bikersworld/widgets/drawer.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -27,7 +29,7 @@ class _ViewMechanicsState extends State<ViewMechanics> {
       currentIndex = index;
     });
   }
-
+  final RegisterMechanicQueries _mechanic = RegisterMechanicQueries();
   @override
   Widget build(BuildContext context) {
 
@@ -79,99 +81,102 @@ class _ViewMechanicsState extends State<ViewMechanics> {
 
                 SizedBox(height: 10,),
 
-                Container(
-                  padding: EdgeInsets.all(5),
-                  child: Card(
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: <Widget>[
-                        const ListTile(
-                          leading: Icon(Icons.person),
-                          title: Text('Ibtasam Ur Rehman',style: TextStyle(fontSize: 20),),
-                          subtitle: Text('03355437782' , style: TextStyle(fontSize: 17),),
+                StreamBuilder<List<Mechanics>>(
+                  stream: _mechanic.getMechanics(),
+                  builder: (context, snapshot) {
+                    print('${snapshot.data[0].name}');
+                    return Container(
+                      padding: EdgeInsets.all(5),
+                      child: Card(
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: <Widget>[
+                            ListTile(
+                              leading: Icon(Icons.person),
+                              title: Text(snapshot.data[0].name,style: TextStyle(fontSize: 20)),
+                              subtitle: Text('03355437782' , style: TextStyle(fontSize: 17),),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(left:8.0, bottom: 8 , right: 8),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: <Widget>[
+                                  RaisedButton(
+                                    color: Colors.orange,
+                                    child: Row(
+                                      children: [
+                                        Icon(
+                                          Icons.info_outline,
+                                          size: 15,
+                                          color: Colors.white,
+                                        ),
+                                        SizedBox(width: 5,),
+                                        Text(
+                                          "Info",
+                                          style: GoogleFonts.raleway(
+                                            fontSize: 17,
+                                            color: Colors.white,
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                    onPressed: () {
+                                      Navigator.push(context, MaterialPageRoute(builder: (context) => mechanicsReviews()));
+                                    },
+                                  ),
+                                  const SizedBox(width: 8),
+                                  RaisedButton(
+                                    color: Colors.blue,
+                                    child: Row(
+                                      children: [
+                                        Icon(
+                                          Icons.edit,
+                                          size: 15,
+                                          color: Colors.white,
+                                        ),
+                                        SizedBox(width: 5,),
+                                        Text(
+                                          "Edit",
+                                          style: GoogleFonts.raleway(
+                                            fontSize: 17,
+                                            color: Colors.white,
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                    onPressed: () {/* ... */},
+                                  ),
+                                  const SizedBox(width: 8),
+                                  RaisedButton(
+                                    color: Colors.red,
+                                    child: Row(
+                                      children: [
+                                        Icon(
+                                          FontAwesomeIcons.userMinus,
+                                          size: 15,
+                                          color: Colors.white,
+                                        ),
+                                        SizedBox(width: 16,),
+                                        Text(
+                                          "Delete",
+                                          style: GoogleFonts.raleway(
+                                            fontSize: 17,
+                                            color: Colors.white,
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                    onPressed: () {/* ... */},
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
                         ),
-                        Padding(
-                          padding: const EdgeInsets.only(left:8.0, bottom: 8 , right: 8),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: <Widget>[
-                              RaisedButton(
-                                color: Colors.orange,
-                                child: Row(
-                                  children: [
-                                    Icon(
-                                      Icons.info_outline,
-                                      size: 15,
-                                      color: Colors.white,
-                                    ),
-                                    SizedBox(width: 5,),
-                                    Text(
-                                      "Info",
-                                      style: GoogleFonts.raleway(
-                                        fontSize: 17,
-                                        color: Colors.white,
-                                      ),
-                                    )
-                                  ],
-                                ),
-                                onPressed: () {
-                                  Navigator.push(context, MaterialPageRoute(builder: (context) => mechanicsReviews()));
-                                },
-                              ),
-                              const SizedBox(width: 8),
-                              RaisedButton(
-                                color: Colors.blue,
-                                child: Row(
-                                  children: [
-                                    Icon(
-                                      Icons.edit,
-                                      size: 15,
-                                      color: Colors.white,
-                                    ),
-                                    SizedBox(width: 5,),
-                                    Text(
-                                      "Edit",
-                                      style: GoogleFonts.raleway(
-                                        fontSize: 17,
-                                        color: Colors.white,
-                                      ),
-                                    )
-                                  ],
-                                ),
-                                onPressed: () {/* ... */},
-                              ),
-                              const SizedBox(width: 8),
-                              RaisedButton(
-                                color: Colors.red,
-                                child: Row(
-                                  children: [
-                                    Icon(
-                                      FontAwesomeIcons.userMinus,
-                                      size: 15,
-                                      color: Colors.white,
-                                    ),
-                                    SizedBox(width: 16,),
-                                    Text(
-                                        "Delete",
-                                      style: GoogleFonts.raleway(
-                                        fontSize: 17,
-                                        color: Colors.white,
-                                      ),
-                                    )
-                                  ],
-                                ),
-                                onPressed: () {/* ... */},
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
+                      ),
+                    );
+                  }
                 ),
-
-
-
 
                 SizedBox(height: 30,),
                 FlatButton(
