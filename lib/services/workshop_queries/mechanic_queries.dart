@@ -19,9 +19,8 @@ class RegisterMechanicQueries {
     try {
       await _collectionReference.doc(_firebaseUser.uid).collection(
           _MECHANICS_COLLECTION).add(data.toMap())
-          .catchError((error) {
-        resultMessage = error.toString();
-      });
+          .then((_) => resultMessage = 'Mechanic registered successfully')
+          .catchError((error) => resultMessage = error.toString());
     } on FirebaseException catch (e) {
       ToastErrorMessage errorMessage = ToastErrorMessage();
       errorMessage.errorToastMessage(

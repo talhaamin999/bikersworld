@@ -3,6 +3,7 @@ import 'package:bikersworld/screen/workshop/workshopDashboard.dart';
 import 'package:bikersworld/services/toast_service.dart';
 import 'package:bikersworld/services/validate_service.dart';
 import 'package:bikersworld/services/workshop_queries/mechanic_queries.dart';
+import 'package:bikersworld/widgets/entry_field.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:path/path.dart';
@@ -66,6 +67,13 @@ class _AddMechanicsState extends State<AddMechanics> {
       await _register.regesterMechanic(_mecahnicData);
       if(RegisterMechanicQueries.resultMessage == 'Mechanic registered successfully'){
         _valid.validToastMessage(validMessage: RegisterMechanicQueries.resultMessage);
+        Future.delayed(
+          new Duration(seconds: 2),
+            (){
+               Navigator.of(this.context).push(
+                 MaterialPageRoute(builder: (context) => WorkshopDashboard()));
+            }
+        );
       }
       else{
         _error.errorToastMessage(errorMessage: RegisterMechanicQueries.resultMessage);
@@ -165,49 +173,6 @@ class _AddMechanicsState extends State<AddMechanics> {
   }
 }
 
-Widget _entryField(String title,String hintText,TextEditingController controller,TextInputType inputType,FilteringTextInputFormatter filter)
-{
-  return Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Text(
-                title,
-                style: GoogleFonts.quicksand(
-                  fontSize: 18,
-                )
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            TextFormField(
-              keyboardType: inputType,
-              inputFormatters: <TextInputFormatter>[
-                filter,
-              ],
-              controller: controller,
-              validator: (value){
-                if(value.isEmpty){
-                  return "$title is a Required Field";
-                }
-                return null;
-              },
-              decoration: InputDecoration(
-                hintText: hintText,
-                border: InputBorder.none,
-                fillColor: Color(0xfff3f3f4),
-                filled: true,
-                errorBorder: new OutlineInputBorder(
-                  borderSide: new BorderSide(color: Colors.red),
-                ),
-                errorStyle: TextStyle(
-                  fontSize: 15,
-                ),
-              ),
-            ),
-          ],
-        );
-}
-
 Widget _registerWorkshopWidget() {
   return Form(
     key: _formKey,
@@ -215,9 +180,9 @@ Widget _registerWorkshopWidget() {
     child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            _entryField("Name","Abdullah",_mechanicNameController,TextInputType.text,FilteringTextInputFormatter.allow(RegExp("[a-zA-Z ]"))),
+            EntryField(title: "Name",hintText: "Abdullah",controller:_mechanicNameController,inputType: TextInputType.text,filter: FilteringTextInputFormatter.allow(RegExp("[a-zA-Z ]"))),
             SizedBox(height:15),
-            _entryField("Contact","0310345635",_mechanicContactController,TextInputType.number,FilteringTextInputFormatter.digitsOnly),
+            EntryField(title: "Contact",hintText: "0310345635",controller: _mechanicContactController,inputType: TextInputType.number,filter: FilteringTextInputFormatter.digitsOnly),
             SizedBox(height:15),
             Text(
                 "Specilization",

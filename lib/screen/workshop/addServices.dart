@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:bikersworld/services/toast_service.dart';
 import 'package:bikersworld/services/validate_service.dart';
 import 'package:bikersworld/services/workshop_queries/service_queries.dart';
+import 'package:bikersworld/widgets/entry_field.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -165,61 +166,17 @@ class _AddServicesState extends State<AddServices> {
     );
   }
 }
-
-
-Widget _entryField(String title,TextEditingController controller,TextInputType inputType,FilteringTextInputFormatter filter)
-{
-  return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        Text(
-            title,
-            style: GoogleFonts.quicksand(
-              fontSize: 18,
-            )
-        ),
-        SizedBox(
-          height: 10,
-        ),
-        TextFormField(
-          keyboardType: inputType,
-          inputFormatters: <TextInputFormatter>[
-            filter,
-          ],
-          controller: controller,
-          validator: (value){
-            if(value.isEmpty){
-              return "$title is a Required Field";
-            }
-            return null;
-          },
-          decoration: InputDecoration(
-            border: InputBorder.none,
-            fillColor: Color(0xfff3f3f4),
-            filled: true,
-            errorBorder: new OutlineInputBorder(
-              borderSide: new BorderSide(color: Colors.red),
-            ),
-            errorStyle: TextStyle(
-              fontSize: 15,
-            ),
-          ),
-
-        ),
-      ],
-    );
-}
 Widget _addServicesWidget() {
   return Form(
     key: _formKey,
     autovalidateMode: AutovalidateMode.disabled,
     child: Column(
       children: <Widget>[
-        _entryField("Category",_serviceCategoryController,TextInputType.text,FilteringTextInputFormatter.allow(RegExp("[a-zA-Z ]"))),
+        EntryField(title: "Category",hintText: 'Mechanical',controller: _serviceCategoryController,inputType: TextInputType.text,filter: FilteringTextInputFormatter.allow(RegExp("[a-zA-Z ]"))),
         SizedBox(height:15,),
-        _entryField("Title",_serviceTitleController,TextInputType.text,FilteringTextInputFormatter.allow(RegExp("[a-zA-Z ]"))),
+        EntryField(title: "Title",hintText: 'wheel barring',controller: _serviceTitleController,inputType: TextInputType.text,filter: FilteringTextInputFormatter.allow(RegExp("[a-zA-Z ]"))),
         SizedBox(height:15,),
-        _entryField("Price",_servicePriceController,TextInputType.number,FilteringTextInputFormatter.digitsOnly),
+        EntryField(title: "Price",hintText: 'price < 2000',controller: _servicePriceController,inputType: TextInputType.number,filter:FilteringTextInputFormatter.digitsOnly),
       ],
     ),
   );
