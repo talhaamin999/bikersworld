@@ -22,32 +22,20 @@ import 'package:bikersworld/widgets/constants.dart';
 //var data;
 WorkshopDashboardModel data;
 
-class Workshopdashboard extends StatefulWidget {
+class WorkshopDashboard extends StatefulWidget {
   @override
-  _WorkshopdashboardState createState() => _WorkshopdashboardState();
+  _WorkshopDashboardState createState() => _WorkshopDashboardState();
 
 }
 
-class _WorkshopdashboardState extends State<Workshopdashboard> {
+class _WorkshopDashboardState extends State<WorkshopDashboard> {
 
   int _checkboxValue;
   static final String _WORKSHOP_COLLECTION = "workshop";
   final _firebaseUser = FirebaseAuth.instance.currentUser;
-/*
-  Future fetchWorkshopData() async {
-    final _firebaseUser = FirebaseAuth.instance.currentUser;
-    final CollectionReference _firestoreInstance = FirebaseFirestore.instance.collection(_WORKSHOP_COLLECTION);
-    await _firestoreInstance.doc(
-        _firebaseUser.uid)
-        .snapshots().listen((DocumentSnapshot snapshot) {
-        data = WorkshopDashboardData(snapshot.get('title'),snapshot.get('city'),snapshot.get('area'),snapshot.get('owner_name'),snapshot.get('owner_contact'));
-    });
-  }
-  */
   @override
   void initState() {
     super.initState();
-    //fetchWorkshopData();
   }
   @override
   Widget build(BuildContext context) {

@@ -17,8 +17,8 @@ class AddUserRoleQuerie {
         }).then((_) {
       _value = true;
     }).catchError((error){
-      ToastErrorMessage errorMessage = ToastErrorMessage(errorMessage: error.toString());
-      errorMessage.errorToastMessage();
+      ToastErrorMessage errorMessage = ToastErrorMessage();
+      errorMessage.errorToastMessage(errorMessage: error.toString());
       _value = false;
     });
     if(_value){

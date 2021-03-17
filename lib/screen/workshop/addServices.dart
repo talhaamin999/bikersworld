@@ -15,8 +15,8 @@ GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 TextEditingController _serviceTitleController = TextEditingController();
 TextEditingController _serviceCategoryController = TextEditingController();
 TextEditingController _servicePriceController = TextEditingController();
-ToastErrorMessage _error;
-ToastValidMessage _valid;
+ToastErrorMessage _error = ToastErrorMessage();
+ToastValidMessage _valid = ToastValidMessage();
 
 class AddServices extends StatefulWidget {
   @override
@@ -44,20 +44,16 @@ class _AddServicesState extends State<AddServices> {
     final ValidateWorkshopServices service = ValidateWorkshopServices();
     final int _price = int.tryParse(_servicePriceController.text.trim());
     if(!service.validateServiceCategory(_serviceCategoryController.text.trim()) && !service.validateServiceTitle(_serviceTitleController.text.trim()) && !service.validateServicePrice(_price)){
-      _error = ToastErrorMessage(errorMessage: "Enter Valid Data in Each Field");
-      _error.errorToastMessage();
+      _error.errorToastMessage(errorMessage: "Enter Valid Data in Each Field");
     }
     else if(!service.validateServiceCategory(_serviceCategoryController.text.trim())){
-      _error = ToastErrorMessage(errorMessage: "Service Category Must Only contain Alphabets");
-      _error.errorToastMessage();
+      _error.errorToastMessage(errorMessage: "Service Category Must Only contain Alphabets");
     }
     else if(!service.validateServiceTitle(_serviceTitleController.text.trim())){
-      _error = ToastErrorMessage(errorMessage: "Service Title Must Only contain Alphabets");
-      _error.errorToastMessage();
+      _error.errorToastMessage(errorMessage: "Service Title Must Only contain Alphabets");
     }
     else if(!service.validateServicePrice(_price)){
-      _error = ToastErrorMessage(errorMessage: "Service Price must be less than or equal to 2000");
-      _error.errorToastMessage();
+      _error.errorToastMessage(errorMessage: "Service Price must be less than or equal to 2000");
     }
     else{
      await addService(_price);
@@ -69,23 +65,20 @@ class _AddServicesState extends State<AddServices> {
       await _add.addWorkshopService(_serviceTitleController.text.trim(),
           _serviceCategoryController.text.trim(), price);
       if(WorkshopServiceQueries.resultMessage == WorkshopServiceQueries.completionMessage){
-        _valid = ToastValidMessage(validMessage: WorkshopServiceQueries.resultMessage);
-        _valid.validToastMessage();
+        _valid.validToastMessage(validMessage: WorkshopServiceQueries.resultMessage);
         Future.delayed(
           new Duration(seconds: 2),
               (){
-            Navigator.of(this.context).push(MaterialPageRoute(builder: (context) => Workshopdashboard())
+            Navigator.of(this.context).push(MaterialPageRoute(builder: (context) => WorkshopDashboard())
             );
           },
         );
       }
       else{
-        _error = ToastErrorMessage(errorMessage: WorkshopServiceQueries.resultMessage);
-        _error.errorToastMessage();
+        _error.errorToastMessage(errorMessage: WorkshopServiceQueries.resultMessage);
       }
     }catch(e){
-       _error = ToastErrorMessage(errorMessage: e.toString());
-       _error.errorToastMessage();
+       _error.errorToastMessage(errorMessage: e.toString());
     }
 }
 

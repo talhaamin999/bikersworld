@@ -1,42 +1,40 @@
+import 'package:bikersworld/model/workshop_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import '../toast_service.dart';
 
 class RegisterMechanicQueries {
 
-  static final String _MECHANIC_NAME = "name";
-  static final String _MECHANIC_CONTACT = "contact";
-  static final String _MECHANIC_SPECIALITY = "speciality";
   static final String _WORKSHOP_COLLECTION = "workshop";
   static final String _MECHANICS_COLLECTION = "mechanics";
   static final String _SUCCESS = "Mechanic registered successfully";
+  static String resultMessage;
 
   final _firebaseUser = FirebaseAuth.instance.currentUser;
 
   final CollectionReference _collectionReference = FirebaseFirestore.instance
       .collection(_WORKSHOP_COLLECTION);
 
-  Future<void> regesterMechanic(String mechanicName, String mechanicContact,
-      String speciality) async {
+  Future<void> regesterMechanic(Mechanics data) async {
     try {
       await _collectionReference.doc(_firebaseUser.uid).collection(
-          _MECHANICS_COLLECTION).add(
-          {
-            _MECHANIC_NAME: mechanicName,
-            _MECHANIC_CONTACT: mechanicContact,
-            _MECHANIC_SPECIALITY: speciality,
-          }).then((_) {
-        ToastValidMessage valid = ToastValidMessage(validMessage: _SUCCESS);
-        valid.validToastMessage();
-      }).catchError((error) {
-        ToastErrorMessage errorMessage = ToastErrorMessage(
-            errorMessage: error.toString());
-        errorMessage.errorToastMessage();
+          _MECHANICS_COLLECTION).add(data.toMap())
+          .catchError((error) {
+        resultMessage = error.toString();
       });
-    } on FirebaseException catch(e) {
-      ToastErrorMessage errorMessage = ToastErrorMessage(
+    } on FirebaseException catch (e) {
+      ToastErrorMessage errorMessage = ToastErrorMessage();
+      errorMessage.errorToastMessage(
           errorMessage: e.toString());
-      errorMessage.errorToastMessage();
     }
   }
+  Stream<List<Mechanics>> getMechanics(){
+    return _collectionReference.doc(_firebaseUser.uid).collection(
+        _MECHANICS_COLLECTION)
+        .snapshots()
+        .map((snapshot) => snapshot.docs
+        .map((doc) => Mechanics.fromJson(doc.data()))
+        .toList());
+  }
 }
+

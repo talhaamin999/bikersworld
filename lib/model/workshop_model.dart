@@ -17,3 +17,27 @@ class WorkshopDashboardModel{
 
   String get area => _area;
 }
+
+class Mechanics{
+  final String name;
+  final String contact;
+  final String speciality;
+
+  Mechanics({this.name,this.contact,this.speciality});
+
+  factory Mechanics.fromJson(Map<String, dynamic> json){
+    return Mechanics(
+      name: json['name'],
+      contact: json['contact'],
+      speciality: json['speciality'],
+    );
+  }
+  Map<String, dynamic> toMap(){
+    return {
+      'name': name,
+      'contact': contact,
+      'speciality': speciality,
+    };
+  }
+
+}

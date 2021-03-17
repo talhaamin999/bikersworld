@@ -31,8 +31,8 @@ class _GenericOptionScreenState extends State<GenericOptionScreen> {
    final AddUserRoleQuerie _user = AddUserRoleQuerie();
    final bool _result = await _user.addUserRole(role);
    if(_result){
-     ToastValidMessage valid = ToastValidMessage(validMessage: "Success");
-     valid.validToastMessage();
+     ToastValidMessage valid = ToastValidMessage();
+     valid.validToastMessage(validMessage: "Success");
      await Future.delayed(
          new Duration(
            seconds: 1,

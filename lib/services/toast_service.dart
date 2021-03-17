@@ -6,11 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 class ToastErrorMessage {
 
-  String errorMessage;
-
-  ToastErrorMessage({errorMsg, @required this.errorMessage});
-
-  void errorToastMessage(){
+  void errorToastMessage({@required String errorMessage}){
 
     Fluttertoast.showToast(
         msg: errorMessage,
@@ -25,11 +21,7 @@ class ToastErrorMessage {
 
 class ToastValidMessage {
 
-  String validMessage;
-
-  ToastValidMessage({errorMsg, @required this.validMessage});
-
-  void validToastMessage(){
+  void validToastMessage({@required String validMessage}){
 
     Fluttertoast.showToast(
         msg: validMessage,

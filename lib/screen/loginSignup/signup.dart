@@ -27,8 +27,8 @@ class _SignUpPageState extends State<SignUpPage> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
-  ToastErrorMessage error;
-  ToastValidMessage valid;
+  ToastErrorMessage error = ToastErrorMessage();
+  ToastValidMessage valid = ToastValidMessage();
   AuthenticationService auth;
 
   Widget _backButton() {
@@ -118,26 +118,17 @@ class _SignUpPageState extends State<SignUpPage> {
   void validateFields(){
 
     if (emailController.text.trim().isEmpty ||  passwordController.text.trim().isEmpty){
-
-      error = ToastErrorMessage(errorMessage: "Please Fill All The Fields" );
-      error.errorToastMessage();
+      error.errorToastMessage(errorMessage: "Please Fill All The Fields");
     }// end of if for checking if fields are empty or not
 
     else{
 
       if(!EmailValidator.validate(emailController.text.trim())){
-
-        error = ToastErrorMessage(errorMessage: "Enter Valid Email Address");
-        error.errorToastMessage();
-
+        error.errorToastMessage(errorMessage: "Enter Valid Email Address");
       }
       else if(passwordController.text.length < 6){
-
-        error = ToastErrorMessage(errorMessage: "Password should have at least 6 characters");
-        error.errorToastMessage();
-
+        error.errorToastMessage(errorMessage: "Password should have at least 6 characters");
       }else{
-
         signUpWithEmailAndPassword();
       }
 
@@ -154,8 +145,7 @@ class _SignUpPageState extends State<SignUpPage> {
 
     if(result == AuthenticationService.signedUp){
 
-      valid = ToastValidMessage(validMessage: "Signed Up Successful");
-      valid.validToastMessage();
+      valid.validToastMessage(validMessage: "Signed Up Successful");
 
       await Future.delayed(
           new Duration(
@@ -170,8 +160,7 @@ class _SignUpPageState extends State<SignUpPage> {
 
     }
     else{
-      error = ToastErrorMessage(errorMessage: result);
-      error.errorToastMessage();
+      error.errorToastMessage(errorMessage: result);
     }
   }
 
@@ -308,8 +297,7 @@ class _SignUpPageState extends State<SignUpPage> {
       auth = AuthenticationService();
       String result = await auth.signInWithFacebook();
       if(result == AuthenticationService.signedUp) {
-        valid = ToastValidMessage(validMessage: result);
-        valid.validToastMessage();
+        valid.validToastMessage(validMessage: result);
         await Future.delayed(
             new Duration(
               seconds: 2,
@@ -323,12 +311,10 @@ class _SignUpPageState extends State<SignUpPage> {
       }
       else{
 
-        error = ToastErrorMessage(errorMessage: result);
-        error.errorToastMessage();
+        error.errorToastMessage(errorMessage: result);
       }
     }catch (e){
-      error = ToastErrorMessage(errorMessage: e.toString());
-      error.errorToastMessage();
+      error.errorToastMessage(errorMessage: e.toString());
     }
   }
 
@@ -387,8 +373,7 @@ class _SignUpPageState extends State<SignUpPage> {
       auth = AuthenticationService();
       String result = await auth.signInWithGoogle();
       if(result == AuthenticationService.signedIn) {
-        valid = ToastValidMessage(validMessage: result);
-        valid.validToastMessage();
+        valid.validToastMessage(validMessage: result);
         await Future.delayed(
             new Duration(
               seconds: 1,
@@ -401,13 +386,10 @@ class _SignUpPageState extends State<SignUpPage> {
         );
       }
       else{
-
-        error = ToastErrorMessage(errorMessage: result);
-        error.errorToastMessage();
+        error.errorToastMessage(errorMessage: result);
       }
     }catch (e){
-      error = ToastErrorMessage(errorMessage: e.toString());
-      error.errorToastMessage();
+      error.errorToastMessage(errorMessage: e.toString());
     }
   }
   Widget _GoogleButton() {

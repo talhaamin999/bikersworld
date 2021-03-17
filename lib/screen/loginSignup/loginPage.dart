@@ -29,8 +29,8 @@ class _LoginPageState extends State<LoginPage> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   AuthenticationService auth;
-  ToastErrorMessage error;
-  ToastValidMessage valid;
+  ToastErrorMessage error = ToastErrorMessage();
+  ToastValidMessage valid = ToastValidMessage();
 
   Widget _backButton() {
     return InkWell(
@@ -147,26 +147,17 @@ class _LoginPageState extends State<LoginPage> {
   void validateFields(){
 
     if (emailController.text.trim().isEmpty ||  passwordController.text.trim().isEmpty){
-
-      error = ToastErrorMessage(errorMessage: "Please Fill All The Fields");
-      error.errorToastMessage();
+      error.errorToastMessage(errorMessage: "Please Fill All The Fields");
     }// end of if for checking if fields are empty or not
 
     else{
 
       if(!EmailValidator.validate(emailController.text.trim())){
-
-        error = ToastErrorMessage(errorMessage: "Enter Valid Email Address");
-        error.errorToastMessage();
-
+        error.errorToastMessage(errorMessage: "Enter Valid Email Address");
       }
       else if(passwordController.text.length < 6){
-
-        error = ToastErrorMessage(errorMessage: "Password should have at least 6 characters");
-        error.errorToastMessage();
-
+        error.errorToastMessage(errorMessage: "Password should have at least 6 characters");
       }else{
-
         signInWithEmailAndPassword();
       }
 
@@ -184,8 +175,7 @@ class _LoginPageState extends State<LoginPage> {
 
     if(result == AuthenticationService.signedIn){
 
-      valid = ToastValidMessage(validMessage: "Signed In Successful");
-      valid.validToastMessage();
+      valid.validToastMessage(validMessage: "Signed In Successful");
 
       await Future.delayed(
           new Duration(
@@ -200,8 +190,7 @@ class _LoginPageState extends State<LoginPage> {
 
     }
     else{
-      error = ToastErrorMessage(errorMessage: result);
-      error.errorToastMessage();
+      error.errorToastMessage(errorMessage: result);
     }
   }
 
@@ -256,12 +245,10 @@ class _LoginPageState extends State<LoginPage> {
       }
       else{
 
-        error = ToastErrorMessage(errorMessage: result);
-        error.errorToastMessage();
+        error.errorToastMessage(errorMessage: result);
       }
     }catch (e){
-      error = ToastErrorMessage(errorMessage: e.toString());
-      error.errorToastMessage();
+      error.errorToastMessage(errorMessage: e.toString());
     }
   }
   Widget _facebookButton() {
@@ -333,12 +320,10 @@ class _LoginPageState extends State<LoginPage> {
       }
       else{
 
-        error = ToastErrorMessage(errorMessage: result);
-        error.errorToastMessage();
+        error.errorToastMessage(errorMessage: result);
       }
     }catch (e){
-      error = ToastErrorMessage(errorMessage: e.toString());
-      error.errorToastMessage();
+      error.errorToastMessage(errorMessage: e.toString());
     }
   }
   Widget _GoogleButton() {

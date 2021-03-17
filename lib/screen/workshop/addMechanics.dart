@@ -1,3 +1,4 @@
+import 'package:bikersworld/model/workshop_model.dart';
 import 'package:bikersworld/screen/workshop/workshopDashboard.dart';
 import 'package:bikersworld/services/toast_service.dart';
 import 'package:bikersworld/services/validate_service.dart';
@@ -24,7 +25,8 @@ class AddMechanics extends StatefulWidget {
 
 class _AddMechanicsState extends State<AddMechanics> {
   int currentIndex;
-  ToastErrorMessage _error;
+  ToastErrorMessage _error = ToastErrorMessage();
+  ToastValidMessage _valid = ToastValidMessage();
   @override
   void initState() {
     super.initState();
@@ -42,20 +44,16 @@ class _AddMechanicsState extends State<AddMechanics> {
 
     final ValidateWorkshopMechanics mechanic = ValidateWorkshopMechanics();
     if(!mechanic.validateMechanicName(_mechanicNameController.text.trim()) && !mechanic.validateMechanicContact(_mechanicContactController.text.trim()) && !mechanic.validateMechanicSpeciality(_currentItemselected)){
-      _error = ToastErrorMessage(errorMessage: "Enter Valid Data in Each Field");
-      _error.errorToastMessage();
+      _error.errorToastMessage(errorMessage: "Enter Valid Data in Each Field");
     }
     else if(!mechanic.validateMechanicName(_mechanicNameController.text.trim())){
-      _error = ToastErrorMessage(errorMessage: "Mechanic Name Must Only contain Alphabets");
-      _error.errorToastMessage();
+      _error.errorToastMessage(errorMessage: "Mechanic Name Must Only contain Alphabets");
     }
     else if(!mechanic.validateMechanicContact(_mechanicContactController.text.trim())){
-      _error = ToastErrorMessage(errorMessage: "Mechanic Contact Must Only contain Numbers");
-      _error.errorToastMessage();
+      _error.errorToastMessage(errorMessage: "Mechanic Contact Must Only contain Numbers");
     }
     else if(!mechanic.validateMechanicSpeciality(_currentItemselected)){
-      _error = ToastErrorMessage(errorMessage: "Mechanic Speciality Must Be Selected");
-      _error.errorToastMessage();
+      _error.errorToastMessage(errorMessage: "Mechanic Speciality Must Be Selected");
     }
     else{
       await registerMechanic();
@@ -64,10 +62,16 @@ class _AddMechanicsState extends State<AddMechanics> {
   Future<void> registerMechanic() async{
     try {
       final RegisterMechanicQueries _register = RegisterMechanicQueries();
-      await _register.regesterMechanic(_mechanicNameController.text.trim(), _mechanicContactController.text.trim(), _currentItemselected);
+      final Mechanics _mecahnicData = Mechanics(name: _mechanicNameController.text.trim(),contact: _mechanicContactController.text.trim(),speciality: _currentItemselected);
+      await _register.regesterMechanic(_mecahnicData);
+      if(RegisterMechanicQueries.resultMessage == 'Mechanic registered successfully'){
+        _valid.validToastMessage(validMessage: RegisterMechanicQueries.resultMessage);
+      }
+      else{
+        _error.errorToastMessage(errorMessage: RegisterMechanicQueries.resultMessage);
+      }
     }catch(e){
-      _error = ToastErrorMessage(errorMessage: e.toString());
-      _error.errorToastMessage();
+      _error.errorToastMessage(errorMessage: e.toString());
     }
   }
 

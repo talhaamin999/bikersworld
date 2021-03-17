@@ -20,8 +20,8 @@ final TextEditingController shopCityController = TextEditingController();
 final TextEditingController shopSpecificAreaController = TextEditingController();
 final TextEditingController ownerNameController = TextEditingController();
 final TextEditingController ownerContactController = TextEditingController();
-ToastErrorMessage error;
-ToastValidMessage valid;
+ToastErrorMessage error = ToastErrorMessage();
+ToastValidMessage valid = ToastValidMessage();
 bool _isTitleEmpty = false;
 bool _isCityEmpty = false;
 bool _isAreaEmpty = false;
@@ -93,28 +93,22 @@ class _RegisterWorkshopState extends State<RegisterWorkshop> {
     if(fieldEmptyChecker == 1){
       ValidateWorkshop _workShop = ValidateWorkshop();
       if(!_workShop.validateShopTitle(shopTitleController.text.trim()) && !_workShop.validateShopCity(shopCityController.text.trim()) && !_workShop.validateShopArea(shopSpecificAreaController.text.trim()) && !_workShop.validateOwnerName(ownerNameController.text.trim()) && !_workShop.validateOwnerContact(ownerContactController.text.trim())){
-        error = ToastErrorMessage(errorMessage: "You Need To Enter Valid Data in every Fields");
-        error.errorToastMessage();
+        error.errorToastMessage(errorMessage: "You Need To Enter Valid Data in every Fields");
       }
       else if(!_workShop.validateShopTitle(shopTitleController.text.trim())){
-        error = ToastErrorMessage(errorMessage: "You Need To Enter Valid Shop Title");
-        error.errorToastMessage();
+        error.errorToastMessage(errorMessage: "You Need To Enter Valid Shop Title");
       }
       else if(!_workShop.validateShopCity(shopCityController.text.trim())){
-        error = ToastErrorMessage(errorMessage: "You Need To Enter Valid City Name");
-        error.errorToastMessage();
+        error.errorToastMessage(errorMessage: "You Need To Enter Valid City Name");
       }
       else if(!_workShop.validateShopArea(shopSpecificAreaController.text.trim())){
-        error = ToastErrorMessage(errorMessage: "You Need To Enter Valid Specific Area Title");
-        error.errorToastMessage();
+        error.errorToastMessage(errorMessage: "You Need To Enter Valid Specific Area Title");
       }
       else if(!_workShop.validateOwnerName(ownerNameController.text.trim())){
-        error = ToastErrorMessage(errorMessage: "You Need To Enter Valid Owner Name");
-        error.errorToastMessage();
+        error.errorToastMessage(errorMessage: "You Need To Enter Valid Owner Name");
       }
       else if(!_workShop.validateOwnerContact(ownerContactController.text.trim())){
-        error = ToastErrorMessage(errorMessage: "You Need To Enter Valid Pakistan Number");
-        error.errorToastMessage();
+        error.errorToastMessage(errorMessage: "You Need To Enter Valid Pakistan Number");
       }
       else{
         addWorkshop();
@@ -131,8 +125,7 @@ class _RegisterWorkshopState extends State<RegisterWorkshop> {
           shopSpecificAreaController.text, ownerNameController.text,
           ownerContactController.text);
         if(RegisterWorkshopQueries.resultMessage == "Workshop Successfully Registered"){
-          valid = ToastValidMessage(validMessage: RegisterWorkshopQueries.resultMessage);
-          valid.validToastMessage();
+          valid.validToastMessage(validMessage: RegisterWorkshopQueries.resultMessage);
           Future.delayed(
               new Duration(seconds: 2),
                 (){
@@ -142,12 +135,10 @@ class _RegisterWorkshopState extends State<RegisterWorkshop> {
           );
         }
         else{
-          error = ToastErrorMessage(errorMessage: RegisterWorkshopQueries.resultMessage);
-          error.errorToastMessage();
+          error.errorToastMessage(errorMessage: RegisterWorkshopQueries.resultMessage);
         }
     }catch(e){
-      error = ToastErrorMessage(errorMessage: e.toString());
-      error.errorToastMessage();
+      error.errorToastMessage(errorMessage: e.toString());
     }
   }
   @override
@@ -230,7 +221,7 @@ class _RegisterWorkshopState extends State<RegisterWorkshop> {
     );
   }
 }
-Widget _entryField(String title,TextEditingController controller,bool _isFieldEmpty,)
+Widget _entryField(String title,TextEditingController controller,TextInputType inputType,FilteringTextInputFormatter filter,bool _isFieldEmpty,)
 {
   return Container(
     margin: EdgeInsets.symmetric(vertical: 10),
@@ -248,6 +239,10 @@ Widget _entryField(String title,TextEditingController controller,bool _isFieldEm
         ),
         TextField(
           controller: controller,
+          keyboardType: inputType,
+          inputFormatters: <TextInputFormatter>[
+            filter,
+          ],
           decoration: InputDecoration(
             errorText: _isFieldEmpty ? "$title is a Required property": null,
             border: InputBorder.none,
@@ -259,47 +254,13 @@ Widget _entryField(String title,TextEditingController controller,bool _isFieldEm
     ),
   );
 }
-Widget _entryContactField(String title,TextEditingController controller,bool _isFieldEmpty,)
-{
-  return Container(
-    margin: EdgeInsets.symmetric(vertical: 10),
-    child: Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        Text(
-            title,
-            style: GoogleFonts.quicksand(
-              fontSize: 18,
-            )
-        ),
-        SizedBox(
-          height: 10,
-        ),
-        TextField(
-          controller: controller,
-          keyboardType: TextInputType.phone,
-          inputFormatters: <TextInputFormatter>[
-            FilteringTextInputFormatter.digitsOnly
-          ],
-          decoration: InputDecoration(
-            errorText: _isFieldEmpty ? "$title is a Required property" : null,
-            border: InputBorder.none,
-            fillColor: Color(0xfff3f3f4),
-            filled: true,
-          ),
-        ),
-      ],
-    ),
-  );
-}
-
 Widget _registerWorkshopWidget() {
 
   return Column(
     children: <Widget>[
-      _entryField("Workshop Name",shopTitleController,_isTitleEmpty),
-      _entryField("City",shopCityController,_isCityEmpty),
-      _entryField("Specific Area",shopSpecificAreaController,_isAreaEmpty),
+      _entryField("Workshop Name",shopTitleController,TextInputType.text,FilteringTextInputFormatter.allow(RegExp("[a-zA-Z ]")),_isTitleEmpty),
+      _entryField("City",shopCityController,TextInputType.text,FilteringTextInputFormatter.allow(RegExp("[a-zA-Z ]")),_isCityEmpty),
+      _entryField("Specific Area",shopSpecificAreaController,TextInputType.text,FilteringTextInputFormatter.allow(RegExp("[a-zA-Z ]")),_isAreaEmpty),
 
 
       Container(
@@ -333,8 +294,8 @@ Widget _registerWorkshopWidget() {
         ),
       ),
 
-      _entryField("Owner Name", ownerNameController,_isNameEmpty),
-      _entryContactField("Contact Number",ownerContactController,_isContactEmpty),
+      _entryField("Owner Name", ownerNameController,TextInputType.text,FilteringTextInputFormatter.allow(RegExp("[a-zA-Z ]")),_isNameEmpty),
+      _entryField("Contact Number",ownerContactController,TextInputType.number,FilteringTextInputFormatter.digitsOnly,_isContactEmpty),
 
     ],
   );

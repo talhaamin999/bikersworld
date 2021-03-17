@@ -117,6 +117,14 @@ class _drawerState extends State<drawer> {
               Navigator.push(context, MaterialPageRoute(builder: (context) => RegisterWorkshop()));
             },
           ),
+          ListTile(
+            leading: Icon(FontAwesomeIcons.registered),
+            title: Text("Workshop Dashboard",style: GoogleFonts.montserrat(fontSize: 15,color: Colors.black),),
+            trailing: Icon(Icons.arrow_forward_ios, size: 15.0,),
+            onTap: (){
+              Navigator.push(context, MaterialPageRoute(builder: (context) => WorkshopDashboard()));
+            },
+          ),
 
           ListTile(
             leading: Icon(FontAwesomeIcons.ad),
