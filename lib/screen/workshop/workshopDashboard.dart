@@ -82,7 +82,7 @@ class _WorkshopdashboardState extends State<Workshopdashboard> {
            }
           else if(snapshot.hasError){
              return Center(
-             child: Text(snapshot.error.toString(),),
+             child: Text(snapshot.error.toString(), style: TextStyle(color: Colors.blue),),
              );
           }
           return Center(child: CircularProgressIndicator());
