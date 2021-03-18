@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:bikersworld/model/workshop_model.dart';
+import 'package:bikersworld/screen/workshop/EditWorkshopProfile.dart';
 import 'package:bikersworld/screen/workshop/addServices.dart';
 import 'package:bikersworld/services/workshop_queries/workshop_queries.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -143,19 +144,16 @@ class Dashboard extends StatelessWidget {
                             Container(
                               child: Row(
                                 children: [
-                                  Text(
-                                    'Owner Name',
-                                    style: const TextStyle(
-                                      color: Colors.white70,
-                                      fontSize: 15.0,
-                                    ),
-                                  ),
-                                  SizedBox(width: 10,),
-                                  Text(
-                                    data.ownerName,
-                                    style: const TextStyle(
-                                      color: Colors.white70,
-                                      fontSize: 15.0,
+                                  Icon(FontAwesomeIcons.userTie, color: Colors.white70,),
+                                  SizedBox(width: 20,),
+                                  Padding(
+                                    padding: const EdgeInsets.only(top:8.0),
+                                    child: Text(
+                                      data.ownerName,
+                                      style: GoogleFonts.raleway(
+                                        color: Colors.white70,
+                                        fontSize: 17,
+                                      ),
                                     ),
                                   ),
                                 ],
@@ -167,19 +165,16 @@ class Dashboard extends StatelessWidget {
                             Container(
                               child: Row(
                                 children: [
-                                  Text(
-                                    'City',
-                                    style: const TextStyle(
-                                      color: Colors.white70,
-                                      fontSize: 15.0,
-                                    ),
-                                  ),
-                                  SizedBox(width: 10,),
-                                  Text(
-                                    data.city,
-                                    style: const TextStyle(
-                                      color: Colors.white70,
-                                      fontSize: 15.0,
+                                  Icon(FontAwesomeIcons.city, color: Colors.white70,),
+                                  SizedBox(width: 20,),
+                                  Padding(
+                                    padding: const EdgeInsets.only(top:8.0),
+                                    child: Text(
+                                      data.city,
+                                      style: GoogleFonts.raleway(
+                                        color: Colors.white70,
+                                        fontSize: 17,
+                                      ),
                                     ),
                                   ),
                                 ],
@@ -189,19 +184,16 @@ class Dashboard extends StatelessWidget {
                             Container(
                               child: Row(
                                 children: [
-                                  Text(
-                                    'Area',
-                                    style: const TextStyle(
-                                      color: Colors.white70,
-                                      fontSize: 15.0,
-                                    ),
-                                  ),
-                                  SizedBox(width: 10,),
-                                  Text(
-                                    data.area,
-                                    style: const TextStyle(
-                                      color: Colors.white70,
-                                      fontSize: 15.0,
+                                  Icon(FontAwesomeIcons.mapMarkerAlt, color: Colors.white70,),
+                                  SizedBox(width: 20,),
+                                  Padding(
+                                    padding: const EdgeInsets.only(top:8.0),
+                                    child: Text(
+                                      data.area,
+                                      style: GoogleFonts.raleway(
+                                        color: Colors.white70,
+                                        fontSize: 17,
+                                      ),
                                     ),
                                   ),
                                 ],
@@ -221,19 +213,21 @@ class Dashboard extends StatelessWidget {
                               vertical: 10.0,
                               horizontal: 20.0,
                             ),
-                            onPressed: () {},
+                            onPressed: () {
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => EditWorkshopProfile()));
+                            },
                             color: Colors.red,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(30.0),
                             ),
 
                             icon: const Icon(
-                              Icons.phone,
+                              Icons.settings,
                               color: Colors.white,
                             ),
 
                             label: Text(
-                              'Contact Us',
+                              'Edit Profile',
                               style: Styles.buttonTextStyle,
                             ),
 
@@ -246,7 +240,9 @@ class Dashboard extends StatelessWidget {
                               horizontal: 20.0,
                             ),
 
-                            onPressed: () {},
+                            onPressed: () {
+                              showDialogFunc(context);
+                            },
                             color: Colors.blue,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(30.0),
@@ -502,4 +498,159 @@ class Dashboard extends StatelessWidget {
       ),
     );
   }
+}
+
+
+
+showDialogFunc(context) {
+  return showDialog(
+    context: context,
+    builder: (context) {
+      return Center(
+        child: Material(
+          type: MaterialType.transparency,
+          child: Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              color: Colors.white,
+            ),
+            padding: EdgeInsets.all(15),
+            height: 350,
+            width: MediaQuery.of(context).size.width * 0.7,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+
+                Text(
+                  "Workshop Information",
+                  style: GoogleFonts.quicksand(
+                    fontSize: 20,
+                    color: Color(0XFF012A4A),
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                Container(
+                  child: Column(
+                    children: [
+                      Container(
+                        child: Row(
+                          children: [
+                            Icon(Icons.person),
+                            SizedBox(width: 25,),
+                            Text(
+                              data.ownerName,
+                              style: GoogleFonts.raleway(
+                                color: Colors.black,
+                                fontSize: 17,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(height: 20,),
+                      Container(
+                        child: Row(
+                          children: [
+                            Icon(FontAwesomeIcons.warehouse),
+                            SizedBox(width: 25,),
+                            Text(
+                              data.shopTitle,
+                              style:  GoogleFonts.raleway(
+                                color: Colors.black,
+                                fontSize: 17,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(height: 20,),
+                      Container(
+                        child: Row(
+                          children: [
+                            Icon(FontAwesomeIcons.city),
+                            SizedBox(width: 25,),
+                            Text(
+                              data.city,
+                              style: GoogleFonts.raleway(
+                                color: Colors.black,
+                                fontSize: 17,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(height: 20,),
+                      Container(
+                        child: Row(
+                          children: [
+                            Icon(FontAwesomeIcons.mapMarkedAlt),
+                            SizedBox(width: 25,),
+                            Text(
+                              data.area,
+                              style: GoogleFonts.raleway(
+                                color: Colors.black,
+                                fontSize: 17,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(height: 20,),
+                      Container(
+                        child: Row(
+                          children: [
+                            Icon(FontAwesomeIcons.phone),
+                            SizedBox(width: 25,),
+                            Text(
+                              data.ownerContact,
+                              style: GoogleFonts.raleway(
+                                color: Colors.black,
+                                fontSize: 17,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(height: 10,),
+                Container(
+                  alignment: Alignment.bottomRight,
+                  child: FlatButton.icon(
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 10.0,
+                      horizontal: 20.0,
+                    ),
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    color: Colors.red,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30.0),
+                    ),
+
+                    icon: const Icon(
+                      Icons.close,
+                      color: Colors.white,
+                    ),
+
+                    label: Text(
+                      'Close',
+                      style: Styles.buttonTextStyle,
+                    ),
+
+                    textColor: Colors.white,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      );
+    },
+  );
 }
