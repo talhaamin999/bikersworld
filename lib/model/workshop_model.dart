@@ -1,3 +1,5 @@
+import 'package:flutter/cupertino.dart';
+
 class WorkshopDashboardModel{
 
   String _ownerName;
@@ -19,6 +21,7 @@ class WorkshopDashboardModel{
 }
 
 class Mechanics{
+
   final String name;
   final String contact;
   final String speciality;
@@ -37,6 +40,36 @@ class Mechanics{
       'name': name,
       'contact': contact,
       'speciality': speciality,
+    };
+  }
+
+}
+class Services{
+
+  final String title;
+  final String category;
+  final int price;
+  final String workshopCity;
+  final String workshopId;
+
+  Services({@required this.title,@required this.category,@required this.price,@required this.workshopCity,@required this.workshopId});
+
+  factory Services.fromJson(Map<String, dynamic> json){
+    return Services(
+      title: json['title'],
+      category: json['category'],
+      price: json['price'],
+      workshopCity: json['workshop_city'],
+      workshopId: json['workshopId'],
+    );
+  }
+  Map<String, dynamic> toMap(){
+    return {
+      'title': title,
+      'category': category,
+      'price': price,
+      'workshop_city': workshopCity,
+      'workshopId': workshopId,
     };
   }
 

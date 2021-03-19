@@ -4,7 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:bikersworld/widgets/drawer.dart';
-import 'package:bikersworld/screen/workshop/addServices.dart';
+import 'package:bikersworld/screen/workshop/add_services.dart';
 import 'package:bikersworld/screen/dashboard/AutoPartStore/autoPartStoreDashboard.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:lite_rolling_switch/lite_rolling_switch.dart';

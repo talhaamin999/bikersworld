@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 
 
 class postAdTextfield extends StatelessWidget {
-  postAdTextfield(this.Text,);
+  String labelText;
 
-  String Text;
+  postAdTextfield(this.labelText,);
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -15,7 +15,7 @@ class postAdTextfield extends StatelessWidget {
           filled: true,
           fillColor: Color(0xffe6e6e6),
           border: InputBorder.none,
-          labelText: Text,
+          labelText: labelText,
         ),
       ),
     );

@@ -1,7 +1,8 @@
 import 'dart:async';
 import 'package:bikersworld/model/workshop_model.dart';
-import 'package:bikersworld/screen/workshop/EditWorkshopProfile.dart';
-import 'package:bikersworld/screen/workshop/addServices.dart';
+import 'package:bikersworld/screen/workshop/edit_workshop_profile.dart';
+import 'package:bikersworld/screen/workshop/add_services.dart';
+import 'package:bikersworld/screen/workshop/register_workshop.dart';
 import 'package:bikersworld/services/workshop_queries/workshop_queries.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -10,13 +11,13 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:bikersworld/screen/workshop/services/referenceWorkshop.dart';
-import 'package:bikersworld/screen/workshop/addMechanics.dart';
+import 'package:bikersworld/screen/workshop/add_mechanics.dart';
 import 'package:bikersworld/screen/workshop/services/electricalService.dart';
 import 'package:bikersworld/screen/workshop/services/mechanicalService.dart';
 import 'package:bikersworld/screen/workshop/services/oilAndTuning.dart';
-import 'package:bikersworld/screen/workshop/addServices.dart';
+import 'package:bikersworld/screen/workshop/add_services.dart';
 import 'package:bikersworld/screen/workshop/reviews/reviews.dart';
-import 'package:bikersworld/screen/workshop/viewMechanics.dart';
+import 'package:bikersworld/screen/workshop/view_mechanics.dart';
 import 'package:lite_rolling_switch/lite_rolling_switch.dart';
 import 'package:bikersworld/widgets/constants.dart';
 
@@ -207,14 +208,14 @@ class Dashboard extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
-
                           FlatButton.icon(
                             padding: const EdgeInsets.symmetric(
                               vertical: 10.0,
                               horizontal: 20.0,
                             ),
                             onPressed: () {
-                              Navigator.push(context, MaterialPageRoute(builder: (context) => EditWorkshopProfile()));
+                              Navigator.push(context, MaterialPageRoute(builder: (context) =>
+                                  RegisterWorkshop(shopTitle: data.shopTitle,shopCity: data.city,shopArea: data.area,ownerName: data.ownerName,ownerContact: data.ownerContact,)));
                             },
                             color: Colors.red,
                             shape: RoundedRectangleBorder(
@@ -520,7 +521,6 @@ showDialogFunc(context) {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-
                 Text(
                   "Workshop Information",
                   style: GoogleFonts.quicksand(

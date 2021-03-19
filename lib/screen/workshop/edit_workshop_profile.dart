@@ -1,9 +1,12 @@
+import 'package:bikersworld/model/workshop_model.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:bikersworld/widgets/postAdTextfield.dart';
 
 class EditWorkshopProfile extends StatefulWidget {
+  WorkshopDashboardModel worksopData;
+  EditWorkshopProfile({@required this.worksopData});
   @override
   _EditWorkshopProfileState createState() => _EditWorkshopProfileState();
 }

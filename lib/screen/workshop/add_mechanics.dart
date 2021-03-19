@@ -1,5 +1,5 @@
 import 'package:bikersworld/model/workshop_model.dart';
-import 'package:bikersworld/screen/workshop/workshopDashboard.dart';
+import 'package:bikersworld/screen/workshop/workshop_dashboard.dart';
 import 'package:bikersworld/services/toast_service.dart';
 import 'package:bikersworld/services/validate_service.dart';
 import 'package:bikersworld/services/workshop_queries/mechanic_queries.dart';
@@ -11,11 +11,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:bikersworld/widgets/drawer.dart';
-import 'package:bikersworld/screen/workshop/addServices.dart';
+import 'package:bikersworld/screen/workshop/add_services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-TextEditingController _mechanicNameController = TextEditingController();
-TextEditingController _mechanicContactController = TextEditingController();
 final _formKey = GlobalKey<FormState>();
 String _currentItemselected = 'Electrition';
 
@@ -28,13 +26,27 @@ class _AddMechanicsState extends State<AddMechanics> {
   int currentIndex;
   ToastErrorMessage _error = ToastErrorMessage();
   ToastValidMessage _valid = ToastValidMessage();
+
+  final mechanicNameController = TextEditingController();
+  final mechanicContactController = TextEditingController();
+
+
   @override
   void initState() {
     super.initState();
-
     currentIndex = 0;
   }
-
+  @override
+  void dispose() {
+    mechanicContactController.dispose();
+    mechanicNameController.dispose();
+    super.dispose();
+  }
+  void clear(){
+    _formKey.currentState.reset();
+    mechanicNameController.clear();
+    mechanicContactController.clear();
+  }
   changePage(int index) {
     setState(() {
       currentIndex = index;
@@ -44,14 +56,14 @@ class _AddMechanicsState extends State<AddMechanics> {
   validateFields() async{
 
     final ValidateWorkshopMechanics mechanic = ValidateWorkshopMechanics();
-    if(!mechanic.validateMechanicName(_mechanicNameController.text.trim()) && !mechanic.validateMechanicContact(_mechanicContactController.text.trim()) && !mechanic.validateMechanicSpeciality(_currentItemselected)){
+    if(!mechanic.validateMechanicName(mechanicNameController.text.trim()) && !mechanic.validateMechanicContact(mechanicContactController.text.trim()) && !mechanic.validateMechanicSpeciality(_currentItemselected)){
       _error.errorToastMessage(errorMessage: "Enter Valid Data in Each Field");
     }
-    else if(!mechanic.validateMechanicName(_mechanicNameController.text.trim())){
+    else if(!mechanic.validateMechanicName(mechanicNameController.text.trim())){
       _error.errorToastMessage(errorMessage: "Mechanic Name Must Only contain Alphabets");
     }
-    else if(!mechanic.validateMechanicContact(_mechanicContactController.text.trim())){
-      _error.errorToastMessage(errorMessage: "Mechanic Contact Must Only contain Numbers");
+    else if(!mechanic.validateMechanicContact(mechanicContactController.text.trim())){
+      _error.errorToastMessage(errorMessage: "Mechanic Contact Must be a Pakistani number");
     }
     else if(!mechanic.validateMechanicSpeciality(_currentItemselected)){
       _error.errorToastMessage(errorMessage: "Mechanic Speciality Must Be Selected");
@@ -63,15 +75,15 @@ class _AddMechanicsState extends State<AddMechanics> {
   Future<void> registerMechanic() async{
     try {
       final RegisterMechanicQueries _register = RegisterMechanicQueries();
-      final Mechanics _mecahnicData = Mechanics(name: _mechanicNameController.text.trim(),contact: _mechanicContactController.text.trim(),speciality: _currentItemselected);
+      final Mechanics _mecahnicData = Mechanics(name: mechanicNameController.text.trim(),contact: mechanicContactController.text.trim(),speciality: _currentItemselected);
       await _register.regesterMechanic(_mecahnicData);
       if(RegisterMechanicQueries.resultMessage == 'Mechanic registered successfully'){
         _valid.validToastMessage(validMessage: RegisterMechanicQueries.resultMessage);
+        clear();
         Future.delayed(
           new Duration(seconds: 2),
             (){
-               Navigator.of(this.context).push(
-                 MaterialPageRoute(builder: (context) => WorkshopDashboard()));
+               Navigator.pop(this.context);
             }
         );
       }
@@ -100,7 +112,11 @@ class _AddMechanicsState extends State<AddMechanics> {
           iconTheme: IconThemeData(color: Color(0xfffbb448),
           ),
           leading: IconButton(icon:Icon(Icons.arrow_back, color: Colors.orange,),
-        onPressed:() => Navigator.pop(context),
+        onPressed:() {
+          clear();
+            Navigator
+              .pop(context);
+        }
       ),
         ),
         body: Container(
@@ -117,7 +133,7 @@ class _AddMechanicsState extends State<AddMechanics> {
                       SizedBox(height: 20,),
                       _title(),
                       SizedBox(height: 20),
-                      _registerWorkshopWidget(),
+                      _registerWorkshopWidget(nameController: mechanicNameController,contactController: mechanicContactController),
                       SizedBox(height: 20),
 
                       FlatButton(
@@ -173,16 +189,17 @@ class _AddMechanicsState extends State<AddMechanics> {
   }
 }
 
-Widget _registerWorkshopWidget() {
+Widget _registerWorkshopWidget({@required TextEditingController nameController,@required TextEditingController contactController}) {
+
   return Form(
     key: _formKey,
     autovalidateMode: AutovalidateMode.disabled,
     child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            EntryField(title: "Name",hintText: "Abdullah",controller:_mechanicNameController,inputType: TextInputType.text,filter: FilteringTextInputFormatter.allow(RegExp("[a-zA-Z ]"))),
+            EntryField(title: "Name",hintText: "Abdullah",controller: nameController,inputType: TextInputType.text,filter: FilteringTextInputFormatter.allow(RegExp("[a-zA-Z ]"))),
             SizedBox(height:15),
-            EntryField(title: "Contact",hintText: "0310345635",controller: _mechanicContactController,inputType: TextInputType.number,filter: FilteringTextInputFormatter.digitsOnly),
+            EntryField(title: "Contact",hintText: "0310345635",controller: contactController,inputType: TextInputType.number,filter: FilteringTextInputFormatter.digitsOnly),
             SizedBox(height:15),
             Text(
                 "Specilization",

@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -6,15 +8,22 @@ import 'package:google_fonts/google_fonts.dart';
 class EntryField extends StatefulWidget {
   @override
   _EntryFieldState createState() => _EntryFieldState();
-  String title;
-  TextEditingController controller;
-  TextInputType inputType;
-  FilteringTextInputFormatter filter;
-  String hintText;
+  final String title;
+  final TextEditingController controller;
+  final TextInputType inputType;
+  final FilteringTextInputFormatter filter;
+  final hintText;
   EntryField({@required this.title,this.hintText,@required this.controller,@required this.inputType,@required this.filter});
 }
 
 class _EntryFieldState extends State<EntryField> {
+
+  @override
+  void dispose() {
+    print("love");
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(

@@ -1,4 +1,4 @@
-import 'package:bikersworld/screen/workshop/addServices.dart';
+import 'package:bikersworld/screen/workshop/add_services.dart';
 import 'package:bikersworld/services/toast_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -32,7 +32,8 @@ class RegisterWorkshopQueries {
                 "to": "",
                 "from": "",
              }
-         }).then((_) {
+         },SetOptions(merge: true))
+          .then((_) {
             resultMessage = "Workshop Successfully Registered";
       }).catchError((error){
         resultMessage = error.toString();

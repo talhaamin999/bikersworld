@@ -1,4 +1,6 @@
 import 'dart:async';
+import 'package:bikersworld/model/workshop_model.dart';
+import 'package:bikersworld/screen/workshop/workshop_dashboard.dart';
 import 'package:bikersworld/services/toast_service.dart';
 import 'package:bikersworld/services/validate_service.dart';
 import 'package:bikersworld/services/workshop_queries/workshop_queries.dart';
@@ -10,16 +12,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:bikersworld/widgets/drawer.dart';
-import 'package:bikersworld/screen/workshop/addServices.dart';
-import 'package:bikersworld/screen/workshop/addServices.dart';
+import 'package:bikersworld/screen/workshop/add_services.dart';
+import 'package:bikersworld/screen/workshop/add_services.dart';
 import 'package:country_state_city_picker/country_state_city_picker.dart';
 
-
-final TextEditingController shopTitleController = TextEditingController();
-final TextEditingController shopCityController = TextEditingController();
-final TextEditingController shopSpecificAreaController = TextEditingController();
-final TextEditingController ownerNameController = TextEditingController();
-final TextEditingController ownerContactController = TextEditingController();
 ToastErrorMessage error = ToastErrorMessage();
 ToastValidMessage valid = ToastValidMessage();
 bool _isTitleEmpty = false;
@@ -30,6 +26,12 @@ bool _isContactEmpty = false;
 int fieldEmptyChecker = 0;
 
 class RegisterWorkshop extends StatefulWidget {
+  String shopTitle;
+  String shopCity;
+  String shopArea;
+  String ownerContact;
+  String ownerName;
+  RegisterWorkshop({this.shopTitle,this.shopCity,this.shopArea,this.ownerName,this.ownerContact});
   @override
   _RegisterWorkshopState createState() => _RegisterWorkshopState();
 }
@@ -37,11 +39,22 @@ class RegisterWorkshop extends StatefulWidget {
 class _RegisterWorkshopState extends State<RegisterWorkshop> {
   int currentIndex;
 
+  final TextEditingController _shopTitleController = TextEditingController();
+  final TextEditingController _shopCityController = TextEditingController();
+  final TextEditingController _shopSpecificAreaController = TextEditingController();
+  final TextEditingController _ownerNameController = TextEditingController();
+  final TextEditingController _ownerContactController = TextEditingController();
+
+
   TextEditingController _textFieldController = new TextEditingController();
   @override
   void initState() {
+    _shopTitleController.text = widget.shopTitle != null ? widget.shopTitle : '';
+    _shopCityController.text = widget.shopCity != null ? widget.shopCity : '';
+    _shopSpecificAreaController.text = widget.shopArea != null ? widget.shopArea : '';
+    _ownerNameController.text = widget.ownerName != null ? widget.ownerName : '';
+    _ownerContactController.text = widget.ownerContact != null ? widget.ownerContact : '';
     super.initState();
-
     currentIndex = 0;
   }
 
@@ -50,34 +63,42 @@ class _RegisterWorkshopState extends State<RegisterWorkshop> {
       currentIndex = index;
     });
   }
-
+  @override
+  void dispose() {
+    _shopTitleController.dispose();
+    _shopCityController.dispose();
+    _shopSpecificAreaController.dispose();
+    _ownerNameController.dispose();
+    _ownerContactController.dispose();
+    super.dispose();
+  }
   void checkEmptyField(){
     setState(() {
-    if(shopTitleController.text.isEmpty){
+    if(_shopTitleController.text.isEmpty){
       _isTitleEmpty = true;
     }
     else{
       _isTitleEmpty = false;
     }
-    if(shopCityController.text.isEmpty){
+    if(_shopCityController.text.isEmpty){
       _isCityEmpty = true;
     }
     else{
       _isCityEmpty = false;
     }
-    if(shopSpecificAreaController.text.isEmpty){
+    if(_shopSpecificAreaController.text.isEmpty){
       _isAreaEmpty = true;
     }
     else{
       _isAreaEmpty = false;
     }
-    if(ownerNameController.text.isEmpty){
+    if(_ownerNameController.text.isEmpty){
       _isNameEmpty = true;
     }
     else{
       _isNameEmpty = false;
     }
-    if(ownerContactController.text.isEmpty){
+    if(_ownerContactController.text.isEmpty){
       _isContactEmpty = true;
     }
     else{
@@ -92,22 +113,22 @@ class _RegisterWorkshopState extends State<RegisterWorkshop> {
 
     if(fieldEmptyChecker == 1){
       ValidateWorkshop _workShop = ValidateWorkshop();
-      if(!_workShop.validateShopTitle(shopTitleController.text.trim()) && !_workShop.validateShopCity(shopCityController.text.trim()) && !_workShop.validateShopArea(shopSpecificAreaController.text.trim()) && !_workShop.validateOwnerName(ownerNameController.text.trim()) && !_workShop.validateOwnerContact(ownerContactController.text.trim())){
+      if(!_workShop.validateShopTitle(_shopTitleController.text.trim()) && !_workShop.validateShopCity(_shopCityController.text.trim()) && !_workShop.validateShopArea(_shopSpecificAreaController.text.trim()) && !_workShop.validateOwnerName(_ownerNameController.text.trim()) && !_workShop.validateOwnerContact(_ownerContactController.text.trim())){
         error.errorToastMessage(errorMessage: "You Need To Enter Valid Data in every Fields");
       }
-      else if(!_workShop.validateShopTitle(shopTitleController.text.trim())){
+      else if(!_workShop.validateShopTitle(_shopTitleController.text.trim())){
         error.errorToastMessage(errorMessage: "You Need To Enter Valid Shop Title");
       }
-      else if(!_workShop.validateShopCity(shopCityController.text.trim())){
+      else if(!_workShop.validateShopCity(_shopCityController.text.trim())){
         error.errorToastMessage(errorMessage: "You Need To Enter Valid City Name");
       }
-      else if(!_workShop.validateShopArea(shopSpecificAreaController.text.trim())){
+      else if(!_workShop.validateShopArea(_shopSpecificAreaController.text.trim())){
         error.errorToastMessage(errorMessage: "You Need To Enter Valid Specific Area Title");
       }
-      else if(!_workShop.validateOwnerName(ownerNameController.text.trim())){
+      else if(!_workShop.validateOwnerName(_ownerNameController.text.trim())){
         error.errorToastMessage(errorMessage: "You Need To Enter Valid Owner Name");
       }
-      else if(!_workShop.validateOwnerContact(ownerContactController.text.trim())){
+      else if(!_workShop.validateOwnerContact(_ownerContactController.text.trim())){
         error.errorToastMessage(errorMessage: "You Need To Enter Valid Pakistan Number");
       }
       else{
@@ -121,15 +142,21 @@ class _RegisterWorkshopState extends State<RegisterWorkshop> {
     try {
       RegisterWorkshopQueries register = RegisterWorkshopQueries();
       await register.registerWorkshop(
-          shopTitleController.text, shopCityController.text,
-          shopSpecificAreaController.text, ownerNameController.text,
-          ownerContactController.text);
+          _shopTitleController.text, _shopCityController.text,
+          _shopSpecificAreaController.text, _ownerNameController.text,
+          _ownerContactController.text);
         if(RegisterWorkshopQueries.resultMessage == "Workshop Successfully Registered"){
-          valid.validToastMessage(validMessage: RegisterWorkshopQueries.resultMessage);
+          if(widget.ownerName!=null){
+            valid.validToastMessage(validMessage: 'Workshop Succesfully Updated');
+          }else {
+            valid.validToastMessage(
+                validMessage: RegisterWorkshopQueries.resultMessage);
+          }
           Future.delayed(
               new Duration(seconds: 2),
                 (){
-                Navigator.of(this.context).push(MaterialPageRoute(builder: (context) => AddServices())
+                Navigator.of(this.context)
+                    .push(MaterialPageRoute(builder: (context) => WorkshopDashboard())
                 );
           },
           );
@@ -171,9 +198,9 @@ class _RegisterWorkshopState extends State<RegisterWorkshop> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       SizedBox(height: 20,),
-                      _title(),
+                      _title(widget.ownerName),
                       SizedBox(height: 20),
-                      _registerWorkshopWidget(),
+                      _registerWorkshopWidget(shopTitleController: _shopTitleController,shopCityController: _shopCityController,shopSpecificAreaController: _shopSpecificAreaController,ownerNameController: _ownerNameController,ownerContactController: _ownerContactController),
                       SizedBox(height: 20),
 
                     FlatButton(
@@ -195,7 +222,7 @@ class _RegisterWorkshopState extends State<RegisterWorkshop> {
                                 end: Alignment.centerRight,
                                 colors: [Color(0xfffbb448), Color(0xfff7892b)])),
                         child: Text(
-                          'Next',
+                          widget.ownerName !=null ? 'Update':'Register',
                           style: GoogleFonts.krub(
                             fontSize: 20,
                             color: Colors.white,
@@ -237,7 +264,7 @@ Widget _entryField(String title,TextEditingController controller,TextInputType i
         SizedBox(
           height: 10,
         ),
-        TextField(
+        TextFormField(
           controller: controller,
           keyboardType: inputType,
           inputFormatters: <TextInputFormatter>[
@@ -254,14 +281,13 @@ Widget _entryField(String title,TextEditingController controller,TextInputType i
     ),
   );
 }
-Widget _registerWorkshopWidget() {
+Widget _registerWorkshopWidget({@required TextEditingController shopTitleController,@required TextEditingController shopCityController,@required TextEditingController shopSpecificAreaController,@required TextEditingController ownerNameController,@required TextEditingController ownerContactController}) {
 
   return Column(
     children: <Widget>[
       _entryField("Workshop Name",shopTitleController,TextInputType.text,FilteringTextInputFormatter.allow(RegExp("[a-zA-Z ]")),_isTitleEmpty),
       _entryField("City",shopCityController,TextInputType.text,FilteringTextInputFormatter.allow(RegExp("[a-zA-Z ]")),_isCityEmpty),
       _entryField("Specific Area",shopSpecificAreaController,TextInputType.text,FilteringTextInputFormatter.allow(RegExp("[a-zA-Z ]")),_isAreaEmpty),
-
 
       Container(
         margin: EdgeInsets.symmetric(vertical: 30),
@@ -301,11 +327,11 @@ Widget _registerWorkshopWidget() {
   );
 }
 
-Widget _title() {
+Widget _title(String value) {
   return RichText(
     textAlign: TextAlign.start,
     text: TextSpan(
-        text: 'Register',
+        text: value != null ? 'Update':'Register',
         style: GoogleFonts.quicksand(
           fontSize: 30,
           color: Color(0xfff7892b),

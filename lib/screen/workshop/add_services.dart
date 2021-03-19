@@ -1,21 +1,20 @@
 import 'dart:async';
+import 'dart:developer';
 
+import 'package:bikersworld/model/workshop_model.dart';
 import 'package:bikersworld/services/toast_service.dart';
 import 'package:bikersworld/services/validate_service.dart';
 import 'package:bikersworld/services/workshop_queries/service_queries.dart';
 import 'package:bikersworld/widgets/entry_field.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:bikersworld/widgets/drawer.dart';
 import 'package:bikersworld/widgets/customeTextArea.dart';
-import 'package:bikersworld/screen/workshop/workshopDashboard.dart';
+import 'package:bikersworld/screen/workshop/workshop_dashboard.dart';
 
-GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-TextEditingController _serviceTitleController = TextEditingController();
-TextEditingController _serviceCategoryController = TextEditingController();
-TextEditingController _servicePriceController = TextEditingController();
 ToastErrorMessage _error = ToastErrorMessage();
 ToastValidMessage _valid = ToastValidMessage();
 
@@ -27,12 +26,38 @@ class AddServices extends StatefulWidget {
 class _AddServicesState extends State<AddServices> {
 
   int currentIndex;
+  String _cityName;
+  final _serviceTitleController = TextEditingController();
+  final _serviceCategoryController = TextEditingController();
+  final _servicePriceController = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
+  final WorkshopServiceQueries _add = WorkshopServiceQueries();
+  final _firebaseUser = FirebaseAuth.instance.currentUser;
 
   @override
   void initState() {
+    cityName();
     super.initState();
-
     currentIndex = 0;
+  }
+  @override
+  void dispose() {
+    _serviceTitleController.dispose();
+    _servicePriceController.dispose();
+    _serviceCategoryController.dispose();
+    super.dispose();
+  }
+  void clear(){
+
+    _formKey.currentState.reset();
+    _serviceTitleController.clear();
+    _serviceCategoryController.clear();
+    _servicePriceController.clear();
+
+  }
+
+  Future cityName() async{
+   _cityName = await _add.getWorkshopCityName();
   }
 
   changePage(int index) {
@@ -62,16 +87,16 @@ class _AddServicesState extends State<AddServices> {
   }
   Future<void> addService(int price) async{
   try {
-      final WorkshopServiceQueries _add = WorkshopServiceQueries();
-      await _add.addWorkshopService(_serviceTitleController.text.trim(),
-          _serviceCategoryController.text.trim(), price);
+
+      Services data = Services(title: _serviceTitleController.text.trim(), category: _serviceCategoryController.text.trim(), price: price, workshopCity: _cityName, workshopId: _firebaseUser.uid);
+      await _add.addWorkshopService(data);
       if(WorkshopServiceQueries.resultMessage == WorkshopServiceQueries.completionMessage){
         _valid.validToastMessage(validMessage: WorkshopServiceQueries.resultMessage);
+        clear();
         Future.delayed(
           new Duration(seconds: 2),
               (){
-            Navigator.of(this.context).push(MaterialPageRoute(builder: (context) => WorkshopDashboard())
-            );
+            Navigator.pop(context);
           },
         );
       }
@@ -85,7 +110,6 @@ class _AddServicesState extends State<AddServices> {
 
   @override
   Widget build(BuildContext context) {
-
     final height = MediaQuery.of(context).size.height;
     int _checkboxValue;
     return MaterialApp(
@@ -100,7 +124,10 @@ class _AddServicesState extends State<AddServices> {
           ),
           backgroundColor: Color(0XFF012A4A),
             leading: IconButton(icon:Icon(Icons.arrow_back, color: Colors.orange,),
-              onPressed:() => Navigator.pop(context),
+              onPressed:() {
+                clear();
+                Navigator.pop(context);
+              }
             )
         ),
         body: Container(
@@ -117,7 +144,7 @@ class _AddServicesState extends State<AddServices> {
                       SizedBox(height: 30,),
                       _title(),
                       SizedBox(height: 40),
-                      _addServicesWidget(),
+                      _addServicesWidget(categoryController: _serviceCategoryController,titleController: _serviceTitleController,priceController: _servicePriceController,formKey: _formKey),
                       SizedBox(height: 20),
                       FlatButton(
                       child: Container(
@@ -166,17 +193,17 @@ class _AddServicesState extends State<AddServices> {
     );
   }
 }
-Widget _addServicesWidget() {
+Widget _addServicesWidget({@required TextEditingController categoryController,@required TextEditingController titleController,@required TextEditingController priceController,@required GlobalKey formKey}) {
   return Form(
-    key: _formKey,
+    key: formKey,
     autovalidateMode: AutovalidateMode.disabled,
     child: Column(
       children: <Widget>[
-        EntryField(title: "Category",hintText: 'Mechanical',controller: _serviceCategoryController,inputType: TextInputType.text,filter: FilteringTextInputFormatter.allow(RegExp("[a-zA-Z ]"))),
+        EntryField(title: "Category",hintText: 'Mechanical',controller: categoryController,inputType: TextInputType.text,filter: FilteringTextInputFormatter.allow(RegExp("[a-zA-Z ]"))),
         SizedBox(height:15,),
-        EntryField(title: "Title",hintText: 'wheel barring',controller: _serviceTitleController,inputType: TextInputType.text,filter: FilteringTextInputFormatter.allow(RegExp("[a-zA-Z ]"))),
+        EntryField(title: "Title",hintText: 'wheel barring',controller: titleController,inputType: TextInputType.text,filter: FilteringTextInputFormatter.allow(RegExp("[a-zA-Z ]"))),
         SizedBox(height:15,),
-        EntryField(title: "Price",hintText: 'price < 2000',controller: _servicePriceController,inputType: TextInputType.number,filter:FilteringTextInputFormatter.digitsOnly),
+        EntryField(title: "Price",hintText: 'price < 2000',controller: priceController,inputType: TextInputType.number,filter:FilteringTextInputFormatter.digitsOnly),
       ],
     ),
   );
