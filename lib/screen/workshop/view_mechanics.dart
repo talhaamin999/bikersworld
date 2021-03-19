@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:bikersworld/model/workshop_model.dart';
 import 'package:bikersworld/services/workshop_queries/mechanic_queries.dart';
 import 'package:flutter/material.dart';
@@ -57,8 +56,7 @@ class _ViewMechanicsState extends State<ViewMechanics> {
             child: Column(
               children: <Widget>[
                 SizedBox(height: 30,),
-                Center(
-                  child: Container(
+                Container(
                     child:RichText(
                       textAlign: TextAlign.start,
                       text: TextSpan(
@@ -79,7 +77,7 @@ class _ViewMechanicsState extends State<ViewMechanics> {
                       ),
                     ),
                   ),
-                ),
+
 
                 SizedBox(height: 10,),
                 StreamBuilder<List<Mechanics>>(
@@ -304,47 +302,138 @@ class _ViewMechanicsState extends State<ViewMechanics> {
                           shrinkWrap: true,
                           itemCount: snapshot.data.length,
                           itemBuilder: (context,index){
-                            return ListTile(
-                                trailing: Text(snapshot.data[index].name),
-                                title: Text(snapshot.data[index].name)
+                            return Padding(
+                              padding: const EdgeInsets.only(top: 10, left: 15, right: 10),
+                              child: Card(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+
+                                child: Column(
+                                  children: <Widget>[
+                                     Container(
+                                       child: Column(
+                                         children: [
+
+                                           ListTile(
+                                             title: Row(
+                                               children: [
+
+                                                 CircleAvatar(child: Icon(Icons.person)),
+                                                 SizedBox(width: 10,),
+                                                 Text(
+                                                   snapshot.data[index].name ,
+                                                   style: GoogleFonts.raleway(
+                                                     fontSize: 18 ,
+                                                     color: Color(0XFF012A4A),
+                                                   ),
+                                                 ),
+
+                                               ],
+                                             ),
+                                             subtitle: Padding(
+                                               padding: const EdgeInsets.only(left:50),
+                                               child: Text(snapshot.data[index].contact),
+                                             ),
+                                             ),
+                                         ],
+                                       ),
+                                     ),
+                                    SizedBox(height: 10,),
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                          left: 8.0, bottom: 8, right: 8),
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.end,
+                                        children: <Widget>[
+                                          RaisedButton(
+                                            color: Colors.orange,
+                                            child: Row(
+                                              children: [
+                                                Icon(
+                                                  Icons.info_outline,
+                                                  size: 15,
+                                                  color: Colors.white,
+                                                ),
+                                                SizedBox(width: 5,),
+                                                Text(
+                                                  "Info",
+                                                  style: GoogleFonts.raleway(
+                                                    fontSize: 17,
+                                                    color: Colors.white,
+                                                  ),
+                                                )
+                                              ],
+                                            ),
+                                            onPressed: () {
+                                              Navigator.push(context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          mechanicsReviews()));
+                                            },
+                                          ),
+                                          const SizedBox(width: 8),
+                                          RaisedButton(
+                                            color: Colors.blue,
+                                            child: Row(
+                                              children: [
+                                                Icon(
+                                                  Icons.edit,
+                                                  size: 15,
+                                                  color: Colors.white,
+                                                ),
+                                                SizedBox(width: 5,),
+                                                Text(
+                                                  "Edit",
+                                                  style: GoogleFonts.raleway(
+                                                    fontSize: 17,
+                                                    color: Colors.white,
+                                                  ),
+                                                )
+                                              ],
+                                            ),
+                                            onPressed: () {
+                                              /* ... */
+                                            },
+                                          ),
+                                          const SizedBox(width: 8),
+                                          RaisedButton(
+                                            color: Colors.red,
+                                            child: Row(
+                                              children: [
+                                                Icon(
+                                                  FontAwesomeIcons.userMinus,
+                                                  size: 15,
+                                                  color: Colors.white,
+                                                ),
+                                                SizedBox(width: 16,),
+                                                Text(
+                                                  "Delete",
+                                                  style: GoogleFonts.raleway(
+                                                    fontSize: 17,
+                                                    color: Colors.white,
+                                                  ),
+                                                )
+                                              ],
+                                            ),
+                                            onPressed: () {
+                                              /* ... */
+                                            },
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
                             );
-                          });
+                          },
+                      );
                     }
                     return CircularProgressIndicator();
                  },
                 ),
                 SizedBox(height: 30,),
-                FlatButton(
-                  child: Container(
-                    height: 60,
-                    width: MediaQuery.of(context).size.width,
-                    margin: EdgeInsets.only(left: 15,right: 15),
-                    alignment: Alignment.center,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(5)),
-                        boxShadow: <BoxShadow>[
-                          BoxShadow(
-                              color: Colors.grey.shade200,
-                              offset: Offset(2, 4),
-                              blurRadius: 5,
-                              spreadRadius: 2)
-                        ],
-                        gradient: LinearGradient(
-                            begin: Alignment.centerLeft,
-                            end: Alignment.centerRight,
-                            colors: [Color(0xfffbb448), Color(0xfff7892b)])),
-                    child: Text(
-                      'Back',
-                      style: GoogleFonts.krub(
-                        fontSize: 20,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
-                  onPressed: (){
-                    Navigator.pop(context);
-                  },
-                ),
 
                 SizedBox(height: 20,),
               ],
