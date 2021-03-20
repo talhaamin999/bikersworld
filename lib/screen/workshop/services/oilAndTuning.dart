@@ -44,188 +44,287 @@ class _oilTuningServiceState extends State<oilTuningService> {
         body: SingleChildScrollView(
           child: Container(
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-
-                SizedBox(height: 30,),
-                Container(
-                  margin: EdgeInsets.only(left: 15, right: 15),
-                  child: Card(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    child: ListTile(
-                      contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                      leading: CircleAvatar(
-                        backgroundColor: Color(0xffecf0f1),
-                        child: Icon(FontAwesomeIcons.oilCan, color: Color(0xff2ecc71),),
-                      ),
-                      title: Text(
-                        "Oil and Tuning Services",
+                SizedBox(height: 10,),
+                Padding(
+                  padding: const EdgeInsets.all(15),
+                  child: Container(
+                    child: RichText(
+                      textAlign: TextAlign.start,
+                      text: TextSpan(
+                        text: 'Oil Tuning ',
                         style: GoogleFonts.quicksand(
-                          fontSize: 20,
+                          fontSize: 30,
+                          color: Color(0xfff7892b),
+                        ),
+                        children: [
+                          TextSpan(
+                              text: 'Services',
+                              style: GoogleFonts.quicksand(
+                                fontSize: 30,
+                                color: Colors.black,
+                              )),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+
+                SizedBox(height: 10,),
+                Padding(
+                  padding: const EdgeInsets.only(left:15, right: 15),
+                  child: Container(
+                    child: Card(
+                      child: InkWell(
+                        splashColor: Colors.blue.withAlpha(30),
+                        onTap: () {
+                        },
+                        child: SizedBox(
+                          width: 360,
+                          height: 100,
+                          child: Column(
+                            children: [
+                              Container(
+                                child: Padding(
+                                  padding: const EdgeInsets.only(left:12),
+                                  child: Row(
+                                    children: [
+                                      Text(
+                                        "Name",
+                                        style: GoogleFonts.quicksand(
+                                          fontSize: 20,
+                                          color: Colors.orangeAccent,
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        width: 10,
+                                      ),
+                                      Text(
+                                        "Wiring",
+                                        style: GoogleFonts.quicksand(
+                                          fontSize: 18,
+                                        ),
+                                      ),
+                                      SizedBox(width:72,),
+                                      RaisedButton(
+                                        color: Colors.blue,
+                                        child: Row(
+                                          children: [
+                                            Icon(
+                                              Icons.edit,
+                                              size: 15,
+                                              color: Colors.white,
+                                            ),
+                                            SizedBox(
+                                              width: 5,
+                                            ),
+                                            Text(
+                                              "Update",
+                                              style: GoogleFonts.raleway(
+                                                fontSize: 17,
+                                                color: Colors.white,
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                        onPressed: (){
+
+                                        },
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              Container(
+                                child: Padding(
+                                  padding: const EdgeInsets.only(left:12),
+                                  child: Row(
+                                    children: [
+                                      Text(
+                                        "Price",
+                                        style: GoogleFonts.quicksand(
+                                          fontSize: 20,
+                                          color: Colors.orangeAccent,
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        width: 10,
+                                      ),
+                                      Text(
+                                        "200",
+                                        style: GoogleFonts.quicksand(
+                                          fontSize: 15,
+                                        ),
+                                      ),
+                                      SizedBox(width: 92,),
+                                      Padding(
+                                        padding: const EdgeInsets.only(left:22),
+                                        child: RaisedButton(
+                                          color: Colors.red,
+                                          child: Row(
+                                            children: [
+                                              Icon(
+                                                Icons.remove,
+                                                size: 15,
+                                                color: Colors.white,
+                                              ),
+                                              SizedBox(
+                                                width: 15,
+                                              ),
+                                              Text(
+                                                "Delete",
+                                                style: GoogleFonts.raleway(
+                                                  fontSize: 17,
+                                                  color: Colors.white,
+                                                ),
+                                              )
+                                            ],
+                                          ),
+                                          onPressed: (){
+
+                                          },
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+
+                SizedBox(height: 10,),
+                Padding(
+                  padding: const EdgeInsets.only(left:15, right: 15),
+                  child: Container(
+                    child: Card(
+                      child: InkWell(
+                        splashColor: Colors.blue.withAlpha(30),
+                        onTap: () {
+                        },
+                        child: SizedBox(
+                          width: 360,
+                          height: 100,
+                          child: Column(
+                            children: [
+                              Container(
+                                child: Padding(
+                                  padding: const EdgeInsets.only(left:12),
+                                  child: Row(
+                                    children: [
+                                      Text(
+                                        "Name",
+                                        style: GoogleFonts.quicksand(
+                                          fontSize: 20,
+                                          color: Colors.orangeAccent,
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        width: 10,
+                                      ),
+                                      Text(
+                                        "Wiring",
+                                        style: GoogleFonts.quicksand(
+                                          fontSize: 18,
+                                        ),
+                                      ),
+                                      SizedBox(width:72,),
+                                      RaisedButton(
+                                        color: Colors.blue,
+                                        child: Row(
+                                          children: [
+                                            Icon(
+                                              Icons.edit,
+                                              size: 15,
+                                              color: Colors.white,
+                                            ),
+                                            SizedBox(
+                                              width: 5,
+                                            ),
+                                            Text(
+                                              "Update",
+                                              style: GoogleFonts.raleway(
+                                                fontSize: 17,
+                                                color: Colors.white,
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                        onPressed: (){
+
+                                        },
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              Container(
+                                child: Padding(
+                                  padding: const EdgeInsets.only(left:12),
+                                  child: Row(
+                                    children: [
+                                      Text(
+                                        "Price",
+                                        style: GoogleFonts.quicksand(
+                                          fontSize: 20,
+                                          color: Colors.orangeAccent,
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        width: 10,
+                                      ),
+                                      Text(
+                                        "200",
+                                        style: GoogleFonts.quicksand(
+                                          fontSize: 15,
+                                        ),
+                                      ),
+                                      SizedBox(width: 92,),
+                                      Padding(
+                                        padding: const EdgeInsets.only(left:22),
+                                        child: RaisedButton(
+                                          color: Colors.red,
+                                          child: Row(
+                                            children: [
+                                              Icon(
+                                                Icons.remove,
+                                                size: 15,
+                                                color: Colors.white,
+                                              ),
+                                              SizedBox(
+                                                width: 15,
+                                              ),
+                                              Text(
+                                                "Delete",
+                                                style: GoogleFonts.raleway(
+                                                  fontSize: 17,
+                                                  color: Colors.white,
+                                                ),
+                                              )
+                                            ],
+                                          ),
+                                          onPressed: (){
+
+                                          },
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ),
                   ),
                 ),
                 SizedBox(height: 20,),
-                Container(
-                  margin: EdgeInsets.only(left: 20, right: 20),
-                  height: 50,
-                  child: ListView(
-                    scrollDirection: Axis.horizontal,
-                    children: <Widget>[
-                      Container(
-                        width: 110.0,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(50),
-                          color: Color(0XFF012A4A),
-                        ),
-                        child: Center(
-                          child: Text(
-                            "Oil",
-                            style: GoogleFonts.quicksand(
-                              fontSize: 15,
-                              color: Colors.white,
-                            ),
-                          ),
-                        ),
-                      ),
-                      SizedBox(width: 10,),
-                      Container(
-                        width: 150,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(50),
-                          color: Color(0XFF012A4A),
-                        ),
-                        child: Center(
-                          child: Text(
-                            "Filter",
-                            style: GoogleFonts.quicksand(
-                              fontSize: 15,
-                              color: Colors.white,
-                            ),
-                          ),
-                        ),
-                      ),
-                      SizedBox(width: 10,),
-
-                      Container(
-                        width: 120.0,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(50),
-                          color: Color(0XFF012A4A),
-                        ),
-                        child: Center(
-                          child: Text(
-                            "Shaft",
-                            style: GoogleFonts.quicksand(
-                              fontSize: 15,
-                              color: Colors.white,
-                            ),
-                          ),
-                        ),
-                      ),
-                      SizedBox(width: 10,),
-
-                      Container(
-                        width: 110,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(50),
-                          color: Color(0XFF012A4A),
-                        ),
-                        child: Center(
-                          child: Text(
-                            "Brakes",
-                            style: GoogleFonts.quicksand(
-                              fontSize: 15,
-                              color: Colors.white,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                SizedBox(height: 20,),
-                Container(
-                  margin: EdgeInsets.only(left: 15, right: 15),
-                  child: Card(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    child: ListTile(
-                      contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                      leading: CircleAvatar(
-                        backgroundColor: Color(0xffecf0f1),
-                        child: Icon(FontAwesomeIcons.arrowRight, color: Color(0xFF2980b9),),
-                      ),
-                      title: Text(
-                        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Neque convallis a crasdignissim. Augue neque gravida in fermentum et sollicitudin ac orci phasellus. A scelerisque purus semper eget duis at tellus. Aliquet porttitor lacus luctus accumsan. Nulla at volutpat . Blandit libero volutpat sed cras ornare arcu dui. ",
-                        style: GoogleFonts.quicksand(
-                          fontSize: 20,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-                SizedBox(height: 20,),
-                Container(
-                  margin: EdgeInsets.only(left: 20, right: 15),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Container(
-                        height: 50,
-                        width: 120,
-                        decoration: BoxDecoration(
-                          color: Color(0xff012a4a),
-                          borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(10),
-                            topRight: Radius.circular(10),
-                            bottomLeft: Radius.circular(10),
-                            bottomRight: Radius.circular(10),
-                          ),
-                        ),
-                        child: Center(
-                          child: Text(
-                            "Update",
-                            style: GoogleFonts.krub(
-                              fontSize: 20,
-                              color: Colors.white,
-                            ),
-                          ),
-                        ),
-                      ),
-                      SizedBox(width: 30,),
-
-                      Container(
-                        height: 50,
-                        width:120,
-                        decoration: BoxDecoration(
-                          color: Color(0xff85031d),
-                          borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(10),
-                            topRight: Radius.circular(10),
-                            bottomLeft: Radius.circular(10),
-                            bottomRight: Radius.circular(10),
-                          ),
-                        ),
-                        child: Center(
-                          child: Text(
-                            "Delete",
-                            style: GoogleFonts.krub(
-                              fontSize: 20,
-                              color: Colors.white,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                SizedBox(height: 20,),
-
 
 
               ],
