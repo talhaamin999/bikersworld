@@ -15,9 +15,13 @@ import 'package:bikersworld/screen/workshop/add_services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 final _formKey = GlobalKey<FormState>();
-String _currentItemselected = 'Electrition';
+String _currentItemselected = 'Electrician';
 
 class AddMechanics extends StatefulWidget {
+
+  Mechanics mechanics;
+  int index;
+  AddMechanics({this.mechanics,this.index});
   @override
   _AddMechanicsState createState() => _AddMechanicsState();
 }
@@ -26,13 +30,25 @@ class _AddMechanicsState extends State<AddMechanics> {
   int currentIndex;
   ToastErrorMessage _error = ToastErrorMessage();
   ToastValidMessage _valid = ToastValidMessage();
+  final TextEditingController mechanicNameController = TextEditingController()..text = '';
+  final TextEditingController mechanicContactController = TextEditingController()..text = '';
+  Mechanics _mechanics;
+  final RegisterMechanicQueries _register = RegisterMechanicQueries();
 
-  final mechanicNameController = TextEditingController();
-  final mechanicContactController = TextEditingController();
-
+  void mapMechanicData(){
+   if(widget.mechanics != null) {
+     _mechanics = Mechanics(
+         name: widget.mechanics.name, contact: widget.mechanics.contact, speciality: widget.mechanics.speciality);
+     _currentItemselected = widget.mechanics.speciality;
+     mechanicNameController.text = widget.mechanics.name;
+     mechanicContactController.text = widget.mechanics.contact;
+   }
+ }
 
   @override
   void initState() {
+    mapMechanicData();
+    print('${widget.index}');
     super.initState();
     currentIndex = 0;
   }
@@ -69,16 +85,19 @@ class _AddMechanicsState extends State<AddMechanics> {
       _error.errorToastMessage(errorMessage: "Mechanic Speciality Must Be Selected");
     }
     else{
-      await registerMechanic();
+      final Mechanics _mecahnicData = Mechanics(name: mechanicNameController.text.trim(),contact: mechanicContactController.text.trim(),speciality: _currentItemselected);
+      if(_mechanics != null) {
+         await updateDocument(mechanics: _mecahnicData, index: widget.index);
+      }else{
+        await registerMechanic(_mecahnicData);
+      }
     }
   }
-  Future<void> registerMechanic() async{
+  Future<void> registerMechanic(Mechanics mecahnicData) async{
     try {
-      final RegisterMechanicQueries _register = RegisterMechanicQueries();
-      final Mechanics _mecahnicData = Mechanics(name: mechanicNameController.text.trim(),contact: mechanicContactController.text.trim(),speciality: _currentItemselected);
-      await _register.regesterMechanic(_mecahnicData);
-      if(RegisterMechanicQueries.resultMessage == 'Mechanic registered successfully'){
-        _valid.validToastMessage(validMessage: RegisterMechanicQueries.resultMessage);
+      await _register.regesterMechanic(mecahnicData);
+      if(RegisterMechanicQueries.registrationResultMessage == 'Mechanic registered successfully'){
+        _valid.validToastMessage(validMessage: RegisterMechanicQueries.registrationResultMessage);
         clear();
         Future.delayed(
           new Duration(seconds: 2),
@@ -88,10 +107,35 @@ class _AddMechanicsState extends State<AddMechanics> {
         );
       }
       else{
-        _error.errorToastMessage(errorMessage: RegisterMechanicQueries.resultMessage);
+        _error.errorToastMessage(errorMessage: RegisterMechanicQueries.registrationResultMessage);
       }
     }catch(e){
       _error.errorToastMessage(errorMessage: e.toString());
+    }
+  }
+  Future<void> updateDocument({@required Mechanics mechanics,@required int index}) async{
+    try {
+      await _register.updateMechanic(mechanics, index);
+      if (RegisterMechanicQueries.updateResultMessage == RegisterMechanicQueries.SUCCESS_UPDATE) {
+        final _valid = ToastValidMessage();
+        _valid.validToastMessage(
+            validMessage: RegisterMechanicQueries.updateResultMessage);
+        clear();
+        Future.delayed(
+            new Duration(seconds: 2),
+                (){
+              Navigator.pop(this.context);
+            }
+        );
+      } else {
+        final _error = ToastErrorMessage();
+        _error.errorToastMessage(
+            errorMessage: RegisterMechanicQueries.updateResultMessage);
+      }
+    }catch(e){
+      final _error = ToastErrorMessage();
+      _error.errorToastMessage(
+          errorMessage: e.toString());
     }
   }
 
@@ -131,7 +175,7 @@ class _AddMechanicsState extends State<AddMechanics> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       SizedBox(height: 20,),
-                      _title(),
+                      _title(_mechanics),
                       SizedBox(height: 20),
                       _registerWorkshopWidget(nameController: mechanicNameController,contactController: mechanicContactController),
                       SizedBox(height: 20),
@@ -155,7 +199,7 @@ class _AddMechanicsState extends State<AddMechanics> {
                                   end: Alignment.centerRight,
                                   colors: [Color(0xfffbb448), Color(0xfff7892b)])),
                           child: Text(
-                            'Submit',
+                            _mechanics != null ? 'Update':'Submit',
                             style: GoogleFonts.krub(
                               fontSize: 20,
                               color: Colors.white,
@@ -163,12 +207,6 @@ class _AddMechanicsState extends State<AddMechanics> {
                           ),
                         ),
                         onPressed: (){
-                          /*Navigator.of(context)
-                              .push(
-                            MaterialPageRoute(
-                                builder: (context) => Workshopdashboard()
-                            ),
-                          );*/
                           if(!_formKey.currentState.validate()){
                             return;
                           }
@@ -216,11 +254,11 @@ Widget _registerWorkshopWidget({@required TextEditingController nameController,@
   );
 }
 
-Widget _title() {
+Widget _title(Mechanics mec) {
   return RichText(
     textAlign: TextAlign.start,
     text: TextSpan(
-        text: 'Add',
+        text: mec != null ? 'Update':'Add',
         style: GoogleFonts.quicksand(
           fontSize: 30,
           color: Color(0xfff7892b),
@@ -240,16 +278,15 @@ Widget _title() {
 
 
 class SpecializationComboBox extends StatefulWidget {
-  SpecializationComboBox({Key key}) : super(key: key);
 
+  SpecializationComboBox({Key key}) : super(key: key);
   @override
   _SpecializationComboBoxState createState() => _SpecializationComboBoxState();
 }
 
 class _SpecializationComboBoxState extends State<SpecializationComboBox> {
 
-  var _dropDownItems = ['Electrition', 'Mechanic', 'Both'];
-
+  var _dropDownItems = ['Electrician', 'Mechanic', 'Both'];
 
   Widget build(BuildContext context) {
     return Container(

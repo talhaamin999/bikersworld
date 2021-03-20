@@ -5,22 +5,26 @@ import '../toast_service.dart';
 
 class RegisterMechanicQueries {
 
-  static final String _WORKSHOP_COLLECTION = "workshop";
-  static final String _MECHANICS_COLLECTION = "mechanics";
-  static final String _SUCCESS = "Mechanic registered successfully";
-  static String resultMessage;
+  static final String WORKSHOP_COLLECTION = "workshop";
+  static final String MECHANICS_COLLECTION = "mechanics";
+  static final String SUCCESS_Registeration = "Mechanic registered successfully";
+  static final String SUCCESS_DELETION = "Mechanic deleted successfully";
+  static final String SUCCESS_UPDATE = "Mechanic Information Updated";
+  static String registrationResultMessage;
+  static String deletionResultMessage;
+  static String updateResultMessage;
 
   final _firebaseUser = FirebaseAuth.instance.currentUser;
 
   final CollectionReference _collectionReference = FirebaseFirestore.instance
-      .collection(_WORKSHOP_COLLECTION);
+      .collection(WORKSHOP_COLLECTION);
 
   Future<void> regesterMechanic(Mechanics data) async {
     try {
       await _collectionReference.doc(_firebaseUser.uid).collection(
-          _MECHANICS_COLLECTION).add(data.toMap())
-          .then((_) => resultMessage = 'Mechanic registered successfully')
-          .catchError((error) => resultMessage = error.toString());
+          MECHANICS_COLLECTION).add(data.toMap())
+          .then((_) => registrationResultMessage = 'Mechanic registered successfully')
+          .catchError((error) => registrationResultMessage = error.toString());
     } on FirebaseException catch (e) {
       ToastErrorMessage errorMessage = ToastErrorMessage();
       errorMessage.errorToastMessage(
@@ -29,11 +33,38 @@ class RegisterMechanicQueries {
   }
   Stream<List<Mechanics>> getMechanics(){
     return _collectionReference.doc(_firebaseUser.uid).collection(
-        _MECHANICS_COLLECTION)
+        MECHANICS_COLLECTION)
         .snapshots()
         .map((snapshot) => snapshot.docs
         .map((doc) => Mechanics.fromJson(doc.data()))
         .toList());
   }
+  Future<void> deleteMechanic(int index) async {
+    try {
+      QuerySnapshot _querySnapshot = await _collectionReference.doc(_firebaseUser.uid).collection(
+          MECHANICS_COLLECTION).get();
+           _querySnapshot.docs[index].reference.delete()
+          .then((_) => deletionResultMessage = SUCCESS_DELETION)
+          .catchError((error) => deletionResultMessage = error.toString());
+    } on FirebaseException catch (e) {
+      ToastErrorMessage errorMessage = ToastErrorMessage();
+      errorMessage.errorToastMessage(
+          errorMessage: e.toString());
+    }
+  }
+  Future<void> updateMechanic(Mechanics data,int index) async {
+    try {
+      QuerySnapshot _querySnapshot = await _collectionReference.doc(_firebaseUser.uid).collection(
+          MECHANICS_COLLECTION).get();
+      _querySnapshot.docs[index].reference.update(data.toMap())
+    .then((_) => updateResultMessage = SUCCESS_UPDATE)
+      .catchError((onError) => updateResultMessage = onError.toString());
+    } on FirebaseException catch (e) {
+      ToastErrorMessage errorMessage = ToastErrorMessage();
+      errorMessage.errorToastMessage(
+          errorMessage: e.toString());
+    }
+  }
+
 }
 
