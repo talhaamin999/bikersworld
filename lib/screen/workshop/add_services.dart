@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:developer';
-
 import 'package:bikersworld/model/workshop_model.dart';
 import 'package:bikersworld/services/toast_service.dart';
 import 'package:bikersworld/services/validate_service.dart';
@@ -10,6 +9,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:bikersworld/widgets/drawer.dart';
 import 'package:bikersworld/widgets/customeTextArea.dart';
@@ -17,8 +17,12 @@ import 'package:bikersworld/screen/workshop/workshop_dashboard.dart';
 
 ToastErrorMessage _error = ToastErrorMessage();
 ToastValidMessage _valid = ToastValidMessage();
+String _currentCategorySelected = 'Mechanical';
 
 class AddServices extends StatefulWidget {
+  final Services service;
+  final int index;
+  AddServices({this.service,this.index});
   @override
   _AddServicesState createState() => _AddServicesState();
 }
@@ -27,8 +31,9 @@ class _AddServicesState extends State<AddServices> {
 
   int currentIndex;
   String _cityName;
+  Services _serviceInfo;
+  int documentIndex;
   final _serviceTitleController = TextEditingController();
-  final _serviceCategoryController = TextEditingController();
   final _servicePriceController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   final WorkshopServiceQueries _add = WorkshopServiceQueries();
@@ -37,6 +42,7 @@ class _AddServicesState extends State<AddServices> {
   @override
   void initState() {
     cityName();
+    mapServiceData();
     super.initState();
     currentIndex = 0;
   }
@@ -44,16 +50,28 @@ class _AddServicesState extends State<AddServices> {
   void dispose() {
     _serviceTitleController.dispose();
     _servicePriceController.dispose();
-    _serviceCategoryController.dispose();
     super.dispose();
   }
   void clear(){
 
     _formKey.currentState.reset();
     _serviceTitleController.clear();
-    _serviceCategoryController.clear();
     _servicePriceController.clear();
 
+  }
+  void mapServiceData(){
+    if(widget.service != null) {
+      _serviceInfo = Services(title: widget.service.title,
+          category: widget.service.category,
+          price: widget.service.price,
+          workshopCity: widget.service.workshopCity,
+          workshopId: widget.service.workshopCity);
+      _serviceTitleController.text = widget.service.title;
+      _servicePriceController.text = widget.service.price.toString();
+      _currentCategorySelected = widget.service.category;
+      documentIndex = widget.index;
+      print(documentIndex.toString());
+    }
   }
 
   Future cityName() async{
@@ -69,10 +87,10 @@ class _AddServicesState extends State<AddServices> {
 
     final ValidateWorkshopServices service = ValidateWorkshopServices();
     final int _price = int.tryParse(_servicePriceController.text.trim());
-    if(!service.validateServiceCategory(_serviceCategoryController.text.trim()) && !service.validateServiceTitle(_serviceTitleController.text.trim()) && !service.validateServicePrice(_price)){
+    if(!service.validateServiceCategory(_currentCategorySelected) && !service.validateServiceTitle(_serviceTitleController.text.trim()) && !service.validateServicePrice(_price)){
       _error.errorToastMessage(errorMessage: "Enter Valid Data in Each Field");
     }
-    else if(!service.validateServiceCategory(_serviceCategoryController.text.trim())){
+    else if(!service.validateServiceCategory(_currentCategorySelected)){
       _error.errorToastMessage(errorMessage: "Service Category Must Only contain Alphabets");
     }
     else if(!service.validateServiceTitle(_serviceTitleController.text.trim())){
@@ -82,13 +100,17 @@ class _AddServicesState extends State<AddServices> {
       _error.errorToastMessage(errorMessage: "Service Price must be less than or equal to 2000");
     }
     else{
-     await addService(_price);
+      if(widget.service != null){
+        await updateService(_price);
+      }else {
+        await addService(_price);
+      }
     }
   }
   Future<void> addService(int price) async{
   try {
 
-      Services data = Services(title: _serviceTitleController.text.trim(), category: _serviceCategoryController.text.trim(), price: price, workshopCity: _cityName, workshopId: _firebaseUser.uid);
+      Services data = Services(title: _serviceTitleController.text.trim(), category: _currentCategorySelected, price: price, workshopCity: _cityName, workshopId: _firebaseUser.uid);
       await _add.addWorkshopService(data);
       if(WorkshopServiceQueries.resultMessage == WorkshopServiceQueries.completionMessage){
         _valid.validToastMessage(validMessage: WorkshopServiceQueries.resultMessage);
@@ -107,6 +129,27 @@ class _AddServicesState extends State<AddServices> {
        _error.errorToastMessage(errorMessage: e.toString());
     }
 }
+  Future<void> updateService(int price) async{
+    try {
+      final Services data = Services(title: _serviceTitleController.text.trim(), category: _currentCategorySelected, price: price, workshopCity: _serviceInfo.workshopCity, workshopId: _serviceInfo.workshopId);
+      await _add.updateService(data, documentIndex);
+      if(WorkshopServiceQueries.updateResultMessage == WorkshopServiceQueries.SUCCESS_UPDATE){
+        _valid.validToastMessage(validMessage: WorkshopServiceQueries.updateResultMessage);
+        clear();
+        Future.delayed(
+          new Duration(seconds: 2),
+              (){
+            Navigator.pop(context);
+          },
+        );
+      }
+      else{
+        _error.errorToastMessage(errorMessage: WorkshopServiceQueries.updateResultMessage);
+      }
+    }catch(e){
+      _error.errorToastMessage(errorMessage: e.toString());
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -144,7 +187,7 @@ class _AddServicesState extends State<AddServices> {
                       SizedBox(height: 30,),
                       _title(),
                       SizedBox(height: 40),
-                      _addServicesWidget(categoryController: _serviceCategoryController,titleController: _serviceTitleController,priceController: _servicePriceController,formKey: _formKey),
+                      _addServicesWidget(titleController: _serviceTitleController,priceController: _servicePriceController,formKey: _formKey),
                       SizedBox(height: 20),
                       FlatButton(
                       child: Container(
@@ -193,13 +236,13 @@ class _AddServicesState extends State<AddServices> {
     );
   }
 }
-Widget _addServicesWidget({@required TextEditingController categoryController,@required TextEditingController titleController,@required TextEditingController priceController,@required GlobalKey formKey}) {
+Widget _addServicesWidget({@required TextEditingController titleController,@required TextEditingController priceController,@required GlobalKey formKey}) {
   return Form(
     key: formKey,
     autovalidateMode: AutovalidateMode.disabled,
     child: Column(
       children: <Widget>[
-        EntryField(title: "Category",hintText: 'Mechanical',controller: categoryController,inputType: TextInputType.text,filter: FilteringTextInputFormatter.allow(RegExp("[a-zA-Z ]"))),
+        SpecializationComboBox(),
         SizedBox(height:15,),
         EntryField(title: "Title",hintText: 'wheel barring',controller: titleController,inputType: TextInputType.text,filter: FilteringTextInputFormatter.allow(RegExp("[a-zA-Z ]"))),
         SizedBox(height:15,),
@@ -228,4 +271,55 @@ Widget _title() {
           ),
         ]),
   );
+}
+class SpecializationComboBox extends StatefulWidget {
+
+  SpecializationComboBox({Key key}) : super(key: key);
+  @override
+  _SpecializationComboBoxState createState() => _SpecializationComboBoxState();
+}
+
+class _SpecializationComboBoxState extends State<SpecializationComboBox> {
+
+  var _dropDownItems = ['Mechanical', 'Electrical', 'Tuning'];
+
+  Widget build(BuildContext context) {
+    return Container(
+      color: Color(0xfff3f3f4),
+      width: 380,
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: DropdownButton<String>(
+          value: _currentCategorySelected,
+          icon: Container(
+            margin: EdgeInsets.only(left: 200),
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(35.0, 0, 0, 0),
+              child: Icon(
+                FontAwesomeIcons.caretDown,
+              ),
+            ),
+          ),
+          iconSize: 24,
+          elevation: 16,
+          style: TextStyle(color: Colors.black,),
+          underline: Container(
+            height: 2,
+          ),
+          onChanged: (String newValue) {
+            setState(() {
+              _currentCategorySelected = newValue;
+            });
+          },
+          items: _dropDownItems
+              .map((String dropDownStringItem) {
+            return DropdownMenuItem<String>(
+              value: dropDownStringItem,
+              child: Text(dropDownStringItem, style: GoogleFonts.quicksand(fontSize: 15)),
+            );
+          }).toList(),
+        ),
+      ),
+    );
+  }
 }

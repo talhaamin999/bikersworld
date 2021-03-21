@@ -12,9 +12,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:bikersworld/screen/workshop/services/referenceWorkshop.dart';
 import 'package:bikersworld/screen/workshop/add_mechanics.dart';
-import 'package:bikersworld/screen/workshop/services/electricalService.dart';
-import 'package:bikersworld/screen/workshop/services/mechanicalService.dart';
-import 'package:bikersworld/screen/workshop/services/oilAndTuning.dart';
+import 'package:bikersworld/screen/workshop/services/service_category.dart';
 import 'package:bikersworld/screen/workshop/add_services.dart';
 import 'package:bikersworld/screen/workshop/reviews/reviews.dart';
 import 'package:bikersworld/screen/workshop/view_mechanics.dart';
@@ -352,7 +350,7 @@ class Dashboard extends StatelessWidget {
                       ),
                     ),
                     onPressed: (){
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => mechanicalService()));
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => ServiceCategoryInformation(serviceCategory: 'Mechanical',)));
                     },
                   ),
 
@@ -374,7 +372,7 @@ class Dashboard extends StatelessWidget {
                       ),
                     ),
                     onPressed: (){
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => electricalService()));
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => ServiceCategoryInformation(serviceCategory: 'Electrical',)));
                     },
                   ),
 
@@ -391,12 +389,12 @@ class Dashboard extends StatelessWidget {
                           backgroundColor: Color(0xffecf0f1),
                           child: Icon(FontAwesomeIcons.oilCan, color: Color(0xff2ecc71),),
                         ),
-                        title: Text("Oil and Tuning"),
+                        title: Text("Tuning"),
 
                       ),
                     ),
                     onPressed: (){
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => oilTuningService()));
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => ServiceCategoryInformation(serviceCategory: 'Tuning',)));
                     },
                   ),
 
