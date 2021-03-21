@@ -56,14 +56,14 @@ class _ServiceCategoryInformationState extends State<ServiceCategoryInformation>
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-          title: Text(
-            'BIKERSWORLD',
-            style: GoogleFonts.quicksand(
-              color: Colors.white,
-              fontSize: 18,
+            title: Text(
+              'BIKERSWORLD',
+              style: GoogleFonts.quicksand(
+                color: Colors.white,
+                fontSize: 18,
+              ),
             ),
-          ),
-          backgroundColor: Color(0XFF012A4A),
+            backgroundColor: Color(0XFF012A4A),
             leading: IconButton(icon:Icon(Icons.arrow_back, color: Colors.orange,),
               onPressed:() => Navigator.pop(context),
             )
@@ -122,11 +122,6 @@ class _ServiceCategoryInformationState extends State<ServiceCategoryInformation>
                                         ListTile(
                                           title: Row(
                                             children: [
-                                              CircleAvatar(
-                                                  child: Icon(Icons.person)),
-                                              SizedBox(
-                                                width: 10,
-                                              ),
                                               Text(
                                                 snapshot.data[index].title,
                                                 style: GoogleFonts.raleway(
@@ -179,7 +174,7 @@ class _ServiceCategoryInformationState extends State<ServiceCategoryInformation>
                                           onPressed: () {
                                             final _service = Services(title: snapshot.data[index].title, category: snapshot.data[index].category, price: snapshot.data[index].price, workshopCity: snapshot.data[index].workshopCity, workshopId: snapshot.data[index].workshopId);
                                             Navigator.of(context)
-                                            .push(MaterialPageRoute(builder: (context) => AddServices(service: _service,index: index,)));
+                                                .push(MaterialPageRoute(builder: (context) => AddServices(service: _service,index: index,)));
                                           },
                                         ),
                                         const SizedBox(width: 8),

@@ -1,15 +1,9 @@
-import 'dart:async';
-import 'package:bikersworld/screen/autoPartStore/autoPartStoreDashboardOwner.dart';
 import 'package:bikersworld/screen/dashboard/workshop/workshopGrid.dart';
-import 'package:bikersworld/screen/onboarding/onboarding.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:bikersworld/widgets/drawer.dart';
-import 'package:bubble_bottom_bar/bubble_bottom_bar.dart';
 import 'package:flutter/rendering.dart';
-import 'package:carousel_pro/carousel_pro.dart';
-import 'package:bikersworld/screen/dashboard/Autopart/partDetail.dart';
 import 'package:bikersworld/screen/dashboard/findMorePage.dart';
 import 'package:bikersworld/screen/dashboard/Autopart/partGrid.dart';
 import 'package:bikersworld/screen/dashboard/searchPages/workshopSearchPage.dart';
@@ -17,10 +11,9 @@ import 'package:bikersworld/screen/dashboard/searchPages/autoPartSearchPage.dart
 import 'package:bikersworld/screen/dashboard/searchPages/autoPartStoreSearchPage.dart';
 import 'package:bikersworld/screen/dashboard/Ads/AdDetail.dart';
 import 'package:bikersworld/screen/dashboard/searchPages/adsSearchPage.dart';
-import 'package:bikersworld/screen/dashboard/Ads/postAdsSeller.dart';
 import 'package:bikersworld/screen/loginSignup/signup.dart';
 import 'package:bikersworld/screen/dashboard/AutoPartStore/autoPartStoreGrid.dart';
-import 'package:bikersworld/screen/dashboard/Autopart/partGrid.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class HomeDashboard extends StatefulWidget {
   @override
@@ -50,6 +43,7 @@ class _HomeDashboardState extends State<HomeDashboard>  with SingleTickerProvide
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
+        backgroundColor: Color(0xffe8e8e8),
         appBar: AppBar(
           title: Text(
             'BIKERSWORLD',
@@ -60,126 +54,158 @@ class _HomeDashboardState extends State<HomeDashboard>  with SingleTickerProvide
           ),
           backgroundColor: Color(0XFF012A4A),
           iconTheme: IconThemeData(color: Color(0xfffbb448)),
+          bottomOpacity: 0.0,
+          elevation: 0.0,
         ),
         body: SingleChildScrollView(
           child: Container(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SizedBox(
-                  height: 15,
-                ),
-
                 Container(
-                  child:SizedBox(
-                      height: 250.0,
-                      width: double.infinity,
-                      child: Carousel(
-                        images: [
-                          AssetImage("assets/slider_image2.webp"),
-                          AssetImage("assets/slider_image3.jpeg"),
-                          AssetImage("assets/slider_image1.png"),
-                        ],
-                      )
+                  height: 85,
+                  width: MediaQuery.of(context).size.width,
+                  color: Color(0XFF012A4A),
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(vertical: 8 , horizontal: 15),
+                      child: Container(
+                        child: TextField(
+                            decoration: new InputDecoration(
+                                border: new OutlineInputBorder(
+                                  borderRadius: const BorderRadius.all(
+                                    const Radius.circular(50),
+                                  ),
+                                ),
+                                filled: true,
+                                hintStyle: GoogleFonts.quicksand(color: Colors.black, fontSize:15),
+                                hintText: "Search Anything",
+                                prefixIcon: Icon(Icons.search, size: 25,),
+                                fillColor: Colors.white),
+                          ),
+                        ),
+                  )
+                ),
+                Container(
+                  height: 230,
+                  width: MediaQuery.of(context).size.width,
+                  color: Colors.white,
+                  child: Column(
+                    children: [
+                      Container(
+                        width: MediaQuery.of(context).size.width,
+                        height: 60,
+                        color: Color(0xffe0e0e0),
+                        child: Padding(
+                          padding: const EdgeInsets.all(15),
+                          child: Text(
+                            "Category",
+                            style: GoogleFonts.varelaRound(
+                              fontSize: 20,
+                              color: Colors.black,
+                            ),
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top:10),
+                        child: Container(
+                          child: Column(
+                            children: [
+                              Container(
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    Container(
+                                      child: Column(
+                                        children: [
+                                          Icon(
+                                            FontAwesomeIcons.ad,
+                                            color: Color(0xffc2c2c2),
+                                            size: 40,
+                                          ),
+                                          Text(
+                                            "Adertisement",
+                                            style: TextStyle(
+                                              color: Color(0xffc2c2c2),
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                    SizedBox(),
+                                    Container(
+                                      child: Column(
+                                        children: [
+                                          Icon(
+                                            Icons.build,
+                                            color: Color(0xffc2c2c2),
+                                            size: 40,
+                                          ),
+                                          Text(
+                                            "Workshops",
+                                            style: TextStyle(
+                                              color: Color(0xffc2c2c2),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              SizedBox(height:20),
+                              Container(
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    Container(
+                                      child: Column(
+                                        children: [
+                                          Icon(
+                                            Icons.speed,
+                                            color: Color(0xffc2c2c2),
+                                            size: 40,
+                                          ),
+                                          Text(
+                                            "Auto Parts",
+                                            style: TextStyle(
+                                              color: Color(0xffc2c2c2),
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                    SizedBox(),
+                                    Container(
+                                      child: Column(
+                                        children: [
+                                          Icon(
+                                            FontAwesomeIcons.store,
+                                            color: Color(0xffc2c2c2),
+                                            size: 30,
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.only(top:8.0),
+                                            child: Text(
+                                              "Auto Part Store",
+                                              style: TextStyle(
+                                                color: Color(0xffc2c2c2),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-                SizedBox(height:20),
-                Container(
-                    height: 50,
-                    child: ListView(
-                      scrollDirection: Axis.horizontal,
-                      children: <Widget>[
-                        
-                        FlatButton(
-                          onPressed: (){
-                            Navigator.push(context, MaterialPageRoute(builder: (context) => adSearchPage()));
-                          },
-                          child: Container(
-                            width: 110.0,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(50),
-                              color: Color(0XFF012A4A),
-                            ),
-                            child: Center(
-                              child: Text(
-                                "Look Ads",
-                                style: GoogleFonts.quicksand(
-                                  fontSize: 15,
-                                  color: Colors.white,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                        FlatButton(
-                          onPressed: (){
-                            Navigator.push(context, MaterialPageRoute(builder: (context) => autoPartStoreSearchPage()));
-                          },
-                          child: Container(
-                            width: 150,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(50),
-                              color: Color(0XFF012A4A),
-                            ),
-                            child: Center(
-                              child: Text(
-                                "Auto Parts Store",
-                                style: GoogleFonts.quicksand(
-                                  fontSize: 15,
-                                  color: Colors.white,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-
-                        FlatButton(
-                          onPressed: (){
-                            Navigator.push(context, MaterialPageRoute(builder: (context) => workshopSearchPage()));
-                          },
-                          child: Container(
-                            width: 120.0,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(50),
-                              color: Color(0XFF012A4A),
-                            ),
-                            child: Center(
-                              child: Text(
-                                "Workshops",
-                                style: GoogleFonts.quicksand(
-                                  fontSize: 15,
-                                  color: Colors.white,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-
-                        FlatButton(
-                          onPressed: (){
-                            Navigator.push(context, MaterialPageRoute(builder: (context) => AutoPartSearchPage()));
-                          },
-                          child: Container(
-                            width: 110,
-                            decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(50),
-                              color: Color(0XFF012A4A),
-                            ),
-                            child: Center(
-                              child: Text(
-                                "Auto Parts",
-                                style: GoogleFonts.quicksand(
-                                  fontSize: 15,
-                                  color: Colors.white,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-
                 SizedBox(height: 25,),
                 Container(
                   width: double.infinity,
