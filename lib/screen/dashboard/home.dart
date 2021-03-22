@@ -107,7 +107,7 @@ class _HomeDashboardState extends State<HomeDashboard>  with SingleTickerProvide
                         ),
                       ),
                       Padding(
-                        padding: const EdgeInsets.only(top:10),
+                        padding: const EdgeInsets.only(top:15),
                         child: Container(
                           child: Column(
                             children: [
@@ -159,6 +159,7 @@ class _HomeDashboardState extends State<HomeDashboard>  with SingleTickerProvide
                                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                   children: [
                                     Container(
+                                      margin:EdgeInsets.only(left:13),
                                       child: Column(
                                         children: [
                                           Icon(

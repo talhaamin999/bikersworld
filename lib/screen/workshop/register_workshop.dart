@@ -1,20 +1,14 @@
 import 'dart:async';
-import 'package:bikersworld/model/workshop_model.dart';
 import 'package:bikersworld/screen/workshop/workshop_dashboard.dart';
 import 'package:bikersworld/services/toast_service.dart';
 import 'package:bikersworld/services/validate_service.dart';
 import 'package:bikersworld/services/workshop_queries/workshop_queries.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
-import 'package:path/path.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:bikersworld/widgets/drawer.dart';
-import 'package:bikersworld/screen/workshop/add_services.dart';
-import 'package:bikersworld/screen/workshop/add_services.dart';
-import 'package:country_state_city_picker/country_state_city_picker.dart';
+import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 
 ToastErrorMessage error = ToastErrorMessage();
 ToastValidMessage valid = ToastValidMessage();
@@ -168,6 +162,9 @@ class _RegisterWorkshopState extends State<RegisterWorkshop> {
       error.errorToastMessage(errorMessage: e.toString());
     }
   }
+
+
+
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
@@ -283,12 +280,42 @@ Widget _entryField(String title,TextEditingController controller,TextInputType i
 }
 Widget _registerWorkshopWidget({@required TextEditingController shopTitleController,@required TextEditingController shopCityController,@required TextEditingController shopSpecificAreaController,@required TextEditingController ownerNameController,@required TextEditingController ownerContactController}) {
 
+  DateTime _dateTime = DateTime.now();
+
   return Column(
     children: <Widget>[
       _entryField("Workshop Name",shopTitleController,TextInputType.text,FilteringTextInputFormatter.allow(RegExp("[a-zA-Z ]")),_isTitleEmpty),
       _entryField("City",shopCityController,TextInputType.text,FilteringTextInputFormatter.allow(RegExp("[a-zA-Z ]")),_isCityEmpty),
-      _entryField("Specific Area",shopSpecificAreaController,TextInputType.text,FilteringTextInputFormatter.allow(RegExp("[a-zA-Z ]")),_isAreaEmpty),
+      _entryField("Address",shopSpecificAreaController,TextInputType.text,FilteringTextInputFormatter.allow(RegExp("[a-zA-Z ]")),_isAreaEmpty),
 
+      SizedBox(height:10),
+      Container(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+                "Workshop Time",
+                style: GoogleFonts.quicksand(
+                  fontSize: 18,
+                )
+            ),
+
+            SizedBox(height: 20,),
+            SizedBox(
+              height: 100,
+              child: CupertinoDatePicker(
+                backgroundColor: Colors.white54,
+                  initialDateTime: _dateTime,
+                  onDateTimeChanged: (dateTime){
+                    _dateTime = dateTime;
+                  }
+              ),
+            ),
+
+          ],
+        ),
+      ),
       Container(
         margin: EdgeInsets.symmetric(vertical: 30),
         child: Row(
@@ -348,54 +375,3 @@ Widget _title(String value) {
   );
 }
 
-
-
-//
-//class cityPicker extends StatefulWidget {
-//  @override
-//  _cityPickerState createState() => _cityPickerState();
-//}
-//
-//class _cityPickerState extends State<cityPicker> {
-//  String cityValue;
-//  String countryValue;
-//  String stateValue;
-//  @override
-//  Widget build(BuildContext context) {
-//    return Container(
-//        padding: EdgeInsets.symmetric(horizontal: 20),
-//        height: 600,
-//        child:
-//        Column(
-//          children: [
-//            SelectState(
-//              onCountryChanged: (value) {
-//                setState(() {
-//                  countryValue = value;
-//                });
-//              },
-//              onStateChanged:(value) {
-//                setState(() {
-//                  stateValue = value;
-//                });
-//              },
-//              onCityChanged:(value) {
-//                setState(() {
-//                  cityValue = value;
-//                });
-//              },
-//
-//            ),
-//            // InkWell(
-//            //   onTap:(){
-//            //     print('country selected is $countryValue');
-//            //     print('country selected is $stateValue');
-//            //     print('country selected is $cityValue');
-//            //   },
-//            //   child: Text(' Check')
-//            // )
-//          ],
-//        )
-//    );
-//  }
-//}
