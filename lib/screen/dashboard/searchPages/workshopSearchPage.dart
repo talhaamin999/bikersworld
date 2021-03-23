@@ -84,7 +84,7 @@ class _workshopSearchPageState extends State<workshopSearchPage> {
                     ),
                     FlatButton(
                       onPressed: (){
-                        print('Alphabetically sorting');
+                        print('Alphabetically sort');
                       },
                       child: Container(
                         child:Row(
