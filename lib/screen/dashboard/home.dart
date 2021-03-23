@@ -14,6 +14,8 @@ import 'package:bikersworld/screen/dashboard/searchPages/adsSearchPage.dart';
 import 'package:bikersworld/screen/loginSignup/signup.dart';
 import 'package:bikersworld/screen/dashboard/AutoPartStore/autoPartStoreGrid.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:bikersworld/widgets/search_text_field.dart';
+
 
 class HomeDashboard extends StatefulWidget {
   @override
@@ -69,19 +71,7 @@ class _HomeDashboardState extends State<HomeDashboard>  with SingleTickerProvide
                     child: Padding(
                       padding: EdgeInsets.symmetric(vertical: 8 , horizontal: 15),
                       child: Container(
-                        child: TextField(
-                            decoration: new InputDecoration(
-                                border: new OutlineInputBorder(
-                                  borderRadius: const BorderRadius.all(
-                                    const Radius.circular(50),
-                                  ),
-                                ),
-                                filled: true,
-                                hintStyle: GoogleFonts.quicksand(color: Colors.black, fontSize:15),
-                                hintText: "Search Anything",
-                                prefixIcon: Icon(Icons.search, size: 25,),
-                                fillColor: Colors.white),
-                          ),
+                        child: SearchTextField(),
                         ),
                   )
                 ),

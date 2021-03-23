@@ -22,7 +22,7 @@ showDialogFunc(context) {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
                 Text(
-                  "Workshop Information",
+                  "Refine Your Search",
                   style: GoogleFonts.quicksand(
                     fontSize: 20,
                     color: Color(0XFF012A4A),
@@ -38,74 +38,8 @@ showDialogFunc(context) {
                       Container(
                         child: Row(
                           children: [
-                            Icon(Icons.person),
-                            SizedBox(width: 25,),
                             Text(
-                              "",
-                              style: GoogleFonts.raleway(
-                                color: Colors.black,
-                                fontSize: 17,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      SizedBox(height: 20,),
-                      Container(
-                        child: Row(
-                          children: [
-                            Icon(FontAwesomeIcons.warehouse),
-                            SizedBox(width: 25,),
-                            Text(
-                              "",
-                              style:  GoogleFonts.raleway(
-                                color: Colors.black,
-                                fontSize: 17,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      SizedBox(height: 20,),
-                      Container(
-                        child: Row(
-                          children: [
-                            Icon(FontAwesomeIcons.city),
-                            SizedBox(width: 25,),
-                            Text(
-                              "",
-                              style: GoogleFonts.raleway(
-                                color: Colors.black,
-                                fontSize: 17,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      SizedBox(height: 20,),
-                      Container(
-                        child: Row(
-                          children: [
-                            Icon(FontAwesomeIcons.mapMarkedAlt),
-                            SizedBox(width: 25,),
-                            Text(
-                              "",
-                              style: GoogleFonts.raleway(
-                                color: Colors.black,
-                                fontSize: 17,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      SizedBox(height: 20,),
-                      Container(
-                        child: Row(
-                          children: [
-                            Icon(FontAwesomeIcons.phone),
-                            SizedBox(width: 25,),
-                            Text(
-                              "",
+                              "q",
                               style: GoogleFonts.raleway(
                                 color: Colors.black,
                                 fontSize: 17,

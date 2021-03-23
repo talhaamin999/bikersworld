@@ -8,7 +8,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:bikersworld/widgets/drawer.dart';
-import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:bikersworld/widgets/time_picker.dart';
+
 
 ToastErrorMessage error = ToastErrorMessage();
 ToastValidMessage valid = ToastValidMessage();
@@ -280,10 +282,42 @@ Widget _entryField(String title,TextEditingController controller,TextInputType i
 }
 Widget _registerWorkshopWidget({@required TextEditingController shopTitleController,@required TextEditingController shopCityController,@required TextEditingController shopSpecificAreaController,@required TextEditingController ownerNameController,@required TextEditingController ownerContactController}) {
 
-  DateTime _dateTime = DateTime.now();
+  var _dropDownItems = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'friday', 'Saturday', 'Sunday'];
+  String _currentItemselected = 'Monday';
+  TimeOfDay _currentTime = new TimeOfDay.now();
 
   return Column(
     children: <Widget>[
+      Container(
+        margin: EdgeInsets.symmetric(vertical: 30),
+        child: Row(
+          children: <Widget>[
+            SizedBox(
+              width: 30,
+            ),
+            Expanded(
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 10),
+                child: Divider(
+                  thickness: 1,
+                ),
+              ),
+            ),
+            Text('Workshop Information' ,style: GoogleFonts.quicksand(fontSize: 16, fontWeight: FontWeight.w600),),
+            Expanded(
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 10),
+                child: Divider(
+                  thickness: 1,
+                ),
+              ),
+            ),
+            SizedBox(
+              width: 20,
+            ),
+          ],
+        ),
+      ),
       _entryField("Workshop Name",shopTitleController,TextInputType.text,FilteringTextInputFormatter.allow(RegExp("[a-zA-Z ]")),_isTitleEmpty),
       _entryField("City",shopCityController,TextInputType.text,FilteringTextInputFormatter.allow(RegExp("[a-zA-Z ]")),_isCityEmpty),
       _entryField("Address",shopSpecificAreaController,TextInputType.text,FilteringTextInputFormatter.allow(RegExp("[a-zA-Z ]")),_isAreaEmpty),
@@ -294,22 +328,201 @@ Widget _registerWorkshopWidget({@required TextEditingController shopTitleControl
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-                "Workshop Time",
-                style: GoogleFonts.quicksand(
-                  fontSize: 18,
-                )
+            Container(
+              margin: EdgeInsets.symmetric(vertical: 30),
+              child: Row(
+                children: <Widget>[
+                  SizedBox(
+                    width: 30,
+                  ),
+                  Expanded(
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 10),
+                      child: Divider(
+                        thickness: 1,
+                      ),
+                    ),
+                  ),
+                  Text('Workshop Status' ,style: GoogleFonts.quicksand(fontSize: 16, fontWeight: FontWeight.w600),),
+                  Expanded(
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 10),
+                      child: Divider(
+                        thickness: 1,
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    width: 20,
+                  ),
+                ],
+              ),
             ),
 
+            SizedBox(height: 15,),
+            Container(
+              child:  Text(
+                  "Day",
+                  style: GoogleFonts.quicksand(
+                    fontSize: 18,
+                  )
+              ),
+            ),
+            Container(
+              child: Row(
+                children: [
+                  Container(
+                    child: Column(
+                      children: [
+                        SizedBox(height: 20,),
+                        Text(
+                          "Open",
+                        ),
+                        SizedBox(height: 10,),
+                        Container(
+                          color: Color(0xfff3f3f4),
+                          width: 160,
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: DropdownButton<String>(
+                              value: _currentItemselected,
+                              icon: Container(
+                                margin: EdgeInsets.only(left: 10),
+                                child: Padding(
+                                  padding: const EdgeInsets.fromLTRB(15.0, 0, 0, 0),
+                                  child: Icon(
+                                    FontAwesomeIcons.caretDown,
+                                  ),
+                                ),
+                              ),
+                              iconSize: 24,
+                              elevation: 16,
+                              style: TextStyle(color: Colors.black,),
+                              underline: Container(
+                                height: 2,
+                              ),
+                              onChanged: (String newValue) {
+//                      setState(() {
+//                        _currentItemselected = newValue;
+//                      });
+                              },
+                              items: _dropDownItems
+                                  .map((String dropDownStringItem) {
+                                return DropdownMenuItem<String>(
+                                  value: dropDownStringItem,
+                                  child: Text(dropDownStringItem, style: GoogleFonts.quicksand(fontSize: 15)),
+                                );
+                              }).toList(),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(width: 30,),
+                  Container(
+                    child: Column(
+                      children: [
+                        SizedBox(height: 20,),
+                        Text(
+                          "Close",
+                        ),
+                        SizedBox(height: 10,),
+                        Container(
+                          color: Color(0xfff3f3f4),
+                          width: 160,
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: DropdownButton<String>(
+                              value: _currentItemselected,
+                              icon: Container(
+                                margin: EdgeInsets.only(left: 10),
+                                child: Padding(
+                                  padding: const EdgeInsets.fromLTRB(15.0, 0, 0, 0),
+                                  child: Icon(
+                                    FontAwesomeIcons.caretDown,
+                                  ),
+                                ),
+                              ),
+                              iconSize: 24,
+                              elevation: 16,
+                              style: TextStyle(color: Colors.black,),
+                              underline: Container(
+                                height: 2,
+                              ),
+                              onChanged: (String newValue) {
+//                      setState(() {
+//                        _currentItemselected = newValue;
+//                      });
+                              },
+                              items: _dropDownItems
+                                  .map((String dropDownStringItem) {
+                                return DropdownMenuItem<String>(
+                                  value: dropDownStringItem,
+                                  child: Text(dropDownStringItem, style: GoogleFonts.quicksand(fontSize: 15)),
+                                );
+                              }).toList(),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
             SizedBox(height: 20,),
-            SizedBox(
-              height: 100,
-              child: CupertinoDatePicker(
-                backgroundColor: Colors.white54,
-                  initialDateTime: _dateTime,
-                  onDateTimeChanged: (dateTime){
-                    _dateTime = dateTime;
-                  }
+
+            Container(
+              child:  Text(
+                  "Date",
+                  style: GoogleFonts.quicksand(
+                    fontSize: 18,
+                  )
+              ),
+            ),
+            Container(
+              child: Row(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(left:15),
+                    child: Container(
+                      child: Column(
+                        children: [
+                          SizedBox(height: 20,),
+                          Text(
+                            "Opening Time",
+                            style: GoogleFonts.quicksand(
+                              fontSize: 15,
+                            ),
+                          ),
+                          SizedBox(height: 10,),
+                          Container(
+                            child: TimePicker(),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  SizedBox(width: 30,),
+                  Container(
+                    child: Column(
+                      children: [
+                        SizedBox(height: 20,),
+                        Text(
+                          "Closing Time",
+                          style: GoogleFonts.quicksand(
+                            fontSize: 15,
+                          ),
+                        ),
+                        SizedBox(height: 10,),
+                        Container(
+                          child: TimePicker(),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
               ),
             ),
 

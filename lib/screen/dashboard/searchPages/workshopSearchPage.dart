@@ -1,13 +1,11 @@
-import 'package:bikersworld/widgets/customtiextfield.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:bikersworld/widgets/drawer.dart';
-import 'package:bikersworld/widgets/customeTextArea.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:bikersworld/screen/dashboard/normalUser/workshopDashboard.dart';
-
+import 'package:bikersworld/widgets/search_text_field.dart';
+import 'package:bikersworld/widgets/diaload_box.dart';
 
 class workshopSearchPage extends StatefulWidget {
   @override
@@ -29,38 +27,23 @@ class _workshopSearchPageState extends State<workshopSearchPage> {
     backgroundColor: Color(0XFF012A4A),
     iconTheme: IconThemeData(color: Color(0xfffbb448),
            ),
+          bottomOpacity: 0.0,
+          elevation: 0.0,
         ),
       body: SingleChildScrollView(
         child: Container(
           child: Column(
             children: <Widget>[
               Container(
-                child: Padding(
-                  padding: const EdgeInsets.all(20),
-                  child: TextField(
-                    decoration: InputDecoration(
-                        hintText: "Search Anything",
-                        filled: true,
-                        fillColor: Colors.black12,
-                        focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10),
-                            borderSide: BorderSide(color: Colors.transparent)),
-                        border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10),
-                            borderSide: BorderSide(color: Colors.transparent)),
-                        disabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10),
-                            borderSide: BorderSide(color: Colors.transparent)),
-                        enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10),
-                            borderSide: BorderSide(color: Colors.transparent))),
-                    style: TextStyle(
-                      color: Colors.black.withOpacity(.6),
-                      fontWeight: FontWeight.w200,
-                      fontSize: 18,
+                  height: 85,
+                  width: MediaQuery.of(context).size.width,
+                  color: Color(0XFF012A4A),
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(vertical: 8 , horizontal: 15),
+                    child: Container(
+                      child: SearchTextField(),
                     ),
-                  ),
-                ),
+                  )
               ),
               Container(
                 margin: EdgeInsets.only(left: 22, right: 30),
@@ -69,52 +52,62 @@ class _workshopSearchPageState extends State<workshopSearchPage> {
                   children: <Widget>[
                     Container(
                       child: Text(
-                        "Result: 2",
+                        "Result 2",
                         style: GoogleFonts.varelaRound(
                           fontSize: 15,
 
                         ),
                       ),
                     ),
-                    SizedBox(width: 120,),
-                    Container(
-                      child: Row(
-                        children: <Widget>[
-                          Text(
-                            "Filter",
-                            style: GoogleFonts.varelaRound(
-                              fontSize: 15,
+                    SizedBox(width: 90,),
+                    FlatButton(
+                      onPressed: (){
+
+                      },
+                      child: Container(
+                        child: Row(
+                          children: <Widget>[
+                            Text(
+                              "Filter",
+                              style: GoogleFonts.varelaRound(
+                                fontSize: 15,
+                              ),
                             ),
-                          ),
-                          SizedBox(width: 5,),
-                          Icon(
-                              FontAwesomeIcons.filter,
-                            size: 15,
-                          ),
-                        ],
+                            SizedBox(width: 5,),
+                            Icon(
+                                FontAwesomeIcons.filter,
+                              size: 15,
+                            ),
+                          ],
+                        ),
                       ),
                     ),
-                    Container(
-                      child:Row(
-                        children: <Widget>[
-                          Text(
-                            "Sort",
-                            style: GoogleFonts.varelaRound(
-                              fontSize: 17,
+                    FlatButton(
+                      onPressed: (){
+                        print('Alphabetically sorting');
+                      },
+                      child: Container(
+                        child:Row(
+                          children: <Widget>[
+                            Text(
+                              "Sort",
+                              style: GoogleFonts.varelaRound(
+                                fontSize: 17,
+                              ),
                             ),
-                          ),
-                          SizedBox(width: 5,),
-                          Icon(
-                            FontAwesomeIcons.sortAlphaUp,
-                            size: 17,
-                          ),
-                        ],
+                            SizedBox(width: 2,),
+                            Icon(
+                              FontAwesomeIcons.sortAlphaUp,
+                              size: 17,
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ],
                 ),
               ),
-              SizedBox(height: 20,),
+              SizedBox(height: 10,),
               Container(
                 margin: EdgeInsets.symmetric(horizontal: 23,),
                 alignment: Alignment.topLeft,
