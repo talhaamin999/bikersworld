@@ -1,3 +1,4 @@
+import 'package:bikersworld/model/workshop_model.dart';
 import 'package:bikersworld/screen/workshop/add_services.dart';
 import 'package:bikersworld/services/toast_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -19,20 +20,9 @@ class RegisterWorkshopQueries {
    final _firebaseUser = FirebaseAuth.instance.currentUser;
    final FirebaseFirestore _firestoreInstance = FirebaseFirestore.instance;
 
-   Future registerWorkshop(String shopTitle,String shopCity,String shopArea,String ownerName,String ownerContact) async{
+   Future registerWorkshop(WorkshopDashboardModel data) async{
       await _firestoreInstance.collection(_WORKSHOP_COLLECTION).doc(_firebaseUser.uid).set(
-          {
-             _WORKSHOP_TITLE: shopTitle,
-             _WORKSHOP_CITY: shopCity,
-             _WORKSHOP_AREA: shopArea,
-             _OWNER_NAME: ownerName,
-             _OWNER_CONTACT: ownerContact,
-             _WORKSHOP_STATUS: {
-                "shop_status": true,
-                "to": "",
-                "from": "",
-             }
-         },SetOptions(merge: true))
+         data.toMap(),SetOptions(merge: true))
           .then((_) {
             resultMessage = "Workshop Successfully Registered";
       }).catchError((error){

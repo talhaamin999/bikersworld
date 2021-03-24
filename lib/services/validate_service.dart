@@ -50,7 +50,7 @@ class ValidateWorkshop {
   }
   bool validateShopArea(String area){
 
-    String _areaPattern = r'^(?!\s*$)[a-zA-Z0-9-/ ]{1,20}$';
+    String _areaPattern = r'^(?!\s*$)[a-zA-Z0-9-#,/ ]{1,30}$';
     RegExp _regExp = RegExp(_areaPattern);
     if(!_regExp.hasMatch(area)){
       return false;

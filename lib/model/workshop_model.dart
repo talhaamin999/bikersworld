@@ -2,22 +2,44 @@ import 'package:flutter/cupertino.dart';
 
 class WorkshopDashboardModel{
 
-  String _ownerName;
-  String _ownerContact;
-  String _shopTitle;
-  String _city;
-  String _area;
-  WorkshopDashboardModel(this._shopTitle,this._city,this._area,this._ownerName,this._ownerContact);
+  final String ownerName;
+  final String ownerContact;
+  final String shopTitle;
+  final String city;
+  final String area;
+  final String openFrom;
+  final String openTo;
+  final String openTime;
+  final String closeTime;
 
-  String get ownerName => _ownerName;
+  WorkshopDashboardModel({this.ownerName,this.ownerContact,this.shopTitle,this.area,this.city,this.openFrom,this.openTo,this.openTime,this.closeTime});
 
-  String get ownerContact => _ownerContact;
-
-  String get shopTitle => _shopTitle;
-
-  String get city => _city;
-
-  String get area => _area;
+  factory WorkshopDashboardModel.fromJson(Map<String, dynamic> json){
+    return WorkshopDashboardModel(
+      shopTitle: json['title'],
+      city: json['city'],
+      area: json['area'],
+      openFrom: json['open_from'],
+      openTo: json['open_to'],
+      openTime: json['open_time'],
+      closeTime: json['close_time'],
+      ownerName: json['owner_name'],
+      ownerContact: json['owner_contact'],
+    );
+  }
+  Map<String, dynamic> toMap(){
+    return {
+      'title': shopTitle,
+      'city': city,
+      'area': area,
+      'owner_name' : ownerName,
+      'owner_contact' : ownerContact,
+      'open_from' : openFrom,
+      'open_to' : openTo,
+      'open_time' : openTime,
+      'close_time' : closeTime
+    };
+  }
 }
 
 class Mechanics{

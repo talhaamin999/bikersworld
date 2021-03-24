@@ -1,15 +1,16 @@
 import 'dart:async';
+import 'package:bikersworld/model/workshop_model.dart';
 import 'package:bikersworld/screen/workshop/workshop_dashboard.dart';
 import 'package:bikersworld/services/toast_service.dart';
 import 'package:bikersworld/services/validate_service.dart';
 import 'package:bikersworld/services/workshop_queries/workshop_queries.dart';
+import 'package:bikersworld/widgets/constants.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:bikersworld/widgets/drawer.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:bikersworld/widgets/time_picker.dart';
 
 
 ToastErrorMessage error = ToastErrorMessage();
@@ -20,38 +21,43 @@ bool _isAreaEmpty = false;
 bool _isNameEmpty = false;
 bool _isContactEmpty = false;
 int fieldEmptyChecker = 0;
+String _currentDaySelected = 'Monday';
+String dayFromSelected,dayToSelected,openTime = '7:15 am',closeTime = '7:15 am';
 
 class RegisterWorkshop extends StatefulWidget {
-  String shopTitle;
-  String shopCity;
-  String shopArea;
-  String ownerContact;
-  String ownerName;
-  RegisterWorkshop({this.shopTitle,this.shopCity,this.shopArea,this.ownerName,this.ownerContact});
+
+  final WorkshopDashboardModel data;
+  RegisterWorkshop({this.data});
   @override
   _RegisterWorkshopState createState() => _RegisterWorkshopState();
 }
 
 class _RegisterWorkshopState extends State<RegisterWorkshop> {
   int currentIndex;
+  final TextEditingController _shopTitleController = TextEditingController()..text = '';
+  final TextEditingController _shopCityController = TextEditingController()..text = '';
+  final TextEditingController _shopSpecificAreaController = TextEditingController()..text = '';
+  final TextEditingController _ownerNameController = TextEditingController()..text = '';
+  final TextEditingController _ownerContactController = TextEditingController()..text = '';
 
-  final TextEditingController _shopTitleController = TextEditingController();
-  final TextEditingController _shopCityController = TextEditingController();
-  final TextEditingController _shopSpecificAreaController = TextEditingController();
-  final TextEditingController _ownerNameController = TextEditingController();
-  final TextEditingController _ownerContactController = TextEditingController();
-
-
-  TextEditingController _textFieldController = new TextEditingController();
   @override
   void initState() {
-    _shopTitleController.text = widget.shopTitle != null ? widget.shopTitle : '';
-    _shopCityController.text = widget.shopCity != null ? widget.shopCity : '';
-    _shopSpecificAreaController.text = widget.shopArea != null ? widget.shopArea : '';
-    _ownerNameController.text = widget.ownerName != null ? widget.ownerName : '';
-    _ownerContactController.text = widget.ownerContact != null ? widget.ownerContact : '';
+    mapValues();
     super.initState();
     currentIndex = 0;
+  }
+  mapValues(){
+    if(widget.data != null) {
+      _shopTitleController.text = widget.data.shopTitle;
+      _shopCityController.text = widget.data.city;
+      _shopSpecificAreaController.text = widget.data.area;
+      _ownerNameController.text = widget.data.ownerName;
+      _ownerContactController.text = widget.data.ownerContact;
+      dayFromSelected = widget.data.openFrom;
+      dayToSelected = widget.data.openTo;
+      openTime = widget.data.openTime;
+      closeTime = widget.data.closeTime;
+    }
   }
 
   changePage(int index) {
@@ -136,14 +142,12 @@ class _RegisterWorkshopState extends State<RegisterWorkshop> {
 
   Future<void> addWorkshop() async{
     try {
-      RegisterWorkshopQueries register = RegisterWorkshopQueries();
-      await register.registerWorkshop(
-          _shopTitleController.text, _shopCityController.text,
-          _shopSpecificAreaController.text, _ownerNameController.text,
-          _ownerContactController.text);
+      final _data = WorkshopDashboardModel(shopTitle: _shopTitleController.text,city: _shopCityController.text,area: _shopSpecificAreaController.text,openFrom: dayFromSelected,openTo: dayToSelected,openTime: openTime,closeTime: closeTime, ownerName: _ownerNameController.text,ownerContact: _ownerContactController.text);
+      final RegisterWorkshopQueries register = RegisterWorkshopQueries();
+      await register.registerWorkshop(_data);
         if(RegisterWorkshopQueries.resultMessage == "Workshop Successfully Registered"){
-          if(widget.ownerName!=null){
-            valid.validToastMessage(validMessage: 'Workshop Succesfully Updated');
+          if(widget.data.ownerName!=null){
+            valid.validToastMessage(validMessage: 'Workshop Successfully Updated');
           }else {
             valid.validToastMessage(
                 validMessage: RegisterWorkshopQueries.resultMessage);
@@ -156,6 +160,7 @@ class _RegisterWorkshopState extends State<RegisterWorkshop> {
                 );
           },
           );
+
         }
         else{
           error.errorToastMessage(errorMessage: RegisterWorkshopQueries.resultMessage);
@@ -197,7 +202,7 @@ class _RegisterWorkshopState extends State<RegisterWorkshop> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       SizedBox(height: 20,),
-                      _title(widget.ownerName),
+                      _title(widget.data != null ? 'Update' : 'Register'),
                       SizedBox(height: 20),
                       _registerWorkshopWidget(shopTitleController: _shopTitleController,shopCityController: _shopCityController,shopSpecificAreaController: _shopSpecificAreaController,ownerNameController: _ownerNameController,ownerContactController: _ownerContactController),
                       SizedBox(height: 20),
@@ -221,7 +226,7 @@ class _RegisterWorkshopState extends State<RegisterWorkshop> {
                                 end: Alignment.centerRight,
                                 colors: [Color(0xfffbb448), Color(0xfff7892b)])),
                         child: Text(
-                          widget.ownerName !=null ? 'Update':'Register',
+                         widget.data != null ? 'Update' : 'Register',
                           style: GoogleFonts.krub(
                             fontSize: 20,
                             color: Colors.white,
@@ -249,6 +254,7 @@ class _RegisterWorkshopState extends State<RegisterWorkshop> {
 }
 Widget _entryField(String title,TextEditingController controller,TextInputType inputType,FilteringTextInputFormatter filter,bool _isFieldEmpty,)
 {
+
   return Container(
     margin: EdgeInsets.symmetric(vertical: 10),
     child: Column(
@@ -282,216 +288,168 @@ Widget _entryField(String title,TextEditingController controller,TextInputType i
 }
 Widget _registerWorkshopWidget({@required TextEditingController shopTitleController,@required TextEditingController shopCityController,@required TextEditingController shopSpecificAreaController,@required TextEditingController ownerNameController,@required TextEditingController ownerContactController}) {
 
-  var _dropDownItems = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'friday', 'Saturday', 'Sunday'];
-  String _currentItemselected = 'Monday';
-  TimeOfDay _currentTime = new TimeOfDay.now();
-
-  return Column(
-    children: <Widget>[
-      Container(
-        margin: EdgeInsets.symmetric(vertical: 30),
-        child: Row(
-          children: <Widget>[
-            SizedBox(
-              width: 30,
-            ),
-            Expanded(
-              child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 10),
-                child: Divider(
-                  thickness: 1,
+  if(shopSpecificAreaController.text == '' || ownerContactController.text == '') {
+    return Column(
+      children: <Widget>[
+        Container(
+          margin: EdgeInsets.symmetric(vertical: 30),
+          child: Row(
+            children: <Widget>[
+              SizedBox(
+                width: 30,
+              ),
+              Expanded(
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 10),
+                  child: Divider(
+                    thickness: 1,
+                  ),
                 ),
               ),
-            ),
-            Text('Workshop Information' ,style: GoogleFonts.quicksand(fontSize: 16, fontWeight: FontWeight.w600),),
-            Expanded(
-              child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 10),
-                child: Divider(
-                  thickness: 1,
+              Text('Workshop Information', style: GoogleFonts.quicksand(
+                  fontSize: 16, fontWeight: FontWeight.w600),),
+              Expanded(
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 10),
+                  child: Divider(
+                    thickness: 1,
+                  ),
                 ),
               ),
-            ),
-            SizedBox(
-              width: 20,
-            ),
-          ],
+              SizedBox(
+                width: 20,
+              ),
+            ],
+          ),
         ),
-      ),
-      _entryField("Workshop Name",shopTitleController,TextInputType.text,FilteringTextInputFormatter.allow(RegExp("[a-zA-Z ]")),_isTitleEmpty),
-      _entryField("City",shopCityController,TextInputType.text,FilteringTextInputFormatter.allow(RegExp("[a-zA-Z ]")),_isCityEmpty),
-      _entryField("Address",shopSpecificAreaController,TextInputType.text,FilteringTextInputFormatter.allow(RegExp("[a-zA-Z ]")),_isAreaEmpty),
+        _entryField("Workshop Name", shopTitleController, TextInputType.text,
+            FilteringTextInputFormatter.allow(RegExp("[a-zA-Z ]")),
+            _isTitleEmpty),
+        _entryField("City", shopCityController, TextInputType.text,
+            FilteringTextInputFormatter.allow(RegExp("[a-zA-Z ]")),
+            _isCityEmpty),
+        _entryField("Address", shopSpecificAreaController, TextInputType.text,
+            FilteringTextInputFormatter.allow(
+                RegExp(r'^(?!\s*$)[a-zA-Z0-9-#,/ ]{1,30}$')), _isAreaEmpty),
 
-      SizedBox(height:10),
-      Container(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              margin: EdgeInsets.symmetric(vertical: 30),
-              child: Row(
-                children: <Widget>[
-                  SizedBox(
-                    width: 30,
-                  ),
-                  Expanded(
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 10),
-                      child: Divider(
-                        thickness: 1,
+        SizedBox(height: 10),
+        Container(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                margin: EdgeInsets.symmetric(vertical: 30),
+                child: Row(
+                  children: <Widget>[
+                    SizedBox(
+                      width: 30,
+                    ),
+                    Expanded(
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 10),
+                        child: Divider(
+                          thickness: 1,
+                        ),
                       ),
                     ),
-                  ),
-                  Text('Workshop Status' ,style: GoogleFonts.quicksand(fontSize: 16, fontWeight: FontWeight.w600),),
-                  Expanded(
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 10),
-                      child: Divider(
-                        thickness: 1,
+                    Text('Workshop Status', style: GoogleFonts.quicksand(
+                        fontSize: 16, fontWeight: FontWeight.w600),),
+                    Expanded(
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 10),
+                        child: Divider(
+                          thickness: 1,
+                        ),
                       ),
                     ),
-                  ),
-                  SizedBox(
-                    width: 20,
-                  ),
-                ],
-              ),
-            ),
-
-            SizedBox(height: 15,),
-            Container(
-              child:  Text(
-                  "Day",
-                  style: GoogleFonts.quicksand(
-                    fontSize: 18,
-                  )
-              ),
-            ),
-            Container(
-              child: Row(
-                children: [
-                  Container(
-                    child: Column(
-                      children: [
-                        SizedBox(height: 20,),
-                        Text(
-                          "Open",
-                        ),
-                        SizedBox(height: 10,),
-                        Container(
-                          color: Color(0xfff3f3f4),
-                          width: 160,
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: DropdownButton<String>(
-                              value: _currentItemselected,
-                              icon: Container(
-                                margin: EdgeInsets.only(left: 10),
-                                child: Padding(
-                                  padding: const EdgeInsets.fromLTRB(15.0, 0, 0, 0),
-                                  child: Icon(
-                                    FontAwesomeIcons.caretDown,
-                                  ),
-                                ),
-                              ),
-                              iconSize: 24,
-                              elevation: 16,
-                              style: TextStyle(color: Colors.black,),
-                              underline: Container(
-                                height: 2,
-                              ),
-                              onChanged: (String newValue) {
-//                      setState(() {
-//                        _currentItemselected = newValue;
-//                      });
-                              },
-                              items: _dropDownItems
-                                  .map((String dropDownStringItem) {
-                                return DropdownMenuItem<String>(
-                                  value: dropDownStringItem,
-                                  child: Text(dropDownStringItem, style: GoogleFonts.quicksand(fontSize: 15)),
-                                );
-                              }).toList(),
-                            ),
-                          ),
-                        ),
-                      ],
+                    SizedBox(
+                      width: 20,
                     ),
-                  ),
-                  SizedBox(width: 30,),
-                  Container(
-                    child: Column(
-                      children: [
-                        SizedBox(height: 20,),
-                        Text(
-                          "Close",
-                        ),
-                        SizedBox(height: 10,),
-                        Container(
-                          color: Color(0xfff3f3f4),
-                          width: 160,
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: DropdownButton<String>(
-                              value: _currentItemselected,
-                              icon: Container(
-                                margin: EdgeInsets.only(left: 10),
-                                child: Padding(
-                                  padding: const EdgeInsets.fromLTRB(15.0, 0, 0, 0),
-                                  child: Icon(
-                                    FontAwesomeIcons.caretDown,
-                                  ),
-                                ),
-                              ),
-                              iconSize: 24,
-                              elevation: 16,
-                              style: TextStyle(color: Colors.black,),
-                              underline: Container(
-                                height: 2,
-                              ),
-                              onChanged: (String newValue) {
-//                      setState(() {
-//                        _currentItemselected = newValue;
-//                      });
-                              },
-                              items: _dropDownItems
-                                  .map((String dropDownStringItem) {
-                                return DropdownMenuItem<String>(
-                                  value: dropDownStringItem,
-                                  child: Text(dropDownStringItem, style: GoogleFonts.quicksand(fontSize: 15)),
-                                );
-                              }).toList(),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
-            SizedBox(height: 20,),
 
-            Container(
-              child:  Text(
-                  "Date",
-                  style: GoogleFonts.quicksand(
-                    fontSize: 18,
-                  )
+              SizedBox(height: 15,),
+              Container(
+                child: Text(
+                    "Day",
+                    style: GoogleFonts.quicksand(
+                      fontSize: 18,
+                    )
+                ),
               ),
-            ),
-            Container(
-              child: Row(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(left:15),
-                    child: Container(
+              Container(
+                child: Row(
+                  children: [
+                    Container(
                       child: Column(
                         children: [
                           SizedBox(height: 20,),
                           Text(
-                            "Opening Time",
+                            "From",
+                          ),
+                          SizedBox(height: 10,),
+                          SpecializationComboBox(day: 'Monday',),
+                        ],
+                      ),
+                    ),
+                    SizedBox(width: 30,),
+                    Container(
+                      child: Column(
+                        children: [
+                          SizedBox(height: 20,),
+                          Text(
+                            "To",
+                          ),
+                          SizedBox(height: 10,),
+                          SpecializationComboBox(),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(height: 20,),
+
+              Container(
+                child: Text(
+                    "Date",
+                    style: GoogleFonts.quicksand(
+                      fontSize: 18,
+                    )
+                ),
+              ),
+              Container(
+                child: Row(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(left: 15),
+                      child: Container(
+                        child: Column(
+                          children: [
+                            SizedBox(height: 20,),
+                            Text(
+                              "Opening Time",
+                              style: GoogleFonts.quicksand(
+                                fontSize: 15,
+                              ),
+                            ),
+                            SizedBox(height: 10,),
+                            Container(
+                              child: TimePicker(time: 'open',),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    SizedBox(width: 30,),
+                    Container(
+                      child: Column(
+                        children: [
+                          SizedBox(height: 20,),
+                          Text(
+                            "Closing Time",
                             style: GoogleFonts.quicksand(
                               fontSize: 15,
                             ),
@@ -503,75 +461,272 @@ Widget _registerWorkshopWidget({@required TextEditingController shopTitleControl
                         ],
                       ),
                     ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+        Container(
+          margin: EdgeInsets.symmetric(vertical: 30),
+          child: Row(
+            children: <Widget>[
+              SizedBox(
+                width: 30,
+              ),
+              Expanded(
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 10),
+                  child: Divider(
+                    thickness: 1,
                   ),
-                  SizedBox(width: 30,),
-                  Container(
-                    child: Column(
-                      children: [
-                        SizedBox(height: 20,),
-                        Text(
-                          "Closing Time",
-                          style: GoogleFonts.quicksand(
-                            fontSize: 15,
-                          ),
-                        ),
-                        SizedBox(height: 10,),
-                        Container(
-                          child: TimePicker(),
-                        ),
-                      ],
+                ),
+              ),
+              Text('Owner Information', style: GoogleFonts.quicksand(
+                  fontSize: 16, fontWeight: FontWeight.w600),),
+              Expanded(
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 10),
+                  child: Divider(
+                    thickness: 1,
+                  ),
+                ),
+              ),
+              SizedBox(
+                width: 20,
+              ),
+            ],
+          ),
+        ),
+
+        _entryField("Owner Name", ownerNameController, TextInputType.text,
+            FilteringTextInputFormatter.allow(RegExp("[a-zA-Z ]")),
+            _isNameEmpty),
+        _entryField(
+            "Contact Number", ownerContactController, TextInputType.number,
+            FilteringTextInputFormatter.digitsOnly, _isContactEmpty),
+
+      ],
+    );
+  }else{
+    return Column(
+      children: <Widget>[
+        Container(
+          margin: EdgeInsets.symmetric(vertical: 30),
+          child: Row(
+            children: <Widget>[
+              SizedBox(
+                width: 30,
+              ),
+              Expanded(
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 10),
+                  child: Divider(
+                    thickness: 1,
+                  ),
+                ),
+              ),
+              Text('Workshop Information', style: GoogleFonts.quicksand(
+                  fontSize: 16, fontWeight: FontWeight.w600),),
+              Expanded(
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 10),
+                  child: Divider(
+                    thickness: 1,
+                  ),
+                ),
+              ),
+              SizedBox(
+                width: 20,
+              ),
+            ],
+          ),
+        ),
+        _entryField("Address", shopSpecificAreaController, TextInputType.text,
+            FilteringTextInputFormatter.allow(
+                RegExp(r'^(?!\s*$)[a-zA-Z0-9-#,/ ]{1,30}$')), _isAreaEmpty),
+
+        SizedBox(height: 10),
+        Container(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                margin: EdgeInsets.symmetric(vertical: 30),
+                child: Row(
+                  children: <Widget>[
+                    SizedBox(
+                      width: 30,
                     ),
+                    Expanded(
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 10),
+                        child: Divider(
+                          thickness: 1,
+                        ),
+                      ),
+                    ),
+                    Text('Workshop Status', style: GoogleFonts.quicksand(
+                        fontSize: 16, fontWeight: FontWeight.w600),),
+                    Expanded(
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 10),
+                        child: Divider(
+                          thickness: 1,
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      width: 20,
+                    ),
+                  ],
+                ),
+              ),
+
+              SizedBox(height: 15,),
+              Container(
+                child: Text(
+                    "Day",
+                    style: GoogleFonts.quicksand(
+                      fontSize: 18,
+                    )
+                ),
+              ),
+              Container(
+                child: Row(
+                  children: [
+                    Container(
+                      child: Column(
+                        children: [
+                          SizedBox(height: 20,),
+                          Text(
+                            "From",
+                          ),
+                          SizedBox(height: 10,),
+                          SpecializationComboBox(day: 'Monday',),
+                        ],
+                      ),
+                    ),
+                    SizedBox(width: 30,),
+                    Container(
+                      child: Column(
+                        children: [
+                          SizedBox(height: 20,),
+                          Text(
+                            "To",
+                          ),
+                          SizedBox(height: 10,),
+                          SpecializationComboBox(),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(height: 20,),
+
+              Container(
+                child: Text(
+                    "Date",
+                    style: GoogleFonts.quicksand(
+                      fontSize: 18,
+                    )
+                ),
+              ),
+              Container(
+                child: Row(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(left: 15),
+                      child: Container(
+                        child: Column(
+                          children: [
+                            SizedBox(height: 20,),
+                            Text(
+                              "Opening Time",
+                              style: GoogleFonts.quicksand(
+                                fontSize: 15,
+                              ),
+                            ),
+                            SizedBox(height: 10,),
+                            Container(
+                              child: TimePicker(time: 'open',),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    SizedBox(width: 30,),
+                    Container(
+                      child: Column(
+                        children: [
+                          SizedBox(height: 20,),
+                          Text(
+                            "Closing Time",
+                            style: GoogleFonts.quicksand(
+                              fontSize: 15,
+                            ),
+                          ),
+                          SizedBox(height: 10,),
+                          Container(
+                            child: TimePicker(),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+        Container(
+          margin: EdgeInsets.symmetric(vertical: 30),
+          child: Row(
+            children: <Widget>[
+              SizedBox(
+                width: 30,
+              ),
+              Expanded(
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 10),
+                  child: Divider(
+                    thickness: 1,
                   ),
-                ],
-              ),
-            ),
-
-          ],
-        ),
-      ),
-      Container(
-        margin: EdgeInsets.symmetric(vertical: 30),
-        child: Row(
-          children: <Widget>[
-            SizedBox(
-              width: 30,
-            ),
-            Expanded(
-              child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 10),
-                child: Divider(
-                  thickness: 1,
                 ),
               ),
-            ),
-            Text('Owner Information' ,style: GoogleFonts.quicksand(fontSize: 16, fontWeight: FontWeight.w600),),
-            Expanded(
-              child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 10),
-                child: Divider(
-                  thickness: 1,
+              Text('Owner Information', style: GoogleFonts.quicksand(
+                  fontSize: 16, fontWeight: FontWeight.w600),),
+              Expanded(
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 10),
+                  child: Divider(
+                    thickness: 1,
+                  ),
                 ),
               ),
-            ),
-            SizedBox(
-              width: 20,
-            ),
-          ],
+              SizedBox(
+                width: 20,
+              ),
+            ],
+          ),
         ),
-      ),
 
-      _entryField("Owner Name", ownerNameController,TextInputType.text,FilteringTextInputFormatter.allow(RegExp("[a-zA-Z ]")),_isNameEmpty),
-      _entryField("Contact Number",ownerContactController,TextInputType.number,FilteringTextInputFormatter.digitsOnly,_isContactEmpty),
+        _entryField(
+            "Contact Number", ownerContactController, TextInputType.number,
+            FilteringTextInputFormatter.digitsOnly, _isContactEmpty),
 
-    ],
-  );
+      ],
+    );
+  }
 }
 
 Widget _title(String value) {
   return RichText(
     textAlign: TextAlign.start,
     text: TextSpan(
-        text: value != null ? 'Update':'Register',
+        text: value,
         style: GoogleFonts.quicksand(
           fontSize: 30,
           color: Color(0xfff7892b),
@@ -587,4 +742,207 @@ Widget _title(String value) {
         ]),
   );
 }
+class SpecializationComboBox extends StatefulWidget {
 
+  String day;
+  SpecializationComboBox({Key key,this.day}) : super(key: key);
+  @override
+  _SpecializationComboBoxState createState() => _SpecializationComboBoxState();
+}
+
+class _SpecializationComboBoxState extends State<SpecializationComboBox> {
+
+  var _dropDownItems=['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];
+
+  @override
+  void initState() {
+    mapValues();
+    super.initState();
+  }
+  mapValues(){
+    if(widget.day == 'Monday'){
+      dayFromSelected = _currentDaySelected;
+    }else{
+      dayToSelected = _currentDaySelected;
+    }
+  }
+  Widget build(BuildContext context) {
+    return Container(
+      color: Color(0xfff3f3f4),
+      width: 160,
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: DropdownButton<String>(
+          value: _currentDaySelected,
+          icon: Container(
+            margin: EdgeInsets.only(left: 10),
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(15.0, 0, 0, 0),
+              child: Icon(
+                FontAwesomeIcons.caretDown,
+              ),
+            ),
+          ),
+          iconSize: 24,
+          elevation: 16,
+          style: TextStyle(color: Colors.black,),
+          underline: Container(
+            height: 2,
+          ),
+          onChanged: (String newValue) {
+            setState(() {
+              _currentDaySelected = newValue;
+              if(widget.day == 'Monday'){
+                dayFromSelected = _currentDaySelected;
+              }else{
+                dayToSelected = _currentDaySelected;
+              }
+            });
+          },
+          items: _dropDownItems
+              .map((String dropDownStringItem) {
+            return DropdownMenuItem<String>(
+              value: dropDownStringItem,
+              child: Text(dropDownStringItem, style: GoogleFonts.quicksand(fontSize: 15)),
+            );
+          }).toList(),
+        ),
+      ),
+    );
+  }
+}
+class TimePicker extends StatefulWidget {
+  String time;
+  TimePicker({this.time});
+  @override
+  _TimePickerState createState() => _TimePickerState();
+}
+
+class _TimePickerState extends State<TimePicker> {
+  TimeOfDay _time = TimeOfDay(hour: 7, minute: 15);
+
+  void _selectTime() async {
+    final TimeOfDay newTime = await showTimePicker(
+      context: context,
+      initialTime: _time,
+    );
+    if (newTime != null) {
+      setState(() {
+        _time = newTime;
+        if(widget.time == 'open'){
+          openTime = _time.format(context);
+          print(openTime);
+        }else{
+          closeTime = _time.format(context);
+          print(closeTime);
+        }
+      });
+    }
+  }
+
+  @override
+  void initState(){
+    super.initState();
+  }
+  void mapValues(){
+    if(widget.time == 'open'){
+      openTime = _time.format(context);
+      print('open $openTime');
+    }else{
+      closeTime = _time.format(context);
+      print(closeTime);
+    }
+  }
+  Widget build(BuildContext context ) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        FlatButton(
+          color: Color(0xfff3f3f4),
+          onPressed: _selectTime,
+          child: Text(
+            'Time',
+            style: GoogleFonts.quicksand(
+              fontSize: 18,
+              color: Colors.black,
+            ),
+          ),
+        ),
+        SizedBox(height: 8),
+        Text(
+          'Selected Time: ${_time.format(context)}',
+          style: GoogleFonts.quicksand(
+            fontSize: 15,
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+ThemeData _buildShrineTheme() {
+  final ThemeData base = ThemeData.light();
+  return base.copyWith(
+    colorScheme: _shrineColorScheme,
+    toggleableActiveColor: shrinePink400,
+    accentColor: shrineBrown900,
+    primaryColor: shrinePink100,
+    buttonColor: shrinePink100,
+    scaffoldBackgroundColor: shrineBackgroundWhite,
+    cardColor: shrineBackgroundWhite,
+    textSelectionColor: shrinePink100,
+    errorColor: shrineErrorRed,
+    buttonTheme: const ButtonThemeData(
+      colorScheme: _shrineColorScheme,
+      textTheme: ButtonTextTheme.normal,
+    ),
+    primaryIconTheme: _customIconTheme(base.iconTheme),
+    textTheme: _buildShrineTextTheme(base.textTheme),
+    primaryTextTheme: _buildShrineTextTheme(base.primaryTextTheme),
+    accentTextTheme: _buildShrineTextTheme(base.accentTextTheme),
+    iconTheme: _customIconTheme(base.iconTheme),
+  );
+}
+
+IconThemeData _customIconTheme(IconThemeData original) {
+  return original.copyWith(color: shrineBrown900);
+}
+
+TextTheme _buildShrineTextTheme(TextTheme base) {
+  return base
+      .copyWith(
+    caption: base.caption.copyWith(
+      fontWeight: FontWeight.w400,
+      fontSize: 14,
+      letterSpacing: defaultLetterSpacing,
+    ),
+    button: base.button.copyWith(
+      fontWeight: FontWeight.w500,
+      fontSize: 14,
+      letterSpacing: defaultLetterSpacing,
+    ),
+  )
+      .apply(
+    fontFamily: 'Rubik',
+    displayColor: shrineBrown900,
+    bodyColor: shrineBrown900,
+  );
+}
+
+
+
+const ColorScheme _shrineColorScheme = ColorScheme(
+  primary: shrinePink400,
+  primaryVariant: shrineBrown900,
+  secondary: shrinePink50,
+  secondaryVariant: shrineBrown900,
+  surface: shrineSurfaceWhite,
+  background: shrineBackgroundWhite,
+  error: shrineErrorRed,
+  onPrimary: shrineBrown900,
+  onSecondary: shrineBrown900,
+  onSurface: shrineBrown900,
+  onBackground: shrineBrown900,
+  onError: shrineSurfaceWhite,
+  brightness: Brightness.light,
+);

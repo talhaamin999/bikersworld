@@ -61,11 +61,13 @@ class _WorkshopDashboardState extends State<WorkshopDashboard> {
         // ignore: missing_return
         builder: (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
           if(snapshot.connectionState == ConnectionState.done && snapshot.hasData && snapshot.data != null){
-            data = WorkshopDashboardModel(snapshot.data.get('title'),snapshot.data.get('city'),snapshot.data.get('area'),snapshot.data.get('owner_name'),snapshot.data.get('owner_contact'));
+            data = WorkshopDashboardModel.fromJson(snapshot.data.data());
+            print('${snapshot.data.data()}');
              return Dashboard();
            }
           else if(snapshot.connectionState == ConnectionState.active){
-            data = WorkshopDashboardModel(snapshot.data.get('title'),snapshot.data.get('city'),snapshot.data.get('area'),snapshot.data.get('owner_name'),snapshot.data.get('owner_contact'));
+            data = WorkshopDashboardModel.fromJson(snapshot.data.data());
+            print('${snapshot.data.data()}');
                return Dashboard();
            }
           else if(snapshot.hasError){
@@ -110,7 +112,7 @@ class Dashboard extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                       Text(
-                        data.shopTitle,
+                       data.shopTitle,
                         style: GoogleFonts.quicksand(
                           color: Colors.white,
                           fontSize: 32.0,
@@ -169,7 +171,7 @@ class Dashboard extends StatelessWidget {
                                   Padding(
                                     padding: const EdgeInsets.only(top:8.0),
                                     child: Text(
-                                      data.city,
+                                     data.city,
                                       style: GoogleFonts.raleway(
                                         color: Colors.white70,
                                         fontSize: 17,
@@ -213,7 +215,7 @@ class Dashboard extends StatelessWidget {
                             ),
                             onPressed: () {
                               Navigator.push(context, MaterialPageRoute(builder: (context) =>
-                                  RegisterWorkshop(shopTitle: data.shopTitle,shopCity: data.city,shopArea: data.area,ownerName: data.ownerName,ownerContact: data.ownerContact,)));
+                                  RegisterWorkshop(data: data,)));
                             },
                             color: Colors.red,
                             shape: RoundedRectangleBorder(
