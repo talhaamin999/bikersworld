@@ -12,7 +12,12 @@ class workshopSearchPage extends StatefulWidget {
   _workshopSearchPageState createState() => _workshopSearchPageState();
 }
 
+enum search { City, Name }
+
+
 class _workshopSearchPageState extends State<workshopSearchPage> {
+  search _character = search.Name;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -46,65 +51,130 @@ class _workshopSearchPageState extends State<workshopSearchPage> {
                   )
               ),
               Container(
-                margin: EdgeInsets.only(left: 22, right: 30),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Container(
-                      child: Text(
-                        "Result 2",
-                        style: GoogleFonts.varelaRound(
-                          fontSize: 15,
+                width: MediaQuery.of(context).size.width,
+                height: 50,
+                decoration: BoxDecoration(
+                  color: Color(0xffe8e8e8),
+                  borderRadius: BorderRadius.only(
+                    bottomLeft: Radius.circular(20),
+                    bottomRight: Radius.circular(20),
+                  )
+                ),
+                child: Container(
+                  margin: EdgeInsets.only(left: 22, right: 30),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Container(
+                        child: Text(
+                          "Result 2",
+                          style: GoogleFonts.varelaRound(
+                            fontSize: 15,
 
+                          ),
                         ),
                       ),
-                    ),
-                    SizedBox(width: 90,),
-                    FlatButton(
-                      onPressed: (){
-
-                      },
-                      child: Container(
-                        child: Row(
-                          children: <Widget>[
-                            Text(
-                              "Filter",
-                              style: GoogleFonts.varelaRound(
-                                fontSize: 15,
+                      SizedBox(width: 90,),
+                      FlatButton(
+                        onPressed: (){
+                          showModalBottomSheet(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return Container(
+                                height: 280,
+                                color: Color(0xffe8e8e8),
+                                child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: <Widget>[
+                                      Padding(
+                                        padding: const EdgeInsets.all(15),
+                                        child: Text(
+                                          "Refine Your Search",
+                                          style: GoogleFonts.quicksand(
+                                            fontSize: 20,
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ),
+                                      RadioListTile<search>(
+                                        title: const Text('Search By Name'),
+                                        value: search.Name,
+                                        groupValue: _character,
+                                        onChanged: (search value) {
+                                          setState(() {
+                                            _character = value;
+                                          });
+                                        },
+                                      ),
+                                      RadioListTile(
+                                        title: const Text('Search By City'),
+                                        value: search.City,
+                                        groupValue: _character,
+                                        onChanged: (search value) {
+                                          setState(() {
+                                            _character = value;
+                                          });
+                                        },
+                                      ),
+                                      SizedBox(height: 15,),
+                                      Center(
+                                        child: FlatButton(
+                                          onPressed: (){
+                                          },
+                                          child: Container(
+                                            height: 50,
+                                            width: 200,
+                                            decoration: BoxDecoration(
+                                              borderRadius: BorderRadius.circular(100.0),
+                                              gradient: LinearGradient(
+                                                begin: Alignment.topLeft,
+                                                end: Alignment.bottomRight,
+                                                colors: [
+                                                  Color(0xfffbb448),
+                                                  Color(0xffed740c),
+                                                ],
+                                              ),
+                                            ),
+                                            child: Center(
+                                              child: Text(
+                                                "Submit",
+                                                style: GoogleFonts.raleway(
+                                                  fontSize: 20.0,
+                                                  color: Colors.white,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                              );
+                            },
+                          );
+                        },
+                        child: Container(
+                          child: Row(
+                            children: <Widget>[
+                              Text(
+                                "Filter",
+                                style: GoogleFonts.varelaRound(
+                                  fontSize: 15,
+                                ),
                               ),
-                            ),
-                            SizedBox(width: 5,),
-                            Icon(
-                                FontAwesomeIcons.filter,
-                              size: 15,
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    FlatButton(
-                      onPressed: (){
-                        print('Alphabetically sort');
-                      },
-                      child: Container(
-                        child:Row(
-                          children: <Widget>[
-                            Text(
-                              "Sort",
-                              style: GoogleFonts.varelaRound(
-                                fontSize: 17,
+                              SizedBox(width: 5,),
+                              Icon(
+                                  FontAwesomeIcons.filter,
+                                size: 15,
                               ),
-                            ),
-                            SizedBox(width: 2,),
-                            Icon(
-                              FontAwesomeIcons.sortAlphaUp,
-                              size: 17,
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       ),
-                    ),
-                  ],
+                      
+                    ],
+                  ),
                 ),
               ),
               SizedBox(height: 10,),
@@ -185,30 +255,6 @@ class _workshopSearchPageState extends State<workshopSearchPage> {
                                     ],
                                   ),
                                 ),
-                                SizedBox(height: 5,),
-                                Container(
-                                  child: Row(
-                                    children: <Widget>[
-                                      Container(
-                                        child: RatingBar.builder(
-                                          initialRating: 4,
-                                          minRating: 1,
-                                          direction: Axis.horizontal,
-                                          allowHalfRating: true,
-                                          itemCount: 5,
-                                          itemSize: 20,
-                                          itemBuilder: (context, _) => Icon(
-                                            Icons.star,
-                                            color: Colors.amber,
-                                          ),
-                                          onRatingUpdate: (rating) {
-                                            print(rating);
-                                          },
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
                                 SizedBox(height: 10,),
                               ],
                             ),
@@ -220,397 +266,6 @@ class _workshopSearchPageState extends State<workshopSearchPage> {
                 ),
               ),
 
-              SizedBox(height: 20,),
-              Container(
-                margin: EdgeInsets.only(left: 20, right: 20),
-                child: Card(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: Container(
-                    child: Row(
-                      children: <Widget>[
-                        Container(
-                          width: 100,
-                          child: Image(
-                            image: AssetImage("assets/workshop2.png"),
-                          ),
-                        ),
-                        SizedBox(width: 10,),
-                        FlatButton(
-                          onPressed: (){
-
-                          },
-                          child: Container(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: <Widget>[
-                                Container(
-                                  child: Text(
-                                    "Auto Repair",
-                                    style: GoogleFonts.quicksand(
-                                      fontSize: 18,
-                                    ),
-                                  ),
-                                ),
-                                SizedBox(height: 5,),
-                                Container(
-                                  child: Text(
-                                    "Rawalpindi",
-                                    style: TextStyle(
-                                        fontSize: 15
-                                    ),
-                                  ),
-                                ),
-
-                                SizedBox(height: 3,),
-
-                                Container(
-                                  child: Row(
-                                    children: <Widget>[
-                                      Text(
-                                        "Status",
-                                        style: TextStyle(
-                                          fontSize: 13,
-                                        ),
-                                      ),
-                                      SizedBox(width: 5,),
-                                      Text(
-                                        "OFF",
-                                        style: TextStyle(
-                                          fontSize: 13,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                SizedBox(height: 5,),
-                                Container(
-                                  child: Row(
-                                    children: <Widget>[
-                                      Container(
-                                        child: RatingBar.builder(
-                                          initialRating: 4,
-                                          minRating: 1,
-                                          direction: Axis.horizontal,
-                                          allowHalfRating: true,
-                                          itemCount: 5,
-                                          itemSize: 20,
-                                          itemBuilder: (context, _) => Icon(
-                                            Icons.star,
-                                            color: Colors.amber,
-                                          ),
-                                          onRatingUpdate: (rating) {
-                                            print(rating);
-                                          },
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                SizedBox(height: 10,),
-
-                              ],
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-
-              SizedBox(height: 20,),
-              Container(
-                margin: EdgeInsets.only(left: 20, right: 20),
-                child: Card(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: Container(
-                    child: Row(
-                      children: <Widget>[
-                        Container(
-                          width: 100,
-                          child: Image(
-                            image: AssetImage("assets/workshop3.jpeg"),
-                          ),
-                        ),
-                        SizedBox(width: 10,),
-                        Container(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              Container(
-                                child: Text(
-                                  "Motorcycle Customes",
-                                  style: GoogleFonts.quicksand(
-                                    fontSize: 17,
-                                  ),
-                                ),
-                              ),
-                              SizedBox(height: 5,),
-                              Container(
-                                child: Text(
-                                  "Islamabad",
-                                  style: TextStyle(
-                                      fontSize: 15
-                                  ),
-                                ),
-                              ),
-
-                              SizedBox(height: 3,),
-
-                              Container(
-                                child: Row(
-                                  children: <Widget>[
-                                    Text(
-                                      "Status",
-                                      style: TextStyle(
-                                        fontSize: 13,
-                                      ),
-                                    ),
-                                    SizedBox(width: 5,),
-                                    Text(
-                                      "OFF",
-                                      style: TextStyle(
-                                        fontSize: 13,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              SizedBox(height: 5,),
-                              Container(
-                                child: Row(
-                                  children: <Widget>[
-                                    Container(
-                                      child: RatingBar.builder(
-                                        initialRating: 4,
-                                        minRating: 1,
-                                        direction: Axis.horizontal,
-                                        allowHalfRating: true,
-                                        itemCount: 5,
-                                        itemSize: 20,
-                                        itemBuilder: (context, _) => Icon(
-                                          Icons.star,
-                                          color: Colors.amber,
-                                        ),
-                                        onRatingUpdate: (rating) {
-                                          print(rating);
-                                        },
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              SizedBox(height: 10,),
-
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-
-              SizedBox(height: 20,),
-              Container(
-                margin: EdgeInsets.only(left: 20, right: 20),
-                child: Card(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: Container(
-                    child: Row(
-                      children: <Widget>[
-                        Container(
-                          width: 100,
-                          child: Image(
-                            image: AssetImage("assets/workshop4.png"),
-                          ),
-                        ),
-                        SizedBox(width: 10,),
-                        Container(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              Container(
-                                child: Text(
-                                  "RS Auto Shop",
-                                  style: GoogleFonts.quicksand(
-                                    fontSize: 18,
-                                  ),
-                                ),
-                              ),
-                              SizedBox(height: 5,),
-                              Container(
-                                child: Text(
-                                  "Islamabad",
-                                  style: TextStyle(
-                                      fontSize: 15
-                                  ),
-                                ),
-                              ),
-
-                              SizedBox(height: 3,),
-
-                              Container(
-                                child: Row(
-                                  children: <Widget>[
-                                    Text(
-                                      "Status",
-                                      style: TextStyle(
-                                        fontSize: 13,
-                                      ),
-                                    ),
-                                    SizedBox(width: 5,),
-                                    Text(
-                                      "ON",
-                                      style: TextStyle(
-                                        fontSize: 13,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              SizedBox(height: 5,),
-                              Container(
-                                child: Row(
-                                  children: <Widget>[
-                                    Container(
-                                      child: RatingBar.builder(
-                                        initialRating: 4,
-                                        minRating: 1,
-                                        direction: Axis.horizontal,
-                                        allowHalfRating: true,
-                                        itemCount: 5,
-                                        itemSize: 20,
-                                        itemBuilder: (context, _) => Icon(
-                                          Icons.star,
-                                          color: Colors.amber,
-                                        ),
-                                        onRatingUpdate: (rating) {
-                                          print(rating);
-                                        },
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              SizedBox(height: 10,),
-
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-
-              SizedBox(height: 20,),
-              Container(
-                margin: EdgeInsets.only(left: 20, right: 20),
-                child: Card(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: Container(
-                    child: Row(
-                      children: <Widget>[
-                        Container(
-                          width: 100,
-                          child: Image(
-                            image: AssetImage("assets/workshop1.webp"),
-                          ),
-                        ),
-                        SizedBox(width: 10,),
-                        Container(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              Container(
-                                child: Text(
-                                  "Ali Workshop",
-                                  style: GoogleFonts.quicksand(
-                                    fontSize: 18,
-                                  ),
-                                ),
-                              ),
-                              SizedBox(height: 5,),
-                              Container(
-                                child: Text(
-                                  "Islamabad",
-                                  style: TextStyle(
-                                      fontSize: 15
-                                  ),
-                                ),
-                              ),
-
-                              SizedBox(height: 3,),
-
-                              Container(
-                                child: Row(
-                                  children: <Widget>[
-                                    Text(
-                                      "Status",
-                                      style: TextStyle(
-                                        fontSize: 13,
-                                      ),
-                                    ),
-                                    SizedBox(width: 5,),
-                                    Text(
-                                      "ON",
-                                      style: TextStyle(
-                                        fontSize: 13,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              SizedBox(height: 5,),
-                              Container(
-                                child: Row(
-                                  children: <Widget>[
-                                    Container(
-                                      child: RatingBar.builder(
-                                        initialRating: 4,
-                                        minRating: 1,
-                                        direction: Axis.horizontal,
-                                        allowHalfRating: true,
-                                        itemCount: 5,
-                                        itemSize: 20,
-                                        itemBuilder: (context, _) => Icon(
-                                          Icons.star,
-                                          color: Colors.amber,
-                                        ),
-                                        onRatingUpdate: (rating) {
-                                          print(rating);
-                                        },
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              SizedBox(height: 10,),
-
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-
-
-              SizedBox(height: 30,),
 
             ],
           ),
