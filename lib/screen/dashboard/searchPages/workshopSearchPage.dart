@@ -1,3 +1,6 @@
+import 'package:bikersworld/model/workshop_model.dart';
+import 'package:bikersworld/services/search_queries/serach_workshop.dart';
+import 'package:bikersworld/services/toast_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -7,17 +10,41 @@ import 'package:bikersworld/screen/dashboard/normalUser/workshopDashboard.dart';
 import 'package:bikersworld/widgets/search_text_field.dart';
 import 'package:bikersworld/widgets/diaload_box.dart';
 
-class workshopSearchPage extends StatefulWidget {
+class WorkshopSearchPage extends StatefulWidget {
   @override
-  _workshopSearchPageState createState() => _workshopSearchPageState();
+  _WorkshopSearchPageState createState() => _WorkshopSearchPageState();
 }
 
 enum search { City, Name }
 
 
-class _workshopSearchPageState extends State<workshopSearchPage> {
+class _WorkshopSearchPageState extends State<WorkshopSearchPage> {
   search _character = search.Name;
+  String searchOption='';
+  int numberOfResults = 0;
+  final TextEditingController _controller = TextEditingController()..text = '';
+  final SearchWorkshop _searchWorkshop = SearchWorkshop();
 
+  Stream<List<WorkshopDashboardModel>> serachByNameOrCity(){
+    try {
+      if (_character == search.Name) {
+        print("name");
+        return _searchWorkshop.searchWorkshopByName(name: _controller.text.trim());
+      } else {
+        print("city");
+        return _searchWorkshop.searchWorkshopByCity(city: _controller.text.trim());
+      }
+    }catch(e){
+      final _error = ToastErrorMessage();
+      _error.errorToastMessage(errorMessage: e.toString());
+    }
+    return null;
+  }
+  counter(int index){
+    setState(() {
+      numberOfResults = index;
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -46,9 +73,22 @@ class _workshopSearchPageState extends State<workshopSearchPage> {
                   child: Padding(
                     padding: EdgeInsets.symmetric(vertical: 8 , horizontal: 15),
                     child: Container(
-                      child: SearchTextField(),
+                      child: TextField(
+                        controller: _controller,
+                        decoration: new InputDecoration(
+                            border: new OutlineInputBorder(
+                              borderRadius: const BorderRadius.all(
+                                const Radius.circular(50),
+                              ),
+                            ),
+                            filled: true,
+                            hintStyle: GoogleFonts.quicksand(color: Colors.black, fontSize:15),
+                            hintText: "Type Workshop Name Or City",
+                            prefixIcon: Icon(Icons.search, size: 25,),
+                            fillColor: Colors.white),
+                      ),
                     ),
-                  )
+                  ),
               ),
               Container(
                 width: MediaQuery.of(context).size.width,
@@ -67,7 +107,7 @@ class _workshopSearchPageState extends State<workshopSearchPage> {
                     children: <Widget>[
                       Container(
                         child: Text(
-                          "Result 2",
+                          "Result $numberOfResults",
                           style: GoogleFonts.varelaRound(
                             fontSize: 15,
 
@@ -107,7 +147,7 @@ class _workshopSearchPageState extends State<workshopSearchPage> {
                                           });
                                         },
                                       ),
-                                      RadioListTile(
+                                      RadioListTile<search>(
                                         title: const Text('Search By City'),
                                         value: search.City,
                                         groupValue: _character,
@@ -121,6 +161,7 @@ class _workshopSearchPageState extends State<workshopSearchPage> {
                                       Center(
                                         child: FlatButton(
                                           onPressed: (){
+                                            Navigator.pop(context);
                                           },
                                           child: Container(
                                             height: 50,
@@ -152,7 +193,9 @@ class _workshopSearchPageState extends State<workshopSearchPage> {
                                   ),
                               );
                             },
-                          );
+                          ).whenComplete((){
+                            serachByNameOrCity();
+                          });
                         },
                         child: Container(
                           child: Row(
@@ -201,66 +244,83 @@ class _workshopSearchPageState extends State<workshopSearchPage> {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(8),
                     ),
-                    child: Container(
-                      child: Row(
-                        children: <Widget>[
-                          Container(
-                            width: 110,
-                            child: Image(
-                              image: AssetImage("assets/workshop1.webp"),
-                            ),
-                          ),
-                          SizedBox(width: 10,),
-                          Container(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: <Widget>[
-                                Container(
-                                  child: Text(
-                                    "Automotive Repair",
-                                     style: GoogleFonts.quicksand(
-                                       fontSize: 18,
-                                     ),
-                                  ),
-                                ),
-                                SizedBox(height: 5,),
-                                Container(
-                                  child: Text(
-                                    "Islamabad",
-                                    style: TextStyle(
-                                      fontSize: 15
+                    child: StreamBuilder<List<WorkshopDashboardModel>>(
+                      stream: serachByNameOrCity(),
+                      builder: (context,snapshot){
+                        if(snapshot.hasData){
+                          return ListView.builder(
+                            shrinkWrap: true,
+                            itemCount: snapshot.data.length,
+                            itemBuilder: (context,index){
+                              return  Container(
+                                child: Row(
+                                  children: <Widget>[
+                                    Container(
+                                      width: 110,
+                                      child: Image(
+                                        image: AssetImage("assets/workshop1.webp"),
+                                      ),
                                     ),
-                                  ),
-                                ),
+                                    SizedBox(width: 10,),
+                                    Container(
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: <Widget>[
+                                          Container(
+                                            child: Text(
+                                              snapshot.data !=null ? snapshot.data[index].shopTitle : "Automotive Repair",
+                                              style: GoogleFonts.quicksand(
+                                                fontSize: 18,
+                                              ),
+                                            ),
+                                          ),
+                                          SizedBox(height: 5,),
+                                          Container(
+                                            child: Text(
+                                              snapshot.data != null ? snapshot.data[index].city: "Islamabad",
+                                              style: TextStyle(
+                                                  fontSize: 15
+                                              ),
+                                            ),
+                                          ),
 
-                                SizedBox(height: 3,),
+                                          SizedBox(height: 3,),
 
-                                Container(
-                                  child: Row(
-                                    children: <Widget>[
-                                      Text(
-                                        "Status",
-                                        style: TextStyle(
-                                          fontSize: 13,
-                                        ),
+                                          Container(
+                                            child: Row(
+                                              children: <Widget>[
+                                                Text(
+                                                  "Status",
+                                                  style: TextStyle(
+                                                    fontSize: 13,
+                                                  ),
+                                                ),
+                                                SizedBox(width: 5,),
+                                                Text(
+                                                  "OPEN",
+                                                  style: TextStyle(
+                                                    fontSize: 13,
+                                                    fontWeight: FontWeight.bold,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                          SizedBox(height: 10,),
+                                        ],
                                       ),
-                                      SizedBox(width: 5,),
-                                      Text(
-                                        "OPEN",
-                                        style: TextStyle(
-                                          fontSize: 13,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
+                                    ),
+                                  ],
                                 ),
-                                SizedBox(height: 10,),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
+                              );
+                            }
+                          );
+                        }
+                        else if(snapshot.hasError){
+                          return Text(snapshot.error.toString());
+                        }
+                        return CircularProgressIndicator();
+                      },
                     ),
                   ),
                 ),

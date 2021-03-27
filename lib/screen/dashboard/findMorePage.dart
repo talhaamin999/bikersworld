@@ -100,7 +100,7 @@ class _findMoreState extends State<findMore> {
                           ),
                         ),
                         onPressed: (){
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => workshopSearchPage()));
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => WorkshopSearchPage()));
                         },
                       ),
                       SizedBox(height: 20,),
