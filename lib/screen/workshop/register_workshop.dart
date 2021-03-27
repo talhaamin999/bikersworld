@@ -21,8 +21,7 @@ bool _isAreaEmpty = false;
 bool _isNameEmpty = false;
 bool _isContactEmpty = false;
 int fieldEmptyChecker = 0;
-String _currentDaySelected = 'Monday';
-String dayFromSelected,dayToSelected,openTime = '7:15 am',closeTime = '7:15 am';
+String dayFromSelected = 'Monday',dayToSelected = 'Saturday',openTime = '7:15 am',closeTime = '8:00 pm';
 
 class RegisterWorkshop extends StatefulWidget {
 
@@ -146,9 +145,10 @@ class _RegisterWorkshopState extends State<RegisterWorkshop> {
       final RegisterWorkshopQueries register = RegisterWorkshopQueries();
       await register.registerWorkshop(_data);
         if(RegisterWorkshopQueries.resultMessage == "Workshop Successfully Registered"){
-          if(widget.data.ownerName!=null){
+          if(widget.data != null){
             valid.validToastMessage(validMessage: 'Workshop Successfully Updated');
-          }else {
+          }
+          else{
             valid.validToastMessage(
                 validMessage: RegisterWorkshopQueries.resultMessage);
           }
@@ -744,7 +744,7 @@ Widget _title(String value) {
 }
 class SpecializationComboBox extends StatefulWidget {
 
-  String day;
+  final String day;
   SpecializationComboBox({Key key,this.day}) : super(key: key);
   @override
   _SpecializationComboBoxState createState() => _SpecializationComboBoxState();
@@ -756,15 +756,7 @@ class _SpecializationComboBoxState extends State<SpecializationComboBox> {
 
   @override
   void initState() {
-    mapValues();
     super.initState();
-  }
-  mapValues(){
-    if(widget.day == 'Monday'){
-      dayFromSelected = _currentDaySelected;
-    }else{
-      dayToSelected = _currentDaySelected;
-    }
   }
   Widget build(BuildContext context) {
     return Container(
@@ -773,7 +765,7 @@ class _SpecializationComboBoxState extends State<SpecializationComboBox> {
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: DropdownButton<String>(
-          value: _currentDaySelected,
+          value: widget.day == 'Monday' ? dayFromSelected : dayToSelected,
           icon: Container(
             margin: EdgeInsets.only(left: 10),
             child: Padding(
@@ -791,11 +783,10 @@ class _SpecializationComboBoxState extends State<SpecializationComboBox> {
           ),
           onChanged: (String newValue) {
             setState(() {
-              _currentDaySelected = newValue;
               if(widget.day == 'Monday'){
-                dayFromSelected = _currentDaySelected;
+                dayFromSelected = newValue;
               }else{
-                dayToSelected = _currentDaySelected;
+                dayToSelected = newValue;
               }
             });
           },
@@ -812,28 +803,30 @@ class _SpecializationComboBoxState extends State<SpecializationComboBox> {
   }
 }
 class TimePicker extends StatefulWidget {
-  String time;
+  final String time;
   TimePicker({this.time});
   @override
   _TimePickerState createState() => _TimePickerState();
 }
 
 class _TimePickerState extends State<TimePicker> {
-  TimeOfDay _time = TimeOfDay(hour: 7, minute: 15);
+  TimeOfDay _openTimeSelected = TimeOfDay(hour: 7, minute: 15);
+  TimeOfDay _closeTimeSelected = TimeOfDay(hour: 8, minute: 00);
 
   void _selectTime() async {
     final TimeOfDay newTime = await showTimePicker(
       context: context,
-      initialTime: _time,
+      initialTime: widget.time == 'open' ? _openTimeSelected : _closeTimeSelected,
     );
     if (newTime != null) {
       setState(() {
-        _time = newTime;
         if(widget.time == 'open'){
-          openTime = _time.format(context);
+          _openTimeSelected = newTime;
+          openTime = _openTimeSelected.format(context);
           print(openTime);
         }else{
-          closeTime = _time.format(context);
+          _closeTimeSelected = newTime;
+          closeTime = _closeTimeSelected.format(context);
           print(closeTime);
         }
       });
@@ -843,15 +836,6 @@ class _TimePickerState extends State<TimePicker> {
   @override
   void initState(){
     super.initState();
-  }
-  void mapValues(){
-    if(widget.time == 'open'){
-      openTime = _time.format(context);
-      print('open $openTime');
-    }else{
-      closeTime = _time.format(context);
-      print(closeTime);
-    }
   }
   Widget build(BuildContext context ) {
     return Column(
@@ -870,7 +854,7 @@ class _TimePickerState extends State<TimePicker> {
         ),
         SizedBox(height: 8),
         Text(
-          'Selected Time: ${_time.format(context)}',
+          "Selected Time: ${widget.time == 'open' ? _openTimeSelected.format(context) : _closeTimeSelected.format(context)}",
           style: GoogleFonts.quicksand(
             fontSize: 15,
           ),
