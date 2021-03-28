@@ -27,6 +27,7 @@ class WorkshopDashboardModel{
       ownerContact: json['owner_contact'],
     );
   }
+
   Map<String, dynamic> toMap(){
     return {
       'title': shopTitle,

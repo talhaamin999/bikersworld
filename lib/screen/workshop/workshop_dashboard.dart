@@ -2,8 +2,12 @@ import 'dart:async';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:bikersworld/model/workshop_model.dart';
 import 'package:bikersworld/screen/workshop/add_services.dart';
+import 'package:bikersworld/services/toast_service.dart';
+import 'package:bikersworld/services/workshop_queries/mechanic_queries.dart';
+import 'package:bikersworld/services/workshop_queries/workshop_queries.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -17,6 +21,7 @@ import 'package:bikersworld/screen/workshop/register_workshop.dart';
 import 'package:bikersworld/screen/workshop/add_profile_picture.dart';
 
 WorkshopDashboardModel data;
+var image;
 
 class WorkshopDashboard extends StatefulWidget {
   @override
@@ -33,6 +38,8 @@ class _WorkshopDashboardState extends State<WorkshopDashboard> {
   void initState() {
     super.initState();
   }
+
+
   @override
   Widget build(BuildContext context) {
 
@@ -69,11 +76,13 @@ class _WorkshopDashboardState extends State<WorkshopDashboard> {
         // ignore: missing_return
         builder: (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
           if(snapshot.connectionState == ConnectionState.done && snapshot.hasData && snapshot.data != null){
+            image = snapshot.data.get('image');
             data = WorkshopDashboardModel.fromJson(snapshot.data.data());
             print('${snapshot.data.data()}');
              return Dashboard();
            }
           else if(snapshot.connectionState == ConnectionState.active){
+            image = snapshot.data.get('image');
             data = WorkshopDashboardModel.fromJson(snapshot.data.data());
             print('${snapshot.data.data()}');
                return Dashboard();
@@ -90,11 +99,55 @@ class _WorkshopDashboardState extends State<WorkshopDashboard> {
   }
 }
 
-class Dashboard extends StatelessWidget {
+class Dashboard extends StatefulWidget {
   const Dashboard({
     Key key,
   }) : super(key: key);
 
+  @override
+  _DashboardState createState() => _DashboardState();
+}
+
+class _DashboardState extends State<Dashboard> {
+
+  final _workshop = RegisterWorkshopQueries();
+  final _error = ToastErrorMessage();
+  final _valid = ToastValidMessage();
+
+  Future deleteImage() async{
+    try {
+      if(image != null) {
+        await _workshop.deleteImage(image);
+        if (RegisterWorkshopQueries.deleteImageResult ==
+            "Image deleted successfully") {
+          await _workshop.uploadWorkshopImage(null);
+          if (RegisterWorkshopQueries.imageResult == "Image Uploaded") {
+            setState(() {
+              image = null;
+            });
+            _valid.validToastMessage(
+                validMessage: 'Image is successfully deleted');
+            Future.delayed(
+                new Duration(seconds: 1),
+                    () {
+                  Navigator.pop(context);
+                }
+            );
+          } else {
+            _error.errorToastMessage(
+                errorMessage: RegisterWorkshopQueries.imageResult);
+          }
+        } else {
+          _error.errorToastMessage(
+              errorMessage: RegisterWorkshopQueries.deleteImageResult);
+        }
+      }else{
+        _error.errorToastMessage(errorMessage: 'No Image Found');
+      }
+    }catch(e){
+      _error.errorToastMessage(errorMessage: e.toString());
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -126,6 +179,7 @@ class Dashboard extends StatelessWidget {
                           children: [
                             FlatButton(
                               child: CircleAvatar(
+                                backgroundImage: image != null ? NetworkImage(image) : AssetImage("assets/workshop1.webp"),
                                 radius: 50,
                                 backgroundColor: Colors.black,
                               ),
@@ -177,7 +231,7 @@ class Dashboard extends StatelessWidget {
                                                 ),
                                               ),
                                               onPressed: (){
-                                                Navigator.push(context, MaterialPageRoute(builder: (context) => workshopProfilePhoto()));
+                                                Navigator.push(context, MaterialPageRoute(builder: (context) => WorkshopProfilePhoto()));
                                               },
                                             ),
                                             FlatButton(
@@ -236,7 +290,7 @@ class Dashboard extends StatelessWidget {
                                                 ),
                                               ),
                                               onPressed: (){
-                                                //
+                                                deleteImage();
                                               },
                                             ),
                                             Padding(
