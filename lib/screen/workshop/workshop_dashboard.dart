@@ -1,25 +1,21 @@
 import 'dart:async';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:bikersworld/model/workshop_model.dart';
-import 'package:bikersworld/screen/workshop/edit_workshop_profile.dart';
 import 'package:bikersworld/screen/workshop/add_services.dart';
-import 'package:bikersworld/screen/workshop/register_workshop.dart';
-import 'package:bikersworld/services/workshop_queries/workshop_queries.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:bikersworld/screen/workshop/services/referenceWorkshop.dart';
 import 'package:bikersworld/screen/workshop/add_mechanics.dart';
 import 'package:bikersworld/screen/workshop/services/service_category.dart';
-import 'package:bikersworld/screen/workshop/add_services.dart';
 import 'package:bikersworld/screen/workshop/reviews/reviews.dart';
 import 'package:bikersworld/screen/workshop/view_mechanics.dart';
-import 'package:lite_rolling_switch/lite_rolling_switch.dart';
-import 'package:bikersworld/widgets/constants.dart';
+import 'package:bikersworld/widgets/curved_shape.dart';
+import 'package:bikersworld/screen/workshop/register_workshop.dart';
+import 'package:bikersworld/screen/workshop/add_profile_picture.dart';
 
-//var data;
 WorkshopDashboardModel data;
 
 class WorkshopDashboard extends StatefulWidget {
@@ -55,6 +51,18 @@ class _WorkshopDashboardState extends State<WorkshopDashboard> {
         iconTheme: IconThemeData(
           color: Colors.orangeAccent,
         ),
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(
+              Icons.settings,
+              color: Colors.white,
+            ),
+              onPressed: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) =>
+                    RegisterWorkshop(data: data,)));
+            },
+          )
+        ],
       ),
       body: StreamBuilder(
         stream: FirebaseFirestore.instance.collection(_WORKSHOP_COLLECTION).doc(_firebaseUser.uid).snapshots(),
@@ -95,49 +103,281 @@ class Dashboard extends StatelessWidget {
       width: MediaQuery.of(context).size.width,
       child: SingleChildScrollView(
         child: Column(
+
           children: <Widget>[
+
             Container(
-              padding: const EdgeInsets.only(left: 20.0, right: 20, bottom: 30),
-              decoration: BoxDecoration(
-                color: Color(0XFF012A4A),
-                borderRadius: BorderRadius.only(
-                  bottomLeft: Radius.circular(40.0),
-                  bottomRight: Radius.circular(40.0),
-                ),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Text(
-                       data.shopTitle,
-                        style: GoogleFonts.quicksand(
-                          color: Colors.white,
-                          fontSize: 32.0,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-
-                      CircleAvatar(
-                        radius: 38,
-                        backgroundImage: AssetImage('assets/autoPartStore/autoPartStore2.png',),
-                      ),
-                    ],
+                height: 310,
+                width: MediaQuery.of(context).size.width,
+                decoration: BoxDecoration(
+                  color: Color(0XFF012A4A),
+                  borderRadius: BorderRadius.only(
+                      bottomRight: Radius.circular(40.0),
+                      bottomLeft: Radius.circular(40),
                   ),
-
-                  Column(
+                ),
+                child: Container(
+                  margin: EdgeInsets.only(left:15,),
+                  child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Text(
-                        'DashBoard',
-                        style: GoogleFonts.krub(
-                          color: Colors.white,
-                          fontSize: 25.0,
+                    children: [
+                      Container(
+                        child: Row(
+                          children: [
+                            FlatButton(
+                              child: CircleAvatar(
+                                radius: 50,
+                                backgroundColor: Colors.black,
+                              ),
+                              onPressed: (){
+                                showModalBottomSheet(
+                                    context: context,
+                                    builder: (BuildContext context){
+                                      return Container(
+                                        height: 320,
+                                        color: Color(0xffe8e8e8),
+                                        child: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: <Widget>[
+                                            Padding(
+                                              padding: const EdgeInsets.only(left: 15, top:15),
+                                              child: Text(
+                                                "Select Option",
+                                                style: GoogleFonts.quicksand(
+                                                  fontSize: 20,
+                                                  color: Colors.black,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              ),
+                                            ),
+                                            SizedBox(height: 15,),
+                                            FlatButton(
+                                              child: Padding(
+                                                padding: const EdgeInsets.only(left:15),
+                                                child: Container(
+                                                  child: Row(
+                                                    children: [
+                                                      CircleAvatar(
+                                                        child: Icon(
+                                                          FontAwesomeIcons.image,
+                                                          color: Color(0XFF012A4A),
+                                                        ),
+                                                        backgroundColor: Color(0xffd6d6d6),
+                                                      ),
+                                                      SizedBox(width:20),
+                                                      Text(
+                                                        "Upload Photo",
+                                                        style: GoogleFonts.quicksand(
+                                                          fontSize: 18,
+                                                          color: Colors.black,
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ),
+                                              onPressed: (){
+                                                Navigator.push(context, MaterialPageRoute(builder: (context) => workshopProfilePhoto()));
+                                              },
+                                            ),
+                                            FlatButton(
+                                              child: Padding(
+                                                padding: const EdgeInsets.only(left:15, top:15),
+                                                child: Container(
+                                                  child: Row(
+                                                    children: [
+                                                      CircleAvatar(
+                                                        child: Icon(
+                                                          FontAwesomeIcons.images,
+                                                          color: Colors.orangeAccent,
+                                                        ),
+                                                        backgroundColor: Color(0xffd6d6d6),
+
+                                                      ),
+                                                      SizedBox(width:20),
+                                                      Text(
+                                                        "Update Photo",
+                                                        style: GoogleFonts.quicksand(
+                                                          fontSize: 18,
+                                                          color: Colors.black,
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ),
+                                              onPressed: (){
+                                                //
+                                              },
+                                            ),
+                                            FlatButton(
+                                              child: Padding(
+                                                padding: const EdgeInsets.only(left:15, top:15),
+                                                child: Container(
+                                                  child: Row(
+                                                    children: [
+                                                      CircleAvatar(
+                                                        child: Icon(
+                                                          FontAwesomeIcons.minus,
+                                                          color: Colors.red,
+                                                        ),
+                                                        backgroundColor: Color(0xffd6d6d6),
+                                                      ),
+                                                      SizedBox(width:20),
+                                                      Text(
+                                                        "Delete Photo",
+                                                        style: GoogleFonts.quicksand(
+                                                          fontSize: 18,
+                                                          color: Colors.black,
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ),
+                                              onPressed: (){
+                                                //
+                                              },
+                                            ),
+                                            Padding(
+                                              padding: const EdgeInsets.all(15),
+                                              child: Center(
+                                                child: FlatButton(
+                                                  onPressed: (){
+
+                                                  },
+                                                  child: Container(
+                                                    height: 50,
+                                                    width: 200,
+                                                    decoration: BoxDecoration(
+                                                      borderRadius: BorderRadius.circular(100.0),
+                                                      gradient: LinearGradient(
+                                                        begin: Alignment.topLeft,
+                                                        end: Alignment.bottomRight,
+                                                        colors: [
+                                                          Color(0xfffbb448),
+                                                          Color(0xffed740c),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                    child: Center(
+                                                      child: Text(
+                                                        "Submit",
+                                                        style: GoogleFonts.raleway(
+                                                          fontSize: 20.0,
+                                                          color: Colors.white,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      );
+
+                                    }
+                                );
+                              }
+                            ),
+                            Container(
+                                child: Column(
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.only(top:25),
+                                      child: Container(
+                                        child: Row(
+                                          children: [
+                                            Icon(FontAwesomeIcons.calendarAlt , color: Colors.white,),
+                                            SizedBox(width: 10,),
+                                            SizedBox(
+                                              child: AutoSizeText(
+                                                data.openFrom,
+                                                style: GoogleFonts.quicksand(
+                                                  fontSize: 18,
+                                                  color: Colors.white,
+                                                ),
+                                              ),
+                                            ),
+                                            SizedBox(width: 8,),
+                                            Text(
+                                              "-",
+                                              style: TextStyle(
+                                                color: Colors.white,
+                                              ),
+                                            ),
+                                            SizedBox(width: 8,),
+                                            SizedBox(
+                                              child: AutoSizeText(
+                                                data.openTo,
+                                                style: GoogleFonts.quicksand(
+                                                  fontSize: 18,
+                                                  color: Colors.white,
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(height: 10,),
+                                    Padding(
+                                      padding: const EdgeInsets.only(right:50),
+                                      child: Container(
+                                        child: Row(
+                                          children: [
+                                            Icon(FontAwesomeIcons.clock , color: Colors.white,),
+                                            SizedBox(width: 10,),
+                                            SizedBox(
+                                              child: AutoSizeText(
+                                                data.openTime,
+                                                style: GoogleFonts.quicksand(
+                                                  fontSize: 18,
+                                                  color: Colors.white,
+                                                ),
+                                              ),
+                                            ),
+                                            SizedBox(width: 8,),
+                                            Text(
+                                              "-",
+                                              style: TextStyle(
+                                                color: Colors.white,
+                                              ),
+                                            ),
+                                            SizedBox(width: 8,),
+                                            SizedBox(
+                                              child: AutoSizeText(
+                                                data.closeTime,
+                                                style: GoogleFonts.quicksand(
+                                                  fontSize: 18,
+                                                  color: Colors.white,
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+
+                                  ],
+                                ),
+                              ),
+
+                          ],
                         ),
                       ),
-                      SizedBox(height:10),
+                      SizedBox(height: 15,),
+                      SizedBox(
+                        child: AutoSizeText(
+                          data.shopTitle,
+                          style: GoogleFonts.quicksand(
+                            fontSize: 30,
+                            color: Colors.white70,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
 
                       Container(
                         child: Column(
@@ -161,27 +401,7 @@ class Dashboard extends StatelessWidget {
                               ),
                             ),
 
-                            SizedBox(height: 10,),
-
-                            Container(
-                              child: Row(
-                                children: [
-                                  Icon(FontAwesomeIcons.city, color: Colors.white70,),
-                                  SizedBox(width: 20,),
-                                  Padding(
-                                    padding: const EdgeInsets.only(top:8.0),
-                                    child: Text(
-                                     data.city,
-                                      style: GoogleFonts.raleway(
-                                        color: Colors.white70,
-                                        fontSize: 17,
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            SizedBox(height: 10,),
+                            SizedBox(height: 15,),
                             Container(
                               child: Row(
                                 children: [
@@ -200,73 +420,32 @@ class Dashboard extends StatelessWidget {
                                 ],
                               ),
                             ),
+                            SizedBox(height: 15,),
+                            Container(
+                              child: Row(
+                                children: [
+                                  Icon(FontAwesomeIcons.phone, color: Colors.white70,),
+                                  SizedBox(width: 20,),
+                                  Padding(
+                                    padding: const EdgeInsets.only(top:8.0),
+                                    child: Text(
+                                      data.ownerContact,
+                                      style: GoogleFonts.raleway(
+                                        color: Colors.white70,
+                                        fontSize: 17,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
                           ],
                         ),
                       ),
-
-                      SizedBox(height: 20),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          FlatButton.icon(
-                            padding: const EdgeInsets.symmetric(
-                              vertical: 10.0,
-                              horizontal: 20.0,
-                            ),
-                            onPressed: () {
-                              Navigator.push(context, MaterialPageRoute(builder: (context) =>
-                                  RegisterWorkshop(data: data,)));
-                            },
-                            color: Colors.red,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(30.0),
-                            ),
-
-                            icon: const Icon(
-                              Icons.settings,
-                              color: Colors.white,
-                            ),
-
-                            label: Text(
-                              'Edit Profile',
-                              style: Styles.buttonTextStyle,
-                            ),
-
-                            textColor: Colors.white,
-                          ),
-
-                          FlatButton.icon(
-                            padding: const EdgeInsets.symmetric(
-                              vertical: 10.0,
-                              horizontal: 20.0,
-                            ),
-
-                            onPressed: () {
-
-                            },
-                            color: Colors.blue,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(30.0),
-                            ),
-                            icon: const Icon(
-                              Icons.info_outline,
-                              color: Colors.white,
-                            ),
-
-                            label: Text(
-                              'Information',
-                              style: Styles.buttonTextStyle,
-                            ),
-                            textColor: Colors.white,
-                          ),
-                        ],
-                      ),
                     ],
                   ),
-                ],
+                ),
               ),
-            ),
-
             SizedBox(height: 20,),
             Container(
               margin: EdgeInsets.symmetric(horizontal: 23),
@@ -500,4 +679,45 @@ class Dashboard extends StatelessWidget {
     );
   }
 }
-
+/**
+ * Padding(
+    padding: const EdgeInsets.only(top:8),
+    child: Container(
+    child: Row(
+    children: [
+    Padding(
+    padding: const EdgeInsets.only(left:1),
+    child: Icon(FontAwesomeIcons.clock , color: Colors.white,),
+    ),
+    SizedBox(width: 10,),
+    SizedBox(
+    child: AutoSizeText(
+    data.openTime,
+    style: GoogleFonts.quicksand(
+    fontSize: 18,
+    color: Colors.white,
+    ),
+    ),
+    ),
+    SizedBox(width: 8,),
+    Text(
+    "-",
+    style: TextStyle(
+    color: Colors.white,
+    ),
+    ),
+    SizedBox(width: 8,),
+    SizedBox(
+    child: AutoSizeText(
+    data.closeTime,
+    style: GoogleFonts.quicksand(
+    fontSize: 18,
+    color: Colors.white,
+    ),
+    ),
+    ),
+    ],
+    ),
+    ),
+    ),
+ */

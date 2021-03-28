@@ -262,6 +262,7 @@ class _ViewMechanicsState extends State<ViewMechanics> {
                     } else if (snapshot.connectionState ==
                         ConnectionState.active) {
                       return ListView.builder(
+                        physics: NeverScrollableScrollPhysics(),
                         shrinkWrap: true,
                         itemCount: snapshot.data.length,
                         itemBuilder: (context, index) {
@@ -414,7 +415,7 @@ class _ViewMechanicsState extends State<ViewMechanics> {
                     return CircularProgressIndicator();
                   },
                 ),
-                //SizedBox(height: 30,),
+                SizedBox(height: 30,),
                 //SizedBox(height: 20,),
               ],
             ),
