@@ -116,7 +116,7 @@ class _AddMechanicsState extends State<AddMechanics> {
   Future<void> updateDocument({@required Mechanics mechanics,@required int index}) async{
     try {
       await _register.updateMechanic(mechanics, index);
-      if (RegisterMechanicQueries.updateResultMessage == RegisterMechanicQueries.SUCCESS_UPDATE) {
+      if (RegisterMechanicQueries.updateResultMessage == 'Mechanic Information Updated') {
         final _valid = ToastValidMessage();
         _valid.validToastMessage(
             validMessage: RegisterMechanicQueries.updateResultMessage);

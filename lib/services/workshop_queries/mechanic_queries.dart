@@ -7,9 +7,6 @@ class RegisterMechanicQueries {
 
   static final String WORKSHOP_COLLECTION = "workshop";
   static final String MECHANICS_COLLECTION = "mechanics";
-  static final String SUCCESS_Registeration = "Mechanic registered successfully";
-  static final String SUCCESS_DELETION = "Mechanic deleted successfully";
-  static final String SUCCESS_UPDATE = "Mechanic Information Updated";
   static String registrationResultMessage;
   static String deletionResultMessage;
   static String updateResultMessage;
@@ -44,7 +41,7 @@ class RegisterMechanicQueries {
       QuerySnapshot _querySnapshot = await _collectionReference.doc(_firebaseUser.uid).collection(
           MECHANICS_COLLECTION).get();
            _querySnapshot.docs[index].reference.delete()
-          .then((_) => deletionResultMessage = SUCCESS_DELETION)
+          .then((_) => deletionResultMessage = 'Mechanic deleted successfully')
           .catchError((error) => deletionResultMessage = error.toString());
     } on FirebaseException catch (e) {
       ToastErrorMessage errorMessage = ToastErrorMessage();
@@ -57,7 +54,7 @@ class RegisterMechanicQueries {
       QuerySnapshot _querySnapshot = await _collectionReference.doc(_firebaseUser.uid).collection(
           MECHANICS_COLLECTION).get();
       _querySnapshot.docs[index].reference.update(data.toMap())
-    .then((_) => updateResultMessage = SUCCESS_UPDATE)
+    .then((_) => updateResultMessage = 'Mechanic Information Updated')
       .catchError((onError) => updateResultMessage = onError.toString());
     } on FirebaseException catch (e) {
       ToastErrorMessage errorMessage = ToastErrorMessage();

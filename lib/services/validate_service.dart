@@ -84,6 +84,7 @@ class ValidateWorkshopServices {
       return true;
     }
   }
+  /*
   bool validateServicePrice(int price) {
      if(price <= 2000){
        return true;
@@ -92,7 +93,9 @@ class ValidateWorkshopServices {
        return false;
      }
   }
+   */
 }
+
 class ValidateWorkshopMechanics {
 
   bool validateMechanicName(String name) {

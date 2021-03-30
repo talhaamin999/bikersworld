@@ -2,30 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-class AlertBox extends StatefulWidget {
-  @override
-  _AlertBoxState createState() => _AlertBoxState();
-}
+// ignore: must_be_immutable
+class AlertBox extends StatelessWidget {
 
-class _AlertBoxState extends State<AlertBox> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Center(
-        child: RaisedButton(
-          onPressed: () {
-            return showDialog(
-              context: context,
-              builder: (ctx) => AlertDialog(
+    return AlertDialog(
                 title: Center(child: Icon(FontAwesomeIcons.exclamationCircle, color: Colors.red, size: 50,)),
-                content: Text("Price is high do you want to continue..." ,style: GoogleFonts.varelaRound(fontSize: 20,),),
+                content: Text("Are you sure about the Service Price" ,style: GoogleFonts.varelaRound(fontSize: 20,),),
                 actions: <Widget>[
                   Container(
                       child: Row(
                         children: [
                           FlatButton(
                             onPressed: (){
-                              //
+                              print("cancel");
                             },
                             child: Container(
                               height: 40,
@@ -47,7 +38,7 @@ class _AlertBoxState extends State<AlertBox> {
                           ),
                           FlatButton(
                             onPressed: (){
-                              //
+                              print("confirm");
                             },
                             child: Container(
                               height: 40,
@@ -58,7 +49,7 @@ class _AlertBoxState extends State<AlertBox> {
                               ),
                               child: Center(
                                 child: Text(
-                                  "Done",
+                                  "Confirm",
                                   style: GoogleFonts.quicksand(
                                     fontSize: 15,
                                     color:Colors.white,
@@ -72,12 +63,6 @@ class _AlertBoxState extends State<AlertBox> {
                     ),
 
                 ],
-              ),
-            );
-          },
-          child: Text("Alert box"),
-        ),
-      ),
-    );
+              );
   }
 }

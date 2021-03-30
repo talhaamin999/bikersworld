@@ -7,11 +7,8 @@ import '../toast_service.dart';
 class WorkshopServiceQueries {
 
   static String resultMessage;
-  static final String completionMessage = "Service Successfully Registered";
   static final String _WORKSHOP_COLLECTION = "workshop";
   static final String _Service_COLLECTION = "services";
-  static final String SUCCESS_DELETION = "Service Deleted Successfully";
-  static final String SUCCESS_UPDATE = "Service Information Updated";
   static String updateResultMessage;
   static String serviceDeletionMessage;
   String _workshopCityName;
@@ -25,7 +22,7 @@ class WorkshopServiceQueries {
    try {
      await _firestore.collection(_Service_COLLECTION)
          .add(data.toMap())
-         .then((_) => resultMessage = completionMessage)
+         .then((_) => resultMessage = 'Service Successfully Registered')
          .catchError((error) => resultMessage = error.toString());
    }catch(e){
      resultMessage = e.toString();
@@ -84,7 +81,7 @@ class WorkshopServiceQueries {
           .where('category', isEqualTo: data.category)
           .get();
          _querySnapshot.docs[index].reference.update(data.toMap())
-          .then((_) => updateResultMessage = SUCCESS_UPDATE)
+          .then((_) => updateResultMessage = "Service Information Updated")
           .catchError((onError) => updateResultMessage = onError.toString());
 
     } on FirebaseException catch (e) {

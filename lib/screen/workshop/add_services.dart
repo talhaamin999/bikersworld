@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 import 'package:bikersworld/model/workshop_model.dart';
 import 'package:bikersworld/services/toast_service.dart';
 import 'package:bikersworld/services/validate_service.dart';
@@ -11,6 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 
 ToastErrorMessage _error = ToastErrorMessage();
 ToastValidMessage _valid = ToastValidMessage();
@@ -84,7 +86,7 @@ class _AddServicesState extends State<AddServices> {
 
     final ValidateWorkshopServices service = ValidateWorkshopServices();
     final int _price = int.tryParse(_servicePriceController.text.trim());
-    if(!service.validateServiceCategory(_currentCategorySelected) && !service.validateServiceTitle(_serviceTitleController.text.trim()) && !service.validateServicePrice(_price)){
+    if(!service.validateServiceCategory(_currentCategorySelected) && !service.validateServiceTitle(_serviceTitleController.text.trim())){
       _error.errorToastMessage(errorMessage: "Enter Valid Data in Each Field");
     }
     else if(!service.validateServiceCategory(_currentCategorySelected)){
@@ -93,15 +95,33 @@ class _AddServicesState extends State<AddServices> {
     else if(!service.validateServiceTitle(_serviceTitleController.text.trim())){
       _error.errorToastMessage(errorMessage: "Service Title Must Only contain Alphabets");
     }
-    else if(!service.validateServicePrice(_price)){
-      _error.errorToastMessage(errorMessage: "Service Price must be less than or equal to 2000");
-    }
     else{
-      if(widget.service != null){
-        await updateService(_price);
-      }else {
-        await addService(_price);
+
+      if(_price > 2000) {
+        await Alert(
+          context: context,
+          type: AlertType.warning,
+          title: "Alert",
+          desc: "Services generally don't have price greater than 2000",
+          buttons: [
+            DialogButton(
+              child: Text(
+                "OK",
+                style: TextStyle(color: Colors.white, fontSize: 20),
+              ),
+              onPressed: () => Navigator.of(context,rootNavigator: true).pop(),
+              width: 120,
+            )
+          ],
+        ).show();
       }
+      if (widget.service != null) {
+          await updateService(_price);
+        }
+      else {
+          await addService(_price);
+        }
+
     }
   }
   Future<void> addService(int price) async{
@@ -109,7 +129,7 @@ class _AddServicesState extends State<AddServices> {
 
       Services data = Services(title: _serviceTitleController.text.trim(), category: _currentCategorySelected, price: price, workshopCity: _cityName, workshopId: _firebaseUser.uid);
       await _add.addWorkshopService(data);
-      if(WorkshopServiceQueries.resultMessage == WorkshopServiceQueries.completionMessage){
+      if(WorkshopServiceQueries.resultMessage == 'Service Successfully Registered'){
         _valid.validToastMessage(validMessage: WorkshopServiceQueries.resultMessage);
         clear();
         Future.delayed(
@@ -130,7 +150,7 @@ class _AddServicesState extends State<AddServices> {
     try {
       final Services data = Services(title: _serviceTitleController.text.trim(), category: _currentCategorySelected, price: price, workshopCity: _serviceInfo.workshopCity, workshopId: _serviceInfo.workshopId);
       await _add.updateService(data, documentIndex);
-      if(WorkshopServiceQueries.updateResultMessage == WorkshopServiceQueries.SUCCESS_UPDATE){
+      if(WorkshopServiceQueries.updateResultMessage == "Service Information Updated"){
         _valid.validToastMessage(validMessage: WorkshopServiceQueries.updateResultMessage);
         clear();
         Future.delayed(
@@ -182,7 +202,7 @@ class _AddServicesState extends State<AddServices> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       SizedBox(height: 15,),
-                      _title(),
+                      _title(widget.service),
                       SizedBox(height: 15),
                       Container(
                         child: Text(
@@ -214,7 +234,7 @@ class _AddServicesState extends State<AddServices> {
                                 end: Alignment.centerRight,
                                 colors: [Color(0xfffbb448), Color(0xfff7892b)])),
                         child: Text(
-                          'Register Now',
+                          widget.service != null ? 'Update Service':'Add Service',
                           style: GoogleFonts.krub(
                             fontSize: 18,
                             color: Colors.white,
@@ -231,8 +251,6 @@ class _AddServicesState extends State<AddServices> {
                       },
                     ),
                       SizedBox(height: 20),
-                      AlertBox(),
-
                     ],
                   ),
                 ),
@@ -260,11 +278,11 @@ Widget _addServicesWidget({@required TextEditingController titleController,@requ
   );
 }
 
-Widget _title() {
+Widget _title(Services _Service) {
   return RichText(
     textAlign: TextAlign.center,
     text: TextSpan(
-        text: 'Add',
+        text: _Service != null ? 'Update':'Add',
         style:GoogleFonts.quicksand(
           fontSize: 30,
           color: Color(0xfff7892b),
