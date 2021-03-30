@@ -5,10 +5,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:bikersworld/screen/dashboard/normalUser/workshopDashboard.dart';
-import 'package:bikersworld/widgets/search_text_field.dart';
-import 'package:bikersworld/widgets/diaload_box.dart';
+import 'package:auto_size_text/auto_size_text.dart';
+
 
 class WorkshopSearchPage extends StatefulWidget {
   @override
@@ -233,23 +231,22 @@ class _WorkshopSearchPageState extends State<WorkshopSearchPage> {
               ),
 
               SizedBox(height: 20,),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Container(
-                    child: Card(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      child: StreamBuilder<List<WorkshopDashboardModel>>(
-                        stream: serachByNameOrCity(),
-                        builder: (context,snapshot){
-                          if(snapshot.hasData){
-                            return ListView.builder(
-                              //physics:
-                              shrinkWrap: true,
-                              itemCount: snapshot.data.length,
-                              itemBuilder: (context,index){
-                                return  Container(
+
+              Container(
+                child:  StreamBuilder<List<WorkshopDashboardModel>>(
+                  stream: serachByNameOrCity(),
+                  builder: (context,snapshot){
+                    if(snapshot.hasData){
+                      return ListView.builder(
+                          physics: NeverScrollableScrollPhysics(),
+                          shrinkWrap: true,
+                          itemCount: snapshot.data.length,
+                          itemBuilder: (context,index){
+                            return  Padding(
+                              padding: const EdgeInsets.only(left:10,right: 10, bottom: 15),
+                              child: Card(
+                                color: Color(0xfff7f7f7),
+                                child: Container(
                                   child: Row(
                                     children: <Widget>[
                                       Container(
@@ -264,10 +261,11 @@ class _WorkshopSearchPageState extends State<WorkshopSearchPage> {
                                           crossAxisAlignment: CrossAxisAlignment.start,
                                           children: <Widget>[
                                             Container(
-                                              child: Text(
-                                                snapshot.data !=null ? snapshot.data[index].shopTitle : "Automotive Repair",
+                                              child: AutoSizeText(
+                                                snapshot.data !=null ? snapshot.data[index].shopTitle : "Automotive repair",
                                                 style: GoogleFonts.quicksand(
                                                   fontSize: 18,
+                                                  color: Colors.black,
                                                 ),
                                               ),
                                             ),
@@ -309,18 +307,18 @@ class _WorkshopSearchPageState extends State<WorkshopSearchPage> {
                                       ),
                                     ],
                                   ),
-                                );
-                              }
+                                ),
+                              ),
                             );
                           }
-                          else if(snapshot.hasError){
-                            return Text(snapshot.error.toString());
-                          }
-                          return CircularProgressIndicator();
-                        },
-                      ),
-                    ),
-                  ),
+                      );
+                    }
+                    else if(snapshot.hasError){
+                      return Text(snapshot.error.toString());
+                    }
+                    return CircularProgressIndicator();
+                  },
+                ),
               ),
 
 
