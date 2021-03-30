@@ -233,97 +233,94 @@ class _WorkshopSearchPageState extends State<WorkshopSearchPage> {
               ),
 
               SizedBox(height: 20,),
-              FlatButton(
-                onPressed: (){
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => normalUserWorkshopDashboard()));
-
-                },
+              Padding(
+                padding: const EdgeInsets.all(8.0),
                 child: Container(
-                  margin: EdgeInsets.only(left: 5, right: 5),
-                  child: Card(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    child: StreamBuilder<List<WorkshopDashboardModel>>(
-                      stream: serachByNameOrCity(),
-                      builder: (context,snapshot){
-                        if(snapshot.hasData){
-                          return ListView.builder(
-                            shrinkWrap: true,
-                            itemCount: snapshot.data.length,
-                            itemBuilder: (context,index){
-                              return  Container(
-                                child: Row(
-                                  children: <Widget>[
-                                    Container(
-                                      width: 110,
-                                      child: Image(
-                                        image: AssetImage("assets/workshop1.webp"),
+                    child: Card(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: StreamBuilder<List<WorkshopDashboardModel>>(
+                        stream: serachByNameOrCity(),
+                        builder: (context,snapshot){
+                          if(snapshot.hasData){
+                            return ListView.builder(
+                              //physics:
+                              shrinkWrap: true,
+                              itemCount: snapshot.data.length,
+                              itemBuilder: (context,index){
+                                return  Container(
+                                  child: Row(
+                                    children: <Widget>[
+                                      Container(
+                                        width: 110,
+                                        child: Image(
+                                          image: AssetImage("assets/workshop1.webp"),
+                                        ),
                                       ),
-                                    ),
-                                    SizedBox(width: 10,),
-                                    Container(
-                                      child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: <Widget>[
-                                          Container(
-                                            child: Text(
-                                              snapshot.data !=null ? snapshot.data[index].shopTitle : "Automotive Repair",
-                                              style: GoogleFonts.quicksand(
-                                                fontSize: 18,
+                                      SizedBox(width: 10,),
+                                      Container(
+                                        child: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: <Widget>[
+                                            Container(
+                                              child: Text(
+                                                snapshot.data !=null ? snapshot.data[index].shopTitle : "Automotive Repair",
+                                                style: GoogleFonts.quicksand(
+                                                  fontSize: 18,
+                                                ),
                                               ),
                                             ),
-                                          ),
-                                          SizedBox(height: 5,),
-                                          Container(
-                                            child: Text(
-                                              snapshot.data != null ? snapshot.data[index].city: "Islamabad",
-                                              style: TextStyle(
-                                                  fontSize: 15
+                                            SizedBox(height: 5,),
+                                            Container(
+                                              child: Text(
+                                                snapshot.data != null ? snapshot.data[index].city: "Islamabad",
+                                                style: TextStyle(
+                                                    fontSize: 15
+                                                ),
                                               ),
                                             ),
-                                          ),
 
-                                          SizedBox(height: 3,),
+                                            SizedBox(height: 3,),
 
-                                          Container(
-                                            child: Row(
-                                              children: <Widget>[
-                                                Text(
-                                                  "Status",
-                                                  style: TextStyle(
-                                                    fontSize: 13,
+                                            Container(
+                                              child: Row(
+                                                children: <Widget>[
+                                                  Text(
+                                                    "Status",
+                                                    style: TextStyle(
+                                                      fontSize: 13,
+                                                    ),
                                                   ),
-                                                ),
-                                                SizedBox(width: 5,),
-                                                Text(
-                                                  "OPEN",
-                                                  style: TextStyle(
-                                                    fontSize: 13,
-                                                    fontWeight: FontWeight.bold,
+                                                  SizedBox(width: 5,),
+                                                  Text(
+                                                    "OPEN",
+                                                    style: TextStyle(
+                                                      fontSize: 13,
+                                                      fontWeight: FontWeight.bold,
+                                                    ),
                                                   ),
-                                                ),
-                                              ],
+                                                ],
+                                              ),
                                             ),
-                                          ),
-                                          SizedBox(height: 10,),
-                                        ],
+                                            SizedBox(height: 10,),
+                                          ],
+                                        ),
                                       ),
-                                    ),
-                                  ],
-                                ),
-                              );
-                            }
-                          );
-                        }
-                        else if(snapshot.hasError){
-                          return Text(snapshot.error.toString());
-                        }
-                        return CircularProgressIndicator();
-                      },
+                                    ],
+                                  ),
+                                );
+                              }
+                            );
+                          }
+                          else if(snapshot.hasError){
+                            return Text(snapshot.error.toString());
+                          }
+                          return CircularProgressIndicator();
+                        },
+                      ),
                     ),
                   ),
-                ),
               ),
 
 

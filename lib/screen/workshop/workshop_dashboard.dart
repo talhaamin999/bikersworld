@@ -3,11 +3,9 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:bikersworld/model/workshop_model.dart';
 import 'package:bikersworld/screen/workshop/add_services.dart';
 import 'package:bikersworld/services/toast_service.dart';
-import 'package:bikersworld/services/workshop_queries/mechanic_queries.dart';
 import 'package:bikersworld/services/workshop_queries/workshop_queries.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -16,7 +14,6 @@ import 'package:bikersworld/screen/workshop/add_mechanics.dart';
 import 'package:bikersworld/screen/workshop/services/service_category.dart';
 import 'package:bikersworld/screen/workshop/reviews/reviews.dart';
 import 'package:bikersworld/screen/workshop/view_mechanics.dart';
-import 'package:bikersworld/widgets/curved_shape.dart';
 import 'package:bikersworld/screen/workshop/register_workshop.dart';
 import 'package:bikersworld/screen/workshop/add_profile_picture.dart';
 
@@ -339,7 +336,7 @@ class _DashboardState extends State<Dashboard> {
                                 child: Column(
                                   children: [
                                     Padding(
-                                      padding: const EdgeInsets.only(top:25),
+                                      padding: const EdgeInsets.only(top:25,),
                                       child: Container(
                                         child: Row(
                                           children: [
@@ -377,40 +374,40 @@ class _DashboardState extends State<Dashboard> {
                                     ),
                                     SizedBox(height: 10,),
                                     Padding(
-                                      padding: const EdgeInsets.only(right:50),
+                                      padding: const EdgeInsets.only(right: 55),
                                       child: Container(
-                                        child: Row(
-                                          children: [
-                                            Icon(FontAwesomeIcons.clock , color: Colors.white,),
-                                            SizedBox(width: 10,),
-                                            SizedBox(
-                                              child: AutoSizeText(
-                                                data.openTime,
-                                                style: GoogleFonts.quicksand(
-                                                  fontSize: 18,
+                                          child: Row(
+                                            children: [
+                                              Icon(FontAwesomeIcons.clock , color: Colors.white,),
+                                              SizedBox(width: 10,),
+                                              SizedBox(
+                                                child: AutoSizeText(
+                                                  data.openTime,
+                                                  style: GoogleFonts.quicksand(
+                                                    fontSize: 18,
+                                                    color: Colors.white,
+                                                  ),
+                                                ),
+                                              ),
+                                              SizedBox(width: 8,),
+                                              Text(
+                                                "-",
+                                                style: TextStyle(
                                                   color: Colors.white,
                                                 ),
                                               ),
-                                            ),
-                                            SizedBox(width: 8,),
-                                            Text(
-                                              "-",
-                                              style: TextStyle(
-                                                color: Colors.white,
-                                              ),
-                                            ),
-                                            SizedBox(width: 8,),
-                                            SizedBox(
-                                              child: AutoSizeText(
-                                                data.closeTime,
-                                                style: GoogleFonts.quicksand(
-                                                  fontSize: 18,
-                                                  color: Colors.white,
+                                              SizedBox(width: 8,),
+                                              SizedBox(
+                                                child: AutoSizeText(
+                                                  data.closeTime,
+                                                  style: GoogleFonts.quicksand(
+                                                    fontSize: 18,
+                                                    color: Colors.white,
+                                                  ),
                                                 ),
                                               ),
-                                            ),
-                                          ],
-                                        ),
+                                            ],
+                                          ),
                                       ),
                                     ),
 

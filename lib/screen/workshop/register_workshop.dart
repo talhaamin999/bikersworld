@@ -856,7 +856,7 @@ class _TimePickerState extends State<TimePicker> {
         Text(
           "Selected Time: ${widget.time == 'open' ? _openTimeSelected.format(context) : _closeTimeSelected.format(context)}",
           style: GoogleFonts.quicksand(
-            fontSize: 15,
+            fontSize: 14,
           ),
         ),
       ],

@@ -38,7 +38,8 @@ class WorkshopDashboardModel{
       'open_from' : openFrom,
       'open_to' : openTo,
       'open_time' : openTime,
-      'close_time' : closeTime
+      'close_time' : closeTime,
+      'image' : null,
     };
   }
 }

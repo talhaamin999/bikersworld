@@ -1,9 +1,9 @@
 import 'dart:async';
-import 'dart:developer';
 import 'package:bikersworld/model/workshop_model.dart';
 import 'package:bikersworld/services/toast_service.dart';
 import 'package:bikersworld/services/validate_service.dart';
 import 'package:bikersworld/services/workshop_queries/service_queries.dart';
+import 'package:bikersworld/widgets/dialog_box.dart';
 import 'package:bikersworld/widgets/entry_field.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -11,9 +11,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:bikersworld/widgets/drawer.dart';
-import 'package:bikersworld/widgets/customeTextArea.dart';
-import 'package:bikersworld/screen/workshop/workshop_dashboard.dart';
 
 ToastErrorMessage _error = ToastErrorMessage();
 ToastValidMessage _valid = ToastValidMessage();
@@ -178,15 +175,25 @@ class _AddServicesState extends State<AddServices> {
           child: Stack(
             children: <Widget>[
               Container(
-                padding: EdgeInsets.symmetric(horizontal: 20),
+                padding: EdgeInsets.only(left: 10 , right: 20),
                 child: SingleChildScrollView(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                      SizedBox(height: 30,),
+                      SizedBox(height: 15,),
                       _title(),
-                      SizedBox(height: 40),
+                      SizedBox(height: 15),
+                      Container(
+                        child: Text(
+                          "Category",
+                          style: GoogleFonts.quicksand(
+                            fontSize: 20,
+                            color: Colors.black,
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 10,),
                       _addServicesWidget(titleController: _serviceTitleController,priceController: _servicePriceController,formKey: _formKey),
                       SizedBox(height: 20),
                       FlatButton(
@@ -224,6 +231,7 @@ class _AddServicesState extends State<AddServices> {
                       },
                     ),
                       SizedBox(height: 20),
+                      AlertBox(),
 
                     ],
                   ),
