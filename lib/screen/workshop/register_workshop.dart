@@ -170,7 +170,7 @@ class _RegisterWorkshopState extends State<RegisterWorkshop> {
           else{
             valid.validToastMessage(
                 validMessage: RegisterWorkshopQueries.resultMessage);
-          }
+           }
           clear();
           Future.delayed(
               new Duration(seconds: 2),
