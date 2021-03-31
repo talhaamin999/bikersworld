@@ -1,45 +1,69 @@
 import 'package:flutter/cupertino.dart';
 
-class WorkshopDashboardModel{
+class WorkshopDashboardModel {
 
   final String ownerName;
   final String ownerContact;
   final String shopTitle;
   final String city;
   final String area;
-  final String openFrom;
-  final String openTo;
   final String openTime;
   final String closeTime;
+  final String imageURL;
+  final bool monday,
+      tuesday,
+      wednesday,
+      thursday,
+      friday,
+      saturday,
+      sunday;
 
-  WorkshopDashboardModel({this.ownerName,this.ownerContact,this.shopTitle,this.area,this.city,this.openFrom,this.openTo,this.openTime,this.closeTime});
+  WorkshopDashboardModel(
+      {this.ownerName, this.ownerContact, this.shopTitle, this.area, this.city,this.openTime, this.closeTime,this.saturday,this.sunday,this.friday,this.thursday,this.wednesday,this.tuesday,this.monday,this.imageURL});
 
   factory WorkshopDashboardModel.fromJson(Map<String, dynamic> json){
     return WorkshopDashboardModel(
       shopTitle: json['title'],
       city: json['city'],
       area: json['area'],
-      openFrom: json['open_from'],
-      openTo: json['open_to'],
       openTime: json['open_time'],
       closeTime: json['close_time'],
       ownerName: json['owner_name'],
       ownerContact: json['owner_contact'],
+      imageURL: json['image'],
+      monday: json['work_days']['monday'],
+      tuesday: json['work_days']['tuesday'],
+      wednesday: json['work_days']['wednesday'],
+      thursday: json['work_days']['thursday'],
+      friday: json['work_days']['friday'],
+      saturday: json['work_days']['saturday'],
+      sunday: json['work_days']['sunday'],
     );
   }
 
-  Map<String, dynamic> toMap(){
+  Map<String, dynamic> toMap() {
     return {
       'title': shopTitle,
       'city': city,
       'area': area,
-      'owner_name' : ownerName,
-      'owner_contact' : ownerContact,
-      'open_from' : openFrom,
-      'open_to' : openTo,
-      'open_time' : openTime,
-      'close_time' : closeTime,
-      'image' : null,
+      'owner_name': ownerName,
+      'owner_contact': ownerContact,
+      'open_time': openTime,
+      'close_time': closeTime,
+      'image': imageURL,
+      'work_days': workingDays(),
+    };
+  }
+
+  Map<String, dynamic> workingDays() {
+    return {
+      'monday' : monday,
+      'tuesday' : tuesday,
+      'wednesday' : wednesday,
+      'thursday' : thursday,
+      'friday' : friday,
+      'saturday': saturday,
+      'sunday' : sunday,
     };
   }
 }
@@ -75,6 +99,7 @@ class Services{
   final int price;
   final String workshopCity;
   final String workshopId;
+
 
   Services({@required this.title,@required this.category,@required this.price,@required this.workshopCity,@required this.workshopId});
 

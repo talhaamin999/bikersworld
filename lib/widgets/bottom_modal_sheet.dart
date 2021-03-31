@@ -4,12 +4,11 @@ import 'package:google_fonts/google_fonts.dart';
 
 
 class BottomModalSheet extends StatelessWidget {
-  const BottomModalSheet({Key key}) : super(key: key);
 
+  const BottomModalSheet({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-
     return Center(
       child: FlatButton(
         height: 50,
@@ -43,7 +42,6 @@ class BottomModalSheet extends StatelessWidget {
                         ),
 
                         MyCheckBox(),
-
                         SizedBox(height: 20,),
                         Center(
                           child: FlatButton(
@@ -56,7 +54,7 @@ class BottomModalSheet extends StatelessWidget {
                               ),
                             ),
                             onPressed: (){
-                              //
+                              Navigator.pop(context);
                             },
                           ),
                         )
@@ -75,9 +73,6 @@ class BottomModalSheet extends StatelessWidget {
 
 
 class MyCheckBox extends StatefulWidget {
-  @override
-  _MyCheckBoxState createState() => _MyCheckBoxState();
-}class _MyCheckBoxState extends State<MyCheckBox> {
 
   bool Monday = false;
   bool Tuesday = false;
@@ -86,6 +81,22 @@ class MyCheckBox extends StatefulWidget {
   bool Friday = false;
   bool Saturday = false;
   bool Sunday = false;
+
+  MyCheckBox({this.Monday,this.Wednesday,this.Tuesday,this.Thursday,this.Friday,this.Saturday,this.Sunday});
+  @override
+  _MyCheckBoxState createState() => _MyCheckBoxState();
+}
+
+class _MyCheckBoxState extends State<MyCheckBox> {
+
+  bool Monday = false;
+  bool Tuesday = false;
+  bool Wednesday = false;
+  bool Thursday = false;
+  bool Friday = false;
+  bool Saturday = false;
+  bool Sunday = false;
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -97,10 +108,10 @@ class MyCheckBox extends StatefulWidget {
               Row(
                 children: [
                   Checkbox(
-                    value: Monday,
+                    value: widget.Monday,
                     onChanged: (bool value) {
                       setState(() {
-                        Monday = value;
+                        widget.Monday = value;
                       });
                     },
                   ),
@@ -112,10 +123,10 @@ class MyCheckBox extends StatefulWidget {
                 child: Row(
                   children: [
                     Checkbox(
-                      value: Tuesday,
+                      value: widget.Tuesday,
                       onChanged: (bool value) {
                         setState(() {
-                          Tuesday = value;
+                          widget.Tuesday = value;
                         });
                       },
                     ),
@@ -134,10 +145,10 @@ class MyCheckBox extends StatefulWidget {
               Row(
                 children: [
                   Checkbox(
-                    value: Wednesday,
+                    value: widget.Wednesday,
                     onChanged: (bool value) {
                       setState(() {
-                        Wednesday = value;
+                        widget.Wednesday = value;
                       });
                     },
                   ),
@@ -147,10 +158,10 @@ class MyCheckBox extends StatefulWidget {
               Row(
                 children: [
                   Checkbox(
-                    value: Thursday,
+                    value: widget.Thursday,
                     onChanged: (bool value) {
                       setState(() {
-                        Thursday = value;
+                        widget.Thursday = value;
                       });
                     },
                   ),
@@ -168,10 +179,10 @@ class MyCheckBox extends StatefulWidget {
               Row(
                 children: [
                   Checkbox(
-                    value: Friday,
+                    value: widget.Friday,
                     onChanged: (bool value) {
                       setState(() {
-                        Friday = value;
+                        widget.Friday = value;
                       });
                     },
                   ),
@@ -183,10 +194,10 @@ class MyCheckBox extends StatefulWidget {
                 child: Row(
                   children: [
                     Checkbox(
-                      value: Saturday,
+                      value: widget.Saturday,
                       onChanged: (bool value) {
                         setState(() {
-                          Saturday = value;
+                          widget.Saturday = value;
                         });
                       },
                     ),
@@ -204,14 +215,14 @@ class MyCheckBox extends StatefulWidget {
         Row(
           children: [
             Checkbox(
-              value: Wednesday,
+              value: widget.Sunday,
               onChanged: (bool value) {
                 setState(() {
-                  Wednesday = value;
+                  widget.Sunday = value;
                 });
               },
             ),
-            Text("Wednesday",style: GoogleFonts.quicksand(fontSize: 16),),
+            Text("Sunday",style: GoogleFonts.quicksand(fontSize: 16),),
           ],
         ),
       ],

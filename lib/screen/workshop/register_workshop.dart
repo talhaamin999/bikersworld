@@ -24,6 +24,7 @@ bool _isNameEmpty = false;
 bool _isContactEmpty = false;
 int fieldEmptyChecker = 0;
 String dayFromSelected = 'Monday',dayToSelected = 'Saturday',openTime = '7:15 am',closeTime = '8:00 pm';
+bool monday=false,tuesday=false,wednesday=false,thursday=false,friday=false,saturday=false,sunday=false;
 
 class RegisterWorkshop extends StatefulWidget {
 
@@ -35,11 +36,12 @@ class RegisterWorkshop extends StatefulWidget {
 
 class _RegisterWorkshopState extends State<RegisterWorkshop> {
   int currentIndex;
-  final TextEditingController _shopTitleController = TextEditingController()..text = '';
-  final TextEditingController _shopCityController = TextEditingController()..text = '';
-  final TextEditingController _shopSpecificAreaController = TextEditingController()..text = '';
-  final TextEditingController _ownerNameController = TextEditingController()..text = '';
-  final TextEditingController _ownerContactController = TextEditingController()..text = '';
+  final TextEditingController _shopTitleController = TextEditingController();
+  final TextEditingController _shopCityController = TextEditingController();
+  final TextEditingController _shopSpecificAreaController = TextEditingController();
+  final TextEditingController _ownerNameController = TextEditingController();
+  final TextEditingController _ownerContactController = TextEditingController();
+  String imageUrl;
 
   @override
   void initState() {
@@ -54,10 +56,16 @@ class _RegisterWorkshopState extends State<RegisterWorkshop> {
       _shopSpecificAreaController.text = widget.data.area;
       _ownerNameController.text = widget.data.ownerName;
       _ownerContactController.text = widget.data.ownerContact;
-      dayFromSelected = widget.data.openFrom;
-      dayToSelected = widget.data.openTo;
       openTime = widget.data.openTime;
       closeTime = widget.data.closeTime;
+      monday = widget.data.monday;
+      tuesday = widget.data.tuesday;
+      wednesday = widget.data.wednesday;
+      thursday = widget.data.thursday;
+      friday = widget.data.friday;
+      saturday = widget.data.saturday;
+      sunday = widget.data.sunday;
+      imageUrl = widget.data.imageURL;
     }
   }
 
@@ -75,6 +83,20 @@ class _RegisterWorkshopState extends State<RegisterWorkshop> {
     _ownerContactController.dispose();
     super.dispose();
   }
+  void clear(){
+    _shopTitleController.clear();
+    _shopCityController.clear();
+    _shopSpecificAreaController.clear();
+    _ownerNameController.clear();
+    _ownerContactController.clear();
+    monday = false;
+    tuesday = false;
+    wednesday = false;
+    thursday = false;
+    friday = false;
+    saturday = false;
+    sunday = false;
+  }
   void checkEmptyField(){
     setState(() {
     if(_shopTitleController.text.isEmpty){
@@ -82,12 +104,6 @@ class _RegisterWorkshopState extends State<RegisterWorkshop> {
     }
     else{
       _isTitleEmpty = false;
-    }
-    if(_shopCityController.text.isEmpty){
-      _isCityEmpty = true;
-    }
-    else{
-      _isCityEmpty = false;
     }
     if(_shopSpecificAreaController.text.isEmpty){
       _isAreaEmpty = true;
@@ -111,6 +127,7 @@ class _RegisterWorkshopState extends State<RegisterWorkshop> {
       fieldEmptyChecker = 1;
     }
     });
+
   }
   void validateFields(){
 
@@ -138,12 +155,12 @@ class _RegisterWorkshopState extends State<RegisterWorkshop> {
         addWorkshop();
       }
     }
-
   }
 
   Future<void> addWorkshop() async{
     try {
-      final _data = WorkshopDashboardModel(shopTitle: _shopTitleController.text,city: _shopCityController.text,area: _shopSpecificAreaController.text,openFrom: dayFromSelected,openTo: dayToSelected,openTime: openTime,closeTime: closeTime, ownerName: _ownerNameController.text,ownerContact: _ownerContactController.text);
+
+      final _data = WorkshopDashboardModel(shopTitle: _shopTitleController.text,city: _shopCityController.text,area: _shopSpecificAreaController.text,openTime: openTime,closeTime: closeTime, ownerName: _ownerNameController.text,ownerContact: _ownerContactController.text,monday: monday,tuesday: tuesday,wednesday: wednesday,thursday: thursday,friday: friday,saturday: saturday,sunday: sunday,imageURL: imageUrl);
       final RegisterWorkshopQueries register = RegisterWorkshopQueries();
       await register.registerWorkshop(_data);
         if(RegisterWorkshopQueries.resultMessage == "Workshop Successfully Registered"){
@@ -154,6 +171,7 @@ class _RegisterWorkshopState extends State<RegisterWorkshop> {
             valid.validToastMessage(
                 validMessage: RegisterWorkshopQueries.resultMessage);
           }
+          clear();
           Future.delayed(
               new Duration(seconds: 2),
                 (){
@@ -308,7 +326,6 @@ Widget _registerWorkshopWidget({@required TextEditingController shopTitleControl
     'Kabal','Lodhran','Hasilpur', 'Charsadda', 'Bhakkar', 'Badin', 'Arif Wala','Ghotki','Sambrial','Jatoi','Haroonabad','Daharki','Narowal','Tando Muhammad Khan','Kamber Ali Khan','Mirpur Mathelo','Kandhkot','Bhalwal',
   ];
 
-  if(shopSpecificAreaController.text == '' || ownerContactController.text == '') {
     return Column(
       children: <Widget>[
         Container(
@@ -364,6 +381,7 @@ Widget _registerWorkshopWidget({@required TextEditingController shopTitleControl
             child: Column(
                 children: <Widget>[
                   DropDownField(
+                    controller: shopCityController,
                     onValueChanged: (dynamic value) {
                       city_id = value;
                     },
@@ -535,218 +553,7 @@ Widget _registerWorkshopWidget({@required TextEditingController shopTitleControl
 
       ],
     );
-  }else{
-    return Column(
-      children: <Widget>[
-        Container(
-          margin: EdgeInsets.symmetric(vertical: 30),
-          child: Row(
-            children: <Widget>[
-              SizedBox(
-                width: 30,
-              ),
-              Expanded(
-                child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 10),
-                  child: Divider(
-                    thickness: 1,
-                  ),
-                ),
-              ),
-              Text('Workshop Information', style: GoogleFonts.quicksand(
-                  fontSize: 16, fontWeight: FontWeight.w600),),
-              Expanded(
-                child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 10),
-                  child: Divider(
-                    thickness: 1,
-                  ),
-                ),
-              ),
-              SizedBox(
-                width: 20,
-              ),
-            ],
-          ),
-        ),
-        _entryField("Address", shopSpecificAreaController, TextInputType.text,
-            FilteringTextInputFormatter.allow(
-                RegExp(r'^(?!\s*$)[a-zA-Z0-9-#,/ ]{1,30}$')), _isAreaEmpty),
 
-        SizedBox(height: 10),
-        Container(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Container(
-                margin: EdgeInsets.symmetric(vertical: 30),
-                child: Row(
-                  children: <Widget>[
-                    SizedBox(
-                      width: 30,
-                    ),
-                    Expanded(
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 10),
-                        child: Divider(
-                          thickness: 1,
-                        ),
-                      ),
-                    ),
-                    Text('Workshop Status', style: GoogleFonts.quicksand(
-                        fontSize: 16, fontWeight: FontWeight.w600),),
-                    Expanded(
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 10),
-                        child: Divider(
-                          thickness: 1,
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                      width: 20,
-                    ),
-                  ],
-                ),
-              ),
-
-              SizedBox(height: 15,),
-              Container(
-                child: Text(
-                    "Day",
-                    style: GoogleFonts.quicksand(
-                      fontSize: 18,
-                    )
-                ),
-              ),
-              Container(
-                child: Row(
-                  children: [
-                    Container(
-                      child: Column(
-                        children: [
-                          SizedBox(height: 20,),
-                          Text(
-                            "From",
-                          ),
-                          SizedBox(height: 10,),
-                          SpecializationComboBox(day: 'Monday',),
-                        ],
-                      ),
-                    ),
-                    SizedBox(width: 30,),
-                    Container(
-                      child: Column(
-                        children: [
-                          SizedBox(height: 20,),
-                          Text(
-                            "To",
-                          ),
-                          SizedBox(height: 10,),
-                          SpecializationComboBox(),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              SizedBox(height: 20,),
-
-              Container(
-                child: Text(
-                    "Date",
-                    style: GoogleFonts.quicksand(
-                      fontSize: 18,
-                    )
-                ),
-              ),
-              Container(
-                child: Row(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(left: 15),
-                      child: Container(
-                        child: Column(
-                          children: [
-                            SizedBox(height: 20,),
-                            Text(
-                              "Opening Time",
-                              style: GoogleFonts.quicksand(
-                                fontSize: 15,
-                              ),
-                            ),
-                            SizedBox(height: 10,),
-                            Container(
-                              child: TimePicker(time: 'open',),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    SizedBox(width: 30,),
-                    Container(
-                      child: Column(
-                        children: [
-                          SizedBox(height: 20,),
-                          Text(
-                            "Closing Time",
-                            style: GoogleFonts.quicksand(
-                              fontSize: 15,
-                            ),
-                          ),
-                          SizedBox(height: 10,),
-                          Container(
-                            child: TimePicker(),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ),
-        Container(
-          margin: EdgeInsets.symmetric(vertical: 30),
-          child: Row(
-            children: <Widget>[
-              SizedBox(
-                width: 30,
-              ),
-              Expanded(
-                child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 10),
-                  child: Divider(
-                    thickness: 1,
-                  ),
-                ),
-              ),
-              Text('Owner Information', style: GoogleFonts.quicksand(
-                  fontSize: 16, fontWeight: FontWeight.w600),),
-              Expanded(
-                child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 10),
-                  child: Divider(
-                    thickness: 1,
-                  ),
-                ),
-              ),
-              SizedBox(
-                width: 20,
-              ),
-            ],
-          ),
-        ),
-
-        _entryField(
-            "Contact Number", ownerContactController, TextInputType.number,
-            FilteringTextInputFormatter.digitsOnly, _isContactEmpty),
-
-      ],
-    );
-  }
 }
 
 Widget _title(String value) {
@@ -956,4 +763,209 @@ const ColorScheme _shrineColorScheme = ColorScheme(
   onError: shrineSurfaceWhite,
   brightness: Brightness.light,
 );
+class BottomModalSheet extends StatelessWidget {
 
+  const BottomModalSheet({Key key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: FlatButton(
+        height: 50,
+        minWidth: MediaQuery.of(context).size.width,
+        color: Color(0xfff3f3f4),
+        child: Text(
+          'Working Days',
+          style: GoogleFonts.quicksand(
+            fontSize: 17,
+            color: Colors.black,
+          ),
+        ),
+        onPressed: () {
+          showModalBottomSheet<void>(
+            context: context,
+            builder: (BuildContext context) {
+              return Container(
+                height: 330,
+                color: Color(0xfff3f3f4),
+                child:Padding(
+                  padding: const EdgeInsets.all(15),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Text(
+                        'Select working days',
+                        style: GoogleFonts.quicksand(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+
+                      MyCheckBox(),
+                      SizedBox(height: 20,),
+                      Center(
+                        child: FlatButton(
+                          color: Colors.orange,
+                          child: Text(
+                            'Submit',
+                            style: GoogleFonts.quicksand(
+                              fontSize: 18,
+                              color: Colors.white,
+                            ),
+                          ),
+                          onPressed: (){
+                            Navigator.pop(context);
+                          },
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+              );
+            },
+          );
+        },
+      ),
+    );
+  }
+}
+class MyCheckBox extends StatefulWidget {
+
+  @override
+  _MyCheckBoxState createState() => _MyCheckBoxState();
+}
+
+class _MyCheckBoxState extends State<MyCheckBox> {
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: <Widget>[
+        Container(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Row(
+                children: [
+                  Checkbox(
+                    value: monday,
+                    onChanged: (bool value) {
+                      setState(() {
+                        monday = value;
+                      });
+                    },
+                  ),
+                  Text("Monday" ,style: GoogleFonts.quicksand(fontSize: 16),),
+                ],
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left:15),
+                child: Row(
+                  children: [
+                    Checkbox(
+                      value: tuesday,
+                      onChanged: (bool value) {
+                        setState(() {
+                          tuesday = value;
+                        });
+                      },
+                    ),
+                    Text("Tuesday",style: GoogleFonts.quicksand(fontSize: 16),),
+                  ],
+                ),
+              ),
+              SizedBox(width: 40,),
+            ],
+          ),
+        ),
+        Container(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Row(
+                children: [
+                  Checkbox(
+                    value: wednesday,
+                    onChanged: (bool value) {
+                      setState(() {
+                        wednesday = value;
+                      });
+                    },
+                  ),
+                  Text("Wednesday" ,style: GoogleFonts.quicksand(fontSize: 16),),
+                ],
+              ),
+              Row(
+                children: [
+                  Checkbox(
+                    value: thursday,
+                    onChanged: (bool value) {
+                      setState(() {
+                        thursday = value;
+                      });
+                    },
+                  ),
+                  Text("Thursday",style: GoogleFonts.quicksand(fontSize: 16),),
+                ],
+              ),
+              SizedBox(width: 40,),
+            ],
+          ),
+        ),
+        Container(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Row(
+                children: [
+                  Checkbox(
+                    value: friday,
+                    onChanged: (bool value) {
+                      setState(() {
+                        friday = value;
+                      });
+                    },
+                  ),
+                  Text("Friday" ,style: GoogleFonts.quicksand(fontSize: 16),),
+                ],
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left:40),
+                child: Row(
+                  children: [
+                    Checkbox(
+                      value: saturday,
+                      onChanged: (bool value) {
+                        setState(() {
+                          saturday = value;
+                        });
+                      },
+                    ),
+                    Text("Saturday",style: GoogleFonts.quicksand(fontSize: 16),),
+                  ],
+                ),
+              ),
+              SizedBox(width: 40,),
+
+            ],
+          ),
+        ),
+
+
+        Row(
+          children: [
+            Checkbox(
+              value: sunday,
+              onChanged: (bool value) {
+                setState(() {
+                  sunday = value;
+                });
+              },
+            ),
+            Text("Sunday",style: GoogleFonts.quicksand(fontSize: 16),),
+          ],
+        ),
+      ],
+    );
+  }
+}

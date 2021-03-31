@@ -8,6 +8,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:bikersworld/screen/workshop/add_mechanics.dart';
@@ -19,7 +20,6 @@ import 'package:bikersworld/screen/workshop/add_profile_picture.dart';
 
 WorkshopDashboardModel data;
 var image;
-
 class WorkshopDashboard extends StatefulWidget {
   @override
   _WorkshopDashboardState createState() => _WorkshopDashboardState();
@@ -75,13 +75,13 @@ class _WorkshopDashboardState extends State<WorkshopDashboard> {
           if(snapshot.connectionState == ConnectionState.done && snapshot.hasData && snapshot.data != null){
             image = snapshot.data.get('image');
             data = WorkshopDashboardModel.fromJson(snapshot.data.data());
-            print('${snapshot.data.data()}');
+            //print('${snapshot.data.data()}');
              return Dashboard();
            }
           else if(snapshot.connectionState == ConnectionState.active){
             image = snapshot.data.get('image');
             data = WorkshopDashboardModel.fromJson(snapshot.data.data());
-            print('${snapshot.data.data()}');
+           // print('${snapshot.data.data()}');
                return Dashboard();
            }
           else if(snapshot.hasError){
@@ -344,7 +344,7 @@ class _DashboardState extends State<Dashboard> {
                                             SizedBox(width: 10,),
                                             SizedBox(
                                               child: AutoSizeText(
-                                                data.openFrom,
+                                               data.monday.toString(),
                                                 style: GoogleFonts.quicksand(
                                                   fontSize: 18,
                                                   color: Colors.white,
@@ -361,7 +361,7 @@ class _DashboardState extends State<Dashboard> {
                                             SizedBox(width: 8,),
                                             SizedBox(
                                               child: AutoSizeText(
-                                                data.openTo,
+                                                data.sunday.toString(),
                                                 style: GoogleFonts.quicksand(
                                                   fontSize: 18,
                                                   color: Colors.white,

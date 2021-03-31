@@ -32,6 +32,7 @@ class RegisterWorkshopQueries {
         resultMessage = error.toString();
       });
    }
+
    Future uploadWorkshopImage(String imageURL) async{
      await _firestoreInstance.collection(_WORKSHOP_COLLECTION).doc(_firebaseUser.uid).set({
        'image' : imageURL,
