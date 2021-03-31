@@ -56,6 +56,7 @@ class _WorkshopProfilePhotoState extends State<WorkshopProfilePhoto> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
+            SizedBox(height: 30,),
             Center(
               child: Text(
                 "Select Profile Photo ",
@@ -66,7 +67,7 @@ class _WorkshopProfilePhotoState extends State<WorkshopProfilePhoto> {
                 ),
               ),
             ),
-            SizedBox(height: 50,),
+            SizedBox(height: 30,),
             Padding(
               padding: const EdgeInsets.all(16.0),
               child: Container(
@@ -136,6 +137,7 @@ class _WorkshopProfilePhotoState extends State<WorkshopProfilePhoto> {
                 ),
               ],
             ),
+            SizedBox(height:30),
             Padding(
               padding: const EdgeInsets.all(25),
               child: Center(

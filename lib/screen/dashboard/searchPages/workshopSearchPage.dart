@@ -249,12 +249,23 @@ class _WorkshopSearchPageState extends State<WorkshopSearchPage> {
                                 child: Container(
                                   child: Row(
                                     children: <Widget>[
-                                      Container(
-                                        width: 110,
-                                        child: Image(
-                                          image: AssetImage("assets/workshop1.webp"),
+                                      Padding(
+                                        padding: const EdgeInsets.all(10),
+                                        child: Container(
+                                            width: 70.0,
+                                            height: 70.0,
+                                            decoration: BoxDecoration(
+                                                shape: BoxShape.circle,
+                                                image: DecorationImage(
+                                                    fit: BoxFit.fill,
+                                                    image: AssetImage(
+                                                        "assets/workshop1.webp",
+                                                    )
+                                                )
+                                            ),
                                         ),
                                       ),
+
                                       SizedBox(width: 10,),
                                       Container(
                                         child: Column(
@@ -271,11 +282,23 @@ class _WorkshopSearchPageState extends State<WorkshopSearchPage> {
                                             ),
                                             SizedBox(height: 5,),
                                             Container(
-                                              child: Text(
-                                                snapshot.data != null ? snapshot.data[index].city: "Islamabad",
-                                                style: TextStyle(
-                                                    fontSize: 15
-                                                ),
+                                              child: Row(
+                                                mainAxisAlignment: MainAxisAlignment.end,
+                                                children: [
+                                                  Container(
+                                                    child: Text(
+                                                      snapshot.data != null ? snapshot.data[index].city: "Islamabad",
+                                                      style: TextStyle(
+                                                          fontSize: 15
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  SizedBox(width: 160,),
+                                                  Icon(
+                                                    Icons.arrow_forward_ios,
+                                                    color: Color(0xffb8b8b8),
+                                                  ),
+                                                ],
                                               ),
                                             ),
 

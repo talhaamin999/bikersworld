@@ -1,4 +1,3 @@
-import 'package:bikersworld/screen/dashboard/Ads/seller/sellerDashbaord.dart';
 import 'package:bikersworld/screen/dashboard/searchPages/autoPartStoreSearchPage.dart';
 import 'package:bikersworld/screen/workshop/workshop_dashboard.dart';
 import 'package:bikersworld/services/authenticate_service.dart';
@@ -10,14 +9,11 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:bikersworld/screen/loginSignup/welcomePage.dart';
 import 'package:bikersworld/screen/dashboard/home.dart';
 import 'package:bikersworld/screen/dashboard/Ads/postAdsSeller.dart';
-import 'package:bikersworld/screen/workshop/register_workshop.dart';
-import 'package:multilevel_drawer/multilevel_drawer.dart';
-import 'dashboard.dart';
 import 'package:bikersworld/screen/autoPartStore/registerAutoPartStore.dart';
 import 'package:bikersworld/screen/dashboard/searchPages/autoPartSearchPage.dart';
 import 'package:bikersworld/screen/dashboard/searchPages/adsSearchPage.dart';
 import 'package:bikersworld/screen/dashboard/searchPages/workshopSearchPage.dart';
-
+import 'package:bikersworld/screen/dashboard/searchPages/service_search_page.dart';
 
 
 class drawer extends StatefulWidget {
@@ -187,6 +183,14 @@ class _drawerState extends State<drawer> {
             },
           ),
 
+          ListTile(
+            leading: Icon(FontAwesomeIcons.tools),
+            title: Text("Find Services",style: GoogleFonts.montserrat(fontSize: 15,color: Colors.black),),
+            trailing: Icon(Icons.arrow_forward_ios, size: 15.0,),
+            onTap: (){
+              Navigator.push(context, MaterialPageRoute(builder: (context) => ServiceSearcPage()));
+            },
+          ),
           ListTile(
             leading: Icon(FontAwesomeIcons.cog),
             title: Text("Find Auto Part",style: GoogleFonts.montserrat(fontSize: 15,color: Colors.black),),

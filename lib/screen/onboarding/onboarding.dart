@@ -1,11 +1,8 @@
 import 'dart:async';
-import 'package:bikersworld/widgets/dashboard.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:bikersworld/screen/dashboard/home.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:bikersworld/screen/loginSignup/genericOptionScreen.dart';
 
 
 class OnBoarding extends StatefulWidget {
@@ -40,7 +37,7 @@ class _OnBoardingState extends State<OnBoarding>{
               ),
               children: [
                 TextSpan(
-                    text: 'WORLD',
+                    text: ' WORLD',
                     style: GoogleFonts.quicksand(
                       color: Colors.black,
                       fontSize: 40,

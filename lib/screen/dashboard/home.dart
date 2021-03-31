@@ -15,7 +15,7 @@ import 'package:bikersworld/screen/loginSignup/signup.dart';
 import 'package:bikersworld/screen/dashboard/AutoPartStore/autoPartStoreGrid.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:bikersworld/widgets/search_text_field.dart';
-
+import 'package:bubble_bottom_bar/bubble_bottom_bar.dart';
 
 class HomeDashboard extends StatefulWidget {
   @override
@@ -45,7 +45,7 @@ class _HomeDashboardState extends State<HomeDashboard>  with SingleTickerProvide
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        backgroundColor: Color(0xffe8e8e8),
+        backgroundColor: Color(0xfff7f7f7),
         appBar: AppBar(
           title: Text(
             'BIKERSWORLD',
@@ -310,7 +310,7 @@ class _HomeDashboardState extends State<HomeDashboard>  with SingleTickerProvide
                   },
                   child: Container(
                     margin: EdgeInsets.only(top: 10),
-                    height: 320,
+                    height: 330,
                     child: ListView(
                       scrollDirection: Axis.horizontal,
                       children: <Widget>[
@@ -705,6 +705,42 @@ class _HomeDashboardState extends State<HomeDashboard>  with SingleTickerProvide
           ),
         ),
         drawer: drawer(),
+        floatingActionButton: FloatingActionButton(
+          backgroundColor: Colors.red,
+          onPressed: (){},
+          child: Column(
+            children: [
+              SizedBox(height: 5,),
+              Icon(FontAwesomeIcons.bicycle),
+              Text(
+                "Sell",
+                style: GoogleFonts.quicksand(
+                  fontSize: 14,
+                  color: Colors.white,
+                ),
+              ),
+            ],
+          )
+        ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
+        bottomNavigationBar: BubbleBottomBar(
+            opacity: .2,
+            currentIndex: currentIndex,
+            onTap: changePage,
+            borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+            elevation: 8,
+            fabLocation: BubbleBottomBarFabLocation.end,
+            hasNotch: true,
+            hasInk: true ,
+            inkColor: Colors.black12,
+          items: <BubbleBottomBarItem>[
+            BubbleBottomBarItem(backgroundColor: Colors.red, icon: Icon(Icons.build, color: Color(0xffc2c2c2)), activeIcon: Icon(Icons.build, color: Colors.red,), title: Text("Workshop")),
+            BubbleBottomBarItem(backgroundColor: Colors.deepPurple, icon: Icon(Icons.speed, color: Color(0xffc2c2c2)), activeIcon: Icon(Icons.speed, color: Colors.deepPurple,), title: Text("AutoParts")),
+            BubbleBottomBarItem(backgroundColor: Colors.indigo, icon: Icon(FontAwesomeIcons.ad, color: Color(0xffc2c2c2)), activeIcon: Icon(FontAwesomeIcons.ad, color: Colors.indigo,), title: Text("Ads")),
+            BubbleBottomBarItem(backgroundColor: Colors.green, icon: Icon(FontAwesomeIcons.store, color: Color(0xffc2c2c2)), activeIcon: Icon(FontAwesomeIcons.store, color: Colors.green,), title: Text("Auto Store"))
+        ],
+      ),
+
     ),
     );
   }
