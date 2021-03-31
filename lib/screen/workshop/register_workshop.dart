@@ -11,6 +11,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:bikersworld/widgets/drawer.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:dropdownfield/dropdownfield.dart';
+import 'package:bikersworld/widgets/bottom_modal_sheet.dart';
 
 
 ToastErrorMessage error = ToastErrorMessage();
@@ -288,6 +290,24 @@ Widget _entryField(String title,TextEditingController controller,TextInputType i
 }
 Widget _registerWorkshopWidget({@required TextEditingController shopTitleController,@required TextEditingController shopCityController,@required TextEditingController shopSpecificAreaController,@required TextEditingController ownerNameController,@required TextEditingController ownerContactController}) {
 
+  BuildContext context;
+
+  String city_id;
+  List<String> city = [
+    'Karachi','Lahore','Faisalabad','Rawalpindi','Gujranwala','Peshawar',"Multan",'Hyderabad',
+    'Islamabad','Quetta','Bahawalpur','Sargodha','Sialkot','Sukkur','Larkana','Sheikhupura',
+    'Rahim Yar Khan','Jhang','Dera Ghazi Khan','Gujrat','Sahiwal','Wah Cantonment','Mardan',
+    'Kasur','Okara','Mingora','Nawabshah','Chiniot','Kotri','Kāmoke','Hafizabad','Sadiqabad',
+    'Mirpur Khas','Burewala','Kohat','Khanewal','Dera Ismail Khan','Turbat','Muzaffargarh',
+    'Abbotabad','Mandi Bahauddin','Shikarpur','Jacobabad','Jhelum','Khanpur','Khairpur',
+    'Khuzdar','Pakpattan','Hub','Daska','Gojra','Dadu','Muridke','Bahawalnagar',
+    'Samundri','Tando Allahyar','Tando Adam','Jaranwala','Chishtian','Muzaffarabad',
+    'Attock','Vehari','Kot Abdul Malik','Ferozwala','Chakwal','Gujranwala Cantonment',
+    'Kamalia','Umerkot','Ahmedpur East','Kot Addu','Wazirabad','Mansehra','Layyah',
+    'Mirpur','Swabi','Chaman','Taxila','Nowshera','Khushab','Shahdadkot','Mianwali',
+    'Kabal','Lodhran','Hasilpur', 'Charsadda', 'Bhakkar', 'Badin', 'Arif Wala','Ghotki','Sambrial','Jatoi','Haroonabad','Daharki','Narowal','Tando Muhammad Khan','Kamber Ali Khan','Mirpur Mathelo','Kandhkot','Bhalwal',
+  ];
+
   if(shopSpecificAreaController.text == '' || ownerContactController.text == '') {
     return Column(
       children: <Widget>[
@@ -325,9 +345,41 @@ Widget _registerWorkshopWidget({@required TextEditingController shopTitleControl
         _entryField("Workshop Name", shopTitleController, TextInputType.text,
             FilteringTextInputFormatter.allow(RegExp("[a-zA-Z ]")),
             _isTitleEmpty),
-        _entryField("City", shopCityController, TextInputType.text,
-            FilteringTextInputFormatter.allow(RegExp("[a-zA-Z ]")),
-            _isCityEmpty),
+//        _entryField("City", shopCityController, TextInputType.text,
+//            FilteringTextInputFormatter.allow(RegExp("[a-zA-Z ]")),
+//            _isCityEmpty),
+
+      Container(
+        alignment: Alignment.bottomLeft,
+        child: Text(
+          "City",
+          style: GoogleFonts.quicksand(
+            fontSize:18,
+          ),
+        ),
+      ),
+        Padding(
+          padding: EdgeInsets.only(top: 10),
+          child: Container(
+            child: Column(
+                children: <Widget>[
+                  DropDownField(
+                    onValueChanged: (dynamic value) {
+                      city_id = value;
+                    },
+                    value: city_id,
+                    required: false,
+                    items: city,
+                    textStyle: GoogleFonts.quicksand(
+                      fontSize: 15,
+                    ),
+                  ),
+                ],
+            ),
+          ),
+        ),
+
+        SizedBox(height: 10,),
         _entryField("Address", shopSpecificAreaController, TextInputType.text,
             FilteringTextInputFormatter.allow(
                 RegExp(r'^(?!\s*$)[a-zA-Z0-9-#,/ ]{1,30}$')), _isAreaEmpty),
@@ -379,37 +431,12 @@ Widget _registerWorkshopWidget({@required TextEditingController shopTitleControl
                     )
                 ),
               ),
-              Container(
-                child: Row(
-                  children: [
-                    Container(
-                      child: Column(
-                        children: [
-                          SizedBox(height: 20,),
-                          Text(
-                            "From",
-                          ),
-                          SizedBox(height: 10,),
-                          SpecializationComboBox(day: 'Monday',),
-                        ],
-                      ),
-                    ),
-                    SizedBox(width: 30,),
-                    Container(
-                      child: Column(
-                        children: [
-                          SizedBox(height: 20,),
-                          Text(
-                            "To",
-                          ),
-                          SizedBox(height: 10,),
-                          SpecializationComboBox(),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+
+              SizedBox(height: 10,),
+
+              BottomModalSheet(),
+
+
               SizedBox(height: 20,),
 
               Container(
@@ -914,7 +941,6 @@ TextTheme _buildShrineTextTheme(TextTheme base) {
 }
 
 
-
 const ColorScheme _shrineColorScheme = ColorScheme(
   primary: shrinePink400,
   primaryVariant: shrineBrown900,
@@ -930,3 +956,4 @@ const ColorScheme _shrineColorScheme = ColorScheme(
   onError: shrineSurfaceWhite,
   brightness: Brightness.light,
 );
+
