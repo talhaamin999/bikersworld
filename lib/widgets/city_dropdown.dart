@@ -3,6 +3,8 @@ import 'package:dropdown_search/dropdown_search.dart';
 
 
 class CityDropDown extends StatefulWidget {
+  final TextEditingController controller;
+  CityDropDown({@required this.controller});
   @override
   _CityDropDownState createState() => _CityDropDownState();
 }
@@ -22,8 +24,8 @@ class _CityDropDownState extends State<CityDropDown> {
           validator: (v) => v == null ? "required field" : null,
           hint: "Select a country",
           showSelectedItem: true,
-          items: ['Karachi','Lahore','Faisalabad','Rawalpindi','Gujranwala','Peshawar',"Multan",'Hyderabad',
-            'Islamabad','Quetta','Bahawalpur','Sargodha','Sialkot','Sukkur','Larkana','Sheikhupura',
+          items: ['Karachi','Lahore','Faisalabad','Rawalpindi',"islamabad",'Gujranwala','Peshawar',"Multan",'Hyderabad',
+            'Quetta','Bahawalpur','Sargodha','Sialkot','Sukkur','Larkana','Sheikhupura',
             'Rahim Yar Khan','Jhang','Dera Ghazi Khan','Gujrat','Sahiwal','Wah Cantonment','Mardan',
             'Kasur','Okara','Mingora','Nawabshah','Chiniot','Kotri','Kāmoke','Hafizabad','Sadiqabad',
             'Mirpur Khas','Burewala','Kohat','Khanewal','Dera Ismail Khan','Turbat','Muzaffargarh',
@@ -35,7 +37,9 @@ class _CityDropDownState extends State<CityDropDown> {
             'Mirpur','Swabi','Chaman','Taxila','Nowshera','Khushab','Shahdadkot','Mianwali',
             'Kabal','Lodhran','Hasilpur', 'Charsadda', 'Bhakkar', 'Badin', 'Arif Wala','Ghotki','Sambrial','Jatoi','Haroonabad','Daharki','Narowal','Tando Muhammad Khan','Kamber Ali Khan','Mirpur Mathelo','Kandhkot','Bhalwal',],
           showClearButton: true,
-          onChanged: print,
+          onChanged: (value){
+            widget.controller.text = value;
+          },
           popupItemDisabled: (String s) => s.startsWith('I'),
           selectedItem: "Karachi",
         ),

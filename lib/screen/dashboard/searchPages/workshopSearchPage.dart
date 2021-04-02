@@ -22,16 +22,22 @@ class _WorkshopSearchPageState extends State<WorkshopSearchPage> {
   int numberOfResults = 0;
   final TextEditingController _controller = TextEditingController()..text = '';
   final SearchWorkshop _searchWorkshop = SearchWorkshop();
+  String cityFilter;
 
-  Stream<List<WorkshopDashboardModel>> serachByNameOrCity(){
+  Stream<List<WorkshopDashboardModel>> serachByName(){
     try {
-      if (_character == search.Name) {
-        print("name");
-        return _searchWorkshop.searchWorkshopByName(name: _controller.text.trim());
-      } else {
-        print("city");
-        return _searchWorkshop.searchWorkshopByCity(city: _controller.text.trim());
-      }
+         return _searchWorkshop.searchWorkshopByName(
+                name: _controller.text.trim());
+    }catch(e){
+      final _error = ToastErrorMessage();
+      _error.errorToastMessage(errorMessage: e.toString());
+    }
+    return null;
+  }
+  Stream<List<WorkshopDashboardModel>> serachByCity(){
+    try {
+      print('double $cityFilter');
+      return _searchWorkshop.searchWorkshopByCity(city: cityFilter);
     }catch(e){
       final _error = ToastErrorMessage();
       _error.errorToastMessage(errorMessage: e.toString());
@@ -43,6 +49,21 @@ class _WorkshopSearchPageState extends State<WorkshopSearchPage> {
       numberOfResults = index;
     });
   }
+  navigateToFilterPage(BuildContext context) async{
+     final _result = await Navigator.of(context)
+        .push(MaterialPageRoute(builder: (context) => RefineRearchPage(workshopSearchFilter: 'workshop',)));
+     if(_result != null){
+      setState(() {
+        cityFilter = _result;
+      });
+     }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -81,7 +102,7 @@ class _WorkshopSearchPageState extends State<WorkshopSearchPage> {
                             ),
                             filled: true,
                             hintStyle: GoogleFonts.quicksand(color: Colors.black, fontSize:15),
-                            hintText: "Type Workshop Name Or City",
+                            hintText: "Type Workshop Name",
                             prefixIcon: Icon(Icons.search, size: 25,),
                             fillColor: Colors.white),
                       ),
@@ -108,15 +129,14 @@ class _WorkshopSearchPageState extends State<WorkshopSearchPage> {
                           "Result $numberOfResults",
                           style: GoogleFonts.varelaRound(
                             fontSize: 15,
-
                           ),
                         ),
                       ),
                       SizedBox(width: 90,),
                       FlatButton(
                         onPressed: (){
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => RefineRearchPage()));
-                        },
+                        navigateToFilterPage(context);
+                          },
                         child: Container(
                           child: Row(
                             children: [
@@ -154,7 +174,7 @@ class _WorkshopSearchPageState extends State<WorkshopSearchPage> {
 
               Container(
                 child:  StreamBuilder<List<WorkshopDashboardModel>>(
-                  stream: serachByNameOrCity(),
+                  stream: cityFilter != null ? serachByCity() : serachByName(),
                   builder: (context,snapshot){
                     if(snapshot.hasData){
                       return ListView.builder(
@@ -255,6 +275,9 @@ class _WorkshopSearchPageState extends State<WorkshopSearchPage> {
                             );
                           }
                       );
+                    }
+                    else if(!snapshot.hasData){
+                      return Text('No Data Found Matching Your Search');
                     }
                     else if(snapshot.hasError){
                       return Text(snapshot.error.toString());

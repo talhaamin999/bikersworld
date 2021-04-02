@@ -4,6 +4,9 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:bikersworld/widgets/city_dropdown.dart';
 class RefineRearchPage extends StatefulWidget {
+  final String workshopSearchFilter;
+  final String workshopServiceSearchFilter;
+  RefineRearchPage({this.workshopSearchFilter,this.workshopServiceSearchFilter});
   @override
   _RefineRearchPageState createState() => _RefineRearchPageState();
 }
@@ -11,6 +14,18 @@ class RefineRearchPage extends StatefulWidget {
 class _RefineRearchPageState extends State<RefineRearchPage> {
   bool HighLow = false;
   bool LowHigh = false;
+  final TextEditingController _controller = TextEditingController();
+
+  @override
+  void dispose() {
+    print("dispose");
+    _controller.dispose();
+    super.dispose();
+  }
+  void clear(){
+    _controller.clear();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,168 +60,183 @@ class _RefineRearchPageState extends State<RefineRearchPage> {
         child: Container(
           child: Column(
             children: [
-              Padding(
-                padding: const EdgeInsets.only(top:20, left: 20),
-                child: Container(
-                  child: Row(
-                    children: [
-                      CircleAvatar(
-                        child: Icon(
-                          Icons.location_on,
-                          color: Colors.black,
-                          size: 25,
-                        ),
-                        radius: 20,
-                        backgroundColor: Color(0xffe3e3e3),
-                      ),
-                      SizedBox(width: 20,),
-                      Text(
-                        "Location",
-                        style: GoogleFonts.quicksand(
-                          fontSize: 16,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-
-              CityDropDown(),
-
-
-              Padding(
-                padding: const EdgeInsets.only(top:20, left: 20),
-                child: Container(
-                  child: Row(
-                    children: [
-                      CircleAvatar(
-                          child: Icon(
-                              FontAwesomeIcons.tag,
-                            color: Colors.black,
-                            size: 17,
-                          ),
-                        radius: 20,
-                        backgroundColor: Color(0xffe3e3e3),
-                      ),
-                      SizedBox(width: 20,),
-                      Text(
-                          "Price Range (PKR)",
-                        style: GoogleFonts.quicksand(
-                          fontSize: 16,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-
-              Container(
-                width: MediaQuery.of(context).size.width -20,
-                height: 80,
+              Visibility(
+                visible: widget.workshopSearchFilter != null ? true : false,
                 child: Padding(
-                  padding: const EdgeInsets.only(left:55),
-                  child: Row(
-                    children: [
-                      Container(
-                          width: 133,
-                          child: TextField(
-                            decoration: new InputDecoration(
-                                border: InputBorder.none,
-                                filled: true,
-                                hintStyle: new TextStyle(color: Colors.grey[800]),
-                                hintText: "Min",
-                                fillColor: Color(0xffe3e3e3)),
-                          )
-                      ),
-                      SizedBox(width: 10,),
-                      Text(
-                        "to",
-                        style: GoogleFonts.quicksand(
-                          fontSize: 18,
+                  padding: const EdgeInsets.only(top:20, left: 20),
+                  child: Container(
+                    child: Row(
+                      children: [
+                        CircleAvatar(
+                          child: Icon(
+                            Icons.location_on,
+                            color: Colors.black,
+                            size: 25,
+                          ),
+                          radius: 20,
+                          backgroundColor: Color(0xffe3e3e3),
                         ),
-                      ),
-                      SizedBox(width: 10,),
-                      Container(
-                          width: 134,
-                          child: TextField(
-                            decoration: new InputDecoration(
-                                border: InputBorder.none,
-                                filled: true,
-                                hintStyle: new TextStyle(color: Colors.grey[800]),
-                                hintText: "Max",
-                                fillColor: Color(0xffe3e3e3)),
-                          )
-                      ),
-                    ],
+                        SizedBox(width: 20,),
+                        Text(
+                          "Location",
+                          style: GoogleFonts.quicksand(
+                            fontSize: 16,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
 
-              Padding(
-                padding: const EdgeInsets.only(top:20, left: 20),
-                child: Container(
-                  child: Row(
-                    children: [
-                      CircleAvatar(
-                        child: Icon(
-                          FontAwesomeIcons.sort,
-                          color: Colors.black,
-                          size: 22,
+              Visibility(
+                  visible: widget.workshopSearchFilter != null ? true : false,
+                  child: CityDropDown(controller: _controller,)),
+              Visibility(
+                visible: widget.workshopServiceSearchFilter != null ? true : false,
+                child: Padding(
+                  padding: const EdgeInsets.only(top:20, left: 20),
+                  child: Container(
+                    child: Row(
+                      children: [
+                        CircleAvatar(
+                            child: Icon(
+                                FontAwesomeIcons.tag,
+                              color: Colors.black,
+                              size: 17,
+                            ),
+                          radius: 20,
+                          backgroundColor: Color(0xffe3e3e3),
                         ),
-                        radius: 20,
-                        backgroundColor: Color(0xffe3e3e3),
-                      ),
-                      SizedBox(width: 20,),
-                      Text(
-                        "Sort",
-                        style: GoogleFonts.quicksand(
-                          fontSize: 16,
+                        SizedBox(width: 20,),
+                        Text(
+                            "Price Range (PKR)",
+                          style: GoogleFonts.quicksand(
+                            fontSize: 16,
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.only(left:60),
+
+              Visibility(
+                visible: widget.workshopServiceSearchFilter != null ? true : false,
                 child: Container(
-                  child: Column(
-                    children: [
-                      Row(
-                        children: [
-                          Checkbox(
-                            value: HighLow,
-                            onChanged: (bool value) {
-                              setState(() {
-                                HighLow = value;
-                              });
-                            },
+                  width: MediaQuery.of(context).size.width -20,
+                  height: 80,
+                  child: Padding(
+                    padding: const EdgeInsets.only(left:55),
+                    child: Row(
+                      children: [
+                        Container(
+                            width: 133,
+                            child: TextField(
+                              decoration: new InputDecoration(
+                                  border: InputBorder.none,
+                                  filled: true,
+                                  hintStyle: new TextStyle(color: Colors.grey[800]),
+                                  hintText: "Min",
+                                  fillColor: Color(0xffe3e3e3)),
+                            )
+                        ),
+                        SizedBox(width: 10,),
+                        Text(
+                          "to",
+                          style: GoogleFonts.quicksand(
+                            fontSize: 18,
                           ),
-                          Text("High to low",
-                            style: GoogleFonts.quicksand(
-                              fontSize: 18,
+                        ),
+                        SizedBox(width: 10,),
+                        Container(
+                            width: 134,
+                            child: TextField(
+                              decoration: new InputDecoration(
+                                  border: InputBorder.none,
+                                  filled: true,
+                                  hintStyle: new TextStyle(color: Colors.grey[800]),
+                                  hintText: "Max",
+                                  fillColor: Color(0xffe3e3e3)),
+                            )
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+
+              Visibility(
+                visible: widget.workshopServiceSearchFilter != null ? true : false,
+                child: Padding(
+                  padding: const EdgeInsets.only(top:20, left: 20),
+                  child: Container(
+                    child: Row(
+                      children: [
+                        CircleAvatar(
+                          child: Icon(
+                            FontAwesomeIcons.sort,
+                            color: Colors.black,
+                            size: 22,
+                          ),
+                          radius: 20,
+                          backgroundColor: Color(0xffe3e3e3),
+                        ),
+                        SizedBox(width: 20,),
+                        Text(
+                          "Sort",
+                          style: GoogleFonts.quicksand(
+                            fontSize: 16,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+              Visibility(
+                visible: widget.workshopServiceSearchFilter != null ? true : false,
+                child: Padding(
+                  padding: const EdgeInsets.only(left:60),
+                  child: Container(
+                    child: Column(
+                      children: [
+                        Row(
+                          children: [
+                            Checkbox(
+                              value: HighLow,
+                              onChanged: (bool value) {
+                                setState(() {
+                                  HighLow = value;
+                                });
+                              },
                             ),
-                          ),
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          Checkbox(
-                            value: LowHigh,
-                            onChanged: (bool value) {
-                              setState(() {
-                                LowHigh = value;
-                              });
-                            },
-                          ),
-                          Text("Low to high",
-                            style: GoogleFonts.quicksand(
-                              fontSize: 18,
+                            Text("High to low",
+                              style: GoogleFonts.quicksand(
+                                fontSize: 18,
+                              ),
                             ),
-                          ),
-                        ],
-                      ),
-                    ],
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            Checkbox(
+                              value: LowHigh,
+                              onChanged: (bool value) {
+                                setState(() {
+                                  LowHigh = value;
+                                });
+                              },
+                            ),
+                            Text("Low to high",
+                              style: GoogleFonts.quicksand(
+                                fontSize: 18,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
@@ -220,10 +250,11 @@ class _RefineRearchPageState extends State<RefineRearchPage> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
-
             FlatButton(
               onPressed: (){
-               // print("filter button");
+                print("hello");
+               print('${_controller.text}');
+               Navigator.pop(context,_controller.text);
               },
               child: Padding(
                 padding: const EdgeInsets.all(8.0),

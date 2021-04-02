@@ -21,7 +21,7 @@ bool _isAreaEmpty = false;
 bool _isNameEmpty = false;
 bool _isContactEmpty = false;
 int fieldEmptyChecker = 0;
-String dayFromSelected = 'Monday',dayToSelected = 'Saturday',openTime = '7:15 am',closeTime = '8:00 pm';
+String openTime = '7:15 am',closeTime = '8:00 pm';
 bool monday=false,tuesday=false,wednesday=false,thursday=false,friday=false,saturday=false,sunday=false;
 
 class RegisterWorkshop extends StatefulWidget {
@@ -311,7 +311,6 @@ Widget _registerWorkshopWidget({@required TextEditingController shopTitleControl
 
   BuildContext context;
 
-
     return Column(
       children: <Widget>[
         Container(
@@ -363,8 +362,7 @@ Widget _registerWorkshopWidget({@required TextEditingController shopTitleControl
       ),
 
 
-        CityDropDown(),
-
+        CityDropDown(controller: shopCityController,),
 
         SizedBox(height: 10,),
         _entryField("Address", shopSpecificAreaController, TextInputType.text,
@@ -544,66 +542,6 @@ Widget _title(String value) {
           ),
         ]),
   );
-}
-class SpecializationComboBox extends StatefulWidget {
-
-  final String day;
-  SpecializationComboBox({Key key,this.day}) : super(key: key);
-  @override
-  _SpecializationComboBoxState createState() => _SpecializationComboBoxState();
-}
-
-class _SpecializationComboBoxState extends State<SpecializationComboBox> {
-
-  var _dropDownItems=['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];
-
-  @override
-  void initState() {
-    super.initState();
-  }
-  Widget build(BuildContext context) {
-    return Container(
-      color: Color(0xfff3f3f4),
-      width: 160,
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: DropdownButton<String>(
-          value: widget.day == 'Monday' ? dayFromSelected : dayToSelected,
-          icon: Container(
-            margin: EdgeInsets.only(left: 10),
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(15.0, 0, 0, 0),
-              child: Icon(
-                FontAwesomeIcons.caretDown,
-              ),
-            ),
-          ),
-          iconSize: 24,
-          elevation: 16,
-          style: TextStyle(color: Colors.black,),
-          underline: Container(
-            height: 2,
-          ),
-          onChanged: (String newValue) {
-            setState(() {
-              if(widget.day == 'Monday'){
-                dayFromSelected = newValue;
-              }else{
-                dayToSelected = newValue;
-              }
-            });
-          },
-          items: _dropDownItems
-              .map((String dropDownStringItem) {
-            return DropdownMenuItem<String>(
-              value: dropDownStringItem,
-              child: Text(dropDownStringItem, style: GoogleFonts.quicksand(fontSize: 15)),
-            );
-          }).toList(),
-        ),
-      ),
-    );
-  }
 }
 class TimePicker extends StatefulWidget {
   final String time;
