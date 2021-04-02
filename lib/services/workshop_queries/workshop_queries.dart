@@ -25,7 +25,7 @@ class RegisterWorkshopQueries {
 
    Future registerWorkshop(WorkshopDashboardModel data) async{
       await _firestoreInstance.collection(_WORKSHOP_COLLECTION).doc(_firebaseUser.uid).set(
-         data.toMap())
+         data.toMap(),SetOptions(merge: true))
           .then((_) {
             resultMessage = "Workshop Successfully Registered";
       }).catchError((error){

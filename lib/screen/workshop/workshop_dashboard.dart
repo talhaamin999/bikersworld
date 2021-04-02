@@ -499,113 +499,102 @@ class _DashboardState extends State<Dashboard> {
                         showModalBottomSheet(
                             context: context,
                             builder: (BuildContext bc){
-                              return Container(
-                                child: new Wrap(
-                                  children: <Widget>[
-                                    Padding(
-                                      padding: const EdgeInsets.only(top:15, left:15),
-                                      child: Text(
-                                        "Working Days",
-                                        style: GoogleFonts.quicksand(
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.bold,
+                              return SingleChildScrollView(
+                                child: Container(
+                                  child: new Wrap(
+                                    children: <Widget>[
+                                      Padding(
+                                        padding: const EdgeInsets.only(top:15, left:15),
+                                        child: Text(
+                                          "Working Days",
+                                          style: GoogleFonts.quicksand(
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.bold,
+                                          ),
                                         ),
                                       ),
-                                    ),
-                                    ListTile(
-                                      leading: new Icon(FontAwesomeIcons.circle,),
-                                      title: Container(
-                                        child: Row(
-                                          children: [
-                                            Text(data.monday.toString(), style: GoogleFonts.quicksand(fontSize: 20, ),),
-                                            SizedBox(width: 45,),
-                                            Text("Monday", style: GoogleFonts.quicksand(fontSize: 20, ),),                                          ],
+                                      ListTile(
+                                        leading: data.monday ? Icon(FontAwesomeIcons.check,color: Colors.green,) :  Icon(FontAwesomeIcons.times,color: Colors.red,
                                         ),
+                                        title: Container(
+                                          child: Row(
+                                            children: [
+                                              Text("Monday", style: GoogleFonts.quicksand(fontSize: 20, ),),                                          ],
+                                          ),
+                                        ),
+
+                                      ),
+                                      ListTile(
+                                        leading: data.tuesday ? Icon(FontAwesomeIcons.check,color: Colors.green,) :  Icon(FontAwesomeIcons.times,color: Colors.red,),
+                                        title: Container(
+                                          child: Row(
+                                            children: [
+                                              Text("Tuesday", style: GoogleFonts.quicksand(fontSize: 20, ),),
+                                            ],
+                                          ),
+                                        ),
+
+                                      ),
+                                      ListTile(
+                                        leading: data.wednesday ? Icon(FontAwesomeIcons.check,color: Colors.green,) :  Icon(FontAwesomeIcons.times,color: Colors.red,),
+                                        title: Container(
+                                          child: Row(
+                                            children: [
+                                              Text("Wednesday", style: GoogleFonts.quicksand(fontSize: 20, ),),
+                                            ],
+                                          ),
+                                        ),
+
+                                      ),
+                                      ListTile(
+                                        leading: data.thursday ? Icon(FontAwesomeIcons.check,color: Colors.green,) :  Icon(FontAwesomeIcons.times,color: Colors.red,),
+                                        title: Container(
+                                          child: Row(
+                                            children: [
+                                              Text("Thursday", style: GoogleFonts.quicksand(fontSize: 20, ),),
+
+                                            ],
+                                          ),
+                                        ),
+
+                                      ),
+                                      ListTile(
+                                        leading: data.friday ? Icon(FontAwesomeIcons.check,color: Colors.green,) :  Icon(FontAwesomeIcons.times,color: Colors.red,),
+                                        title: Container(
+                                          child: Row(
+                                            children: [
+                                              Text("Friday", style: GoogleFonts.quicksand(fontSize: 20, ),),
+                                            ],
+                                          ),
+                                        ),
+
+                                      ),
+                                      ListTile(
+                                        leading: data.saturday ? Icon(FontAwesomeIcons.check,color: Colors.green,) :  Icon(FontAwesomeIcons.times,color: Colors.red,),
+                                        title: Container(
+                                          child: Row(
+                                            children: [
+                                              Text("Saturday", style: GoogleFonts.quicksand(fontSize: 20, ),),
+                                            ],
+                                          ),
+                                        ),
+
+                                      ),
+                                      ListTile(
+                                        leading: data.sunday ? Icon(FontAwesomeIcons.check,color: Colors.green,) :  Icon(FontAwesomeIcons.times,color: Colors.red,),
+                                        title: Container(
+                                          child: Row(
+                                            children: [
+                                              Text("Sunday", style: GoogleFonts.quicksand(fontSize: 20, ),),
+                                            ],
+                                          ),
+                                        ),
+
                                       ),
 
-                                    ),
-                                    ListTile(
-                                      leading: new Icon(FontAwesomeIcons.circle,),
-                                      title: Container(
-                                        child: Row(
-                                          children: [
-                                            Text(data.tuesday.toString(), style: GoogleFonts.quicksand(fontSize: 20, ),),
-                                            SizedBox(width: 40,),
-                                            Text("Tuesday", style: GoogleFonts.quicksand(fontSize: 20, ),),
-                                          ],
-                                        ),
-                                      ),
-
-                                    ),
-                                    ListTile(
-                                      leading: new Icon(FontAwesomeIcons.circle,),
-                                      title: Container(
-                                        child: Row(
-                                          children: [
-                                            Text(data.wednesday.toString(), style: GoogleFonts.quicksand(fontSize: 20, ),),
-                                            SizedBox(width: 45,),
-                                            Text("Wednesday", style: GoogleFonts.quicksand(fontSize: 20, ),),
-                                          ],
-                                        ),
-                                      ),
-
-                                    ),
-                                    ListTile(
-                                      leading: new Icon(FontAwesomeIcons.circle,),
-                                      title: Container(
-                                        child: Row(
-                                          children: [
-                                            Text(data.thursday.toString(), style: GoogleFonts.quicksand(fontSize: 20, ),),
-                                            SizedBox(width: 40,),
-                                            Text("Thursday", style: GoogleFonts.quicksand(fontSize: 20, ),),
-
-                                          ],
-                                        ),
-                                      ),
-
-                                    ),
-                                    ListTile(
-                                      leading: new Icon(FontAwesomeIcons.circle,),
-                                      title: Container(
-                                        child: Row(
-                                          children: [
-                                            Text(data.friday.toString(), style: GoogleFonts.quicksand(fontSize: 20, ),),
-                                            SizedBox(width: 45,),
-                                            Text("Friday", style: GoogleFonts.quicksand(fontSize: 20, ),),
-                                          ],
-                                        ),
-                                      ),
-
-                                    ),
-                                    ListTile(
-                                      leading: new Icon(FontAwesomeIcons.circle,),
-                                      title: Container(
-                                        child: Row(
-                                          children: [
-                                            Text(data.saturday.toString(), style: GoogleFonts.quicksand(fontSize: 20, ),),
-                                            SizedBox(width: 40,),
-                                            Text("Saturday", style: GoogleFonts.quicksand(fontSize: 20, ),),
-                                          ],
-                                        ),
-                                      ),
-
-                                    ),
-                                    ListTile(
-                                      leading: new Icon(FontAwesomeIcons.circle,),
-                                      title: Container(
-                                        child: Row(
-                                          children: [
-                                            Text(data.sunday.toString(), style: GoogleFonts.quicksand(fontSize: 20, ),),
-                                            SizedBox(width: 40,),
-                                            Text("Sunday", style: GoogleFonts.quicksand(fontSize: 20, ),),
-                                          ],
-                                        ),
-                                      ),
-
-                                    ),
-
-                                    SizedBox(height: 20,),
-                                  ],
+                                      SizedBox(height: 20,),
+                                    ],
+                                  ),
                                 ),
                               );
                             }
