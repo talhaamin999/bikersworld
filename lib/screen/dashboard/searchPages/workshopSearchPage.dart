@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:auto_size_text/auto_size_text.dart';
-
+import 'package:bikersworld/screen/dashboard/searchPages/refine_search_page.dart';
 
 class WorkshopSearchPage extends StatefulWidget {
   @override
@@ -115,105 +115,25 @@ class _WorkshopSearchPageState extends State<WorkshopSearchPage> {
                       SizedBox(width: 90,),
                       FlatButton(
                         onPressed: (){
-                          showModalBottomSheet(
-                            context: context,
-                            builder: (BuildContext context) {
-                              return Container(
-                                height: 280,
-                                color: Color(0xffe8e8e8),
-                                child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: <Widget>[
-                                      Padding(
-                                        padding: const EdgeInsets.all(15),
-                                        child: Text(
-                                          "Refine Your Search",
-                                          style: GoogleFonts.quicksand(
-                                            fontSize: 20,
-                                            color: Colors.black,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                      ),
-                                      RadioListTile<search>(
-                                        title: const Text('Search By Name'),
-                                        value: search.Name,
-                                        groupValue: _character,
-                                        onChanged: (search value) {
-                                          setState(() {
-                                            _character = value;
-                                          });
-                                        },
-                                      ),
-                                      RadioListTile<search>(
-                                        title: const Text('Search By City'),
-                                        value: search.City,
-                                        groupValue: _character,
-                                        onChanged: (search value) {
-                                          setState(() {
-                                            _character = value;
-                                          });
-                                        },
-                                      ),
-                                      SizedBox(height: 15,),
-                                      Center(
-                                        child: FlatButton(
-                                          onPressed: (){
-                                            Navigator.pop(context);
-                                          },
-                                          child: Container(
-                                            height: 50,
-                                            width: 200,
-                                            decoration: BoxDecoration(
-                                              borderRadius: BorderRadius.circular(100.0),
-                                              gradient: LinearGradient(
-                                                begin: Alignment.topLeft,
-                                                end: Alignment.bottomRight,
-                                                colors: [
-                                                  Color(0xfffbb448),
-                                                  Color(0xffed740c),
-                                                ],
-                                              ),
-                                            ),
-                                            child: Center(
-                                              child: Text(
-                                                "Submit",
-                                                style: GoogleFonts.raleway(
-                                                  fontSize: 20.0,
-                                                  color: Colors.white,
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                              );
-                            },
-                          ).whenComplete((){
-                            serachByNameOrCity();
-                          });
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => RefineRearchPage()));
                         },
                         child: Container(
                           child: Row(
-                            children: <Widget>[
+                            children: [
                               Text(
                                 "Filter",
-                                style: GoogleFonts.varelaRound(
-                                  fontSize: 15,
+                                style: GoogleFonts.quicksand(
+                                  fontSize: 18,
                                 ),
                               ),
                               SizedBox(width: 5,),
-                              Icon(
-                                  FontAwesomeIcons.filter,
-                                size: 15,
-                              ),
+                              Icon(FontAwesomeIcons.filter, size: 16,),
+
                             ],
                           ),
                         ),
                       ),
-                      
+
                     ],
                   ),
                 ),

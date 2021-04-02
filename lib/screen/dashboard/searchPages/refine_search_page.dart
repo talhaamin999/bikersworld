@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
-
+import 'package:dropdown_search/dropdown_search.dart';
+import 'package:bikersworld/widgets/city_dropdown.dart';
 class RefineRearchPage extends StatefulWidget {
   @override
   _RefineRearchPageState createState() => _RefineRearchPageState();
@@ -69,14 +70,9 @@ class _RefineRearchPageState extends State<RefineRearchPage> {
                   ),
                 ),
               ),
-                Padding(
-                  padding: const EdgeInsets.only(left:65, top: 15, right: 30),
-                  child: Container(
-                    width: MediaQuery.of(context).size.width -20,
-                    height: 50,
-                    color: Color(0xffe3e3e3),
-                  ),
-                ),
+
+              CityDropDown(),
+
 
               Padding(
                 padding: const EdgeInsets.only(top:20, left: 20),
@@ -112,7 +108,7 @@ class _RefineRearchPageState extends State<RefineRearchPage> {
                   child: Row(
                     children: [
                       Container(
-                          width: 130,
+                          width: 133,
                           child: TextField(
                             decoration: new InputDecoration(
                                 border: InputBorder.none,
@@ -131,7 +127,7 @@ class _RefineRearchPageState extends State<RefineRearchPage> {
                       ),
                       SizedBox(width: 10,),
                       Container(
-                          width: 130,
+                          width: 134,
                           child: TextField(
                             decoration: new InputDecoration(
                                 border: InputBorder.none,

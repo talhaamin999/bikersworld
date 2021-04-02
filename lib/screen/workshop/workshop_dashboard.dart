@@ -153,294 +153,213 @@ class _DashboardState extends State<Dashboard> {
       width: MediaQuery.of(context).size.width,
       child: SingleChildScrollView(
         child: Column(
-
           children: <Widget>[
-
-            Container(
-                height: 310,
-                width: MediaQuery.of(context).size.width,
-                decoration: BoxDecoration(
-                  color: Color(0XFF012A4A),
-                  borderRadius: BorderRadius.only(
-                      bottomRight: Radius.circular(40.0),
-                      bottomLeft: Radius.circular(40),
-                  ),
-                ),
-                child: Container(
-                  margin: EdgeInsets.only(left:15,),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Container(
-                        child: Row(
-                          children: [
-                            FlatButton(
-                              child: CircleAvatar(
-                                backgroundImage: image != null ? NetworkImage(image) : AssetImage("assets/workshop1.webp"),
-                                radius: 50,
-                                backgroundColor: Colors.black,
-                              ),
-                              onPressed: (){
-                                showModalBottomSheet(
-                                    context: context,
-                                    builder: (BuildContext context){
-                                      return Container(
-                                        height: 320,
-                                        color: Color(0xffe8e8e8),
-                                        child: Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          children: <Widget>[
-                                            Padding(
-                                              padding: const EdgeInsets.only(left: 15, top:15),
-                                              child: Text(
-                                                "Select Option",
-                                                style: GoogleFonts.quicksand(
-                                                  fontSize: 20,
-                                                  color: Colors.black,
-                                                  fontWeight: FontWeight.bold,
-                                                ),
-                                              ),
-                                            ),
-                                            SizedBox(height: 15,),
-                                            Visibility(
-                                              visible: data.imageURL == null ? true : false,
-                                              child: FlatButton(
-                                                child: Padding(
-                                                  padding: const EdgeInsets.only(left:15),
-                                                  child: Container(
-                                                    child: Row(
-                                                      children: [
-                                                        CircleAvatar(
-                                                          child: Icon(
-                                                            FontAwesomeIcons.image,
-                                                            color: Color(0XFF012A4A),
-                                                          ),
-                                                          backgroundColor: Color(0xffd6d6d6),
-                                                        ),
-                                                        SizedBox(width:20),
-                                                        Text(
-                                                          "Upload Photo",
-                                                          style: GoogleFonts.quicksand(
-                                                            fontSize: 18,
-                                                            color: Colors.black,
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  ),
-                                                ),
-                                                onPressed: (){
-                                                  Navigator.push(context, MaterialPageRoute(builder: (context) => WorkshopProfilePhoto()));
-                                                },
-                                              ),
-                                            ),
-                                            Visibility(
-                                              visible:data.imageURL != null ? true:false,
-                                              child: FlatButton(
-                                                child: Padding(
-                                                  padding: const EdgeInsets.only(left:15, top:15),
-                                                  child: Container(
-                                                    child: Row(
-                                                      children: [
-                                                        CircleAvatar(
-                                                          child: Icon(
-                                                            FontAwesomeIcons.images,
-                                                            color: Colors.orangeAccent,
-                                                          ),
-                                                          backgroundColor: Color(0xffd6d6d6),
-
-                                                        ),
-                                                        SizedBox(width:20),
-                                                        Text(
-                                                          "Update Photo",
-                                                          style: GoogleFonts.quicksand(
-                                                            fontSize: 18,
-                                                            color: Colors.black,
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  ),
-                                                ),
-                                                onPressed: (){
-                                                  Navigator.push(context, MaterialPageRoute(builder: (context) => WorkshopProfilePhoto()));
-
-                                                },
-                                              ),
-                                            ),
-                                            Visibility(
-                                              visible:data.imageURL != null ? true:false,
-                                              child: FlatButton(
-                                                child: Padding(
-                                                  padding: const EdgeInsets.only(left:15, top:15),
-                                                  child: Container(
-                                                    child: Row(
-                                                      children: [
-                                                        CircleAvatar(
-                                                          child: Icon(
-                                                            FontAwesomeIcons.minus,
-                                                            color: Colors.red,
-                                                          ),
-                                                          backgroundColor: Color(0xffd6d6d6),
-                                                        ),
-                                                        SizedBox(width:20),
-                                                        Text(
-                                                          "Delete Photo",
-                                                          style: GoogleFonts.quicksand(
-                                                            fontSize: 18,
-                                                            color: Colors.black,
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  ),
-                                                ),
-                                                onPressed: (){
-                                                  deleteImage();
-                                                },
-                                              ),
-                                            ),
-                                            Padding(
-                                              padding: const EdgeInsets.all(15),
-                                              child: Center(
-                                                child: FlatButton(
-                                                  onPressed: (){
-
-                                                  },
-                                                  child: Container(
-                                                    height: 50,
-                                                    width: 200,
-                                                    decoration: BoxDecoration(
-                                                      borderRadius: BorderRadius.circular(100.0),
-                                                      gradient: LinearGradient(
-                                                        begin: Alignment.topLeft,
-                                                        end: Alignment.bottomRight,
-                                                        colors: [
-                                                          Color(0xfffbb448),
-                                                          Color(0xffed740c),
-                                                        ],
-                                                      ),
-                                                    ),
-                                                    child: Center(
-                                                      child: Text(
-                                                        "Submit",
-                                                        style: GoogleFonts.raleway(
-                                                          fontSize: 20.0,
-                                                          color: Colors.white,
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      );
-
-                                    }
-                                );
-                              }
-                            ),
-                            Container(
-                                child: Column(
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.only(top:25,),
-                                      child: Container(
-                                        child: Row(
-                                          children: [
-                                            Icon(FontAwesomeIcons.calendarAlt , color: Colors.white,),
-                                            SizedBox(width: 10,),
-                                            SizedBox(
-                                              child: AutoSizeText(
-                                               data.monday.toString(),
-                                                style: GoogleFonts.quicksand(
-                                                  fontSize: 18,
-                                                  color: Colors.white,
-                                                ),
-                                              ),
-                                            ),
-                                            SizedBox(width: 8,),
-                                            Text(
-                                              "-",
-                                              style: TextStyle(
-                                                color: Colors.white,
-                                              ),
-                                            ),
-                                            SizedBox(width: 8,),
-                                            SizedBox(
-                                              child: AutoSizeText(
-                                                data.sunday.toString(),
-                                                style: GoogleFonts.quicksand(
-                                                  fontSize: 18,
-                                                  color: Colors.white,
-                                                ),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                    SizedBox(height: 10,),
-                                    Padding(
-                                      padding: const EdgeInsets.only(right: 55),
-                                      child: Container(
-                                          child: Row(
-                                            children: [
-                                              Icon(FontAwesomeIcons.clock , color: Colors.white,),
-                                              SizedBox(width: 10,),
-                                              SizedBox(
-                                                child: AutoSizeText(
-                                                  data.openTime,
-                                                  style: GoogleFonts.quicksand(
-                                                    fontSize: 18,
-                                                    color: Colors.white,
-                                                  ),
-                                                ),
-                                              ),
-                                              SizedBox(width: 8,),
-                                              Text(
-                                                "-",
-                                                style: TextStyle(
-                                                  color: Colors.white,
-                                                ),
-                                              ),
-                                              SizedBox(width: 8,),
-                                              SizedBox(
-                                                child: AutoSizeText(
-                                                  data.closeTime,
-                                                  style: GoogleFonts.quicksand(
-                                                    fontSize: 18,
-                                                    color: Colors.white,
-                                                  ),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                      ),
-                                    ),
-
-                                  ],
+            Column(
+              children: [
+                Stack(
+                  overflow: Overflow.visible,
+                  children: [
+                    Container(
+                      height: 280,
+                      color: Color(0XFF012A4A),
+                      width: double.infinity,
+                    ),
+                    Container(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Container(
+                            alignment: Alignment.center,
+                            margin: EdgeInsets.only(top: 200),
+                            child: FlatButton(
+                              child: Positioned(
+                                bottom: -200,
+                                child: CircleAvatar(
+                                  backgroundImage: image != null ? NetworkImage(image) : AssetImage("assets/workshop1.webp"),
+                                  radius: 85,
+                                  backgroundColor: Colors.black,
                                 ),
                               ),
+                              onPressed: (){
+                                showModalBottomSheet<void>(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return Container(
+                                      height: 320,
+                                      color: Color(0xffe8e8e8),
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: <Widget>[
+                                          Padding(
+                                            padding: const EdgeInsets.only(left: 15, top:15),
+                                            child: Text(
+                                              "Select Option",
+                                              style: GoogleFonts.quicksand(
+                                                fontSize: 20,
+                                                color: Colors.black,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                          ),
+                                          SizedBox(height: 15,),
+                                          Visibility(
+                                            visible: data.imageURL == null ? true : false,
+                                            child: FlatButton(
+                                              child: Padding(
+                                                padding: const EdgeInsets.only(left:15),
+                                                child: Container(
+                                                  child: Row(
+                                                    children: [
+                                                      CircleAvatar(
+                                                        child: Icon(
+                                                          FontAwesomeIcons.image,
+                                                          color: Color(0XFF012A4A),
+                                                        ),
+                                                        backgroundColor: Color(0xffd6d6d6),
+                                                      ),
+                                                      SizedBox(width:20),
+                                                      Text(
+                                                        "Upload Photo",
+                                                        style: GoogleFonts.quicksand(
+                                                          fontSize: 18,
+                                                          color: Colors.black,
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ),
+                                              onPressed: (){
+                                                Navigator.push(context, MaterialPageRoute(builder: (context) => WorkshopProfilePhoto()));
+                                              },
+                                            ),
+                                          ),
+                                          Visibility(
+                                            visible:data.imageURL != null ? true:false,
+                                            child: FlatButton(
+                                              child: Padding(
+                                                padding: const EdgeInsets.only(left:15, top:15),
+                                                child: Container(
+                                                  child: Row(
+                                                    children: [
+                                                      CircleAvatar(
+                                                        child: Icon(
+                                                          FontAwesomeIcons.images,
+                                                          color: Colors.orangeAccent,
+                                                        ),
+                                                        backgroundColor: Color(0xffd6d6d6),
 
-                          ],
-                        ),
-                      ),
-                      SizedBox(height: 15,),
-                      SizedBox(
-                        child: AutoSizeText(
-                          data.shopTitle,
-                          style: GoogleFonts.quicksand(
-                            fontSize: 30,
-                            color: Colors.white70,
-                            fontWeight: FontWeight.bold,
+                                                      ),
+                                                      SizedBox(width:20),
+                                                      Text(
+                                                        "Update Photo",
+                                                        style: GoogleFonts.quicksand(
+                                                          fontSize: 18,
+                                                          color: Colors.black,
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ),
+                                              onPressed: (){
+                                                Navigator.push(context, MaterialPageRoute(builder: (context) => WorkshopProfilePhoto()));
+
+                                              },
+                                            ),
+                                          ),
+                                          Visibility(
+                                            visible:data.imageURL != null ? true:false,
+                                            child: FlatButton(
+                                              child: Padding(
+                                                padding: const EdgeInsets.only(left:15, top:15),
+                                                child: Container(
+                                                  child: Row(
+                                                    children: [
+                                                      CircleAvatar(
+                                                        child: Icon(
+                                                          FontAwesomeIcons.minus,
+                                                          color: Colors.red,
+                                                        ),
+                                                        backgroundColor: Color(0xffd6d6d6),
+                                                      ),
+                                                      SizedBox(width:20),
+                                                      Text(
+                                                        "Delete Photo",
+                                                        style: GoogleFonts.quicksand(
+                                                          fontSize: 18,
+                                                          color: Colors.black,
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ),
+                                              onPressed: (){
+                                                deleteImage();
+                                              },
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.all(15),
+                                            child: Center(
+                                              child: FlatButton(
+                                                onPressed: (){
+
+                                                },
+                                                child: Container(
+                                                  height: 50,
+                                                  width: 200,
+                                                  decoration: BoxDecoration(
+                                                    borderRadius: BorderRadius.circular(100.0),
+                                                    gradient: LinearGradient(
+                                                      begin: Alignment.topLeft,
+                                                      end: Alignment.bottomRight,
+                                                      colors: [
+                                                        Color(0xfffbb448),
+                                                        Color(0xffed740c),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                  child: Center(
+                                                    child: Text(
+                                                      "Submit",
+                                                      style: GoogleFonts.raleway(
+                                                        fontSize: 20.0,
+                                                        color: Colors.white,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    );
+                                  },
+                                );
+                              },
+                            ),
+                          ),
+                        ],
+                      )
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top:10, left:20),
+                      child: SizedBox(
+                          child: AutoSizeText(
+                            data.shopTitle,
+                            style: GoogleFonts.quicksand(
+                              fontSize: 30,
+                              color: Colors.white70,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                         ),
-                      ),
-
-                      Container(
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(top:60,left:20),
                         child: Column(
                           children: [
                             Container(
@@ -475,7 +394,7 @@ class _DashboardState extends State<Dashboard> {
                                       style: GoogleFonts.raleway(
                                         color: Colors.white70,
                                         fontSize: 17,
-                                      ),
+                                     ),
                                     ),
                                   ),
                                 ],
@@ -500,14 +419,218 @@ class _DashboardState extends State<Dashboard> {
                                 ],
                               ),
                             ),
+
                           ],
                         ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+
+            Padding(
+              padding: const EdgeInsets.only(left:20, right:20, top: 20),
+              child: Container(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    FlatButton(
+                      onPressed: (){
+                        showModalBottomSheet(
+                            context: context,
+                            builder: (BuildContext bc){
+                              return Container(
+                                child: new Wrap(
+                                  children: <Widget>[
+                                    Padding(
+                                      padding: const EdgeInsets.only(top:15, left:15),
+                                      child: Text(
+                                        "Working Hours",
+                                        style: GoogleFonts.quicksand(
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    ),
+//                                    Container(
+//                                      child: Row(
+//                                        children: [
+//                                          ListTile(
+//                                            leading: Text(
+//                                              data.openTime, style: GoogleFonts.orbitron(
+//                                              fontSize: 12,
+//                                              color: Colors.white70,
+//                                            ),
+//                                            ),
+//                                          ),
+//                                          ListTile(
+//                                            leading: Text(data.closeTime, style: GoogleFonts.orbitron(
+//                                              fontSize: 12,
+//                                              color: Colors.white70,
+//                                            ),
+//                                            ),
+//                                          ),
+//                                        ],
+//                                      ),
+//                                    ),
+                                  ],
+                                ),
+                              );
+                            }
+                        );
+                      },
+                      child: Container(
+                        height: 50,
+                        width: 150,
+                        decoration: BoxDecoration(
+                          color: Colors.blue,
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Icon(
+                          FontAwesomeIcons.clock,
+                          color: Colors.white,
+                        ),
                       ),
-                    ],
-                  ),
+                    ),
+
+
+                    FlatButton(
+                      onPressed: (){
+                        showModalBottomSheet(
+                            context: context,
+                            builder: (BuildContext bc){
+                              return Container(
+                                child: new Wrap(
+                                  children: <Widget>[
+                                    Padding(
+                                      padding: const EdgeInsets.only(top:15, left:15),
+                                      child: Text(
+                                        "Working Days",
+                                        style: GoogleFonts.quicksand(
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    ),
+                                    ListTile(
+                                      leading: new Icon(FontAwesomeIcons.circle,),
+                                      title: Container(
+                                        child: Row(
+                                          children: [
+                                            Text(data.monday.toString(), style: GoogleFonts.quicksand(fontSize: 20, ),),
+                                            SizedBox(width: 45,),
+                                            Text("Monday", style: GoogleFonts.quicksand(fontSize: 20, ),),                                          ],
+                                        ),
+                                      ),
+
+                                    ),
+                                    ListTile(
+                                      leading: new Icon(FontAwesomeIcons.circle,),
+                                      title: Container(
+                                        child: Row(
+                                          children: [
+                                            Text(data.tuesday.toString(), style: GoogleFonts.quicksand(fontSize: 20, ),),
+                                            SizedBox(width: 40,),
+                                            Text("Tuesday", style: GoogleFonts.quicksand(fontSize: 20, ),),
+                                          ],
+                                        ),
+                                      ),
+
+                                    ),
+                                    ListTile(
+                                      leading: new Icon(FontAwesomeIcons.circle,),
+                                      title: Container(
+                                        child: Row(
+                                          children: [
+                                            Text(data.wednesday.toString(), style: GoogleFonts.quicksand(fontSize: 20, ),),
+                                            SizedBox(width: 45,),
+                                            Text("Wednesday", style: GoogleFonts.quicksand(fontSize: 20, ),),
+                                          ],
+                                        ),
+                                      ),
+
+                                    ),
+                                    ListTile(
+                                      leading: new Icon(FontAwesomeIcons.circle,),
+                                      title: Container(
+                                        child: Row(
+                                          children: [
+                                            Text(data.thursday.toString(), style: GoogleFonts.quicksand(fontSize: 20, ),),
+                                            SizedBox(width: 40,),
+                                            Text("Thursday", style: GoogleFonts.quicksand(fontSize: 20, ),),
+
+                                          ],
+                                        ),
+                                      ),
+
+                                    ),
+                                    ListTile(
+                                      leading: new Icon(FontAwesomeIcons.circle,),
+                                      title: Container(
+                                        child: Row(
+                                          children: [
+                                            Text(data.friday.toString(), style: GoogleFonts.quicksand(fontSize: 20, ),),
+                                            SizedBox(width: 45,),
+                                            Text("Friday", style: GoogleFonts.quicksand(fontSize: 20, ),),
+                                          ],
+                                        ),
+                                      ),
+
+                                    ),
+                                    ListTile(
+                                      leading: new Icon(FontAwesomeIcons.circle,),
+                                      title: Container(
+                                        child: Row(
+                                          children: [
+                                            Text(data.saturday.toString(), style: GoogleFonts.quicksand(fontSize: 20, ),),
+                                            SizedBox(width: 40,),
+                                            Text("Saturday", style: GoogleFonts.quicksand(fontSize: 20, ),),
+                                          ],
+                                        ),
+                                      ),
+
+                                    ),
+                                    ListTile(
+                                      leading: new Icon(FontAwesomeIcons.circle,),
+                                      title: Container(
+                                        child: Row(
+                                          children: [
+                                            Text(data.sunday.toString(), style: GoogleFonts.quicksand(fontSize: 20, ),),
+                                            SizedBox(width: 40,),
+                                            Text("Sunday", style: GoogleFonts.quicksand(fontSize: 20, ),),
+                                          ],
+                                        ),
+                                      ),
+
+                                    ),
+
+                                    SizedBox(height: 20,),
+                                  ],
+                                ),
+                              );
+                            }
+                        );
+                      },
+                      child: Container(
+                        height: 50,
+                        width: 150,
+                        decoration: BoxDecoration(
+                          color: Colors.red,
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Icon(
+                          FontAwesomeIcons.calendar,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
-            SizedBox(height: 20,),
+            ),
+
+
+      SizedBox(height: 20,),
             Container(
               margin: EdgeInsets.symmetric(horizontal: 23),
               alignment: Alignment.topLeft,

@@ -42,8 +42,12 @@ dependencies:
   day_picker: ^1.0.1
   image_picker: ^0.6.7+22
   rflutter_alert: ^1.1.0
-  dropdown_search: ^0.1.0
   dropdownfield: ^1.0.3
+  searchable_dropdown: ^1.1.3
+  scrollable_bottom_sheet: ^0.2.1
+  provider: ^4.3.1
+  dropdown_search: ^0.4.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
