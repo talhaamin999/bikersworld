@@ -151,6 +151,9 @@ class _RegisterWorkshopState extends State<RegisterWorkshop> {
       else if(!_workShop.validateOwnerContact(_ownerContactController.text.trim())){
         error.errorToastMessage(errorMessage: "You Need To Enter Valid Pakistan Number");
       }
+      else if(!monday && !tuesday && !wednesday && !thursday && !friday && !saturday && !sunday){
+        error.errorToastMessage(errorMessage: "Working days not selected");
+      }
       else{
         addWorkshop();
       }

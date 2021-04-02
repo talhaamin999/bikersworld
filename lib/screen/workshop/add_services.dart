@@ -37,6 +37,7 @@ class _AddServicesState extends State<AddServices> {
   final _formKey = GlobalKey<FormState>();
   final WorkshopServiceQueries _add = WorkshopServiceQueries();
   final _firebaseUser = FirebaseAuth.instance.currentUser;
+  String option;
 
   @override
   void initState() {
@@ -105,23 +106,36 @@ class _AddServicesState extends State<AddServices> {
           desc: "Services generally don't have price greater than 2000",
           buttons: [
             DialogButton(
+              width: 120,
+              child: Text(
+                "Cancel",
+                style: TextStyle(color: Colors.white, fontSize: 20),
+              ),
+              onPressed: () {
+                option = 'cancel';
+                Navigator.of(context,rootNavigator: true).pop();
+              },
+            ),
+            DialogButton(
+              width: 120,
               child: Text(
                 "OK",
                 style: TextStyle(color: Colors.white, fontSize: 20),
               ),
-              onPressed: () => Navigator.of(context,rootNavigator: true).pop(),
-              width: 120,
+              onPressed: () {
+                option = 'ok';
+                Navigator.of(context, rootNavigator: true).pop();
+              }
             )
           ],
         ).show();
+        if(option == 'ok'){
+          widget.service != null ? await updateService(_price) : await addService(_price);
+        }
       }
-      if (widget.service != null) {
-          await updateService(_price);
-        }
-      else {
-          await addService(_price);
-        }
-
+      else{
+        widget.service != null ? await updateService(_price) : await addService(_price);
+      }
     }
   }
   Future<void> addService(int price) async{

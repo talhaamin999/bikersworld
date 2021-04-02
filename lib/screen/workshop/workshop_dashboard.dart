@@ -202,93 +202,103 @@ class _DashboardState extends State<Dashboard> {
                                               ),
                                             ),
                                             SizedBox(height: 15,),
-                                            FlatButton(
-                                              child: Padding(
-                                                padding: const EdgeInsets.only(left:15),
-                                                child: Container(
-                                                  child: Row(
-                                                    children: [
-                                                      CircleAvatar(
-                                                        child: Icon(
-                                                          FontAwesomeIcons.image,
-                                                          color: Color(0XFF012A4A),
+                                            Visibility(
+                                              visible: data.imageURL == null ? true : false,
+                                              child: FlatButton(
+                                                child: Padding(
+                                                  padding: const EdgeInsets.only(left:15),
+                                                  child: Container(
+                                                    child: Row(
+                                                      children: [
+                                                        CircleAvatar(
+                                                          child: Icon(
+                                                            FontAwesomeIcons.image,
+                                                            color: Color(0XFF012A4A),
+                                                          ),
+                                                          backgroundColor: Color(0xffd6d6d6),
                                                         ),
-                                                        backgroundColor: Color(0xffd6d6d6),
-                                                      ),
-                                                      SizedBox(width:20),
-                                                      Text(
-                                                        "Upload Photo",
-                                                        style: GoogleFonts.quicksand(
-                                                          fontSize: 18,
-                                                          color: Colors.black,
+                                                        SizedBox(width:20),
+                                                        Text(
+                                                          "Upload Photo",
+                                                          style: GoogleFonts.quicksand(
+                                                            fontSize: 18,
+                                                            color: Colors.black,
+                                                          ),
                                                         ),
-                                                      ),
-                                                    ],
+                                                      ],
+                                                    ),
                                                   ),
                                                 ),
+                                                onPressed: (){
+                                                  Navigator.push(context, MaterialPageRoute(builder: (context) => WorkshopProfilePhoto()));
+                                                },
                                               ),
-                                              onPressed: (){
-                                                Navigator.push(context, MaterialPageRoute(builder: (context) => WorkshopProfilePhoto()));
-                                              },
                                             ),
-                                            FlatButton(
-                                              child: Padding(
-                                                padding: const EdgeInsets.only(left:15, top:15),
-                                                child: Container(
-                                                  child: Row(
-                                                    children: [
-                                                      CircleAvatar(
-                                                        child: Icon(
-                                                          FontAwesomeIcons.images,
-                                                          color: Colors.orangeAccent,
-                                                        ),
-                                                        backgroundColor: Color(0xffd6d6d6),
+                                            Visibility(
+                                              visible:data.imageURL != null ? true:false,
+                                              child: FlatButton(
+                                                child: Padding(
+                                                  padding: const EdgeInsets.only(left:15, top:15),
+                                                  child: Container(
+                                                    child: Row(
+                                                      children: [
+                                                        CircleAvatar(
+                                                          child: Icon(
+                                                            FontAwesomeIcons.images,
+                                                            color: Colors.orangeAccent,
+                                                          ),
+                                                          backgroundColor: Color(0xffd6d6d6),
 
-                                                      ),
-                                                      SizedBox(width:20),
-                                                      Text(
-                                                        "Update Photo",
-                                                        style: GoogleFonts.quicksand(
-                                                          fontSize: 18,
-                                                          color: Colors.black,
                                                         ),
-                                                      ),
-                                                    ],
+                                                        SizedBox(width:20),
+                                                        Text(
+                                                          "Update Photo",
+                                                          style: GoogleFonts.quicksand(
+                                                            fontSize: 18,
+                                                            color: Colors.black,
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
                                                   ),
                                                 ),
+                                                onPressed: (){
+                                                  Navigator.push(context, MaterialPageRoute(builder: (context) => WorkshopProfilePhoto()));
+
+                                                },
                                               ),
-                                              onPressed: (){
-                                                //
-                                              },
                                             ),
-                                            FlatButton(
-                                              child: Padding(
-                                                padding: const EdgeInsets.only(left:15, top:15),
-                                                child: Container(
-                                                  child: Row(
-                                                    children: [
-                                                      CircleAvatar(
-                                                        child: Icon(
-                                                          FontAwesomeIcons.minus,
-                                                          color: Colors.red,
+                                            Visibility(
+                                              visible:data.imageURL != null ? true:false,
+                                              child: FlatButton(
+                                                child: Padding(
+                                                  padding: const EdgeInsets.only(left:15, top:15),
+                                                  child: Container(
+                                                    child: Row(
+                                                      children: [
+                                                        CircleAvatar(
+                                                          child: Icon(
+                                                            FontAwesomeIcons.minus,
+                                                            color: Colors.red,
+                                                          ),
+                                                          backgroundColor: Color(0xffd6d6d6),
                                                         ),
-                                                        backgroundColor: Color(0xffd6d6d6),
-                                                      ),
-                                                      SizedBox(width:20),
-                                                      Text(
-                                                        "Delete Photo",
-                                                        style: GoogleFonts.quicksand(
-                                                          fontSize: 18,
-                                                          color: Colors.black,
+                                                        SizedBox(width:20),
+                                                        Text(
+                                                          "Delete Photo",
+                                                          style: GoogleFonts.quicksand(
+                                                            fontSize: 18,
+                                                            color: Colors.black,
+                                                          ),
                                                         ),
-                                                      ),
-                                                    ],
+                                                      ],
+                                                    ),
                                                   ),
                                                 ),
+                                                onPressed: (){
+                                                  deleteImage();
+                                                },
                                               ),
-                                              onPressed: (){
-                                                deleteImage();
-                                              },
                                             ),
                                             Padding(
                                               padding: const EdgeInsets.all(15),

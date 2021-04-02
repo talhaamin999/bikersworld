@@ -32,6 +32,10 @@ class _WorkshopProfilePhotoState extends State<WorkshopProfilePhoto> {
       _image = image;
     });
   }
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -161,7 +165,7 @@ class _WorkshopProfilePhotoState extends State<WorkshopProfilePhoto> {
                     ),
                     child: Center(
                       child: Text(
-                        "Submit",
+                        "Upload",
                         style: GoogleFonts.raleway(
                           fontSize: 20.0,
                           color: Colors.white,
@@ -190,13 +194,15 @@ class _WorkshopProfilePhotoState extends State<WorkshopProfilePhoto> {
       if (image != null) {
         var file = File(image.path);
         String imageName = path.basename(image.path);
-        var snapshot = await _storage.ref()
-            .child('workshopImages/$imageName')
-            .putFile(file)
-            .whenComplete(() => imageUploadComplete = "image is uploaded to firebase storage")
-            .catchError((onError) => imageUploadComplete = onError.toString());
+          var snapshot = await _storage.ref()
+              .child('workshopImages/$imageName')
+              .putFile(file)
+              .whenComplete(() =>
+          imageUploadComplete = "image is uploaded to firebase storage")
+              .catchError((onError) =>
+          imageUploadComplete = onError.toString());
 
-          if(imageUploadComplete == "image is uploaded to firebase storage") {
+          if (imageUploadComplete == "image is uploaded to firebase storage") {
             var imageUrl = await snapshot.ref.getDownloadURL();
             await _upload.uploadWorkshopImage(imageUrl);
             if (RegisterWorkshopQueries.imageResult == 'Image Uploaded') {
@@ -212,12 +218,14 @@ class _WorkshopProfilePhotoState extends State<WorkshopProfilePhoto> {
               _error.errorToastMessage(
                   errorMessage: RegisterWorkshopQueries.imageResult);
             }
-          }else{
+          } else {
             _error.errorToastMessage(errorMessage: imageUploadComplete);
           }
-       } else {
+        }// check for update or upload
+      else {
         _error.errorToastMessage(errorMessage: 'No Image was Selected');
       }
+    // end of try block
     }catch(e){
       _error.errorToastMessage(errorMessage: e.toString());
     }
