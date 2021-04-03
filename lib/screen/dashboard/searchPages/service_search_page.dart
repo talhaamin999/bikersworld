@@ -105,6 +105,45 @@ class _ServiceSearcPageState extends State<ServiceSearcPage> {
                   ),
                 ),
               ),
+              SizedBox(height: 20,),
+              Container(
+                width: MediaQuery.of(context).size.width - 30,
+                height: 100,
+                child: Card(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  color: Colors.white,
+                  elevation: 3,
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      SizedBox(width: 15,),
+                      CircleAvatar(
+                        radius: 40,
+                        backgroundColor: Color(0XFF012A4A),
+                        backgroundImage: AssetImage("assets/service_avatar.jpg"),
+                      ),
+                      SizedBox(width: 20,),
+                      Container(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                                'Wheel Bearing', style: GoogleFonts.quicksand(fontSize:20,color: Colors.black)
+                            ),
+                            Text(
+                                "600",
+                                style: GoogleFonts.quicksand(fontSize:15,color: Colors.black)
+                            )
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
             ],
           ),
         ),

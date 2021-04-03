@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:bikersworld/screen/dashboard/Autopart/partDetail.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:bikersworld/screen/dashboard/normalUser/workshopDashboard.dart';
+import 'package:bikersworld/screen/dashboard/normalUser/normal_user_workshop_dashboard.dart';
 
 class workshopGrid extends StatelessWidget {
   @override
@@ -39,7 +39,7 @@ Widget _buildCard(String name, String price, String imgPath, bool added,
 //          ),
 //          ),
 //        );
-          Navigator.push(context, MaterialPageRoute(builder: (context) => normalUserWorkshopDashboard()));
+          Navigator.push(context, MaterialPageRoute(builder: (context) => NormalUserWorkshopDashboard()));
 
       },
       child: Container(

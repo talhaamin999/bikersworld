@@ -583,13 +583,13 @@ class _TimePickerState extends State<TimePicker> {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         FlatButton(
-          color: Color(0xfff3f3f4),
+          color: Color(0XFF012A4A),
           onPressed: _selectTime,
           child: Text(
             'Time',
             style: GoogleFonts.quicksand(
               fontSize: 18,
-              color: Colors.black,
+              color: Colors.orange,
             ),
           ),
         ),

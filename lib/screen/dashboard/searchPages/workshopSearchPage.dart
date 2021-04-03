@@ -1,5 +1,4 @@
 import 'package:bikersworld/model/workshop_model.dart';
-import 'package:bikersworld/screen/workshop/workshop_dashboard.dart';
 import 'package:bikersworld/services/search_queries/serach_workshop.dart';
 import 'package:bikersworld/services/toast_service.dart';
 import 'package:flutter/cupertino.dart';
@@ -8,7 +7,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:bikersworld/screen/dashboard/searchPages/refine_search_page.dart';
-
+import 'package:bikersworld/screen/dashboard/normalUser/normal_user_workshop_dashboard.dart';
 class WorkshopSearchPage extends StatefulWidget {
   @override
   _WorkshopSearchPageState createState() => _WorkshopSearchPageState();
@@ -205,90 +204,96 @@ class _WorkshopSearchPageState extends State<WorkshopSearchPage> {
                           itemCount: snapshot.data.length,
                           itemBuilder: (context,index){
                             return  Padding(
-                              padding: const EdgeInsets.only(left:10,right: 10, bottom: 15),
-                              child: Card(
-                                color: Color(0xfff7f7f7),
-                                child: Container(
-                                  child: Row(
-                                    children: <Widget>[
-                                      Padding(
-                                        padding: const EdgeInsets.all(10),
-                                        child: Container(
-                                            width: 70.0,
-                                            height: 70.0,
-                                            decoration: BoxDecoration(
-                                                shape: BoxShape.circle,
-                                                image: DecorationImage(
-                                                    fit: BoxFit.fill,
-                                                    image: snapshot.data[index].imageURL != null ? NetworkImage(snapshot.data[index].imageURL) : AssetImage("assets/workshop1.webp",)
-                                                )
-                                            ),
+                              padding: const EdgeInsets.only(bottom: 15),
+                              child: FlatButton(
+                                onPressed:(){
+                                  Navigator.push(context, MaterialPageRoute( builder: (context) => NormalUserWorkshopDashboard(),),
+                                  );
+                                },
+                                child: Card(
+                                  color: Color(0xfff7f7f7),
+                                  child: Container(
+                                    child: Row(
+                                      children: <Widget>[
+                                        Padding(
+                                          padding: const EdgeInsets.all(10),
+                                          child: Container(
+                                              width: 70.0,
+                                              height: 70.0,
+                                              decoration: BoxDecoration(
+                                                  shape: BoxShape.circle,
+                                                  image: DecorationImage(
+                                                      fit: BoxFit.fill,
+                                                      image: snapshot.data[index].imageURL != null ? NetworkImage(snapshot.data[index].imageURL) : AssetImage("assets/workshop1.webp",)
+                                                  )
+                                              ),
+                                          ),
                                         ),
-                                      ),
 
-                                      SizedBox(width: 10,),
-                                      Container(
-                                        child: Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          children: <Widget>[
-                                            Container(
-                                              child: AutoSizeText(
-                                                snapshot.data !=null ? snapshot.data[index].shopTitle : "Automotive repair",
-                                                style: GoogleFonts.quicksand(
-                                                  fontSize: 18,
-                                                  color: Colors.black,
+                                        SizedBox(width: 5,),
+                                        Container(
+                                          child: Column(
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: <Widget>[
+                                              Container(
+                                                child: AutoSizeText(
+                                                  snapshot.data !=null ? snapshot.data[index].shopTitle : "Automotive repair",
+                                                  style: GoogleFonts.quicksand(
+                                                    fontSize: 18,
+                                                    color: Colors.black,
+                                                  ),
                                                 ),
                                               ),
-                                            ),
-                                            SizedBox(height: 5,),
-                                            Container(
-                                              child: Row(
-                                                mainAxisAlignment: MainAxisAlignment.end,
-                                                children: [
-                                                  Container(
-                                                    child: Text(
-                                                      snapshot.data != null ? snapshot.data[index].city: "Islamabad",
-                                                      style: TextStyle(
-                                                          fontSize: 15
+                                              SizedBox(height: 5,),
+                                              Container(
+                                                child: Row(
+                                                  mainAxisAlignment: MainAxisAlignment.end,
+                                                  children: [
+                                                    Container(
+                                                      child: Text(
+                                                        snapshot.data != null ? snapshot.data[index].city: "Islamabad",
+                                                        style: TextStyle(
+                                                            fontSize: 15
+                                                        ),
                                                       ),
                                                     ),
-                                                  ),
-                                                  SizedBox(width: 160,),
-                                                  Icon(
-                                                    Icons.arrow_forward_ios,
-                                                    color: Color(0xffb8b8b8),
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-
-                                            SizedBox(height: 3,),
-
-                                            Container(
-                                              child: Row(
-                                                children: <Widget>[
-                                                  Text(
-                                                    "Status",
-                                                    style: TextStyle(
-                                                      fontSize: 13,
+                                                    SizedBox(width: 160,),
+                                                    Icon(
+                                                      Icons.arrow_forward_ios,
+                                                      color: Color(0xffb8b8b8),
                                                     ),
-                                                  ),
-                                                  SizedBox(width: 5,),
-                                                  Text(
-                                                    "OPEN",
-                                                    style: TextStyle(
-                                                      fontSize: 13,
-                                                      fontWeight: FontWeight.bold,
-                                                    ),
-                                                  ),
-                                                ],
+                                                  ],
+                                                ),
                                               ),
-                                            ),
-                                            SizedBox(height: 10,),
-                                          ],
+
+                                              SizedBox(height: 3,),
+
+                                              Container(
+                                                child: Row(
+                                                  children: <Widget>[
+                                                    Text(
+                                                      "Status",
+                                                      style: TextStyle(
+                                                        fontSize: 13,
+                                                      ),
+                                                    ),
+                                                    SizedBox(width: 5,),
+                                                    Text(
+                                                      "OPEN",
+                                                      style: TextStyle(
+                                                        fontSize: 13,
+                                                        fontWeight: FontWeight.bold,
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                              SizedBox(height: 10,),
+                                            ],
+                                          ),
                                         ),
-                                      ),
-                                    ],
+                                      ],
+                                    ),
                                   ),
                                 ),
                               ),

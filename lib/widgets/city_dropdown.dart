@@ -13,35 +13,37 @@ class _CityDropDownState extends State<CityDropDown> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(left:25, right: 0),
-      child: Container(
-        decoration: BoxDecoration(
-          color: Color(0xffe3e3e3),
-        ),
+      padding: const EdgeInsets.only( top:10,right: 0),
+      child:Container(
+        color: Colors.black12,
+        child: SizedBox(
+          width: MediaQuery.of(context).size.width ,
+          child: DropdownSearch<String>(
+              validator: (v) => v == null ? "required field" : null,
+              hint: "Select your city",
+              searchBoxDecoration: InputDecoration(
 
-        width: MediaQuery.of(context).size.width - 100 ,
-        child: DropdownSearch<String>(
-          validator: (v) => v == null ? "required field" : null,
-          hint: "Select a country",
-          showSelectedItem: true,
-          items: ['Karachi','Lahore','Faisalabad','Rawalpindi',"islamabad",'Gujranwala','Peshawar',"Multan",'Hyderabad',
-            'Quetta','Bahawalpur','Sargodha','Sialkot','Sukkur','Larkana','Sheikhupura',
-            'Rahim Yar Khan','Jhang','Dera Ghazi Khan','Gujrat','Sahiwal','Wah Cantonment','Mardan',
-            'Kasur','Okara','Mingora','Nawabshah','Chiniot','Kotri','Kāmoke','Hafizabad','Sadiqabad',
-            'Mirpur Khas','Burewala','Kohat','Khanewal','Dera Ismail Khan','Turbat','Muzaffargarh',
-            'Abbotabad','Mandi Bahauddin','Shikarpur','Jacobabad','Jhelum','Khanpur','Khairpur',
-            'Khuzdar','Pakpattan','Hub','Daska','Gojra','Dadu','Muridke','Bahawalnagar',
-            'Samundri','Tando Allahyar','Tando Adam','Jaranwala','Chishtian','Muzaffarabad',
-            'Attock','Vehari','Kot Abdul Malik','Ferozwala','Chakwal','Gujranwala Cantonment',
-            'Kamalia','Umerkot','Ahmedpur East','Kot Addu','Wazirabad','Mansehra','Layyah',
-            'Mirpur','Swabi','Chaman','Taxila','Nowshera','Khushab','Shahdadkot','Mianwali',
-            'Kabal','Lodhran','Hasilpur', 'Charsadda', 'Bhakkar', 'Badin', 'Arif Wala','Ghotki','Sambrial','Jatoi','Haroonabad','Daharki','Narowal','Tando Muhammad Khan','Kamber Ali Khan','Mirpur Mathelo','Kandhkot','Bhalwal',],
-          showClearButton: true,
-          onChanged: (value){
-            widget.controller.text = value;
-          },
-          popupItemDisabled: (String s) => s.startsWith('I'),
-          selectedItem: "Karachi",
+              ),
+              showSelectedItem: true,
+              items: ['Karachi','Lahore','Faisalabad','Rawalpindi',"islamabad",'Gujranwala','Peshawar',"Multan",'Hyderabad',
+                'Quetta','Bahawalpur','Sargodha','Sialkot','Sukkur','Larkana','Sheikhupura',
+                'Rahim Yar Khan','Jhang','Dera Ghazi Khan','Gujrat','Sahiwal','Wah Cantonment','Mardan',
+                'Kasur','Okara','Mingora','Nawabshah','Chiniot','Kotri','Kāmoke','Hafizabad','Sadiqabad',
+                'Mirpur Khas','Burewala','Kohat','Khanewal','Dera Ismail Khan','Turbat','Muzaffargarh',
+                'Abbotabad','Mandi Bahauddin','Shikarpur','Jacobabad','Jhelum','Khanpur','Khairpur',
+                'Khuzdar','Pakpattan','Hub','Daska','Gojra','Dadu','Muridke','Bahawalnagar',
+                'Samundri','Tando Allahyar','Tando Adam','Jaranwala','Chishtian','Muzaffarabad',
+                'Attock','Vehari','Kot Abdul Malik','Ferozwala','Chakwal','Gujranwala Cantonment',
+                'Kamalia','Umerkot','Ahmedpur East','Kot Addu','Wazirabad','Mansehra','Layyah',
+                'Mirpur','Swabi','Chaman','Taxila','Nowshera','Khushab','Shahdadkot','Mianwali',
+                'Kabal','Lodhran','Hasilpur', 'Charsadda', 'Bhakkar', 'Badin', 'Arif Wala','Ghotki','Sambrial','Jatoi','Haroonabad','Daharki','Narowal','Tando Muhammad Khan','Kamber Ali Khan','Mirpur Mathelo','Kandhkot','Bhalwal',],
+             // showClearButton: true,
+              onChanged: (value){
+                widget.controller.text = value;
+              },
+              popupItemDisabled: (String s) => s.startsWith('I'),
+             // selectedItem: "Karachi",
+            ),
         ),
       ),
     );

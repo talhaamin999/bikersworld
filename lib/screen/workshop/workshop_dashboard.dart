@@ -175,7 +175,7 @@ class _DashboardState extends State<Dashboard> {
                               child: Positioned(
                                 bottom: -200,
                                 child: CircleAvatar(
-                                  backgroundImage: image != null ? NetworkImage(image) : AssetImage("assets/workshop1.webp"),
+                                  backgroundImage: image != null ? NetworkImage(image) : AssetImage("assets/avatar.jpg"),
                                   radius: 85,
                                   backgroundColor: Colors.black,
                                 ),
@@ -436,60 +436,69 @@ class _DashboardState extends State<Dashboard> {
                   children: [
                     FlatButton(
                       onPressed: (){
-                        showModalBottomSheet(
+                        showDialog(
                             context: context,
-                            builder: (BuildContext bc){
-                              return Container(
-                                child: new Wrap(
-                                  children: <Widget>[
-                                    Padding(
-                                      padding: const EdgeInsets.only(top:15, left:15),
-                                      child: Text(
-                                        "Working Hours",
+                            builder: (_) => new AlertDialog(
+                              title: new Text("Working hours", style: GoogleFonts.quicksand(fontSize: 18 , fontWeight:FontWeight.bold),),
+                              content: Container(
+                                  child: Row(
+                                    children: [
+                                      Icon(
+                                        FontAwesomeIcons.clock,
+                                        color: Colors.orange,
+                                        size: 30,
+                                      ),
+                                      SizedBox(width: 10,),
+
+                                      Text(
+                                        data.openTime,
                                         style: GoogleFonts.quicksand(
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.bold,
+                                          fontSize:18,
                                         ),
                                       ),
-                                    ),
-//                                    Container(
-//                                      child: Row(
-//                                        children: [
-//                                          ListTile(
-//                                            leading: Text(
-//                                              data.openTime, style: GoogleFonts.orbitron(
-//                                              fontSize: 12,
-//                                              color: Colors.white70,
-//                                            ),
-//                                            ),
-//                                          ),
-//                                          ListTile(
-//                                            leading: Text(data.closeTime, style: GoogleFonts.orbitron(
-//                                              fontSize: 12,
-//                                              color: Colors.white70,
-//                                            ),
-//                                            ),
-//                                          ),
-//                                        ],
-//                                      ),
-//                                    ),
-                                  ],
-                                ),
-                              );
-                            }
+                                      SizedBox(width: 10,),
+                                      Text(
+                                        "-"
+                                      ),
+                                      SizedBox(width: 10,),
+                                      Text(
+                                        data.closeTime,
+                                        style: GoogleFonts.quicksand(
+                                          fontSize:18,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                              ),
+                            ),
                         );
                       },
                       child: Container(
-                        height: 50,
+                        height: 60,
                         width: 150,
                         decoration: BoxDecoration(
                           color: Colors.blue,
                           borderRadius: BorderRadius.circular(10),
                         ),
-                        child: Icon(
-                          FontAwesomeIcons.clock,
-                          color: Colors.white,
-                        ),
+                        child: Column(
+                          children: [
+
+                            Padding(
+                              padding: const EdgeInsets.only(top:5),
+                              child: Icon(
+                                FontAwesomeIcons.clock,
+                                color: Colors.white,
+                              ),
+                            ),
+                            Text(
+                              "Time",
+                              style: GoogleFonts.quicksand(
+                                fontSize:17,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ],
+                        )
                       ),
                     ),
 
@@ -514,18 +523,17 @@ class _DashboardState extends State<Dashboard> {
                                         ),
                                       ),
                                       ListTile(
-                                        leading: data.monday ? Icon(FontAwesomeIcons.check,color: Colors.green,) :  Icon(FontAwesomeIcons.times,color: Colors.red,
-                                        ),
                                         title: Container(
                                           child: Row(
                                             children: [
                                               Text("Monday", style: GoogleFonts.quicksand(fontSize: 20, ),),                                          ],
                                           ),
                                         ),
+                                        leading: data.monday ? Icon(FontAwesomeIcons.check,color: Colors.green,) :  Icon(FontAwesomeIcons.times,color: Colors.red,
+                                        ),
 
                                       ),
                                       ListTile(
-                                        leading: data.tuesday ? Icon(FontAwesomeIcons.check,color: Colors.green,) :  Icon(FontAwesomeIcons.times,color: Colors.red,),
                                         title: Container(
                                           child: Row(
                                             children: [
@@ -533,10 +541,9 @@ class _DashboardState extends State<Dashboard> {
                                             ],
                                           ),
                                         ),
-
+                                        leading: data.tuesday ? Icon(FontAwesomeIcons.check,color: Colors.green,) :  Icon(FontAwesomeIcons.times,color: Colors.red,),
                                       ),
                                       ListTile(
-                                        leading: data.wednesday ? Icon(FontAwesomeIcons.check,color: Colors.green,) :  Icon(FontAwesomeIcons.times,color: Colors.red,),
                                         title: Container(
                                           child: Row(
                                             children: [
@@ -544,10 +551,10 @@ class _DashboardState extends State<Dashboard> {
                                             ],
                                           ),
                                         ),
+                                        leading: data.wednesday ? Icon(FontAwesomeIcons.check,color: Colors.green,) :  Icon(FontAwesomeIcons.times,color: Colors.red,),
 
                                       ),
                                       ListTile(
-                                        leading: data.thursday ? Icon(FontAwesomeIcons.check,color: Colors.green,) :  Icon(FontAwesomeIcons.times,color: Colors.red,),
                                         title: Container(
                                           child: Row(
                                             children: [
@@ -557,9 +564,9 @@ class _DashboardState extends State<Dashboard> {
                                           ),
                                         ),
 
+                                        leading: data.thursday ? Icon(FontAwesomeIcons.check,color: Colors.green,) :  Icon(FontAwesomeIcons.times,color: Colors.red,),
                                       ),
                                       ListTile(
-                                        leading: data.friday ? Icon(FontAwesomeIcons.check,color: Colors.green,) :  Icon(FontAwesomeIcons.times,color: Colors.red,),
                                         title: Container(
                                           child: Row(
                                             children: [
@@ -567,10 +574,10 @@ class _DashboardState extends State<Dashboard> {
                                             ],
                                           ),
                                         ),
+                                        leading: data.friday ? Icon(FontAwesomeIcons.check,color: Colors.green,) :  Icon(FontAwesomeIcons.times,color: Colors.red,),
 
                                       ),
                                       ListTile(
-                                        leading: data.saturday ? Icon(FontAwesomeIcons.check,color: Colors.green,) :  Icon(FontAwesomeIcons.times,color: Colors.red,),
                                         title: Container(
                                           child: Row(
                                             children: [
@@ -578,10 +585,10 @@ class _DashboardState extends State<Dashboard> {
                                             ],
                                           ),
                                         ),
+                                        leading: data.saturday ? Icon(FontAwesomeIcons.check,color: Colors.green,) :  Icon(FontAwesomeIcons.times,color: Colors.red,),
 
                                       ),
                                       ListTile(
-                                        leading: data.sunday ? Icon(FontAwesomeIcons.check,color: Colors.green,) :  Icon(FontAwesomeIcons.times,color: Colors.red,),
                                         title: Container(
                                           child: Row(
                                             children: [
@@ -590,6 +597,7 @@ class _DashboardState extends State<Dashboard> {
                                           ),
                                         ),
 
+                                        leading: data.sunday ? Icon(FontAwesomeIcons.check,color: Colors.green,) :  Icon(FontAwesomeIcons.times,color: Colors.red,),
                                       ),
 
                                       SizedBox(height: 20,),
@@ -601,15 +609,29 @@ class _DashboardState extends State<Dashboard> {
                         );
                       },
                       child: Container(
-                        height: 50,
+                        height: 60,
                         width: 150,
                         decoration: BoxDecoration(
                           color: Colors.red,
                           borderRadius: BorderRadius.circular(10),
                         ),
-                        child: Icon(
-                          FontAwesomeIcons.calendar,
-                          color: Colors.white,
+                        child: Column(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(top:5),
+                              child: Icon(
+                                FontAwesomeIcons.calendar,
+                                color: Colors.white,
+                              ),
+                            ),
+                            Text(
+                              "Calender",
+                              style: GoogleFonts.quicksand(
+                                fontSize:16,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                     ),

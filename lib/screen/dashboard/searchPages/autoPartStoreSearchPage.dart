@@ -6,7 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:bikersworld/widgets/drawer.dart';
 import 'package:bikersworld/widgets/customeTextArea.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:bikersworld/screen/dashboard/normalUser/workshopDashboard.dart';
+import 'package:bikersworld/screen/dashboard/normalUser/normal_user_workshop_dashboard.dart';
 import 'package:bikersworld/screen/dashboard/AutoPartStore/autoPartStoreDashboard.dart';
 
 
