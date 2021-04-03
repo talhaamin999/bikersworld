@@ -1,4 +1,5 @@
 import 'package:bikersworld/model/workshop_model.dart';
+import 'package:bikersworld/screen/workshop/workshop_dashboard.dart';
 import 'package:bikersworld/services/search_queries/serach_workshop.dart';
 import 'package:bikersworld/services/toast_service.dart';
 import 'package:flutter/cupertino.dart';
@@ -23,17 +24,23 @@ class _WorkshopSearchPageState extends State<WorkshopSearchPage> {
   final TextEditingController _controller = TextEditingController()..text = '';
   final SearchWorkshop _searchWorkshop = SearchWorkshop();
   String cityFilter;
+  bool cityFilterOption=false,workshopNameOption=false;
 
-  Stream<List<WorkshopDashboardModel>> serachByName(){
+  Stream<List<WorkshopDashboardModel>> searchByNameOrCity(){
     try {
-         return _searchWorkshop.searchWorkshopByName(
-                name: _controller.text.trim());
+         if(workshopNameOption) {
+           return _searchWorkshop.searchWorkshopByName(
+               name: _controller.text.trim());
+         }else if(cityFilterOption){
+           return _searchWorkshop.searchWorkshopByCity(city: cityFilter);
+         }
     }catch(e){
       final _error = ToastErrorMessage();
       _error.errorToastMessage(errorMessage: e.toString());
     }
     return null;
   }
+  /*
   Stream<List<WorkshopDashboardModel>> serachByCity(){
     try {
       print('double $cityFilter');
@@ -44,6 +51,8 @@ class _WorkshopSearchPageState extends State<WorkshopSearchPage> {
     }
     return null;
   }
+
+   */
   counter(int index){
     setState(() {
       numberOfResults = index;
@@ -54,6 +63,8 @@ class _WorkshopSearchPageState extends State<WorkshopSearchPage> {
         .push(MaterialPageRoute(builder: (context) => RefineRearchPage(workshopSearchFilter: 'workshop',)));
      if(_result != null){
       setState(() {
+        cityFilterOption = true;
+        workshopNameOption = false;
         cityFilter = _result;
       });
      }
@@ -93,8 +104,19 @@ class _WorkshopSearchPageState extends State<WorkshopSearchPage> {
                     padding: EdgeInsets.symmetric(vertical: 8 , horizontal: 15),
                     child: Container(
                       child: TextField(
+                        textInputAction: TextInputAction.search,
+                        onSubmitted: (value){
+                          setState(() {
+                            workshopNameOption = true;
+                            cityFilterOption = false;
+                          });
+                          print(_controller.text);
+                        },
                         controller: _controller,
                         decoration: new InputDecoration(
+                            suffixIcon: IconButton(
+                                onPressed: () => _controller.clear(),
+                                icon: Icon(Icons.clear)),
                             border: new OutlineInputBorder(
                               borderRadius: const BorderRadius.all(
                                 const Radius.circular(50),
@@ -174,7 +196,7 @@ class _WorkshopSearchPageState extends State<WorkshopSearchPage> {
 
               Container(
                 child:  StreamBuilder<List<WorkshopDashboardModel>>(
-                  stream: cityFilter != null ? serachByCity() : serachByName(),
+                  stream: searchByNameOrCity(),
                   builder: (context,snapshot){
                     if(snapshot.hasData){
                       return ListView.builder(
@@ -198,9 +220,7 @@ class _WorkshopSearchPageState extends State<WorkshopSearchPage> {
                                                 shape: BoxShape.circle,
                                                 image: DecorationImage(
                                                     fit: BoxFit.fill,
-                                                    image: AssetImage(
-                                                        "assets/workshop1.webp",
-                                                    )
+                                                    image: snapshot.data[index].imageURL != null ? NetworkImage(snapshot.data[index].imageURL) : AssetImage("assets/workshop1.webp",)
                                                 )
                                             ),
                                         ),

@@ -61,7 +61,7 @@ class _RefineRearchPageState extends State<RefineRearchPage> {
           child: Column(
             children: [
               Visibility(
-                visible: widget.workshopSearchFilter != null ? true : false,
+                visible: true,
                 child: Padding(
                   padding: const EdgeInsets.only(top:20, left: 20),
                   child: Container(
@@ -90,7 +90,7 @@ class _RefineRearchPageState extends State<RefineRearchPage> {
               ),
 
               Visibility(
-                  visible: widget.workshopSearchFilter != null ? true : false,
+                  visible:true,
                   child: CityDropDown(controller: _controller,)),
               Visibility(
                 visible: widget.workshopServiceSearchFilter != null ? true : false,
