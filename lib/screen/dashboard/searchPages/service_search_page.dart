@@ -108,7 +108,7 @@ class _ServiceSearcPageState extends State<ServiceSearcPage> {
               SizedBox(height: 20,),
               Container(
                 width: MediaQuery.of(context).size.width - 30,
-                height: 100,
+                height: 150,
                 child: Card(
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8),
@@ -133,10 +133,36 @@ class _ServiceSearcPageState extends State<ServiceSearcPage> {
                             Text(
                                 'Wheel Bearing', style: GoogleFonts.quicksand(fontSize:20,color: Colors.black)
                             ),
-                            Text(
-                                "600",
-                                style: GoogleFonts.quicksand(fontSize:15,color: Colors.black)
-                            )
+                            SizedBox(height: 10,),
+                            Container(
+                              child: Row(
+                                children: [
+                                  Icon(FontAwesomeIcons.home , size: 18, color: Colors.grey,),
+                                  SizedBox(width: 10,),
+                                  Text("Mohsin Autoplex",style: GoogleFonts.quicksand(fontSize: 16),),
+                                ],
+                              ),
+                            ),
+                            SizedBox(height: 10,),
+                            Container(
+                              child: Row(
+                                children: [
+                                  Icon(Icons.location_on, size: 19, color: Colors.grey,),
+                                  SizedBox(width: 10,),
+                                  Text("Islamabad",style: GoogleFonts.quicksand(fontSize: 16),),
+                                ],
+                              ),
+                            ),
+                            SizedBox(height: 5,),
+                            Container(
+                              child: Row(
+                                children: [
+                                  Icon(FontAwesomeIcons.dollarSign, size: 17, color: Colors.grey,),
+                                  SizedBox(width: 10,),
+                                  Text("200",style: GoogleFonts.quicksand(fontSize: 16),),
+                                ],
+                              ),
+                            ),
                           ],
                         ),
                       ),

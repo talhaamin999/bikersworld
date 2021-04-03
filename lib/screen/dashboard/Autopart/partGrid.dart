@@ -9,7 +9,7 @@ class partGrid extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 200.0,
+      height: 10,
       child: ListView(
         scrollDirection: Axis.horizontal,
         children: <Widget>[
@@ -58,7 +58,7 @@ Widget _buildCard(String name, String price, String imgPath,String category , St
           Hero(
             tag: imgPath,
             child: Container(
-              height: 115.0,
+              height: 90,
               width: 145.0,
               decoration: BoxDecoration(
                 image: DecorationImage(

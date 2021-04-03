@@ -9,7 +9,7 @@ class workshopGrid extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 200.0,
+      height: 150,
       child: ListView(
         scrollDirection: Axis.horizontal,
         children: <Widget>[
@@ -44,7 +44,7 @@ Widget _buildCard(String name, String price, String imgPath, bool added,
       },
       child: Container(
         decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(15),
+            borderRadius: BorderRadius.circular(10),
             boxShadow: [
               BoxShadow(
                   color: Colors.grey.withOpacity(0.2),
