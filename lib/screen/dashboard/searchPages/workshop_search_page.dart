@@ -307,7 +307,7 @@ class _WorkshopSearchPageState extends State<WorkshopSearchPage> {
                       return Center(child: Text('Search For Workshops'));
                     }
                     else if(snapshot.hasData && snapshot.data.isEmpty){
-                      return Text('No Data Found Matching Your Search');
+                      return Text('No Data Found Matching Your Query');
                     }
                     else if(snapshot.hasError){
                       return Text(snapshot.error.toString());
