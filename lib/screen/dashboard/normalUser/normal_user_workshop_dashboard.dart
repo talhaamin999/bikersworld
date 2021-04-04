@@ -7,6 +7,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:bikersworld/screen/dashboard/normalUser/view_mechanics_normal_user.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:contained_tab_bar_view/contained_tab_bar_view.dart';
 
 class NormalUserWorkshopDashboard extends StatefulWidget {
   final WorkshopDashboardModel workshopData;
@@ -21,6 +22,7 @@ class _NormalUserWorkshopDashboardState extends State<NormalUserWorkshopDashboar
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color(0xffdbdbdb),
       appBar: AppBar(
         leading: FlatButton(
             onPressed: () {
@@ -42,57 +44,28 @@ class _NormalUserWorkshopDashboardState extends State<NormalUserWorkshopDashboar
           ),
         ),
       ),
-      body: Stack(
-        children: [
-          Column(
-            children: [
-              Container(
-                height: 200,
-                decoration: BoxDecoration(
-                  color: Color(0XFF012A4A),
-                ),
-                child: Padding(
-                  padding:
-                  const EdgeInsets.only(left: 20, right: 20.0, top: 20),
-                  child: Column(
-                    children: [
-                      Row(
+      body: Container(
+        child:  Column(
+          children: [
+            Container(
+                width: MediaQuery.of(context).size.width,
+                height: 200.0,
+                color: Color(0XFF012A4A),
+                child: Column(
+                  children: [
+                    Container(
+                      child: Row(
                         children: [
-                          Container(
-                            width: 80.0,
-                            height: 80.0,
-                            decoration: BoxDecoration(
-                              color: Color(0XFF00B686),
-                              boxShadow: [
-                                BoxShadow(
-                                    color: Colors.black.withOpacity(.1),
-                                    blurRadius: 8,
-                                    spreadRadius: 3)
-                              ],
-                              border: Border.all(
-                                width: 1.5,
-                                color: Colors.white,
-                              ),
-                              borderRadius: BorderRadius.circular(40.0),
-                            ),
-                            padding: EdgeInsets.all(5),
-                            child: CircleAvatar(
-                              radius: 60,
-                              backgroundImage: widget.workshopData.imageURL !=
-                                  null ? NetworkImage(
-                                  widget.workshopData.imageURL) : AssetImage(
-                                  "assets/avatar.jpg"),
-                            ),
+                          CircleAvatar(
+                            radius: 60,
+                            backgroundImage: widget.workshopData.imageURL != null ? NetworkImage(widget.workshopData.imageURL): AssetImage("assets/avatar.jpg"),
                           ),
-                          SizedBox(
-                            width: 20,
-                          ),
+                          SizedBox(width:10),
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                widget.workshopData != null ? widget
-                                    .workshopData.shopTitle : 'Workshop name',
+                                widget.workshopData != null ? widget.workshopData.shopTitle : 'Workshop name',
                                 style: GoogleFonts.quicksand(
                                     fontSize: 22,
                                     fontWeight: FontWeight.bold,
@@ -109,15 +82,14 @@ class _NormalUserWorkshopDashboardState extends State<NormalUserWorkshopDashboar
                                   ),
                                   SizedBox(width: 10,),
                                   Text(
-                                    widget.workshopData != null ? widget
-                                        .workshopData.city : 'City',
+                                    widget.workshopData != null ? widget.workshopData.city : 'City',
                                     style: GoogleFonts.quicksand(
                                         fontSize: 18,
                                         color: Colors.white),
                                   ),
                                 ],
                               ),
-                              SizedBox(height: 5,),
+                              SizedBox(height: 15,),
                               Row(
                                 children: [
                                   Icon(
@@ -126,9 +98,7 @@ class _NormalUserWorkshopDashboardState extends State<NormalUserWorkshopDashboar
                                   ),
                                   SizedBox(width: 10,),
                                   Text(
-                                    widget.workshopData != null
-                                        ? widget.workshopData.ownerContact
-                                        : 'Owner contact',
+                                    widget.workshopData != null ? widget.workshopData.ownerContact: 'Owner contact',
                                     style: GoogleFonts.quicksand(
                                         fontSize: 16,
                                         color: Colors.white),
@@ -136,49 +106,181 @@ class _NormalUserWorkshopDashboardState extends State<NormalUserWorkshopDashboar
                                 ],
                               ),
                             ],
-                          )
+                          ),
                         ],
-                      )
-                    ],
-                  ),
-                ),
-              ),
+                      ),
+                    ),
+                    SizedBox(height: 30,),
+                    Padding(
+                      padding: const EdgeInsets.only(top:40),
+                      child: Align(
+                        alignment: const Alignment(1.0, 1.0),
+                        child: SizedBox(
+                          width: MediaQuery.of(context).size.width - 20,
+                          height: 10.0,
+                          child: OverflowBox(
+                            maxWidth: MediaQuery.of(context).size.width - 20,
+                            minHeight: 0.0,
+                            maxHeight: 120,
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.grey.withOpacity(0.5),
+                                      spreadRadius: 5,
+                                      blurRadius: 7,
+                                      offset: Offset(0, 3), // changes position of shadow
+                                    ),
+                                  ],
+                                  borderRadius: BorderRadius.only(
+                                    topLeft: Radius.circular(60),
+                                    bottomLeft: Radius.circular(10),
+                                  )
+                              ),
+                              child: Row(
+                                children: [
+                                  FlatButton(
+                                    onPressed: (){
+                                      showDialog(
+                                        context: context,
+                                        builder: (_) => new AlertDialog(
+                                          title: new Text("Working hours", style: GoogleFonts.quicksand(fontSize: 18 , fontWeight:FontWeight.bold),),
+                                          content: Container(
+                                            child: Row(
+                                              children: [
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(top:20, left: 8,bottom: 20),
+                                      child: Container(
+                                          height: 60,
+                                          width: 150,
+                                          decoration: BoxDecoration(
+                                            color: Colors.blue,
+                                            borderRadius: BorderRadius.circular(10),
+                                          ),
+                                          child: Column(
+                                            children: [
 
-            ],
-          ),
-          Positioned(
-            top: 130,
-            right: 0,
-            child: Container(
-              padding: EdgeInsets.symmetric(vertical: 10, horizontal: 25),
-              width: MediaQuery
-                  .of(context)
-                  .size
-                  .width * 0.85,
-              height: 160,
+                                              Padding(
+                                                padding: const EdgeInsets.only(top:5),
+                                                child: Icon(
+                                                  FontAwesomeIcons.clock,
+                                                  color: Colors.white,
+                                                ),
+                                              ),
+                                              Text(
+                                                "Time",
+                                                style: GoogleFonts.quicksand(
+                                                  fontSize:17,
+                                                  color: Colors.white,
+                                                ),
+                                              ),
+                                            ],
+                                          )
+                                      ),
+                                    ),
+                                  ),
+                                  FlatButton(
+                                    onPressed: (){
+                                      showModalBottomSheet(
+                                          context: context,
+                                          builder: (BuildContext bc){
+                                            return SingleChildScrollView(
+                                              child: Container(
+                                                child: new Wrap(
+                                                  children: <Widget>[
+                                                    Padding(
+                                                      padding: const EdgeInsets.only(top:15, left:15),
+                                                      child: Text(
+                                                        "Working Days",
+                                                        style: GoogleFonts.quicksand(
+                                                          fontSize: 20,
+                                                          fontWeight: FontWeight.bold,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            );
+                                          }
+                                      );
+                                    },
+                                    child: Container(
+                                      height: 60,
+                                      width: 150,
+                                      decoration: BoxDecoration(
+                                        color: Colors.red,
+                                        borderRadius: BorderRadius.circular(10),
+                                      ),
+                                      child: Column(
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.only(top:5),
+                                            child: Icon(
+                                              FontAwesomeIcons.calendar,
+                                              color: Colors.white,
+                                            ),
+                                          ),
+                                          Text(
+                                            "Calender",
+                                            style: GoogleFonts.quicksand(
+                                              fontSize:16,
+                                              color: Colors.white,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+
+                  ],
+                )
+            ),
+            SizedBox(height:60),
+            Container(
+              padding: const EdgeInsets.all(20),
+              width: MediaQuery.of(context).size.width,
               decoration: BoxDecoration(
                 color: Colors.white,
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(.05),
-                    blurRadius: 8,
-                    spreadRadius: 3,
-                    offset: Offset(0, 10),
-                  ),
-                ],
                 borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(10),
-                  bottomLeft: Radius.circular(50),
+                  topRight: Radius.circular(80),
                 ),
               ),
-              child: Column(
-
+              height: 415,
+              child: ContainedTabBarView(
+                tabs: [
+                  Text('Mechanics' , style: GoogleFonts.quicksand(fontSize: 18, color: Colors.black),),
+                  Text('Services', style: GoogleFonts.quicksand(fontSize: 18, color: Colors.black),),
+                  Text('Reviews', style: GoogleFonts.quicksand(fontSize: 18, color: Colors.black),),
+                ],
+                views: [
+                  Container(child:Text("Mechancis")),
+                  Container(child:Text("Services")),
+                  Container(child:Text("Reviews"))
+                ],
+                onChange: (index) => print(index),
               ),
-            ),
-          )
-        ],
+            )
+
+          ],
+        ),
       ),
     );
   }
 
 }
+
