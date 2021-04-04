@@ -2,12 +2,14 @@ import 'package:bikersworld/model/workshop_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:bikersworld/widgets/drawer.dart';
+import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:bikersworld/screen/dashboard/normalUser/view_mechanics_normal_user.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:contained_tab_bar_view/contained_tab_bar_view.dart';
+import 'package:vertical_tabs/vertical_tabs.dart';
 
 class NormalUserWorkshopDashboard extends StatefulWidget {
   final WorkshopDashboardModel workshopData;
@@ -44,9 +46,10 @@ class _NormalUserWorkshopDashboardState extends State<NormalUserWorkshopDashboar
           ),
         ),
       ),
-      body: Container(
-        child:  Column(
-          children: [
+      body: SafeArea(
+        child: Column(
+          children: <Widget>[
+
             Container(
                 width: MediaQuery.of(context).size.width,
                 height: 200.0,
@@ -250,31 +253,148 @@ class _NormalUserWorkshopDashboardState extends State<NormalUserWorkshopDashboar
                   ],
                 )
             ),
-            SizedBox(height:60),
-            Container(
-              padding: const EdgeInsets.all(20),
-              width: MediaQuery.of(context).size.width,
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.only(
-                  topRight: Radius.circular(80),
+            SizedBox(height: 70,),
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.all(5),
+                child: Container(
+                  child: VerticalTabs(
+                    backgroundColor: Colors.orange,
+                    tabsWidth: 70,
+                    tabs: <Tab>[
+                      Tab(child: Padding(
+                        padding: const EdgeInsets.only(top:10,left: 15,right: 15,  bottom: 15),
+                        child: Icon(FontAwesomeIcons.cogs , color: Color(0XFF012A4A)),
+                      )),
+                      Tab(child: Padding(
+                        padding: const EdgeInsets.only(top:10,left: 15,right: 15,  bottom: 15),
+                        child: Icon(FontAwesomeIcons.user, color: Color(0XFF012A4A)),
+                      )),
+                      Tab(child: Padding(
+                        padding: const EdgeInsets.only(top:10,left: 15,right: 15,  bottom: 15),
+                        child: Icon(FontAwesomeIcons.eye , color: Color(0XFF012A4A),),
+                      )),
+
+
+                    ],
+                    contents: <Widget>[
+                      Container(
+                          color: Color(0xfff0f0f0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.all(10),
+                                child: Text(
+                                  "Service",
+                                  style: GoogleFonts.quicksand(
+                                    fontSize: 20,
+                                  ),
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Container(
+                                  width: MediaQuery.of(context).size.width - 100,
+                                  height: 110,
+                                  child: Card(
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                    color: Colors.white,
+                                    elevation: 3,
+                                    child: Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: <Widget>[
+                                        SizedBox(width: 5,),
+                                        CircleAvatar(
+                                          radius: 40,
+                                          backgroundColor: Color(0XFF012A4A),
+                                          backgroundImage: AssetImage("assets/service_avatar.jpg"),
+                                        ),
+                                        SizedBox(width: 20,),
+
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                      ),
+
+                      Container(
+                        color: Color(0xfff0f0f0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(10),
+                              child: Text(
+                                "Mechanics",
+                                style: GoogleFonts.quicksand(
+                                  fontSize: 20,
+                                ),
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(left:5),
+                              child: Container(
+                                width: MediaQuery.of(context).size.width - 100,
+                                height: 90,
+                                child: Card(
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                  color: Colors.white,
+                                  elevation: 3,
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: <Widget>[
+                                      SizedBox(width: 15,),
+                                      CircleAvatar(
+                                        radius: 25,
+                                        backgroundColor: Color(0XFF012A4A),
+                                        child: Icon(FontAwesomeIcons.user),
+                                      ),
+                                      SizedBox(width: 20,),
+
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+
+
+                      Container(
+                        color: Color(0xfff0f0f0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(10),
+                              child: Text(
+                                "Reviews",
+                                style: GoogleFonts.quicksand(
+                                  fontSize: 20,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+
+                    ],
+                  ),
+
+
+
                 ),
               ),
-              height: 415,
-              child: ContainedTabBarView(
-                tabs: [
-                  Text('Mechanics' , style: GoogleFonts.quicksand(fontSize: 18, color: Colors.black),),
-                  Text('Services', style: GoogleFonts.quicksand(fontSize: 18, color: Colors.black),),
-                  Text('Reviews', style: GoogleFonts.quicksand(fontSize: 18, color: Colors.black),),
-                ],
-                views: [
-                  Container(child:Text("Mechancis")),
-                  Container(child:Text("Services")),
-                  Container(child:Text("Reviews"))
-                ],
-                onChange: (index) => print(index),
-              ),
-            )
+            ),
 
           ],
         ),
@@ -284,3 +404,71 @@ class _NormalUserWorkshopDashboardState extends State<NormalUserWorkshopDashboar
 
 }
 
+Widget tabsContent(String caption, [ String description = '' ] ) {
+  return Container(
+    margin: EdgeInsets.all(10),
+    padding: EdgeInsets.all(20),
+    color: Color(0XFF012A4A),
+    child: Column(
+      children: <Widget>[
+        Text(
+          caption,
+          style: TextStyle(fontSize: 25),
+        ),
+        Divider(height: 20, color: Colors.black45,),
+        Text(
+          description,
+          style: TextStyle(fontSize: 15, color: Colors.black87),
+        ),
+      ],
+    ),
+  );
+}
+
+
+/*
+*   Container(
+                                          child: Column(
+                                            mainAxisAlignment: MainAxisAlignment.center,
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                  "", style: GoogleFonts.quicksand(fontSize:20,color: Colors.black)
+                                              ),
+                                              Container(
+                                                child: Row(
+                                                  children: [
+                                                    Icon(FontAwesomeIcons.home , size: 18, color: Colors.grey,),
+                                                    SizedBox(width: 10,),
+                                                    Container(
+                                                      child: AutoSizeText(
+                                                        "",
+                                                        style: GoogleFonts.quicksand(
+                                                          fontSize: 15,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                              Container(
+                                                child: Row(
+                                                  children: [
+                                                    Icon(Icons.location_on, size: 19, color: Colors.grey,),
+                                                    SizedBox(width: 10,),
+                                                    Text("",style: GoogleFonts.quicksand(fontSize: 16),),
+                                                  ],
+                                                ),
+                                              ),
+                                              Container(
+                                                child: Row(
+                                                  children: [
+                                                    Icon(FontAwesomeIcons.dollarSign, size: 17, color: Colors.grey,),
+                                                    SizedBox(width: 10,),
+                                                    Text("",style: GoogleFonts.quicksand(fontSize: 16),),
+                                                  ],
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),*/
