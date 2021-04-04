@@ -10,8 +10,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:bikersworld/screen/loginSignup/signup.dart';
 import 'package:bikersworld/screen/dashboard/home.dart';
 import 'package:bikersworld/screen/dashboard/Ads/seller/sellerDashbaord.dart';
-import 'package:bikersworld/screen/dashboard/searchPages/workshopSearchPage.dart';
-import 'package:bikersworld/screen/dashboard/searchPages/autoPartSearchPage.dart';
+import 'package:bikersworld/screen/dashboard/searchPages/workshop_search_page.dart';
+import 'package:bikersworld/screen/dashboard/searchPages/autopart_search_page.dart';
 
 
 class GenericOptionScreen extends StatefulWidget {

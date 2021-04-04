@@ -6,10 +6,10 @@ import 'package:bikersworld/screen/loginSignup/signup.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:bikersworld/screen/dashboard/home.dart';
 import 'package:bikersworld/screen/dashboard/Ads/postAdsSeller.dart';
-import 'package:bikersworld/screen/dashboard/searchPages/adsSearchPage.dart';
-import 'package:bikersworld/screen/dashboard/searchPages/autoPartSearchPage.dart';
-import 'package:bikersworld/screen/dashboard/searchPages/autoPartStoreSearchPage.dart';
-import 'package:bikersworld/screen/dashboard/searchPages/workshopSearchPage.dart';
+import 'package:bikersworld/screen/dashboard/searchPages/ads_search_page.dart';
+import 'package:bikersworld/screen/dashboard/searchPages/autopart_search_page.dart';
+import 'package:bikersworld/screen/dashboard/searchPages/auto_partstore_search_page.dart';
+import 'package:bikersworld/screen/dashboard/searchPages/workshop_search_page.dart';
 
 
 class findMore extends StatefulWidget {
