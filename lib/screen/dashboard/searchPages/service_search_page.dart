@@ -203,83 +203,86 @@ class _ServiceSearcPageState extends State<ServiceSearcPage> {
                 stream: getServicesByTitle(),
                 builder: (BuildContext context, AsyncSnapshot<List<Services>> snapshot) {
                   if(snapshot.hasData && snapshot.data.isNotEmpty){
-                    return ListView.builder(
-                        physics: NeverScrollableScrollPhysics(),
-                        shrinkWrap: true,
-                        itemCount: snapshot.data.length,
-                        itemBuilder: (context,index){
-                          return Container(
-                            width: MediaQuery.of(context).size.width - 30,
-                            height: 150,
-                            child: Card(
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                              color: Colors.white,
-                              elevation: 3,
-                              child: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: <Widget>[
-                                  SizedBox(width: 15,),
-                                  CircleAvatar(
-                                    radius: 40,
-                                    backgroundColor: Color(0XFF012A4A),
-                                    backgroundImage: AssetImage("assets/service_avatar.jpg"),
-                                  ),
-                                  SizedBox(width: 20,),
-                                  Container(
-                                    child: Column(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                            snapshot.data[index].title, style: GoogleFonts.quicksand(fontSize:20,color: Colors.black)
-                                        ),
-                                        SizedBox(height: 10,),
-                                        Container(
-                                          child: Row(
-                                            children: [
-                                              Icon(FontAwesomeIcons.home , size: 18, color: Colors.grey,),
-                                              SizedBox(width: 10,),
-                                              AutoSizeText(
-                                                    snapshot.data[index].workshopId,
-                                                    style: GoogleFonts.quicksand(fontSize:
-                                                    16),
-                                                    maxLines: 2,
-
-                                              ),
-
-                                            ],
-                                          ),
-                                        ),
-                                        SizedBox(height: 10,),
-                                        Container(
-                                          child: Row(
-                                            children: [
-                                              Icon(Icons.location_on, size: 19, color: Colors.grey,),
-                                              SizedBox(width: 10,),
-                                              Text(snapshot.data[index].workshopCity,style: GoogleFonts.quicksand(fontSize: 16),),
-                                            ],
-                                          ),
-                                        ),
-                                        SizedBox(height: 5,),
-                                        Container(
-                                          child: Row(
-                                            children: [
-                                              Icon(FontAwesomeIcons.dollarSign, size: 17, color: Colors.grey,),
-                                              SizedBox(width: 10,),
-                                              Text(snapshot.data[index].price.toString(),style: GoogleFonts.quicksand(fontSize: 16),),
-                                            ],
-                                          ),
-                                        ),
-                                      ],
+                    return Container(
+                      width: MediaQuery.of(context).size.width - 30,
+                      child: ListView.builder(
+                          physics: NeverScrollableScrollPhysics(),
+                          shrinkWrap: true,
+                          itemCount: snapshot.data.length,
+                          itemBuilder: (context,index){
+                            return Container(
+                              width: MediaQuery.of(context).size.width - 30,
+                              height: 150,
+                              child: Card(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                color: Colors.white,
+                                elevation: 3,
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: <Widget>[
+                                    SizedBox(width: 15,),
+                                    CircleAvatar(
+                                      radius: 40,
+                                      backgroundColor: Color(0XFF012A4A),
+                                      backgroundImage: AssetImage("assets/service_avatar.jpg"),
                                     ),
-                                  ),
-                                ],
+                                    SizedBox(width: 20,),
+                                    Container(
+                                      child: Column(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                              snapshot.data[index].title, style: GoogleFonts.quicksand(fontSize:20,color: Colors.black)
+                                          ),
+                                          SizedBox(height: 10,),
+                                          Container(
+                                            child: Row(
+                                              children: [
+                                                Icon(FontAwesomeIcons.home , size: 18, color: Colors.grey,),
+                                                SizedBox(width: 10,),
+                                                Container(
+                                                  child: AutoSizeText(
+                                                      snapshot.data[index].workshopId,
+                                                    style: GoogleFonts.quicksand(
+                                                        fontSize: 15,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                          SizedBox(height: 10,),
+                                          Container(
+                                            child: Row(
+                                              children: [
+                                                Icon(Icons.location_on, size: 19, color: Colors.grey,),
+                                                SizedBox(width: 10,),
+                                                Text(snapshot.data[index].workshopCity,style: GoogleFonts.quicksand(fontSize: 16),),
+                                              ],
+                                            ),
+                                          ),
+                                          SizedBox(height: 5,),
+                                          Container(
+                                            child: Row(
+                                              children: [
+                                                Icon(FontAwesomeIcons.dollarSign, size: 17, color: Colors.grey,),
+                                                SizedBox(width: 10,),
+                                                Text(snapshot.data[index].price.toString(),style: GoogleFonts.quicksand(fontSize: 16),),
+                                              ],
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ),
-                            ),
-                          );
-                        }
+                            );
+                          }
+                      ),
                     );
                   }
                   else if(snapshot.data == null){

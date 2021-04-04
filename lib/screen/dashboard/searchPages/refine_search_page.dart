@@ -12,6 +12,11 @@ class RefineRearchPage extends StatefulWidget {
   _RefineRearchPageState createState() => _RefineRearchPageState();
 }
 
+
+
+enum priceSelection { High, Low, Not }
+
+
 class _RefineRearchPageState extends State<RefineRearchPage> {
   bool HighLow = false;
   bool LowHigh = false;
@@ -27,6 +32,10 @@ class _RefineRearchPageState extends State<RefineRearchPage> {
   void clear(){
     _controller.clear();
   }
+
+
+  priceSelection _price = priceSelection.Not;
+
 
   @override
   Widget build(BuildContext context) {
@@ -194,7 +203,7 @@ class _RefineRearchPageState extends State<RefineRearchPage> {
                         ),
                         SizedBox(width: 20,),
                         Text(
-                          "Sort",
+                          "Sort by price",
                           style: GoogleFonts.quicksand(
                             fontSize: 16,
                           ),
@@ -211,39 +220,41 @@ class _RefineRearchPageState extends State<RefineRearchPage> {
                   child: Container(
                     child: Column(
                       children: [
-                        Row(
-                          children: [
-                            Checkbox(
-                              value: HighLow,
-                              onChanged: (bool value) {
-                                setState(() {
-                                  HighLow = value;
-                                });
-                              },
-                            ),
-                            Text("High to low",
-                              style: GoogleFonts.quicksand(
-                                fontSize: 18,
-                              ),
-                            ),
-                          ],
+                        ListTile(
+                          title: const Text('High to low'),
+                          leading: Radio<priceSelection>(
+                            value: priceSelection.High,
+                            groupValue: _price,
+                            onChanged: (priceSelection value) {
+                              setState(() {
+                                _price = value;
+                              });
+                            },
+                          ),
                         ),
-                        Row(
-                          children: [
-                            Checkbox(
-                              value: LowHigh,
-                              onChanged: (bool value) {
-                                setState(() {
-                                  LowHigh = value;
-                                });
+                        ListTile(
+                          title: const Text('High to low'),
+                          leading: Radio<priceSelection>(
+                            value: priceSelection.High,
+                            groupValue: _price,
+                            onChanged: (priceSelection value) {
+                              setState(() {
+                                _price = value;
+                              });
                               },
-                            ),
-                            Text("Low to high",
-                              style: GoogleFonts.quicksand(
-                                fontSize: 18,
-                              ),
-                            ),
-                          ],
+                          ),
+                        ),
+                        ListTile(
+                          title: const Text('Low to High'),
+                          leading: Radio<priceSelection>(
+                            value: priceSelection.Low,
+                            groupValue: _price,
+                            onChanged: (priceSelection value) {
+                              setState(() {
+                                _price = value;
+                              });
+                            },
+                          ),
                         ),
                       ],
                     ),
@@ -313,3 +324,59 @@ class _RefineRearchPageState extends State<RefineRearchPage> {
     );
   }
 }
+
+
+/*
+*  Row(
+                          children: [
+                            Radio(
+                              groupValue: null,
+                              value: HighLow,
+                              onChanged: (bool value) {
+                                setState(() {
+                                  HighLow = value;
+                                });
+                              },
+                            ),
+                            Text("High to low",
+                              style: GoogleFonts.quicksand(
+                                fontSize: 18,
+                              ),
+                            ),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            Radio(
+                              groupValue: null,
+                              value: LowHigh,
+                              onChanged: (bool value) {
+                                setState(() {
+                                  LowHigh = value;
+                                });
+                              },
+                            ),
+                            Text("Low to high",
+                              style: GoogleFonts.quicksand(
+                                fontSize: 18,
+                              ),
+                            ),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            Radio(
+                              value: LowHigh,
+                              onChanged: (bool value) {
+                                setState(() {
+                                  LowHigh = value;
+                                });
+                              }, groupValue: null,
+                            ),
+                            Text("Not Selected",
+                              style: GoogleFonts.quicksand(
+                                fontSize: 18,
+                              ),
+                            ),
+                          ],
+                        ), */

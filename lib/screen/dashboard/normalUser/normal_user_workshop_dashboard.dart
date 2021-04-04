@@ -6,366 +6,179 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:bikersworld/screen/dashboard/normalUser/view_mechanics_normal_user.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
 class NormalUserWorkshopDashboard extends StatefulWidget {
-
   final WorkshopDashboardModel workshopData;
   NormalUserWorkshopDashboard({@required this.workshopData});
-
   @override
   _NormalUserWorkshopDashboardState createState() => _NormalUserWorkshopDashboardState();
 }
 
 class _NormalUserWorkshopDashboardState extends State<NormalUserWorkshopDashboard> {
+  int _selectedItemIndex = 2;
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-          leading: FlatButton(
-            onPressed: (){
+    return Scaffold(
+      appBar: AppBar(
+        leading: FlatButton(
+            onPressed: () {
               Navigator.pop(context);
             },
-              child: Icon(
-                Icons.arrow_back,
-                color: Colors.orange,
-              )
-          ),
-          title: Text("BikersWorld"),
-          elevation: 0,
-          backgroundColor: Color(0XFF012A4A),
-          brightness: Brightness.dark,
-          textTheme: TextTheme(
-            title: GoogleFonts.quicksand(
-              color: Colors.white,
-              fontSize: 22,
-            ),
+            child: Icon(
+              Icons.arrow_back,
+              color: Colors.orange,
+            )
+        ),
+        title: Text("BikersWorld"),
+        elevation: 0,
+        backgroundColor: Color(0XFF012A4A),
+        brightness: Brightness.dark,
+        textTheme: TextTheme(
+          title: GoogleFonts.quicksand(
+            color: Colors.white,
+            fontSize: 22,
           ),
         ),
-//        body:SingleChildScrollView(
-//          child: Column(
-//            children: <Widget>[
-//              Container(
-//                height: 180,
-//                width: MediaQuery.of(context).size.width,
-//                decoration: BoxDecoration(
-//                  color: Color(0XFF012A4A),
-//                  borderRadius: BorderRadius.only(
-//                    bottomRight: Radius.circular(40),
-//                    bottomLeft: Radius.circular(40),
-//                  ),
-//                ),
-//                child: Row(
-//                  crossAxisAlignment: CrossAxisAlignment.start,
-//                  children: [
-//                    Padding(
-//                      padding: const EdgeInsets.only(left:5),
-//                      child: CircleAvatar(
-//                        radius: 60,
-//                        backgroundImage: widget.workshopData.imageURL != null ? NetworkImage(widget.workshopData.imageURL): AssetImage("assets/avatar.jpg"),
-//                      ),
-//                    ),
-//                    SizedBox(width: 15,),
-//                    Container(
-//                      child: Column(
-//                        crossAxisAlignment: CrossAxisAlignment.start,
-//                        children: [
-//                          SizedBox(
-//                            width: MediaQuery.of(context).size.width*0.5,
-//                            child: AutoSizeText(
-//                              widget.workshopData != null ? widget.workshopData.shopTitle : 'Workshop name',
-//                              style: GoogleFonts.quicksand(
-//                                fontSize: 30,
-//                                color: Colors.white70,
-//                                fontWeight: FontWeight.bold,
-//                              ),
-//                            ),
-//                          ),
-//                          SizedBox(height: 10,),
-//                          Container(
-//                            child: Column(
-//                              crossAxisAlignment: CrossAxisAlignment.start,
-//                              children: [
-//                                Container(
-//                                  child: Row(
-//                                      children: [
-//                                        Icon(Icons.location_on, size: 30, color: Colors.grey,),
-//                                        Text(
-//                                          widget.workshopData != null ? widget.workshopData.city : 'Workshop City',
-//                                          style: GoogleFonts.quicksand(
-//                                            fontSize: 20,
-//                                            color: Colors.white,
-//                                          ),
-//                                        ),
-//                                      ]
-//                                  ),
-//                                ),
-//                                SizedBox(height:10),
-//                                Container(
-//                                  child: Row(
-//                                      children: [
-//                                        Icon(Icons.phone, size: 25, color: Colors.grey, ),
-//                                        Text(
-//                                          widget.workshopData !=null ? widget.workshopData.ownerContact : 'Owner Contact',
-//                                          style: GoogleFonts.quicksand(
-//                                            fontSize: 16,
-//                                            color: Colors.white,
-//                                          ),
-//                                        ),
-//                                      ]
-//                                  ),
-//                                ),
-//                              ],
-//                            ),
-//                          ),
-//                        ],
-//                      ),
-//                    ),
-//                  ],
-//                ),
-//              ),
-//              Padding(
-//                padding: const EdgeInsets.only(left: 25, top: 20),
-//                child: Container(
-//                  child: Row(
-//                    children: [
-//                      Container(
-//                        height: 60,
-//                        width: 8,
-//                        color:Colors.orange,
-//                      ),
-//                      Container(
-//                        child: Column(
-//                          crossAxisAlignment: CrossAxisAlignment.start,
-//                          children: [
-//                            Padding(
-//                              padding: const EdgeInsets.only(left:10),
-//                              child: Text(
-//                                "WORKSHOP",
-//                                style: GoogleFonts.mukta(
-//                                  fontSize: 20,
-//                                  color: Colors.black,
-//                                ),
-//                              ),
-//                            ),
-//                            Padding(
-//                              padding: const EdgeInsets.only(left:10),
-//                              child: Text(
-//                                "Dashboard",
-//                                style: GoogleFonts.varelaRound(
-//                                  fontSize: 16,
-//                                  color: Colors.grey,
-//                                ),
-//                              ),
-//                            ),
-//                          ],
-//                        ),
-//                      ),
-//                    ],
-//                  ),
-//                ),
-//              ),
-//              SizedBox(height:25),
-//              FlatButton(
-//                onPressed: (){
-//                  showDialog(
-//                    context: context,
-//                    builder: (_) => new AlertDialog(
-//                      title: new Text("Information", style: GoogleFonts.quicksand(fontSize: 18 , fontWeight:FontWeight.bold),),
-//                    ),
-//                  );
-//                },
-//                child: Container(
-//                  width: MediaQuery.of(context).size.width - 30,
-//                  height: 100,
-//                  child: Card(
-//                    shape: RoundedRectangleBorder(
-//                      borderRadius: BorderRadius.circular(15.0),
-//                    ),
-//                    color: Colors.white,
-//                    elevation: 5,
-//                    child: Row(
-//                      mainAxisSize: MainAxisSize.min,
-//                      children: <Widget>[
-//                        SizedBox(width: 15,),
-//                        Icon(
-//                            Icons.info, size: 70 , color: Color(0XFF012A4A)
-//                        ),
-//                        SizedBox(width: 20,),
-//                        Text(
-//                            'Shop Information', style: GoogleFonts.quicksand(fontSize:20,color: Colors.black)
-//                        ),
-//                      ],
-//                    ),
-//                  ),
-//                ),
-//              ),
-//              SizedBox(height: 20,),
-//              Container(
-//                width: MediaQuery.of(context).size.width - 5,
-//                child: Padding(
-//                  padding: const EdgeInsets.all(5),
-//                  child: Center(
-//                    child: Row(
-//                      mainAxisAlignment: MainAxisAlignment.center,
-//                      children: [
-//                        FlatButton(
-//                          onPressed: (){
-//                            Navigator.push(context, MaterialPageRoute(builder: (context) => ViewMechanicsNormalUser()));
-//                          },
-//                          child: Container(
-//                            height: 150,
-//                            width: 150,
-//                            child: Card(
-//                              shape: RoundedRectangleBorder(
-//                                borderRadius: BorderRadius.circular(15.0),
-//                              ),
-//                              color: Colors.white,
-//                              elevation: 5,
-//                              child: Column(
-//                                mainAxisAlignment: MainAxisAlignment.center,
-//                                children: [
-//                                  Icon(
-//                                      FontAwesomeIcons.user,
-//                                    size: 60,
-//                                    color: Color(0XFF012A4A),
-//                                  ),
-//                                  SizedBox(height: 15,),
-//                                  Text(
-//                                    "Mechanics",
-//                                    style: GoogleFonts.quicksand(
-//                                      fontSize: 16,
-//                                    ),
-//                                  ),
-//                                ],
-//                              ),
-//                            ),
-//                          ),
-//                        ),
-//                        FlatButton(
-//                          onPressed: (){
-//
-//                          },
-//                          child: Container(
-//                            height: 150,
-//                            width: 150,
-//                            child: Card(
-//                              shape: RoundedRectangleBorder(
-//                                borderRadius: BorderRadius.circular(15.0),
-//                              ),
-//                              color: Colors.white,
-//                              elevation: 5,
-//                              child:  Column(
-//                                mainAxisAlignment: MainAxisAlignment.center,
-//                                children: [
-//                                  Icon(
-//                                    FontAwesomeIcons.cogs,
-//                                    size: 60,
-//                                    color: Color(0XFF012A4A),
-//                                  ),
-//                                  SizedBox(height: 15,),
-//                                  Text(
-//                                    "Services",
-//                                    style: GoogleFonts.quicksand(
-//                                      fontSize: 16,
-//                                    ),
-//                                  ),
-//                                ],
-//                              ),
-//                            ),
-//                          ),
-//                        ),
-//                      ],
-//                    ),
-//                  ),
-//                ),
-//              ),
-//            ],
-//          ),
-//        ),
+      ),
       body: Stack(
-          children: [
-            Column(
-              children: [
-                Container(
-                  height: 230,
-                  decoration: BoxDecoration(
-                    color: Color(0XFF012A4A),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 20, right: 20.0, top: 10),
-                    child: Column(
-                      children: [
-                        Row(
-                          children: [
-                            Container(
-                              width: 100.0,
-                              height: 100.0,
-                              decoration: BoxDecoration(
-                                color: Color(0XFF00B686),
-                                boxShadow: [
-                                  BoxShadow(
-                                      color: Colors.black.withOpacity(.1),
-                                      blurRadius: 8,
-                                      spreadRadius: 3)
-                                ],
-                                border: Border.all(
-                                  width: 1.5,
-                                  color: Colors.white,
-                                ),
-                                borderRadius: BorderRadius.circular(50.0),
-                              ),
-                              padding: EdgeInsets.all(5),
-                              child: CircleAvatar(
-                                radius: 40,
-                                backgroundImage: widget.workshopData.imageURL != null ? NetworkImage(widget.workshopData.imageURL): AssetImage("assets/avatar.jpg"),
-                              ),
-                            ),
-
-                            SizedBox(width: 20,),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  widget.workshopData != null ? widget.workshopData.shopTitle : 'Workshop name',
-                                  style: GoogleFonts.quicksand(
-                                      fontSize: 22,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.white),
-                                ),
-
-                                SizedBox(
-                                  height: 10,
-                                ),
-                                SizedBox(height:10),
-                                Container(
-                                  child: Row(
-                                      children: [
-                                        Icon(Icons.phone, size: 25, color: Colors.grey, ),
-                                        SizedBox(width: 10,),
-                                        Text(
-                                          widget.workshopData !=null ? widget.workshopData.ownerContact : 'Owner Contact',
-                                          style: GoogleFonts.quicksand(
-                                            fontSize: 16,
-                                            color: Colors.white,
-                                          ),
-                                        ),
-                                      ]
-                                  ),
-                                ),
+        children: [
+          Column(
+            children: [
+              Container(
+                height: 200,
+                decoration: BoxDecoration(
+                  color: Color(0XFF012A4A),
+                ),
+                child: Padding(
+                  padding:
+                  const EdgeInsets.only(left: 20, right: 20.0, top: 20),
+                  child: Column(
+                    children: [
+                      Row(
+                        children: [
+                          Container(
+                            width: 80.0,
+                            height: 80.0,
+                            decoration: BoxDecoration(
+                              color: Color(0XFF00B686),
+                              boxShadow: [
+                                BoxShadow(
+                                    color: Colors.black.withOpacity(.1),
+                                    blurRadius: 8,
+                                    spreadRadius: 3)
                               ],
+                              border: Border.all(
+                                width: 1.5,
+                                color: Colors.white,
+                              ),
+                              borderRadius: BorderRadius.circular(40.0),
                             ),
-                          ],
-                        ),
-                      ],
-                    ),
+                            padding: EdgeInsets.all(5),
+                            child: CircleAvatar(
+                              radius: 60,
+                              backgroundImage: widget.workshopData.imageURL !=
+                                  null ? NetworkImage(
+                                  widget.workshopData.imageURL) : AssetImage(
+                                  "assets/avatar.jpg"),
+                            ),
+                          ),
+                          SizedBox(
+                            width: 20,
+                          ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                widget.workshopData != null ? widget
+                                    .workshopData.shopTitle : 'Workshop name',
+                                style: GoogleFonts.quicksand(
+                                    fontSize: 22,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white),
+                              ),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              Row(
+                                children: [
+                                  Icon(
+                                    Icons.location_on,
+                                    color: Colors.grey,
+                                  ),
+                                  SizedBox(width: 10,),
+                                  Text(
+                                    widget.workshopData != null ? widget
+                                        .workshopData.city : 'City',
+                                    style: GoogleFonts.quicksand(
+                                        fontSize: 18,
+                                        color: Colors.white),
+                                  ),
+                                ],
+                              ),
+                              SizedBox(height: 5,),
+                              Row(
+                                children: [
+                                  Icon(
+                                    Icons.phone,
+                                    color: Colors.grey,
+                                  ),
+                                  SizedBox(width: 10,),
+                                  Text(
+                                    widget.workshopData != null
+                                        ? widget.workshopData.ownerContact
+                                        : 'Owner contact',
+                                    style: GoogleFonts.quicksand(
+                                        fontSize: 16,
+                                        color: Colors.white),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          )
+                        ],
+                      )
+                    ],
                   ),
                 ),
-              ],
+              ),
+
+            ],
+          ),
+          Positioned(
+            top: 130,
+            right: 0,
+            child: Container(
+              padding: EdgeInsets.symmetric(vertical: 10, horizontal: 25),
+              width: MediaQuery
+                  .of(context)
+                  .size
+                  .width * 0.85,
+              height: 160,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(.05),
+                    blurRadius: 8,
+                    spreadRadius: 3,
+                    offset: Offset(0, 10),
+                  ),
+                ],
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(10),
+                  bottomLeft: Radius.circular(50),
+                ),
+              ),
+              child: Column(
+
+              ),
             ),
-          ],
-      ),
+          )
+        ],
       ),
     );
   }
+
 }
