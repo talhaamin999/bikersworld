@@ -1,3 +1,9 @@
+import 'package:auto_size_text/auto_size_text.dart';
+import 'package:bikersworld/model/workshop_model.dart';
+import 'package:bikersworld/services/search_queries/refine_search.dart';
+import 'package:bikersworld/services/search_queries/search_workshop_service.dart';
+import 'package:bikersworld/services/toast_service.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -10,6 +16,74 @@ class ServiceSearcPage extends StatefulWidget {
 }
 
 class _ServiceSearcPageState extends State<ServiceSearcPage> {
+  final _controller = TextEditingController();
+  final _service = SearchWorkshopServices();
+  final _error = ToastErrorMessage();
+  String cityFilter,sortFilter;
+  bool serviceTitleSearchOption = false;
+  bool filterCityOption = false;
+  bool filterSortOption = false;
+
+  Stream<List<Services>> getServicesByTitle(){
+    try{
+      // search by service title and apply city and sort filter
+      if(serviceTitleSearchOption && filterCityOption && filterSortOption){
+        return _service.searchServiceTitleWithCityFilterAndSort(title: _controller.text, city: cityFilter, sortOrder: 'LTH');
+      }
+      // search by service title and apply city filter
+      else if(serviceTitleSearchOption && filterCityOption){
+        return _service.searchServiceTitleWithCityFilter(title: _controller.text, city: cityFilter);
+      }
+      // search by service title and apply sort filter
+      else if(serviceTitleSearchOption && filterSortOption){
+        return _service.searchServiceTitleWithSort(title: _controller.text, sortOrder: 'LTH');
+      }
+      // search by service title
+      else if(serviceTitleSearchOption){
+        return _service.searchWorkshopByServiceTitle(title: _controller.text);
+      }
+    }catch(e){
+      _error.errorToastMessage(errorMessage: e.toString());
+    }
+    return null;
+  }
+  navigateToFilterPage(BuildContext context) async{
+    final RefineSearchResults _result = await Navigator.of(context)
+        .push(MaterialPageRoute(builder: (context) => RefineRearchPage(workshopServiceSearchFilter: 'service',)));
+    if(_result != null){
+      // if result variables city and order were assigned then map values and make filter true
+      if(_result.city != null && _result.sortOrder != null){
+        setState(() {
+          cityFilter = _result.city;
+          sortFilter = _result.sortOrder;
+          serviceTitleSearchOption = true;
+          filterCityOption = true;
+          filterSortOption = true;
+        });
+        print('${_result.city} ${_result.sortOrder}');
+      }
+      // if only city variable filter was selected then on;y map cityFilter value and make title and city boolean options true
+      else if(_result.city != null){
+        setState(() {
+          cityFilter = _result.city;
+          serviceTitleSearchOption = true;
+          filterCityOption = true;
+          filterSortOption = false;
+        });
+        print(_result.city);
+      }
+      // if only sort filter was selected
+      else if(_result.sortOrder != null){
+        setState(() {
+          serviceTitleSearchOption = true;
+          filterCityOption = false;
+          filterSortOption = true;
+        });
+        print(_result.sortOrder);
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,6 +113,25 @@ class _ServiceSearcPageState extends State<ServiceSearcPage> {
                   padding: EdgeInsets.symmetric(vertical: 8 , horizontal: 15),
                   child: Container(
                     child: TextField(
+                      textInputAction: TextInputAction.search,
+                      controller: _controller,
+                      onSubmitted: (value) {
+                        print(_controller.text);
+                        if(_controller.text.isNotEmpty) {
+                          setState(() {
+                            serviceTitleSearchOption = true;
+                            filterCityOption = false;
+                            filterSortOption = false;
+                          });
+                        }
+                        else{
+                           setState(() {
+                             serviceTitleSearchOption = false;
+                             filterCityOption = false;
+                             filterSortOption = false;
+                           });
+                          }
+                      },
                       decoration: new InputDecoration(
                           border: new OutlineInputBorder(
                             borderRadius: const BorderRadius.all(
@@ -47,7 +140,7 @@ class _ServiceSearcPageState extends State<ServiceSearcPage> {
                           ),
                           filled: true,
                           hintStyle: GoogleFonts.quicksand(color: Colors.black, fontSize:15),
-                          hintText: "Search Anything",
+                          hintText: "Type Service Name",
                           prefixIcon: Icon(Icons.search, size: 25,),
                           fillColor: Colors.white),
                     ),
@@ -80,7 +173,7 @@ class _ServiceSearcPageState extends State<ServiceSearcPage> {
                         ),
                         FlatButton(
                           onPressed: (){
-                            Navigator.push(context, MaterialPageRoute(builder: (context) => RefineRearchPage()));
+                            navigateToFilterPage(context);
                           },
                           child: Container(
                             child: Row(
@@ -106,69 +199,100 @@ class _ServiceSearcPageState extends State<ServiceSearcPage> {
                 ),
               ),
               SizedBox(height: 20,),
-              Container(
-                width: MediaQuery.of(context).size.width - 30,
-                height: 150,
-                child: Card(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  color: Colors.white,
-                  elevation: 3,
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      SizedBox(width: 15,),
-                      CircleAvatar(
-                        radius: 40,
-                        backgroundColor: Color(0XFF012A4A),
-                        backgroundImage: AssetImage("assets/service_avatar.jpg"),
-                      ),
-                      SizedBox(width: 20,),
-                      Container(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                                'Wheel Bearing', style: GoogleFonts.quicksand(fontSize:20,color: Colors.black)
-                            ),
-                            SizedBox(height: 10,),
-                            Container(
+              StreamBuilder(
+                stream: getServicesByTitle(),
+                builder: (BuildContext context, AsyncSnapshot<List<Services>> snapshot) {
+                  if(snapshot.hasData && snapshot.data.isNotEmpty){
+                    return ListView.builder(
+                        physics: NeverScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                        itemCount: snapshot.data.length,
+                        itemBuilder: (context,index){
+                          return Container(
+                            width: MediaQuery.of(context).size.width - 30,
+                            height: 150,
+                            child: Card(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              color: Colors.white,
+                              elevation: 3,
                               child: Row(
-                                children: [
-                                  Icon(FontAwesomeIcons.home , size: 18, color: Colors.grey,),
-                                  SizedBox(width: 10,),
-                                  Text("Mohsin Autoplex",style: GoogleFonts.quicksand(fontSize: 16),),
+                                mainAxisSize: MainAxisSize.min,
+                                children: <Widget>[
+                                  SizedBox(width: 15,),
+                                  CircleAvatar(
+                                    radius: 40,
+                                    backgroundColor: Color(0XFF012A4A),
+                                    backgroundImage: AssetImage("assets/service_avatar.jpg"),
+                                  ),
+                                  SizedBox(width: 20,),
+                                  Container(
+                                    child: Column(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                            snapshot.data[index].title, style: GoogleFonts.quicksand(fontSize:20,color: Colors.black)
+                                        ),
+                                        SizedBox(height: 10,),
+                                        Container(
+                                          child: Row(
+                                            children: [
+                                              Icon(FontAwesomeIcons.home , size: 18, color: Colors.grey,),
+                                              SizedBox(width: 10,),
+                                              AutoSizeText(
+                                                    snapshot.data[index].workshopId,
+                                                    style: GoogleFonts.quicksand(fontSize:
+                                                    16),
+                                                    maxLines: 2,
+
+                                              ),
+
+                                            ],
+                                          ),
+                                        ),
+                                        SizedBox(height: 10,),
+                                        Container(
+                                          child: Row(
+                                            children: [
+                                              Icon(Icons.location_on, size: 19, color: Colors.grey,),
+                                              SizedBox(width: 10,),
+                                              Text(snapshot.data[index].workshopCity,style: GoogleFonts.quicksand(fontSize: 16),),
+                                            ],
+                                          ),
+                                        ),
+                                        SizedBox(height: 5,),
+                                        Container(
+                                          child: Row(
+                                            children: [
+                                              Icon(FontAwesomeIcons.dollarSign, size: 17, color: Colors.grey,),
+                                              SizedBox(width: 10,),
+                                              Text(snapshot.data[index].price.toString(),style: GoogleFonts.quicksand(fontSize: 16),),
+                                            ],
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
                                 ],
                               ),
                             ),
-                            SizedBox(height: 10,),
-                            Container(
-                              child: Row(
-                                children: [
-                                  Icon(Icons.location_on, size: 19, color: Colors.grey,),
-                                  SizedBox(width: 10,),
-                                  Text("Islamabad",style: GoogleFonts.quicksand(fontSize: 16),),
-                                ],
-                              ),
-                            ),
-                            SizedBox(height: 5,),
-                            Container(
-                              child: Row(
-                                children: [
-                                  Icon(FontAwesomeIcons.dollarSign, size: 17, color: Colors.grey,),
-                                  SizedBox(width: 10,),
-                                  Text("200",style: GoogleFonts.quicksand(fontSize: 16),),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
+                          );
+                        }
+                    );
+                  }
+                  else if(snapshot.data == null){
+                    return Text('Search For Workshops Services');
+                  }
+                  else if(snapshot.hasData && snapshot.data.isEmpty){
+                    return Text('No Data Found Matching Your Search');
+                  }
+                  else if(snapshot.hasError){
+                    return Text(snapshot.error.toString());
+                  }
+                  return CircularProgressIndicator();
+                },
               ),
             ],
           ),

@@ -1,3 +1,4 @@
+import 'package:bikersworld/services/search_queries/refine_search.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -15,6 +16,7 @@ class _RefineRearchPageState extends State<RefineRearchPage> {
   bool HighLow = false;
   bool LowHigh = false;
   final TextEditingController _controller = TextEditingController();
+  bool refineByCity = false,refineBySort=false,refineByRange=false;
 
   @override
   void dispose() {
@@ -93,7 +95,12 @@ class _RefineRearchPageState extends State<RefineRearchPage> {
                   visible:true,
                   child: Padding(
                     padding: const EdgeInsets.only(left:40, right:20),
-                    child: Container(width: 300 , child: CityDropDown(controller: _controller,)),
+                    child: Container(
+                        width: 300 ,
+                        child: CityDropDown(
+                          controller: _controller,
+                        )
+                    ),
                   )),
               Visibility(
                 visible: widget.workshopServiceSearchFilter != null ? true : false,
@@ -255,9 +262,27 @@ class _RefineRearchPageState extends State<RefineRearchPage> {
           children: <Widget>[
             FlatButton(
               onPressed: (){
-                print("hello");
-               print('${_controller.text}');
-               Navigator.pop(context,_controller.text);
+                if((_controller.text.isNotEmpty) && (LowHigh || HighLow)){
+                  setState(() {
+                    refineBySort = true;
+                    refineByCity = true;
+                  });
+                  Navigator.pop(context,RefineSearchResults(city: _controller.text,sortOrder: 'LTH'));
+                }
+                else if(_controller.text.isNotEmpty){
+                  setState(() {
+                    refineByCity = true;
+                    refineBySort = false;
+                  });
+                  Navigator.pop(context,RefineSearchResults(city: _controller.text));
+                }
+                else if(LowHigh || HighLow){
+                  setState(() {
+                    refineByCity = true;
+                    refineBySort = false;
+                  });
+                  Navigator.pop(context,RefineSearchResults(sortOrder: 'LTH'));
+                }
               },
               child: Padding(
                 padding: const EdgeInsets.all(8.0),

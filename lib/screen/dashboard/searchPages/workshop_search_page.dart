@@ -1,4 +1,5 @@
 import 'package:bikersworld/model/workshop_model.dart';
+import 'package:bikersworld/services/search_queries/refine_search.dart';
 import 'package:bikersworld/services/search_queries/serach_workshop.dart';
 import 'package:bikersworld/services/toast_service.dart';
 import 'package:flutter/cupertino.dart';
@@ -27,10 +28,17 @@ class _WorkshopSearchPageState extends State<WorkshopSearchPage> {
 
   Stream<List<WorkshopDashboardModel>> searchByNameOrCity(){
     try {
-         if(workshopNameOption) {
+         // search according to workshop Name and also filter applied of city with it
+         if(workshopNameOption && cityFilterOption && _controller.text.isNotEmpty){
+           return _searchWorkshop.searchWorkshopByNameAndCity(title: _controller.text, city: cityFilter);
+         }
+         // search according to workshop title only if text in field is not empty
+         else if(workshopNameOption && _controller.text.isNotEmpty) {
            return _searchWorkshop.searchWorkshopByName(
                name: _controller.text.trim());
-         }else if(cityFilterOption){
+         }
+         // search according to only city filter when text in field is empty
+         else if(cityFilterOption){
            return _searchWorkshop.searchWorkshopByCity(city: cityFilter);
          }
     }catch(e){
@@ -39,32 +47,20 @@ class _WorkshopSearchPageState extends State<WorkshopSearchPage> {
     }
     return null;
   }
-  /*
-  Stream<List<WorkshopDashboardModel>> serachByCity(){
-    try {
-      print('double $cityFilter');
-      return _searchWorkshop.searchWorkshopByCity(city: cityFilter);
-    }catch(e){
-      final _error = ToastErrorMessage();
-      _error.errorToastMessage(errorMessage: e.toString());
-    }
-    return null;
-  }
-
-   */
   counter(int index){
     setState(() {
       numberOfResults = index;
     });
   }
   navigateToFilterPage(BuildContext context) async{
-     final _result = await Navigator.of(context)
+     final RefineSearchResults _result = await Navigator.of(context)
         .push(MaterialPageRoute(builder: (context) => RefineRearchPage(workshopSearchFilter: 'workshop',)));
-     if(_result != null){
+     //only if result is not nul and city variable is assigned a value only then map the values
+     if(_result != null && _result.city != null){
       setState(() {
         cityFilterOption = true;
-        workshopNameOption = false;
-        cityFilter = _result;
+        workshopNameOption = true;
+        cityFilter = _result.city;
       });
      }
   }
@@ -105,10 +101,19 @@ class _WorkshopSearchPageState extends State<WorkshopSearchPage> {
                       child: TextField(
                         textInputAction: TextInputAction.search,
                         onSubmitted: (value){
-                          setState(() {
-                            workshopNameOption = true;
-                            cityFilterOption = false;
-                          });
+                          // if field is empty then don't search by workshop title
+                          if(_controller.text.isEmpty){
+                            setState(() {
+                              workshopNameOption = false;
+                            });
+                          }
+                          // else when pressed and field is not empty then search only by name
+                          else {
+                            setState(() {
+                              workshopNameOption = true;
+                              cityFilterOption = false;
+                            });
+                          }
                           print(_controller.text);
                         },
                         controller: _controller,

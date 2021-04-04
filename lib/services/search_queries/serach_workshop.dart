@@ -37,5 +37,20 @@ class SearchWorkshop{
       _error.errorToastMessage(errorMessage: e.toString());
     }
   }
+  Stream<List<WorkshopDashboardModel>> searchWorkshopByNameAndCity({@required String title,@required String city}){
+    try{
+      return _collectionReference
+          .where('title', isEqualTo: title)
+          .where('city', isEqualTo: city)
+          .snapshots()
+          .map((snapshot) => snapshot.docs
+          .map((doc) => WorkshopDashboardModel.fromJson(doc.data()))
+          .toList());
+
+    }catch(e){
+      final _error = ToastErrorMessage();
+      _error.errorToastMessage(errorMessage: e.toString());
+    }
+  }
 
 }
