@@ -2,8 +2,9 @@ class RefineSearchResults{
 
   final String city;
   final String sortOrder;
-  final String range;
+  final String minRange;
+  final String maxRange;
 
-  RefineSearchResults({this.city,this.sortOrder,this.range});
+  RefineSearchResults({this.city,this.sortOrder,this.minRange,this.maxRange});
 
 }

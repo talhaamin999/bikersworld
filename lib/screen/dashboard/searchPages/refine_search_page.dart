@@ -1,4 +1,5 @@
 import 'package:bikersworld/services/search_queries/refine_search.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -18,24 +19,25 @@ enum priceSelection { High, Low, Not }
 
 
 class _RefineRearchPageState extends State<RefineRearchPage> {
-  bool HighLow = false;
-  bool LowHigh = false;
   final TextEditingController _controller = TextEditingController();
-  bool refineByCity = false,refineBySort=false,refineByRange=false;
+  final TextEditingController _minController = TextEditingController();
+  final TextEditingController _maxController = TextEditingController();
+  priceSelection _price = priceSelection.Not;
+
 
   @override
   void dispose() {
     print("dispose");
     _controller.dispose();
+    _minController.dispose();
+    _maxController.dispose();
     super.dispose();
   }
   void clear(){
     _controller.clear();
+    _minController.clear();
+    _maxController.clear();
   }
-
-
-  priceSelection _price = priceSelection.Not;
-
 
   @override
   Widget build(BuildContext context) {
@@ -152,6 +154,8 @@ class _RefineRearchPageState extends State<RefineRearchPage> {
                         Container(
                             width: 133,
                             child: TextField(
+                              controller: _minController,
+                              keyboardType: TextInputType.number,
                               decoration: new InputDecoration(
                                   border: InputBorder.none,
                                   filled: true,
@@ -171,6 +175,8 @@ class _RefineRearchPageState extends State<RefineRearchPage> {
                         Container(
                             width: 134,
                             child: TextField(
+                              controller: _maxController,
+                              keyboardType: TextInputType.number,
                               decoration: new InputDecoration(
                                   border: InputBorder.none,
                                   filled: true,
@@ -221,9 +227,9 @@ class _RefineRearchPageState extends State<RefineRearchPage> {
                     child: Column(
                       children: [
                         ListTile(
-                          title: const Text('High to low'),
+                          title: const Text('No Item Selected'),
                           leading: Radio<priceSelection>(
-                            value: priceSelection.High,
+                            value: priceSelection.Not,
                             groupValue: _price,
                             onChanged: (priceSelection value) {
                               setState(() {
@@ -273,26 +279,30 @@ class _RefineRearchPageState extends State<RefineRearchPage> {
           children: <Widget>[
             FlatButton(
               onPressed: (){
-                if((_controller.text.isNotEmpty) && (LowHigh || HighLow)){
-                  setState(() {
-                    refineBySort = true;
-                    refineByCity = true;
-                  });
-                  Navigator.pop(context,RefineSearchResults(city: _controller.text,sortOrder: 'LTH'));
+                if((_controller.text.isNotEmpty) && (_price == priceSelection.High || _price == priceSelection.Low)){
+                  if(_price == priceSelection.High) {
+                    Navigator.pop(context, RefineSearchResults(
+                        city: _controller.text, sortOrder: 'HTL'));
+                  }else{
+                    Navigator.pop(context, RefineSearchResults(
+                        city: _controller.text, sortOrder: 'LTH'));
+                  }
+                }
+                else if(_controller.text.isNotEmpty && _minController.text.isNotEmpty && _maxController.text.isNotEmpty){
+                  Navigator.pop(context, RefineSearchResults(
+                      city: _controller.text,maxRange: _minController.text,minRange: _maxController.text));
                 }
                 else if(_controller.text.isNotEmpty){
-                  setState(() {
-                    refineByCity = true;
-                    refineBySort = false;
-                  });
                   Navigator.pop(context,RefineSearchResults(city: _controller.text));
                 }
-                else if(LowHigh || HighLow){
-                  setState(() {
-                    refineByCity = true;
-                    refineBySort = false;
-                  });
+                else if(_price == priceSelection.Low){
                   Navigator.pop(context,RefineSearchResults(sortOrder: 'LTH'));
+                }
+                else if(_price == priceSelection.High){
+                  Navigator.pop(context,RefineSearchResults(sortOrder: 'HTL'));
+                }
+                else if(_minController.text.isNotEmpty && _maxController.text.isNotEmpty){
+                  Navigator.pop(context,RefineSearchResults(minRange: _minController.text,maxRange: _maxController.text));
                 }
               },
               child: Padding(

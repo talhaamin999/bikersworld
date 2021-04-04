@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:bikersworld/model/workshop_model.dart';
 import 'package:bikersworld/services/search_queries/refine_search.dart';
@@ -20,15 +22,22 @@ class _ServiceSearcPageState extends State<ServiceSearcPage> {
   final _service = SearchWorkshopServices();
   final _error = ToastErrorMessage();
   String cityFilter,sortFilter;
+  int minRangeFilter,maxRangeFilter;
   bool serviceTitleSearchOption = false;
   bool filterCityOption = false;
   bool filterSortOption = false;
+  bool filterRange = false;
 
   Stream<List<Services>> getServicesByTitle(){
     try{
       // search by service title and apply city and sort filter
       if(serviceTitleSearchOption && filterCityOption && filterSortOption){
-        return _service.searchServiceTitleWithCityFilterAndSort(title: _controller.text, city: cityFilter, sortOrder: 'LTH');
+        return _service.searchServiceTitleWithCityFilterAndSort(title: _controller.text, city: cityFilter, sortOrder: sortFilter);
+      }
+      //search by title and apply city and range filter
+      else if(serviceTitleSearchOption && filterCityOption && filterRange){
+        print('$cityFilter $minRangeFilter $maxRangeFilter');
+        return _service.searchServiceTitleWithCityAndRangeFilter(title: _controller.text, city: cityFilter, min: minRangeFilter, max: maxRangeFilter);
       }
       // search by service title and apply city filter
       else if(serviceTitleSearchOption && filterCityOption){
@@ -36,17 +45,25 @@ class _ServiceSearcPageState extends State<ServiceSearcPage> {
       }
       // search by service title and apply sort filter
       else if(serviceTitleSearchOption && filterSortOption){
-        return _service.searchServiceTitleWithSort(title: _controller.text, sortOrder: 'LTH');
+        return _service.searchServiceTitleWithSort(title: _controller.text, sortOrder: sortFilter);
+      }
+      // search with title and range
+      else if(serviceTitleSearchOption && filterRange){
+        print("hello world");
+        return _service.searchServiceTitleWithRangeFilter(title: _controller.text, min: minRangeFilter, max: maxRangeFilter);
       }
       // search by service title
       else if(serviceTitleSearchOption){
         return _service.searchWorkshopByServiceTitle(title: _controller.text);
       }
+
     }catch(e){
       _error.errorToastMessage(errorMessage: e.toString());
     }
     return null;
   }
+
+
   navigateToFilterPage(BuildContext context) async{
     final RefineSearchResults _result = await Navigator.of(context)
         .push(MaterialPageRoute(builder: (context) => RefineRearchPage(workshopServiceSearchFilter: 'service',)));
@@ -59,8 +76,22 @@ class _ServiceSearcPageState extends State<ServiceSearcPage> {
           serviceTitleSearchOption = true;
           filterCityOption = true;
           filterSortOption = true;
+          filterRange = false;
         });
         print('${_result.city} ${_result.sortOrder}');
+      }
+      // if city is selected aand also range isentified
+      else if(_result.city != null && _result.minRange != null && _result.maxRange != null){
+        setState(() {
+          cityFilter = _result.city;
+          minRangeFilter = int.tryParse(_result.minRange);
+          maxRangeFilter = int.tryParse(_result.maxRange);
+          serviceTitleSearchOption = true;
+          filterCityOption = true;
+          filterSortOption = false;
+          filterRange = true;
+        });
+        print(_result.city);
       }
       // if only city variable filter was selected then on;y map cityFilter value and make title and city boolean options true
       else if(_result.city != null){
@@ -69,17 +100,33 @@ class _ServiceSearcPageState extends State<ServiceSearcPage> {
           serviceTitleSearchOption = true;
           filterCityOption = true;
           filterSortOption = false;
+          filterRange = false;
         });
         print(_result.city);
       }
       // if only sort filter was selected
       else if(_result.sortOrder != null){
         setState(() {
+          sortFilter = _result.sortOrder;
           serviceTitleSearchOption = true;
           filterCityOption = false;
+          filterRange = false;
           filterSortOption = true;
         });
         print(_result.sortOrder);
+      }
+      // if range is selected
+      else if(_result.minRange != null && _result.maxRange != null){
+        setState(() {
+          minRangeFilter = int.tryParse(_result.minRange);
+          maxRangeFilter = int.tryParse(_result.maxRange);
+          filterRange = true;
+          serviceTitleSearchOption = true;
+          filterCityOption = false;
+          filterSortOption = false;
+        });
+        print('$minRangeFilter $filterRange $serviceTitleSearchOption');
+        print('$maxRangeFilter');
       }
     }
   }
@@ -122,6 +169,7 @@ class _ServiceSearcPageState extends State<ServiceSearcPage> {
                             serviceTitleSearchOption = true;
                             filterCityOption = false;
                             filterSortOption = false;
+                            filterRange = false;
                           });
                         }
                         else{
@@ -129,6 +177,7 @@ class _ServiceSearcPageState extends State<ServiceSearcPage> {
                              serviceTitleSearchOption = false;
                              filterCityOption = false;
                              filterSortOption = false;
+                             filterRange = false;
                            });
                           }
                       },
