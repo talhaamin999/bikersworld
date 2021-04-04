@@ -1,4 +1,4 @@
-import 'package:bikersworld/screen/dashboard/searchPages/autoPartStoreSearchPage.dart';
+import 'package:bikersworld/screen/dashboard/searchPages/auto_partstore_search_page.dart';
 import 'package:bikersworld/screen/workshop/workshop_dashboard.dart';
 import 'package:bikersworld/services/authenticate_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -10,9 +10,9 @@ import 'package:bikersworld/screen/loginSignup/welcomePage.dart';
 import 'package:bikersworld/screen/dashboard/home.dart';
 import 'package:bikersworld/screen/dashboard/Ads/postAdsSeller.dart';
 import 'package:bikersworld/screen/autoPartStore/registerAutoPartStore.dart';
-import 'package:bikersworld/screen/dashboard/searchPages/autoPartSearchPage.dart';
-import 'package:bikersworld/screen/dashboard/searchPages/adsSearchPage.dart';
-import 'package:bikersworld/screen/dashboard/searchPages/workshopSearchPage.dart';
+import 'package:bikersworld/screen/dashboard/searchPages/autopart_search_page.dart';
+import 'package:bikersworld/screen/dashboard/searchPages/ads_search_page.dart';
+import 'package:bikersworld/screen/dashboard/searchPages/workshop_search_page.dart';
 import 'package:bikersworld/screen/dashboard/searchPages/service_search_page.dart';
 
 

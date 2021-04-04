@@ -1,3 +1,4 @@
+import 'package:bikersworld/model/workshop_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:bikersworld/widgets/drawer.dart';
@@ -7,6 +8,10 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:bikersworld/screen/dashboard/normalUser/view_mechanics_normal_user.dart';
 
 class NormalUserWorkshopDashboard extends StatefulWidget {
+
+  final WorkshopDashboardModel workshopData;
+  NormalUserWorkshopDashboard({@required this.workshopData});
+
   @override
   _NormalUserWorkshopDashboardState createState() => _NormalUserWorkshopDashboardState();
 }
@@ -57,7 +62,7 @@ class _NormalUserWorkshopDashboardState extends State<NormalUserWorkshopDashboar
                       padding: const EdgeInsets.only(left:5),
                       child: CircleAvatar(
                         radius: 60,
-                        backgroundImage: AssetImage("assets/avatar.jpg"),
+                        backgroundImage: widget.workshopData.imageURL != null ? NetworkImage(widget.workshopData.imageURL): AssetImage("assets/avatar.jpg"),
                       ),
                     ),
                     SizedBox(width: 15,),
@@ -68,7 +73,7 @@ class _NormalUserWorkshopDashboardState extends State<NormalUserWorkshopDashboar
                           SizedBox(
                             width: MediaQuery.of(context).size.width*0.5,
                             child: AutoSizeText(
-                              "Hasham Auto plex",
+                              widget.workshopData != null ? widget.workshopData.shopTitle : 'Workshop name',
                               style: GoogleFonts.quicksand(
                                 fontSize: 30,
                                 color: Colors.white70,
@@ -86,7 +91,7 @@ class _NormalUserWorkshopDashboardState extends State<NormalUserWorkshopDashboar
                                       children: [
                                         Icon(Icons.location_on, size: 30, color: Colors.grey,),
                                         Text(
-                                          "Islamabad",
+                                          widget.workshopData != null ? widget.workshopData.city : 'Workshop City',
                                           style: GoogleFonts.quicksand(
                                             fontSize: 20,
                                             color: Colors.white,
@@ -101,7 +106,7 @@ class _NormalUserWorkshopDashboardState extends State<NormalUserWorkshopDashboar
                                       children: [
                                         Icon(Icons.phone, size: 25, color: Colors.grey, ),
                                         Text(
-                                          "03355437782",
+                                          widget.workshopData !=null ? widget.workshopData.ownerContact : 'Owner Contact',
                                           style: GoogleFonts.quicksand(
                                             fontSize: 16,
                                             color: Colors.white,
