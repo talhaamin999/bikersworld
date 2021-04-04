@@ -197,9 +197,7 @@ class _WorkshopSearchPageState extends State<WorkshopSearchPage> {
                 child:  StreamBuilder<List<WorkshopDashboardModel>>(
                   stream: searchByNameOrCity(),
                   builder: (context,snapshot){
-
-                    if(snapshot.hasData && snapshot.data.isNotEmpty){
-                      print("data present");
+                    if(snapshot.hasData){
                       return ListView.builder(
                           physics: NeverScrollableScrollPhysics(),
                           shrinkWrap: true,
@@ -209,7 +207,7 @@ class _WorkshopSearchPageState extends State<WorkshopSearchPage> {
                               padding: const EdgeInsets.only(bottom: 15),
                               child: FlatButton(
                                 onPressed:(){
-                                  Navigator.push(context, MaterialPageRoute( builder: (context) => NormalUserWorkshopDashboard(workshopData: snapshot.data[index],),),
+                                  Navigator.push(context, MaterialPageRoute( builder: (context) => NormalUserWorkshopDashboard(),),
                                   );
                                 },
                                 child: Card(
@@ -226,7 +224,7 @@ class _WorkshopSearchPageState extends State<WorkshopSearchPage> {
                                                   shape: BoxShape.circle,
                                                   image: DecorationImage(
                                                       fit: BoxFit.fill,
-                                                      image: snapshot.data[index].imageURL != null ? NetworkImage(snapshot.data[index].imageURL) : AssetImage("assets/avatar.jpg")
+                                                      image: snapshot.data[index].imageURL != null ? NetworkImage(snapshot.data[index].imageURL) : AssetImage("assets/workshop1.webp",)
                                                   )
                                               ),
                                           ),
@@ -303,11 +301,8 @@ class _WorkshopSearchPageState extends State<WorkshopSearchPage> {
                           }
                       );
                     }
-                    else if(snapshot.data == null){
-                      return Center(child: Text('Search For Workshops'));
-                    }
-                    else if(snapshot.hasData && snapshot.data.isEmpty){
-                      return Text('No Data Found Matching Your Query');
+                    else if(!snapshot.hasData){
+                      return Text('No Data Found Matching Your Search');
                     }
                     else if(snapshot.hasError){
                       return Text(snapshot.error.toString());
