@@ -30,14 +30,22 @@ class _ServiceSearcPageState extends State<ServiceSearcPage> {
 
   Stream<List<Services>> getServicesByTitle(){
     try{
-      // search by service title and apply city and sort filter
-      if(serviceTitleSearchOption && filterCityOption && filterSortOption){
+      // search by service title and apply All the filters
+      if(serviceTitleSearchOption && filterCityOption && filterSortOption
+      && filterRange){
+        return _service.searchServiceTitleWithRangeAndCityAndSortFilter(title: _controller.text, city: cityFilter, sortOrder: sortFilter, min: minRangeFilter,max: maxRangeFilter);
+      }
+      // search service title by applying city and sort filter
+      else if(serviceTitleSearchOption && filterCityOption && filterSortOption){
         return _service.searchServiceTitleWithCityFilterAndSort(title: _controller.text, city: cityFilter, sortOrder: sortFilter);
       }
       //search by title and apply city and range filter
       else if(serviceTitleSearchOption && filterCityOption && filterRange){
-        print('$cityFilter $minRangeFilter $maxRangeFilter');
-        return _service.searchServiceTitleWithCityAndRangeFilter(title: _controller.text, city: cityFilter, min: minRangeFilter, max: maxRangeFilter);
+        return _service.searchServiceTitleWithRangeAndCityFilter(title: _controller.text, city: cityFilter, min: minRangeFilter, max: maxRangeFilter);
+      }
+      // search by title and apply sort and range filters
+      else if(serviceTitleSearchOption && filterSortOption && filterRange){
+        return _service.searchServiceTitleWithRangeAndSortFilter(title: _controller.text, sortOrder: sortFilter, min: minRangeFilter, max: maxRangeFilter);
       }
       // search by service title and apply city filter
       else if(serviceTitleSearchOption && filterCityOption){
@@ -69,18 +77,19 @@ class _ServiceSearcPageState extends State<ServiceSearcPage> {
         .push(MaterialPageRoute(builder: (context) => RefineRearchPage(workshopServiceSearchFilter: 'service',)));
     if(_result != null){
       // if result variables city and order were assigned then map values and make filter true
-      if(_result.city != null && _result.sortOrder != null){
+      if(_result.city != null && _result.minRange != null && _result.maxRange != null && _result.sortOrder != null){
         setState(() {
           cityFilter = _result.city;
           sortFilter = _result.sortOrder;
+          minRangeFilter = int.tryParse(_result.minRange);
+          maxRangeFilter = int.tryParse(_result.maxRange);
           serviceTitleSearchOption = true;
           filterCityOption = true;
           filterSortOption = true;
-          filterRange = false;
+          filterRange = true;
+          print('$minRangeFilter $maxRangeFilter');
         });
-        print('${_result.city} ${_result.sortOrder}');
       }
-      // if city is selected aand also range isentified
       else if(_result.city != null && _result.minRange != null && _result.maxRange != null){
         setState(() {
           cityFilter = _result.city;
@@ -90,8 +99,32 @@ class _ServiceSearcPageState extends State<ServiceSearcPage> {
           filterCityOption = true;
           filterSortOption = false;
           filterRange = true;
+         print('$minRangeFilter $maxRangeFilter');
         });
-        print(_result.city);
+      }
+      else if(_result.city != null && _result.sortOrder != null){
+      setState(() {
+        cityFilter = _result.city;
+        sortFilter = _result.sortOrder;
+        serviceTitleSearchOption = true;
+        filterCityOption = true;
+        filterSortOption = true;
+        filterRange = false;
+      });
+      print('${_result.city} ${_result.sortOrder}');
+    }
+    // if city is selected aand also range isentified
+      else if(_result.sortOrder != null && _result.minRange != null && _result.maxRange != null){
+        setState(() {
+          sortFilter = _result.sortOrder;
+          minRangeFilter = int.tryParse(_result.minRange);
+          maxRangeFilter = int.tryParse(_result.maxRange);
+          serviceTitleSearchOption = true;
+          filterCityOption = false;
+          filterSortOption = true;
+          filterRange = true;
+        });
+        print('$minRangeFilter $maxRangeFilter');
       }
       // if only city variable filter was selected then on;y map cityFilter value and make title and city boolean options true
       else if(_result.city != null){

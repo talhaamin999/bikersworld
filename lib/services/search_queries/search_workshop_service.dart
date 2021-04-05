@@ -2,13 +2,14 @@
 import 'package:bikersworld/model/workshop_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/rendering.dart';
 
 import '../toast_service.dart';
 
 class SearchWorkshopServices {
 
   static final String WORKSHOP_SERVICE_COLLECTION = 'services';
-
+  final _error = ToastErrorMessage();
   final CollectionReference _collectionReference = FirebaseFirestore.instance
       .collection(WORKSHOP_SERVICE_COLLECTION);
 
@@ -21,7 +22,35 @@ class SearchWorkshopServices {
           snapshot.docs.map((doc) => Services.fromJson(doc.data()))
               .toList());
     } catch (e) {
-      final _error = ToastErrorMessage();
+      _error.errorToastMessage(errorMessage: e.toString());
+    }
+  }
+  Stream<List<Services>> searchServiceTitleWithRangeAndCityAndSortFilter({@required String title,@required String sortOrder,@required city,@required int min,@required int max}) {
+    try {
+      print("testing ........");
+      if(sortOrder == 'LTH') {
+        return _collectionReference
+            .where('title', isEqualTo: title)
+            .where('workshop_city',isEqualTo: city)
+            .where('price', isGreaterThanOrEqualTo: min)
+            .where('price', isLessThanOrEqualTo: max)
+            .orderBy('price')
+            .snapshots()
+            .map((snapshot) =>
+            snapshot.docs.map((doc) => Services.fromJson(doc.data()))
+                .toList());
+      }else{
+        return _collectionReference
+            .where('title', isEqualTo: title)
+            .where('price', isGreaterThanOrEqualTo: min)
+            .where('price', isLessThanOrEqualTo: max)
+            .orderBy('price',descending: true)
+            .snapshots()
+            .map((snapshot) =>
+            snapshot.docs.map((doc) => Services.fromJson(doc.data()))
+                .toList());
+      }
+    } catch (e) {
       _error.errorToastMessage(errorMessage: e.toString());
     }
   }
@@ -37,21 +66,53 @@ class SearchWorkshopServices {
           snapshot.docs.map((doc) => Services.fromJson(doc.data()))
               .toList());
     } catch (e) {
-      final _error = ToastErrorMessage();
       _error.errorToastMessage(errorMessage: e.toString());
     }
   }
-  Stream<List<Services>> searchServiceTitleWithCityAndRangeFilter({@required String title,@required String city,@required int min,@required int max}) {
+  Stream<List<Services>> searchServiceTitleWithRangeAndSortFilter({@required String title,@required String sortOrder,@required int min,@required int max}) {
     try {
-      print("Dog ........");
+      print("testing ........");
+      if(sortOrder == 'LTH') {
+        return _collectionReference
+            .where('title', isEqualTo: title)
+            .where('price', isGreaterThanOrEqualTo: min)
+            .where('price', isLessThanOrEqualTo: max)
+            .orderBy('price')
+            .snapshots()
+            .map((snapshot) =>
+            snapshot.docs.map((doc) => Services.fromJson(doc.data()))
+                .toList());
+      }else{
+        return _collectionReference
+            .where('title', isEqualTo: title)
+            .where('price', isGreaterThanOrEqualTo: min)
+            .where('price', isLessThanOrEqualTo: max)
+            .orderBy('price',descending: true)
+            .snapshots()
+            .map((snapshot) =>
+            snapshot.docs.map((doc) => Services.fromJson(doc.data()))
+                .toList());
+      }
+    } catch (e) {
+      _error.errorToastMessage(errorMessage: e.toString());
+    }
+  }
+  Stream<List<Services>> searchServiceTitleWithRangeAndCityFilter({@required String title,@required city,@required int max,@required int min}){
+    try{
+      print("coccococ $min $max");
       return _collectionReference
-          .where('title', isEqualTo: title)
+          .where('title',isEqualTo: title)
+          .where('workshop_city',isEqualTo: city)
+          .where('price',isGreaterThanOrEqualTo: min)
+          .where('price',isLessThanOrEqualTo: max)
           .snapshots()
           .map((snapshot) =>
           snapshot.docs.map((doc) => Services.fromJson(doc.data()))
-              .toList());
-    } catch (e) {
-      final _error = ToastErrorMessage();
+              .toList())
+          .handleError((onError){
+        _error.errorToastMessage(errorMessage: onError.toString());
+      });
+    }catch(e){
       _error.errorToastMessage(errorMessage: e.toString());
     }
   }
@@ -65,7 +126,6 @@ class SearchWorkshopServices {
           snapshot.docs.map((doc) => Services.fromJson(doc.data()))
               .toList());
     } catch (e) {
-      final _error = ToastErrorMessage();
       _error.errorToastMessage(errorMessage: e.toString());
     }
   }
@@ -91,7 +151,6 @@ class SearchWorkshopServices {
                 .toList());
       }
     } catch (e) {
-      final _error = ToastErrorMessage();
       _error.errorToastMessage(errorMessage: e.toString());
     }
   }
@@ -115,7 +174,6 @@ class SearchWorkshopServices {
                 .toList());
       }
     } catch (e) {
-      final _error = ToastErrorMessage();
       _error.errorToastMessage(errorMessage: e.toString());
     }
   }

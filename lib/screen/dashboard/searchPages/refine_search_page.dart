@@ -279,7 +279,17 @@ class _RefineRearchPageState extends State<RefineRearchPage> {
           children: <Widget>[
             FlatButton(
               onPressed: (){
-                if((_controller.text.isNotEmpty) && (_price == priceSelection.High || _price == priceSelection.Low)){
+                print('${_minController.text} ${_maxController.text}');
+                if((_controller.text.isNotEmpty) && (_price == priceSelection.High || _price == priceSelection.Low) && _minController.text.isNotEmpty && _maxController.text.isNotEmpty){
+                  if(_price == priceSelection.Low){
+                    Navigator.pop(context,RefineSearchResults(city: _controller.text,minRange: _minController.text,maxRange: _maxController.text,sortOrder: 'LTH'));
+                  }else{
+                    {
+                      Navigator.pop(context,RefineSearchResults(city: _controller.text,minRange: _minController.text,maxRange: _maxController.text,sortOrder: 'HTL'));
+                    }
+                  }
+                }
+                else if((_controller.text.isNotEmpty) && (_price == priceSelection.High || _price == priceSelection.Low)){
                   if(_price == priceSelection.High) {
                     Navigator.pop(context, RefineSearchResults(
                         city: _controller.text, sortOrder: 'HTL'));
@@ -290,7 +300,14 @@ class _RefineRearchPageState extends State<RefineRearchPage> {
                 }
                 else if(_controller.text.isNotEmpty && _minController.text.isNotEmpty && _maxController.text.isNotEmpty){
                   Navigator.pop(context, RefineSearchResults(
-                      city: _controller.text,maxRange: _minController.text,minRange: _maxController.text));
+                      city: _controller.text,minRange: _minController.text,maxRange: _maxController.text));
+                }
+                else if((_price == priceSelection.Low || _price == priceSelection.High) && _minController.text.isNotEmpty && _maxController.text.isNotEmpty){
+                  if(_price == priceSelection.Low){
+                    Navigator.pop(context,RefineSearchResults(sortOrder: 'LTH',minRange: _minController.text,maxRange: _maxController.text));
+                  }else{
+                    Navigator.pop(context,RefineSearchResults(sortOrder: 'HTL',minRange: _minController.text,maxRange: _maxController.text));
+                  }
                 }
                 else if(_controller.text.isNotEmpty){
                   Navigator.pop(context,RefineSearchResults(city: _controller.text));
@@ -304,6 +321,8 @@ class _RefineRearchPageState extends State<RefineRearchPage> {
                 else if(_minController.text.isNotEmpty && _maxController.text.isNotEmpty){
                   Navigator.pop(context,RefineSearchResults(minRange: _minController.text,maxRange: _maxController.text));
                 }
+
+
               },
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
