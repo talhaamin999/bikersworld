@@ -1,9 +1,8 @@
+import 'package:bikersworld/screen/dashboard/home.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:bikersworld/widgets/drawer.dart';
-import 'package:bikersworld/widgets/customtiextfield.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:custom_dropdown/custom_dropdown.dart';
+import 'package:bikersworld/widgets/rating_bar.dart';
+import 'package:bikersworld/screen/dashboard/normalUser/reviews/workshop_feedback_form.dart';
 
 class reviewFromUser extends StatefulWidget {
   @override
@@ -26,167 +25,136 @@ class _reviewFromUserState extends State<reviewFromUser> {
         ),
         backgroundColor: Color(0XFF012A4A),
         iconTheme: IconThemeData(color: Color(0xfffbb448)),
+        leading: FlatButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            child: Icon(
+              Icons.arrow_back,
+              color: Colors.orange,
+            )
+        ),
       ),
-      body: SingleChildScrollView(
-        child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Container(
-              margin: const EdgeInsets.only(left:25,top: 30),
-              child:Text(
-                  "Give Review",
-                  style: GoogleFonts.montserrat(
-                    fontSize: 24,
-                  ),
-                ),
-            ),
-            SizedBox(height: 20,),
-            Container(
-              margin: EdgeInsets.only(left: 20),
-              width: MediaQuery.of(context).size.width - 40,
-              child: TextFormField(
-                decoration: InputDecoration(
-                  filled: true,
-                  fillColor: Color(0xffe6e6e6),
-                    border: InputBorder.none,
-                    labelText: 'Title',
-                ),
-              ),
-            ),
-            SizedBox(height: 20,),
-            Container(
-              margin: EdgeInsets.only(left: 20),
-              width: MediaQuery.of(context).size.width - 40,
-              child: TextFormField(
-                keyboardType: TextInputType.multiline,
-                maxLines: null,
-                decoration: InputDecoration(
-                  filled: true,
-                  fillColor: Color(0xffe6e6e6),
-                  border: InputBorder.none,
-                  labelText: 'Write Review',
-                ),
-              ),
-            ),
-            SizedBox(height: 10,),
-            Container(
-              margin: const EdgeInsets.only(left:20,top: 30, right: 20),
-              child: CustomDropdown(
-                valueIndex: _checkboxValue,
-                 enabledColor: Color(0xffe6e6e6),
-                 hint: "Review for",
-                  items: [
-                    CustomDropdownItem(text: "Mechanic"),
-                    CustomDropdownItem(text: "Workshop"),
-                  ],
-                onChanged: (newValue) {
-                  setState(() => _checkboxValue = newValue);
-                  },
-              ),
-            ),
-            SizedBox(height: 20,),
-            Container(
-              margin: const EdgeInsets.only(left:25,top: 30),
-              child:Text(
-                "Star Rating",
-                style: GoogleFonts.quicksand(
-                  fontSize: 20,
-                ),
-              ),
-            ),
-            Container(
-              child: ratingBar(),
-            ),
-            SizedBox(height: 20,),
-            Container(
-              child: FlatButton(
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(left:15, top:15),
                 child: Container(
-                  width: MediaQuery.of(context).size.width,
-                  padding: EdgeInsets.symmetric(vertical: 15),
-                  alignment: Alignment.center,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(5)),
-                    boxShadow: <BoxShadow>[
-                      BoxShadow(
-                          color: Colors.grey.shade200,
-                          offset: Offset(2, 4),
-                          blurRadius: 5,
-                          spreadRadius: 2)
-                    ],
-                    gradient: LinearGradient(
-                      begin: Alignment.centerLeft,
-                      end: Alignment.centerRight,
-                      colors: [Color(0xfffbb448), Color(0xfff7892b),
+                  child: RichText(
+                    textAlign: TextAlign.start,
+                    text: TextSpan(
+                      text: 'Workshop',
+                      style: GoogleFonts.quicksand(
+                        fontSize: 30,
+                        color: Color(0xfff7892b),
+                      ),
+                      children: [
+                        TextSpan(
+                            text: ' Reviews',
+                            style: GoogleFonts.quicksand(
+                              fontSize: 30,
+                              color: Colors.black,
+                            )),
                       ],
                     ),
                   ),
-                  child: Text(
-                    'Submit',
-                    style: GoogleFonts.quicksand(
-                        fontSize: 20,
-                        color: Colors.white
-                    ),
-                  ),
                 ),
               ),
-            ),
-            SizedBox(height: 20,),
-            Container(
-              margin: EdgeInsets.only(left: 20,right: 20),
-              child: InkWell(
-                onTap: (){
-                  Navigator.pop(context);
-                },
+              SizedBox(height: 20,),
+              Padding(
+                padding: const EdgeInsets.only(left:1),
                 child: Container(
-                  width: MediaQuery.of(context).size.width,
-                  padding: EdgeInsets.symmetric(vertical: 15),
-                  alignment: Alignment.center,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(5)),
-                    border: Border.all(color: Colors.black87, width: 2),
-                  ),
-                  child: Text(
-                    'Back',
-                    style: TextStyle(fontSize: 20, color: Colors.black87),
+                  child: Column(
+                    children: [
+                      Text(
+                        "4.0",
+                        style: GoogleFonts.quicksand(
+                          fontSize: 50,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      ratingBar(30),
+                    ],
                   ),
                 ),
               ),
-            ),
-          ],
-        ),
-      ),
-      drawer: drawer(),
-      ),
-    );
-  }
-}
+              Padding(
+                padding: const EdgeInsets.only(right:15,bottom:10),
+                child: FlatButton(
+                  onPressed: (){
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => WorkshopFeedbackForm()));
+                  },
+                  child: Container(
+                    alignment: Alignment.bottomRight,
+                    child:Text("Add Reviews" , style: GoogleFonts.quicksand(fontSize:20),),
+                  ),
+                ),
+              ),
+              Center(
+                child: Card(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      Container(
+                        child: ListTile(
+                          leading: CircleAvatar(
+                            child: Icon(
+                              Icons.person,
+                              size: 25,
+                              color: Colors.white,
+                            ),
+                            radius: 28,
+                            backgroundColor: Color(0XFF012A4A),
+                          ),
+                          title: Padding(
+                            padding: EdgeInsets.only(top:8.0),
+                            child: Container(
+                              child: Column(
+                                children: [
+                                  ratingBar(20),
+                                  Text("Loram Ipsum",),
+                                ],
+                              ),
+                            ),
+                          ),
+                          subtitle: Padding(
+                            padding: EdgeInsets.only(top:5, bottom: 5),
+                            child: Text("SA card is a sheet used to represent the information related to each other, such as an album, a geographical loca   heet used to represent the information related to each other, such as an album, a geographical location, contation, contact details,"),
+                          ),
+                        ),
+                      ),
 
-
-
-
-class ratingBar extends StatelessWidget {
-  const ratingBar({
-    Key key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-        margin: EdgeInsets.only(left: 35),
-        child: RatingBar.builder(
-          initialRating: 4,
-          minRating: 1,
-          direction: Axis.horizontal,
-          allowHalfRating: true,
-          itemCount: 5,
-          itemBuilder: (context, _) => Icon(
-            Icons.star,
-            color: Colors.amber,
+                      Container(
+                        child: ListTile(
+                          leading: CircleAvatar(
+                            child: Icon(
+                              Icons.person,
+                              size: 25,
+                              color: Colors.white,
+                            ),
+                            radius: 28,
+                            backgroundColor: Color(0XFF012A4A),
+                          ),
+                          title: Padding(
+                            padding: EdgeInsets.only(top:8.0),
+                            child: Text("Loram Ipsum",),
+                          ),
+                          subtitle: Padding(
+                            padding: EdgeInsets.only(top:5, bottom: 5),
+                            child: Text("SA card is a sheet used to represent the information related to each other, such as an album, a geographical loca   heet used to represent the information related to each other, such as an album, a geographical location, contation, contact details,"),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
           ),
-          onRatingUpdate: (rating) {
-            print(rating);
-          },
-        ),
+      ),
+      ),
     );
   }
 }
+

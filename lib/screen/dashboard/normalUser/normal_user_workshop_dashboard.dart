@@ -9,7 +9,9 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:bikersworld/screen/dashboard/normalUser/view_mechanics_normal_user.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:contained_tab_bar_view/contained_tab_bar_view.dart';
-import 'package:vertical_tabs/vertical_tabs.dart';
+import 'package:bikersworld/screen/dashboard/normalUser/reviews/reviewsNormalUser.dart';
+import 'package:percent_indicator/percent_indicator.dart';
+
 
 class NormalUserWorkshopDashboard extends StatefulWidget {
   final WorkshopDashboardModel workshopData;
@@ -19,13 +21,21 @@ class NormalUserWorkshopDashboard extends StatefulWidget {
 }
 
 class _NormalUserWorkshopDashboardState extends State<NormalUserWorkshopDashboard> {
-  int _selectedItemIndex = 2;
-
   @override
   Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
     return Scaffold(
-      backgroundColor: Color(0xffdbdbdb),
-      appBar: AppBar(
+      backgroundColor: LightColors.kLightYellow,
+      appBar:AppBar(
+        title: Text(
+          'BIKERSWORLD',
+          style: GoogleFonts.quicksand(
+            color: Colors.white,
+            fontSize: 18,
+          ),
+        ),
+        backgroundColor: Color(0XFF012A4A),
+        iconTheme: IconThemeData(color: Color(0xfffbb448)),
         leading: FlatButton(
             onPressed: () {
               Navigator.pop(context);
@@ -35,55 +45,50 @@ class _NormalUserWorkshopDashboardState extends State<NormalUserWorkshopDashboar
               color: Colors.orange,
             )
         ),
-        title: Text("BikersWorld"),
-        elevation: 0,
-        backgroundColor: Color(0XFF012A4A),
-        brightness: Brightness.dark,
-        textTheme: TextTheme(
-          title: GoogleFonts.quicksand(
-            color: Colors.white,
-            fontSize: 22,
-          ),
-        ),
+        elevation: 0.0,
       ),
       body: SafeArea(
         child: Column(
           children: <Widget>[
-
-            Container(
-                width: MediaQuery.of(context).size.width,
-                height: 200.0,
-                color: Color(0XFF012A4A),
-                child: Column(
-                  children: [
-                    Container(
+            TopContainer(
+              height: 160,
+              width: width,
+              child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 0, vertical: 0.0),
                       child: Row(
-                        children: [
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: <Widget>[
                           CircleAvatar(
+                            backgroundColor: LightColors.kBlue,
                             radius: 60,
                             backgroundImage: widget.workshopData.imageURL != null ? NetworkImage(widget.workshopData.imageURL): AssetImage("assets/avatar.jpg"),
                           ),
-                          SizedBox(width:10),
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                widget.workshopData != null ? widget.workshopData.shopTitle : 'Workshop name',
-                                style: GoogleFonts.quicksand(
-                                    fontSize: 22,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.white),
+                            children: <Widget>[
+                              Container(
+                                child: Text(
+                                  widget.workshopData != null ? widget.workshopData.shopTitle : 'Workshop name',
+                                  textAlign: TextAlign.start,
+                                  style: GoogleFonts.quicksand(
+                                      fontSize: 22,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.white),
+                                ),
                               ),
-                              SizedBox(
-                                height: 10,
-                              ),
+                              SizedBox(height: 8,),
                               Row(
                                 children: [
                                   Icon(
                                     Icons.location_on,
                                     color: Colors.grey,
                                   ),
-                                  SizedBox(width: 10,),
+                                  SizedBox(width: 5,),
                                   Text(
                                     widget.workshopData != null ? widget.workshopData.city : 'City',
                                     style: GoogleFonts.quicksand(
@@ -92,14 +97,14 @@ class _NormalUserWorkshopDashboardState extends State<NormalUserWorkshopDashboar
                                   ),
                                 ],
                               ),
-                              SizedBox(height: 15,),
+                              SizedBox(height: 10,),
                               Row(
                                 children: [
                                   Icon(
                                     Icons.phone,
                                     color: Colors.grey,
                                   ),
-                                  SizedBox(width: 10,),
+                                  SizedBox(width: 5,),
                                   Text(
                                     widget.workshopData != null ? widget.workshopData.ownerContact: 'Owner contact',
                                     style: GoogleFonts.quicksand(
@@ -109,366 +114,322 @@ class _NormalUserWorkshopDashboardState extends State<NormalUserWorkshopDashboar
                                 ],
                               ),
                             ],
+                          )
+                        ],
+                      ),
+                    )
+                  ],
+              ),
+            ),
+            Expanded(
+              child: SingleChildScrollView(
+                child: Column(
+                  children: <Widget>[
+                    Container(
+                      color: Colors.transparent,
+                      padding: EdgeInsets.symmetric(
+                          horizontal: 20.0, vertical: 10.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Text(
+                            "Dashboard",
+                            style: GoogleFonts.varelaRound(
+                              fontSize: 30,
+                            ),
+                          ),
+                          SizedBox(height: 15,),
+                          TaskColumn(
+                            icon: Icons.person,
+                            iconBackgroundColor: LightColors.kRed,
+                            title: 'Onwer Name',
+                            subtitle: 'Ibtasam Ur Rehman',
+                          ),
+                          SizedBox(
+                            height: 15.0,
+                          ),
+                          TaskColumn(
+                            icon: Icons.map_rounded,
+                            iconBackgroundColor: LightColors.kDarkYellow,
+                            title: 'Address',
+                            subtitle: 'F-10 Markaz near masjid ',
                           ),
                         ],
                       ),
                     ),
-                    SizedBox(height: 30,),
-                    Padding(
-                      padding: const EdgeInsets.only(top:40),
-                      child: Align(
-                        alignment: const Alignment(1.0, 1.0),
-                        child: SizedBox(
-                          width: MediaQuery.of(context).size.width - 20,
-                          height: 10.0,
-                          child: OverflowBox(
-                            maxWidth: MediaQuery.of(context).size.width - 20,
-                            minHeight: 0.0,
-                            maxHeight: 120,
-                            child: Container(
-                              decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.grey.withOpacity(0.5),
-                                      spreadRadius: 5,
-                                      blurRadius: 7,
-                                      offset: Offset(0, 3), // changes position of shadow
-                                    ),
-                                  ],
-                                  borderRadius: BorderRadius.only(
-                                    topLeft: Radius.circular(60),
-                                    bottomLeft: Radius.circular(10),
-                                  )
+                    Container(
+                      color: Colors.transparent,
+                      padding: EdgeInsets.symmetric(
+                          horizontal: 20.0, vertical: 10.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                         // subheading('Active Projects'),
+                          SizedBox(height: 5.0),
+                          Row(
+                            children: <Widget>[
+                              ActiveProjectsCard(
+                                cardColor: Colors.lightGreen,
+                                title: 'Workshop',
+                                subtitle: 'Timing',
+                                icon: Icon(FontAwesomeIcons.clock , size: 45, color: Colors.white,),
                               ),
-                              child: Row(
-                                children: [
-                                  FlatButton(
-                                    onPressed: (){
-                                      showDialog(
-                                        context: context,
-                                        builder: (_) => new AlertDialog(
-                                          title: new Text("Working hours", style: GoogleFonts.quicksand(fontSize: 18 , fontWeight:FontWeight.bold),),
-                                          content: Container(
-                                            child: Row(
-                                              children: [
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                      );
-                                    },
-                                    child: Padding(
-                                      padding: const EdgeInsets.only(top:20, left: 8,bottom: 20),
-                                      child: Container(
-                                          height: 60,
-                                          width: 150,
-                                          decoration: BoxDecoration(
-                                            color: Colors.blue,
-                                            borderRadius: BorderRadius.circular(10),
-                                          ),
-                                          child: Column(
-                                            children: [
-
-                                              Padding(
-                                                padding: const EdgeInsets.only(top:5),
-                                                child: Icon(
-                                                  FontAwesomeIcons.clock,
-                                                  color: Colors.white,
-                                                ),
-                                              ),
-                                              Text(
-                                                "Time",
-                                                style: GoogleFonts.quicksand(
-                                                  fontSize:17,
-                                                  color: Colors.white,
-                                                ),
-                                              ),
-                                            ],
-                                          )
-                                      ),
-                                    ),
+                              SizedBox(width: 20.0),
+                              FlatButton(
+                                onPressed: (){
+                                  Navigator.push(context, MaterialPageRoute(builder: (context) => reviewFromUser()));
+                                },
+                                child: ActiveProjectsCard(
+                                    cardColor: LightColors.kRed,
+                                    title: 'Workshop',
+                                    icon: Icon(FontAwesomeIcons.commentDots , size: 55, color: Colors.white,),
+                                    subtitle: ' Feedback',
                                   ),
-                                  FlatButton(
-                                    onPressed: (){
-                                      showModalBottomSheet(
-                                          context: context,
-                                          builder: (BuildContext bc){
-                                            return SingleChildScrollView(
-                                              child: Container(
-                                                child: new Wrap(
-                                                  children: <Widget>[
-                                                    Padding(
-                                                      padding: const EdgeInsets.only(top:15, left:15),
-                                                      child: Text(
-                                                        "Working Days",
-                                                        style: GoogleFonts.quicksand(
-                                                          fontSize: 20,
-                                                          fontWeight: FontWeight.bold,
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                            );
-                                          }
-                                      );
-                                    },
-                                    child: Container(
-                                      height: 60,
-                                      width: 150,
-                                      decoration: BoxDecoration(
-                                        color: Colors.red,
-                                        borderRadius: BorderRadius.circular(10),
-                                      ),
-                                      child: Column(
-                                        children: [
-                                          Padding(
-                                            padding: const EdgeInsets.only(top:5),
-                                            child: Icon(
-                                              FontAwesomeIcons.calendar,
-                                              color: Colors.white,
-                                            ),
-                                          ),
-                                          Text(
-                                            "Calender",
-                                            style: GoogleFonts.quicksand(
-                                              fontSize:16,
-                                              color: Colors.white,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                ],
                               ),
-                            ),
+                            ],
                           ),
-                        ),
-                      ),
-                    ),
-
-                  ],
-                )
-            ),
-            SizedBox(height: 70,),
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.all(5),
-                child: Container(
-                  child: VerticalTabs(
-                    backgroundColor: Colors.orange,
-                    tabsWidth: 70,
-                    tabs: <Tab>[
-                      Tab(child: Padding(
-                        padding: const EdgeInsets.only(top:10,left: 15,right: 15,  bottom: 15),
-                        child: Icon(FontAwesomeIcons.cogs , color: Color(0XFF012A4A)),
-                      )),
-                      Tab(child: Padding(
-                        padding: const EdgeInsets.only(top:10,left: 15,right: 15,  bottom: 15),
-                        child: Icon(FontAwesomeIcons.user, color: Color(0XFF012A4A)),
-                      )),
-                      Tab(child: Padding(
-                        padding: const EdgeInsets.only(top:10,left: 15,right: 15,  bottom: 15),
-                        child: Icon(FontAwesomeIcons.eye , color: Color(0XFF012A4A),),
-                      )),
-
-
-                    ],
-                    contents: <Widget>[
-                      Container(
-                          color: Color(0xfff0f0f0),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.all(10),
-                                child: Text(
-                                  "Service",
-                                  style: GoogleFonts.quicksand(
-                                    fontSize: 20,
-                                  ),
-                                ),
+                          Row(
+                            children: <Widget>[
+                              ActiveProjectsCard(
+                                cardColor: LightColors.kDarkYellow,
+                                title: 'Workshop',
+                                icon: Icon(FontAwesomeIcons.cogs , size: 55, color: Colors.white,),
+                                subtitle: 'Services',
                               ),
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Container(
-                                  width: MediaQuery.of(context).size.width - 100,
-                                  height: 110,
-                                  child: Card(
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(8),
-                                    ),
-                                    color: Colors.white,
-                                    elevation: 3,
-                                    child: Row(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: <Widget>[
-                                        SizedBox(width: 5,),
-                                        CircleAvatar(
-                                          radius: 40,
-                                          backgroundColor: Color(0XFF012A4A),
-                                          backgroundImage: AssetImage("assets/service_avatar.jpg"),
-                                        ),
-                                        SizedBox(width: 20,),
-
-                                      ],
-                                    ),
-                                  ),
+                              SizedBox(width: 20.0),
+                              FlatButton(
+                                onPressed: (){
+                                  print("s");
+                                },
+                                child: ActiveProjectsCard(
+                                  cardColor: LightColors.kBlue,
+                                  title: 'Workshop',
+                                  icon: Icon(Icons.person , size: 55, color: Colors.white,),
+                                  subtitle: 'Employees',
                                 ),
                               ),
                             ],
                           ),
+                        ],
                       ),
-
-                      Container(
-                        color: Color(0xfff0f0f0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.all(10),
-                              child: Text(
-                                "Mechanics",
-                                style: GoogleFonts.quicksand(
-                                  fontSize: 20,
-                                ),
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(left:5),
-                              child: Container(
-                                width: MediaQuery.of(context).size.width - 100,
-                                height: 90,
-                                child: Card(
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(8),
-                                  ),
-                                  color: Colors.white,
-                                  elevation: 3,
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: <Widget>[
-                                      SizedBox(width: 15,),
-                                      CircleAvatar(
-                                        radius: 25,
-                                        backgroundColor: Color(0XFF012A4A),
-                                        child: Icon(FontAwesomeIcons.user),
-                                      ),
-                                      SizedBox(width: 20,),
-
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-
-
-                      Container(
-                        color: Color(0xfff0f0f0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.all(10),
-                              child: Text(
-                                "Reviews",
-                                style: GoogleFonts.quicksand(
-                                  fontSize: 20,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-
-                    ],
-                  ),
-
-
-
+                    ),
+                  ],
                 ),
               ),
             ),
-
           ],
         ),
       ),
     );
   }
-
 }
 
-Widget tabsContent(String caption, [ String description = '' ] ) {
-  return Container(
-    margin: EdgeInsets.all(10),
-    padding: EdgeInsets.all(20),
-    color: Color(0XFF012A4A),
-    child: Column(
+
+class LightColors  {
+  static const Color kLightYellow = Colors.white;
+  static const Color kLightYellow2 = Colors.white;
+  static const Color kDarkYellow = Color(0xFFF9BE7C);
+  static const Color kPalePink = Color(0xFFFED4D6);
+
+  static const Color kRed = Color(0xFFE46472);
+  static const Color kLavender = Color(0xFFD5E4FE);
+  static const Color kBlue = Color(0xFF6488E4);
+  static const Color kLightGreen = Color(0xFFD9E6DC);
+  static const Color kGreen = Color(0xFF309397);
+
+  static const Color kDarkBlue = Color(0xFF0D253F);
+}
+
+
+class ActiveProjectsCard extends StatelessWidget {
+  final Color cardColor;
+  final String title;
+  final String subtitle;
+  final Icon icon;
+
+  ActiveProjectsCard({
+    this.cardColor,
+    this.title,
+    this.subtitle,
+    this.icon,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: EdgeInsets.symmetric(vertical: 10.0),
+      padding: EdgeInsets.all(15.0),
+      height: 150,
+      decoration: BoxDecoration(
+        color: cardColor,
+        borderRadius: BorderRadius.circular(40.0),
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Center(
+            child: icon,
+          ),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Text(
+                title,
+                style: GoogleFonts.quicksand(
+                  fontSize: 24.0,
+                  color: Colors.white,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+              Text(
+                subtitle,
+                style: GoogleFonts.quicksand(
+                  fontSize: 18.0,
+                  color: Colors.white54,
+                  fontWeight: FontWeight.w400,
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+
+
+class TopContainer extends StatelessWidget {
+  final double height;
+  final double width;
+  final Widget child;
+  final EdgeInsets padding;
+
+  TopContainer({this.height, this.width, this.child, this.padding});
+
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: padding != null ? padding : EdgeInsets.symmetric(
+          horizontal: 20.0),
+      decoration: BoxDecoration(
+          color: Color(0XFF012A4A),
+          borderRadius: BorderRadius.only(
+            bottomRight: Radius.circular(40.0),
+            bottomLeft: Radius.circular(40.0),
+          )),
+      height: height,
+      width: width,
+      child: child,
+    );
+  }
+}
+
+
+class TaskContainer extends StatelessWidget {
+  final String title;
+  final String subtitle;
+  final Color boxColor;
+
+  TaskContainer({
+    this.title, this.subtitle, this.boxColor,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: EdgeInsets.symmetric(vertical: 15.0),
+      padding: EdgeInsets.all(20.0),
+
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Text(
+            title,
+            style: TextStyle(
+              fontSize: 16.0,
+              fontWeight: FontWeight.w700,
+            ),
+          ),
+
+          Padding(
+            padding: const EdgeInsets.only(top: 10.0),
+            child: Text(
+              subtitle,
+              style: TextStyle(
+                fontSize: 14.0,
+                color: Colors.black54,
+                fontWeight: FontWeight.w400,
+              ),
+            ),
+          )
+        ],
+      ),
+      decoration: BoxDecoration(
+          color: boxColor,
+          borderRadius: BorderRadius.circular(30.0)),
+    );
+  }
+}
+
+
+
+
+class TaskColumn extends StatelessWidget {
+  final IconData icon;
+  final Color iconBackgroundColor;
+  final String title;
+  final String subtitle;
+  TaskColumn({
+    this.icon,
+    this.iconBackgroundColor,
+    this.title,
+    this.subtitle,
+  });
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: <Widget>[
-        Text(
-          caption,
-          style: TextStyle(fontSize: 25),
+        CircleAvatar(
+          radius: 20.0,
+          backgroundColor: iconBackgroundColor,
+          child: Icon(
+            icon,
+            size: 15.0,
+            color: Colors.white,
+          ),
         ),
-        Divider(height: 20, color: Colors.black45,),
-        Text(
-          description,
-          style: TextStyle(fontSize: 15, color: Colors.black87),
-        ),
+        SizedBox(width: 10.0),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Text(
+              title,
+              style: TextStyle(
+                fontSize: 16.0,
+                fontWeight: FontWeight.w700,
+              ),
+            ),
+            Text(
+              subtitle,
+              style: TextStyle(
+                  fontSize: 14.0,
+                  fontWeight: FontWeight.w500,
+                  color: Colors.black45),
+            ),
+          ],
+        )
       ],
-    ),
-  );
+    );
+  }
 }
 
 
-/*
-*   Container(
-                                          child: Column(
-                                            mainAxisAlignment: MainAxisAlignment.center,
-                                            crossAxisAlignment: CrossAxisAlignment.start,
-                                            children: [
-                                              Text(
-                                                  "", style: GoogleFonts.quicksand(fontSize:20,color: Colors.black)
-                                              ),
-                                              Container(
-                                                child: Row(
-                                                  children: [
-                                                    Icon(FontAwesomeIcons.home , size: 18, color: Colors.grey,),
-                                                    SizedBox(width: 10,),
-                                                    Container(
-                                                      child: AutoSizeText(
-                                                        "",
-                                                        style: GoogleFonts.quicksand(
-                                                          fontSize: 15,
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                              Container(
-                                                child: Row(
-                                                  children: [
-                                                    Icon(Icons.location_on, size: 19, color: Colors.grey,),
-                                                    SizedBox(width: 10,),
-                                                    Text("",style: GoogleFonts.quicksand(fontSize: 16),),
-                                                  ],
-                                                ),
-                                              ),
-                                              Container(
-                                                child: Row(
-                                                  children: [
-                                                    Icon(FontAwesomeIcons.dollarSign, size: 17, color: Colors.grey,),
-                                                    SizedBox(width: 10,),
-                                                    Text("",style: GoogleFonts.quicksand(fontSize: 16),),
-                                                  ],
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),*/
+
+
+
+
+
