@@ -17,12 +17,14 @@ class WorkshopDashboardModel {
       friday,
       saturday,
       sunday;
+  final String id;
 
   WorkshopDashboardModel(
-      {this.ownerName, this.ownerContact, this.shopTitle, this.area, this.city,this.openTime, this.closeTime,this.saturday,this.sunday,this.friday,this.thursday,this.wednesday,this.tuesday,this.monday,this.imageURL});
+      {this.ownerName, this.ownerContact, this.shopTitle, this.area, this.city,this.openTime, this.closeTime,this.saturday,this.sunday,this.friday,this.thursday,this.wednesday,this.tuesday,this.monday,this.imageURL,this.id});
 
-  factory WorkshopDashboardModel.fromJson(Map<String, dynamic> json){
+  factory WorkshopDashboardModel.fromJson(Map<String, dynamic> json,String docId){
     return WorkshopDashboardModel(
+      id: docId,
       shopTitle: json['title'],
       city: json['city'],
       area: json['area'],
@@ -119,6 +121,32 @@ class Services{
       'price': price,
       'workshop_city': workshopCity,
       'workshopId': workshopId,
+    };
+  }
+
+}
+class WorkshopReviews{
+
+  final String title;
+  final double starRating;
+  final String description;
+  final String id;
+
+  WorkshopReviews({this.title,this.starRating,this.description,this.id});
+
+  factory WorkshopReviews.fromJson(Map<String, dynamic> json,String docId){
+    return WorkshopReviews(
+      id: docId,
+      title: json['title'],
+      starRating: json['star_rating'],
+      description: json['description'],
+    );
+  }
+  Map<String, dynamic> toMap(){
+    return {
+      'title': title,
+      'star_rating': starRating,
+      'description': description,
     };
   }
 

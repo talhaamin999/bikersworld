@@ -177,7 +177,8 @@ class _NormalUserWorkshopDashboardState extends State<NormalUserWorkshopDashboar
                               SizedBox(width: 20.0),
                               FlatButton(
                                 onPressed: (){
-                                  Navigator.push(context, MaterialPageRoute(builder: (context) => reviewFromUser()));
+                                  print(widget.workshopData.id);
+                                  Navigator.push(context, MaterialPageRoute(builder: (context) => ReviewFromUser(workshopDocId: widget.workshopData.id,)));
                                 },
                                 child: ActiveProjectsCard(
                                     cardColor: LightColors.kRed,

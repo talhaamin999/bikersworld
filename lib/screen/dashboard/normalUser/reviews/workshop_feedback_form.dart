@@ -1,13 +1,76 @@
+import 'package:bikersworld/model/workshop_model.dart';
+import 'package:bikersworld/services/toast_service.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:bikersworld/widgets/rating_bar.dart';
 
 class WorkshopFeedbackForm extends StatefulWidget {
+  final String workshopDocId;
+  WorkshopFeedbackForm({this.workshopDocId});
   @override
   _WorkshopFeedbackFormState createState() => _WorkshopFeedbackFormState();
 }
 
 class _WorkshopFeedbackFormState extends State<WorkshopFeedbackForm> {
+
+  final _titleController = TextEditingController();
+  final _descriptionController = TextEditingController();
+  final _workshopCollection = 'workshop';
+  final _workshopReviewsCollection = 'workshop_reviews';
+  final _error = ToastErrorMessage();
+  final _valid = ToastValidMessage();
+  String id;
+  bool reviewAdded=false;
+
+  Future<void> addReview() async{
+   try {
+     final CollectionReference _collectionReference = FirebaseFirestore.instance
+         .collection(_workshopCollection).doc(id).collection(
+         _workshopReviewsCollection);
+     final _reviewModel = WorkshopReviews(title: _titleController.text,
+         starRating: RatingsBar.ratings,
+         description: _descriptionController.text);
+
+     await _collectionReference.add(_reviewModel.toMap())
+         .then((_) {
+           clearFields();
+           setState(() {
+             reviewAdded = true;
+           });
+       _valid.validToastMessage(validMessage: 'Review Added');
+     })
+         .catchError((onError) =>
+         _error.errorToastMessage(errorMessage: onError.toString()));
+   }catch(e){
+     _error.errorToastMessage(errorMessage: e.toString());
+   }
+
+   if(reviewAdded){
+     Future.delayed(
+       new Duration(seconds: 2),
+         (){
+           Navigator.pop(context);
+         }
+     );
+   }
+ }
+
+  void clearFields(){
+   _titleController.clear();
+   _descriptionController.clear();
+  }
+  void mapId(){
+    if(widget.workshopDocId != null){
+      id = widget.workshopDocId;
+    }
+  }
+  @override
+  void initState() {
+    mapId();
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -57,24 +120,31 @@ class _WorkshopFeedbackFormState extends State<WorkshopFeedbackForm> {
               ),
               SizedBox(height: 15,),
               Container(
-                child: ratingBar(40),
+                child: RatingsBar(40),
               ),
               SizedBox(height: 20,),
               Container(
                 margin: EdgeInsets.only(left: 20),
                 width: MediaQuery.of(context).size.width - 40,
-                child: ReviewsTextField("Title"),
+                child: ReviewsTextField("Title",_titleController,1),
               ),
               SizedBox(height: 20,),
               Container(
                 margin: EdgeInsets.only(left: 20),
                 width: MediaQuery.of(context).size.width - 40,
-                child: ReviewsTextField("Description"),
+                child: ReviewsTextField("Description",_descriptionController,null),
               ),
               SizedBox(height: 20,),
 
               Container(
                 child: FlatButton(
+                  onPressed: () async{
+                    if(_titleController.text.isNotEmpty && _descriptionController.text.isNotEmpty){
+                     await addReview();
+                    }
+
+                    print('${_titleController.text} ${RatingsBar.ratings}');
+                  },
                   child: Container(
                     width: MediaQuery.of(context).size.width,
                     padding: EdgeInsets.symmetric(vertical: 15),
@@ -118,14 +188,18 @@ class _WorkshopFeedbackFormState extends State<WorkshopFeedbackForm> {
 
 class ReviewsTextField extends StatelessWidget{
 
-  ReviewsTextField(this.text);
-  String text;
+  final String text;
+  final TextEditingController controller;
+  final int numberOfLines;
+
+  ReviewsTextField(this.text,this.controller,this.numberOfLines);
+
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return TextFormField(
+      controller: controller,
       keyboardType: TextInputType.multiline,
-      maxLines: null,
+      maxLines: numberOfLines,
       decoration: InputDecoration(
         filled: true,
         fillColor: Color(0xffe6e6e6),

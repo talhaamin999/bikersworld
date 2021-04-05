@@ -326,7 +326,7 @@ class autoPartStoreDashboardTab extends StatelessWidget {
                 ),
               ),
               onPressed: (){
-                Navigator.push(context, MaterialPageRoute(builder: (context) => reviewFromUser()));
+                Navigator.push(context, MaterialPageRoute(builder: (context) => ReviewFromUser()));
               },
             ),
           ),

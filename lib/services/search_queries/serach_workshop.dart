@@ -15,7 +15,7 @@ class SearchWorkshop{
           .where('title', isEqualTo: name)
           .snapshots()
           .map((snapshot) => snapshot.docs
-          .map((doc) => WorkshopDashboardModel.fromJson(doc.data()))
+          .map((doc) => WorkshopDashboardModel.fromJson(doc.data(),doc.reference.id))
           .toList());
 
     }catch(e){
@@ -29,7 +29,7 @@ class SearchWorkshop{
           .where('city', isEqualTo: city)
           .snapshots()
           .map((snapshot) => snapshot.docs
-          .map((doc) => WorkshopDashboardModel.fromJson(doc.data()))
+          .map((doc) => WorkshopDashboardModel.fromJson(doc.data(),doc.reference.id))
           .toList());
 
     }catch(e){
@@ -44,7 +44,7 @@ class SearchWorkshop{
           .where('city', isEqualTo: city)
           .snapshots()
           .map((snapshot) => snapshot.docs
-          .map((doc) => WorkshopDashboardModel.fromJson(doc.data()))
+          .map((doc) => WorkshopDashboardModel.fromJson(doc.data(),doc.reference.id))
           .toList());
 
     }catch(e){

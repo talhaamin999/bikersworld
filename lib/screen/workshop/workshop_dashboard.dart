@@ -74,13 +74,13 @@ class _WorkshopDashboardState extends State<WorkshopDashboard> {
         builder: (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
           if(snapshot.connectionState == ConnectionState.done && snapshot.hasData && snapshot.data != null){
             image = snapshot.data.get('image');
-            data = WorkshopDashboardModel.fromJson(snapshot.data.data());
+            data = WorkshopDashboardModel.fromJson(snapshot.data.data(),snapshot.data.reference.id);
             //print('${snapshot.data.data()}');
              return Dashboard();
            }
           else if(snapshot.connectionState == ConnectionState.active){
             image = snapshot.data.get('image');
-            data = WorkshopDashboardModel.fromJson(snapshot.data.data());
+            data = WorkshopDashboardModel.fromJson(snapshot.data.data(),snapshot.data.reference.id);
            // print('${snapshot.data.data()}');
                return Dashboard();
            }
