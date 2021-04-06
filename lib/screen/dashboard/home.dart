@@ -936,23 +936,7 @@ class _HomeDashboardState extends State<HomeDashboard>  with SingleTickerProvide
         ),
       ),
       drawer: drawer(),
-      floatingActionButton: FloatingActionButton(
-          backgroundColor: Colors.red,
-          onPressed: (){},
-          child: Column(
-            children: [
-              SizedBox(height: 5,),
-              Icon(FontAwesomeIcons.bicycle),
-              Text(
-                "Sell",
-                style: GoogleFonts.quicksand(
-                  fontSize: 14,
-                  color: Colors.white,
-                ),
-              ),
-            ],
-          )
-      ),
+      
     );
   }
 }

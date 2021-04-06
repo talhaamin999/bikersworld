@@ -9,7 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:bikersworld/widgets/drawer.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:bikersworld/screen/workshop/reviews/mechanicsReviews.dart';
+import 'package:bikersworld/screen/workshop/reviews/mechanics_reviews.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 
@@ -191,7 +191,7 @@ class _ViewMechanicsState extends State<ViewMechanics> {
                                                 context,
                                                 MaterialPageRoute(
                                                     builder: (context) =>
-                                                        mechanicsReviews()));
+                                                        MechanicsReviews()));
                                           },
                                         ),
                                         const SizedBox(width: 8),
@@ -339,7 +339,7 @@ class _ViewMechanicsState extends State<ViewMechanics> {
                                                 context,
                                                 MaterialPageRoute(
                                                     builder: (context) =>
-                                                        mechanicsReviews(),
+                                                        MechanicsReviews(),
                                                 ),
                                             );
                                           },

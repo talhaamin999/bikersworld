@@ -4,8 +4,7 @@ import 'package:bikersworld/widgets/drawer.dart';
 import 'package:flutter/rendering.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter/material.dart';
-import 'package:bikersworld/widgets/drawer.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:bikersworld/widgets/rating_bar.dart';
 
 class reviews extends StatefulWidget {
   @override
@@ -56,14 +55,14 @@ class _reviewsState extends State<reviews> {
                         child:RichText(
                           textAlign: TextAlign.start,
                           text: TextSpan(
-                            text: 'Check',
+                            text: 'Workshop',
                             style: GoogleFonts.quicksand(
                               fontSize: 30,
                               color: Color(0xfff7892b),
                             ),
                             children: [
                               TextSpan(
-                                  text: 'Reviews',
+                                  text: ' Reviews',
                                   style: GoogleFonts.quicksand(
                                     fontSize: 30,
                                     color: Colors.black,
@@ -83,7 +82,7 @@ class _reviewsState extends State<reviews> {
                       ),
                     ),
                   ),
-                  ratingBar(),
+                  RatingsBar(30),
                   SizedBox(
                     height: 20,
                   ),
@@ -126,7 +125,9 @@ class _reviewsState extends State<reviews> {
                                 ),
                               ),
                             ),
-                            SizedBox(height: 15,),
+                            SizedBox(height: 10,),
+                            RatingsBar(20),
+                            SizedBox(height: 10,),
                             Container(
                               child: Text(
                                 "Its very excellent car it gives mileage of 9 in city and 12 in highway,its comfort is way to better and its metal is also strong because despite being hit many times by vehicles no big dent came but only 1 back light broked.its comfort level is way too good it can easily carry 6 peoples with their bags",
@@ -135,93 +136,13 @@ class _reviewsState extends State<reviews> {
                                 ),
                               ),
                             ),
-                            SizedBox(height: 20,),
-                            Container(
-                              height: 50,
-                              child:RatingBar.builder(
-                                initialRating: 2,
-                                minRating: 1,
-                                direction: Axis.horizontal,
-                                allowHalfRating: true,
-                                itemCount: 5,
-                                itemBuilder: (context, _) => Icon(
-                                  Icons.star,
-                                  color: Colors.amber,
-                                ),
-                                onRatingUpdate: (rating) {
-                                  print(rating);
-                                },
-                              ),
-                            ),
+
                           ],
                         ),
 
                       ),
                     ),
                   ),
-
-                  SizedBox(height: 30,),
-
-                  Container(
-                    margin: EdgeInsets.only(left: 20, right: 20),
-                    child: Card(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      child: ListTile(
-                        contentPadding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-                        leading: CircleAvatar(
-                          backgroundColor: Color(0xffecf0f1),
-                          child: Icon(FontAwesomeIcons.user, color: Color(0xfff7892b),),
-                        ),
-                        title: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Container(
-                              child: Text(
-                                "Ammar Ahmad",
-                                style: GoogleFonts.raleway(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold
-                                ),
-                              ),
-                            ),
-                            SizedBox(height: 15,),
-                            Container(
-                              child: Text(
-                                "Its very excellent car it gives mileage of 9 in city and 12 in highway,its comfort is way to better and its metal is also strong because despite being hit many times by vehicles no big dent came but only 1 back light broked.its comfort level is way too good it can easily carry 6 peoples with their bags",
-                                style: GoogleFonts.raleway(
-                                  fontSize: 15,
-                                ),
-                              ),
-                            ),
-                            SizedBox(height: 20,),
-                            Container(
-                              height: 50,
-                              child:RatingBar.builder(
-                                initialRating: 2,
-                                minRating: 1,
-                                direction: Axis.horizontal,
-                                allowHalfRating: true,
-                                itemCount: 5,
-                                itemBuilder: (context, _) => Icon(
-                                  Icons.star,
-                                  color: Colors.amber,
-                                ),
-                                onRatingUpdate: (rating) {
-                                  print(rating);
-                                },
-                              ),
-                            ),
-                          ],
-                        ),
-
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: 30,),
-
-
 
                 ],
               ),
@@ -233,31 +154,4 @@ class _reviewsState extends State<reviews> {
     );
   }
 }
-
-class ratingBar extends StatelessWidget {
-  const ratingBar({
-    Key key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return RatingBar.builder(
-        initialRating: 4,
-        minRating: 1,
-        direction: Axis.horizontal,
-        allowHalfRating: true,
-        itemCount: 5,
-        itemPadding: EdgeInsets.symmetric(horizontal: 3.0),
-        itemBuilder: (context, _) => Icon(
-        Icons.star,
-        color: Colors.amber,
-      ),
-      onRatingUpdate: (rating) {
-        print(rating);
-      },
-    );
-  }
-}
-
-
 

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:bikersworld/widgets/drawer.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:bikersworld/screen/workshop/reviews/mechanicsReviews.dart';
+import 'package:bikersworld/screen/workshop/reviews/mechanics_reviews.dart';
 
 class referenceWorkshop extends StatefulWidget {
   @override

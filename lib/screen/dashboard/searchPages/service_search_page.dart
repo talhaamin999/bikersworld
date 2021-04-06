@@ -294,78 +294,102 @@ class _ServiceSearcPageState extends State<ServiceSearcPage> {
                           itemBuilder: (context,index){
                             return Container(
                               width: MediaQuery.of(context).size.width - 30,
-                              height: 150,
-                              child: Card(
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(8),
-                                ),
-                                color: Colors.white,
-                                elevation: 3,
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: <Widget>[
-                                    SizedBox(width: 15,),
-                                    CircleAvatar(
-                                      radius: 40,
-                                      backgroundColor: Color(0XFF012A4A),
+                              height:175,
+                              child: Padding(
+                                padding: const EdgeInsets.only(top: 15, left: 10,right: 10),
+                                child: Card(
+                                  color: Colors.white,
+                                //  margin: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                                  child: ListTile(
+                                    leading: CircleAvatar(
+                                        radius: 40,
+//                                      backgroundColor: Color(0XFF012A4A),
                                       backgroundImage: AssetImage("assets/service_avatar.jpg"),
                                     ),
-                                    SizedBox(width: 20,),
-                                    Container(
+                                    title: Container(
                                       child: Column(
-                                        mainAxisAlignment: MainAxisAlignment.center,
                                         crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
                                           Text(
-                                              snapshot.data[index].title, style: GoogleFonts.quicksand(fontSize:20,color: Colors.black)
+                                            snapshot.data[index].title,
+                                            style: GoogleFonts.quicksand(
+                                              fontSize: 20,
+                                              color: Colors.black,
+                                            ),
                                           ),
-                                          SizedBox(height: 10,),
+                                          Text(
+                                            snapshot.data[index].workshopId,
+                                            style: GoogleFonts.quicksand(
+                                              fontSize: 15,
+                                              color: Colors.grey,
+                                            ),
+                                          ),
+                                          Divider(
+                                            height: 20,
+                                            thickness: 1,
+                                          ),
                                           Container(
                                             child: Row(
+                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                               children: [
-                                                Icon(FontAwesomeIcons.home , size: 18, color: Colors.grey,),
-                                                SizedBox(width: 10,),
                                                 Container(
-                                                  child: AutoSizeText(
-                                                      snapshot.data[index].workshopId,
-                                                    style: GoogleFonts.quicksand(
-                                                        fontSize: 15,
-                                                    ),
+                                                  child: Column(
+                                                    children: [
+                                                      Icon(
+                                                        FontAwesomeIcons.tags,
+                                                        size: 18,
+                                                      ),
+                                                      SizedBox(height: 10),
+                                                      Text(
+                                                        snapshot.data[index].price.toString(),
+                                                        style: GoogleFonts.quicksand(
+                                                          fontSize: 15,
+                                                          color: Colors.grey,
+                                                        ),
+                                                      ),
+                                                    ],
                                                   ),
                                                 ),
-                                              ],
-                                            ),
-                                          ),
-                                          SizedBox(height: 10,),
-                                          Container(
-                                            child: Row(
-                                              children: [
-                                                Icon(Icons.location_on, size: 19, color: Colors.grey,),
-                                                SizedBox(width: 10,),
-                                                Text(snapshot.data[index].workshopCity,style: GoogleFonts.quicksand(fontSize: 16),),
-                                              ],
-                                            ),
-                                          ),
-                                          SizedBox(height: 5,),
-                                          Container(
-                                            child: Row(
-                                              children: [
-                                                Icon(FontAwesomeIcons.dollarSign, size: 17, color: Colors.grey,),
-                                                SizedBox(width: 10,),
-                                                Text(snapshot.data[index].price.toString(),style: GoogleFonts.quicksand(fontSize: 16),),
+
+                                                Container(
+                                                  child: Column(
+                                                    children: [
+                                                      Icon(
+                                                        Icons.location_on,
+                                                        size: 22,
+                                                      ),
+                                                      SizedBox(height: 5),
+                                                      Text(
+                                                        snapshot.data[index].workshopCity,
+                                                        style: GoogleFonts.quicksand(
+                                                          fontSize: 15,
+                                                          color: Colors.grey,
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+
+                                                Container(
+                                                  child: CircleAvatar(
+                                                    backgroundColor: Colors.white,
+                                                  ),
+                                                ),
                                               ],
                                             ),
                                           ),
                                         ],
                                       ),
                                     ),
-                                  ],
+                                  ),
                                 ),
                               ),
                             );
+                            
                           }
                       ),
                     );
+
                   }
                   else if(snapshot.data == null){
                     return Text('Search For Workshops Services');

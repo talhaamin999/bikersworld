@@ -121,44 +121,42 @@ class ElectricalTab extends StatelessWidget {
                           color: Colors.white,
                           margin: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
                           child: ListTile(
-                            leading: Icon(
-                              FontAwesomeIcons.wrench,
-                              color: Colors.black,
+                            leading: Padding(
+                              padding: const EdgeInsets.only(top:8.0),
+                              child: Icon(
+                                FontAwesomeIcons.wrench,
+                                color: Colors.black,
+                              ),
                             ),
                             title: Container(
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text(
-                                    snapshot.data[index].title,
-                                    style: GoogleFonts.quicksand(
-                                      fontSize: 20,
-                                      color: Colors.black,
+                                  Padding(
+                                    padding: const EdgeInsets.only(top:8.0),
+                                    child: Text(
+                                      snapshot.data[index].title,
+                                      style: GoogleFonts.quicksand(
+                                        fontSize: 20,
+                                        color: Colors.black,
+                                      ),
                                     ),
                                   ),
-                                  Text(
-                                    snapshot.data[index].category,
-                                    style: GoogleFonts.quicksand(
-                                      fontSize: 15,
-                                      color: Colors.grey,
-                                    ),
-                                  ),
-                                  Divider(
-                                    height: 20,
-                                    thickness: 1,
-                                  ),
+
+                                  SizedBox(height: 15,),
                                   Container(
                                     child: Row(
                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [
                                         Container(
-                                          child: Column(
+                                          child: Row(
                                             children: [
                                               Icon(
                                                 FontAwesomeIcons.tags,
                                                 size: 18,
+                                                color:Colors.grey
                                               ),
-                                              SizedBox(height: 10),
+                                              SizedBox(width: 15),
                                               Text(
                                                 snapshot.data[index].price.toString(),
                                                 style: GoogleFonts.quicksand(
@@ -170,33 +168,10 @@ class ElectricalTab extends StatelessWidget {
                                           ),
                                         ),
 
-                                        Container(
-                                          child: Column(
-                                            children: [
-                                              Icon(
-                                                Icons.location_on,
-                                                size: 22,
-                                              ),
-                                              SizedBox(height: 5),
-                                              Text(
-                                                "Islamabad",
-                                                style: GoogleFonts.quicksand(
-                                                  fontSize: 15,
-                                                  color: Colors.grey,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-
-                                        Container(
-                                          child: CircleAvatar(
-                                            backgroundColor: Colors.white,
-                                          ),
-                                        ),
                                       ],
                                     ),
                                   ),
+                                  SizedBox(height: 5,),
                                 ],
                               ),
                             ),
@@ -249,44 +224,41 @@ class MechanicalTab extends StatelessWidget {
                           color: Colors.white,
                           margin: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
                           child: ListTile(
-                            leading: Icon(
-                              FontAwesomeIcons.wrench,
-                              color: Colors.black,
+                            leading: Padding(
+                              padding: const EdgeInsets.only(top:10),
+                              child: Icon(
+                                FontAwesomeIcons.wrench,
+                                color: Colors.black,
+                              ),
                             ),
                             title: Container(
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text(
-                                    snapshot.data[index].title,
-                                    style: GoogleFonts.quicksand(
-                                      fontSize: 20,
-                                      color: Colors.black,
+                                  Padding(
+                                    padding: const EdgeInsets.only(top:8.0),
+                                    child: Text(
+                                      snapshot.data[index].title,
+                                      style: GoogleFonts.quicksand(
+                                        fontSize: 20,
+                                        color: Colors.black,
+                                      ),
                                     ),
                                   ),
-                                  Text(
-                                    snapshot.data[index].category,
-                                    style: GoogleFonts.quicksand(
-                                      fontSize: 15,
-                                      color: Colors.grey,
-                                    ),
-                                  ),
-                                  Divider(
-                                    height: 20,
-                                    thickness: 1,
-                                  ),
+                                  SizedBox(height: 10,),
                                   Container(
                                     child: Row(
                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [
                                         Container(
-                                          child: Column(
+                                          child: Row(
                                             children: [
                                               Icon(
                                                 FontAwesomeIcons.tags,
                                                 size: 18,
+                                                color: Colors.grey,
                                               ),
-                                              SizedBox(height: 10),
+                                              SizedBox(width: 10),
                                               Text(
                                                 snapshot.data[index].price.toString(),
                                                 style: GoogleFonts.quicksand(
@@ -297,34 +269,10 @@ class MechanicalTab extends StatelessWidget {
                                             ],
                                           ),
                                         ),
-
-                                        Container(
-                                          child: Column(
-                                            children: [
-                                              Icon(
-                                                Icons.location_on,
-                                                size: 22,
-                                              ),
-                                              SizedBox(height: 5),
-                                              Text(
-                                                "Islamabad",
-                                                style: GoogleFonts.quicksand(
-                                                  fontSize: 15,
-                                                  color: Colors.grey,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-
-                                        Container(
-                                          child: CircleAvatar(
-                                            backgroundColor: Colors.white,
-                                          ),
-                                        ),
                                       ],
                                     ),
                                   ),
+                                  SizedBox(height: 5,),
                                 ],
                               ),
                             ),
@@ -377,44 +325,41 @@ class TuningTab extends StatelessWidget {
                           color: Colors.white,
                           margin: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
                           child: ListTile(
-                            leading: Icon(
-                              FontAwesomeIcons.wrench,
-                              color: Colors.black,
+                            leading: Padding(
+                              padding: const EdgeInsets.all(10),
+                              child: Icon(
+                                FontAwesomeIcons.wrench,
+                                color: Colors.black,
+                              ),
                             ),
                             title: Container(
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text(
-                                    snapshot.data[index].title,
-                                    style: GoogleFonts.quicksand(
-                                      fontSize: 20,
-                                      color: Colors.black,
+                                  Padding(
+                                    padding: const EdgeInsets.only(top:10),
+                                    child: Text(
+                                      snapshot.data[index].title,
+                                      style: GoogleFonts.quicksand(
+                                        fontSize: 20,
+                                        color: Colors.black,
+                                      ),
                                     ),
                                   ),
-                                  Text(
-                                    snapshot.data[index].category,
-                                    style: GoogleFonts.quicksand(
-                                      fontSize: 15,
-                                      color: Colors.grey,
-                                    ),
-                                  ),
-                                  Divider(
-                                    height: 20,
-                                    thickness: 1,
-                                  ),
+                                  SizedBox(height: 10,),
                                   Container(
                                     child: Row(
                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [
                                         Container(
-                                          child: Column(
+                                          child: Row(
                                             children: [
                                               Icon(
                                                 FontAwesomeIcons.tags,
                                                 size: 18,
+                                                color: Colors.grey,
                                               ),
-                                              SizedBox(height: 10),
+                                              SizedBox(width: 10),
                                               Text(
                                                 snapshot.data[index].price.toString(),
                                                 style: GoogleFonts.quicksand(
@@ -426,33 +371,10 @@ class TuningTab extends StatelessWidget {
                                           ),
                                         ),
 
-                                        Container(
-                                          child: Column(
-                                            children: [
-                                              Icon(
-                                                Icons.location_on,
-                                                size: 22,
-                                              ),
-                                              SizedBox(height: 5),
-                                              Text(
-                                                "Islamabad",
-                                                style: GoogleFonts.quicksand(
-                                                  fontSize: 15,
-                                                  color: Colors.grey,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-
-                                        Container(
-                                          child: CircleAvatar(
-                                            backgroundColor: Colors.white,
-                                          ),
-                                        ),
                                       ],
                                     ),
                                   ),
+                                  SizedBox(height: 5,),
                                 ],
                               ),
                             ),
@@ -477,4 +399,3 @@ class TuningTab extends StatelessWidget {
     );
   }
 }
-

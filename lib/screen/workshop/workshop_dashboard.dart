@@ -13,7 +13,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:bikersworld/screen/workshop/add_mechanics.dart';
 import 'package:bikersworld/screen/workshop/services/service_category.dart';
-import 'package:bikersworld/screen/workshop/reviews/reviews.dart';
+import 'package:bikersworld/screen/workshop/reviews/workshop_reviews.dart';
 import 'package:bikersworld/screen/workshop/view_mechanics.dart';
 import 'package:bikersworld/screen/workshop/register_workshop.dart';
 import 'package:bikersworld/screen/workshop/add_profile_picture.dart';
