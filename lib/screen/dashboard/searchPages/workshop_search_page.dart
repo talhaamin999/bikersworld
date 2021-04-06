@@ -229,7 +229,7 @@ class _WorkshopSearchPageState extends State<WorkshopSearchPage> {
                                                   shape: BoxShape.circle,
                                                   image: DecorationImage(
                                                       fit: BoxFit.fill,
-                                                      image: snapshot.data[index].imageURL != null ? NetworkImage(snapshot.data[index].imageURL) : AssetImage("assets/workshop1.webp",)
+                                                      image: snapshot.data[index].imageURL != null ? NetworkImage(snapshot.data[index].imageURL) : AssetImage("assets/avatar.jpg",)
                                                   )
                                               ),
                                           ),

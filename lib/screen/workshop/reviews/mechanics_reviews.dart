@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:bikersworld/widgets/drawer.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:bikersworld/widgets/rating_bar.dart';
+
 
 class WorkshopkMechanicsReviews extends StatefulWidget {
   @override
@@ -100,7 +100,7 @@ class _WorkshopkMechanicsReviewsState extends State<WorkshopkMechanicsReviews> {
                       ),
                     ),
                   ),
-                  ratingBar(),
+                  RatingsBar(30),
                   SizedBox(
                     height: 20,
                   ),
@@ -143,26 +143,9 @@ class _WorkshopkMechanicsReviewsState extends State<WorkshopkMechanicsReviews> {
                                 ),
                               ),
                             ),
-                            SizedBox(height: 15,),
-                            Container(
-                              height: 50,
-                              child:RatingBar.builder(
-                                initialRating: 2,
-                                minRating: 1,
-                                direction: Axis.horizontal,
-                                allowHalfRating: true,
-                                itemCount: 5,
-                                itemBuilder: (context, _) => Icon(
-                                  Icons.star,
-                                  color: Colors.amber,
-                                ),
-                                onRatingUpdate: (rating) {
-                                  print(rating);
-                                },
-                              ),
-                            ),
                             SizedBox(height: 5,),
-
+                            RatingsBar(25),
+                            SizedBox(height: 5,),
                             Container(
                               child: Text(
                                 "Excellent work done by sardar liaqat very well harding qorking person. Am really much impressed may god bless you INSHALLAH ",
@@ -178,69 +161,6 @@ class _WorkshopkMechanicsReviewsState extends State<WorkshopkMechanicsReviews> {
                       ),
                     ),
                   ),
-
-                  SizedBox(height: 30,),
-
-                  Container(
-                    margin: EdgeInsets.only(left: 20, right: 20),
-                    child: Card(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      child: ListTile(
-                        contentPadding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-                        leading: CircleAvatar(
-                          backgroundColor: Color(0xffecf0f1),
-                          child: Icon(FontAwesomeIcons.user, color: Color(0xfff7892b),),
-                        ),
-                        title: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Container(
-                              child: Text(
-                                "Ammar Ahmad",
-                                style: GoogleFonts.raleway(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold
-                                ),
-                              ),
-                            ),
-                            SizedBox(height: 15,),
-                            Container(
-                              height: 50,
-                              child:RatingBar.builder(
-                                initialRating: 2,
-                                minRating: 1,
-                                direction: Axis.horizontal,
-                                allowHalfRating: true,
-                                itemCount: 5,
-                                itemBuilder: (context, _) => Icon(
-                                  Icons.star,
-                                  color: Colors.amber,
-                                ),
-                                onRatingUpdate: (rating) {
-                                  print(rating);
-                                },
-                              ),
-                            ),
-                            SizedBox(height: 5,),
-
-                            Container(
-                              child: Text(
-                                "Excellent work done by sardar liaqat very well harding qorking person. Am really much impressed may god bless you INSHALLAH ",
-                                style: GoogleFonts.raleway(
-                                  fontSize: 15,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: 30,),
-
 
 
                 ],
@@ -252,34 +172,3 @@ class _WorkshopkMechanicsReviewsState extends State<WorkshopkMechanicsReviews> {
     );
   }
 }
-
-class ratingBar extends StatelessWidget {
-  const ratingBar({
-    Key key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return RatingBar.builder(
-      initialRating: 4,
-      minRating: 1,
-      direction: Axis.horizontal,
-      allowHalfRating: true,
-      itemCount: 5,
-      itemPadding: EdgeInsets.symmetric(horizontal: 3.0),
-      itemBuilder: (context, _) => Icon(
-        Icons.star,
-        color: Colors.amber,
-      ),
-      onRatingUpdate: (rating) {
-        print(rating);
-      },
-    );
-  }
-}
-
-
-
-
-
-
