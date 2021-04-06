@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:bikersworld/widgets/rating_bar.dart';
 import 'package:bikersworld/screen/dashboard/normalUser/reviews/workshop_feedback_form.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 
 class ReviewFromUser extends StatefulWidget {
@@ -128,12 +128,19 @@ class _ReviewFromUserState extends State<ReviewFromUser> {
                     Navigator.push(context, MaterialPageRoute(builder: (context) => WorkshopFeedbackForm(workshopDocId: id,)));
                   },
                   child: Container(
-                    width: 150,
-                    height: 60,
-                    child:Center(child: Text("Add Reviews" , style: GoogleFonts.quicksand(fontSize:20 , color: Colors.white),)),
+                    height: 50,
+                    width: 120,
                     decoration: BoxDecoration(
+                      color: Color(0xffedb97e),
                       borderRadius: BorderRadius.circular(10),
-                      color: Color(0XFF012A4A),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(FontAwesomeIcons.edit,color: Colors.white, size: 20,),
+                        SizedBox(width: 10,),
+                        Text("Review", style: GoogleFonts.quicksand(fontSize: 18,color: Colors.white),),
+                      ],
                     ),
                   ),
                 ),
@@ -172,7 +179,8 @@ class _ReviewFromUserState extends State<ReviewFromUser> {
                                               child: Column(
                                                 crossAxisAlignment: CrossAxisAlignment.start,
                                                 children: [
-                                                  Text(snapshot.data[index].title),
+                                                  SizedBox(height: 15,),
+                                                  Text(snapshot.data[index].title, style:GoogleFonts.quicksand(fontSize:18, fontWeight: FontWeight.bold),),
                                                   Padding(
                                                     padding: const EdgeInsets.only(top:2,bottom: 5),
                                                     child: RatingsBar(25),
@@ -189,7 +197,7 @@ class _ReviewFromUserState extends State<ReviewFromUser> {
                                             ],
                                           ),
                                         ),
-                                        subtitle: snapshot.data != null ? Text(snapshot.data[index].description) : Text("SA card is a sheet used to represent the information related to each other, such as an album, a geographical loca   heet used to represent the information related to each other, such as an album, a geographical location, contation, contact details,"),
+                                        subtitle: snapshot.data != null ? Text(snapshot.data[index].description , style: GoogleFonts.quicksand(fontSize:18),) : Text("SA card is a sheet used to represent the information related to each other, such as an album, a geographical loca   heet used to represent the information related to each other, such as an album, a geographical location, contation, contact details,"),
                                       ),
                                       ),
                                   ],
