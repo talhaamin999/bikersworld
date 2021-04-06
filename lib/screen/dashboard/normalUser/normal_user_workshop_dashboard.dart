@@ -1,17 +1,11 @@
 import 'package:bikersworld/model/workshop_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:bikersworld/widgets/drawer.dart';
-import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:auto_size_text/auto_size_text.dart';
-import 'package:bikersworld/screen/dashboard/normalUser/view_mechanics_normal_user.dart';
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-import 'package:contained_tab_bar_view/contained_tab_bar_view.dart';
 import 'package:bikersworld/screen/dashboard/normalUser/reviews/reviewsNormalUser.dart';
-import 'package:percent_indicator/percent_indicator.dart';
-
+import 'package:bikersworld/screen/dashboard/normalUser/normal_user_workshop_employee.dart';
+import 'package:bikersworld/screen/dashboard/normalUser/normal_user_workshop_services.dart';
 
 class NormalUserWorkshopDashboard extends StatefulWidget {
   final WorkshopDashboardModel workshopData;
@@ -23,9 +17,7 @@ class NormalUserWorkshopDashboard extends StatefulWidget {
 class _NormalUserWorkshopDashboardState extends State<NormalUserWorkshopDashboard> {
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
     return Scaffold(
-      backgroundColor: LightColors.kLightYellow,
       appBar:AppBar(
         title: Text(
           'BIKERSWORLD',
@@ -47,169 +39,263 @@ class _NormalUserWorkshopDashboardState extends State<NormalUserWorkshopDashboar
         ),
         elevation: 0.0,
       ),
-      body: SafeArea(
+      body: SingleChildScrollView(
         child: Column(
-          children: <Widget>[
-            TopContainer(
-              height: 160,
-              width: width,
-              child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 0, vertical: 0.0),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: <Widget>[
-                          CircleAvatar(
-                            backgroundColor: LightColors.kBlue,
-                            radius: 60,
-                            backgroundImage: widget.workshopData.imageURL != null ? NetworkImage(widget.workshopData.imageURL): AssetImage("assets/avatar.jpg"),
-                          ),
-                          Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Stack(
+              children: <Widget>[
+                Container(
+                  width: MediaQuery.of(context).size.width,
+                  height: 200,
+                  color: Color(0XFF012A4A),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(top:15),
+                        child: Container(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              Container(
-                                child: Text(
-                                  widget.workshopData != null ? widget.workshopData.shopTitle : 'Workshop name',
-                                  textAlign: TextAlign.start,
-                                  style: GoogleFonts.quicksand(
-                                      fontSize: 22,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.white),
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(left:20),
+                                child: CircleAvatar(
+                                  radius: 60,
+                                  child: CircleAvatar(
+                                    radius: 55,
+                                    backgroundImage: widget.workshopData.imageURL != null ? NetworkImage(widget.workshopData.imageURL): AssetImage("assets/avatar.jpg"),
+                                  ),
+                                  backgroundColor: Colors.orange,
                                 ),
                               ),
-                              SizedBox(height: 8,),
-                              Row(
-                                children: [
-                                  Icon(
-                                    Icons.location_on,
-                                    color: Colors.grey,
+                              SizedBox(width: 20,),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  Container(
+                                    child: Text(
+                                      widget.workshopData != null ? widget.workshopData.shopTitle : 'Workshop name',
+                                      textAlign: TextAlign.start,
+                                      style: GoogleFonts.quicksand(
+                                          fontSize: 22,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.white),
+                                    ),
                                   ),
-                                  SizedBox(width: 5,),
-                                  Text(
-                                    widget.workshopData != null ? widget.workshopData.city : 'City',
-                                    style: GoogleFonts.quicksand(
-                                        fontSize: 18,
-                                        color: Colors.white),
+                                  SizedBox(height: 8,),
+                                  Row(
+                                    children: [
+                                      Icon(
+                                        Icons.location_on,
+                                        color: Colors.grey,
+                                      ),
+                                      SizedBox(width: 5,),
+                                      Text(
+                                        widget.workshopData != null ? widget.workshopData.city : 'City',
+                                        style: GoogleFonts.quicksand(
+                                            fontSize: 18,
+                                            color: Colors.white),
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(height: 10,),
+                                  Row(
+                                    children: [
+                                      Icon(
+                                        Icons.phone,
+                                        color: Colors.grey,
+                                      ),
+                                      SizedBox(width: 5,),
+                                      Text(
+                                        widget.workshopData != null ? widget.workshopData.ownerContact: 'Owner contact',
+                                        style: GoogleFonts.quicksand(
+                                            fontSize: 16,
+                                            color: Colors.white),
+                                      ),
+                                    ],
                                   ),
                                 ],
-                              ),
-                              SizedBox(height: 10,),
-                              Row(
-                                children: [
-                                  Icon(
-                                    Icons.phone,
-                                    color: Colors.grey,
-                                  ),
-                                  SizedBox(width: 5,),
-                                  Text(
-                                    widget.workshopData != null ? widget.workshopData.ownerContact: 'Owner contact',
-                                    style: GoogleFonts.quicksand(
-                                        fontSize: 16,
-                                        color: Colors.white),
-                                  ),
-                                ],
-                              ),
+                              )
                             ],
-                          )
-                        ],
+                          ),
+                        ),
                       ),
-                    )
-                  ],
-              ),
-            ),
-            Expanded(
-              child: SingleChildScrollView(
-                child: Column(
-                  children: <Widget>[
-                    Container(
-                      color: Colors.transparent,
-                      padding: EdgeInsets.symmetric(
-                          horizontal: 20.0, vertical: 10.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Text(
-                            "Dashboard",
-                            style: GoogleFonts.varelaRound(
-                              fontSize: 30,
-                            ),
-                          ),
-                          SizedBox(height: 15,),
-                          TaskColumn(
-                            icon: Icons.person,
-                            iconBackgroundColor: LightColors.kRed,
-                            title: 'Onwer Name',
-                            subtitle: 'Ibtasam Ur Rehman',
-                          ),
-                          SizedBox(
-                            height: 15.0,
-                          ),
-                          TaskColumn(
-                            icon: Icons.map_rounded,
-                            iconBackgroundColor: LightColors.kDarkYellow,
-                            title: 'Address',
-                            subtitle: 'F-10 Markaz near masjid ',
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(left:15 , top: 160),
+                  child: Container(
+                    width: MediaQuery.of(context).size.width,
+                    height: 90,
+                    decoration: BoxDecoration(
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.5),
+                            spreadRadius: 5,
+                            blurRadius: 7,
+                            offset: Offset(0, 3), // changes position of shadow
                           ),
                         ],
+                        color: Colors.white,
+                        borderRadius: BorderRadius.only(
+                          bottomLeft: Radius.circular(60),
+                          topLeft: Radius.circular(10),
+                        )
+                    ),
+                    child:  Padding(
+                      padding: const EdgeInsets.only(left:10, right:12,),
+                      child: Container(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Expanded(
+                              child: FlatButton(
+                                onPressed: (){
+                                  showDialog(
+                                    context: context,
+                                    builder: (_) => new AlertDialog(
+                                      title: new Text("Working hours", style: GoogleFonts.quicksand(fontSize: 18 , fontWeight:FontWeight.bold),),
+                                      content: Container(
+                                        child: Row(
+                                          children: [
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  );
+                                },
+                                child: Container(
+                                    height: 60,
+                                    width: 150,
+                                    decoration: BoxDecoration(
+                                      color: Colors.blue,
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                    child: Column(
+                                      children: [
+
+                                        Padding(
+                                          padding: const EdgeInsets.only(top:5),
+                                          child: Icon(
+                                            FontAwesomeIcons.clock,
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                        Text(
+                                          "Time",
+                                          style: GoogleFonts.quicksand(
+                                            fontSize:17,
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                      ],
+                                    )
+                                ),
+                              ),
+                            ),
+
+
+                            FlatButton(
+                              onPressed: (){
+                                showModalBottomSheet(
+                                    context: context,
+                                    builder: (BuildContext bc){
+                                      return SingleChildScrollView(
+                                        child: Container(
+                                          child: new Wrap(
+                                            children: <Widget>[
+                                            ],
+                                          ),
+                                        ),
+                                      );
+                                    }
+                                );
+                              },
+                              child: Container(
+                                height: 60,
+                                width: 150,
+                                decoration: BoxDecoration(
+                                  color: Colors.red,
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                child: Column(
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.only(top:5),
+                                      child: Icon(
+                                        FontAwesomeIcons.calendar,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                    Text(
+                                      "Calender",
+                                      style: GoogleFonts.quicksand(
+                                        fontSize:16,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
+                  ),
+                ),
+              ],
+            ),
+
+            SizedBox(height: 10,),
+            Padding(
+              padding: const EdgeInsets.only(left:25,top:15),
+              child: Container(
+                child: Text(
+                  "Information",
+                  style: GoogleFonts.varelaRound(
+                    fontSize:20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ),
+
+            Padding(
+              padding: const EdgeInsets.only(left:25,top:15),
+              child: Container(
+                child: Row(
+                  children: [
+                    CircleAvatar(
+                      radius: 25,
+                      backgroundColor: Color(0XFF012A4A),
+                      child: Icon(
+                        Icons.person,
+                        color: Colors.white,
+                        size: 30,
+                      ),
+                    ),
+                    SizedBox(width: 15,),
                     Container(
-                      color: Colors.transparent,
-                      padding: EdgeInsets.symmetric(
-                          horizontal: 20.0, vertical: 10.0),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                         // subheading('Active Projects'),
-                          SizedBox(height: 5.0),
-                          Row(
-                            children: <Widget>[
-                              ActiveProjectsCard(
-                                cardColor: Colors.lightGreen,
-                                title: 'Workshop',
-                                subtitle: 'Timing',
-                                icon: Icon(FontAwesomeIcons.clock , size: 45, color: Colors.white,),
-                              ),
-                              SizedBox(width: 20.0),
-                              FlatButton(
-                                onPressed: (){
-                                  print(widget.workshopData.id);
-                                  Navigator.push(context, MaterialPageRoute(builder: (context) => ReviewFromUser(workshopDocId: widget.workshopData.id,)));
-                                },
-                                child: ActiveProjectsCard(
-                                    cardColor: LightColors.kRed,
-                                    title: 'Workshop',
-                                    icon: Icon(FontAwesomeIcons.commentDots , size: 55, color: Colors.white,),
-                                    subtitle: ' Feedback',
-                                  ),
-                              ),
-                            ],
+                        children: [
+                          Text(
+                            "Name",
+                            style: GoogleFonts.quicksand(
+                              fontSize: 17,
+                              color: Colors.black,
+                            ),
                           ),
-                          Row(
-                            children: <Widget>[
-                              ActiveProjectsCard(
-                                cardColor: LightColors.kDarkYellow,
-                                title: 'Workshop',
-                                icon: Icon(FontAwesomeIcons.cogs , size: 55, color: Colors.white,),
-                                subtitle: 'Services',
-                              ),
-                              SizedBox(width: 20.0),
-                              FlatButton(
-                                onPressed: (){
-                                  print("s");
-                                },
-                                child: ActiveProjectsCard(
-                                  cardColor: LightColors.kBlue,
-                                  title: 'Workshop',
-                                  icon: Icon(Icons.person , size: 55, color: Colors.white,),
-                                  subtitle: 'Employees',
-                                ),
-                              ),
-                            ],
+                          Text(
+                            widget.workshopData != null ? widget.workshopData.ownerName: 'Owner Name',
+                            style: GoogleFonts.quicksand(
+                              fontSize: 14,
+                              color: Colors.grey,
+                            ),
                           ),
                         ],
                       ),
@@ -218,8 +304,219 @@ class _NormalUserWorkshopDashboardState extends State<NormalUserWorkshopDashboar
                 ),
               ),
             ),
+            Padding(
+              padding: const EdgeInsets.only(left:25,top:15),
+              child: Container(
+                child: Row(
+                  children: [
+                    CircleAvatar(
+                      radius: 25,
+                      backgroundColor: Color(0XFF012A4A),
+                      child: Icon(
+                        Icons.location_on,
+                        color: Colors.white,
+                        size: 30,
+                      ),
+                    ),
+                    SizedBox(width: 15,),
+                    Container(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Address",
+                            style: GoogleFonts.quicksand(
+                              fontSize: 17,
+                              color: Colors.black,
+                            ),
+                          ),
+                          Text(
+                            widget.workshopData != null ? widget.workshopData.area: 'Address ',
+                            style: GoogleFonts.quicksand(
+                              fontSize: 14,
+                              color: Colors.grey,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            Container(
+              color: Colors.transparent,
+              padding: EdgeInsets.all(10),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  // subheading('Active Projects'),
+                  SizedBox(height: 5.0),
+                  Row(
+                    children: <Widget>[
+                      FlatButton(
+                        child: ActiveProjectsCard(
+                          cardColor: Colors.lightGreen,
+                          title: 'Workshop',
+                          subtitle: 'Timing',
+                          icon: Icon(FontAwesomeIcons.clock , size: 45, color: Colors.white,),
+                        ),
+                        onPressed: (){
+
+                        },
+                      ),
+                      SizedBox(width: 20.0),
+                      FlatButton(
+                        onPressed: (){
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => ReviewFromUser(workshopDocId: widget.workshopData.id,)));
+                        },
+                        child: ActiveProjectsCard(
+                          cardColor: Color(0xFFF9BE7C),
+                          title: 'Workshop',
+                          icon: Icon(FontAwesomeIcons.commentDots , size: 55, color: Colors.white,),
+                          subtitle: ' Feedback',
+                        ),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    children: <Widget>[
+                      FlatButton(
+                        child: ActiveProjectsCard(
+                          cardColor: Color(0xFF309397),
+                          title: 'Workshop',
+                          subtitle: 'Services',
+                          icon: Icon(FontAwesomeIcons.clock , size: 45, color: Colors.white,),
+                        ),
+                        onPressed: (){
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => NormalUserWorkshopServices()));
+
+                        },
+                      ),
+                      SizedBox(width: 20.0),
+                      FlatButton(
+                        onPressed: (){
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => NormalUserWorkshopEmployee()));
+                        },
+                        child: ActiveProjectsCard(
+                          cardColor: Color(0xFF6488E4),
+                          title: 'Workshop',
+                          icon: Icon(FontAwesomeIcons.commentDots , size: 55, color: Colors.white,),
+                          subtitle: 'Employees',
+                        ),
+                      ),
+                    ],
+                  ),
+
+                ],
+              ),
+            ),
+
           ],
         ),
+      ),
+    );
+  }
+
+}
+
+
+/*
+* Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      FlatButton(
+                        onPressed: (){
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => NormalUserWorkshopServices()));
+
+                        },
+                        child: ActiveProjectsCard(
+                          cardColor: Color(0xffdb8651),
+                          title: 'Workshop',
+                          icon: Icon(FontAwesomeIcons.cogs , size: 55, color: Colors.white,),
+                          subtitle: 'Services',
+                        ),
+                      ),
+                      SizedBox(width: 20.0),
+                      FlatButton(
+                        onPressed: (){
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => NormalUserWorkshopEmployee()));
+
+                        },
+                        child: ActiveProjectsCard(
+                          cardColor: LightColors.kBlue,
+                          title: 'Workshop',
+                          icon: Icon(Icons.person , size: 55, color: Colors.white,),
+                          subtitle: 'Employees',
+                        ),
+                      ),
+                    ],
+                  ),*/
+
+
+class ActiveProjectsCard extends StatelessWidget {
+  final Color cardColor;
+  final String title;
+  final String subtitle;
+  final Icon icon;
+
+  ActiveProjectsCard({
+    this.cardColor,
+    this.title,
+    this.subtitle,
+    this.icon,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: EdgeInsets.symmetric(vertical: 10.0),
+      padding: EdgeInsets.only(top:15,bottom:15),
+      height: 150,
+      width: 135,
+      decoration: BoxDecoration(
+        color: cardColor,
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Padding(
+            padding: const EdgeInsets.only(left:8.0),
+            child: Center(
+              child: icon,
+            ),
+          ),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.only(left:8.0),
+                child: Text(
+                  title,
+                  style: GoogleFonts.quicksand(
+                    fontSize: 20.0,
+                    color: Colors.white,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left:8.0),
+                child: Text(
+                  subtitle,
+                  style: GoogleFonts.quicksand(
+                    fontSize: 16.0,
+                    color: Colors.white54,
+                    fontWeight: FontWeight.w400,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }
@@ -240,197 +537,3 @@ class LightColors  {
 
   static const Color kDarkBlue = Color(0xFF0D253F);
 }
-
-
-class ActiveProjectsCard extends StatelessWidget {
-  final Color cardColor;
-  final String title;
-  final String subtitle;
-  final Icon icon;
-
-  ActiveProjectsCard({
-    this.cardColor,
-    this.title,
-    this.subtitle,
-    this.icon,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.symmetric(vertical: 10.0),
-      padding: EdgeInsets.all(15.0),
-      height: 150,
-      decoration: BoxDecoration(
-        color: cardColor,
-        borderRadius: BorderRadius.circular(40.0),
-      ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Center(
-            child: icon,
-          ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Text(
-                title,
-                style: GoogleFonts.quicksand(
-                  fontSize: 24.0,
-                  color: Colors.white,
-                  fontWeight: FontWeight.w700,
-                ),
-              ),
-              Text(
-                subtitle,
-                style: GoogleFonts.quicksand(
-                  fontSize: 18.0,
-                  color: Colors.white54,
-                  fontWeight: FontWeight.w400,
-                ),
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-
-
-class TopContainer extends StatelessWidget {
-  final double height;
-  final double width;
-  final Widget child;
-  final EdgeInsets padding;
-
-  TopContainer({this.height, this.width, this.child, this.padding});
-
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: padding != null ? padding : EdgeInsets.symmetric(
-          horizontal: 20.0),
-      decoration: BoxDecoration(
-          color: Color(0XFF012A4A),
-          borderRadius: BorderRadius.only(
-            bottomRight: Radius.circular(40.0),
-            bottomLeft: Radius.circular(40.0),
-          )),
-      height: height,
-      width: width,
-      child: child,
-    );
-  }
-}
-
-
-class TaskContainer extends StatelessWidget {
-  final String title;
-  final String subtitle;
-  final Color boxColor;
-
-  TaskContainer({
-    this.title, this.subtitle, this.boxColor,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.symmetric(vertical: 15.0),
-      padding: EdgeInsets.all(20.0),
-
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Text(
-            title,
-            style: TextStyle(
-              fontSize: 16.0,
-              fontWeight: FontWeight.w700,
-            ),
-          ),
-
-          Padding(
-            padding: const EdgeInsets.only(top: 10.0),
-            child: Text(
-              subtitle,
-              style: TextStyle(
-                fontSize: 14.0,
-                color: Colors.black54,
-                fontWeight: FontWeight.w400,
-              ),
-            ),
-          )
-        ],
-      ),
-      decoration: BoxDecoration(
-          color: boxColor,
-          borderRadius: BorderRadius.circular(30.0)),
-    );
-  }
-}
-
-
-
-
-class TaskColumn extends StatelessWidget {
-  final IconData icon;
-  final Color iconBackgroundColor;
-  final String title;
-  final String subtitle;
-  TaskColumn({
-    this.icon,
-    this.iconBackgroundColor,
-    this.title,
-    this.subtitle,
-  });
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: <Widget>[
-        CircleAvatar(
-          radius: 20.0,
-          backgroundColor: iconBackgroundColor,
-          child: Icon(
-            icon,
-            size: 15.0,
-            color: Colors.white,
-          ),
-        ),
-        SizedBox(width: 10.0),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Text(
-              title,
-              style: TextStyle(
-                fontSize: 16.0,
-                fontWeight: FontWeight.w700,
-              ),
-            ),
-            Text(
-              subtitle,
-              style: TextStyle(
-                  fontSize: 14.0,
-                  fontWeight: FontWeight.w500,
-                  color: Colors.black45),
-            ),
-          ],
-        )
-      ],
-    );
-  }
-}
-
-
-
-
-
-
-
