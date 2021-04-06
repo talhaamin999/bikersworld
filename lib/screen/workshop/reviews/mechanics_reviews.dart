@@ -4,12 +4,12 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-class MechanicsReviews extends StatefulWidget {
+class WorkshopkMechanicsReviews extends StatefulWidget {
   @override
-  _MechanicsReviewsState createState() => _MechanicsReviewsState();
+  _WorkshopkMechanicsReviewsState createState() => _WorkshopkMechanicsReviewsState();
 }
 
-class _MechanicsReviewsState extends State<MechanicsReviews> {
+class _WorkshopkMechanicsReviewsState extends State<WorkshopkMechanicsReviews> {
   int currentIndex;
 
   TextEditingController _textFieldController = new TextEditingController();

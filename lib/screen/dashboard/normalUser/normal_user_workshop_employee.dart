@@ -106,7 +106,7 @@ class _NormalUserWorkshopEmployeeState
                               context,
                               MaterialPageRoute(
                                   builder: (context) =>
-                                      NormalUserWorkshopEmployeeProfile(data: snapshot.data[index],)));
+                                      NormalUserWorkshopEmployeeProfile(data: snapshot.data[index],workshopId: widget.workshopId,)));
                         },
                         child: Card(
                           color: Colors.white,

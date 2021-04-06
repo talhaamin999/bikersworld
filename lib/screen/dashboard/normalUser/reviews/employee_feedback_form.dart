@@ -8,12 +8,78 @@ import 'package:bikersworld/widgets/rating_bar.dart';
 
 class EmployeeFeedbackForm extends StatefulWidget {
 
+  final String mechanicId;
+  final String workshopId;
+
+  EmployeeFeedbackForm({@required this.mechanicId,@required this.workshopId});
+
   @override
   _EmployeeFeedbackFormState createState() => _EmployeeFeedbackFormState();
 }
 
 class _EmployeeFeedbackFormState extends State<EmployeeFeedbackForm> {
 
+  final _titleController = TextEditingController();
+  final _descriptionController = TextEditingController();
+  final _mechanic_collection = 'mechanics';
+  final _workshopCollection = 'workshop';
+  final _mechanicReviewsCollection = 'mechanic_reviews';
+  final _error = ToastErrorMessage();
+  final _valid = ToastValidMessage();
+  bool reviewAdded=false;
+
+  Future<void> addReview() async{
+    try {
+      if (widget.mechanicId != null && widget.workshopId != null && _titleController.text.isNotEmpty && _descriptionController.text.isNotEmpty) {
+        final CollectionReference _collectionReference = FirebaseFirestore
+            .instance
+            .collection(_workshopCollection).doc(widget.workshopId).collection(
+            _mechanic_collection).doc(widget.mechanicId).collection(
+            _mechanicReviewsCollection);
+
+        final _reviewModel = MechanicReviews(title: _titleController.text,
+            starRating: RatingsBar.ratings,
+            description: _descriptionController.text);
+
+        await _collectionReference.add(_reviewModel.toMap())
+            .then((_) {
+          clearFields();
+          setState(() {
+            reviewAdded = true;
+          });
+          _valid.validToastMessage(validMessage: 'Review Added');
+        })
+            .catchError((onError) =>
+            _error.errorToastMessage(errorMessage: onError.toString()));
+      }
+    }catch(e) {
+      _error.errorToastMessage(errorMessage: e.toString());
+    }
+    if(reviewAdded){
+      Future.delayed(
+          new Duration(seconds: 2),
+              (){
+            Navigator.pop(context);
+          }
+      );
+    }
+  }
+
+  void clearFields(){
+    _titleController.clear();
+    _descriptionController.clear();
+  }
+  @override
+  void dispose() {
+    _titleController.dispose();
+    _descriptionController.dispose();
+    super.dispose();
+  }
+  @override
+  void initState() {
+    print('${widget.mechanicId} ${widget.workshopId}');
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -69,19 +135,20 @@ class _EmployeeFeedbackFormState extends State<EmployeeFeedbackForm> {
               Container(
                 margin: EdgeInsets.only(left: 20),
                 width: MediaQuery.of(context).size.width - 40,
-                child: ReviewsTextField("Title"),
+                child: ReviewsTextField(text: 'Reviewer',controller: _titleController,),
               ),
               SizedBox(height: 20,),
               Container(
                 margin: EdgeInsets.only(left: 20),
                 width: MediaQuery.of(context).size.width - 40,
-                child: ReviewsTextField("Description"),
+                child: ReviewsTextField(text:"Description",controller: _descriptionController,),
               ),
               SizedBox(height: 20,),
 
               Container(
                 child: FlatButton(
-                  onPressed: (){
+                  onPressed: () async{
+                    await addReview();
                   },
                   child: Container(
                     width: MediaQuery.of(context).size.width,
@@ -127,12 +194,14 @@ class _EmployeeFeedbackFormState extends State<EmployeeFeedbackForm> {
 class ReviewsTextField extends StatelessWidget{
 
   final String text;
+  final TextEditingController controller;
 
-  ReviewsTextField(this.text,);
+  ReviewsTextField({@required this.text,@required this.controller});
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      controller: controller,
       keyboardType: TextInputType.multiline,
       decoration: InputDecoration(
         filled: true,

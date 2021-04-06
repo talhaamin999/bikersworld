@@ -1,3 +1,7 @@
+import 'package:bikersworld/model/workshop_model.dart';
+import 'package:bikersworld/services/search_queries/serach_workshop.dart';
+import 'package:bikersworld/services/toast_service.dart';
+import 'package:bikersworld/services/workshop_queries/workshop_queries.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:bikersworld/widgets/drawer.dart';
@@ -6,16 +10,23 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:bikersworld/widgets/rating_bar.dart';
 
-class reviews extends StatefulWidget {
+class WorkshopDashboardReviews extends StatefulWidget {
+
+  final String id;
+  WorkshopDashboardReviews({@required this.id});
+
   @override
-  _reviewsState createState() => _reviewsState();
+  _WorkshopDashboardReviewsState createState() => _WorkshopDashboardReviewsState();
 }
 
-class _reviewsState extends State<reviews> {
+class _WorkshopDashboardReviewsState extends State<WorkshopDashboardReviews> {
   int currentIndex;
 
   TextEditingController _textFieldController = new TextEditingController();
   TabController _tabController;
+  final _error = ToastErrorMessage();
+  final _shopReview = SearchWorkshop();
+
   @override
   void initState() {
     super.initState();
@@ -27,6 +38,16 @@ class _reviewsState extends State<reviews> {
     setState(() {
       currentIndex = index;
     });
+  }
+
+  Stream<List<WorkshopReviews>> getReviews(){
+    try{
+      if(widget.id != null){
+        return _shopReview.fetchWorkshopReviews(workshopId: widget.id);
+      }
+    }catch(e){
+      _error.errorToastMessage(errorMessage: e.toString());
+    }
   }
 
   @override
@@ -101,47 +122,67 @@ class _reviewsState extends State<reviews> {
                   ),
                   SizedBox(height: 10,),
 
-                  Container(
-                    margin: EdgeInsets.only(left: 20, right: 20),
-                    child: Card(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      child: ListTile(
-                        contentPadding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-                        leading: CircleAvatar(
-                          backgroundColor: Color(0xffecf0f1),
-                          child: Icon(FontAwesomeIcons.user, color: Color(0xfff7892b),),
-                        ),
-                        title: Column(
-                         crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Container(
-                              child: Text(
-                                "Muhammad Ali",
-                                style: GoogleFonts.raleway(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold
-                                ),
-                              ),
-                            ),
-                            SizedBox(height: 10,),
-                            RatingsBar(20),
-                            SizedBox(height: 10,),
-                            Container(
-                              child: Text(
-                                "Its very excellent car it gives mileage of 9 in city and 12 in highway,its comfort is way to better and its metal is also strong because despite being hit many times by vehicles no big dent came but only 1 back light broked.its comfort level is way too good it can easily carry 6 peoples with their bags",
-                                style: GoogleFonts.raleway(
-                                  fontSize: 15,
-                                ),
-                              ),
-                            ),
+                  StreamBuilder(
+                    stream: getReviews(),
+                    builder: (BuildContext context, AsyncSnapshot<List<WorkshopReviews>> snapshot) {
+                      if(snapshot.hasData && snapshot.data.isNotEmpty){
+                        return ListView.builder(
+                            shrinkWrap: true,
+                            itemCount: snapshot.data.length,
+                            itemBuilder: (context,index){
+                              return Container(
+                                margin: EdgeInsets.only(left: 20, right: 20),
+                                child: Card(
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                  child: ListTile(
+                                    contentPadding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                                    leading: CircleAvatar(
+                                      backgroundColor: Color(0xffecf0f1),
+                                      child: Icon(FontAwesomeIcons.user, color: Color(0xfff7892b),),
+                                    ),
+                                    title: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: <Widget>[
+                                        Container(
+                                          child: Text(
+                                            snapshot.data[index].title,
+                                            style: GoogleFonts.raleway(
+                                                fontSize: 18,
+                                                fontWeight: FontWeight.bold
+                                            ),
+                                          ),
+                                        ),
+                                        SizedBox(height: 10,),
+                                        RatingsBar(20,userRating: snapshot.data[index].starRating,),
+                                        SizedBox(height: 10,),
+                                        Container(
+                                          child: Text(
+                                            snapshot.data[index].description,
+                                            style: GoogleFonts.raleway(
+                                              fontSize: 15,
+                                            ),
+                                          ),
+                                        ),
 
-                          ],
-                        ),
+                                      ],
+                                    ),
 
-                      ),
-                    ),
+                                  ),
+                                ),
+                              );
+                            }
+                        );
+                      }
+                      else if(snapshot.hasData && snapshot.data.isEmpty){
+                        return Center(child: Text('NO REVIEWS FOUND'),);
+                      }
+                      else if(snapshot.hasError){
+                        return Center(child: Text(snapshot.error.toString(),));
+                      }
+                      return CircularProgressIndicator();
+                      },
                   ),
 
                 ],

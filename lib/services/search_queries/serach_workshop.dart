@@ -9,6 +9,7 @@ class SearchWorkshop{
 
   final CollectionReference _collectionReference = FirebaseFirestore.instance.collection(WORKSHOP_COLLECTION);
 
+
   Stream<List<WorkshopDashboardModel>> searchWorkshopByName({@required String name}){
     try{
       return _collectionReference
@@ -45,6 +46,19 @@ class SearchWorkshop{
           .snapshots()
           .map((snapshot) => snapshot.docs
           .map((doc) => WorkshopDashboardModel.fromJson(doc.data(),doc.reference.id))
+          .toList());
+
+    }catch(e){
+      final _error = ToastErrorMessage();
+      _error.errorToastMessage(errorMessage: e.toString());
+    }
+  }
+  Stream<List<WorkshopReviews>> fetchWorkshopReviews({@required String workshopId}){
+    try{
+      return _collectionReference.doc(workshopId).collection('workshop_reviews')
+          .snapshots()
+          .map((snapshot) => snapshot.docs
+          .map((doc) => WorkshopReviews.fromJson(doc.data(),doc.reference.id))
           .toList());
 
     }catch(e){

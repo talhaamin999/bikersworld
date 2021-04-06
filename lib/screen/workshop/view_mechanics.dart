@@ -191,7 +191,7 @@ class _ViewMechanicsState extends State<ViewMechanics> {
                                                 context,
                                                 MaterialPageRoute(
                                                     builder: (context) =>
-                                                        MechanicsReviews()));
+                                                        WorkshopkMechanicsReviews()));
                                           },
                                         ),
                                         const SizedBox(width: 8),
@@ -339,7 +339,7 @@ class _ViewMechanicsState extends State<ViewMechanics> {
                                                 context,
                                                 MaterialPageRoute(
                                                     builder: (context) =>
-                                                        MechanicsReviews(),
+                                                        WorkshopkMechanicsReviews(),
                                                 ),
                                             );
                                           },

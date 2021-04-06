@@ -153,3 +153,29 @@ class WorkshopReviews{
   }
 
 }
+class MechanicReviews{
+
+  final String title;
+  final double starRating;
+  final String description;
+  final String id;
+
+  MechanicReviews({this.title,this.starRating,this.description,this.id});
+
+  factory MechanicReviews.fromJson(Map<String, dynamic> json,String docId){
+    return MechanicReviews(
+      id: docId,
+      title: json['title'],
+      starRating: json['star_rating'],
+      description: json['description'],
+    );
+  }
+  Map<String, dynamic> toMap(){
+    return {
+      'title': title,
+      'star_rating': starRating,
+      'description': description,
+    };
+  }
+
+}

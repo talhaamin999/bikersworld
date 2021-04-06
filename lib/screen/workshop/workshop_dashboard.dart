@@ -862,7 +862,7 @@ class _DashboardState extends State<Dashboard> {
                   ),
                   title: Text("Reviews"),
                   onTap: (){
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => reviews()));
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => WorkshopDashboardReviews(id: data.id,)));
                   },
                 ),
               ),
