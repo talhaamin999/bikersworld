@@ -688,7 +688,7 @@ class _DashboardState extends State<Dashboard> {
                   ),
                   title: Text("View Mechanics"),
                   onTap: (){
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => ViewMechanics()));
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => ViewMechanics(workshopId: data.id,)));
                   },
                 ),
               ),

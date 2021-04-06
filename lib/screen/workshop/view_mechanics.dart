@@ -14,6 +14,8 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 
 class ViewMechanics extends StatefulWidget {
+  final String workshopId;
+  ViewMechanics({@required this.workshopId});
   @override
   _ViewMechanicsState createState() => _ViewMechanicsState();
 }
@@ -191,7 +193,7 @@ class _ViewMechanicsState extends State<ViewMechanics> {
                                                 context,
                                                 MaterialPageRoute(
                                                     builder: (context) =>
-                                                        WorkshopkMechanicsReviews()));
+                                                        WorkshopkMechanicsReviews(mechanic: snapshot.data[index],workshopId: widget.workshopId,)));
                                           },
                                         ),
                                         const SizedBox(width: 8),
@@ -339,7 +341,7 @@ class _ViewMechanicsState extends State<ViewMechanics> {
                                                 context,
                                                 MaterialPageRoute(
                                                     builder: (context) =>
-                                                        WorkshopkMechanicsReviews(),
+                                                        WorkshopkMechanicsReviews(workshopId: data.id,mechanic: snapshot.data[index],),
                                                 ),
                                             );
                                           },

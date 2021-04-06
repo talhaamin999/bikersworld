@@ -1,3 +1,6 @@
+import 'dart:core';
+import 'dart:core';
+
 import 'package:bikersworld/model/workshop_model.dart';
 import 'package:bikersworld/services/toast_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -6,6 +9,8 @@ import 'package:flutter/cupertino.dart';
 class SearchWorkshop{
 
   static final String WORKSHOP_COLLECTION = 'workshop';
+  static final String MECHANIC_COLLECTION = 'mechanics';
+  static final String MECHANIC_REVIEWS_COLLECTION = 'mechanic_reviews';
 
   final CollectionReference _collectionReference = FirebaseFirestore.instance.collection(WORKSHOP_COLLECTION);
 
@@ -66,5 +71,17 @@ class SearchWorkshop{
       _error.errorToastMessage(errorMessage: e.toString());
     }
   }
+  Stream<List<MechanicReviews>> fetchWorkshopMechanicReviews({@required String mechanicId,@required String workshopId}){
+    try{
+      return _collectionReference.doc(workshopId).collection(MECHANIC_COLLECTION).doc(mechanicId).collection(MECHANIC_REVIEWS_COLLECTION)
+          .snapshots()
+          .map((snapshot) => snapshot.docs
+          .map((doc) => MechanicReviews.fromJson(doc.data(),doc.reference.id))
+          .toList());
 
+    }catch(e){
+      final _error = ToastErrorMessage();
+      _error.errorToastMessage(errorMessage: e.toString());
+    }
+  }
 }

@@ -1,3 +1,5 @@
+import 'package:bikersworld/model/workshop_model.dart';
+import 'package:bikersworld/services/search_queries/search_workshop_mechanics.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -5,12 +7,18 @@ import 'package:bikersworld/widgets/rating_bar.dart';
 
 
 class WorkshopkMechanicsReviews extends StatefulWidget {
+  final String workshopId;
+  final Mechanics mechanic;
+
+  WorkshopkMechanicsReviews({@required this.mechanic,@required this.workshopId});
+
   @override
   _WorkshopkMechanicsReviewsState createState() => _WorkshopkMechanicsReviewsState();
 }
 
 class _WorkshopkMechanicsReviewsState extends State<WorkshopkMechanicsReviews> {
   int currentIndex;
+  final _mechanicReviews = SearchWorkshopMechanics();
 
   TextEditingController _textFieldController = new TextEditingController();
   TabController _tabController;
@@ -18,7 +26,6 @@ class _WorkshopkMechanicsReviewsState extends State<WorkshopkMechanicsReviews> {
   void initState() {
     super.initState();
     currentIndex = 0;
-
   }
 
   changePage(int index) {
@@ -26,6 +33,7 @@ class _WorkshopkMechanicsReviewsState extends State<WorkshopkMechanicsReviews> {
       currentIndex = index;
     });
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -74,7 +82,7 @@ class _WorkshopkMechanicsReviewsState extends State<WorkshopkMechanicsReviews> {
                   SizedBox(height: 10,),
                   Container(
                     child: Text(
-                      "Muhammad Ali ",
+                      widget.mechanic.name,
                       style: GoogleFonts.quicksand(
                         fontSize: 25,
                       ),
@@ -83,7 +91,7 @@ class _WorkshopkMechanicsReviewsState extends State<WorkshopkMechanicsReviews> {
                   SizedBox(height: 10,),
                   Container(
                     child: Text(
-                      "03355437782",
+                      widget.mechanic.contact,
                       style: GoogleFonts.quicksand(
                         fontSize: 20,
                       ),
@@ -119,48 +127,69 @@ class _WorkshopkMechanicsReviewsState extends State<WorkshopkMechanicsReviews> {
                   ),
                   SizedBox(height: 10,),
 
-                  Container(
-                    margin: EdgeInsets.only(left: 20, right: 20),
-                    child: Card(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      child: ListTile(
-                        contentPadding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-                        leading: CircleAvatar(
-                          backgroundColor: Color(0xffecf0f1),
-                          child: Icon(FontAwesomeIcons.user, color: Color(0xfff7892b),),
-                        ),
-                        title: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Container(
-                              child: Text(
-                                "Sardar Liaqat",
-                                style: GoogleFonts.raleway(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold
+                  StreamBuilder(
+                    stream: _mechanicReviews.fetchWorkshopMechanicsReviews(mechanicId: widget.mechanic.id, workshopId: widget.workshopId),
+                    builder: (BuildContext context, AsyncSnapshot<List<MechanicReviews>> snapshot) {
+
+                      if(snapshot.hasData && snapshot.data.isNotEmpty){
+                        return ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: snapshot.data.length,
+                          itemBuilder: (context,index){
+                            return Container(
+                              margin: EdgeInsets.only(left: 20, right: 20),
+                              child: Card(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                child: ListTile(
+                                  contentPadding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                                  leading: CircleAvatar(
+                                    backgroundColor: Color(0xffecf0f1),
+                                    child: Icon(FontAwesomeIcons.user, color: Color(0xfff7892b),),
+                                  ),
+                                  title: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: <Widget>[
+                                      Container(
+                                        child: Text(
+                                          snapshot.data[index].title,
+                                          style: GoogleFonts.raleway(
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.bold
+                                          ),
+                                        ),
+                                      ),
+                                      SizedBox(height: 5,),
+                                      RatingsBar(25,userRating: snapshot.data[index].starRating,),
+                                      SizedBox(height: 5,),
+                                      Container(
+                                        child: Text(
+                                          snapshot.data[index].description,
+                                          style: GoogleFonts.raleway(
+                                            fontSize: 15,
+                                          ),
+                                        ),
+                                      ),
+
+                                    ],
+                                  ),
+
                                 ),
                               ),
-                            ),
-                            SizedBox(height: 5,),
-                            RatingsBar(25),
-                            SizedBox(height: 5,),
-                            Container(
-                              child: Text(
-                                "Excellent work done by sardar liaqat very well harding qorking person. Am really much impressed may god bless you INSHALLAH ",
-                                style: GoogleFonts.raleway(
-                                  fontSize: 15,
-                                ),
-                              ),
-                            ),
+                            );
+                          },
+                        );
+                      }else if(snapshot.hasData && snapshot.data.isEmpty){
+                        return Center(child: Text('NO REVIEWS FOUND'),);
+                      }else if(snapshot.hasError){
+                        return Center(child: Text(snapshot.error.toString()),);
+                      }
+                      return CircularProgressIndicator();
+                    },
 
-                          ],
-                        ),
-
-                      ),
-                    ),
                   ),
+
 
 
                 ],
