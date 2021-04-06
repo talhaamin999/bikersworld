@@ -13,6 +13,20 @@ class SearchWorkshopServices {
   final CollectionReference _collectionReference = FirebaseFirestore.instance
       .collection(WORKSHOP_SERVICE_COLLECTION);
 
+
+  Stream<List<Services>> fetchWorkshopServices({@required String workshopId,@required String category}) {
+    try {
+      return _collectionReference
+          .where('workshopId',isEqualTo: workshopId)
+          .where('category',isEqualTo: category)
+          .snapshots()
+          .map((snapshot) =>
+          snapshot.docs.map((doc) => Services.fromJson(doc.data()))
+              .toList());
+    } catch (e) {
+      _error.errorToastMessage(errorMessage: e.toString());
+    }
+  }
   Stream<List<Services>> searchWorkshopByServiceTitle({@required String title}) {
     try {
       return _collectionReference

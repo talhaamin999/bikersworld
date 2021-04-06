@@ -114,7 +114,6 @@ class _ViewMechanicsState extends State<ViewMechanics> {
                     if (snapshot.hasData &&
                         snapshot.connectionState == ConnectionState.done) {
                       return ListView.builder(
-
                         shrinkWrap: true,
                         itemCount: snapshot.data.length,
                         itemBuilder: (context, index) {

@@ -183,7 +183,7 @@ class _ReviewFromUserState extends State<ReviewFromUser> {
                                                   Text(snapshot.data[index].title, style:GoogleFonts.quicksand(fontSize:18, fontWeight: FontWeight.bold),),
                                                   Padding(
                                                     padding: const EdgeInsets.only(top:2,bottom: 5),
-                                                    child: RatingsBar(25),
+                                                    child: RatingsBar(25,userRating: snapshot.data[index].starRating,),
                                                   ),
                                                 ],
                                               ),

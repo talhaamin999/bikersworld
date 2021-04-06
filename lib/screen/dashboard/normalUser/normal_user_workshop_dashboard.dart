@@ -388,15 +388,14 @@ class _NormalUserWorkshopDashboardState extends State<NormalUserWorkshopDashboar
                           subtitle: 'Services',
                           icon: Icon(FontAwesomeIcons.clock , size: 45, color: Colors.white,),
                         ),
-                        onPressed: (){
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => NormalUserWorkshopServices()));
+                        onPressed: (){ Navigator.push(context, MaterialPageRoute(builder: (context) => NormalUserWorkshopServices(workshopId: widget.workshopData.id,)));
 
                         },
                       ),
                       SizedBox(width: 20.0),
                       FlatButton(
                         onPressed: (){
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => NormalUserWorkshopEmployee()));
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => NormalUserWorkshopEmployee(workshopId: widget.workshopData.id,)));
                         },
                         child: ActiveProjectsCard(
                           cardColor: Color(0xFF6488E4),

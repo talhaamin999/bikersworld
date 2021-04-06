@@ -1,9 +1,14 @@
+import 'package:bikersworld/model/workshop_model.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:bikersworld/widgets/rating_bar.dart';
 
 class NormalUserWorkshopEmployeeProfile extends StatefulWidget {
+
+  final Mechanics data;
+  NormalUserWorkshopEmployeeProfile({@required this.data});
+
   @override
   _NormalUserWorkshopEmployeeProfileState createState() => _NormalUserWorkshopEmployeeProfileState();
 }
@@ -67,7 +72,7 @@ class _NormalUserWorkshopEmployeeProfileState extends State<NormalUserWorkshopEm
                           children: [
                             SizedBox(height: 10,),
                             Text(
-                              "Ibtasam Ur Rehman",
+                              widget.data != null ? widget.data.name : "Ibtasam Ur Rehman",
                               style: GoogleFonts.quicksand(
                                 fontSize: 20,
                                 color: Colors.black,
@@ -75,7 +80,7 @@ class _NormalUserWorkshopEmployeeProfileState extends State<NormalUserWorkshopEm
                             ),
                             SizedBox(height: 5,),
                             Text(
-                              "03355437782",
+                              widget.data != null ? widget.data.contact : "03355437782",
                               style: GoogleFonts.quicksand(
                                 fontSize: 16,
                                 color: Colors.grey,
@@ -83,7 +88,7 @@ class _NormalUserWorkshopEmployeeProfileState extends State<NormalUserWorkshopEm
                             ),
                             SizedBox(height: 5,),
                             Text(
-                              "Electrican",
+                              widget.data != null ? widget.data.speciality : "Electrican",
                               style: GoogleFonts.quicksand(
                                 fontSize: 16,
                                 color: Colors.grey,

@@ -33,7 +33,7 @@ class RegisterMechanicQueries {
         MECHANICS_COLLECTION)
         .snapshots()
         .map((snapshot) => snapshot.docs
-        .map((doc) => Mechanics.fromJson(doc.data()))
+        .map((doc) => Mechanics.fromJson(doc.data(),doc.reference.id))
         .toList());
   }
   Future<void> deleteMechanic(int index) async {

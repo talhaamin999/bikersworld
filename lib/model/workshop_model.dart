@@ -75,11 +75,13 @@ class Mechanics{
   final String name;
   final String contact;
   final String speciality;
+  final String id;
 
-  Mechanics({this.name,this.contact,this.speciality});
+  Mechanics({this.name,this.contact,this.speciality,this.id});
 
-  factory Mechanics.fromJson(Map<String, dynamic> json){
+  factory Mechanics.fromJson(Map<String, dynamic> json,String mechanicId){
     return Mechanics(
+      id: mechanicId,
       name: json['name'],
       contact: json['contact'],
       speciality: json['speciality'],

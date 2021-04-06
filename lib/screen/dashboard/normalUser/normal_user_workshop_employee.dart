@@ -1,18 +1,47 @@
+import 'package:bikersworld/model/workshop_model.dart';
+import 'package:bikersworld/screen/dashboard/workshop/workshopGrid.dart';
+import 'package:bikersworld/services/search_queries/search_workshop_mechanics.dart';
+import 'package:bikersworld/services/toast_service.dart';
+import 'package:bikersworld/services/workshop_queries/mechanic_queries.dart';
+import 'package:bikersworld/services/workshop_queries/workshop_queries.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:bikersworld/screen/dashboard/normalUser/normal_user_workhop_employee_profile.dart';
 
 class NormalUserWorkshopEmployee extends StatefulWidget {
+  final String workshopId;
+  NormalUserWorkshopEmployee({@required this.workshopId});
   @override
-  _NormalUserWorkshopEmployeeState createState() => _NormalUserWorkshopEmployeeState();
+  _NormalUserWorkshopEmployeeState createState() =>
+      _NormalUserWorkshopEmployeeState();
 }
 
-class _NormalUserWorkshopEmployeeState extends State<NormalUserWorkshopEmployee> {
+class _NormalUserWorkshopEmployeeState
+    extends State<NormalUserWorkshopEmployee> {
+  final _mechanic = SearchWorkshopMechanics();
+  final _error = ToastErrorMessage();
+
+  Stream<List<Mechanics>> getMechanics() {
+    try {
+      if (widget.workshopId != null) {
+        return _mechanic.fetchWorkshopMechanics(workshopId: widget.workshopId);
+      }
+    } catch (e) {
+      _error.errorToastMessage(errorMessage: e.toString());
+    }
+  }
+
+  @override
+  void initState() {
+    print(widget.workshopId);
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar:AppBar(
+      appBar: AppBar(
         title: Text(
           'BIKERSWORLD',
           style: GoogleFonts.quicksand(
@@ -29,8 +58,7 @@ class _NormalUserWorkshopEmployeeState extends State<NormalUserWorkshopEmployee>
             child: Icon(
               Icons.arrow_back,
               color: Colors.orange,
-            )
-        ),
+            )),
         elevation: 0.0,
       ),
       body: SingleChildScrollView(
@@ -38,7 +66,7 @@ class _NormalUserWorkshopEmployeeState extends State<NormalUserWorkshopEmployee>
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Padding(
-              padding: const EdgeInsets.only(left:15, top:15),
+              padding: const EdgeInsets.only(left: 15, top: 15),
               child: Container(
                 child: RichText(
                   textAlign: TextAlign.start,
@@ -60,46 +88,63 @@ class _NormalUserWorkshopEmployeeState extends State<NormalUserWorkshopEmployee>
                 ),
               ),
             ),
-            SizedBox(height: 10,),
-            FlatButton(
-              onPressed: (){
-                Navigator.push(context, MaterialPageRoute(builder: (context) => NormalUserWorkshopEmployeeProfile()));
-              },
-              child: Card(
-                color: Colors.white,
-                margin: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-                child: ListTile(
-                  leading: Icon(
-                    Icons.person,
-                    color: Colors.black,
-                  ),
-                  title: Container(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Ibtasam ur Rehman',
-                          style: GoogleFonts.quicksand(
-                            fontSize: 18,
-                            color: Colors.black,
+            SizedBox(
+              height: 10,
+            ),
+            StreamBuilder(
+              stream: getMechanics(),
+              builder: (BuildContext context, AsyncSnapshot<List<Mechanics>> snapshot) {
+                if(snapshot.hasData){
+                  print('${snapshot.data.first.name}');
+                  return ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: snapshot.data.length,
+                    itemBuilder: (context,index){
+                      return FlatButton(
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      NormalUserWorkshopEmployeeProfile(data: snapshot.data[index],)));
+                        },
+                        child: Card(
+                          color: Colors.white,
+                          margin: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                          child: ListTile(
+                            leading: Icon(
+                              Icons.person,
+                              color: Colors.black,
+                            ),
+                            title: Container(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    snapshot.data[index].name,
+                                    style: GoogleFonts.quicksand(
+                                      fontSize: 18,
+                                      color: Colors.black,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
                           ),
                         ),
-//                      SizedBox(height: 5,),
-//                      Text(
-//                        '+92 313-0141046',
-//                        style: GoogleFonts.quicksand(
-//                          fontSize: 16.0,
-//                          color: Colors.grey,
-//                        ),
-//                      ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
+                      );
+                    },
+                  );
+                }
+                else if(snapshot.hasData && snapshot.data.isEmpty){
+                  return Center(child: Text('NO MECHANICS FOUND'),);
+                }
+                else if(snapshot.hasError){
+                  return Center(child: Text(snapshot.error.toString()),);
+                }
+                return CircularProgressIndicator();
+              },
             ),
-
-
           ],
         ),
       ),
