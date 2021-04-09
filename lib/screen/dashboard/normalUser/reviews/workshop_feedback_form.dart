@@ -25,36 +25,42 @@ class _WorkshopFeedbackFormState extends State<WorkshopFeedbackForm> {
   final _valid = ToastValidMessage();
   String id;
   bool reviewAdded=false;
-  bool isButtonVisible = false;
+  bool _isButtonVisible = true;
 
   Future<void> addReview() async{
-   try {
-     setState(() {
-       isButtonVisible = false;
-     });
-     final CollectionReference _collectionReference = FirebaseFirestore.instance
-         .collection(_workshopCollection).doc(id).collection(
-         _workshopReviewsCollection);
-     final _reviewModel = WorkshopReviews(title: _titleController.text,
-         starRating: RatingsBar.ratings,
-         description: _descriptionController.text);
+    try {
+      setState(() {
+        _isButtonVisible = false;
+      });
+     if(_titleController.text.isNotEmpty && _descriptionController.text.isNotEmpty) {
+       final CollectionReference _collectionReference = FirebaseFirestore
+           .instance
+           .collection(_workshopCollection).doc(id).collection(
+           _workshopReviewsCollection);
+       final _reviewModel = WorkshopReviews(title: _titleController.text,
+           starRating: RatingsBar.ratings,
+           description: _descriptionController.text);
 
-     await _collectionReference.add(_reviewModel.toMap())
-         .then((_) {
-           clearFields();
-           setState(() {
-             reviewAdded = true;
-           });
-       _valid.validToastMessage(validMessage: 'Review Added');
-     })
-         .catchError((onError) =>
-         _error.errorToastMessage(errorMessage: onError.toString()));
+       await _collectionReference.add(_reviewModel.toMap())
+           .then((_) {
+         clearFields();
+         setState(() {
+           reviewAdded = true;
+         });
+         _valid.validToastMessage(validMessage: 'Review Added');
+       })
+           .catchError((onError) =>
+           _error.errorToastMessage(errorMessage: onError.toString()));
+     }else{
+       _error.errorToastMessage(errorMessage: 'Kindly Fill All Fields');
+       }
    }catch(e){
      _error.errorToastMessage(errorMessage: e.toString());
    }finally{
      setState(() {
-       isButtonVisible = true;
+       _isButtonVisible = true;
      });
+     /*
      if(reviewAdded){
        Future.delayed(
            new Duration(seconds: 2),
@@ -63,6 +69,8 @@ class _WorkshopFeedbackFormState extends State<WorkshopFeedbackForm> {
            }
        );
      }
+
+      */
    }
  }
 
@@ -75,6 +83,13 @@ class _WorkshopFeedbackFormState extends State<WorkshopFeedbackForm> {
       id = widget.workshopDocId;
     }
   }
+  bool disbaleButtonCheck(){
+    if(_isButtonVisible){
+       return true;
+    }
+    return false;
+  }
+
   @override
   void initState() {
     mapId();
@@ -146,8 +161,11 @@ class _WorkshopFeedbackFormState extends State<WorkshopFeedbackForm> {
               SizedBox(height: 20,),
 
               Container(
-                child: FlatButton(
-                  onPressed: isButtonVisible ? () => addReview() : null,
+                child: RaisedButton(
+                  onPressed: _isButtonVisible ? () => {addReview()} : null,
+                  child: Text('Submit'),
+                  color: Colors.red,
+                  /*
                   child: Container(
                     width: MediaQuery.of(context).size.width,
                     padding: EdgeInsets.symmetric(vertical: 15),
@@ -176,6 +194,8 @@ class _WorkshopFeedbackFormState extends State<WorkshopFeedbackForm> {
                       ),
                     ),
                   ),
+
+                   */
                 ),
               ),
               SizedBox(height: 20,),
