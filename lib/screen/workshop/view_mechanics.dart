@@ -1,17 +1,13 @@
 import 'dart:async';
 import 'package:bikersworld/model/workshop_model.dart';
 import 'package:bikersworld/screen/workshop/add_mechanics.dart';
-import 'package:bikersworld/screen/workshop/workshop_dashboard.dart';
 import 'package:bikersworld/services/toast_service.dart';
 import 'package:bikersworld/services/workshop_queries/mechanic_queries.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:bikersworld/widgets/drawer.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:bikersworld/screen/workshop/reviews/mechanics_reviews.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:auto_size_text/auto_size_text.dart';
 
 class ViewMechanics extends StatefulWidget {
   final String workshopId;

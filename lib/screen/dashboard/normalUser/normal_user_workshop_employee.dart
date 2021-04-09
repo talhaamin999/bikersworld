@@ -115,6 +115,7 @@ class _NormalUserWorkshopEmployeeState
                             leading: Icon(
                               Icons.person,
                               color: Colors.black,
+                              size: 30,
                             ),
                             title: Container(
                               child: Column(
@@ -123,7 +124,7 @@ class _NormalUserWorkshopEmployeeState
                                   Text(
                                     snapshot.data[index].name,
                                     style: GoogleFonts.quicksand(
-                                      fontSize: 18,
+                                      fontSize: 20,
                                       color: Colors.black,
                                     ),
                                   ),

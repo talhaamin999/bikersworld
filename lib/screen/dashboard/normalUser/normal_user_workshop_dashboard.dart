@@ -286,14 +286,14 @@ class _NormalUserWorkshopDashboardState extends State<NormalUserWorkshopDashboar
                           Text(
                             "Name",
                             style: GoogleFonts.quicksand(
-                              fontSize: 17,
+                              fontSize: 19,
                               color: Colors.black,
                             ),
                           ),
                           Text(
                             widget.workshopData != null ? widget.workshopData.ownerName: 'Owner Name',
                             style: GoogleFonts.quicksand(
-                              fontSize: 14,
+                              fontSize: 16,
                               color: Colors.grey,
                             ),
                           ),
@@ -356,8 +356,8 @@ class _NormalUserWorkshopDashboardState extends State<NormalUserWorkshopDashboar
                     children: <Widget>[
                       FlatButton(
                         child: ActiveProjectsCard(
-                          cardColor: Colors.lightGreen,
-                          title: 'Workshop',
+                          cardColor: Color(0xffcca63b),
+                          title: 'Work',
                           subtitle: 'Timing',
                           icon: Icon(FontAwesomeIcons.clock , size: 45, color: Colors.white,),
                         ),
@@ -365,14 +365,14 @@ class _NormalUserWorkshopDashboardState extends State<NormalUserWorkshopDashboar
 
                         },
                       ),
-                      SizedBox(width: 20.0),
+                     // SizedBox(width: 20.0),
                       FlatButton(
                         onPressed: (){
                           Navigator.push(context, MaterialPageRoute(builder: (context) => ReviewFromUser(workshopDocId: widget.workshopData.id,)));
                         },
                         child: ActiveProjectsCard(
                           cardColor: Color(0xFFF9BE7C),
-                          title: 'Workshop',
+                          title: 'Give',
                           icon: Icon(FontAwesomeIcons.commentDots , size: 55, color: Colors.white,),
                           subtitle: ' Feedback',
                         ),
@@ -384,24 +384,24 @@ class _NormalUserWorkshopDashboardState extends State<NormalUserWorkshopDashboar
                       FlatButton(
                         child: ActiveProjectsCard(
                           cardColor: Color(0xFF309397),
-                          title: 'Workshop',
+                          title: 'Check',
                           subtitle: 'Services',
-                          icon: Icon(FontAwesomeIcons.clock , size: 45, color: Colors.white,),
+                          icon: Icon(FontAwesomeIcons.cogs , size: 45, color: Colors.white,),
                         ),
                         onPressed: (){ Navigator.push(context, MaterialPageRoute(builder: (context) => NormalUserWorkshopServices(workshopId: widget.workshopData.id,)));
 
                         },
                       ),
-                      SizedBox(width: 20.0),
+                     // SizedBox(width: 20.0),
                       FlatButton(
                         onPressed: (){
                           Navigator.push(context, MaterialPageRoute(builder: (context) => NormalUserWorkshopEmployee(workshopId: widget.workshopData.id,)));
                         },
                         child: ActiveProjectsCard(
                           cardColor: Color(0xFF6488E4),
-                          title: 'Workshop',
-                          icon: Icon(FontAwesomeIcons.commentDots , size: 55, color: Colors.white,),
-                          subtitle: 'Employees',
+                          title: 'View',
+                          icon: Icon(FontAwesomeIcons.user , size: 55, color: Colors.white,),
+                          subtitle: 'Mechanics',
                         ),
                       ),
                     ],
@@ -469,53 +469,54 @@ class ActiveProjectsCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.symmetric(vertical: 10.0),
-      padding: EdgeInsets.only(top:15,bottom:15),
-      height: 150,
-      width: 135,
-      decoration: BoxDecoration(
-        color: cardColor,
-        borderRadius: BorderRadius.circular(8),
-      ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.only(left:8.0),
-            child: Center(
-              child: icon,
+    return Padding(
+      padding: const EdgeInsets.only(left:8.0),
+      child: Container(
+        margin: EdgeInsets.symmetric(vertical: 10),
+       padding: EdgeInsets.only(bottom:15, top: 15),
+        height: 150,
+        width: 150,
+        decoration: BoxDecoration(
+          color: cardColor,
+          borderRadius: BorderRadius.circular(20),
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.only(left:8.0),
+              child:  icon,
             ),
-          ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.only(left:8.0),
-                child: Text(
-                  title,
-                  style: GoogleFonts.quicksand(
-                    fontSize: 20.0,
-                    color: Colors.white,
-                    fontWeight: FontWeight.w700,
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.only(left:8.0),
+                  child: Text(
+                    title,
+                    style: GoogleFonts.quicksand(
+                      fontSize: 20.0,
+                      color: Colors.white,
+                      fontWeight: FontWeight.w700,
+                    ),
                   ),
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(left:8.0),
-                child: Text(
-                  subtitle,
-                  style: GoogleFonts.quicksand(
-                    fontSize: 16.0,
-                    color: Colors.white54,
-                    fontWeight: FontWeight.w400,
+                Padding(
+                  padding: const EdgeInsets.only(left:8.0),
+                  child: Text(
+                    subtitle,
+                    style: GoogleFonts.quicksand(
+                      fontSize: 16.0,
+                      color: Colors.white54,
+                      fontWeight: FontWeight.w400,
+                    ),
                   ),
                 ),
-              ),
-            ],
-          ),
-        ],
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }

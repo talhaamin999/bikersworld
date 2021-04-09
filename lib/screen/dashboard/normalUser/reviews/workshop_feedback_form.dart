@@ -144,7 +144,10 @@ class _WorkshopFeedbackFormState extends State<WorkshopFeedbackForm> {
               ),
               SizedBox(height: 15,),
               Container(
-                child: RatingsBar(40),
+                child: Padding(
+                  padding: const EdgeInsets.only(left:15),
+                  child: RatingsBar(40),
+                ),
               ),
               SizedBox(height: 20,),
               Container(
@@ -159,46 +162,23 @@ class _WorkshopFeedbackFormState extends State<WorkshopFeedbackForm> {
                 child: ReviewsTextField("Description",_descriptionController,null),
               ),
               SizedBox(height: 20,),
-
-              Container(
-                child: RaisedButton(
-                  onPressed: _isButtonVisible ? () => {addReview()} : null,
-                  child: Text('Submit'),
-                  color: Colors.red,
-                  /*
-                  child: Container(
-                    width: MediaQuery.of(context).size.width,
-                    padding: EdgeInsets.symmetric(vertical: 15),
-                    alignment: Alignment.center,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(5)),
-                      boxShadow: <BoxShadow>[
-                        BoxShadow(
-                            color: Colors.grey.shade200,
-                            offset: Offset(2, 4),
-                            blurRadius: 5,
-                            spreadRadius: 2)
-                      ],
-                      gradient: LinearGradient(
-                        begin: Alignment.centerLeft,
-                        end: Alignment.centerRight,
-                        colors: [Color(0xfffbb448), Color(0xfff7892b),
-                        ],
-                      ),
+              Center(
+                child: Container(
+                  width: MediaQuery.of(context).size.width - 30,
+                  height: 60,
+                  child: RaisedButton(
+                    onPressed: _isButtonVisible ? () => {addReview()} : null,
+                    child: Text('Submit',style: GoogleFonts.quicksand(
+                        fontSize: 20,
+                        color: Colors.white
                     ),
-                    child: Text(
-                      'Submit',
-                      style: GoogleFonts.quicksand(
-                          fontSize: 20,
-                          color: Colors.white
-                      ),
                     ),
+                    color: Color(0xfff7892b),
+                    disabledColor: Colors.grey.shade400,
+                    disabledTextColor: Colors.black,
                   ),
-
-                   */
                 ),
               ),
-              SizedBox(height: 20,),
             ],
           ),
         ),
