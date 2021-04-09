@@ -33,18 +33,16 @@ class _ReviewFromUserState extends State<ReviewFromUser> {
     super.initState();
   }
 
-  Stream<List<WorkshopReviews>> getReviews(){
+  Future<List<WorkshopReviews>> getReviews(){
     final CollectionReference _collectionReference = FirebaseFirestore.instance
         .collection(_workshopCollection).doc(id).collection(
         _workshopReviewsCollection);
     try {
       return _collectionReference
-          .snapshots()
-          .map((snapshot) =>
-          snapshot.docs
-              .map((doc) =>
-              WorkshopReviews.fromJson(doc.data(), doc.reference.id))
-              .toList());
+          .get()
+          .then((querySnapshot) => querySnapshot.docs
+          .map((doc) => WorkshopReviews.fromJson(doc.data(), doc.reference.id))
+          .toList());
     }catch(e){
       _error.errorToastMessage(errorMessage: e.toString());
     }
@@ -146,35 +144,36 @@ class _ReviewFromUserState extends State<ReviewFromUser> {
                 ),
               ),
               SizedBox(height:15),
-              StreamBuilder(
-                stream: getReviews(),
-                builder: (BuildContext context, AsyncSnapshot<List<WorkshopReviews>> snapshot) {
-                  if(snapshot.hasData){
-                    return ListView.builder(
-                        physics: NeverScrollableScrollPhysics(),
-                        shrinkWrap: true,
-                        itemCount: snapshot.data.length,
-                        itemBuilder: (context,index){
-                          return Padding(
-                            padding: EdgeInsets.only(left:10,right:10,bottom:5),
-                            child: Center(
-                              child: Card(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: <Widget>[
-                                    Container(
-                                      child: ListTile(
-                                        leading: CircleAvatar(
-                                          child: Icon(
-                                            Icons.person,
-                                            size: 25,
-                                            color: Colors.white,
-                                          ),
-                                          radius: 28,
-                                          backgroundColor: Color(0XFF012A4A),
-                                        ),
-                                        title: snapshot.data != null ?
+
+                  FutureBuilder(
+                    future: getReviews(),
+                    builder: (BuildContext context, AsyncSnapshot<List<WorkshopReviews>> snapshot) {
+                      if(snapshot.hasData && snapshot.data.isNotEmpty){
+                        return ListView.builder(
+                            physics: NeverScrollableScrollPhysics(),
+                            shrinkWrap: true,
+                            itemCount: snapshot.data.length,
+                            itemBuilder: (context,index){
+                              return Padding(
+                                padding: EdgeInsets.only(left:10,right:10,bottom:5),
+                                child: Center(
+                                  child: Card(
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: <Widget>[
+                                        Container(
+                                          child: ListTile(
+                                            leading: CircleAvatar(
+                                              child: Icon(
+                                                Icons.person,
+                                                size: 25,
+                                                color: Colors.white,
+                                              ),
+                                              radius: 28,
+                                              backgroundColor: Color(0XFF012A4A),
+                                            ),
+                                            title: snapshot.data != null ?
                                             Container(
                                               child: Column(
                                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -188,35 +187,35 @@ class _ReviewFromUserState extends State<ReviewFromUser> {
                                                 ],
                                               ),
                                             ):
-                                        Container(
-                                          child: Column(
-                                            crossAxisAlignment: CrossAxisAlignment.start,
-                                            children: [
-                                              Text("title"),
-                                              RatingsBar(25),
-                                            ],
+                                            Container(
+                                              child: Column(
+                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                children: [
+                                                  Text("title"),
+                                                  RatingsBar(25),
+                                                ],
+                                              ),
+                                            ),
+                                            subtitle: snapshot.data != null ? Text(snapshot.data[index].description , style: GoogleFonts.quicksand(fontSize:18),) : Text("SA card is a sheet used to represent the information related to each other, such as an album, a geographical loca   heet used to represent the information related to each other, such as an album, a geographical location, contation, contact details,"),
                                           ),
                                         ),
-                                        subtitle: snapshot.data != null ? Text(snapshot.data[index].description , style: GoogleFonts.quicksand(fontSize:18),) : Text("SA card is a sheet used to represent the information related to each other, such as an album, a geographical loca   heet used to represent the information related to each other, such as an album, a geographical location, contation, contact details,"),
-                                      ),
-                                      ),
-                                  ],
+                                      ],
+                                    ),
+                                  ),
                                 ),
-                              ),
-                            ),
-                          );
-                        }
-                    );
-                  }
-                  else if(snapshot.hasData && snapshot.data.isEmpty){
-                    return Center(child: Text('No Reviews Yet'),);
-                  }
-                  else if(snapshot.hasError){
-                    return Center(child: Text(snapshot.error.toString()),);
-                  }
-                  return CircularProgressIndicator();
-                },
-              ),
+                              );
+                            }
+                        );
+                      }
+                      else if(snapshot.hasData && snapshot.data.isEmpty){
+                        return Center(child: Text('No Reviews Yet'),);
+                      }
+                      else if(snapshot.hasError){
+                        return Center(child: Text(snapshot.error.toString()),);
+                      }
+                      return Center(child: CircularProgressIndicator());
+                    },
+                  ),
               SizedBox(height: 30,),
 
             ],

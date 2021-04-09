@@ -11,7 +11,7 @@ class SearchWorkshop{
   static final String WORKSHOP_COLLECTION = 'workshop';
   static final String MECHANIC_COLLECTION = 'mechanics';
   static final String MECHANIC_REVIEWS_COLLECTION = 'mechanic_reviews';
-
+  final _error = ToastErrorMessage();
   final CollectionReference _collectionReference = FirebaseFirestore.instance.collection(WORKSHOP_COLLECTION);
 
 
@@ -25,7 +25,6 @@ class SearchWorkshop{
           .toList());
 
     }catch(e){
-      final _error = ToastErrorMessage();
       _error.errorToastMessage(errorMessage: e.toString());
     }
   }
@@ -39,7 +38,6 @@ class SearchWorkshop{
           .toList());
 
     }catch(e){
-      final _error = ToastErrorMessage();
       _error.errorToastMessage(errorMessage: e.toString());
     }
   }
@@ -54,10 +52,10 @@ class SearchWorkshop{
           .toList());
 
     }catch(e){
-      final _error = ToastErrorMessage();
       _error.errorToastMessage(errorMessage: e.toString());
     }
   }
+  /*
   Stream<List<WorkshopReviews>> fetchWorkshopReviews({@required String workshopId}){
     try{
       return _collectionReference.doc(workshopId).collection('workshop_reviews')
@@ -71,6 +69,20 @@ class SearchWorkshop{
       _error.errorToastMessage(errorMessage: e.toString());
     }
   }
+
+   */
+  Future<List<WorkshopReviews>> fetchWorkshopReviews({@required String workshopId}){
+    try{
+      return _collectionReference.doc(workshopId).collection('workshop_reviews')
+          .get()
+          .then((querySnapshots) => querySnapshots.docs
+          .map((doc) => WorkshopReviews.fromJson(doc.data(), doc.id))
+          .toList());
+    }catch(e){
+      _error.errorToastMessage(errorMessage: e.toString());
+    }
+  }
+  /*
   Stream<List<MechanicReviews>> fetchWorkshopMechanicReviews({@required String mechanicId,@required String workshopId}){
     try{
       return _collectionReference.doc(workshopId).collection(MECHANIC_COLLECTION).doc(mechanicId).collection(MECHANIC_REVIEWS_COLLECTION)
@@ -81,6 +93,20 @@ class SearchWorkshop{
 
     }catch(e){
       final _error = ToastErrorMessage();
+      _error.errorToastMessage(errorMessage: e.toString());
+    }
+  }
+
+   */
+  Future<List<MechanicReviews>> fetchWorkshopMechanicReviews({@required String mechanicId,@required String workshopId}){
+    try{
+      return _collectionReference.doc(workshopId).collection(MECHANIC_COLLECTION).doc(mechanicId).collection(MECHANIC_REVIEWS_COLLECTION)
+          .get()
+          .then((querySNapshots) => querySNapshots.docs
+          .map((doc) => MechanicReviews.fromJson(doc.data(),doc.id))
+          .toList())
+          .catchError((onError) => _error.errorToastMessage(errorMessage: onError.toString()));
+    }catch(e){
       _error.errorToastMessage(errorMessage: e.toString());
     }
   }

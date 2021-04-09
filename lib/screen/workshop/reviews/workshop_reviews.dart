@@ -40,7 +40,7 @@ class _WorkshopDashboardReviewsState extends State<WorkshopDashboardReviews> {
     });
   }
 
-  Stream<List<WorkshopReviews>> getReviews(){
+  Future<List<WorkshopReviews>> getReviews(){
     try{
       if(widget.id != null){
         return _shopReview.fetchWorkshopReviews(workshopId: widget.id);
@@ -121,9 +121,8 @@ class _WorkshopDashboardReviewsState extends State<WorkshopDashboardReviews> {
                     ),
                   ),
                   SizedBox(height: 10,),
-
-                  StreamBuilder(
-                    stream: getReviews(),
+                  FutureBuilder(
+                    future: getReviews(),
                     builder: (BuildContext context, AsyncSnapshot<List<WorkshopReviews>> snapshot) {
                       if(snapshot.hasData && snapshot.data.isNotEmpty){
                         return ListView.builder(
@@ -182,8 +181,9 @@ class _WorkshopDashboardReviewsState extends State<WorkshopDashboardReviews> {
                         return Center(child: Text(snapshot.error.toString(),));
                       }
                       return CircularProgressIndicator();
-                      },
-                  ),
+                    },
+
+                  )
 
                 ],
               ),

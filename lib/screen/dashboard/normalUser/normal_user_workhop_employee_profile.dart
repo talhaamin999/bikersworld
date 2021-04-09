@@ -21,7 +21,7 @@ class _NormalUserWorkshopEmployeeProfileState extends State<NormalUserWorkshopEm
   final _error = ToastErrorMessage();
   final _mechanicReviews = SearchWorkshopMechanics();
 
-  Stream<List<MechanicReviews>> getMechanicReviews(){
+  Future<List<MechanicReviews>> getMechanicReviews(){
     try{
       if(widget.workshopId != null && widget.data.id != null) {
         return _mechanicReviews.fetchWorkshopMechanicsReviews(
@@ -156,65 +156,65 @@ class _NormalUserWorkshopEmployeeProfileState extends State<NormalUserWorkshopEm
                   ),
                 ),
               ),
-              StreamBuilder(
-               stream: getMechanicReviews(),
-               builder: (BuildContext context, AsyncSnapshot<List<MechanicReviews>> snapshot) {
-                 if(snapshot.hasData && snapshot.data.isNotEmpty){
-                   return ListView.builder(
-                     shrinkWrap: true,
-                     itemCount: snapshot.data.length,
-                     itemBuilder: (context,index){
-                       return Padding(
-                         padding: const EdgeInsets.only(left:15,right:15),
-                         child: Card(
-                           color: Colors.white,
-                           margin: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-                           child: ListTile(
-                             leading: Icon(
-                               Icons.person,
-                               color: Colors.black,
-                             ),
-                             title: Container(
-                               child: Column(
-                                 crossAxisAlignment: CrossAxisAlignment.start,
-                                 children: [
-                                   SizedBox(height: 5,),
-                                   Text(
-                                     snapshot.data[index].title,
-                                     style: GoogleFonts.quicksand(
-                                       fontSize: 16,
-                                       color: Colors.black,
-                                     ),
-                                   ),
-                                   SizedBox(height: 5,),
-                                   RatingsBar(18,userRating: snapshot.data[index].starRating,),
-                                   SizedBox(height: 5,),
-                                   Text(
-                                     snapshot.data[index].description,
-                                     style: GoogleFonts.quicksand(
-                                       fontSize: 16,
-                                       color: Colors.grey,
-                                     ),
-                                   ),
-                                   SizedBox(height: 5,),
-                                 ],
-                               ),
-                             ),
-                           ),
-                         ),
-                       );
-                     },
-                   );
+              FutureBuilder(
+                future: getMechanicReviews(),
+                builder: (BuildContext context, AsyncSnapshot<List<MechanicReviews>> snapshot) {
+                  if(snapshot.hasData && snapshot.data.isNotEmpty){
+                    return ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: snapshot.data.length,
+                      itemBuilder: (context,index){
+                        return Padding(
+                          padding: const EdgeInsets.only(left:15,right:15),
+                          child: Card(
+                            color: Colors.white,
+                            margin: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                            child: ListTile(
+                              leading: Icon(
+                                Icons.person,
+                                color: Colors.black,
+                              ),
+                              title: Container(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    SizedBox(height: 5,),
+                                    Text(
+                                      snapshot.data[index].title,
+                                      style: GoogleFonts.quicksand(
+                                        fontSize: 16,
+                                        color: Colors.black,
+                                      ),
+                                    ),
+                                    SizedBox(height: 5,),
+                                    RatingsBar(18,userRating: snapshot.data[index].starRating,),
+                                    SizedBox(height: 5,),
+                                    Text(
+                                      snapshot.data[index].description,
+                                      style: GoogleFonts.quicksand(
+                                        fontSize: 16,
+                                        color: Colors.grey,
+                                      ),
+                                    ),
+                                    SizedBox(height: 5,),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        );
+                      },
+                    );
+                  }
+                  else if(snapshot.hasData && snapshot.data.isEmpty){
+                    return Center(child: Text('NO REVIEWS FOUND'),);
+                  }
+                  else if(snapshot.hasError){
+                    return Center(child: Text(snapshot.error.toString()),);
+                  }
+                  return Center(child: CircularProgressIndicator());
+                },
 
-                 }
-                 else if(snapshot.hasData && snapshot.data.isEmpty){
-                   return Center(child: Text('NO REVIEWS FOUND'),);
-                 }
-                 else if(snapshot.hasError){
-                   return Center(child: Text(snapshot.error.toString()),);
-                 }
-                 return CircularProgressIndicator();
-               },
               ),
             ],
           ),

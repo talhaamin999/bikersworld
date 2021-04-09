@@ -127,70 +127,69 @@ class _WorkshopkMechanicsReviewsState extends State<WorkshopkMechanicsReviews> {
                   ),
                   SizedBox(height: 10,),
 
-                  StreamBuilder(
-                    stream: _mechanicReviews.fetchWorkshopMechanicsReviews(mechanicId: widget.mechanic.id, workshopId: widget.workshopId),
-                    builder: (BuildContext context, AsyncSnapshot<List<MechanicReviews>> snapshot) {
+                  FutureBuilder(
 
-                      if(snapshot.hasData && snapshot.data.isNotEmpty){
-                        return ListView.builder(
-                          shrinkWrap: true,
-                          itemCount: snapshot.data.length,
-                          itemBuilder: (context,index){
-                            return Container(
-                              margin: EdgeInsets.only(left: 20, right: 20),
-                              child: Card(
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(8),
-                                ),
-                                child: ListTile(
-                                  contentPadding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-                                  leading: CircleAvatar(
-                                    backgroundColor: Color(0xffecf0f1),
-                                    child: Icon(FontAwesomeIcons.user, color: Color(0xfff7892b),),
-                                  ),
-                                  title: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: <Widget>[
-                                      Container(
-                                        child: Text(
-                                          snapshot.data[index].title,
-                                          style: GoogleFonts.raleway(
-                                              fontSize: 18,
-                                              fontWeight: FontWeight.bold
-                                          ),
-                                        ),
-                                      ),
-                                      SizedBox(height: 5,),
-                                      RatingsBar(25,userRating: snapshot.data[index].starRating,),
-                                      SizedBox(height: 5,),
-                                      Container(
-                                        child: Text(
-                                          snapshot.data[index].description,
-                                          style: GoogleFonts.raleway(
-                                            fontSize: 15,
-                                          ),
-                                        ),
-                                      ),
-
-                                    ],
-                                  ),
-
-                                ),
+                  future: _mechanicReviews.fetchWorkshopMechanicsReviews(mechanicId: widget.mechanic.id, workshopId: widget.workshopId),
+                  builder: (BuildContext context, AsyncSnapshot<List<MechanicReviews>> snapshot) {
+                    if(snapshot.hasData && snapshot.data.isNotEmpty){
+                      return ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: snapshot.data.length,
+                        itemBuilder: (context,index){
+                          return Container(
+                            margin: EdgeInsets.only(left: 20, right: 20),
+                            child: Card(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8),
                               ),
-                            );
-                          },
-                        );
-                      }else if(snapshot.hasData && snapshot.data.isEmpty){
-                        return Center(child: Text('NO REVIEWS FOUND'),);
-                      }else if(snapshot.hasError){
-                        return Center(child: Text(snapshot.error.toString()),);
-                      }
-                      return CircularProgressIndicator();
-                    },
+                              child: ListTile(
+                                contentPadding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                                leading: CircleAvatar(
+                                  backgroundColor: Color(0xffecf0f1),
+                                  child: Icon(FontAwesomeIcons.user, color: Color(0xfff7892b),),
+                                ),
+                                title: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: <Widget>[
+                                    Container(
+                                      child: Text(
+                                        snapshot.data[index].title,
+                                        style: GoogleFonts.raleway(
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.bold
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(height: 5,),
+                                    RatingsBar(25,userRating: snapshot.data[index].starRating,),
+                                    SizedBox(height: 5,),
+                                    Container(
+                                      child: Text(
+                                        snapshot.data[index].description,
+                                        style: GoogleFonts.raleway(
+                                          fontSize: 15,
+                                        ),
+                                      ),
+                                    ),
+
+                                  ],
+                                ),
+
+                              ),
+                            ),
+                          );
+                        },
+                      );
+                    }else if(snapshot.hasData && snapshot.data.isEmpty){
+                      return Center(child: Text('NO REVIEWS FOUND'),);
+                    }else if(snapshot.hasError){
+                      return Center(child: Text(snapshot.error.toString()),);
+                    }
+                    return CircularProgressIndicator();
+                  },
+
 
                   ),
-
-
 
                 ],
               ),

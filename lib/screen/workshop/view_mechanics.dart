@@ -341,7 +341,7 @@ class _ViewMechanicsState extends State<ViewMechanics> {
                                                 context,
                                                 MaterialPageRoute(
                                                     builder: (context) =>
-                                                        WorkshopkMechanicsReviews(workshopId: data.id,mechanic: snapshot.data[index],),
+                                                        WorkshopkMechanicsReviews(workshopId: widget.workshopId,mechanic: snapshot.data[index],),
                                                 ),
                                             );
                                           },

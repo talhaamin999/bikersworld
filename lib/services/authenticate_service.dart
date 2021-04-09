@@ -1,3 +1,4 @@
+import 'package:bikersworld/services/toast_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
@@ -9,7 +10,7 @@ class AuthenticationService {
   static final String signedUp = "Signed Up";
   static final String FACEBOOK_SIGNIN_CANCELLED_BY_USER = "Login cancelled by the user";
   static final String FACEBOOK_RESULT_STATUS_NULL = "FACEBOOK result status is NULL";
-
+  final _error = ToastErrorMessage();
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   final FacebookLogin _facebookSignIn = new FacebookLogin();
   final GoogleSignIn _googleSignIn = new GoogleSignIn();
@@ -93,6 +94,17 @@ class AuthenticationService {
       }
     }catch(e){
        return e.toString();
+    }
+  }
+
+  Future<bool> getCurrentUser() async {
+    try {
+      if(_firebaseAuth.currentUser != null){
+        return true;
+      }
+      return false;
+    } on FirebaseAuthException catch (e) {
+      _error.errorToastMessage(errorMessage: e.toString());
     }
   }
 

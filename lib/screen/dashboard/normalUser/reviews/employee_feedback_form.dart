@@ -2,6 +2,7 @@ import 'package:bikersworld/model/workshop_model.dart';
 import 'package:bikersworld/services/toast_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:bikersworld/widgets/rating_bar.dart';
@@ -135,7 +136,7 @@ class _EmployeeFeedbackFormState extends State<EmployeeFeedbackForm> {
               Container(
                 margin: EdgeInsets.only(left: 20),
                 width: MediaQuery.of(context).size.width - 40,
-                child: ReviewsTextField(text: 'Reviewer',controller: _titleController,),
+                child: ReviewsTextField(text: 'Reviewer',controller: _titleController,filter: FilteringTextInputFormatter.allow(RegExp("[a-zA-Z ]"))),
               ),
               SizedBox(height: 20,),
               Container(
@@ -195,14 +196,18 @@ class ReviewsTextField extends StatelessWidget{
 
   final String text;
   final TextEditingController controller;
+  final TextInputFormatter filter;
 
-  ReviewsTextField({@required this.text,@required this.controller});
+  ReviewsTextField({@required this.text,@required this.controller,this.filter});
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
       controller: controller,
       keyboardType: TextInputType.multiline,
+      inputFormatters: [
+        filter,
+      ],
       decoration: InputDecoration(
         filled: true,
         fillColor: Color(0xffe6e6e6),
