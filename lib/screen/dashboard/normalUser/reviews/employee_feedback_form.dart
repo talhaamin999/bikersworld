@@ -1,4 +1,5 @@
 import 'package:bikersworld/model/workshop_model.dart';
+import 'package:bikersworld/services/authenticate_service.dart';
 import 'package:bikersworld/services/toast_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -27,42 +28,61 @@ class _EmployeeFeedbackFormState extends State<EmployeeFeedbackForm> {
   final _mechanicReviewsCollection = 'mechanic_reviews';
   final _error = ToastErrorMessage();
   final _valid = ToastValidMessage();
-  bool reviewAdded=false;
+  final _firebaseUser = AuthenticationService();
+  bool reviewAdded=false,_isButtonVisible = true;
 
   Future<void> addReview() async{
-    try {
-      if (widget.mechanicId != null && widget.workshopId != null && _titleController.text.isNotEmpty && _descriptionController.text.isNotEmpty) {
-        final CollectionReference _collectionReference = FirebaseFirestore
-            .instance
-            .collection(_workshopCollection).doc(widget.workshopId).collection(
-            _mechanic_collection).doc(widget.mechanicId).collection(
-            _mechanicReviewsCollection);
+    if(_firebaseUser.getCurrentUser()) {
+      try {
+        setState(() {
+          _isButtonVisible = false;
+        });
+        if (widget.mechanicId != null && widget.workshopId != null &&
+            _titleController.text.isNotEmpty &&
+            _descriptionController.text.isNotEmpty) {
+          final CollectionReference _collectionReference = FirebaseFirestore
+              .instance
+              .collection(_workshopCollection).doc(widget.workshopId)
+              .collection(
+              _mechanic_collection).doc(widget.mechanicId)
+              .collection(
+              _mechanicReviewsCollection);
 
-        final _reviewModel = MechanicReviews(title: _titleController.text,
-            starRating: RatingsBar.ratings,
-            description: _descriptionController.text);
+          final _reviewModel = MechanicReviews(title: _titleController.text,
+              starRating: RatingsBar.ratings,
+              description: _descriptionController.text);
 
-        await _collectionReference.add(_reviewModel.toMap())
-            .then((_) {
-          clearFields();
-          setState(() {
-            reviewAdded = true;
-          });
-          _valid.validToastMessage(validMessage: 'Review Added');
-        })
-            .catchError((onError) =>
-            _error.errorToastMessage(errorMessage: onError.toString()));
+          await _collectionReference.add(_reviewModel.toMap())
+              .then((_) {
+            clearFields();
+            setState(() {
+              reviewAdded = true;
+            });
+            _valid.validToastMessage(validMessage: 'Review Added');
+          })
+              .catchError((onError) =>
+              _error.errorToastMessage(errorMessage: onError.toString()));
+        }
+        else {
+          _error.errorToastMessage(errorMessage: 'Fill Required Fields');
+        }
+      } catch (e) {
+        _error.errorToastMessage(errorMessage: e.toString());
+      } finally {
+        setState(() {
+          _isButtonVisible = true;
+        });
+        if (reviewAdded) {
+          Future.delayed(
+              new Duration(seconds: 2),
+                  () {
+                Navigator.pop(context);
+              }
+          );
+        }
       }
-    }catch(e) {
-      _error.errorToastMessage(errorMessage: e.toString());
-    }
-    if(reviewAdded){
-      Future.delayed(
-          new Duration(seconds: 2),
-              (){
-            Navigator.pop(context);
-          }
-      );
+    }else{
+      _error.errorToastMessage(errorMessage: 'Need to create an account to give review');
     }
   }
 
@@ -136,48 +156,30 @@ class _EmployeeFeedbackFormState extends State<EmployeeFeedbackForm> {
               Container(
                 margin: EdgeInsets.only(left: 20),
                 width: MediaQuery.of(context).size.width - 40,
-                child: ReviewsTextField(text: 'Reviewer',controller: _titleController,filter: FilteringTextInputFormatter.allow(RegExp("[a-zA-Z ]"))),
+                child: ReviewsTextField('Reviewer',_titleController,filter: FilteringTextInputFormatter.allow(RegExp("[a-zA-Z ]"))),
               ),
               SizedBox(height: 20,),
               Container(
                 margin: EdgeInsets.only(left: 20),
                 width: MediaQuery.of(context).size.width - 40,
-                child: ReviewsTextField(text:"Description",controller: _descriptionController,),
+                child: ReviewsTextField("Description",_descriptionController,filter: FilteringTextInputFormatter.allow(RegExp("[a-zA-Z ]")),),
               ),
               SizedBox(height: 20,),
 
-              Container(
-                child: FlatButton(
-                  onPressed: () async{
-                    await addReview();
-                  },
-                  child: Container(
-                    width: MediaQuery.of(context).size.width,
-                    padding: EdgeInsets.symmetric(vertical: 15),
-                    alignment: Alignment.center,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(5)),
-                      boxShadow: <BoxShadow>[
-                        BoxShadow(
-                            color: Colors.grey.shade200,
-                            offset: Offset(2, 4),
-                            blurRadius: 5,
-                            spreadRadius: 2)
-                      ],
-                      gradient: LinearGradient(
-                        begin: Alignment.centerLeft,
-                        end: Alignment.centerRight,
-                        colors: [Color(0xfffbb448), Color(0xfff7892b),
-                        ],
-                      ),
+              Center(
+                child: Container(
+                  width: MediaQuery.of(context).size.width - 30,
+                  height: 60,
+                  child: RaisedButton(
+                    onPressed: _isButtonVisible ? () => {addReview()} : null,
+                    child: Text('Submit',style: GoogleFonts.quicksand(
+                        fontSize: 20,
+                        color: Colors.white
                     ),
-                    child: Text(
-                      'Submit',
-                      style: GoogleFonts.quicksand(
-                          fontSize: 20,
-                          color: Colors.white
-                      ),
                     ),
+                    color: Color(0xfff7892b),
+                    disabledColor: Colors.grey.shade400,
+                    disabledTextColor: Colors.black,
                   ),
                 ),
               ),
@@ -198,7 +200,7 @@ class ReviewsTextField extends StatelessWidget{
   final TextEditingController controller;
   final TextInputFormatter filter;
 
-  ReviewsTextField({@required this.text,@required this.controller,this.filter});
+  ReviewsTextField(this.text,this.controller,{this.filter});
 
   @override
   Widget build(BuildContext context) {

@@ -18,6 +18,7 @@ class WorkshopProfilePhoto extends StatefulWidget {
 
 class _WorkshopProfilePhotoState extends State<WorkshopProfilePhoto> {
   File _image;
+  bool _isButtonVisible = true;
 
   Future getImagefromcamera() async {
     var image = await ImagePicker.pickImage(source: ImageSource.camera);
@@ -145,37 +146,23 @@ class _WorkshopProfilePhotoState extends State<WorkshopProfilePhoto> {
             Padding(
               padding: const EdgeInsets.all(25),
               child: Center(
-                child: FlatButton(
-                  onPressed: () {
-                    uploadImage(_image);
-                  },
-                  child: Container(
-                    height: 50,
-                    width: 200,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(100.0),
-                      gradient: LinearGradient(
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
-                        colors: [
-                          Color(0xfffbb448),
-                          Color(0xffed740c),
-                        ],
-                      ),
-                    ),
-                    child: Center(
-                      child: Text(
-                        "Upload",
-                        style: GoogleFonts.raleway(
-                          fontSize: 20.0,
-                          color: Colors.white,
+                 child : Container(
+                      width: MediaQuery.of(context).size.width - 30,
+                      height: 60,
+                      child: RaisedButton(
+                        onPressed: _isButtonVisible ? () => {uploadImage(_image)} : null,
+                        child: Text('Submit',style: GoogleFonts.quicksand(
+                            fontSize: 20,
+                            color: Colors.white
                         ),
+                        ),
+                        color: Color(0xfff7892b),
+                        disabledColor: Colors.grey.shade400,
+                        disabledTextColor: Colors.black,
                       ),
                     ),
                   ),
-                ),
               ),
-            ),
           ],
         ),
       ),
@@ -191,6 +178,9 @@ class _WorkshopProfilePhotoState extends State<WorkshopProfilePhoto> {
     String imageUploadComplete;
 
     try {
+      setState(() {
+        _isButtonVisible = false;
+      });
       if (image != null) {
         var file = File(image.path);
         String imageName = path.basename(image.path);
@@ -209,7 +199,7 @@ class _WorkshopProfilePhotoState extends State<WorkshopProfilePhoto> {
               _valid.validToastMessage(
                   validMessage: RegisterWorkshopQueries.imageResult);
               Future.delayed(
-                  new Duration(seconds: 2),
+                  new Duration(seconds: 1),
                       () {
                     Navigator.pop(context);
                   }
@@ -228,6 +218,10 @@ class _WorkshopProfilePhotoState extends State<WorkshopProfilePhoto> {
     // end of try block
     }catch(e){
       _error.errorToastMessage(errorMessage: e.toString());
+    }finally{
+      setState(() {
+        _isButtonVisible = true;
+      });
     }
 
   }

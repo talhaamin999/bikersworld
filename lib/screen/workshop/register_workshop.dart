@@ -40,6 +40,7 @@ class _RegisterWorkshopState extends State<RegisterWorkshop> {
   final TextEditingController _ownerNameController = TextEditingController();
   final TextEditingController _ownerContactController = TextEditingController();
   String imageUrl;
+  bool _isButtonVisible = true;
 
   @override
   void initState() {
@@ -125,7 +126,7 @@ class _RegisterWorkshopState extends State<RegisterWorkshop> {
       fieldEmptyChecker = 1;
     }
     });
-
+    validateFields();
   }
   void validateFields(){
 
@@ -153,6 +154,9 @@ class _RegisterWorkshopState extends State<RegisterWorkshop> {
         error.errorToastMessage(errorMessage: "Working days not selected");
       }
       else{
+        setState(() {
+          _isButtonVisible = false;
+        });
         addWorkshop();
       }
     }
@@ -160,7 +164,6 @@ class _RegisterWorkshopState extends State<RegisterWorkshop> {
 
   Future<void> addWorkshop() async{
     try {
-
       final _data = WorkshopDashboardModel(shopTitle: _shopTitleController.text,city: _shopCityController.text,area: _shopSpecificAreaController.text,openTime: openTime,closeTime: closeTime, ownerName: _ownerNameController.text,ownerContact: _ownerContactController.text,monday: monday,tuesday: tuesday,wednesday: wednesday,thursday: thursday,friday: friday,saturday: saturday,sunday: sunday,imageURL: imageUrl);
       final RegisterWorkshopQueries register = RegisterWorkshopQueries();
       await register.registerWorkshop(_data);
@@ -173,6 +176,9 @@ class _RegisterWorkshopState extends State<RegisterWorkshop> {
                 validMessage: RegisterWorkshopQueries.resultMessage);
            }
           clear();
+          setState(() {
+            _isButtonVisible = true;
+          });
           Future.delayed(
               new Duration(seconds: 2),
                 (){
@@ -188,6 +194,10 @@ class _RegisterWorkshopState extends State<RegisterWorkshop> {
         }
     }catch(e){
       error.errorToastMessage(errorMessage: e.toString());
+    }finally{
+      setState(() {
+        _isButtonVisible = true;
+      });
     }
   }
 
@@ -228,37 +238,26 @@ class _RegisterWorkshopState extends State<RegisterWorkshop> {
                       _registerWorkshopWidget(shopTitleController: _shopTitleController,shopCityController: _shopCityController,shopSpecificAreaController: _shopSpecificAreaController,ownerNameController: _ownerNameController,ownerContactController: _ownerContactController),
                       SizedBox(height: 20),
 
-                    FlatButton(
-                      child: Container(
-                        width: MediaQuery.of(context).size.width,
-                        padding: EdgeInsets.symmetric(vertical: 15),
-                        alignment: Alignment.center,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.all(Radius.circular(5)),
-                            boxShadow: <BoxShadow>[
-                              BoxShadow(
-                                  color: Colors.grey.shade200,
-                                  offset: Offset(2, 4),
-                                  blurRadius: 5,
-                                  spreadRadius: 2)
-                            ],
-                            gradient: LinearGradient(
-                                begin: Alignment.centerLeft,
-                                end: Alignment.centerRight,
-                                colors: [Color(0xfffbb448), Color(0xfff7892b)])),
-                        child: Text(
-                         widget.data != null ? 'Update' : 'Register',
-                          style: GoogleFonts.krub(
-                            fontSize: 20,
-                            color: Colors.white,
+                      Center(
+                        child: Container(
+                          width: MediaQuery.of(context).size.width - 30,
+                          height: 60,
+                          child: RaisedButton(
+                            onPressed: _isButtonVisible ? () => {checkEmptyField()} : null,
+                            child: Text(
+                              widget.data != null ? 'Update' : 'Register',
+                              style: GoogleFonts.krub(
+                                fontSize: 20,
+                                color: Colors.white,
+                              ),
+                            ),
+                            color: Color(0xfff7892b),
+                            disabledColor: Colors.grey.shade400,
+                            disabledTextColor: Colors.black,
                           ),
                         ),
                       ),
-                      onPressed: (){
-                        checkEmptyField();
-                        validateFields();
-                      },
-                    ),
+
                       SizedBox(height: 20),
 
                     ],

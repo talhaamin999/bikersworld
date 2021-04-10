@@ -97,7 +97,7 @@ class AuthenticationService {
     }
   }
 
-  Future<bool> getCurrentUser() async {
+  bool getCurrentUser(){
     try {
       if(_firebaseAuth.currentUser != null){
         return true;

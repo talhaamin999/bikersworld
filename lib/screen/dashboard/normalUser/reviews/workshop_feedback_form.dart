@@ -1,4 +1,5 @@
 import 'package:bikersworld/model/workshop_model.dart';
+import 'package:bikersworld/services/authenticate_service.dart';
 import 'package:bikersworld/services/toast_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -23,55 +24,58 @@ class _WorkshopFeedbackFormState extends State<WorkshopFeedbackForm> {
   final _workshopReviewsCollection = 'workshop_reviews';
   final _error = ToastErrorMessage();
   final _valid = ToastValidMessage();
+  final _firebaseUser = AuthenticationService();
   String id;
   bool reviewAdded=false;
   bool _isButtonVisible = true;
 
   Future<void> addReview() async{
-    try {
-      setState(() {
-        _isButtonVisible = false;
-      });
-     if(_titleController.text.isNotEmpty && _descriptionController.text.isNotEmpty) {
-       final CollectionReference _collectionReference = FirebaseFirestore
-           .instance
-           .collection(_workshopCollection).doc(id).collection(
-           _workshopReviewsCollection);
-       final _reviewModel = WorkshopReviews(title: _titleController.text,
-           starRating: RatingsBar.ratings,
-           description: _descriptionController.text);
+    if(_firebaseUser.getCurrentUser()) {
+      try {
+        setState(() {
+          _isButtonVisible = false;
+        });
+        if (_titleController.text.isNotEmpty &&
+            _descriptionController.text.isNotEmpty) {
+          final CollectionReference _collectionReference = FirebaseFirestore
+              .instance
+              .collection(_workshopCollection).doc(id).collection(
+              _workshopReviewsCollection);
+          final _reviewModel = WorkshopReviews(title: _titleController.text,
+              starRating: RatingsBar.ratings,
+              description: _descriptionController.text);
 
-       await _collectionReference.add(_reviewModel.toMap())
-           .then((_) {
-         clearFields();
-         setState(() {
-           reviewAdded = true;
-         });
-         _valid.validToastMessage(validMessage: 'Review Added');
-       })
-           .catchError((onError) =>
-           _error.errorToastMessage(errorMessage: onError.toString()));
-     }else{
-       _error.errorToastMessage(errorMessage: 'Kindly Fill All Fields');
-       }
-   }catch(e){
-     _error.errorToastMessage(errorMessage: e.toString());
-   }finally{
-     setState(() {
-       _isButtonVisible = true;
-     });
-     /*
-     if(reviewAdded){
-       Future.delayed(
-           new Duration(seconds: 2),
-               (){
-             Navigator.pop(context);
-           }
-       );
-     }
-
-      */
-   }
+          await _collectionReference.add(_reviewModel.toMap())
+              .then((_) {
+            clearFields();
+            setState(() {
+              reviewAdded = true;
+            });
+            _valid.validToastMessage(validMessage: 'Review Added');
+          })
+              .catchError((onError) =>
+              _error.errorToastMessage(errorMessage: onError.toString()));
+        } else {
+          _error.errorToastMessage(errorMessage: 'Kindly Fill All Fields');
+        }
+      } catch (e) {
+        _error.errorToastMessage(errorMessage: e.toString());
+      } finally {
+        setState(() {
+          _isButtonVisible = true;
+        });
+        if (reviewAdded) {
+          Future.delayed(
+              new Duration(seconds: 2),
+                  () {
+                Navigator.pop(context);
+              }
+          );
+        }
+      }
+    }else{
+      _error.errorToastMessage(errorMessage: 'Need to create an account to give review');
+    }
  }
 
   void clearFields(){
@@ -83,13 +87,6 @@ class _WorkshopFeedbackFormState extends State<WorkshopFeedbackForm> {
       id = widget.workshopDocId;
     }
   }
-  bool disbaleButtonCheck(){
-    if(_isButtonVisible){
-       return true;
-    }
-    return false;
-  }
-
   @override
   void initState() {
     mapId();
