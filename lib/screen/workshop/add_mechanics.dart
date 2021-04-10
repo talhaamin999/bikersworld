@@ -19,8 +19,8 @@ String _currentItemselected = 'Electrician';
 
 class AddMechanics extends StatefulWidget {
 
-  Mechanics mechanics;
-  int index;
+  final Mechanics mechanics;
+  final int index;
   AddMechanics({this.mechanics,this.index});
   @override
   _AddMechanicsState createState() => _AddMechanicsState();
@@ -34,6 +34,7 @@ class _AddMechanicsState extends State<AddMechanics> {
   final TextEditingController mechanicContactController = TextEditingController()..text = '';
   Mechanics _mechanics;
   final RegisterMechanicQueries _register = RegisterMechanicQueries();
+  bool _isButtonVisible = true;
 
   void mapMechanicData(){
    if(widget.mechanics != null) {
@@ -85,6 +86,9 @@ class _AddMechanicsState extends State<AddMechanics> {
       _error.errorToastMessage(errorMessage: "Mechanic Speciality Must Be Selected");
     }
     else{
+      setState(() {
+        _isButtonVisible = false;
+      });
       final Mechanics _mecahnicData = Mechanics(name: mechanicNameController.text.trim(),contact: mechanicContactController.text.trim(),speciality: _currentItemselected);
       if(_mechanics != null) {
          await updateDocument(mechanics: _mecahnicData, index: widget.index);
@@ -99,6 +103,9 @@ class _AddMechanicsState extends State<AddMechanics> {
       if(RegisterMechanicQueries.registrationResultMessage == 'Mechanic registered successfully'){
         _valid.validToastMessage(validMessage: RegisterMechanicQueries.registrationResultMessage);
         clear();
+        setState(() {
+          _isButtonVisible = true;
+        });
         Future.delayed(
           new Duration(seconds: 2),
             (){
@@ -111,6 +118,10 @@ class _AddMechanicsState extends State<AddMechanics> {
       }
     }catch(e){
       _error.errorToastMessage(errorMessage: e.toString());
+    }finally{
+      setState(() {
+        _isButtonVisible = true;
+      });
     }
   }
   Future<void> updateDocument({@required Mechanics mechanics,@required int index}) async{
@@ -121,6 +132,9 @@ class _AddMechanicsState extends State<AddMechanics> {
         _valid.validToastMessage(
             validMessage: RegisterMechanicQueries.updateResultMessage);
         clear();
+        setState(() {
+          _isButtonVisible = true;
+        });
         Future.delayed(
             new Duration(seconds: 2),
                 (){
@@ -136,6 +150,18 @@ class _AddMechanicsState extends State<AddMechanics> {
       final _error = ToastErrorMessage();
       _error.errorToastMessage(
           errorMessage: e.toString());
+    }finally{
+      setState(() {
+        _isButtonVisible = true;
+      });
+    }
+  }
+  void checkFormStatus(){
+    if(!_formKey.currentState.validate()){
+      return;
+    }
+    else{
+      validateFields();
     }
   }
 
@@ -179,41 +205,24 @@ class _AddMechanicsState extends State<AddMechanics> {
                       SizedBox(height: 20),
                       _registerWorkshopWidget(nameController: mechanicNameController,contactController: mechanicContactController),
                       SizedBox(height: 20),
-
-                      FlatButton(
+                      Center(
                         child: Container(
-                          width: MediaQuery.of(context).size.width,
-                          padding: EdgeInsets.symmetric(vertical: 15),
-                          alignment: Alignment.center,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.all(Radius.circular(5)),
-                              boxShadow: <BoxShadow>[
-                                BoxShadow(
-                                    color: Colors.grey.shade200,
-                                    offset: Offset(2, 4),
-                                    blurRadius: 5,
-                                    spreadRadius: 2)
-                              ],
-                              gradient: LinearGradient(
-                                  begin: Alignment.centerLeft,
-                                  end: Alignment.centerRight,
-                                  colors: [Color(0xfffbb448), Color(0xfff7892b)])),
-                          child: Text(
-                            _mechanics != null ? 'Update':'Submit',
-                            style: GoogleFonts.krub(
-                              fontSize: 20,
-                              color: Colors.white,
+                          width: MediaQuery.of(context).size.width - 30,
+                          height: 60,
+                          child: RaisedButton(
+                            onPressed: _isButtonVisible ? () => {checkFormStatus()} : null,
+                            child: Text(
+                              _mechanics != null ? 'Update':'Submit',
+                              style: GoogleFonts.krub(
+                                fontSize: 20,
+                                color: Colors.white,
+                              ),
                             ),
+                            color: Color(0xfff7892b),
+                            disabledColor: Colors.grey.shade400,
+                            disabledTextColor: Colors.black,
                           ),
                         ),
-                        onPressed: (){
-                          if(!_formKey.currentState.validate()){
-                            return;
-                          }
-                          else{
-                            validateFields();
-                          }
-                        },
                       ),
                     ],
                   ),

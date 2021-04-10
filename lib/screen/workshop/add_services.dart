@@ -38,6 +38,7 @@ class _AddServicesState extends State<AddServices> {
   final WorkshopServiceQueries _add = WorkshopServiceQueries();
   final _firebaseUser = FirebaseAuth.instance.currentUser;
   String option;
+  bool _isButtonVisible = true;
 
   @override
   void initState() {
@@ -134,18 +135,23 @@ class _AddServicesState extends State<AddServices> {
         }
       }
       else{
+        setState(() {
+          _isButtonVisible = false;
+        });
         widget.service != null ? await updateService(_price) : await addService(_price);
       }
     }
   }
   Future<void> addService(int price) async{
-  try {
-
+    try {
       Services data = Services(title: _serviceTitleController.text.trim(), category: _currentCategorySelected, price: price, workshopCity: _cityName, workshopId: _firebaseUser.uid);
-      await _add.addWorkshopService(data);
-      if(WorkshopServiceQueries.resultMessage == 'Service Successfully Registered'){
-        _valid.validToastMessage(validMessage: WorkshopServiceQueries.resultMessage);
+      bool result = await _add.addWorkshopService(data);
+      if(result){
+        _valid.validToastMessage(validMessage: WorkshopServiceQueries.registerResultMessage);
         clear();
+        setState(() {
+          _isButtonVisible = true;
+        });
         Future.delayed(
           new Duration(seconds: 2),
               (){
@@ -154,19 +160,26 @@ class _AddServicesState extends State<AddServices> {
         );
       }
       else{
-        _error.errorToastMessage(errorMessage: WorkshopServiceQueries.resultMessage);
+        _error.errorToastMessage(errorMessage: _add.errorMessage);
       }
     }catch(e){
        _error.errorToastMessage(errorMessage: e.toString());
+    }finally{
+      setState(() {
+        _isButtonVisible = true;
+      });
     }
 }
   Future<void> updateService(int price) async{
     try {
       final Services data = Services(title: _serviceTitleController.text.trim(), category: _currentCategorySelected, price: price, workshopCity: _serviceInfo.workshopCity, workshopId: _serviceInfo.workshopId);
-      await _add.updateService(data, documentIndex);
-      if(WorkshopServiceQueries.updateResultMessage == "Service Information Updated"){
-        _valid.validToastMessage(validMessage: WorkshopServiceQueries.updateResultMessage);
+      bool result = await _add.updateService(data, documentIndex);
+      if(result){
         clear();
+        _valid.validToastMessage(validMessage: WorkshopServiceQueries.updateResultMessage);
+        setState(() {
+          _isButtonVisible = true;
+        });
         Future.delayed(
           new Duration(seconds: 2),
               (){
@@ -175,10 +188,23 @@ class _AddServicesState extends State<AddServices> {
         );
       }
       else{
-        _error.errorToastMessage(errorMessage: WorkshopServiceQueries.updateResultMessage);
+        _error.errorToastMessage(errorMessage: _add.errorMessage);
       }
     }catch(e){
       _error.errorToastMessage(errorMessage: e.toString());
+    }finally{
+      setState(() {
+        _isButtonVisible = true;
+      });
+    }
+  }
+
+  void checkFormState(){
+    if(!_formKey.currentState.validate()){
+      return;
+    }
+    else{
+      validateFields();
     }
   }
 
@@ -230,40 +256,25 @@ class _AddServicesState extends State<AddServices> {
                       SizedBox(height: 10,),
                       _addServicesWidget(titleController: _serviceTitleController,priceController: _servicePriceController,formKey: _formKey),
                       SizedBox(height: 20),
-                      FlatButton(
-                      child: Container(
-                        padding: EdgeInsets.symmetric(vertical: 15),
-                        alignment: Alignment.center,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.all(Radius.circular(5)),
-                            boxShadow: <BoxShadow>[
-                              BoxShadow(
-                                  color: Colors.grey.shade200,
-                                  offset: Offset(2, 4),
-                                  blurRadius: 5,
-                                  spreadRadius: 2)
-                            ],
-                            gradient: LinearGradient(
-                                begin: Alignment.centerLeft,
-                                end: Alignment.centerRight,
-                                colors: [Color(0xfffbb448), Color(0xfff7892b)])),
-                        child: Text(
-                          widget.service != null ? 'Update Service':'Add Service',
-                          style: GoogleFonts.krub(
-                            fontSize: 18,
-                            color: Colors.white,
+                      Center(
+                        child: Container(
+                          width: MediaQuery.of(context).size.width - 30,
+                          height: 60,
+                          child: RaisedButton(
+                            onPressed: _isButtonVisible ? () => {checkFormState()} : null,
+                            child:Text(
+                              widget.service != null ? 'Update Service':'Add Service',
+                              style: GoogleFonts.krub(
+                                fontSize: 18,
+                                color: Colors.white,
+                              ),
+                            ),
+                            color: Color(0xfff7892b),
+                            disabledColor: Colors.grey.shade400,
+                            disabledTextColor: Colors.black,
                           ),
                         ),
                       ),
-                      onPressed: (){
-                        if(!_formKey.currentState.validate()){
-                          return;
-                        }
-                        else{
-                          validateFields();
-                        }
-                      },
-                    ),
                       SizedBox(height: 20),
                     ],
                   ),

@@ -6,26 +6,33 @@ import '../toast_service.dart';
 
 class WorkshopServiceQueries {
 
-  static String resultMessage;
+  static final String registerResultMessage = 'Service Successfully Registered';
   static final String _WORKSHOP_COLLECTION = "workshop";
   static final String _Service_COLLECTION = "services";
-  static String updateResultMessage;
-  static String serviceDeletionMessage;
+  static final String updateResultMessage = "Service Updated Successfully";
+  final ToastErrorMessage _error = ToastErrorMessage();
+  static final String serviceDeletionMessage = 'Service Deleted Successfully';
   String _workshopCityName;
   bool _getCityName = false;
+  bool updateStatus = false,registerStatus = false,deletionStatus = false;
+  String errorMessage = '';
 
   final _firebaseUser = FirebaseAuth.instance.currentUser;
 
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-  Future<void> addWorkshopService(Services data) async{
+  Future<bool> addWorkshopService(Services data) async{
    try {
      await _firestore.collection(_Service_COLLECTION)
          .add(data.toMap())
-         .then((_) => resultMessage = 'Service Successfully Registered')
-         .catchError((error) => resultMessage = error.toString());
+         .then((_) => registerStatus = true)
+         .catchError((error) => errorMessage = error.toString());
+     if(registerStatus){
+       return true;
+     }
+     return false;
    }catch(e){
-     resultMessage = e.toString();
+     _error.errorToastMessage(errorMessage: e.toString());
    }
   }
   Future<String> getWorkshopCityName() async {
@@ -43,8 +50,7 @@ class WorkshopServiceQueries {
         return "";
       }
     }catch(e){
-        ToastErrorMessage error = ToastErrorMessage();
-        error.errorToastMessage(errorMessage: e.toString());
+        _error.errorToastMessage(errorMessage: e.toString());
     }
   }
   Stream<List<Services>> getServices({@required String serviceCategory}){
@@ -57,36 +63,42 @@ class WorkshopServiceQueries {
               .map((doc) => Services.fromJson(doc.data()))
               .toList());
     }catch(e){
-      ToastErrorMessage error = ToastErrorMessage();
-      error.errorToastMessage(errorMessage: e.toString());
+      _error.errorToastMessage(errorMessage: e.toString());
     }
   }
-  Future<void> deleteService({@required String category,@required int index}) async{
+  Future<bool> deleteService({@required String category,@required int index}) async{
     try {
       QuerySnapshot _querySnapshot = await _firestore.collection(_Service_COLLECTION)
           .where('category',isEqualTo: category)
           .get();
-          _querySnapshot.docs[index].reference.delete()
-            .then((_) => serviceDeletionMessage = 'Service Deleted Successfully')
-            .catchError((onError) => serviceDeletionMessage = onError.toString());
+          await _querySnapshot.docs[index].reference.delete()
+            .then((_) => deletionStatus = true)
+            .catchError((onError) => errorMessage = onError.toString());
+     if(deletionStatus){
+        return true;
+      }
+      return false;
     } on FirebaseException catch (e) {
-      ToastErrorMessage errorMessage = ToastErrorMessage();
-      errorMessage.errorToastMessage(
+      _error.errorToastMessage(
           errorMessage: e.toString());
     }
   }
-  Future<void> updateService(Services data,int index) async {
+  Future<bool> updateService(Services data,int index) async {
     try {
       QuerySnapshot _querySnapshot = await _firestore.collection(_Service_COLLECTION)
           .where('category', isEqualTo: data.category)
           .get();
-         _querySnapshot.docs[index].reference.update(data.toMap())
-          .then((_) => updateResultMessage = "Service Information Updated")
-          .catchError((onError) => updateResultMessage = onError.toString());
+         await _querySnapshot.docs[index].reference.update(data.toMap())
+          .then((_) => updateStatus = true)
+          .catchError((onError) => errorMessage = onError.toString());
+
+      if(updateStatus){
+        return true;
+      }
+      return false;
 
     } on FirebaseException catch (e) {
-      ToastErrorMessage errorMessage = ToastErrorMessage();
-      errorMessage.errorToastMessage(
+      _error.errorToastMessage(
           errorMessage: e.toString());
     }
   }

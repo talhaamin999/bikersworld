@@ -40,7 +40,7 @@ class RegisterMechanicQueries {
     try {
       QuerySnapshot _querySnapshot = await _collectionReference.doc(_firebaseUser.uid).collection(
           MECHANICS_COLLECTION).get();
-           _querySnapshot.docs[index].reference.delete()
+          await  _querySnapshot.docs[index].reference.delete()
           .then((_) => deletionResultMessage = 'Mechanic deleted successfully')
           .catchError((error) => deletionResultMessage = error.toString());
     } on FirebaseException catch (e) {
@@ -53,7 +53,7 @@ class RegisterMechanicQueries {
     try {
       QuerySnapshot _querySnapshot = await _collectionReference.doc(_firebaseUser.uid).collection(
           MECHANICS_COLLECTION).get();
-      _querySnapshot.docs[index].reference.update(data.toMap())
+      await _querySnapshot.docs[index].reference.update(data.toMap())
     .then((_) => updateResultMessage = 'Mechanic Information Updated')
       .catchError((onError) => updateResultMessage = onError.toString());
     } on FirebaseException catch (e) {

@@ -38,13 +38,13 @@ class _ServiceCategoryInformationState extends State<ServiceCategoryInformation>
   }
   Future<void> deleteService(String category,int index) async{
     try {
-      await _servicesQuery.deleteService(category: category,index: index);
-      if (WorkshopServiceQueries.serviceDeletionMessage == 'Service Deleted Successfully') {
+      bool result = await _servicesQuery.deleteService(category: category,index: index);
+      if (result) {
         _valid.validToastMessage(
             validMessage: WorkshopServiceQueries.serviceDeletionMessage);
       } else {
         _error.errorToastMessage(
-            errorMessage: WorkshopServiceQueries.serviceDeletionMessage);
+            errorMessage: _servicesQuery.errorMessage);
       }
     }catch(e){
       _error.errorToastMessage(errorMessage: e.toString());
