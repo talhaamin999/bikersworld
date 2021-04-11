@@ -170,9 +170,14 @@ class _NormalUserWorkshopEmployeeProfileState extends State<NormalUserWorkshopEm
                             color: Colors.white,
                             margin: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
                             child: ListTile(
-                              leading: Icon(
-                                Icons.person,
-                                color: Colors.black,
+                              leading: CircleAvatar(
+                                child: Icon(
+                                  Icons.person,
+                                  size: 30,
+                                  color: Colors.white,
+                                ),
+                                radius: 25,
+                                backgroundColor: Colors.orange,
                               ),
                               title: Container(
                                 child: Column(

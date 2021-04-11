@@ -162,16 +162,17 @@ class _ReviewFromUserState extends State<ReviewFromUser> {
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       mainAxisSize: MainAxisSize.min,
                                       children: <Widget>[
+
                                         Container(
-                                          child: ListTile(
+                                          child:ListTile(
                                             leading: CircleAvatar(
                                               child: Icon(
                                                 Icons.person,
-                                                size: 25,
+                                                size: 30,
                                                 color: Colors.white,
                                               ),
-                                              radius: 28,
-                                              backgroundColor: Color(0XFF012A4A),
+                                              radius: 25,
+                                              backgroundColor: Colors.orange,
                                             ),
                                             title: snapshot.data != null ?
                                             Container(

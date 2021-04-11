@@ -1,17 +1,15 @@
 import 'dart:async';
-
-import 'package:bikersworld/screen/dashboard/Ads/postAdsSeller.dart';
+import 'package:email_validator/email_validator.dart';
+import 'package:bikersworld/services/authenticate_service.dart';
 import 'package:bikersworld/services/toast_service.dart';
-import 'package:bikersworld/services/user_role_queries/add_user_role.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:bikersworld/screen/loginSignup/loginPage.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:bikersworld/screen/loginSignup/signup.dart';
 import 'package:bikersworld/screen/dashboard/home.dart';
-import 'package:bikersworld/screen/dashboard/Ads/seller/sellerDashbaord.dart';
-import 'package:bikersworld/screen/dashboard/searchPages/workshop_search_page.dart';
-import 'package:bikersworld/screen/dashboard/searchPages/autopart_search_page.dart';
+
+import 'package:bikersworld/widgets/bezierContainer.dart';
 
 
 class GenericOptionScreen extends StatefulWidget {
@@ -22,277 +20,170 @@ class GenericOptionScreen extends StatefulWidget {
 
 class _GenericOptionScreenState extends State<GenericOptionScreen> {
 
-  static final String _WORKSHOP_OWNER = "workshop owner";
-  static final String _PARTSTORE_OWNER = "partstore owner";
-  static final String _SELLER = "seller";
-  static final String _GENERAL = "general";
+  Widget _submitButton() {
+    return FlatButton(
+      child: Container(
+        width: MediaQuery.of(context).size.width,
+        padding: EdgeInsets.symmetric(vertical: 15),
+        alignment: Alignment.center,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.all(Radius.circular(5)),
+          boxShadow: <BoxShadow>[
+            BoxShadow(
+                color: Colors.grey.shade200,
+                offset: Offset(2, 4),
+                blurRadius: 5,
+                spreadRadius: 2)
+          ],
+          gradient: LinearGradient(
+            begin: Alignment.centerLeft,
+            end: Alignment.centerRight,
+            colors: [Color(0xfffbb448), Color(0xfff7892b),
+            ],
+          ),
+        ),
+        child: Text(
+          'Submit',
+          style: GoogleFonts.quicksand(
+              fontSize: 20,
+              color: Colors.white
+          ),
+        ),
+      ),
+      onPressed: (){
 
-  Future<void> addRole(String role) async{
-   final AddUserRoleQuerie _user = AddUserRoleQuerie();
-   final bool _result = await _user.addUserRole(role);
-   if(_result){
-     ToastValidMessage valid = ToastValidMessage();
-     valid.validToastMessage(validMessage: "Success");
-     await Future.delayed(
-         new Duration(
-           seconds: 1,
-         ),
-             (){
-           Navigator.of(context).push(
-             MaterialPageRoute(builder: (context) => HomeDashboard()),
-           );
-         }
-     );
-   }
-   return;
+      },
+    );
+  }
+
+
+
+
+  Widget _title() {
+    return RichText(
+      textAlign: TextAlign.center,
+      text: TextSpan(
+          text: 'SELECT',
+          style: GoogleFonts.quicksand(
+            fontSize: 30,
+            color: Color(0xfff7892b),
+          ),
+          children: [
+            TextSpan(
+              text: ' ROLE',
+              style: GoogleFonts.quicksand(
+                fontSize: 30,
+                color: Colors.black,
+              ),
+            ),
+          ]),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        body:SingleChildScrollView(
-          child:Container(
-            margin: EdgeInsets.only(top: 100),
-            padding: EdgeInsets.symmetric(horizontal: 60),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                _title(),
-                SizedBox(
-                  height: 40,
-                ),
-               Container(
-                 child:Text(
-                   "Select Option",
-                   style: GoogleFonts.quicksand(
-                     fontSize: 25,
-                   ),
-                 ),
-               ),
-                SizedBox(height: 30,),
-                FlatButton(
-                  onPressed: () async{
-                   await addRole(_PARTSTORE_OWNER);
-                  },
-                  child: Container(
-                    height: 50,
-                    width: 250,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.only(
-                          bottomLeft: Radius.circular(10),
-                          topRight: Radius.circular(10),
-                          bottomRight: Radius.circular(10),
-                          topLeft: Radius.circular(10),
-                        ),
-                        color: Colors.white,
-                        boxShadow: [
-                          BoxShadow(
-                            offset: Offset(0.0,20.0),
-                            blurRadius: 30.0,
-                            color: Colors.black12,
-                          ),
-                        ]
-                    ),
-                    child: Row(
-                      children: <Widget>[
-                        Container(
-                          height: 50,
-                          width: 200,
-                          decoration: BoxDecoration(
-                              boxShadow: [BoxShadow(color: Colors.white)],
-                              color: Color(0xff21255c),
-                              borderRadius: BorderRadius.only(
-                                bottomLeft: Radius.circular(22),
-                                topRight: Radius.circular(0),
-                                bottomRight: Radius.circular(200),
-                              )
-                          ),
-                          child: Container(
-                            margin: EdgeInsets.only(top: 8, left: 15),
-                            child: Text(
-                              'Part Store',
-                              style: GoogleFonts.quicksand(
-                                fontSize: 20,
-                                color: Colors.white,
-                              ),
-                            ),
-                          ),
-                        ),
-                        Icon(Icons.store,
-                          size: 30.0,
-                        ),
-                      ],
-                    ),
+    final height = MediaQuery.of(context).size.height;
+    return Scaffold(
+        body: Container(
+          height: height,
+          child: Stack(
+            children: <Widget>[
+              Positioned(
+                  top: -height * .15,
+                  right: -MediaQuery.of(context).size.width * .4,
+                  child: BezierContainer()
+              ),
+              Container(
+                padding: EdgeInsets.symmetric(horizontal: 20),
+                child: SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      SizedBox(height: height * .2),
+                      _title(),
+                      SizedBox(height: 20),
+                      Role(),
+                      SizedBox(height: 20,),
+                      _submitButton(),
+                    ],
                   ),
-                ),
-
-                SizedBox(height: 30,),
-                FlatButton(
-                  onPressed: () async{
-                       await addRole(_WORKSHOP_OWNER);
-                    },
-                  child: Container(
-                    height: 50,
-                    width: 250,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.only(
-                          bottomLeft: Radius.circular(10),
-                          topRight: Radius.circular(10),
-                          bottomRight: Radius.circular(10),
-                          topLeft: Radius.circular(10),
-                        ),
-                        color: Colors.white,
-                        boxShadow: [
-                          BoxShadow(
-                            offset: Offset(0.0,20.0),
-                            blurRadius: 30.0,
-                            color: Colors.black12,
-                          ),
-                        ]
-                    ),
-                    child: Row(
-                      children: <Widget>[
-                        Container(
-                          height: 50,
-                          width: 200,
-                          decoration: BoxDecoration(
-                              boxShadow: [BoxShadow(color: Colors.white)],
-                              color: Color(0xff21255c),
-                              borderRadius: BorderRadius.only(
-                                bottomLeft: Radius.circular(22),
-                                topRight: Radius.circular(0),
-                                bottomRight: Radius.circular(200),
-                              )
-                          ),
-                          child: Container(
-                            margin: EdgeInsets.only(top: 8, left: 15),
-                            child: Text(
-                              'Workshop Owner',
-                              style: GoogleFonts.quicksand(
-                                fontSize: 20,
-                                color: Colors.white,
-                              ),
-                            ),
-                          ),
-                        ),
-                        Icon(Icons.supervised_user_circle,
-                          size: 30.0,
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-
-                SizedBox(height: 30,),
-
-                FlatButton(
-                  onPressed: () async{
-                    await addRole(_SELLER);
-                  },
-                  child: Container(
-                    height: 50,
-                    width: 250,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.only(
-                          bottomLeft: Radius.circular(10),
-                          topRight: Radius.circular(10),
-                          bottomRight: Radius.circular(10),
-                          topLeft: Radius.circular(10),
-                        ),
-                        color: Colors.white,
-                        boxShadow: [
-                          BoxShadow(
-                            offset: Offset(0.0,20.0),
-                            blurRadius: 30.0,
-                            color: Colors.white,
-                          ),
-                        ]
-                    ),
-                    child: Row(
-                      children: <Widget>[
-                        Container(
-                          height: 50,
-                          width: 200,
-                          decoration: BoxDecoration(
-                              boxShadow: [BoxShadow(color: Colors.white)],
-                              color: Color(0xff21255c),
-                              borderRadius: BorderRadius.only(
-                                bottomLeft: Radius.circular(22),
-                                topRight: Radius.circular(0),
-                                bottomRight: Radius.circular(200),
-                              )
-                          ),
-                          child: Container(
-                            margin: EdgeInsets.only(top: 8, left: 15),
-                            child: Text(
-                              'Seller',
-                              style: GoogleFonts.quicksand(
-                                fontSize: 20,
-                                color: Colors.white,
-                              ),
-                            ),
-                          ),
-                        ),
-                        Icon(Icons.home,
-                          size: 30.0,
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-
-                SizedBox(height: 80,),
-            InkWell(
-              onTap: (){
-               Navigator.pop(context);
-                },
-              child: Container(
-                width: MediaQuery.of(context).size.width,
-                padding: EdgeInsets.symmetric(vertical: 13),
-                alignment: Alignment.center,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(5)),
-                  border: Border.all(color: Colors.black, width: 2),
-                ),
-                child: Text(
-                  'Back',
-                  style: TextStyle(fontSize: 20, color: Colors.black),
                 ),
               ),
-            ),
-                SizedBox(height: 30,),
-
-              ],
-            ),
+            ],
           ),
-        ),
-      ),
-    );
+        ));
   }
 }
 
+enum UserRole { StoreOwner, WorkshopOwner, Seller , generalUser }
 
-Widget _title() {
-  return RichText(
-    textAlign: TextAlign.center,
-    text: TextSpan(
-        text: 'BIKERS',
-        style: GoogleFonts.quicksand(
-          fontSize: 35,
-          color: Color(0xfff7892b),
-        ),
-        children: [
-          TextSpan(
-              text: 'WORLD',
-              style: GoogleFonts.quicksand(
-                color: Color(0xffdf8e33).withAlpha(100),
-                fontSize: 35,
-              )
+class Role extends StatefulWidget {
+  Role({Key key}) : super(key: key);
+
+  @override
+  _RoleState createState() => _RoleState();
+}
+
+class _RoleState extends State<Role> {
+  UserRole _site = UserRole.WorkshopOwner;
+
+  Widget build(BuildContext context) {
+    return Column(
+      children: <Widget>[
+        SizedBox(height: 15,),
+        ListTile(
+          title: Text('Workshop Owner' , style: GoogleFonts.varelaRound(fontSize: 20),),
+          leading: Radio(
+            value: UserRole.WorkshopOwner,
+            groupValue: _site,
+            onChanged: (UserRole value) {
+              setState(() {
+                _site = value;
+              });
+            },
           ),
-
-        ]
-    ),
-  );
+        ),
+        SizedBox(height: 15,),
+        ListTile(
+          title: Text('Auto Part Store Owner', style: GoogleFonts.varelaRound(fontSize: 20),),
+          leading: Radio(
+            value: UserRole.StoreOwner,
+            groupValue: _site,
+            onChanged: (UserRole value) {
+              setState(() {
+                _site = value;
+              });
+            },
+          ),
+        ),
+        SizedBox(height: 15,),
+        ListTile(
+          title: Text('Seller', style: GoogleFonts.varelaRound(fontSize: 20),),
+          leading: Radio(
+            value: UserRole.Seller,
+            groupValue: _site,
+            onChanged: (UserRole value) {
+              setState(() {
+                _site = value;
+              });
+            },
+          ),
+        ),
+        SizedBox(height: 15,),
+        ListTile(
+          title: Text('General User', style: GoogleFonts.varelaRound(fontSize: 20),),
+          leading: Radio(
+            value: UserRole.generalUser,
+            groupValue: _site,
+            onChanged: (UserRole value) {
+              setState(() {
+                _site = value;
+              });
+            },
+          ),
+        ),
+      ],
+    );
+  }
 }

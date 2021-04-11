@@ -161,6 +161,18 @@ class _NormalUserWorkshopDashboardState extends State<NormalUserWorkshopDashboar
                                       content: Container(
                                         child: Row(
                                           children: [
+                                            Text(
+                                              widget.workshopData.openTime,
+                                            ),
+                                            SizedBox(width: 5,),
+                                            Text(
+                                              "to"
+                                            ),
+                                            SizedBox(width: 5,),
+
+                                            Text(
+                                              widget.workshopData.closeTime,
+                                            ),
                                           ],
                                         ),
                                       ),
@@ -207,6 +219,93 @@ class _NormalUserWorkshopDashboardState extends State<NormalUserWorkshopDashboar
                                         child: Container(
                                           child: new Wrap(
                                             children: <Widget>[
+                                              Padding(
+                                                padding: const EdgeInsets.only(left:20,top:20),
+                                                child: Text(
+                                                  "Working Days",
+                                                  style: GoogleFonts.quicksand(
+                                                      fontSize: 18 ,
+                                                      fontWeight:FontWeight.bold,
+                                                  ),
+                                                ),
+                                              ),
+                                              ListTile(
+                                                title: Container(
+                                                  child: Row(
+                                                    children: [
+                                                      Text("Monday", style: GoogleFonts.quicksand(fontSize: 20, ),),                                          ],
+                                                  ),
+                                                ),
+                                                leading: widget.workshopData.monday ? Icon(FontAwesomeIcons.check,color: Colors.green,) :  Icon(FontAwesomeIcons.times,color: Colors.red,
+                                                ),
+
+                                              ),
+                                              ListTile(
+                                                title: Container(
+                                                  child: Row(
+                                                    children: [
+                                                      Text("Tuesday", style: GoogleFonts.quicksand(fontSize: 20, ),),
+                                                    ],
+                                                  ),
+                                                ),
+                                                leading: widget.workshopData.tuesday ? Icon(FontAwesomeIcons.check,color: Colors.green,) :  Icon(FontAwesomeIcons.times,color: Colors.red,),
+                                              ),
+                                              ListTile(
+                                                title: Container(
+                                                  child: Row(
+                                                    children: [
+                                                      Text("Wednesday", style: GoogleFonts.quicksand(fontSize: 20, ),),
+                                                    ],
+                                                  ),
+                                                ),
+                                                leading: widget.workshopData.wednesday ? Icon(FontAwesomeIcons.check,color: Colors.green,) :  Icon(FontAwesomeIcons.times,color: Colors.red,),
+
+                                              ),
+                                              ListTile(
+                                                title: Container(
+                                                  child: Row(
+                                                    children: [
+                                                      Text("Thursday", style: GoogleFonts.quicksand(fontSize: 20, ),),
+
+                                                    ],
+                                                  ),
+                                                ),
+
+                                                leading: widget.workshopData.thursday ? Icon(FontAwesomeIcons.check,color: Colors.green,) :  Icon(FontAwesomeIcons.times,color: Colors.red,),
+                                              ),
+                                              ListTile(
+                                                title: Container(
+                                                  child: Row(
+                                                    children: [
+                                                      Text("Friday", style: GoogleFonts.quicksand(fontSize: 20, ),),
+                                                    ],
+                                                  ),
+                                                ),
+                                                leading: widget.workshopData.friday ? Icon(FontAwesomeIcons.check,color: Colors.green,) :  Icon(FontAwesomeIcons.times,color: Colors.red,),
+
+                                              ),
+                                              ListTile(
+                                                title: Container(
+                                                  child: Row(
+                                                    children: [
+                                                      Text("Saturday", style: GoogleFonts.quicksand(fontSize: 20, ),),
+                                                    ],
+                                                  ),
+                                                ),
+                                                leading: widget.workshopData.saturday ? Icon(FontAwesomeIcons.check,color: Colors.green,) :  Icon(FontAwesomeIcons.times,color: Colors.red,),
+
+                                              ),
+                                              ListTile(
+                                                title: Container(
+                                                  child: Row(
+                                                    children: [
+                                                      Text("Sunday", style: GoogleFonts.quicksand(fontSize: 20, ),),
+                                                    ],
+                                                  ),
+                                                ),
+
+                                                leading: widget.workshopData.sunday ? Icon(FontAwesomeIcons.check,color: Colors.green,) :  Icon(FontAwesomeIcons.times,color: Colors.red,),
+                                              ),
                                             ],
                                           ),
                                         ),
@@ -231,7 +330,7 @@ class _NormalUserWorkshopDashboardState extends State<NormalUserWorkshopDashboar
                                       ),
                                     ),
                                     Text(
-                                      "Calender",
+                                      "Days",
                                       style: GoogleFonts.quicksand(
                                         fontSize:16,
                                         color: Colors.white,
@@ -400,7 +499,7 @@ class _NormalUserWorkshopDashboardState extends State<NormalUserWorkshopDashboar
                         child: ActiveProjectsCard(
                           cardColor: Color(0xFF6488E4),
                           title: 'View',
-                          icon: Icon(FontAwesomeIcons.user , size: 55, color: Colors.white,),
+                          icon: Icon(Icons.person , size: 65, color: Colors.white,),
                           subtitle: 'Mechanics',
                         ),
                       ),

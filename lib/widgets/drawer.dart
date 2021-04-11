@@ -2,7 +2,9 @@ import 'package:bikersworld/screen/dashboard/searchPages/auto_partstore_search_p
 import 'package:bikersworld/screen/workshop/workshop_dashboard.dart';
 import 'package:bikersworld/services/authenticate_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:bikersworld/screen/workshop/register_workshop.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -14,6 +16,8 @@ import 'package:bikersworld/screen/dashboard/searchPages/autopart_search_page.da
 import 'package:bikersworld/screen/dashboard/searchPages/ads_search_page.dart';
 import 'package:bikersworld/screen/dashboard/searchPages/workshop_search_page.dart';
 import 'package:bikersworld/screen/dashboard/searchPages/service_search_page.dart';
+import 'package:multilevel_drawer/multilevel_drawer.dart';
+
 
 
 class drawer extends StatefulWidget {
@@ -44,34 +48,108 @@ class _drawerState extends State<drawer> {
     }
 
     return Drawer(
-      child: ListView(
+      child: new  ListView(
         children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.only(top: 30, left: 10),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                SizedBox(height: 30,),
-                Text(
-                  user,
-                  style: GoogleFonts.quicksand(
-                    fontSize: 30,
-                    color: Color(0xffffa354),
-                    fontWeight: FontWeight.w800,
+          Container(
+            height:200,
+            child: DrawerHeader(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  CircleAvatar(
+                    child: CircleAvatar(
+                      radius: 50,
+                      backgroundColor: Colors.white,
+                      backgroundImage: AssetImage("assets/user.png"),
+                    ),
+                    radius: 53,
+                    backgroundColor: Colors.orange,
                   ),
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                Text(
-                  "Dashboard",
-                  style: GoogleFonts.quicksand(
-                    fontSize: 26,
-                    color: Colors.black54,
+
+                  SizedBox(height: 10,),
+                  Container(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          user,
+                          style: GoogleFonts.quicksand(
+                            fontSize: 20,
+                            color: Colors.orange,
+                          ),
+                        ),
+                        FlatButton(
+                          onPressed: (){
+                            showModalBottomSheet(
+                                context: context,
+                                builder: (BuildContext bc){
+                                  return SingleChildScrollView(
+                                    child: Container(
+                                      child: new Wrap(
+                                        children: <Widget>[
+                                          Padding(
+                                            padding: const EdgeInsets.only(top:15, left:15),
+                                            child: Text(
+                                              "Select Option",
+                                              style: GoogleFonts.quicksand(
+                                                fontSize: 20,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                          ),
+
+                                          ListTile(
+                                            leading: Icon(Icons.home),
+                                            title: Text("Home" ,style: GoogleFonts.montserrat(fontSize: 15,color: Colors.black),),
+                                            trailing: Icon(Icons.arrow_forward_ios, size: 15.0,),
+                                            onTap: (){
+                                              Navigator.push(context, MaterialPageRoute(builder: (context) => HomeDashboard()));
+                                            },
+                                          ),
+
+                                          ListTile(
+                                              leading: Icon(FontAwesomeIcons.outdent),
+                                              title: Text("Sign Out",style: GoogleFonts.montserrat(fontSize: 15,color: Colors.black),),
+                                              trailing: Icon(Icons.arrow_forward_ios, size: 15.0,),
+                                              onTap: () async {
+                                                AuthenticationService auth = AuthenticationService();
+                                                await auth.signOut();
+                                                Navigator.push(context, MaterialPageRoute(builder: (context) => HomeDashboard())
+                                                );
+                                              }
+                                          ),
+
+
+                                          ListTile(
+                                            leading: Icon(FontAwesomeIcons.registered),
+                                            title: Text("Register Workshop",style: GoogleFonts.montserrat(fontSize: 15,color: Colors.black),),
+                                            trailing: Icon(Icons.arrow_forward_ios, size: 15.0,),
+                                            onTap: (){
+                                              Navigator.push(context, MaterialPageRoute(builder: (context) => RegisterWorkshop()));
+                                            },
+                                          ),
+                                          SizedBox(height: 20,),
+                                        ],
+                                      ),
+                                    ),
+                                  );
+                                }
+                            );
+                          },
+                          child: Icon(
+                            FontAwesomeIcons.chevronDown,
+                            color: Colors.white,
+                            size: 20,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
+              decoration: BoxDecoration(
+               color: Color(0XFF012A4A),
+              ),
             ),
           ),
 
@@ -84,24 +162,27 @@ class _drawerState extends State<drawer> {
             },
           ),
 
+
           ListTile(
             leading: Icon(FontAwesomeIcons.signInAlt),
-            title: Text("Login | Signup",style: GoogleFonts.montserrat(fontSize: 15,color: Colors.black),),
+            title: Text("Login" ,style: GoogleFonts.montserrat(fontSize: 15,color: Colors.black),),
             trailing: Icon(Icons.arrow_forward_ios, size: 15.0,),
             onTap: (){
               Navigator.push(context, MaterialPageRoute(builder: (context) => WelcomePage()));
             },
           ),
 
+
+
           ListTile(
-            leading: Icon(FontAwesomeIcons.outdent),
-            title: Text("Sign Out",style: GoogleFonts.montserrat(fontSize: 15,color: Colors.black),),
-            trailing: Icon(Icons.arrow_forward_ios, size: 15.0,),
-            onTap: () async {
-              AuthenticationService auth = AuthenticationService();
-              await auth.signOut();
-              Navigator.push(context, MaterialPageRoute(builder: (context) => HomeDashboard()));
-            }
+              leading: Icon(FontAwesomeIcons.outdent),
+              title: Text("Sign Out",style: GoogleFonts.montserrat(fontSize: 15,color: Colors.black),),
+              trailing: Icon(Icons.arrow_forward_ios, size: 15.0,),
+              onTap: () async {
+                AuthenticationService auth = AuthenticationService();
+                await auth.signOut();
+                Navigator.push(context, MaterialPageRoute(builder: (context) => HomeDashboard()));
+              }
           ),
 
 
@@ -223,6 +304,10 @@ class _drawerState extends State<drawer> {
         ],
       ),
     );
+
   }
 }
+
+
+
 

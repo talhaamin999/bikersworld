@@ -112,10 +112,9 @@ class _NormalUserWorkshopEmployeeState
                           color: Colors.white,
                           margin: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
                           child: ListTile(
-                            leading: Icon(
-                              Icons.person,
-                              color: Colors.black,
-                              size: 30,
+                            leading: CircleAvatar(
+                            radius: 30,
+                              backgroundImage: AssetImage("assets/mechanicavatar.jpg",),
                             ),
                             title: Container(
                               child: Column(
