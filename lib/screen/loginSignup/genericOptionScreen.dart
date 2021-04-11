@@ -1,7 +1,9 @@
 import 'dart:async';
+import 'package:bikersworld/services/user_role_queries/add_user_role.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:bikersworld/services/authenticate_service.dart';
 import 'package:bikersworld/services/toast_service.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -19,6 +21,52 @@ class GenericOptionScreen extends StatefulWidget {
 }
 
 class _GenericOptionScreenState extends State<GenericOptionScreen> {
+
+  final _userRole = AddUserRoleQuerie();
+  final _error = ToastErrorMessage();
+  bool _isButtonVisisble = true;
+  final _valid = ToastValidMessage();
+
+  Future<void> createRole() async{
+    bool _result = false;
+    try {
+      setState(() {
+        _isButtonVisisble = false;
+      });
+      if(_role == UserRole.WorkshopOwner) {
+        _result = await _userRole.addUserRole('workshop_owner');
+      }else if(_role == UserRole.StoreOwner){
+        _result = await _userRole.addUserRole('partstore_owner');
+      }else if(_role == UserRole.Seller){
+        _result = await _userRole.addUserRole('seller');
+      }else{
+        _result = await _userRole.addUserRole('general');
+      }
+
+      if(_result){
+        _valid.validToastMessage(validMessage: 'Role Added');
+        setState(() {
+          _isButtonVisisble = true;
+        });
+        Future.delayed(
+          new Duration(seconds: 2),
+            (){
+              Navigator.of(context).push(
+                  MaterialPageRoute(builder: (context) => HomeDashboard()));
+            }
+        );
+      }else{
+        _error.errorToastMessage(errorMessage: AddUserRoleQuerie.errorMessage);
+      }
+
+    }catch(e){
+      _error.errorToastMessage(errorMessage: e.toString());
+    }finally{
+      setState(() {
+        _isButtonVisisble = true;
+      });
+    }
+  }
 
   Widget _submitButton() {
     return FlatButton(
@@ -43,7 +91,7 @@ class _GenericOptionScreenState extends State<GenericOptionScreen> {
           ),
         ),
         child: Text(
-          'Submit',
+          'Confirm Role',
           style: GoogleFonts.quicksand(
               fontSize: 20,
               color: Colors.white
@@ -51,12 +99,10 @@ class _GenericOptionScreenState extends State<GenericOptionScreen> {
         ),
       ),
       onPressed: (){
-
+          createRole();
       },
     );
   }
-
-
 
 
   Widget _title() {
@@ -117,6 +163,7 @@ class _GenericOptionScreenState extends State<GenericOptionScreen> {
 }
 
 enum UserRole { StoreOwner, WorkshopOwner, Seller , generalUser }
+UserRole _role = UserRole.generalUser;
 
 class Role extends StatefulWidget {
   Role({Key key}) : super(key: key);
@@ -126,7 +173,6 @@ class Role extends StatefulWidget {
 }
 
 class _RoleState extends State<Role> {
-  UserRole _site = UserRole.WorkshopOwner;
 
   Widget build(BuildContext context) {
     return Column(
@@ -136,23 +182,23 @@ class _RoleState extends State<Role> {
           title: Text('Workshop Owner' , style: GoogleFonts.varelaRound(fontSize: 20),),
           leading: Radio(
             value: UserRole.WorkshopOwner,
-            groupValue: _site,
+            groupValue: _role,
             onChanged: (UserRole value) {
               setState(() {
-                _site = value;
+                _role = value;
               });
             },
           ),
         ),
         SizedBox(height: 15,),
         ListTile(
-          title: Text('Auto Part Store Owner', style: GoogleFonts.varelaRound(fontSize: 20),),
+          title: Text('AutoPart Store Owner', style: GoogleFonts.varelaRound(fontSize: 20),),
           leading: Radio(
             value: UserRole.StoreOwner,
-            groupValue: _site,
+            groupValue: _role,
             onChanged: (UserRole value) {
               setState(() {
-                _site = value;
+                _role = value;
               });
             },
           ),
@@ -162,10 +208,10 @@ class _RoleState extends State<Role> {
           title: Text('Seller', style: GoogleFonts.varelaRound(fontSize: 20),),
           leading: Radio(
             value: UserRole.Seller,
-            groupValue: _site,
+            groupValue: _role,
             onChanged: (UserRole value) {
               setState(() {
-                _site = value;
+                _role = value;
               });
             },
           ),
@@ -175,10 +221,10 @@ class _RoleState extends State<Role> {
           title: Text('General User', style: GoogleFonts.varelaRound(fontSize: 20),),
           leading: Radio(
             value: UserRole.generalUser,
-            groupValue: _site,
+            groupValue: _role,
             onChanged: (UserRole value) {
               setState(() {
-                _site = value;
+                _role = value;
               });
             },
           ),

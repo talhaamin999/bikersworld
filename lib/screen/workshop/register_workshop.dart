@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:bikersworld/model/workshop_model.dart';
+import 'package:bikersworld/screen/loginSignup/genericOptionScreen.dart';
 import 'package:bikersworld/screen/workshop/workshop_dashboard.dart';
 import 'package:bikersworld/services/toast_service.dart';
 import 'package:bikersworld/services/validate_service.dart';
@@ -167,13 +168,13 @@ class _RegisterWorkshopState extends State<RegisterWorkshop> {
       final _data = WorkshopDashboardModel(shopTitle: _shopTitleController.text,city: _shopCityController.text,area: _shopSpecificAreaController.text,openTime: openTime,closeTime: closeTime, ownerName: _ownerNameController.text,ownerContact: _ownerContactController.text,monday: monday,tuesday: tuesday,wednesday: wednesday,thursday: thursday,friday: friday,saturday: saturday,sunday: sunday,imageURL: imageUrl);
       final RegisterWorkshopQueries register = RegisterWorkshopQueries();
       await register.registerWorkshop(_data);
-        if(RegisterWorkshopQueries.resultMessage == "Workshop Successfully Registered"){
+        if(register.resultMessage == "Workshop Successfully Registered"){
           if(widget.data != null){
             valid.validToastMessage(validMessage: 'Workshop Successfully Updated');
           }
           else{
             valid.validToastMessage(
-                validMessage: RegisterWorkshopQueries.resultMessage);
+                validMessage: register.resultMessage);
            }
           clear();
           setState(() {
@@ -187,10 +188,22 @@ class _RegisterWorkshopState extends State<RegisterWorkshop> {
                 );
           },
           );
-
         }
-        else{
-          error.errorToastMessage(errorMessage: RegisterWorkshopQueries.resultMessage);
+        else if(register.resultMessage == register.roleErrorMessage){
+          error.errorToastMessage(errorMessage: register.resultMessage);
+          setState(() {
+            _isButtonVisible = true;
+          });
+          Future.delayed(
+            new Duration(seconds: 2),
+                (){
+              Navigator.of(this.context)
+                  .push(MaterialPageRoute(builder: (context) => GenericOptionScreen())
+              );
+            },
+          );
+        }else{
+          error.errorToastMessage(errorMessage: register.resultMessage);
         }
     }catch(e){
       error.errorToastMessage(errorMessage: e.toString());

@@ -32,7 +32,6 @@ class AuthenticationService {
   }
 
   Future<String> signUpWithEmailAndPasword({String email, String password}) async {
-
     try {
       await _firebaseAuth.createUserWithEmailAndPassword(email: email, password: password);
       return signedUp;

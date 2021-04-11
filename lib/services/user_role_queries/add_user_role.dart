@@ -5,26 +5,46 @@ import '../toast_service.dart';
 class AddUserRoleQuerie {
 
   static final String _ROLE_TITLE = "role";
-  static bool _value = false;
-
+  bool _value = false;
+  final _error = ToastErrorMessage();
   final _firebaseUser = FirebaseAuth.instance.currentUser;
-  final FirebaseFirestore _firestoreInstance = FirebaseFirestore.instance;
+  final CollectionReference _collectionReference = FirebaseFirestore.instance.collection('roles');
+  bool _roleExists = false;
+  static String errorMessage = '';
 
   Future<bool> addUserRole(String roleTitle) async{
-    await _firestoreInstance.collection("roles").doc(_firebaseUser.uid).set(
-        {
-          _ROLE_TITLE: roleTitle,
-        }).then((_) {
-      _value = true;
-    }).catchError((error){
-      ToastErrorMessage errorMessage = ToastErrorMessage();
-      errorMessage.errorToastMessage(errorMessage: error.toString());
-      _value = false;
-    });
-    if(_value){
-      return true;
-    }else {
-      return false;
+    try {
+      await _collectionReference.doc(_firebaseUser.uid).set(
+          {
+            _ROLE_TITLE: roleTitle,
+          }).then((_) => _value = true)
+          .catchError((error) => errorMessage = error.toString());
+      if (_value) {
+        return true;
+      } else {
+        return false;
+      }
+    }catch(e){
+      errorMessage = e.toString();
+    }
+  }
+  Future<bool> getUserRole(String id,String role) async{
+    try{
+      await _collectionReference.doc(id)
+          .get()
+          .then((doc) {
+             if(doc.exists) {
+               if(doc.get('role') == role) {
+                 _roleExists = true;
+               }
+             }else{
+               _roleExists = false;
+             }
+          })
+          .catchError((onError) => errorMessage = onError.toString());
+      return _roleExists;
+    }catch(e){
+      errorMessage = e.toString();
     }
   }
 }
