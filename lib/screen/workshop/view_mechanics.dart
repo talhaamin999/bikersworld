@@ -279,7 +279,8 @@ class _ViewMechanicsState extends State<ViewMechanics> {
                                           title: Row(
                                             children: [
                                               CircleAvatar(
-                                                  child: Icon(Icons.person)),
+                                                  backgroundImage: AssetImage("assets/mechanicavatar.jpg"),
+                                              ),
                                               SizedBox(
                                                 width: 10,
                                               ),

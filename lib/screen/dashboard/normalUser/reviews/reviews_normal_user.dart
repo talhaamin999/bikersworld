@@ -166,12 +166,12 @@ class _ReviewFromUserState extends State<ReviewFromUser> {
                                         Container(
                                           child:ListTile(
                                             leading: CircleAvatar(
-                                              child: Icon(
-                                                Icons.person,
-                                                size: 30,
-                                                color: Colors.white,
+                                              child: CircleAvatar(
+                                                backgroundImage: AssetImage("assets/user.png"),
+                                                radius: 25,
+                                                backgroundColor: Colors.white,
                                               ),
-                                              radius: 25,
+                                              radius: 30,
                                               backgroundColor: Colors.orange,
                                             ),
                                             title: snapshot.data != null ?

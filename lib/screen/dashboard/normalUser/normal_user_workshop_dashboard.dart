@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:bikersworld/screen/dashboard/normalUser/reviews/reviewsNormalUser.dart';
+import 'package:bikersworld/screen/dashboard/normalUser/reviews/reviews_normal_user.dart';
 import 'package:bikersworld/screen/dashboard/normalUser/normal_user_workshop_employee.dart';
 import 'package:bikersworld/screen/dashboard/normalUser/normal_user_workshop_services.dart';
 
@@ -519,39 +519,6 @@ class _NormalUserWorkshopDashboardState extends State<NormalUserWorkshopDashboar
 }
 
 
-/*
-* Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      FlatButton(
-                        onPressed: (){
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => NormalUserWorkshopServices()));
-
-                        },
-                        child: ActiveProjectsCard(
-                          cardColor: Color(0xffdb8651),
-                          title: 'Workshop',
-                          icon: Icon(FontAwesomeIcons.cogs , size: 55, color: Colors.white,),
-                          subtitle: 'Services',
-                        ),
-                      ),
-                      SizedBox(width: 20.0),
-                      FlatButton(
-                        onPressed: (){
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => NormalUserWorkshopEmployee()));
-
-                        },
-                        child: ActiveProjectsCard(
-                          cardColor: LightColors.kBlue,
-                          title: 'Workshop',
-                          icon: Icon(Icons.person , size: 55, color: Colors.white,),
-                          subtitle: 'Employees',
-                        ),
-                      ),
-                    ],
-                  ),*/
-
 
 class ActiveProjectsCard extends StatelessWidget {
   final Color cardColor;
@@ -573,8 +540,8 @@ class ActiveProjectsCard extends StatelessWidget {
       child: Container(
         margin: EdgeInsets.symmetric(vertical: 10),
        padding: EdgeInsets.only(bottom:15, top: 15),
-        height: 150,
-        width: 150,
+        height: 140,
+        width: 140,
         decoration: BoxDecoration(
           color: cardColor,
           borderRadius: BorderRadius.circular(20),

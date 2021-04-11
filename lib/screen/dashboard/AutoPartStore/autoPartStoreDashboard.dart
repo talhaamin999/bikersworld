@@ -4,7 +4,7 @@ import 'package:line_icons/line_icons.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:bikersworld/widgets/drawer.dart';
-import 'package:bikersworld/screen/dashboard/normalUser/reviews/reviewsNormalUser.dart';
+import 'package:bikersworld/screen/dashboard/normalUser/reviews/reviews_normal_user.dart';
 
 class autoPartStoreDashboardPage  extends StatefulWidget {
   @override

@@ -145,34 +145,42 @@ class _WorkshopkMechanicsReviewsState extends State<WorkshopkMechanicsReviews> {
                               child: ListTile(
                                 contentPadding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
                                 leading: CircleAvatar(
-                                  backgroundColor: Color(0xffecf0f1),
-                                  child: Icon(FontAwesomeIcons.user, color: Color(0xfff7892b),),
+                                  child: CircleAvatar(
+                                    backgroundImage: AssetImage("assets/user.png"),
+                                    radius: 25,
+                                    backgroundColor: Colors.white,
+                                  ),
+                                  radius: 30,
+                                  backgroundColor: Colors.orange,
                                 ),
-                                title: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: <Widget>[
-                                    Container(
-                                      child: Text(
-                                        snapshot.data[index].title,
-                                        style: GoogleFonts.raleway(
-                                            fontSize: 18,
-                                            fontWeight: FontWeight.bold
+                                title: Padding(
+                                  padding: const EdgeInsets.only(top:8.0),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: <Widget>[
+                                      Container(
+                                        child: Text(
+                                          snapshot.data[index].title,
+                                          style: GoogleFonts.raleway(
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.bold
+                                          ),
                                         ),
                                       ),
-                                    ),
-                                    SizedBox(height: 5,),
-                                    RatingsBar(25,userRating: snapshot.data[index].starRating,),
-                                    SizedBox(height: 5,),
-                                    Container(
-                                      child: Text(
-                                        snapshot.data[index].description,
-                                        style: GoogleFonts.raleway(
-                                          fontSize: 15,
+                                      SizedBox(height: 5,),
+                                      RatingsBar(25,userRating: snapshot.data[index].starRating,),
+                                      SizedBox(height: 5,),
+                                      Container(
+                                        child: Text(
+                                          snapshot.data[index].description,
+                                          style: GoogleFonts.raleway(
+                                            fontSize: 15,
+                                          ),
                                         ),
                                       ),
-                                    ),
 
-                                  ],
+                                    ],
+                                  ),
                                 ),
 
                               ),

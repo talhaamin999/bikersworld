@@ -176,7 +176,6 @@ class _DashboardState extends State<Dashboard> {
                                 bottom: -200,
                                 child: CircleAvatar(
                                   backgroundImage: image != null ? NetworkImage(image) : AssetImage("assets/avatar.jpg"),
-                                  radius: 85,
                                   backgroundColor: Colors.black,
                                 ),
                               ),
@@ -298,40 +297,6 @@ class _DashboardState extends State<Dashboard> {
                                               onPressed: (){
                                                 deleteImage();
                                               },
-                                            ),
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.all(15),
-                                            child: Center(
-                                              child: FlatButton(
-                                                onPressed: (){
-
-                                                },
-                                                child: Container(
-                                                  height: 50,
-                                                  width: 200,
-                                                  decoration: BoxDecoration(
-                                                    borderRadius: BorderRadius.circular(100.0),
-                                                    gradient: LinearGradient(
-                                                      begin: Alignment.topLeft,
-                                                      end: Alignment.bottomRight,
-                                                      colors: [
-                                                        Color(0xfffbb448),
-                                                        Color(0xffed740c),
-                                                      ],
-                                                    ),
-                                                  ),
-                                                  child: Center(
-                                                    child: Text(
-                                                      "Submit",
-                                                      style: GoogleFonts.raleway(
-                                                        fontSize: 20.0,
-                                                        color: Colors.white,
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
                                             ),
                                           ),
                                         ],

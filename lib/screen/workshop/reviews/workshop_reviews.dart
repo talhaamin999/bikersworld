@@ -138,8 +138,13 @@ class _WorkshopDashboardReviewsState extends State<WorkshopDashboardReviews> {
                                   child: ListTile(
                                     contentPadding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
                                     leading: CircleAvatar(
-                                      backgroundColor: Color(0xffecf0f1),
-                                      child: Icon(FontAwesomeIcons.user, color: Color(0xfff7892b),),
+                                      child: CircleAvatar(
+                                        backgroundImage: AssetImage("assets/user.png"),
+                                        radius: 25,
+                                        backgroundColor: Colors.white,
+                                      ),
+                                      radius: 30,
+                                      backgroundColor: Colors.orange,
                                     ),
                                     title: Column(
                                       crossAxisAlignment: CrossAxisAlignment.start,

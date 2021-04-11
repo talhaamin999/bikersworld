@@ -72,12 +72,8 @@ class _NormalUserWorkshopEmployeeProfileState extends State<NormalUserWorkshopEm
                         radius: 55,
                         child: CircleAvatar(
                           radius:50,
-                          backgroundColor: Color(0xff012a4a),
-                          child: Icon(
-                            FontAwesomeIcons.user,
-                            color: Colors.grey,
-                            size: 40,
-                          ),
+                          backgroundColor: Colors.white,
+                         backgroundImage: AssetImage("assets/mechanicavatar.jpg"),
                         ),
                       ),
                     ),
@@ -171,13 +167,13 @@ class _NormalUserWorkshopEmployeeProfileState extends State<NormalUserWorkshopEm
                             margin: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
                             child: ListTile(
                               leading: CircleAvatar(
-                                child: Icon(
-                                  Icons.person,
-                                  size: 30,
-                                  color: Colors.white,
+                                radius: 30,
+                                backgroundColor:Colors.orange,
+                                child: CircleAvatar(
+                                  backgroundImage: AssetImage("assets/user.png"),
+                                  radius: 25,
+                                  backgroundColor: Colors.white,
                                 ),
-                                radius: 25,
-                                backgroundColor: Colors.orange,
                               ),
                               title: Container(
                                 child: Column(
