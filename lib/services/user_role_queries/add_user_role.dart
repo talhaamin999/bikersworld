@@ -9,40 +9,83 @@ class AddUserRoleQuerie {
   final _error = ToastErrorMessage();
   final _firebaseUser = FirebaseAuth.instance.currentUser;
   final CollectionReference _collectionReference = FirebaseFirestore.instance.collection('roles');
-  bool _roleExists = false;
+  bool _userRoleExists = false,_generalRoleExists = false;
   static String errorMessage = '';
+  String userRole = '';
 
   Future<bool> addUserRole(String roleTitle) async{
     try {
-      await _collectionReference.doc(_firebaseUser.uid).set(
-          {
-            _ROLE_TITLE: roleTitle,
-          }).then((_) => _value = true)
-          .catchError((error) => errorMessage = error.toString());
-      if (_value) {
-        return true;
-      } else {
+      bool result = await checkRoleExists(_firebaseUser.uid);
+      if(result == false) {
+        await _collectionReference.doc(_firebaseUser.uid).set(
+            {
+              _ROLE_TITLE: roleTitle,
+            }).then((_) => _value = true)
+            .catchError((error) => errorMessage = error.toString());
+        if (_value) {
+          return true;
+        } else {
+          return false;
+        }
+      }else{
+        errorMessage = "Your Role is Already Defined";
         return false;
       }
     }catch(e){
       errorMessage = e.toString();
     }
   }
-  Future<bool> getUserRole(String id,String role) async{
+  Future<bool> checkUserRole(String id,String role) async{
     try{
       await _collectionReference.doc(id)
           .get()
           .then((doc) {
              if(doc.exists) {
                if(doc.get('role') == role) {
-                 _roleExists = true;
+                 _userRoleExists = true;
                }
              }else{
-               _roleExists = false;
+               _userRoleExists = false;
              }
           })
           .catchError((onError) => errorMessage = onError.toString());
-      return _roleExists;
+      return _userRoleExists;
+    }catch(e){
+      errorMessage = e.toString();
+    }
+  }
+  Future<String> getUserRole(String id) async{
+    try{
+      await _collectionReference.doc(id)
+          .get()
+          .then((doc) {
+        if(doc.exists) {
+          userRole = doc.get('role');
+        }else{
+          userRole = null;
+        }
+      })
+          .catchError((onError) => errorMessage = onError.toString());
+      return userRole;
+    }catch(e){
+      errorMessage = e.toString();
+      return userRole;
+    }
+
+  }
+  Future<bool> checkRoleExists(String id) async{
+    try{
+      await _collectionReference.doc(id)
+          .get()
+          .then((doc) {
+            if(doc.exists){
+              _generalRoleExists = true;
+            }
+            else{
+              _generalRoleExists = false;
+            }
+      }).catchError((onError) => errorMessage = onError.toString());
+      return _generalRoleExists;
     }catch(e){
       errorMessage = e.toString();
     }

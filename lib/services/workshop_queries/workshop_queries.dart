@@ -22,7 +22,7 @@ class RegisterWorkshopQueries {
 
    Future registerWorkshop(WorkshopDashboardModel data) async{
      try {
-       bool result = await _userRole.getUserRole(_firebaseUser.uid,'workshop_owner');
+       bool result = await _userRole.checkUserRole(_firebaseUser.uid,'workshop_owner');
        if(result) {
          await _firestoreInstance.collection(WORKSHOP_COLLECTION).doc(
              _firebaseUser.uid).set(

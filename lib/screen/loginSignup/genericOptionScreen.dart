@@ -69,38 +69,22 @@ class _GenericOptionScreenState extends State<GenericOptionScreen> {
   }
 
   Widget _submitButton() {
-    return FlatButton(
+    return Center(
       child: Container(
-        width: MediaQuery.of(context).size.width,
-        padding: EdgeInsets.symmetric(vertical: 15),
-        alignment: Alignment.center,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(5)),
-          boxShadow: <BoxShadow>[
-            BoxShadow(
-                color: Colors.grey.shade200,
-                offset: Offset(2, 4),
-                blurRadius: 5,
-                spreadRadius: 2)
-          ],
-          gradient: LinearGradient(
-            begin: Alignment.centerLeft,
-            end: Alignment.centerRight,
-            colors: [Color(0xfffbb448), Color(0xfff7892b),
-            ],
-          ),
-        ),
-        child: Text(
-          'Confirm Role',
-          style: GoogleFonts.quicksand(
+        width: MediaQuery.of(context).size.width - 30,
+        height: 60,
+        child: RaisedButton(
+          onPressed: _isButtonVisisble ? () => {createRole()} : null,
+          child: Text('Submit Role',style: GoogleFonts.quicksand(
               fontSize: 20,
               color: Colors.white
           ),
+          ),
+          color: Color(0xfff7892b),
+          disabledColor: Colors.grey.shade400,
+          disabledTextColor: Colors.black,
         ),
       ),
-      onPressed: (){
-          createRole();
-      },
     );
   }
 

@@ -72,18 +72,17 @@ class _WorkshopDashboardState extends State<WorkshopDashboard> {
         stream: FirebaseFirestore.instance.collection(_WORKSHOP_COLLECTION).doc(_firebaseUser.uid).snapshots(),
         // ignore: missing_return
         builder: (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
-          if(snapshot.connectionState == ConnectionState.done && snapshot.hasData && snapshot.data != null){
+          if(snapshot.hasData && snapshot.data.exists){
             image = snapshot.data.get('image');
             data = WorkshopDashboardModel.fromJson(snapshot.data.data(),snapshot.data.reference.id);
             //print('${snapshot.data.data()}');
              return Dashboard();
            }
-          else if(snapshot.connectionState == ConnectionState.active){
-            image = snapshot.data.get('image');
-            data = WorkshopDashboardModel.fromJson(snapshot.data.data(),snapshot.data.reference.id);
-           // print('${snapshot.data.data()}');
-               return Dashboard();
-           }
+          else if(snapshot.hasData && !snapshot.data.exists){
+            return Center(
+              child: Text("You Don't Have A Workshop Registered"),
+            );
+          }
           else if(snapshot.hasError){
              return Center(
              child: Text(snapshot.error.toString(),),
