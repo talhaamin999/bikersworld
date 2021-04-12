@@ -935,7 +935,7 @@ class _HomeDashboardState extends State<HomeDashboard>  with SingleTickerProvide
           ],
         ),
       ),
-      drawer: Drawer(),
+      drawer: CustomDrawer(),
       
     );
   }

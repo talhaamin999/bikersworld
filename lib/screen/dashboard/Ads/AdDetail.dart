@@ -485,7 +485,7 @@ class _AdDetailState extends State<AdDetail>  with SingleTickerProviderStateMixi
             ),
           ),
         ),
-        drawer: Drawer(),
+       // drawer: Drawer(),
         floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
         bottomNavigationBar: Container(
           margin: EdgeInsets.only(left: 10, right: 10),

@@ -56,7 +56,6 @@ class AddUserRoleQuerie {
   }
   Future<String> getUserRole(String id) async{
     try{
-      if(id != null) {
         await _collectionReference.doc(id)
             .get()
             .then((doc) {
@@ -68,8 +67,6 @@ class AddUserRoleQuerie {
         })
             .catchError((onError) => errorMessage = onError.toString());
         return userRole;
-      }
-      return null;
     }catch(e){
       errorMessage = e.toString();
       return userRole;

@@ -280,7 +280,7 @@ class _RegisterWorkshopState extends State<RegisterWorkshop> {
             ],
           ),
         ),
-        drawer: Drawer(),
+        //drawer: Drawer(),
       ),
     );
   }

@@ -62,7 +62,7 @@ class _dashboardState extends State<dashboard> {
               ),
             ),
           ),
-          drawer: Drawer(),
+          drawer: CustomDrawer(),
 
 
 //          floatingActionButton: FloatingActionButton(

@@ -73,7 +73,7 @@ class _AutoPartStoreDashboardOwnerState extends State<AutoPartStoreDashboardOwne
           controller: _tabController,
         ),
       ),
-      drawer: Drawer(),
+      //drawer: Drawer(),
     );
   }
 }

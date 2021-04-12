@@ -195,7 +195,7 @@ class _WorkshopDashboardReviewsState extends State<WorkshopDashboardReviews> {
             ),
           ),
         ),
-        drawer: Drawer(),
+        //drawer: Drawer(),
       ),
     );
   }
