@@ -236,7 +236,7 @@ class _postAdSellerState extends State<postAdSeller> {
             ],
           ),
         ),
-        drawer: drawer(),
+        drawer: Drawer(),
       ),
     );
   }

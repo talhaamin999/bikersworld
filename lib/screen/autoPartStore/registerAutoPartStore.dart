@@ -107,7 +107,7 @@ class _RegisterAutoPartStoreState extends State<RegisterAutoPartStore> {
             ],
           ),
         ),
-        drawer: drawer(),
+        drawer: Drawer(),
       ),
     );
   }

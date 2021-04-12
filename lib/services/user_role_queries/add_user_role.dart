@@ -56,21 +56,25 @@ class AddUserRoleQuerie {
   }
   Future<String> getUserRole(String id) async{
     try{
-      await _collectionReference.doc(id)
-          .get()
-          .then((doc) {
-        if(doc.exists) {
-          userRole = doc.get('role');
-        }else{
-          userRole = null;
-        }
-      })
-          .catchError((onError) => errorMessage = onError.toString());
-      return userRole;
+      if(id != null) {
+        await _collectionReference.doc(id)
+            .get()
+            .then((doc) {
+          if(doc.exists) {
+            userRole = doc.get('role');
+          }else{
+            userRole = null;
+          }
+        })
+            .catchError((onError) => errorMessage = onError.toString());
+        return userRole;
+      }
+      return null;
     }catch(e){
       errorMessage = e.toString();
       return userRole;
     }
+
 
   }
   Future<bool> checkRoleExists(String id) async{

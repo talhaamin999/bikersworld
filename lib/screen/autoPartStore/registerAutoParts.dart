@@ -116,7 +116,7 @@ class _registerAutoPartsState extends State<registerAutoParts> {
             ],
           ),
         ),
-        drawer: drawer(),
+        drawer: Drawer(),
       ),
     );
   }

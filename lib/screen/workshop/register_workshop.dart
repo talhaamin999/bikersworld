@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'package:bikersworld/model/workshop_model.dart';
-import 'package:bikersworld/screen/loginSignup/genericOptionScreen.dart';
+import 'package:bikersworld/screen/loginSignup/user_role_option.dart';
 import 'package:bikersworld/screen/workshop/workshop_dashboard.dart';
 import 'package:bikersworld/services/toast_service.dart';
 import 'package:bikersworld/services/validate_service.dart';
@@ -280,7 +280,7 @@ class _RegisterWorkshopState extends State<RegisterWorkshop> {
             ],
           ),
         ),
-        drawer: drawer(),
+        drawer: Drawer(),
       ),
     );
   }

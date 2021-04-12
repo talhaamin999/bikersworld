@@ -295,7 +295,7 @@ class _referenceWorkshopState extends State<referenceWorkshop> {
             ),
           ),
         ),
-        drawer: drawer(),
+        drawer: Drawer(),
       ),
     );
   }

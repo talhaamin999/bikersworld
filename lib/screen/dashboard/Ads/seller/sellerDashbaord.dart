@@ -212,7 +212,7 @@ class _sellerDashboardState extends State<sellerDashboard>
         ),
       ),
 
-      drawer: drawer(),
+      drawer: Drawer(),
     );
   }
 }
