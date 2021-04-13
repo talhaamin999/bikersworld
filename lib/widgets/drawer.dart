@@ -17,14 +17,8 @@ import 'package:bikersworld/screen/dashboard/searchPages/ads_search_page.dart';
 import 'package:bikersworld/screen/dashboard/searchPages/workshop_search_page.dart';
 import 'package:bikersworld/screen/dashboard/searchPages/service_search_page.dart';
 import 'package:bikersworld/screen/dashboard/AutoPartStore/autoPartStoreDashboard.dart';
+import 'package:bikersworld/screen/loginSignup/edit_profile.dart';
 
-/*
-*  update profile
-* sign out
-* login /sign up
-*
-*
-* */
 
 class CustomDrawer extends StatefulWidget {
   const CustomDrawer({
@@ -49,6 +43,9 @@ class _CustomDrawerState extends State<CustomDrawer> {
     super.initState();
   }
 
+  void GotoScreen(){
+    Navigator.push(context, MaterialPageRoute(builder: (context) => WelcomePage()));
+  }
   void setUser() {
     if (_firebaseUser.currentUser != null) {
       setState(() {
@@ -62,11 +59,12 @@ class _CustomDrawerState extends State<CustomDrawer> {
     }
   }
 
+
   @override
   Widget build(BuildContext context) {
     return
       FutureBuilder(
-      future: _firebaseUser.currentUser != null ? _userRole.getUserRole(_firebaseUser.currentUser.uid) : _userRole.getUserRole(''),
+      future: _firebaseUser.currentUser != null ? _userRole.getUserRole(_firebaseUser.currentUser.uid) : _userRole.getUserRole('abc'),
       builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
         if (snapshot.hasData && snapshot.data.isNotEmpty) {
           if (snapshot.data == 'workshop_owner') {
@@ -108,7 +106,9 @@ class _CustomDrawerState extends State<CustomDrawer> {
                                     PopupMenuButton(
                                       icon: new Icon(FontAwesomeIcons.ellipsisV,
                                           color: Colors.white),
-                                      onSelected: (value) {},
+                                      onSelected: (value){
+                                        Navigator.push(context, MaterialPageRoute(builder: (context) => EditProfile()));
+                                      },
                                       itemBuilder: (_) =>
                                       <PopupMenuItem<String>>[
                                         new PopupMenuItem<String>(
@@ -129,6 +129,8 @@ class _CustomDrawerState extends State<CustomDrawer> {
                                               ],
                                             ),
                                           ),
+                                          value:"Edit profile",
+
                                         ),
                                         new PopupMenuItem<String>(
                                           child: Container(
@@ -149,6 +151,27 @@ class _CustomDrawerState extends State<CustomDrawer> {
                                             ),
                                           ),
                                           value: "Sign out",
+                                        ),
+
+                                        new PopupMenuItem<String>(
+                                          child: Container(
+                                            child: Row(
+                                              children: [
+                                                Icon(
+                                                  FontAwesomeIcons.signInAlt,
+                                                  size: 15,
+                                                ),
+                                                SizedBox(width: 10),
+                                                Text(
+                                                  "Login / Sign Up",
+                                                  style: GoogleFonts.quicksand(
+                                                    fontSize: 16,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                          value: "login / Sign out",
                                         )
                                       ],
                                     ),
@@ -179,7 +202,8 @@ class _CustomDrawerState extends State<CustomDrawer> {
                       trailing: Icon(Icons.arrow_forward_ios, size: 15.0,),
                       onTap: () {
                         Navigator.push(context, MaterialPageRoute(
-                            builder: (context) => WelcomePage()));
+                            builder: (context) => WelcomePage())
+                        );
                       },
                     ),
 
@@ -206,6 +230,8 @@ class _CustomDrawerState extends State<CustomDrawer> {
                             builder: (context) => WorkshopDashboard()));
                       },
                     ),
+
+
                     Container(
                       margin: EdgeInsets.symmetric(vertical: 10),
                       child: Row(
@@ -339,7 +365,11 @@ class _CustomDrawerState extends State<CustomDrawer> {
                                     PopupMenuButton(
                                       icon: new Icon(FontAwesomeIcons.ellipsisV,
                                           color: Colors.white),
-                                      onSelected: (value) {},
+                                      onSelected: (value) {
+                                        Navigator.push(context, MaterialPageRoute(
+                                            builder: (context) => EditProfile()),
+                                        );
+                                      },
                                       itemBuilder: (_) =>
                                       <PopupMenuItem<String>>[
                                         new PopupMenuItem<String>(
@@ -372,6 +402,26 @@ class _CustomDrawerState extends State<CustomDrawer> {
                                                 SizedBox(width: 10),
                                                 Text(
                                                   "Sign Out",
+                                                  style: GoogleFonts.quicksand(
+                                                    fontSize: 16,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                          value: "Sign out",
+                                        ),
+                                        new PopupMenuItem<String>(
+                                          child: Container(
+                                            child: Row(
+                                              children: [
+                                                Icon(
+                                                  FontAwesomeIcons.signInAlt,
+                                                  size: 15,
+                                                ),
+                                                SizedBox(width: 10),
+                                                Text(
+                                                  "Login / Sign Up",
                                                   style: GoogleFonts.quicksand(
                                                     fontSize: 16,
                                                   ),
@@ -560,7 +610,11 @@ class _CustomDrawerState extends State<CustomDrawer> {
                                     PopupMenuButton(
                                       icon: new Icon(FontAwesomeIcons.ellipsisV,
                                           color: Colors.white),
-                                      onSelected: (value) {},
+                                      onSelected: (value) {
+                                        Navigator.push(context, MaterialPageRoute(
+                                            builder: (context) => EditProfile()),
+                                        );
+                                      },
                                       itemBuilder: (_) =>
                                       <PopupMenuItem<String>>[
                                         new PopupMenuItem<String>(
@@ -593,6 +647,26 @@ class _CustomDrawerState extends State<CustomDrawer> {
                                                 SizedBox(width: 10),
                                                 Text(
                                                   "Sign Out",
+                                                  style: GoogleFonts.quicksand(
+                                                    fontSize: 16,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                          value: "Sign out",
+                                        ),
+                                        new PopupMenuItem<String>(
+                                          child: Container(
+                                            child: Row(
+                                              children: [
+                                                Icon(
+                                                  FontAwesomeIcons.signInAlt,
+                                                  size: 15,
+                                                ),
+                                                SizedBox(width: 10),
+                                                Text(
+                                                  "Login / Sign Up",
                                                   style: GoogleFonts.quicksand(
                                                     fontSize: 16,
                                                   ),
@@ -770,7 +844,11 @@ class _CustomDrawerState extends State<CustomDrawer> {
                                     PopupMenuButton(
                                       icon: new Icon(FontAwesomeIcons.ellipsisV,
                                           color: Colors.white),
-                                      onSelected: (value) {},
+                                      onSelected: (value) {
+                                        Navigator.push(context, MaterialPageRoute(
+                                            builder: (context) => EditProfile()),
+                                        );
+                                      },
                                       itemBuilder: (_) =>
                                       <PopupMenuItem<String>>[
                                         new PopupMenuItem<String>(
@@ -803,6 +881,26 @@ class _CustomDrawerState extends State<CustomDrawer> {
                                                 SizedBox(width: 10),
                                                 Text(
                                                   "Sign Out",
+                                                  style: GoogleFonts.quicksand(
+                                                    fontSize: 16,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                          value: "Sign out",
+                                        ),
+                                        new PopupMenuItem<String>(
+                                          child: Container(
+                                            child: Row(
+                                              children: [
+                                                Icon(
+                                                  FontAwesomeIcons.signInAlt,
+                                                  size: 15,
+                                                ),
+                                                SizedBox(width: 10),
+                                                Text(
+                                                  "Login / Sign Up",
                                                   style: GoogleFonts.quicksand(
                                                     fontSize: 16,
                                                   ),
@@ -968,7 +1066,9 @@ class _CustomDrawerState extends State<CustomDrawer> {
                                   PopupMenuButton(
                                     icon: new Icon(FontAwesomeIcons.ellipsisV,
                                         color: Colors.white),
-                                    onSelected: (value) {},
+                                    onSelected: (value) {
+                                     GotoScreen();
+                                    },
                                     itemBuilder: (_) =>
                                     <PopupMenuItem<String>>[
                                       new PopupMenuItem<String>(
@@ -989,6 +1089,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
                                             ],
                                           ),
                                         ),
+                                        value: "Edit profile",
                                       ),
                                       new PopupMenuItem<String>(
                                         child: Container(
@@ -1009,6 +1110,26 @@ class _CustomDrawerState extends State<CustomDrawer> {
                                           ),
                                         ),
                                         value: "Sign out",
+                                      ),
+                                      new PopupMenuItem<String>(
+                                        child: Container(
+                                          child: Row(
+                                            children: [
+                                              Icon(
+                                                FontAwesomeIcons.signInAlt,
+                                                size: 15,
+                                              ),
+                                              SizedBox(width: 10),
+                                              Text(
+                                                "Login / Sign Up",
+                                                style: GoogleFonts.quicksand(
+                                                  fontSize: 16,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        value: "login /Sign out",
                                       )
                                     ],
                                   ),

@@ -1,8 +1,5 @@
-import 'dart:ffi';
 import 'dart:io';
-import 'package:bikersworld/screen/workshop/workshop_dashboard.dart';
 import 'package:bikersworld/services/toast_service.dart';
-import 'package:bikersworld/services/workshop_queries/service_queries.dart';
 import 'package:bikersworld/services/workshop_queries/workshop_queries.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:google_fonts/google_fonts.dart';

@@ -16,7 +16,7 @@ import 'package:bikersworld/screen/workshop/services/service_category.dart';
 import 'package:bikersworld/screen/workshop/reviews/workshop_reviews.dart';
 import 'package:bikersworld/screen/workshop/view_mechanics.dart';
 import 'package:bikersworld/screen/workshop/register_workshop.dart';
-import 'package:bikersworld/screen/workshop/add_profile_picture.dart';
+import 'package:bikersworld/screen/workshop/add_workshop_picture.dart';
 
 WorkshopDashboardModel data;
 var image;
@@ -176,6 +176,7 @@ class _DashboardState extends State<Dashboard> {
                                 child: CircleAvatar(
                                   backgroundImage: image != null ? NetworkImage(image) : AssetImage("assets/avatar.jpg"),
                                   backgroundColor: Colors.black,
+                                  radius: 80,
                                 ),
                               ),
                               onPressed: (){
