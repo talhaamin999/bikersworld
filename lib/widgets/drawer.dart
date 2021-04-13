@@ -17,7 +17,7 @@ import 'package:bikersworld/screen/dashboard/searchPages/ads_search_page.dart';
 import 'package:bikersworld/screen/dashboard/searchPages/workshop_search_page.dart';
 import 'package:bikersworld/screen/dashboard/searchPages/service_search_page.dart';
 import 'package:bikersworld/screen/dashboard/AutoPartStore/autoPartStoreDashboard.dart';
-import 'package:bikersworld/screen/loginSignup/edit_profile.dart';
+import 'package:bikersworld/screen/loginSignup/update_profile.dart';
 
 
 class CustomDrawer extends StatefulWidget {
@@ -28,6 +28,8 @@ class CustomDrawer extends StatefulWidget {
   @override
   _CustomDrawerState createState() => _CustomDrawerState();
 }
+
+enum userOption{updateProfile,signOut,logInSignOut}
 
 class _CustomDrawerState extends State<CustomDrawer> {
 
@@ -43,8 +45,18 @@ class _CustomDrawerState extends State<CustomDrawer> {
     super.initState();
   }
 
-  void GotoScreen(){
-    Navigator.push(context, MaterialPageRoute(builder: (context) => WelcomePage()));
+  Future<void> navigateToOtherScreen(userOption option) async{
+    if(option == userOption.updateProfile) {
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => UpdateProfile()));
+    }else if(option == userOption.signOut){
+      await _firebaseUser.signOut();
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => HomeDashboard()));
+    }else if(option == userOption.logInSignOut){
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => WelcomePage()));
+    }
   }
   void setUser() {
     if (_firebaseUser.currentUser != null) {
@@ -59,156 +71,140 @@ class _CustomDrawerState extends State<CustomDrawer> {
     }
   }
 
-
   @override
   Widget build(BuildContext context) {
-    return
-      FutureBuilder(
+    return FutureBuilder(
       future: _firebaseUser.currentUser != null ? _userRole.getUserRole(_firebaseUser.currentUser.uid) : _userRole.getUserRole('abc'),
       builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
         if (snapshot.hasData && snapshot.data.isNotEmpty) {
-          if (snapshot.data == 'workshop_owner') {
-            return Drawer(
-              child: ListView(
-                  children: <Widget>[
-                    Container(
-                      height: 185,
-                      child: DrawerHeader(
-                        decoration: BoxDecoration(
-                          color: Color(0XFF012A4A),
-                        ),
-                        child: Container(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              CircleAvatar(
-                                radius: 50,
-                                backgroundColor: Colors.orange,
-                                child: CircleAvatar(
-                                  radius: 45,
-                                  backgroundImage: AssetImage(
-                                      "assets/user.png"),
-                                  backgroundColor: Colors.white,
-                                ),
+          return Drawer(
+            child: ListView(
+                children: <Widget>[
+                  Container(
+                    height: 185,
+                    child: DrawerHeader(
+                      decoration: BoxDecoration(
+                        color: Color(0XFF012A4A),
+                      ),
+                      child: Container(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            CircleAvatar(
+                              radius: 50,
+                              backgroundColor: Colors.orange,
+                              child: CircleAvatar(
+                                radius: 45,
+                                backgroundImage: _firebaseUser.currentUser != null && _firebaseUser.currentUser.photoURL != null ? NetworkImage(_firebaseUser.currentUser.photoURL): AssetImage(
+                                    "assets/user.png"),
+                                backgroundColor: Colors.white,
                               ),
-                              Container(
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment
-                                      .spaceBetween,
-                                  children: [
-                                    Text(
-                                      user != null ? user : '',
-                                      style: GoogleFonts.quicksand(
-                                        fontSize: 23,
-                                        color: Colors.orange,
+                            ),
+                            Container(
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment
+                                    .spaceBetween,
+                                children: [
+                                  Text(
+                                    user != null ? user : '',
+                                    style: GoogleFonts.quicksand(
+                                      fontSize: 23,
+                                      color: Colors.orange,
+                                    ),
+                                  ),
+                                  PopupMenuButton(
+                                    icon: new Icon(FontAwesomeIcons.ellipsisV,
+                                        color: Colors.white),
+                                    onSelected: (option){
+                                      navigateToOtherScreen(option);
+                                    },
+                                    itemBuilder: (_) =>
+                                    <PopupMenuItem<userOption>>[
+                                      new PopupMenuItem<userOption>(
+                                        child: Container(
+                                          child: Row(
+                                            children: [
+                                              Icon(
+                                                FontAwesomeIcons.edit,
+                                                size: 15,
+                                              ),
+                                              SizedBox(width: 10),
+                                              Text(
+                                                "Edit Profile",
+                                                style: GoogleFonts.quicksand(
+                                                  fontSize: 16,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        value: userOption.updateProfile,
                                       ),
-                                    ),
-                                    PopupMenuButton(
-                                      icon: new Icon(FontAwesomeIcons.ellipsisV,
-                                          color: Colors.white),
-                                      onSelected: (value){
-                                        Navigator.push(context, MaterialPageRoute(builder: (context) => EditProfile()));
-                                      },
-                                      itemBuilder: (_) =>
-                                      <PopupMenuItem<String>>[
-                                        new PopupMenuItem<String>(
-                                          child: Container(
-                                            child: Row(
-                                              children: [
-                                                Icon(
-                                                  FontAwesomeIcons.edit,
-                                                  size: 15,
+                                      new PopupMenuItem<userOption>(
+                                        child: Container(
+                                          child: Row(
+                                            children: [
+                                              Icon(
+                                                FontAwesomeIcons.signOutAlt,
+                                                size: 15,
+                                              ),
+                                              SizedBox(width: 10),
+                                              Text(
+                                                "Sign Out",
+                                                style: GoogleFonts.quicksand(
+                                                  fontSize: 16,
                                                 ),
-                                                SizedBox(width: 10),
-                                                Text(
-                                                  "Edit Profile",
-                                                  style: GoogleFonts.quicksand(
-                                                    fontSize: 16,
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
+                                              ),
+                                            ],
                                           ),
-                                          value:"Edit profile",
-
                                         ),
-                                        new PopupMenuItem<String>(
-                                          child: Container(
-                                            child: Row(
-                                              children: [
-                                                Icon(
-                                                  FontAwesomeIcons.signOutAlt,
-                                                  size: 15,
+                                        value: userOption.signOut,
+                                      ),
+                                      new PopupMenuItem<userOption>(
+                                        child: Container(
+                                          child: Row(
+                                            children: [
+                                              Icon(
+                                                FontAwesomeIcons.signInAlt,
+                                                size: 15,
+                                              ),
+                                              SizedBox(width: 10),
+                                              Text(
+                                                "Login / Sign Up",
+                                                style: GoogleFonts.quicksand(
+                                                  fontSize: 16,
                                                 ),
-                                                SizedBox(width: 10),
-                                                Text(
-                                                  "Sign Out",
-                                                  style: GoogleFonts.quicksand(
-                                                    fontSize: 16,
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
+                                              ),
+                                            ],
                                           ),
-                                          value: "Sign out",
                                         ),
-
-                                        new PopupMenuItem<String>(
-                                          child: Container(
-                                            child: Row(
-                                              children: [
-                                                Icon(
-                                                  FontAwesomeIcons.signInAlt,
-                                                  size: 15,
-                                                ),
-                                                SizedBox(width: 10),
-                                                Text(
-                                                  "Login / Sign Up",
-                                                  style: GoogleFonts.quicksand(
-                                                    fontSize: 16,
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                          value: "login / Sign out",
-                                        )
-                                      ],
-                                    ),
-                                  ],
-                                ),
+                                        value: userOption.logInSignOut,
+                                      )
+                                    ],
+                                  ),
+                                ],
                               ),
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
                       ),
                     ),
-                    ListTile(
-                      leading: Icon(Icons.home),
-                      title: Text("home", style: GoogleFonts.montserrat(
-                          fontSize: 15, color: Colors.black),),
-                      trailing: Icon(Icons.arrow_forward_ios, size: 15.0,),
-                      onTap: () {
-                        Navigator.push(context, MaterialPageRoute(
-                            builder: (context) => HomeDashboard()));
-                        },
-                    ),
+                  ),
 
+                  ListTile(
+                    leading: Icon(Icons.home),
+                    title: Text("Home", style: GoogleFonts.montserrat(
+                        fontSize: 15, color: Colors.black),),
+                    trailing: Icon(Icons.arrow_forward_ios, size: 15.0,),
+                    onTap: () {
+                      Navigator.push(context, MaterialPageRoute(
+                          builder: (context) => HomeDashboard()));
+                    },
+                  ),
 
-                    ListTile(
-                      leading: Icon(FontAwesomeIcons.signInAlt),
-                      title: Text("Login", style: GoogleFonts.montserrat(
-                          fontSize: 15, color: Colors.black),),
-                      trailing: Icon(Icons.arrow_forward_ios, size: 15.0,),
-                      onTap: () {
-                        Navigator.push(context, MaterialPageRoute(
-                            builder: (context) => WelcomePage())
-                        );
-                      },
-                    ),
-
-
-                    ListTile(
+                  Visibility(
+                    visible: snapshot.data == 'workshop_owner' ? true : false,
+                    child: ListTile(
                       leading: Icon(FontAwesomeIcons.registered),
                       title: Text("Register Workshop",
                         style: GoogleFonts.montserrat(
@@ -219,7 +215,10 @@ class _CustomDrawerState extends State<CustomDrawer> {
                             builder: (context) => RegisterWorkshop()));
                       },
                     ),
-                    ListTile(
+                  ),
+                  Visibility(
+                    visible: snapshot.data == 'workshop_owner' ? true : false,
+                    child: ListTile(
                       leading: Icon(FontAwesomeIcons.registered),
                       title: Text("Workshop Dashboard",
                         style: GoogleFonts.montserrat(
@@ -230,802 +229,128 @@ class _CustomDrawerState extends State<CustomDrawer> {
                             builder: (context) => WorkshopDashboard()));
                       },
                     ),
+                  ),
 
-
-                    Container(
-                      margin: EdgeInsets.symmetric(vertical: 10),
-                      child: Row(
-                        children: <Widget>[
-                          SizedBox(
-                            width: 20,
-                          ),
-                          Expanded(
-                            child: Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 10),
-                              child: Divider(
-                                thickness: 1,
-                              ),
-                            ),
-                          ),
-                          Text('Find More',
-                            style: GoogleFonts.quicksand(fontSize: 15),),
-                          Expanded(
-                            child: Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 10),
-                              child: Divider(
-                                thickness: 1,
-                              ),
-                            ),
-                          ),
-                          SizedBox(
-                            width: 20,
-                          ),
-                        ],
-                      ),
-                    ),
-
-                    ListTile(
-                      leading: Icon(FontAwesomeIcons.building),
-                      title: Text("Find Workshop",
-                        style: GoogleFonts.montserrat(
-                            fontSize: 15, color: Colors.black),),
-                      trailing: Icon(Icons.arrow_forward_ios, size: 15.0,),
-                      onTap: () {
-                        Navigator.push(context, MaterialPageRoute(
-                            builder: (context) => WorkshopSearchPage()));
-                      },
-                    ),
-
-                    ListTile(
-                      leading: Icon(FontAwesomeIcons.tools),
-                      title: Text("Find Services",
-                        style: GoogleFonts.montserrat(
-                            fontSize: 15, color: Colors.black),),
-                      trailing: Icon(Icons.arrow_forward_ios, size: 15.0,),
-                      onTap: () {
-                        Navigator.push(context, MaterialPageRoute(
-                            builder: (context) => ServiceSearcPage()));
-                      },
-                    ),
-                    ListTile(
-                      leading: Icon(FontAwesomeIcons.cog),
-                      title: Text("Find Auto Part",
-                        style: GoogleFonts.montserrat(
-                            fontSize: 15, color: Colors.black),),
-                      trailing: Icon(Icons.arrow_forward_ios, size: 15.0,),
-                      onTap: () {
-                        Navigator.push(context, MaterialPageRoute(
-                            builder: (context) => AutoPartSearchPage()));
-                      },
-                    ),
-
-                    ListTile(
-                      leading: Icon(FontAwesomeIcons.adversal),
-                      title: Text("Find Ads", style: GoogleFonts.montserrat(
+                  Visibility(
+                    visible: snapshot.data == 'seller' ? true : false,
+                    child: ListTile(
+                      leading: Icon(FontAwesomeIcons.ad),
+                      title: Text("Post An Ad", style: GoogleFonts.montserrat(
                           fontSize: 15, color: Colors.black),),
                       trailing: Icon(Icons.arrow_forward_ios, size: 15.0,),
                       onTap: () {
                         Navigator.push(context, MaterialPageRoute(
-                            builder: (context) => adSearchPage()));
+                            builder: (context) => postAdSeller()));
                       },
 
                     ),
-                    ListTile(
-                      leading: Icon(FontAwesomeIcons.storeAlt),
-                      title: Text("Find Auto Part Store",
-                        style: GoogleFonts.montserrat(
-                            fontSize: 15, color: Colors.black),),
-                      trailing: Icon(Icons.arrow_forward_ios, size: 15.0,),
-                      onTap: () {
-                        Navigator.push(context, MaterialPageRoute(
-                            builder: (context) => autoPartStoreSearchPage()));
-                      },
+                  ),
 
-                    ),
-                  ]
-              ),
-            );
-          }
-          else if (snapshot.data == 'partstore_owner') {
-            return Drawer(
-              child: ListView(
-                  children: <Widget>[
-                    Container(
-                      height: 185,
-                      child: DrawerHeader(
-                        decoration: BoxDecoration(
-                          color: Color(0XFF012A4A),
-                        ),
-                        child: Container(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              CircleAvatar(
-                                radius: 50,
-                                backgroundColor: Colors.orange,
-                                child: CircleAvatar(
-                                  radius: 45,
-                                  backgroundImage: AssetImage(
-                                      "assets/user.png"),
-                                  backgroundColor: Colors.white,
-                                ),
-                              ),
-                              Container(
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment
-                                      .spaceBetween,
-                                  children: [
-                                    Text(
-                                      user != null ? user : '',
-                                      style: GoogleFonts.quicksand(
-                                        fontSize: 23,
-                                        color: Colors.orange,
-                                      ),
-                                    ),
-                                    PopupMenuButton(
-                                      icon: new Icon(FontAwesomeIcons.ellipsisV,
-                                          color: Colors.white),
-                                      onSelected: (value) {
-                                        Navigator.push(context, MaterialPageRoute(
-                                            builder: (context) => EditProfile()),
-                                        );
-                                      },
-                                      itemBuilder: (_) =>
-                                      <PopupMenuItem<String>>[
-                                        new PopupMenuItem<String>(
-                                          child: Container(
-                                            child: Row(
-                                              children: [
-                                                Icon(
-                                                  FontAwesomeIcons.edit,
-                                                  size: 15,
-                                                ),
-                                                SizedBox(width: 10),
-                                                Text(
-                                                  "Edit Profile",
-                                                  style: GoogleFonts.quicksand(
-                                                    fontSize: 16,
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                        new PopupMenuItem<String>(
-                                          child: Container(
-                                            child: Row(
-                                              children: [
-                                                Icon(
-                                                  FontAwesomeIcons.signOutAlt,
-                                                  size: 15,
-                                                ),
-                                                SizedBox(width: 10),
-                                                Text(
-                                                  "Sign Out",
-                                                  style: GoogleFonts.quicksand(
-                                                    fontSize: 16,
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                          value: "Sign out",
-                                        ),
-                                        new PopupMenuItem<String>(
-                                          child: Container(
-                                            child: Row(
-                                              children: [
-                                                Icon(
-                                                  FontAwesomeIcons.signInAlt,
-                                                  size: 15,
-                                                ),
-                                                SizedBox(width: 10),
-                                                Text(
-                                                  "Login / Sign Up",
-                                                  style: GoogleFonts.quicksand(
-                                                    fontSize: 16,
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                          value: "Sign out",
-                                        )
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-
-                    ListTile(
-                      leading: Icon(Icons.home),
-                      title: Text("Home", style: GoogleFonts.montserrat(
-                          fontSize: 15, color: Colors.black),),
-                      trailing: Icon(Icons.arrow_forward_ios, size: 15.0,),
-                      onTap: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (
-                            context) => HomeDashboard()));
-                      },
-                    ),
-
-
-                    ListTile(
+                  Visibility(
+                    visible: snapshot.data == 'partstore_owner' ? true : false,
+                    child: ListTile(
                       leading: Icon(FontAwesomeIcons.registered),
                       title: Text("Register Part Store",
                         style: GoogleFonts.montserrat(
                             fontSize: 15, color: Colors.black),),
                       trailing: Icon(Icons.arrow_forward_ios, size: 15.0,),
                       onTap: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (
-                            context) => RegisterAutoPartStore()));
+                        Navigator.push(context, MaterialPageRoute(
+                            builder: (context) => RegisterAutoPartStore()));
                       },
 
                     ),
-
-                    ListTile(
-                      leading: Icon(FontAwesomeIcons.registered),
-                      title: Text("Part Store Dashboard",
-                        style: GoogleFonts.montserrat(
-                            fontSize: 15, color: Colors.black),),
-                      trailing: Icon(Icons.arrow_forward_ios, size: 15.0,),
-                      onTap: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => autoPartStoreDashboardPage()));
-                      },
-                    ),
-                    Container(
-                      margin: EdgeInsets.symmetric(vertical: 10),
-                      child: Row(
-                        children: <Widget>[
-                          SizedBox(
-                            width: 20,
-                          ),
-                          Expanded(
-                            child: Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 10),
-                              child: Divider(
-                                thickness: 1,
-                              ),
-                            ),
-                          ),
-                          Text('Find More', style: GoogleFonts.quicksand(
-                              fontSize: 15),),
-                          Expanded(
-                            child: Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 10),
-                              child: Divider(
-                                thickness: 1,
-                              ),
-                            ),
-                          ),
-                          SizedBox(
-                            width: 20,
-                          ),
-                        ],
-                      ),
-                    ),
-
-                    ListTile(
-                      leading: Icon(FontAwesomeIcons.building),
-                      title: Text("Find Workshop",
-                        style: GoogleFonts.montserrat(
-                            fontSize: 15, color: Colors.black),),
-                      trailing: Icon(Icons.arrow_forward_ios, size: 15.0,),
-                      onTap: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (
-                            context) => WorkshopSearchPage()));
-                      },
-                    ),
-
-                    ListTile(
-                      leading: Icon(FontAwesomeIcons.tools),
-                      title: Text("Find Services",
-                        style: GoogleFonts.montserrat(
-                            fontSize: 15, color: Colors.black),),
-                      trailing: Icon(Icons.arrow_forward_ios, size: 15.0,),
-                      onTap: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (
-                            context) => ServiceSearcPage()));
-                      },
-                    ),
-                    ListTile(
-                      leading: Icon(FontAwesomeIcons.cog),
-                      title: Text("Find Auto Part",
-                        style: GoogleFonts.montserrat(
-                            fontSize: 15, color: Colors.black),),
-                      trailing: Icon(Icons.arrow_forward_ios, size: 15.0,),
-                      onTap: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (
-                            context) => AutoPartSearchPage()));
-                      },
-                    ),
-
-                    ListTile(
-                      leading: Icon(FontAwesomeIcons.adversal),
-                      title: Text("Find Ads", style: GoogleFonts.montserrat(
-                          fontSize: 15, color: Colors.black),),
-                      trailing: Icon(Icons.arrow_forward_ios, size: 15.0,),
-                      onTap: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (
-                            context) => adSearchPage()));
-                      },
-
-                    ),
-                    ListTile(
-                      leading: Icon(FontAwesomeIcons.storeAlt),
-                      title: Text("Find Auto Part Store",
-                        style: GoogleFonts.montserrat(
-                            fontSize: 15, color: Colors.black),),
-                      trailing: Icon(Icons.arrow_forward_ios, size: 15.0,),
-                      onTap: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (
-                            context) => autoPartStoreSearchPage()));
-                      },
-
-                    ),
-                  ]
-              ),
-            );
-          }
-          else if (snapshot.data == 'seller') {
-            return Drawer(
-              child: ListView(
-                  children: <Widget>[
-                    Container(
-                      height: 185,
-                      child: DrawerHeader(
-                        decoration: BoxDecoration(
-                          color: Color(0XFF012A4A),
+                  ),
+                  Container(
+                    margin: EdgeInsets.symmetric(vertical: 10),
+                    child: Row(
+                      children: <Widget>[
+                        SizedBox(
+                          width: 20,
                         ),
-                        child: Container(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              CircleAvatar(
-                                radius: 50,
-                                backgroundColor: Colors.orange,
-                                child: CircleAvatar(
-                                  radius: 45,
-                                  backgroundImage: AssetImage(
-                                      "assets/user.png"),
-                                  backgroundColor: Colors.white,
-                                ),
-                              ),
-                              Container(
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment
-                                      .spaceBetween,
-                                  children: [
-                                    Text(
-                                      user != null ? user : '',
-                                      style: GoogleFonts.quicksand(
-                                        fontSize: 23,
-                                        color: Colors.orange,
-                                      ),
-                                    ),
-                                    PopupMenuButton(
-                                      icon: new Icon(FontAwesomeIcons.ellipsisV,
-                                          color: Colors.white),
-                                      onSelected: (value) {
-                                        Navigator.push(context, MaterialPageRoute(
-                                            builder: (context) => EditProfile()),
-                                        );
-                                      },
-                                      itemBuilder: (_) =>
-                                      <PopupMenuItem<String>>[
-                                        new PopupMenuItem<String>(
-                                          child: Container(
-                                            child: Row(
-                                              children: [
-                                                Icon(
-                                                  FontAwesomeIcons.edit,
-                                                  size: 15,
-                                                ),
-                                                SizedBox(width: 10),
-                                                Text(
-                                                  "Edit Profile",
-                                                  style: GoogleFonts.quicksand(
-                                                    fontSize: 16,
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                        new PopupMenuItem<String>(
-                                          child: Container(
-                                            child: Row(
-                                              children: [
-                                                Icon(
-                                                  FontAwesomeIcons.signOutAlt,
-                                                  size: 15,
-                                                ),
-                                                SizedBox(width: 10),
-                                                Text(
-                                                  "Sign Out",
-                                                  style: GoogleFonts.quicksand(
-                                                    fontSize: 16,
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                          value: "Sign out",
-                                        ),
-                                        new PopupMenuItem<String>(
-                                          child: Container(
-                                            child: Row(
-                                              children: [
-                                                Icon(
-                                                  FontAwesomeIcons.signInAlt,
-                                                  size: 15,
-                                                ),
-                                                SizedBox(width: 10),
-                                                Text(
-                                                  "Login / Sign Up",
-                                                  style: GoogleFonts.quicksand(
-                                                    fontSize: 16,
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                          value: "Sign out",
-                                        )
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
+                        Expanded(
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 10),
+                            child: Divider(
+                              thickness: 1,
+                            ),
                           ),
                         ),
-                      ),
-                    ),
-
-                    ListTile(
-                      leading: Icon(Icons.home),
-                      title: Text("Home", style: GoogleFonts.montserrat(
-                          fontSize: 15, color: Colors.black),),
-                      trailing: Icon(Icons.arrow_forward_ios, size: 15.0,),
-                      onTap: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (
-                            context) => HomeDashboard()));
-                      },
-                    ),
-
-
-                    ListTile(
-                      leading: Icon(FontAwesomeIcons.ad),
-                      title: Text("Post An Ad", style: GoogleFonts.montserrat(
-                          fontSize: 15, color: Colors.black),),
-                      trailing: Icon(Icons.arrow_forward_ios, size: 15.0,),
-                      onTap: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (
-                            context) => postAdSeller()));
-                      },
-                    ),
-
-
-                    Container(
-                      margin: EdgeInsets.symmetric(vertical: 10),
-                      child: Row(
-                        children: <Widget>[
-                          SizedBox(
-                            width: 20,
-                          ),
-                          Expanded(
-                            child: Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 10),
-                              child: Divider(
-                                thickness: 1,
-                              ),
+                        Text('Find More',
+                          style: GoogleFonts.quicksand(fontSize: 15),),
+                        Expanded(
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 10),
+                            child: Divider(
+                              thickness: 1,
                             ),
-                          ),
-                          Text('Find More', style: GoogleFonts.quicksand(
-                              fontSize: 15),),
-                          Expanded(
-                            child: Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 10),
-                              child: Divider(
-                                thickness: 1,
-                              ),
-                            ),
-                          ),
-                          SizedBox(
-                            width: 20,
-                          ),
-                        ],
-                      ),
-                    ),
-
-                    ListTile(
-                      leading: Icon(FontAwesomeIcons.building),
-                      title: Text("Find Workshop",
-                        style: GoogleFonts.montserrat(
-                            fontSize: 15, color: Colors.black),),
-                      trailing: Icon(Icons.arrow_forward_ios, size: 15.0,),
-                      onTap: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (
-                            context) => WorkshopSearchPage()));
-                      },
-                    ),
-
-                    ListTile(
-                      leading: Icon(FontAwesomeIcons.tools),
-                      title: Text("Find Services",
-                        style: GoogleFonts.montserrat(
-                            fontSize: 15, color: Colors.black),),
-                      trailing: Icon(Icons.arrow_forward_ios, size: 15.0,),
-                      onTap: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (
-                            context) => ServiceSearcPage()));
-                      },
-                    ),
-                    ListTile(
-                      leading: Icon(FontAwesomeIcons.cog),
-                      title: Text("Find Auto Part",
-                        style: GoogleFonts.montserrat(
-                            fontSize: 15, color: Colors.black),),
-                      trailing: Icon(Icons.arrow_forward_ios, size: 15.0,),
-                      onTap: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (
-                            context) => AutoPartSearchPage()));
-                      },
-                    ),
-
-                    ListTile(
-                      leading: Icon(FontAwesomeIcons.adversal),
-                      title: Text("Find Ads", style: GoogleFonts.montserrat(
-                          fontSize: 15, color: Colors.black),),
-                      trailing: Icon(Icons.arrow_forward_ios, size: 15.0,),
-                      onTap: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (
-                            context) => adSearchPage()));
-                      },
-
-                    ),
-                    ListTile(
-                      leading: Icon(FontAwesomeIcons.storeAlt),
-                      title: Text("Find Auto Part Store",
-                        style: GoogleFonts.montserrat(
-                            fontSize: 15, color: Colors.black),),
-                      trailing: Icon(Icons.arrow_forward_ios, size: 15.0,),
-                      onTap: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (
-                            context) => autoPartStoreSearchPage()));
-                      },
-
-                    ),
-                  ]
-              ),
-            );
-          }
-          else if (snapshot.data == 'general') {
-            return Drawer(
-              child: ListView(
-                  children: <Widget>[
-                    Container(
-                      height: 185,
-                      child: DrawerHeader(
-                        decoration: BoxDecoration(
-                          color: Color(0XFF012A4A),
-                        ),
-                        child: Container(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              CircleAvatar(
-                                radius: 50,
-                                backgroundColor: Colors.orange,
-                                child: CircleAvatar(
-                                  radius: 45,
-                                  backgroundImage: AssetImage(
-                                      "assets/user.png"),
-                                  backgroundColor: Colors.white,
-                                ),
-                              ),
-                              Container(
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment
-                                      .spaceBetween,
-                                  children: [
-                                    Text(
-                                      user != null ? user : '',
-                                      style: GoogleFonts.quicksand(
-                                        fontSize: 23,
-                                        color: Colors.orange,
-                                      ),
-                                    ),
-                                    PopupMenuButton(
-                                      icon: new Icon(FontAwesomeIcons.ellipsisV,
-                                          color: Colors.white),
-                                      onSelected: (value) {
-                                        Navigator.push(context, MaterialPageRoute(
-                                            builder: (context) => EditProfile()),
-                                        );
-                                      },
-                                      itemBuilder: (_) =>
-                                      <PopupMenuItem<String>>[
-                                        new PopupMenuItem<String>(
-                                          child: Container(
-                                            child: Row(
-                                              children: [
-                                                Icon(
-                                                  FontAwesomeIcons.edit,
-                                                  size: 15,
-                                                ),
-                                                SizedBox(width: 10),
-                                                Text(
-                                                  "Edit Profile",
-                                                  style: GoogleFonts.quicksand(
-                                                    fontSize: 16,
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                        new PopupMenuItem<String>(
-                                          child: Container(
-                                            child: Row(
-                                              children: [
-                                                Icon(
-                                                  FontAwesomeIcons.signOutAlt,
-                                                  size: 15,
-                                                ),
-                                                SizedBox(width: 10),
-                                                Text(
-                                                  "Sign Out",
-                                                  style: GoogleFonts.quicksand(
-                                                    fontSize: 16,
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                          value: "Sign out",
-                                        ),
-                                        new PopupMenuItem<String>(
-                                          child: Container(
-                                            child: Row(
-                                              children: [
-                                                Icon(
-                                                  FontAwesomeIcons.signInAlt,
-                                                  size: 15,
-                                                ),
-                                                SizedBox(width: 10),
-                                                Text(
-                                                  "Login / Sign Up",
-                                                  style: GoogleFonts.quicksand(
-                                                    fontSize: 16,
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                          value: "Sign out",
-                                        )
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
                           ),
                         ),
-                      ),
+                        SizedBox(
+                          width: 20,
+                        ),
+                      ],
                     ),
+                  ),
 
-                    ListTile(
-                      leading: Icon(Icons.home),
-                      title: Text("Home", style: GoogleFonts.montserrat(
+                  ListTile(
+                    leading: Icon(FontAwesomeIcons.building),
+                    title: Text("Find Workshop", style: GoogleFonts.montserrat(
+                        fontSize: 15, color: Colors.black),),
+                    trailing: Icon(Icons.arrow_forward_ios, size: 15.0,),
+                    onTap: () {
+                      Navigator.push(context, MaterialPageRoute(
+                          builder: (context) => WorkshopSearchPage()));
+                    },
+                  ),
+
+                  ListTile(
+                    leading: Icon(FontAwesomeIcons.tools),
+                    title: Text("Find Services", style: GoogleFonts.montserrat(
+                        fontSize: 15, color: Colors.black),),
+                    trailing: Icon(Icons.arrow_forward_ios, size: 15.0,),
+                    onTap: () {
+                      Navigator.push(context, MaterialPageRoute(
+                          builder: (context) => ServiceSearcPage()));
+                    },
+                  ),
+                  ListTile(
+                    leading: Icon(FontAwesomeIcons.cog),
+                    title: Text("Find Auto Part", style: GoogleFonts.montserrat(
+                        fontSize: 15, color: Colors.black),),
+                    trailing: Icon(Icons.arrow_forward_ios, size: 15.0,),
+                    onTap: () {
+                      Navigator.push(context, MaterialPageRoute(
+                          builder: (context) => AutoPartSearchPage()));
+                    },
+                  ),
+
+                  ListTile(
+                    leading: Icon(FontAwesomeIcons.adversal),
+                    title: Text("Find Ads", style: GoogleFonts.montserrat(
+                        fontSize: 15, color: Colors.black),),
+                    trailing: Icon(Icons.arrow_forward_ios, size: 15.0,),
+                    onTap: () {
+                      Navigator.push(context, MaterialPageRoute(
+                          builder: (context) => adSearchPage()));
+                    },
+
+                  ),
+                  ListTile(
+                    leading: Icon(FontAwesomeIcons.storeAlt),
+                    title: Text("Find Auto Part Store",
+                      style: GoogleFonts.montserrat(
                           fontSize: 15, color: Colors.black),),
-                      trailing: Icon(Icons.arrow_forward_ios, size: 15.0,),
-                      onTap: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (
-                            context) => HomeDashboard()));
-                      },
-                    ),
+                    trailing: Icon(Icons.arrow_forward_ios, size: 15.0,),
+                    onTap: () {
+                      Navigator.push(context, MaterialPageRoute(
+                          builder: (context) => autoPartStoreSearchPage()));
+                    },
 
-                    Container(
-                      margin: EdgeInsets.symmetric(vertical: 10),
-                      child: Row(
-                        children: <Widget>[
-                          SizedBox(
-                            width: 20,
-                          ),
-                          Expanded(
-                            child: Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 10),
-                              child: Divider(
-                                thickness: 1,
-                              ),
-                            ),
-                          ),
-                          Text('Find More', style: GoogleFonts.quicksand(
-                              fontSize: 15),),
-                          Expanded(
-                            child: Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 10),
-                              child: Divider(
-                                thickness: 1,
-                              ),
-                            ),
-                          ),
-                          SizedBox(
-                            width: 20,
-                          ),
-                        ],
-                      ),
-                    ),
-
-                    ListTile(
-                      leading: Icon(FontAwesomeIcons.building),
-                      title: Text("Find Workshop",
-                        style: GoogleFonts.montserrat(
-                            fontSize: 15, color: Colors.black),),
-                      trailing: Icon(Icons.arrow_forward_ios, size: 15.0,),
-                      onTap: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (
-                            context) => WorkshopSearchPage()));
-                      },
-                    ),
-
-                    ListTile(
-                      leading: Icon(FontAwesomeIcons.tools),
-                      title: Text("Find Services",
-                        style: GoogleFonts.montserrat(
-                            fontSize: 15, color: Colors.black),),
-                      trailing: Icon(Icons.arrow_forward_ios, size: 15.0,),
-                      onTap: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (
-                            context) => ServiceSearcPage()));
-                      },
-                    ),
-                    ListTile(
-                      leading: Icon(FontAwesomeIcons.cog),
-                      title: Text("Find Auto Part",
-                        style: GoogleFonts.montserrat(
-                            fontSize: 15, color: Colors.black),),
-                      trailing: Icon(Icons.arrow_forward_ios, size: 15.0,),
-                      onTap: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (
-                            context) => AutoPartSearchPage()));
-                      },
-                    ),
-
-                    ListTile(
-                      leading: Icon(FontAwesomeIcons.adversal),
-                      title: Text("Find Ads", style: GoogleFonts.montserrat(
-                          fontSize: 15, color: Colors.black),),
-                      trailing: Icon(Icons.arrow_forward_ios, size: 15.0,),
-                      onTap: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (
-                            context) => adSearchPage()));
-                      },
-
-                    ),
-                    ListTile(
-                      leading: Icon(FontAwesomeIcons.storeAlt),
-                      title: Text("Find Auto Part Store",
-                        style: GoogleFonts.montserrat(
-                            fontSize: 15, color: Colors.black),),
-                      trailing: Icon(Icons.arrow_forward_ios, size: 15.0,),
-                      onTap: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (
-                            context) => autoPartStoreSearchPage()));
-                      },
-
-                    ),
-                  ]
-              ),
-            );
-          }
+                  ),
+                ]
+            ),
+          );
         }
         else if (snapshot.data == null) {
           return Drawer(
@@ -1066,12 +391,12 @@ class _CustomDrawerState extends State<CustomDrawer> {
                                   PopupMenuButton(
                                     icon: new Icon(FontAwesomeIcons.ellipsisV,
                                         color: Colors.white),
-                                    onSelected: (value) {
-                                     GotoScreen();
+                                    onSelected: (option){
+                                      navigateToOtherScreen(option);
                                     },
                                     itemBuilder: (_) =>
-                                    <PopupMenuItem<String>>[
-                                      new PopupMenuItem<String>(
+                                    <PopupMenuItem<userOption>>[
+                                      new PopupMenuItem<userOption>(
                                         child: Container(
                                           child: Row(
                                             children: [
@@ -1089,9 +414,9 @@ class _CustomDrawerState extends State<CustomDrawer> {
                                             ],
                                           ),
                                         ),
-                                        value: "Edit profile",
+                                        value: userOption.updateProfile,
                                       ),
-                                      new PopupMenuItem<String>(
+                                      new PopupMenuItem<userOption>(
                                         child: Container(
                                           child: Row(
                                             children: [
@@ -1109,9 +434,9 @@ class _CustomDrawerState extends State<CustomDrawer> {
                                             ],
                                           ),
                                         ),
-                                        value: "Sign out",
+                                        value: userOption.signOut,
                                       ),
-                                      new PopupMenuItem<String>(
+                                      new PopupMenuItem<userOption>(
                                         child: Container(
                                           child: Row(
                                             children: [
@@ -1129,7 +454,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
                                             ],
                                           ),
                                         ),
-                                        value: "login /Sign out",
+                                        value: userOption.logInSignOut,
                                       )
                                     ],
                                   ),

@@ -15,6 +15,8 @@ class AuthenticationService {
   final FacebookLogin _facebookSignIn = new FacebookLogin();
   final GoogleSignIn _googleSignIn = new GoogleSignIn();
   Stream<User> get authStateChanges => _firebaseAuth.idTokenChanges();
+  bool passwordChanged = false,imageUploaded = false;
+  String userName,userImageURL;
 
   Future<void> signOut() async {
     await _firebaseAuth.signOut();
@@ -70,7 +72,6 @@ class AuthenticationService {
     }
   }
   Future<String> signInWithGoogle() async {
-
   try{
     final googleAccount = await _googleSignIn.signIn();
       if (googleAccount != null) {
@@ -107,5 +108,56 @@ class AuthenticationService {
     }
   }
 
+  Future<bool> updatePassword(String newPassword) async{
+    try{
+      if(_firebaseAuth.currentUser != null){
+       await _firebaseAuth.currentUser
+           .updatePassword(newPassword)
+           .then((_) => passwordChanged = true)
+           .catchError((onError) => _error.errorToastMessage(errorMessage: onError.toString()));
+      }
+      return passwordChanged;
+    }catch(e){
+      _error.errorToastMessage(errorMessage: e.toString());
+      return passwordChanged;
+    }
+  }
+
+  String getUserEmail(){
+    try{
+      if(_firebaseAuth.currentUser != null){
+       userName = _firebaseAuth.currentUser.email;
+      }
+      return userName;
+    }catch(e){
+      _error.errorToastMessage(errorMessage: e.toString());
+      return userName;
+    }
+  }
+  String getUserImageUrl() {
+    try{
+      if(_firebaseAuth.currentUser != null){
+        userImageURL = _firebaseAuth.currentUser.photoURL;
+      }
+      return userImageURL;
+    }catch(e){
+      _error.errorToastMessage(errorMessage: e.toString());
+      return userImageURL;
+    }
+  }
+  Future<bool> uploadProfileImage(String imageURL) async{
+    try{
+      if(_firebaseAuth.currentUser != null){
+       await _firebaseAuth.currentUser
+           .updateProfile(photoURL: imageURL)
+           .then((_) => imageUploaded = true)
+           .catchError((onError) => _error.errorToastMessage(errorMessage: onError.toString()));
+      }
+      return imageUploaded;
+    }catch(e){
+      _error.errorToastMessage(errorMessage: e.toString());
+      return imageUploaded;
+    }
+  }
 
 }

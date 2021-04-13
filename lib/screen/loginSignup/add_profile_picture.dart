@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:bikersworld/services/authenticate_service.dart';
 import 'package:bikersworld/services/toast_service.dart';
 import 'package:bikersworld/services/workshop_queries/workshop_queries.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -151,7 +152,7 @@ class _AddProfilePictureState extends State<AddProfilePicture> {
                       .width - 30,
                   height: 60,
                   child: RaisedButton(
-                    // onPressed: _isButtonVisible ? () => {uploadImage(_image)} : null,
+                    onPressed: _isButtonVisible ? () => {uploadImage(_image)} : null,
                     child: Text('Submit', style: GoogleFonts.quicksand(
                         fontSize: 20,
                         color: Colors.white
@@ -170,62 +171,59 @@ class _AddProfilePictureState extends State<AddProfilePicture> {
     );
   }
 //
-//  uploadImage(File image) async {
-//
-//    final _storage = FirebaseStorage.instance;
-//    final _error = ToastErrorMessage();
-//    final _valid = ToastValidMessage();
-//    final _upload = RegisterWorkshopQueries();
-//    String imageUploadComplete;
-//
-//    try {
-//      setState(() {
-//        _isButtonVisible = false;
-//      });
-//      if (image != null) {
-//        var file = File(image.path);
-//        String imageName = path.basename(image.path);
-//        var snapshot = await _storage.ref()
-//            .child('workshopImages/$imageName')
-//            .putFile(file)
-//            .whenComplete(() =>
-//        imageUploadComplete = "image is uploaded to firebase storage")
-//            .catchError((onError) =>
-//        imageUploadComplete = onError.toString());
-//
-//        if (imageUploadComplete == "image is uploaded to firebase storage") {
-//          var imageUrl = await snapshot.ref.getDownloadURL();
-//          await _upload.uploadWorkshopImage(imageUrl);
-//          if (RegisterWorkshopQueries.imageResult == 'Image Uploaded') {
-//            _valid.validToastMessage(
-//                validMessage: RegisterWorkshopQueries.imageResult);
-//            Future.delayed(
-//                new Duration(seconds: 1),
-//                    () {
-//                  Navigator.pop(context);
-//                }
-//            );
-//          } else {
-//            _error.errorToastMessage(
-//                errorMessage: RegisterWorkshopQueries.imageResult);
-//          }
-//        } else {
-//          _error.errorToastMessage(errorMessage: imageUploadComplete);
-//        }
-//      }// check for update or upload
-//      else {
-//        _error.errorToastMessage(errorMessage: 'No Image was Selected');
-//      }
-//      // end of try block
-//    }catch(e){
-//      _error.errorToastMessage(errorMessage: e.toString());
-//    }finally{
-//      setState(() {
-//        _isButtonVisible = true;
-//      });
-//    }
-//
-//  }
-//
+ uploadImage(File image) async {
+
+   final _storage = FirebaseStorage.instance;
+   final _error = ToastErrorMessage();
+   final _valid = ToastValidMessage();
+   final _linkUrlWithAuth = AuthenticationService();
+   String imageUploadComplete;
+
+   try {
+     setState(() {
+       _isButtonVisible = false;
+     });
+     if (image != null) {
+       var file = File(image.path);
+       String imageName = path.basename(image.path);
+       var snapshot = await _storage.ref()
+           .child('userImages/$imageName')
+           .putFile(file)
+           .whenComplete(() =>
+       imageUploadComplete = "image is uploaded to firebase storage")
+           .catchError((onError) =>
+       imageUploadComplete = onError.toString());
+
+       if (imageUploadComplete == "image is uploaded to firebase storage") {
+         var imageUrl = await snapshot.ref.getDownloadURL();
+         bool result = await _linkUrlWithAuth.uploadProfileImage(imageUrl);
+         if (result) {
+           _valid.validToastMessage(
+               validMessage: 'image Uploaded');
+           Future.delayed(
+               new Duration(seconds: 2),
+                   () {
+                 Navigator.pop(context);
+               }
+           );
+         }
+       } else {
+         _error.errorToastMessage(errorMessage: imageUploadComplete);
+       }
+     }// check for update or upload
+     else {
+       _error.errorToastMessage(errorMessage: 'No Image was Selected');
+     }
+     // end of try block
+   }catch(e){
+     _error.errorToastMessage(errorMessage: e.toString());
+   }finally{
+     setState(() {
+       _isButtonVisible = true;
+     });
+   }
+
+ }
+
 //
 }

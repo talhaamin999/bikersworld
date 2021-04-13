@@ -1,3 +1,6 @@
+import 'package:bikersworld/services/authenticate_service.dart';
+import 'package:bikersworld/services/toast_service.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -6,17 +9,57 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:bikersworld/screen/loginSignup/add_profile_picture.dart';
 
 
-class EditProfile extends StatefulWidget {
+class UpdateProfile extends StatefulWidget {
 
 
   @override
-  _EditProfileState createState() => _EditProfileState();
+  _UpdateProfileState createState() => _UpdateProfileState();
 }
 
-class _EditProfileState extends State<EditProfile> {
+class _UpdateProfileState extends State<UpdateProfile> {
 
-  bool isVisible = true;
+  bool isVisible = false,_isButtonVisible = true;
+  final oldPasswordController = TextEditingController();
+  final newPasswordController = TextEditingController();
+  final confirmPasswordController = TextEditingController();
+  final _firebaseUser = AuthenticationService();
+  final _error = ToastErrorMessage();
+  final _valid = ToastValidMessage();
 
+  Future<void> updatePassword() async{
+    if(oldPasswordController.text.isNotEmpty && newPasswordController.text.isNotEmpty && confirmPasswordController.text.isNotEmpty){
+      if(newPasswordController.text == confirmPasswordController.text) {
+        bool result = await _firebaseUser.updatePassword(
+            confirmPasswordController.text.trim());
+        if(result){
+          clear();
+          _valid.validToastMessage(validMessage: 'Password Successfully Changed');
+        }
+      }else{
+        _error.errorToastMessage(errorMessage: "You'r New and Confirm Password Don't match");
+      }
+    }else{
+      _error.errorToastMessage(errorMessage: 'Please Fill All The Fields');
+    }
+  }
+  void clear(){
+    oldPasswordController.clear();
+    newPasswordController.clear();
+    confirmPasswordController.clear();
+  }
+
+  @override
+  void dispose() {
+    oldPasswordController.dispose();
+    newPasswordController.dispose();
+    confirmPasswordController.dispose();
+    super.dispose();
+  }
+  @override
+  void initState() {
+    print('${_firebaseUser.getUserImageUrl()}');
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
 
@@ -78,7 +121,7 @@ class _EditProfileState extends State<EditProfile> {
                                      CircleAvatar(
                                        child: CircleAvatar(
                                          radius:70,
-                                         backgroundImage: AssetImage('assets/user.png'),
+                                         backgroundImage: _firebaseUser.getUserImageUrl() != null ?  NetworkImage(_firebaseUser.getUserImageUrl()) : AssetImage('assets/user.png'),
                                          backgroundColor: Colors.white,
                                        ),
                                        radius: 90,
@@ -167,7 +210,7 @@ class _EditProfileState extends State<EditProfile> {
                              ),
                              SizedBox(height: 15,),
                              Text(
-                               'Ibtasam Ur Rehman',
+                               _firebaseUser.getUserEmail() != null ? _firebaseUser.getUserEmail():'',
                                style: GoogleFonts.varelaRound(
                                  fontSize: 20,
                                ),
@@ -225,8 +268,9 @@ class _EditProfileState extends State<EditProfile> {
                                   child: Column(
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: <Widget>[
+                                      /*
                                       Text(
-                                          "Password",
+                                          "Old Password",
                                           style: GoogleFonts.quicksand(
                                             fontSize: 18,
                                           )
@@ -235,6 +279,7 @@ class _EditProfileState extends State<EditProfile> {
                                         height: 10,
                                       ),
                                       TextFormField(
+                                        controller: oldPasswordController,
                                         decoration: InputDecoration(
                                           border: InputBorder.none,
                                           fillColor: Color(0xffe3e3e3),
@@ -242,8 +287,10 @@ class _EditProfileState extends State<EditProfile> {
                                         ),
                                       ),
                                       SizedBox(height: 15,),
+
+                                      */
                                       Text(
-                                          "Update Password",
+                                          "New Password",
                                           style: GoogleFonts.quicksand(
                                             fontSize: 18,
                                           )
@@ -252,6 +299,7 @@ class _EditProfileState extends State<EditProfile> {
                                         height: 10,
                                       ),
                                       TextFormField(
+                                        controller: newPasswordController,
                                         decoration: InputDecoration(
                                           border: InputBorder.none,
                                           fillColor: Color(0xffe3e3e3),
@@ -269,6 +317,7 @@ class _EditProfileState extends State<EditProfile> {
                                         height: 10,
                                       ),
                                       TextFormField(
+                                        controller: confirmPasswordController,
                                         decoration: InputDecoration(
                                           border: InputBorder.none,
                                           fillColor: Color(0xffe3e3e3),
@@ -284,41 +333,26 @@ class _EditProfileState extends State<EditProfile> {
                         ),
 
                         SizedBox(height: 20,),
-                        FlatButton(
-                          onPressed: (){
-                            Navigator.pop(context);
-                          },
-                          child: Container(
-                            width: MediaQuery.of(context).size.width,
-                            padding: EdgeInsets.symmetric(vertical: 15),
-                            alignment: Alignment.center,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.all(Radius.circular(5)),
-                              boxShadow: <BoxShadow>[
-                                BoxShadow(
-                                    color: Colors.grey.shade200,
-                                    offset: Offset(2, 4),
-                                    blurRadius: 5,
-                                    spreadRadius: 2)
-                              ],
-                              gradient: LinearGradient(
-                                begin: Alignment.centerLeft,
-                                end: Alignment.centerRight,
-                                colors: [Color(0xfffbb448), Color(0xfff7892b),
-                                ],
-                              ),
-                            ),
-                            child: Text(
-                              'Submit',
-                              style: GoogleFonts.quicksand(
-                                  fontSize: 20,
-                                  color: Colors.white
+                        Visibility(
+                          visible: isVisible,
+                          child: Center(
+                            child: Container(
+                              width: MediaQuery.of(context).size.width - 30,
+                              height: 60,
+                              child: RaisedButton(
+                                onPressed: _isButtonVisible ? () => {updatePassword()} : null,
+                                child: Text('Change Password',style: GoogleFonts.quicksand(
+                                    fontSize: 20,
+                                    color: Colors.white
+                                ),
+                                ),
+                                color: Color(0xfff7892b),
+                                disabledColor: Colors.grey.shade400,
+                                disabledTextColor: Colors.black,
                               ),
                             ),
                           ),
                         ),
-
-
                       ],
                     ),
                   ),
