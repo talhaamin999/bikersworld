@@ -27,7 +27,7 @@ class _UpdateProfileState extends State<UpdateProfile> {
   final _valid = ToastValidMessage();
 
   Future<void> updatePassword() async{
-    if(oldPasswordController.text.isNotEmpty && newPasswordController.text.isNotEmpty && confirmPasswordController.text.isNotEmpty){
+    if(newPasswordController.text.isNotEmpty && confirmPasswordController.text.isNotEmpty){
       if(newPasswordController.text == confirmPasswordController.text) {
         bool result = await _firebaseUser.updatePassword(
             confirmPasswordController.text.trim());
@@ -299,6 +299,7 @@ class _UpdateProfileState extends State<UpdateProfile> {
                                         height: 10,
                                       ),
                                       TextFormField(
+                                        obscureText: true,
                                         controller: newPasswordController,
                                         decoration: InputDecoration(
                                           border: InputBorder.none,
@@ -317,6 +318,7 @@ class _UpdateProfileState extends State<UpdateProfile> {
                                         height: 10,
                                       ),
                                       TextFormField(
+                                        obscureText: true,
                                         controller: confirmPasswordController,
                                         decoration: InputDecoration(
                                           border: InputBorder.none,
