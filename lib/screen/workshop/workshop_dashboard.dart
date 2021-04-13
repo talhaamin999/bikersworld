@@ -160,8 +160,8 @@ class _DashboardState extends State<Dashboard> {
                   children: [
                     Container(
                       height: 280,
-                      color: Color(0XFF012A4A),
                       width: double.infinity,
+                      color: Color(0XFF012A4A),
                     ),
                     Container(
                       child: Row(

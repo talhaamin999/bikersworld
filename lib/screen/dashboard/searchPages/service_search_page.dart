@@ -1,6 +1,3 @@
-import 'dart:math';
-
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:bikersworld/model/workshop_model.dart';
 import 'package:bikersworld/services/search_queries/refine_search.dart';
 import 'package:bikersworld/services/search_queries/search_workshop_service.dart';
@@ -299,11 +296,9 @@ class _ServiceSearcPageState extends State<ServiceSearcPage> {
                                 padding: const EdgeInsets.only(top: 15, left: 10,right: 10),
                                 child: Card(
                                   color: Colors.white,
-                                //  margin: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
                                   child: ListTile(
                                     leading: CircleAvatar(
                                         radius: 40,
-//                                      backgroundColor: Color(0XFF012A4A),
                                       backgroundImage: AssetImage("assets/service_avatar.jpg"),
                                     ),
                                     title: Container(

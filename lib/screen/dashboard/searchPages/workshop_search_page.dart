@@ -220,19 +220,21 @@ class _WorkshopSearchPageState extends State<WorkshopSearchPage> {
                                   child: Container(
                                     child: Row(
                                       children: <Widget>[
-                                        Padding(
-                                          padding: const EdgeInsets.all(10),
-                                          child: Container(
-                                              width: 70.0,
-                                              height: 70.0,
-                                              decoration: BoxDecoration(
-                                                  shape: BoxShape.circle,
-                                                  image: DecorationImage(
-                                                      fit: BoxFit.fill,
-                                                      image: snapshot.data[index].imageURL != null ? NetworkImage(snapshot.data[index].imageURL) : AssetImage("assets/avatar.jpg",)
-                                                  )
+                                        Expanded(
+                                          child: Padding(
+                                              padding: const EdgeInsets.all(10),
+                                              child: Container(
+                                                width: 90,
+                                                height: 70,
+                                                  decoration: BoxDecoration(
+                                                      shape: BoxShape.rectangle,
+                                                      image: DecorationImage(
+                                                          fit: BoxFit.fill,
+                                                          image: snapshot.data[index].imageURL != null ? NetworkImage(snapshot.data[index].imageURL) : AssetImage("assets/avatar.jpg",)
+                                                      )
+                                                  ),
                                               ),
-                                          ),
+                                            ),
                                         ),
 
                                         SizedBox(width: 5,),
