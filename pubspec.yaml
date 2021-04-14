@@ -56,6 +56,7 @@ dependencies:
   line_awesome_flutter: ^1.0.1
   flutter_screenutil: ^1.0.2
 
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

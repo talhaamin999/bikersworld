@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:bikersworld/widgets/drawer.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:bikersworld/screen/autoPartStore/registerAutoParts.dart';
-import 'package:bikersworld/screen/autoPartStore/viewPartsPage.dart';
+import 'file:///C:/Users/Hasham/Desktop/FYP/lib/screen/autoPartStore/Auto%20Part%20Store%20Owner/register_auto_parts.dart';
+import 'file:///C:/Users/Hasham/Desktop/FYP/lib/screen/autoPartStore/Auto%20Part%20Store%20Owner/view_parts_page.dart';
+
 
 class AutoPartStoreDashboardOwner extends StatefulWidget {
   @override
@@ -251,7 +251,7 @@ class InformationTab extends StatelessWidget {
                       ),
                       title: Text("Add Auto Parts"),
                       onTap: (){
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => registerAutoParts()));
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => RegisterAutoParts()));
                       },
                     ),
                   ),

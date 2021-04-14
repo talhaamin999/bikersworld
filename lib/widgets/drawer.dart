@@ -11,7 +11,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:bikersworld/screen/loginSignup/welcome_page.dart';
 import 'package:bikersworld/screen/dashboard/home.dart';
 import 'package:bikersworld/screen/dashboard/Ads/postAdsSeller.dart';
-import 'package:bikersworld/screen/autoPartStore/registerAutoPartStore.dart';
+import 'file:///C:/Users/Hasham/Desktop/FYP/lib/screen/autoPartStore/Auto%20Part%20Store%20Owner/register_auto_part_store.dart';
 import 'package:bikersworld/screen/dashboard/searchPages/autopart_search_page.dart';
 import 'package:bikersworld/screen/dashboard/searchPages/ads_search_page.dart';
 import 'package:bikersworld/screen/dashboard/searchPages/workshop_search_page.dart';

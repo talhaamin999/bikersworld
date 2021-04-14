@@ -1,23 +1,19 @@
-import 'package:bikersworld/screen/autoPartStore/autoPartStoreDashboardOwner.dart';
-import 'package:path/path.dart';
+import 'file:///C:/Users/Hasham/Desktop/FYP/lib/screen/autoPartStore/Auto%20Part%20Store%20Owner/auto_part_store_dashboard_owner.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:bikersworld/widgets/drawer.dart';
-import 'package:bikersworld/screen/workshop/add_services.dart';
-import 'package:bikersworld/screen/dashboard/AutoPartStore/autoPartStoreDashboard.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:lite_rolling_switch/lite_rolling_switch.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:bikersworld/widgets/city_dropdown.dart';
 
 
-class registerAutoParts extends StatefulWidget {
+class RegisterAutoParts extends StatefulWidget {
   @override
-  _registerAutoPartsState createState() => _registerAutoPartsState();
+  _RegisterAutoPartsState createState() => _RegisterAutoPartsState();
 }
 
 
-class _registerAutoPartsState extends State<registerAutoParts> {
+class _RegisterAutoPartsState extends State<RegisterAutoParts> {
   int currentIndex;
   String dropdownValue = 'Electrical';
   TextEditingController _textFieldController = new TextEditingController();
@@ -116,7 +112,6 @@ class _registerAutoPartsState extends State<registerAutoParts> {
             ],
           ),
         ),
-        //drawer: Drawer(),
       ),
     );
   }
