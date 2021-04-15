@@ -4,13 +4,13 @@ import 'package:bikersworld/widgets/drawer.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
-class viewPartsPage extends StatefulWidget {
+class ViewPartsPage extends StatefulWidget {
   @override
-  _viewPartsPageState createState() => _viewPartsPageState();
+  _ViewPartsPageState createState() => _ViewPartsPageState();
 }
 
 
-class _viewPartsPageState extends State<viewPartsPage>
+class _ViewPartsPageState extends State<ViewPartsPage>
     with SingleTickerProviderStateMixin {
   TabController _tabController;
   ScrollController _scrollViewController;

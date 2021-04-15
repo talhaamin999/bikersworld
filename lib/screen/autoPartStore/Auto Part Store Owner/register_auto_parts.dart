@@ -5,6 +5,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:lite_rolling_switch/lite_rolling_switch.dart';
 import 'package:bikersworld/widgets/city_dropdown.dart';
+import 'package:image_picker/image_picker.dart';
+import 'dart:io';
 
 
 class RegisterAutoParts extends StatefulWidget {
@@ -136,7 +138,7 @@ Widget _entryField(String title, {bool isPassword = false})
         TextField(
           decoration: InputDecoration(
             border: InputBorder.none,
-            fillColor: Color(0xfff3f3f4),
+            fillColor: Color(0xffe3e3e3),
             filled: true,
           ),
         ),
@@ -148,7 +150,7 @@ Widget _entryField(String title, {bool isPassword = false})
 Widget _registerpartWidget() {
   return Column(
     children: <Widget>[
-      _entryField("Part Quantity"),
+      _entryField("Title"),
       Container(
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -172,109 +174,14 @@ Widget _registerpartWidget() {
       SizedBox(height: 10,),
       categoriesComboBox(),
       SizedBox(height: 20,),
-      addPart("1"),
+      _entryField("Price"),
       SizedBox(height: 20,),
-      addPart("2"),
+      WorkshopProfilePhoto(),
 
     ],
   );
 }
 
-class addPart extends StatelessWidget {
-  addPart(this.text);
-
-  String text;
-
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(8),
-      ),
-      child: ListTile(
-        contentPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-
-        title: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Container(
-              child: Column(
-                children: <Widget>[
-                  CircleAvatar(backgroundColor: Color(0XFF012A4A),child: Text(text,style: TextStyle(fontSize: 20),),),
-                  _entryField("Title"),
-                  _entryField("Price"),
-                  SizedBox(height: 15,),
-                  Container(
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Text(
-                          "Select",
-                          style: GoogleFonts.quicksand(
-                            fontSize: 20,
-                          ),
-                        ),
-                        Text(
-                          "Type",
-                          style: GoogleFonts.quicksand(
-                            fontSize: 20,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(height:15),
-                  typeComboBoxBtn(),
-                  SizedBox(height:15,),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Container(
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Text(
-                              "Part",
-                              style: GoogleFonts.quicksand(
-                                fontSize: 20,
-                              ),
-                            ),
-                            SizedBox(width: 5,),
-                            Text(
-                              "Status",
-                              style: GoogleFonts.quicksand(
-                                fontSize: 20,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      LiteRollingSwitch(
-                        value: true,
-                        textOn: 'In Stock',
-                        textOff: 'Out of stock',
-                        colorOn: Colors.greenAccent[700],
-                        colorOff: Colors.redAccent[700],
-                        iconOn: Icons.done,
-                        iconOff: Icons.remove_circle_outline,
-                        textSize: 11.0,
-                        onChanged: (bool state) {
-//Use it to manage the different states
-                          print('Current State of SWITCH IS: $state');
-                        },
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            )
-
-          ],
-        ),
-      ),
-    );
-  }
-}
 
 Widget _title() {
   return RichText(
@@ -315,8 +222,8 @@ class _categoriesComboBoxState extends State<categoriesComboBox> {
     String dropdownValue = 'Electrical';
 
     return Container(
-      color: Color(0xfff3f3f4),
-      width: 380,
+      color: Color(0xffe3e3e3),
+      width: 320,
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: DropdownButton<String>(
@@ -366,7 +273,7 @@ class autoPartTextfield extends StatelessWidget {
       child: TextFormField(
         decoration: InputDecoration(
           filled: true,
-          fillColor: Color(0xffe6e6e6),
+          fillColor: Color(0xffe3e3e3),
           border: InputBorder.none,
           labelText: Text,
         ),
@@ -390,7 +297,7 @@ class _typeComboBoxBtnState extends State<typeComboBoxBtn> {
 
   Widget build(BuildContext context) {
     return Container(
-      color: Color(0xfff3f3f4),
+      color: Color(0xffe3e3e3),
       width: 380,
       child: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -422,6 +329,121 @@ class _typeComboBoxBtnState extends State<typeComboBoxBtn> {
           }).toList(),
         ),
       ),
+    );
+  }
+}
+
+
+
+
+class WorkshopProfilePhoto extends StatefulWidget {
+  @override
+  _WorkshopProfilePhotoState createState() => _WorkshopProfilePhotoState();
+}
+
+class _WorkshopProfilePhotoState extends State<WorkshopProfilePhoto> {
+  File _image;
+  bool _isButtonVisible = true;
+
+  Future getImagefromcamera() async {
+    var image = await ImagePicker.pickImage(source: ImageSource.camera);
+    setState(() {
+      _image = image;
+    });
+  }
+
+  Future getImagefromGallery() async {
+    var image = await ImagePicker.pickImage(source: ImageSource.gallery);
+    setState(() {
+      _image = image;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        SizedBox(height: 10,),
+        Text(
+          "Select Profile Photo ",
+          style: GoogleFonts.quicksand(
+            fontSize: 19,
+            color: Colors.black,
+          ),
+        ),
+        SizedBox(height: 10,),
+        Container(
+          width: MediaQuery
+              .of(context)
+              .size
+              .width - 200,
+          height: 200,
+          color: Colors.grey,
+          child: Center(
+            child: _image == null
+                ? Text("No Image is picked")
+                : Container(width: 220,
+              child: Image.file(
+                _image,
+                fit: BoxFit.fill,
+              ),
+            ),
+          ),
+        ),
+        SizedBox(height: 20,),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: <Widget>[
+            Container(
+              child: Column(
+                children: [
+                  FloatingActionButton(
+                    backgroundColor: Color(0XFF012A4A),
+                    onPressed: getImagefromcamera,
+                    tooltip: "pickImage",
+                    child: Icon(Icons.add_a_photo),
+                  ),
+                  SizedBox(height: 15,),
+
+                  Text(
+                    "Camera",
+                    style: GoogleFonts.quicksand(
+                      fontSize: 18,
+                      color: Colors.black,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Container(
+              child: Column(
+                children: [
+                  FloatingActionButton(
+                    backgroundColor: Color(0XFF012A4A),
+                    onPressed: getImagefromGallery,
+                    tooltip: "Pick Image",
+                    child: Icon(Icons.camera_alt),
+                  ),
+                  SizedBox(height: 15,),
+                  Text(
+                    "Gallery",
+                    style: GoogleFonts.quicksand(
+                      fontSize: 18,
+                      color: Colors.black,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ],
     );
   }
 }

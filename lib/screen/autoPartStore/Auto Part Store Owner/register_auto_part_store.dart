@@ -334,7 +334,7 @@ Widget _entryField(String title, {bool isPassword = false})
                   ),
                 ),
 
-                SizedBox(width: 30,),
+                SizedBox(width: 12,),
                 Container(
                   child: Column(
                     children: [
