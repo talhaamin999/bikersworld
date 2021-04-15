@@ -1,4 +1,4 @@
-import 'file:///C:/Users/Hasham/Desktop/FYP/lib/screen/autoPartStore/Auto%20Part%20Store%20Owner/auto_part_store_dashboard_owner.dart';
+import 'auto_part_store_dashboard_owner.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';

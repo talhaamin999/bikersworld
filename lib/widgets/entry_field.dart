@@ -13,7 +13,7 @@ class EntryField extends StatefulWidget {
   final TextInputType inputType;
   final FilteringTextInputFormatter filter;
   final hintText;
-  EntryField({@required this.title,this.hintText,@required this.controller,@required this.inputType,@required this.filter});
+  EntryField({@required this.title,this.hintText,@required this.controller,@required this.inputType,this.filter});
 }
 
 class _EntryFieldState extends State<EntryField> {
@@ -44,7 +44,7 @@ class _EntryFieldState extends State<EntryField> {
             controller: this.widget.controller,
             keyboardType: this.widget.inputType,
             inputFormatters: <TextInputFormatter>[
-              this.widget.filter,
+              this.widget.filter != null ? this.widget.filter : null,
             ],
             validator: (value){
               if(value.isEmpty){

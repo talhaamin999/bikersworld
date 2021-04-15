@@ -1,3 +1,4 @@
+import 'package:bikersworld/screen/autoPartStore/Auto%20Part%20Store%20Owner/register_auto_part_store.dart';
 import 'package:bikersworld/screen/dashboard/searchPages/auto_partstore_search_page.dart';
 import 'package:bikersworld/screen/workshop/workshop_dashboard.dart';
 import 'package:bikersworld/services/toast_service.dart';
@@ -11,7 +12,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:bikersworld/screen/loginSignup/welcome_page.dart';
 import 'package:bikersworld/screen/dashboard/home.dart';
 import 'package:bikersworld/screen/dashboard/Ads/postAdsSeller.dart';
-import 'file:///C:/Users/Hasham/Desktop/FYP/lib/screen/autoPartStore/Auto%20Part%20Store%20Owner/register_auto_part_store.dart';
 import 'package:bikersworld/screen/dashboard/searchPages/autopart_search_page.dart';
 import 'package:bikersworld/screen/dashboard/searchPages/ads_search_page.dart';
 import 'package:bikersworld/screen/dashboard/searchPages/workshop_search_page.dart';
@@ -259,6 +259,20 @@ class _CustomDrawerState extends State<CustomDrawer> {
                             builder: (context) => RegisterAutoPartStore()));
                       },
 
+                    ),
+                  ),
+                  Visibility(
+                    visible: snapshot.data == 'partstore_owner' ? true : false,
+                    child: ListTile(
+                      leading: Icon(FontAwesomeIcons.registered),
+                      title: Text("PartStore Dashboard",
+                        style: GoogleFonts.montserrat(
+                            fontSize: 15, color: Colors.black),),
+                      trailing: Icon(Icons.arrow_forward_ios, size: 15.0,),
+                      onTap: () {
+                        Navigator.push(context, MaterialPageRoute(
+                            builder: (context) => RegisterAutoPartStore()));
+                      },
                     ),
                   ),
                   Container(
@@ -516,6 +530,18 @@ class _CustomDrawerState extends State<CustomDrawer> {
                   ListTile(
                     leading: Icon(FontAwesomeIcons.registered),
                     title: Text("Register Part Store",
+                      style: GoogleFonts.montserrat(
+                          fontSize: 15, color: Colors.black),),
+                    trailing: Icon(Icons.arrow_forward_ios, size: 15.0,),
+                    onTap: () {
+                      Navigator.push(context, MaterialPageRoute(
+                          builder: (context) => RegisterAutoPartStore()));
+                    },
+
+                  ),
+                  ListTile(
+                    leading: Icon(FontAwesomeIcons.registered),
+                    title: Text("PartStore Dashboard",
                       style: GoogleFonts.montserrat(
                           fontSize: 15, color: Colors.black),),
                     trailing: Icon(Icons.arrow_forward_ios, size: 15.0,),

@@ -132,7 +132,7 @@ class _RegisterWorkshopState extends State<RegisterWorkshop> {
   void validateFields(){
 
     if(fieldEmptyChecker == 1){
-      ValidateWorkshop _workShop = ValidateWorkshop();
+      ValidateShop _workShop = ValidateShop();
       if(!_workShop.validateShopTitle(_shopTitleController.text.trim()) && !_workShop.validateShopCity(_shopCityController.text.trim()) && !_workShop.validateShopArea(_shopSpecificAreaController.text.trim()) && !_workShop.validateOwnerName(_ownerNameController.text.trim()) && !_workShop.validateOwnerContact(_ownerContactController.text.trim())){
         error.errorToastMessage(errorMessage: "You Need To Enter Valid Data in every Fields");
       }
@@ -322,7 +322,6 @@ Widget _entryField(String title,TextEditingController controller,TextInputType i
 Widget _registerWorkshopWidget({@required TextEditingController shopTitleController,@required TextEditingController shopCityController,@required TextEditingController shopSpecificAreaController,@required TextEditingController ownerNameController,@required TextEditingController ownerContactController}) {
 
   BuildContext context;
-
     return Column(
       children: <Widget>[
         Container(

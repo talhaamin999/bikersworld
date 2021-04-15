@@ -2,7 +2,7 @@
 final String _namePattern = r"^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$";
 final String _contactPattern = r'^((\+92)|(0092))-{0,1}\d{3}-{0,1}\d{7}$|^\d{11}$|^\d{4}-\d{7}$';
 
-class ValidateWorkshop {
+class ValidateShop {
 
   bool validateOwnerName(String name){
 
@@ -64,7 +64,7 @@ class ValidateWorkshop {
 
 class ValidateWorkshopServices {
 
-  final ValidateWorkshop shop = ValidateWorkshop();
+  final ValidateShop shop = ValidateShop();
 
   bool validateServiceCategory(String category) {
     RegExp regExp = RegExp(_namePattern);
