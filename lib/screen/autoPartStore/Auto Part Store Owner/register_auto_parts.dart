@@ -14,104 +14,109 @@ class RegisterAutoParts extends StatefulWidget {
   _RegisterAutoPartsState createState() => _RegisterAutoPartsState();
 }
 
-
 class _RegisterAutoPartsState extends State<RegisterAutoParts> {
   int currentIndex;
   String dropdownValue = 'Electrical';
   TextEditingController _textFieldController = new TextEditingController();
   @override
-  void initState() {
-    super.initState();
-
-    currentIndex = 0;
-  }
-
-  changePage(int index) {
-    setState(() {
-      currentIndex = index;
-    });
-  }
-  @override
   Widget build(BuildContext context) {
-
     final height = MediaQuery.of(context).size.height;
-
     return MaterialApp(
       home: Scaffold(
-        appBar: AppBar(
-            title: Text(
-              'BIKERSWORLD',
-              style: GoogleFonts.quicksand(
-                color: Colors.white,
-                fontSize: 18,
-              ),
+        appBar:AppBar(
+          title: Text(
+            'BIKERSWORLD',
+            style: GoogleFonts.quicksand(
+              color: Colors.white,
+              fontSize: 18,
             ),
-            backgroundColor: Color(0XFF012A4A),
-            leading: IconButton(icon:Icon(Icons.arrow_back, color: Colors.orange,),
-              onPressed:() => Navigator.pop(context),
-            )
+          ),
+          backgroundColor: Color(0XFF012A4A),
+          iconTheme: IconThemeData(color: Color(0xfffbb448)),
+          leading: FlatButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: Icon(
+                Icons.arrow_back,
+                color: Colors.orange,
+              )
+          ),
+          elevation: 0.0,
         ),
         body: Container(
-          height: height,
-          child: Stack(
-            children: <Widget>[
-              Container(
-                padding: EdgeInsets.symmetric(horizontal: 20),
-                child: SingleChildScrollView(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      SizedBox(height: 20,),
-                      _title(),
-                      SizedBox(height: 20),
-
-                      _registerpartWidget(),
-                      SizedBox(height: 20),
-
-
-                      FlatButton(
-                        child: Container(
-                          width: MediaQuery.of(context).size.width,
-                          padding: EdgeInsets.symmetric(vertical: 15),
-                          alignment: Alignment.center,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.all(Radius.circular(5)),
-                              boxShadow: <BoxShadow>[
-                                BoxShadow(
-                                    color: Colors.grey.shade200,
-                                    offset: Offset(2, 4),
-                                    blurRadius: 5,
-                                    spreadRadius: 2)
-                              ],
-                              gradient: LinearGradient(
-                                  begin: Alignment.centerLeft,
-                                  end: Alignment.centerRight,
-                                  colors: [Color(0xfffbb448), Color(0xfff7892b)])),
-                          child: Text(
-                            'Submit',
-                            style: GoogleFonts.krub(
-                              fontSize: 20,
-                              color: Colors.white,
-                            ),
-                          ),
+          child:  Container(
+            padding: EdgeInsets.symmetric(horizontal: 20),
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  SizedBox(height: 20,),
+                  RichText(
+                    textAlign: TextAlign.start,
+                    text: TextSpan(
+                        text: 'Register',
+                        style: GoogleFonts.quicksand(
+                          fontSize: 30,
+                          color: Color(0xfff7892b),
                         ),
-                        onPressed: (){
-                          Navigator.of(context)
-                              .push(
-                            MaterialPageRoute(
-                                builder: (context) => AutoPartStoreDashboardOwner()
-                            ),
-                          );
-                        },
-                      ),
-
-                      SizedBox(height: 30),
-                    ],
+                        children: [
+                          TextSpan(
+                              text: ' AutoParts',
+                              style: GoogleFonts.quicksand(
+                                fontSize: 30,
+                                color: Colors.black,
+                              )
+                          ),
+                        ]),
                   ),
-                ),
+
+
+                  _registerpartWidget(),
+                 // WorkshopProfilePhoto(),
+
+                  SizedBox(height: 20),
+                  FlatButton(
+                    child: Container(
+                      width: MediaQuery.of(context).size.width,
+                      padding: EdgeInsets.symmetric(vertical: 15),
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(5)),
+                          boxShadow: <BoxShadow>[
+                            BoxShadow(
+                                color: Colors.grey.shade200,
+                                offset: Offset(2, 4),
+                                blurRadius: 5,
+                                spreadRadius: 2)
+                          ],
+                          gradient: LinearGradient(
+                              begin: Alignment.centerLeft,
+                              end: Alignment.centerRight,
+                              colors: [Color(0xfffbb448), Color(0xfff7892b)])),
+                      child: Text(
+                        'Submit',
+                        style: GoogleFonts.krub(
+                          fontSize: 20,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                    onPressed: (){
+                      Navigator.of(context)
+                          .push(
+                        MaterialPageRoute(
+                            builder: (context) => AutoPartStoreDashboardOwner()
+                        ),
+                      );
+                    },
+                  ),
+
+                  SizedBox(height: 30),
+                ],
               ),
-            ],
+            ),
           ),
         ),
       ),
@@ -119,7 +124,71 @@ class _RegisterAutoPartsState extends State<RegisterAutoParts> {
   }
 }
 
-Widget _entryField(String title, {bool isPassword = false})
+
+
+Widget _registerpartWidget() {
+  return Column(
+    children: <Widget>[
+      _entryField("Title"),
+      SizedBox(height: 10,),
+      Container(
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Text(
+              "Select",
+              style: GoogleFonts.quicksand(
+                fontSize: 20,
+              ),
+            ),
+            SizedBox(width:10),
+            Text(
+              "Category",
+              style: GoogleFonts.quicksand(
+                fontSize: 20,
+              ),
+            ),
+          ],
+        ),
+      ),
+      SizedBox(height: 15,),
+      categoriesComboBox(),
+      SizedBox(height: 15,),
+
+      Container(
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Text(
+              "Select",
+              style: GoogleFonts.quicksand(
+                fontSize: 20,
+              ),
+            ),
+            SizedBox(width:10),
+            Text(
+              "Type",
+              style: GoogleFonts.quicksand(
+                fontSize: 20,
+              ),
+            ),
+          ],
+        ),
+      ),
+      SizedBox(height: 15,),
+      TypeComboBox(),
+
+      SizedBox(height: 10,),
+      _entryField("Price"),
+      SizedBox(height: 20,),
+
+    ],
+  );
+}
+
+
+
+Widget _entryField(String title,)
 {
   return Container(
     margin: EdgeInsets.symmetric(vertical: 10),
@@ -147,62 +216,7 @@ Widget _entryField(String title, {bool isPassword = false})
   );
 }
 
-Widget _registerpartWidget() {
-  return Column(
-    children: <Widget>[
-      _entryField("Title"),
-      Container(
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Text(
-              "Select",
-              style: GoogleFonts.quicksand(
-                fontSize: 20,
-              ),
-            ),
-            SizedBox(width:10),
-            Text(
-              "Category",
-              style: GoogleFonts.quicksand(
-                fontSize: 20,
-              ),
-            ),
-          ],
-        ),
-      ),
-      SizedBox(height: 10,),
-      categoriesComboBox(),
-      SizedBox(height: 20,),
-      _entryField("Price"),
-      SizedBox(height: 20,),
-      WorkshopProfilePhoto(),
 
-    ],
-  );
-}
-
-
-Widget _title() {
-  return RichText(
-    textAlign: TextAlign.start,
-    text: TextSpan(
-        text: 'Register',
-        style: GoogleFonts.quicksand(
-          fontSize: 30,
-          color: Color(0xfff7892b),
-        ),
-        children: [
-          TextSpan(
-              text: ' AutoParts',
-              style: GoogleFonts.quicksand(
-                fontSize: 30,
-                color: Colors.black,
-              )
-          ),
-        ]),
-  );
-}
 
 
 
@@ -223,36 +237,37 @@ class _categoriesComboBoxState extends State<categoriesComboBox> {
 
     return Container(
       color: Color(0xffe3e3e3),
-      width: 320,
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: DropdownButton<String>(
-          value: dropdownValue,
-          icon: Container(
-            margin: EdgeInsets.only(left: 200),
-            child: Icon(
-                FontAwesomeIcons.caretDown,
+      width: 350,
+      height: 50,
+      child:  DropdownButton<String>(
+        value: dropdownValue,
+        icon: Container(
+          margin: EdgeInsets.only(left: 180),
+          child: Icon(
+            FontAwesomeIcons.caretDown,
+          ),
+        ),
+        iconSize: 24,
+        elevation: 16,
+        style: TextStyle(color: Colors.black,),
+        underline: Container(
+          height: 2,
+        ),
+        onChanged: (String newValue) {
+          setState(() {
+            dropdownValue = newValue;
+          });
+        },
+        items: <String>['Electrical', 'Mechanical', 'Oil and tuning', 'Others']
+            .map<DropdownMenuItem<String>>((String value) {
+          return DropdownMenuItem<String>(
+            value: value,
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(value, style: GoogleFonts.quicksand(fontSize: 18),),
             ),
-          ),
-          iconSize: 24,
-          elevation: 16,
-          style: TextStyle(color: Colors.black,),
-          underline: Container(
-            height: 2,
-          ),
-          onChanged: (String newValue) {
-            setState(() {
-              dropdownValue = newValue;
-            });
-          },
-          items: <String>['Electrical', 'Mechanical', 'Oil and tuning', 'Others']
-              .map<DropdownMenuItem<String>>((String value) {
-            return DropdownMenuItem<String>(
-              value: value,
-              child: Text(value, style: GoogleFonts.quicksand(fontSize: 15),),
-            );
-          }).toList(),
-        ),
+          );
+        }).toList(),
       ),
     );
   }
@@ -261,77 +276,56 @@ class _categoriesComboBoxState extends State<categoriesComboBox> {
 
 
 
-class autoPartTextfield extends StatelessWidget {
-  autoPartTextfield(this.Text,);
-
-  String Text;
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.only(left: 20),
-      width: MediaQuery.of(context).size.width - 90,
-      child: TextFormField(
-        decoration: InputDecoration(
-          filled: true,
-          fillColor: Color(0xffe3e3e3),
-          border: InputBorder.none,
-          labelText: Text,
-        ),
-      ),
-    );
-  }
-}
-
-
-
-class typeComboBoxBtn extends StatefulWidget {
-  typeComboBoxBtn({Key key}) : super(key: key);
+class TypeComboBox extends StatefulWidget {
+  TypeComboBox({Key key}) : super(key: key);
 
   @override
-  _typeComboBoxBtnState createState() => _typeComboBoxBtnState();
+  _TypeComboBoxState createState() => _TypeComboBoxState();
 }
 
-class _typeComboBoxBtnState extends State<typeComboBoxBtn> {
-  String dropdownValue = 'Local';
-
+class _TypeComboBoxState extends State<TypeComboBox> {
 
   Widget build(BuildContext context) {
+    String dropdownValue = 'Local';
+
     return Container(
       color: Color(0xffe3e3e3),
-      width: 380,
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: DropdownButton<String>(
-          value: dropdownValue,
-          icon: Container(
-            margin: EdgeInsets.only(left: 200),
-            child: Icon(
-              FontAwesomeIcons.caretDown,
-            ),
+      width: 350,
+      height: 50,
+      child:  DropdownButton<String>(
+        value: dropdownValue,
+        icon: Container(
+          margin: EdgeInsets.only(left: 230),
+          child: Icon(
+            FontAwesomeIcons.caretDown,
           ),
-          iconSize: 24,
-          elevation: 16,
-          style: TextStyle(color: Colors.black,),
-          underline: Container(
-            height: 2,
-          ),
-          onChanged: (String newValue) {
-            setState(() {
-              dropdownValue = newValue;
-            });
-          },
-          items: <String>['Local', 'Geniun', 'Others']
-              .map<DropdownMenuItem<String>>((String value) {
-            return DropdownMenuItem<String>(
-              value: value,
-              child: Text(value, style: GoogleFonts.quicksand(fontSize: 15),),
-            );
-          }).toList(),
         ),
+        iconSize: 24,
+        elevation: 16,
+        style: TextStyle(color: Colors.black,),
+        underline: Container(
+          height: 2,
+        ),
+        onChanged: (String newValue) {
+          setState(() {
+            dropdownValue = newValue;
+          });
+        },
+        items: <String>['Local', 'Geniune','Others']
+            .map<DropdownMenuItem<String>>((String value) {
+          return DropdownMenuItem<String>(
+            value: value,
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(value, style: GoogleFonts.quicksand(fontSize: 18),),
+            ),
+          );
+        }).toList(),
       ),
     );
   }
 }
+
 
 
 
@@ -371,7 +365,7 @@ class _WorkshopProfilePhotoState extends State<WorkshopProfilePhoto> {
       children: <Widget>[
         SizedBox(height: 10,),
         Text(
-          "Select Profile Photo ",
+          "Select Photo ",
           style: GoogleFonts.quicksand(
             fontSize: 19,
             color: Colors.black,
