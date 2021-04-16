@@ -42,4 +42,19 @@ class RegisterPartStoreQueries {
       _error.errorToastMessage(errorMessage: e.toString());
     }
   }
+  Future<PartstoreDashboardModel> getPartStore() async {
+    try {
+      if(_firebaseUser != null) {
+        return _firestoreInstance.collection(PARTSTORE_COLLECTION)
+        .doc(_firebaseUser.uid)
+            .get()
+            .then((doc) => PartstoreDashboardModel.fromJson(doc.data(), doc.reference.id));
+      }
+      else{
+        return null;
+      }
+    } catch (e) {
+      _error.errorToastMessage(errorMessage: e.toString());
+    }
+  }
 }

@@ -1,3 +1,4 @@
+import 'package:bikersworld/screen/autoPartStore/Auto%20Part%20Store%20Owner/auto_part_store_dashboard_owner.dart';
 import 'package:bikersworld/screen/autoPartStore/Auto%20Part%20Store%20Owner/register_auto_part_store.dart';
 import 'package:bikersworld/screen/dashboard/searchPages/auto_partstore_search_page.dart';
 import 'package:bikersworld/screen/workshop/workshop_dashboard.dart';
@@ -271,7 +272,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
                       trailing: Icon(Icons.arrow_forward_ios, size: 15.0,),
                       onTap: () {
                         Navigator.push(context, MaterialPageRoute(
-                            builder: (context) => RegisterAutoPartStore()));
+                            builder: (context) => AutoPartStoreDashboardOwner()));
                       },
                     ),
                   ),
@@ -537,7 +538,6 @@ class _CustomDrawerState extends State<CustomDrawer> {
                       Navigator.push(context, MaterialPageRoute(
                           builder: (context) => RegisterAutoPartStore()));
                     },
-
                   ),
                   ListTile(
                     leading: Icon(FontAwesomeIcons.registered),
@@ -547,7 +547,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
                     trailing: Icon(Icons.arrow_forward_ios, size: 15.0,),
                     onTap: () {
                       Navigator.push(context, MaterialPageRoute(
-                          builder: (context) => RegisterAutoPartStore()));
+                          builder: (context) => AutoPartStoreDashboardOwner()));
                     },
 
                   ),
