@@ -355,6 +355,7 @@ Widget _entryField(String title, {bool isPassword = false})
               ],
             ),
           ),
+          SizedBox(height: 15,),
           Container(
             margin: EdgeInsets.symmetric(vertical: 10),
             child: Row(
@@ -408,7 +409,7 @@ Widget _title() {
         ),
         children: [
           TextSpan(
-              text: ' PartStore',
+              text: ' Part Store',
               style: GoogleFonts.quicksand(
                 fontSize: 30,
                 color: Colors.black,

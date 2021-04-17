@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:bikersworld/widgets/drawer.dart';
 import 'package:simple_animations/simple_animations.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:bikersworld/widgets/rating_bar.dart';
 
 class autoPartStoreDashboardPage extends StatefulWidget {
   @override
@@ -75,9 +75,46 @@ class _autoPartStoreDashboardPageState extends State<autoPartStoreDashboardPage>
                           ),
                         ),
                         SizedBox(height: 8,),
-                        Divider(
-                          thickness: 1,
-                          color: Colors.white,
+                        Text(
+                          "03355437782",
+                          style: GoogleFonts.quicksand(
+                            fontSize:13,
+                            color: Colors.white,
+                          ),
+                        ),
+                        SizedBox(height: 15,),
+                        Container(
+                          child: Row(
+                            children: [
+                              Container(
+                                width: 80,
+                                height: 40,
+                                decoration: BoxDecoration(
+                                  color: Colors.red,
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                child: Icon(
+                                  FontAwesomeIcons.calendar,
+                                  size: 20,
+                                  color: Colors.white,
+                                ),
+                              ),
+                              SizedBox(width: 10,),
+                              Container(
+                                width: 80,
+                                height: 40,
+                                decoration: BoxDecoration(
+                                  color: Colors.blue,
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                child: Icon(
+                                  FontAwesomeIcons.clock,
+                                  size: 20,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ],
                     ),
@@ -119,50 +156,77 @@ class _autoPartStoreDashboardPageState extends State<autoPartStoreDashboardPage>
                   children: <Widget>[
                     FadeAnimation(1.2,
                       Padding(
-                        padding: const EdgeInsets.only(left:20),
-                        child: Text('Choose category',
-                          style: GoogleFonts.quicksand(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 20,
+                        padding: const EdgeInsets.only(left:20,right: 15),
+                        child: Container(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text('Choose category',
+                                style: GoogleFonts.quicksand(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 20,
+                                ),
+                              ),
+                              Text('View all',
+                                style: GoogleFonts.quicksand(
+                                  fontSize: 16,
+                                  color: Colors.indigo,
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.all(8.0),
+                      padding: const EdgeInsets.only(left:20,top: 20 , right: 10),
                       child: Container(
                         child: SizedBox(
-                          height: 160.0,
+                          height: 60.0,
                           child: ListView(
                             scrollDirection: Axis.horizontal,
                             children: <Widget>[
                               Container(
-                                width: 160.0,
-                                color: Colors.red,
+                                width: 100,
                                 child: Center(
                                   child: Text("Body"),
                                 ),
+                                decoration: BoxDecoration(
+                                  color: Colors.red,
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
                               ),
+                              SizedBox(width: 10,),
                               Container(
-                                width: 160.0,
-                                color: Colors.blue,
+                                width: 100,
                                 child: Center(
                                   child: Text("Engine"),
                                 ),
+                                decoration: BoxDecoration(
+                                  color: Colors.blue,
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
                               ),
-
+                              SizedBox(width: 10,),
                               Container(
-                                width: 160.0,
-                                color: Colors.orange,
+                                width: 100,
                                 child: Center(
                                   child: Text("Light"),
                                 ),
+                                decoration: BoxDecoration(
+                                  color: Colors.teal,
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
                               ),
+                              SizedBox(width: 10,),
                               Container(
-                                width: 160.0,
-                                color: Colors.orange,
+                                width: 100,
                                 child: Center(
                                   child: Text("Frame"),
+                                ),
+                                decoration: BoxDecoration(
+                                  color: Colors.orange,
+                                  borderRadius: BorderRadius.circular(10),
                                 ),
                               ),
                             ],
@@ -174,7 +238,33 @@ class _autoPartStoreDashboardPageState extends State<autoPartStoreDashboardPage>
                 )
               ],
             ),
-            SizedBox(height: 30.0,),
+
+            SizedBox(height:20),
+            FadeAnimation(1.2,
+              Padding(
+                padding: const EdgeInsets.only(left:20,right: 15),
+                child: Container(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text('Auto Parts',
+                        style: GoogleFonts.quicksand(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20,
+                        ),
+                      ),
+                      Text('View all',
+                        style: GoogleFonts.quicksand(
+                          fontSize: 16,
+                          color: Colors.indigo,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            SizedBox(height: 10.0,),
             Container(
               height: 280,
               width: double.infinity,
@@ -186,13 +276,13 @@ class _autoPartStoreDashboardPageState extends State<autoPartStoreDashboardPage>
                       context: context,
                       startColor: Color.fromRGBO(251, 121, 155, 1),
                       endColor: Color.fromRGBO(251, 53, 105, 1),
-                      image: 'assets/socks-one.png'
+                      image: '',
                   )),
                   FadeAnimation(1.4, makeCard(
                       context: context,
                       startColor: Color.fromRGBO(203, 251, 255, 1),
                       endColor: Color.fromRGBO(81, 223, 234, 1),
-                      image: 'assets/socks-two.png'
+                      image: '',
                   )),
                 ],
               ),
@@ -301,172 +391,134 @@ class ViewSocks extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          FadeAnimation(1.3, Text('Ranger Sport',
-                            style: TextStyle(color: Color.fromRGBO(97, 90, 90, .54), fontSize: 18, fontWeight: FontWeight.bold),),
+                          FadeAnimation(1.3, Text('Part Name',
+                            style: GoogleFonts.quicksand(color: Colors.black ,fontSize: 18, fontWeight: FontWeight.bold),),
                           ),
                           SizedBox(height: 10,),
-                          FadeAnimation(1.3, Text("Ankle Men's Athletic Socks",
-                            style: TextStyle(color: Color.fromRGBO(97, 90, 90, 1), fontSize: 23, fontWeight: FontWeight.bold),),
+                          FadeAnimation(1.3,
+                            Container(
+                              child: Row(
+                                children: [
+                                 Icon(FontAwesomeIcons.tag , size: 15,color: Colors.black,),
+                                  SizedBox(width: 20,),
+                                  Text("600",
+                                    style: GoogleFonts.varelaRound(
+                                        fontSize: 23,
+                                        fontWeight: FontWeight.bold,
+                                      color: Colors.grey,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            )
+                          ),
+                          SizedBox(height: 10,),
+                          FadeAnimation(1.3,
+                            Container(
+                              child: Row(
+                                children: [
+                                  Icon(
+                                    FontAwesomeIcons.cogs,
+                                    size: 15,
+                                    color: Colors.black,
+                                  ),
+                                  SizedBox(width: 20,),
+                                  Text("Category",
+                                    style: GoogleFonts.varelaRound(
+                                      fontSize: 23,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.grey,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
                           ),
                           SizedBox(height: 20,),
-                          FadeAnimation(1.4, Text("Ranger sport socks are a fusion of materials of the sturdiest quality and versatile design that suits all purposes. Each pair of Ranger socks is knitted from 100% combed cotton yarn running along a reinforced 2-Ply core polyester based elastic through out the socks.", style: TextStyle(color: Color.fromRGBO(51, 51, 51, 0.54), height: 1.4, fontSize: 18,),),
+                          FadeAnimation(1.4, Text("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean at elit lectus. Nulla tincidunt sapien non viverra pellentesque. Nam maximus condimentum arcu sit amet hendrerit.", style: GoogleFonts.varelaRound(color: Color.fromRGBO(51, 51, 51, 0.54), height: 1.4, fontSize: 18,),),
                           ),
                           SizedBox(height: 30,),
-                          Row(
-                            children: <Widget>[
-                              FadeAnimation(1.2, Container(
-                                width: 40,
-                                height: 40,
-                                padding: EdgeInsets.all(2),
-                                decoration: BoxDecoration(
-                                    border: Border.all(width: 3, color: Colors.red),
-                                    shape: BoxShape.circle,
-                                    color: Colors.white
-                                ),
-                                child: Container(
-                                  width: 30,
-                                  height: 30,
-                                  decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      color: Colors.black
-                                  ),
-                                ),
-                              )),
-                              FadeAnimation(1.3, Container(
-                                width: 25,
-                                height: 25,
-                                margin: EdgeInsets.symmetric(horizontal:20),
-                                decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    color: Color.fromRGBO(251, 53, 105, 1)
-                                ),
-                              )),
-                              FadeAnimation(1.3, Container(
-                                width: 25,
-                                height: 25,
-                                decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    color: Color.fromRGBO(81, 234, 234, 1)
-                                ),
-                              ))
-                            ],
-                          ),
-                          SizedBox(height: 50,),
-                          FadeAnimation(1.2, Text('More option',
-                            style: TextStyle(color: Color.fromRGBO(97, 90, 90, .54), fontSize: 18, fontWeight: FontWeight.bold),),
-                          ),
-                          SizedBox(height: 20,),
-                          Container(
-                            height: 80,
-                            child: ListView(
-                              scrollDirection: Axis.horizontal,
-                              children: <Widget>[
-                                FadeAnimation(1.3, AspectRatio(
-                                  aspectRatio: 3.2 / 1,
-                                  child: Container(
-                                    padding: EdgeInsets.all(13),
-                                    decoration: BoxDecoration(
-                                        border: Border.all(color: Colors.grey[300]),
-                                        borderRadius: BorderRadius.all(Radius.circular(15))
-                                    ),
-                                    child: Row(
-                                      crossAxisAlignment: CrossAxisAlignment.center,
-                                      children: <Widget>[
-                                        Container(
-                                          width: 56,
-                                          padding: EdgeInsets.all(10),
-                                          decoration: BoxDecoration(
-                                              borderRadius: BorderRadius.all(Radius.circular(10)),
-                                              color: Color.fromRGBO(251, 53, 105, 1)
-                                          ),
-                                          child: Image.asset('assets/socks-icon.png'),
+                          FadeAnimation(1.2,
+                            Container(
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text('Reviews',
+                                    style: GoogleFonts.quicksand(color: Colors.black, fontSize: 18, fontWeight: FontWeight.bold),),
+                                  FlatButton(
+                                    child: Container(
+                                      height: 40,
+                                      width: 40,
+                                      decoration: BoxDecoration(
+                                        color: Colors.orange,
+                                        borderRadius: BorderRadius.circular(5)
+                                      ),
+                                      child: Center(
+                                        child: Icon(
+                                          Icons.plus_one,
+                                          color: Colors.white,
                                         ),
-                                        SizedBox(width: 10,),
-                                        Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          mainAxisAlignment: MainAxisAlignment.center,
-                                          children: <Widget>[
-                                            Text('Ankle Length Socks', style: TextStyle(color: Color.fromRGBO(97, 90, 90, 1), fontWeight: FontWeight.bold),),
-                                            SizedBox(height: 2,),
-                                            Text('23,345', style: TextStyle(color: Color.fromRGBO(97, 90, 90, .7), fontSize: 13),)
-                                          ],
-                                        )
-                                      ],
+                                      ),
                                     ),
+                                    onPressed: (){
+                                      //
+                                    },
                                   ),
-                                )),
-                                FadeAnimation(1.4, AspectRatio(
-                                  aspectRatio: 3.2 / 1,
-                                  child: Container(
-                                    margin: EdgeInsets.only(left: 20),
-                                    padding: EdgeInsets.all(13),
-                                    decoration: BoxDecoration(
-                                        border: Border.all(color: Colors.grey[300]),
-                                        borderRadius: BorderRadius.all(Radius.circular(15))
-                                    ),
-                                    child: Row(
-                                      crossAxisAlignment: CrossAxisAlignment.center,
-                                      children: <Widget>[
-                                        Container(
-                                          width: 56,
-                                          padding: EdgeInsets.all(10),
-                                          decoration: BoxDecoration(
-                                              borderRadius: BorderRadius.all(Radius.circular(10)),
-                                              color: Color.fromRGBO(81, 234, 234, 1)
-                                          ),
-                                          child: Image.asset('assets/socks-icon-left.png'),
-                                        ),
-                                        SizedBox(width: 10,),
-                                        Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          mainAxisAlignment: MainAxisAlignment.center,
-                                          children: <Widget>[
-                                            Text('Quarter Length Socks', style: TextStyle(color: Color.fromRGBO(97, 90, 90, 1), fontWeight: FontWeight.bold),),
-                                            SizedBox(height: 2,),
-                                            Text('23,345', style: TextStyle(color: Color.fromRGBO(97, 90, 90, .7), fontSize: 13),)
-                                          ],
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                )),
-                              ],
-                            ),
-                          ),
-                          SizedBox(height: 50,),
-                          FadeAnimation(1.5, Container(
-                            height: 60,
-                            padding: EdgeInsets.symmetric(horizontal: 40),
-                            decoration: BoxDecoration(
-                                boxShadow: [
-                                  BoxShadow(
-                                      color: Colors.grey[300],
-                                      blurRadius: 10,
-                                      offset: Offset(0, 10)
-                                  )
                                 ],
-                                borderRadius: BorderRadius.all(Radius.circular(50)),
-                                gradient: LinearGradient(
-                                    colors: [
-                                      Color.fromRGBO(251, 121, 155, 1),
-                                      Color.fromRGBO(251, 53, 105, 1)
-                                    ]
-                                )
+                              ),
                             ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: <Widget>[
-                                Row(
-                                  crossAxisAlignment: CrossAxisAlignment.baseline,
-                                  textBaseline: TextBaseline.alphabetic,
-                                  children: <Widget>[
-                                    Text('\$14.', style: TextStyle(color: Colors.white, fontSize: 22, fontWeight: FontWeight.bold),),
-                                    Text('54', style: TextStyle(color: Colors.white, )),
-                                  ],),
-                                Text('Pay', style: TextStyle(color: Colors.white, fontSize: 25),),
-                              ],
+                          ),
+                          SizedBox(height: 10,),
+                          FadeAnimation(
+                            1.2,
+                            Container(
+                              child: Card(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                child: ListTile(
+                                  contentPadding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                                  leading: CircleAvatar(
+                                    child: CircleAvatar(
+                                      backgroundImage: AssetImage("assets/user.png"),
+                                      radius: 25,
+                                      backgroundColor: Colors.white,
+                                    ),
+                                    radius: 30,
+                                    backgroundColor: Colors.orange,
+                                  ),
+                                  title: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: <Widget>[
+                                      SizedBox(height: 15,),
+                                      Container(
+                                        child: Text(
+                                          "Ibtasam ur Rehman",
+                                          style: GoogleFonts.raleway(
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.bold
+                                          ),
+                                        ),
+                                      ),
+                                      SizedBox(height: 10,),
+                                      RatingsBar(30),
+                                      SizedBox(height: 10,),
+                                      Container(
+                                        child: Text(
+                                          "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit ",
+                                          style: GoogleFonts.raleway(
+                                            fontSize: 15,
+                                          ),
+                                        ),
+                                      ),
+
+                                    ],
+                                  ),
+
+                                ),
+                              ),
                             ),
-                          )),
+                          ),
                           SizedBox(height: 50,),
                         ],
                       )

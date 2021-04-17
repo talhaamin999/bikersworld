@@ -1,13 +1,10 @@
-import 'auto_part_store_dashboard_owner.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:lite_rolling_switch/lite_rolling_switch.dart';
-import 'package:bikersworld/widgets/city_dropdown.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
-
+import 'auto_part_store_dashboard_owner.dart';
 
 class RegisterAutoParts extends StatefulWidget {
   @override
@@ -17,7 +14,24 @@ class RegisterAutoParts extends StatefulWidget {
 class _RegisterAutoPartsState extends State<RegisterAutoParts> {
   int currentIndex;
   String dropdownValue = 'Electrical';
-  TextEditingController _textFieldController = new TextEditingController();
+
+
+  File _image;
+  final picker = ImagePicker();
+
+  Future getImage() async {
+    final pickedFile = await picker.getImage(source: ImageSource.gallery);
+
+    setState(() {
+      if (pickedFile != null) {
+        _image = File(pickedFile.path);
+      } else {
+        print('No image selected.');
+      }
+    });
+  }
+
+
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
@@ -74,8 +88,55 @@ class _RegisterAutoPartsState extends State<RegisterAutoParts> {
 
 
                   _registerpartWidget(),
-                 // WorkshopProfilePhoto(),
 
+                  Padding(
+                    padding: const EdgeInsets.only(left:25),
+                    child: Text(
+                      "Upload Part image",
+                      style: GoogleFonts.quicksand(
+                        fontSize: 20,
+                      ),
+                    ),
+                  ),
+
+                  SizedBox(height: 20,),
+                  Container(
+                    child: Row(
+                      children: [
+                        FlatButton(
+                          onPressed: (){
+                            getImage();
+                          },
+                          child: Container(
+                            width: 60,
+                            height: 60,
+                            decoration: BoxDecoration(
+                              color: Colors.orange,
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: Icon(
+                              FontAwesomeIcons.image,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                        Container(
+                            width: MediaQuery.of(context).size.width - 210,
+                            height: 150,
+                            color: Colors.blue,
+                          child: FittedBox(
+                          fit: BoxFit.fill,
+                            alignment: Alignment.topLeft,
+                            child: _image == null
+                                ? Text('')
+                                : Image.file(_image),
+                            ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  /*
+                  **/
                   SizedBox(height: 20),
                   FlatButton(
                     child: Container(
@@ -138,14 +199,14 @@ Widget _registerpartWidget() {
             Text(
               "Select",
               style: GoogleFonts.quicksand(
-                fontSize: 20,
+                fontSize: 18,
               ),
             ),
             SizedBox(width:10),
             Text(
               "Category",
               style: GoogleFonts.quicksand(
-                fontSize: 20,
+                fontSize: 18,
               ),
             ),
           ],
@@ -162,14 +223,14 @@ Widget _registerpartWidget() {
             Text(
               "Select",
               style: GoogleFonts.quicksand(
-                fontSize: 20,
+                fontSize: 18,
               ),
             ),
             SizedBox(width:10),
             Text(
               "Type",
               style: GoogleFonts.quicksand(
-                fontSize: 20,
+                fontSize: 18,
               ),
             ),
           ],
@@ -242,7 +303,7 @@ class _categoriesComboBoxState extends State<categoriesComboBox> {
       child:  DropdownButton<String>(
         value: dropdownValue,
         icon: Container(
-          margin: EdgeInsets.only(left: 180),
+          margin: EdgeInsets.only(left: 160),
           child: Icon(
             FontAwesomeIcons.caretDown,
           ),
@@ -264,7 +325,7 @@ class _categoriesComboBoxState extends State<categoriesComboBox> {
             value: value,
             child: Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Text(value, style: GoogleFonts.quicksand(fontSize: 18),),
+              child: Text(value, style: GoogleFonts.quicksand(fontSize: 15),),
             ),
           );
         }).toList(),
@@ -295,7 +356,7 @@ class _TypeComboBoxState extends State<TypeComboBox> {
       child:  DropdownButton<String>(
         value: dropdownValue,
         icon: Container(
-          margin: EdgeInsets.only(left: 230),
+          margin: EdgeInsets.only(left: 200),
           child: Icon(
             FontAwesomeIcons.caretDown,
           ),
@@ -317,7 +378,7 @@ class _TypeComboBoxState extends State<TypeComboBox> {
             value: value,
             child: Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Text(value, style: GoogleFonts.quicksand(fontSize: 18),),
+              child: Text(value, style: GoogleFonts.quicksand(fontSize: 15),),
             ),
           );
         }).toList(),
@@ -326,118 +387,3 @@ class _TypeComboBoxState extends State<TypeComboBox> {
   }
 }
 
-
-
-
-
-class WorkshopProfilePhoto extends StatefulWidget {
-  @override
-  _WorkshopProfilePhotoState createState() => _WorkshopProfilePhotoState();
-}
-
-class _WorkshopProfilePhotoState extends State<WorkshopProfilePhoto> {
-  File _image;
-  bool _isButtonVisible = true;
-
-  Future getImagefromcamera() async {
-    var image = await ImagePicker.pickImage(source: ImageSource.camera);
-    setState(() {
-      _image = image;
-    });
-  }
-
-  Future getImagefromGallery() async {
-    var image = await ImagePicker.pickImage(source: ImageSource.gallery);
-    setState(() {
-      _image = image;
-    });
-  }
-
-  @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        SizedBox(height: 10,),
-        Text(
-          "Select Photo ",
-          style: GoogleFonts.quicksand(
-            fontSize: 19,
-            color: Colors.black,
-          ),
-        ),
-        SizedBox(height: 10,),
-        Container(
-          width: MediaQuery
-              .of(context)
-              .size
-              .width - 200,
-          height: 200,
-          color: Colors.grey,
-          child: Center(
-            child: _image == null
-                ? Text("No Image is picked")
-                : Container(width: 220,
-              child: Image.file(
-                _image,
-                fit: BoxFit.fill,
-              ),
-            ),
-          ),
-        ),
-        SizedBox(height: 20,),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: <Widget>[
-            Container(
-              child: Column(
-                children: [
-                  FloatingActionButton(
-                    backgroundColor: Color(0XFF012A4A),
-                    onPressed: getImagefromcamera,
-                    tooltip: "pickImage",
-                    child: Icon(Icons.add_a_photo),
-                  ),
-                  SizedBox(height: 15,),
-
-                  Text(
-                    "Camera",
-                    style: GoogleFonts.quicksand(
-                      fontSize: 18,
-                      color: Colors.black,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            Container(
-              child: Column(
-                children: [
-                  FloatingActionButton(
-                    backgroundColor: Color(0XFF012A4A),
-                    onPressed: getImagefromGallery,
-                    tooltip: "Pick Image",
-                    child: Icon(Icons.camera_alt),
-                  ),
-                  SizedBox(height: 15,),
-                  Text(
-                    "Gallery",
-                    style: GoogleFonts.quicksand(
-                      fontSize: 18,
-                      color: Colors.black,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ],
-    );
-  }
-}

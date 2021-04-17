@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:bikersworld/screen/autoPartStore/Auto Part Store Owner/register_auto_parts.dart';
 import 'package:bikersworld/widgets/rating_bar.dart';
+import 'package:bikersworld/screen/autoPartStore/Auto Part Store Owner/category_list.dart';
 
 
 class AutoPartStoreDashboardOwner extends StatefulWidget {
@@ -344,7 +345,7 @@ class InformationTab extends StatelessWidget {
                             Text(
                               "Add Auto Parts",
                               style: GoogleFonts.quicksand(
-                                fontSize: 20,
+                                fontSize: 18,
                               ),
                             ),
                           ],
@@ -357,241 +358,126 @@ class InformationTab extends StatelessWidget {
                   height: 10,
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(left:5,right: 5,top: 10),
-                  child: FlatButton(
-                    onPressed: (){
-                    },
-                    child: Card(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10), // if you need this
-                        side: BorderSide(
-                          color: Colors.grey.withOpacity(0.2),
-                          width: 1,
+                  padding: const EdgeInsets.only(left:20,right:20),
+                  child: Container(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text('Categories',
+                          style: GoogleFonts.quicksand(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20,
+                          ),
                         ),
-                      ),
-                      child: Container(
-                        color: Colors.white,
-                        width: MediaQuery.of(context).size.width - 20,
-                        height: 75,
-                        child: Row(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(left:15),
-                              child: CircleAvatar(
-                                radius: 25,
-                                backgroundColor: Colors.orange,
-                                child: Icon(FontAwesomeIcons.cogs, color: Colors.white),
-                              ),
-                            ),
-                            SizedBox(width: 15,),
-                            Text(
-                              "View Auto Parts",
-                              style: GoogleFonts.quicksand(
-                                fontSize: 20,
-                              ),
-                            ),
-                          ],
+                        Text('View all',
+                          style: GoogleFonts.quicksand(
+                            fontSize: 16,
+                            color: Colors.indigo,
+                          ),
                         ),
-                      ),
+                      ],
                     ),
                   ),
                 ),
-                SizedBox(height: 15,),
                 Container(
-                  margin: EdgeInsets.symmetric(horizontal: 23,),
-                  alignment: Alignment.topLeft,
-                  child: Text("Catgories", style: GoogleFonts.quicksand(
-                    color: Colors.black,
-                    fontSize: 20,
-                    fontWeight: FontWeight.w500,
-                  ),
+                  color: Colors.transparent,
+                  padding: EdgeInsets.all(10),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      // subheading('Active Projects'),
+                      SizedBox(height: 5.0),
+                      Row(
+                        children: <Widget>[
+                          FlatButton(
+                            child: ActiveProjectsCard(
+                              cardColor: Color(0xffcca63b),
+                              title: 'Body',
+                              subtitle: 'Frame',
+                              icon: Icon(FontAwesomeIcons.motorcycle , size: 45, color: Colors.white,),
+                            ),
+                            onPressed: (){
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => CategoryList()));
+                            },
+                          ),
+                          // SizedBox(width: 20.0),
+                          FlatButton(
+                            onPressed: (){
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => CategoryList()));
+
+                            },
+                            child: ActiveProjectsCard(
+                              cardColor: Color(0xFFF9BE7C),
+                              title: 'Brake',
+                              icon: Icon(FontAwesomeIcons.bolt , size: 55, color: Colors.white,),
+                              subtitle: 'Suspension',
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 5.0),
+                      Row(
+                        children: <Widget>[
+                          FlatButton(
+                            child: ActiveProjectsCard(
+                              cardColor: Colors.deepOrangeAccent,
+                              title: 'Electronic',
+                              subtitle: 'Light',
+                              icon: Icon(FontAwesomeIcons.bolt , size: 45, color: Colors.white,),
+                            ),
+                            onPressed: (){
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => CategoryList()));
+
+                            },
+                          ),
+                          // SizedBox(width: 20.0),
+                          FlatButton(
+                            onPressed: (){
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => CategoryList()));
+
+                            },
+                            child: ActiveProjectsCard(
+                              cardColor: Color(0xFF1d51b8),
+                              title: 'Air',
+                              icon: Icon(FontAwesomeIcons.commentDots , size: 55, color: Colors.white,),
+                              subtitle: 'Filter',
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 5.0),
+                      Row(
+                        children: <Widget>[
+                          FlatButton(
+                            child: ActiveProjectsCard(
+                              cardColor: Colors.orange,
+                              title: 'Engine',
+                              subtitle: 'Parts',
+                              icon: Icon(FontAwesomeIcons.clock , size: 45, color: Colors.white,),
+                            ),
+                            onPressed: (){
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => CategoryList()));
+
+                            },
+                          ),
+                          // SizedBox(width: 20.0),
+                          FlatButton(
+                            onPressed: (){
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => CategoryList()));
+
+                            },
+                            child: ActiveProjectsCard(
+                              cardColor: Colors.teal,
+                              title: 'Exhaust',
+                              icon: Icon(FontAwesomeIcons.commentDots , size: 55, color: Colors.white,),
+                              subtitle: 'System',
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
                   ),
                 ),
-            Container(
-              color: Colors.transparent,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  // subheading('Active Projects'),
-                  SizedBox(height: 20),
-                  Row(
-                    children: <Widget>[
-                      FlatButton(
-                        child: ActiveProjectsCard(
-                          cardColor: Color(0xffcca63b),
-                          title: 'Accessory',
-                          icon: Icon(FontAwesomeIcons.clock , size: 20, color: Colors.white,),
-                        ),
-                        onPressed: (){
-
-                        },
-                      ),
-                      // SizedBox(width: 20.0),
-                      FlatButton(
-                        onPressed: (){
-                        },
-                        child: ActiveProjectsCard(
-                          cardColor: Color(0xFFF9BE7C),
-                          title: 'Air tank',
-                          icon: Icon(FontAwesomeIcons.commentDots , size: 20, color: Colors.white,),
-                        ),
-                      ),
-                      FlatButton(
-                        child: ActiveProjectsCard(
-                          cardColor: Color(0xFF309397),
-                          title: 'Body',
-                          icon: Icon(FontAwesomeIcons.cogs , size: 20, color: Colors.white,),
-                        ),
-                        onPressed: (){
-
-                        },
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 20),
-                  Row(
-                    children: <Widget>[
-                      FlatButton(
-                        child: ActiveProjectsCard(
-                          cardColor: Color(0xffcca63b),
-                          title: 'Brake',
-                          icon: Icon(FontAwesomeIcons.clock , size: 20, color: Colors.white,),
-                        ),
-                        onPressed: (){
-
-                        },
-                      ),
-                      // SizedBox(width: 20.0),
-                      FlatButton(
-                        onPressed: (){
-                        },
-                        child: ActiveProjectsCard(
-                          cardColor: Color(0xFFF9BE7C),
-                          title: 'Fuel',
-                          icon: Icon(FontAwesomeIcons.commentDots , size: 20, color: Colors.white,),
-                        ),
-                      ),
-                      FlatButton(
-                        child: ActiveProjectsCard(
-                          cardColor: Color(0xFF309397),
-                          title: 'Engine',
-                          icon: Icon(FontAwesomeIcons.cogs , size: 20, color: Colors.white,),
-                        ),
-                        onPressed: (){
-
-                        },
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 20),
-                  Row(
-                    children: <Widget>[
-                      FlatButton(
-                        child: ActiveProjectsCard(
-                          cardColor: Color(0xffcca63b),
-                          title: 'Frame',
-                          icon: Icon(FontAwesomeIcons.clock , size: 20, color: Colors.white,),
-                        ),
-                        onPressed: (){
-
-                        },
-                      ),
-                      // SizedBox(width: 20.0),
-                      FlatButton(
-                        onPressed: (){
-                        },
-                        child: ActiveProjectsCard(
-                          cardColor: Color(0xFFF9BE7C),
-                          title: 'Decals',
-                          icon: Icon(FontAwesomeIcons.commentDots , size: 20, color: Colors.white,),
-                        ),
-                      ),
-                      FlatButton(
-                        child: ActiveProjectsCard(
-                          cardColor: Color(0xFF309397),
-                          title: 'Emblems',
-                          icon: Icon(FontAwesomeIcons.cogs , size: 20, color: Colors.white,),
-                        ),
-                        onPressed: (){
-
-                        },
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 20),
-                  Row(
-                    children: <Widget>[
-                      FlatButton(
-                        child: ActiveProjectsCard(
-                          cardColor: Color(0xffcca63b),
-                          title: 'Electrical',
-                          icon: Icon(FontAwesomeIcons.clock , size: 20, color: Colors.white,),
-                        ),
-                        onPressed: (){
-
-                        },
-                      ),
-                      // SizedBox(width: 20.0),
-                      FlatButton(
-                        onPressed: (){
-                        },
-                        child: ActiveProjectsCard(
-                          cardColor: Color(0xFFF9BE7C),
-                          title: 'Navigation',
-                          icon: Icon(FontAwesomeIcons.commentDots , size: 20, color: Colors.white,),
-                        ),
-                      ),
-                      FlatButton(
-                        child: ActiveProjectsCard(
-                          cardColor: Color(0xFF309397),
-                          title: 'Exhauts',
-                          icon: Icon(FontAwesomeIcons.cogs , size: 20, color: Colors.white,),
-                        ),
-                        onPressed: (){
-
-                        },
-                      ),
-                    ],
-                  ),
-
-                  SizedBox(height: 20),
-                  Row(
-                    children: <Widget>[
-                      FlatButton(
-                        child: ActiveProjectsCard(
-                          cardColor: Color(0xffcca63b),
-                          title: 'Seating',
-                          icon: Icon(FontAwesomeIcons.clock , size: 20, color: Colors.white,),
-                        ),
-                        onPressed: (){
-
-                        },
-                      ),
-                      // SizedBox(width: 20.0),
-                      FlatButton(
-                        onPressed: (){
-                        },
-                        child: ActiveProjectsCard(
-                          cardColor: Color(0xFFF9BE7C),
-                          title: 'Lighting',
-                          icon: Icon(FontAwesomeIcons.commentDots , size: 20, color: Colors.white,),
-                        ),
-                      ),
-                      FlatButton(
-                        child: ActiveProjectsCard(
-                          cardColor: Color(0xFF309397),
-                          title: 'Gauges',
-                          icon: Icon(FontAwesomeIcons.cogs , size: 20, color: Colors.white,),
-                        ),
-                        onPressed: (){
-
-                        },
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
               ],
             ),
           );
@@ -701,47 +587,65 @@ class ReviewsTab extends StatelessWidget {
 class ActiveProjectsCard extends StatelessWidget {
   final Color cardColor;
   final String title;
+  final String subtitle;
   final Icon icon;
 
   ActiveProjectsCard({
     this.cardColor,
     this.title,
+    this.subtitle,
     this.icon,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(left:1),
-      child: Container(
-        height: 85,
-        width: 85,
+    return Container(
+        margin: EdgeInsets.symmetric(vertical: 10),
+        padding: EdgeInsets.only(bottom:15, top: 15),
+        height: 130,
+        width: 130,
         decoration: BoxDecoration(
           color: cardColor,
           borderRadius: BorderRadius.circular(20),
         ),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            icon,
-            SizedBox(height: 10,),
             Padding(
-              padding: const EdgeInsets.all(2),
-              child: Text(
-                title,
-                style: GoogleFonts.quicksand(
-                  fontSize: 15,
-                  color: Colors.white,
-                  fontWeight: FontWeight.w700,
+              padding: const EdgeInsets.only(left:8.0),
+              child:  icon,
+            ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.only(left:8.0),
+                  child: Text(
+                    title,
+                    style: GoogleFonts.quicksand(
+                      fontSize: 20.0,
+                      color: Colors.white,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
                 ),
-              ),
+                Padding(
+                  padding: const EdgeInsets.only(left:8.0),
+                  child: Text(
+                    subtitle,
+                    style: GoogleFonts.quicksand(
+                      fontSize: 16.0,
+                      color: Colors.white54,
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                ),
+              ],
             ),
           ],
         ),
-      ),
-    );
+      );
   }
 }
-
-
 
