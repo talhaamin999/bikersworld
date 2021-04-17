@@ -17,8 +17,8 @@ import 'package:bikersworld/screen/dashboard/searchPages/autopart_search_page.da
 import 'package:bikersworld/screen/dashboard/searchPages/ads_search_page.dart';
 import 'package:bikersworld/screen/dashboard/searchPages/workshop_search_page.dart';
 import 'package:bikersworld/screen/dashboard/searchPages/service_search_page.dart';
-import 'package:bikersworld/screen/dashboard/AutoPartStore/autoPartStoreDashboard.dart';
 import 'package:bikersworld/screen/loginSignup/update_profile.dart';
+import 'package:bikersworld/screen/autoPartStore/Auto Part Store Normal User/autoPartStoreDashboard.dart';
 
 
 class CustomDrawer extends StatefulWidget {
@@ -30,7 +30,7 @@ class CustomDrawer extends StatefulWidget {
   _CustomDrawerState createState() => _CustomDrawerState();
 }
 
-enum userOption{updateProfile,signOut,logInSignOut}
+enum userOption{updateProfile,signOut,logInSignOut , partStore}
 
 class _CustomDrawerState extends State<CustomDrawer> {
 
@@ -57,6 +57,9 @@ class _CustomDrawerState extends State<CustomDrawer> {
     }else if(option == userOption.logInSignOut){
       Navigator.push(
           context, MaterialPageRoute(builder: (context) => WelcomePage()));
+    }else if(option == userOption.partStore){
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => autoPartStoreDashboardPage()));
     }
   }
   void setUser() {
@@ -180,6 +183,27 @@ class _CustomDrawerState extends State<CustomDrawer> {
                                           ),
                                         ),
                                         value: userOption.logInSignOut,
+                                      ),
+
+                                      new PopupMenuItem<userOption>(
+                                        child: Container(
+                                          child: Row(
+                                            children: [
+                                              Icon(
+                                                FontAwesomeIcons.signInAlt,
+                                                size: 15,
+                                              ),
+                                              SizedBox(width: 10),
+                                              Text(
+                                                "part store normal",
+                                                style: GoogleFonts.quicksand(
+                                                  fontSize: 16,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        value: userOption.partStore,
                                       )
                                     ],
                                   ),

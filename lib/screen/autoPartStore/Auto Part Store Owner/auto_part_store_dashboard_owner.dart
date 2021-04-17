@@ -89,7 +89,8 @@ class _AutoPartStoreDashboardOwnerState extends State<AutoPartStoreDashboardOwne
               backgroundColor: Color(0XFF012A4A),
               title: Text('Bikers World',
                 style: GoogleFonts.quicksand(
-                    fontSize: 20
+                    fontSize: 20,
+
                 ),
               ),
               pinned: true,
@@ -713,8 +714,8 @@ class ActiveProjectsCard extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(left:1),
       child: Container(
-        height: 90,
-        width: 90,
+        height: 85,
+        width: 85,
         decoration: BoxDecoration(
           color: cardColor,
           borderRadius: BorderRadius.circular(20),

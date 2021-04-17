@@ -55,7 +55,8 @@ dependencies:
   circular_profile_avatar: ^1.0.8
   line_awesome_flutter: ^1.0.1
   flutter_screenutil: ^1.0.2
-
+  simple_animations: ^2.5.0
+  page_transition: ^1.1.7+6
 
 dev_dependencies:
   flutter_test:
