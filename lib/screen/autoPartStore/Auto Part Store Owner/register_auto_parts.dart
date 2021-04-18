@@ -1,27 +1,46 @@
+import 'package:bikersworld/model/partstore_model.dart';
+import 'package:bikersworld/services/part_store_queries/part_queries.dart';
+import 'package:bikersworld/services/toast_service.dart';
+import 'package:bikersworld/services/validate_service.dart';
+import 'package:bikersworld/widgets/entry_field.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import 'auto_part_store_dashboard_owner.dart';
+import 'package:path/path.dart' as path;
 
 class RegisterAutoParts extends StatefulWidget {
+  final String partStoreId;
+  RegisterAutoParts({@required this.partStoreId});
   @override
   _RegisterAutoPartsState createState() => _RegisterAutoPartsState();
 }
 
+String dropDownTypeValue;
+String dropDownCategoryValue;
 class _RegisterAutoPartsState extends State<RegisterAutoParts> {
   int currentIndex;
   String dropdownValue = 'Electrical';
-
+  bool _isButtonVisible = true;
 
   File _image;
   final picker = ImagePicker();
+  final _titleController = TextEditingController();
+  final _priceController = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
+  final _validateFields = ValidateAutoPart();
+  final _error = ToastErrorMessage();
+  final _valid = ToastValidMessage();
+  final _addAutoPart = AutoPartQueries();
+  final _storage = FirebaseStorage.instance;
 
   Future getImage() async {
     final pickedFile = await picker.getImage(source: ImageSource.gallery);
-
     setState(() {
       if (pickedFile != null) {
         _image = File(pickedFile.path);
@@ -31,13 +50,94 @@ class _RegisterAutoPartsState extends State<RegisterAutoParts> {
     });
   }
 
+  void checkFormState(){
+    if(!_formKey.currentState.validate()){
+      return;
+    }
+    validate();
+  }
+  void validate(){
+    int price = int.tryParse(_priceController.text.trim());
+    if(!_validateFields.isPriceValid(price: price) && !_validateFields.isTitleValid(title: _titleController.text.trim())){
+      _error.errorToastMessage(errorMessage: 'Please Fill All Fields');
+    }
+    else if(!_validateFields.isTitleValid(title: _titleController.text.trim())){
+      _error.errorToastMessage(errorMessage: 'Please Enter Correct Title');
+    }
+    else if(!_validateFields.isPriceValid(price: price)){
+      _error.errorToastMessage(errorMessage: 'Price must greater than 0');
+    }
+    else if(_image == null){
+      _error.errorToastMessage(errorMessage: 'Please Select an Image');
+    }
+    else{
+      addPart(price);
+    }
+  }
+  Future<void> addPart(int price) async{
+
+      var file = File(_image.path);
+      String imageName = path.basename(_image.path);
+      String imageUploadComplete;
+
+     try{
+       setState(() {
+         _isButtonVisible = false;
+       });
+      var snapshot = await _storage.ref()
+          .child('partStoreImages/$imageName')
+          .putFile(file)
+          .whenComplete(() =>
+      imageUploadComplete = "image is uploaded to firebase storage")
+          .catchError((onError) =>
+      imageUploadComplete = onError.toString());
+
+      if (imageUploadComplete == "image is uploaded to firebase storage") {
+        var imageUrl = await snapshot.ref.getDownloadURL();
+        final data = AutoPartModel(title: _titleController.text.trim(),price: price,category: dropDownCategoryValue,type: dropDownTypeValue,imageURL: imageUrl,partStoreId: widget.partStoreId);
+        bool result = await _addAutoPart.addAutoPart(data);
+        if (result) {
+          setState(() {
+            _isButtonVisible = true;
+          });
+          _valid.validToastMessage(
+              validMessage: 'Part Successfully Added');
+          Future.delayed(
+              new Duration(seconds: 2),
+                  () {
+                Navigator.pop(context);
+              }
+          );
+        }
+      } else {
+        _error.errorToastMessage(errorMessage: imageUploadComplete);
+      }
+   }catch(e){
+     _error.errorToastMessage(errorMessage: e.toString());
+   }finally{
+      setState(() {
+        _isButtonVisible = true;
+      });
+    }
+
+}
+
+  @override
+  void dispose() {
+    _titleController.dispose();
+    _priceController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    final height = MediaQuery.of(context).size.height;
+    final height = MediaQuery
+        .of(context)
+        .size
+        .height;
     return MaterialApp(
       home: Scaffold(
-        appBar:AppBar(
+        appBar: AppBar(
           title: Text(
             'BIKERSWORLD',
             style: GoogleFonts.quicksand(
@@ -59,7 +159,7 @@ class _RegisterAutoPartsState extends State<RegisterAutoParts> {
           elevation: 0.0,
         ),
         body: Container(
-          child:  Container(
+          child: Container(
             padding: EdgeInsets.symmetric(horizontal: 20),
             child: SingleChildScrollView(
               child: Column(
@@ -90,7 +190,7 @@ class _RegisterAutoPartsState extends State<RegisterAutoParts> {
                   _registerpartWidget(),
 
                   Padding(
-                    padding: const EdgeInsets.only(left:25),
+                    padding: const EdgeInsets.only(left: 25),
                     child: Text(
                       "Upload Part image",
                       style: GoogleFonts.quicksand(
@@ -104,9 +204,7 @@ class _RegisterAutoPartsState extends State<RegisterAutoParts> {
                     child: Row(
                       children: [
                         FlatButton(
-                          onPressed: (){
-                            getImage();
-                          },
+                          onPressed: getImage,
                           child: Container(
                             width: 60,
                             height: 60,
@@ -121,16 +219,19 @@ class _RegisterAutoPartsState extends State<RegisterAutoParts> {
                           ),
                         ),
                         Container(
-                            width: MediaQuery.of(context).size.width - 210,
-                            height: 150,
-                            color: Colors.blue,
+                          width: MediaQuery
+                              .of(context)
+                              .size
+                              .width - 210,
+                          height: 150,
+                          color: Colors.blue,
                           child: FittedBox(
-                          fit: BoxFit.fill,
+                            fit: BoxFit.fill,
                             alignment: Alignment.topLeft,
                             child: _image == null
                                 ? Text('')
                                 : Image.file(_image),
-                            ),
+                          ),
                         ),
                       ],
                     ),
@@ -138,40 +239,24 @@ class _RegisterAutoPartsState extends State<RegisterAutoParts> {
                   /*
                   **/
                   SizedBox(height: 20),
-                  FlatButton(
+                  Center(
                     child: Container(
-                      width: MediaQuery.of(context).size.width,
-                      padding: EdgeInsets.symmetric(vertical: 15),
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(5)),
-                          boxShadow: <BoxShadow>[
-                            BoxShadow(
-                                color: Colors.grey.shade200,
-                                offset: Offset(2, 4),
-                                blurRadius: 5,
-                                spreadRadius: 2)
-                          ],
-                          gradient: LinearGradient(
-                              begin: Alignment.centerLeft,
-                              end: Alignment.centerRight,
-                              colors: [Color(0xfffbb448), Color(0xfff7892b)])),
-                      child: Text(
-                        'Submit',
-                        style: GoogleFonts.krub(
-                          fontSize: 20,
-                          color: Colors.white,
+                      width: MediaQuery.of(context).size.width - 30,
+                      height: 60,
+                      child: RaisedButton(
+                        onPressed: _isButtonVisible ? () => {checkFormState()} : null,
+                        child:Text(
+                          'Add Part',
+                          style: GoogleFonts.krub(
+                            fontSize: 18,
+                            color: Colors.white,
+                          ),
                         ),
+                        color: Color(0xfff7892b),
+                        disabledColor: Colors.grey.shade400,
+                        disabledTextColor: Colors.black,
                       ),
                     ),
-                    onPressed: (){
-                      Navigator.of(context)
-                          .push(
-                        MaterialPageRoute(
-                            builder: (context) => AutoPartStoreDashboardOwner()
-                        ),
-                      );
-                    },
                   ),
 
                   SizedBox(height: 30),
@@ -183,73 +268,73 @@ class _RegisterAutoPartsState extends State<RegisterAutoParts> {
       ),
     );
   }
+
+  Widget _registerpartWidget() {
+    return Form(
+      key: _formKey,
+      child: Column(
+        children: <Widget>[
+          _entryField(title:'title',type: TextInputType.text,filter: FilteringTextInputFormatter.allow(RegExp("[a-zA-Z ]")),controller: _titleController),
+          SizedBox(height: 10,),
+          Container(
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(
+                  "Select",
+                  style: GoogleFonts.quicksand(
+                    fontSize: 18,
+                  ),
+                ),
+                SizedBox(width: 10),
+                Text(
+                  "Category",
+                  style: GoogleFonts.quicksand(
+                    fontSize: 18,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          SizedBox(height: 15,),
+          CategoriesComboBox(),
+          SizedBox(height: 15,),
+
+          Container(
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(
+                  "Select",
+                  style: GoogleFonts.quicksand(
+                    fontSize: 18,
+                  ),
+                ),
+                SizedBox(width: 10),
+                Text(
+                  "Type",
+                  style: GoogleFonts.quicksand(
+                    fontSize: 18,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          SizedBox(height: 15,),
+          TypeComboBox(),
+
+          SizedBox(height: 10,),
+          _entryField(title:"Price",controller: _priceController,type: TextInputType.number,filter: FilteringTextInputFormatter.digitsOnly),
+          SizedBox(height: 20,),
+
+        ],
+      ),
+    );
+  }
+
 }
 
-
-
-Widget _registerpartWidget() {
-  return Column(
-    children: <Widget>[
-      _entryField("Title"),
-      SizedBox(height: 10,),
-      Container(
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Text(
-              "Select",
-              style: GoogleFonts.quicksand(
-                fontSize: 18,
-              ),
-            ),
-            SizedBox(width:10),
-            Text(
-              "Category",
-              style: GoogleFonts.quicksand(
-                fontSize: 18,
-              ),
-            ),
-          ],
-        ),
-      ),
-      SizedBox(height: 15,),
-      categoriesComboBox(),
-      SizedBox(height: 15,),
-
-      Container(
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Text(
-              "Select",
-              style: GoogleFonts.quicksand(
-                fontSize: 18,
-              ),
-            ),
-            SizedBox(width:10),
-            Text(
-              "Type",
-              style: GoogleFonts.quicksand(
-                fontSize: 18,
-              ),
-            ),
-          ],
-        ),
-      ),
-      SizedBox(height: 15,),
-      TypeComboBox(),
-
-      SizedBox(height: 10,),
-      _entryField("Price"),
-      SizedBox(height: 20,),
-
-    ],
-  );
-}
-
-
-
-Widget _entryField(String title,)
+Widget _entryField({String title,TextEditingController controller,TextInputType type,TextInputFormatter filter})
 {
   return Container(
     margin: EdgeInsets.symmetric(vertical: 10),
@@ -265,7 +350,18 @@ Widget _entryField(String title,)
         SizedBox(
           height: 10,
         ),
-        TextField(
+        TextFormField(
+          inputFormatters: [
+            filter,
+          ],
+          keyboardType: type,
+          controller: controller,
+          validator: (value){
+            if(value.isEmpty){
+              return "$title is a Required Field";
+            }
+            return null;
+          },
           decoration: InputDecoration(
             border: InputBorder.none,
             fillColor: Color(0xffe3e3e3),
@@ -277,31 +373,31 @@ Widget _entryField(String title,)
   );
 }
 
-
-
-
-
-
-
-
-class categoriesComboBox extends StatefulWidget {
-  categoriesComboBox({Key key}) : super(key: key);
+class CategoriesComboBox extends StatefulWidget {
+  CategoriesComboBox({Key key}) : super(key: key);
 
   @override
-  _categoriesComboBoxState createState() => _categoriesComboBoxState();
+  _CategoriesComboBoxState createState() => _CategoriesComboBoxState();
 }
 
-class _categoriesComboBoxState extends State<categoriesComboBox> {
+class _CategoriesComboBoxState extends State<CategoriesComboBox> {
+
+  var _dropDownItems = ['Accessories', 'Body & Frame', 'Brake & Suspension', 'Air Intake', 'Electrical & Ignition', 'Exhaust','Engine & Engine Parts','Lighting & Indicators','Wheel & Tyres','Seating','Other'];
+
+  @override
+  void initState(){
+    dropDownCategoryValue = _dropDownItems[0];
+    super.initState();
+  }
 
   Widget build(BuildContext context) {
-    String dropdownValue = 'Electrical';
 
     return Container(
       color: Color(0xffe3e3e3),
       width: 350,
       height: 50,
       child:  DropdownButton<String>(
-        value: dropdownValue,
+        value: dropDownCategoryValue,
         icon: Container(
           margin: EdgeInsets.only(left: 160),
           child: Icon(
@@ -316,10 +412,10 @@ class _categoriesComboBoxState extends State<categoriesComboBox> {
         ),
         onChanged: (String newValue) {
           setState(() {
-            dropdownValue = newValue;
+            dropDownCategoryValue = newValue;
           });
         },
-        items: <String>['Electrical', 'Mechanical', 'Oil and tuning', 'Others']
+        items: _dropDownItems
             .map<DropdownMenuItem<String>>((String value) {
           return DropdownMenuItem<String>(
             value: value,
@@ -346,15 +442,22 @@ class TypeComboBox extends StatefulWidget {
 
 class _TypeComboBoxState extends State<TypeComboBox> {
 
+  var dropDownItems = ['Local', 'Genuine','Others'];
+
+  @override
+  void initState(){
+    dropDownTypeValue = dropDownItems[0];
+    super.initState();
+  }
+
   Widget build(BuildContext context) {
-    String dropdownValue = 'Local';
 
     return Container(
       color: Color(0xffe3e3e3),
       width: 350,
       height: 50,
       child:  DropdownButton<String>(
-        value: dropdownValue,
+        value: dropDownTypeValue,
         icon: Container(
           margin: EdgeInsets.only(left: 200),
           child: Icon(
@@ -369,10 +472,10 @@ class _TypeComboBoxState extends State<TypeComboBox> {
         ),
         onChanged: (String newValue) {
           setState(() {
-            dropdownValue = newValue;
+            dropDownTypeValue = newValue;
           });
         },
-        items: <String>['Local', 'Geniune','Others']
+        items: dropDownItems
             .map<DropdownMenuItem<String>>((String value) {
           return DropdownMenuItem<String>(
             value: value,

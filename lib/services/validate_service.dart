@@ -1,4 +1,6 @@
 
+import 'package:flutter/cupertino.dart';
+
 final String _namePattern = r"^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$";
 final String _contactPattern = r'^((\+92)|(0092))-{0,1}\d{3}-{0,1}\d{7}$|^\d{11}$|^\d{4}-\d{7}$';
 
@@ -123,6 +125,27 @@ class ValidateWorkshopMechanics {
     }
     else{
       return true;
+    }
+  }
+}
+
+class ValidateAutoPart{
+
+  bool isTitleValid({@required String title}){
+    RegExp regExp = RegExp('[a-zA-Z ]');
+    if(!regExp.hasMatch(title)){
+      return false;
+    }
+    else{
+      return true;
+    }
+  }
+  bool isPriceValid({@required int price}){
+    if(price > 0){
+      return true;
+    }
+    else{
+      return false;
     }
   }
 }

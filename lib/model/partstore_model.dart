@@ -1,3 +1,5 @@
+import 'package:flutter/cupertino.dart';
+
 class PartstoreDashboardModel {
 
   final String ownerName;
@@ -66,4 +68,40 @@ class PartstoreDashboardModel {
       'sunday' : sunday,
     };
   }
+}
+
+class AutoPartModel{
+
+  final String title;
+  final String category;
+  final String type;
+  final int price;
+  final String imageURL;
+  final String partStoreId;
+  final String docId;
+
+  AutoPartModel({@required this.title,@required this.category,@required this.price,@required this.type ,@required this.imageURL,@required this.partStoreId,this.docId});
+
+  factory AutoPartModel.fromJson(Map<String, dynamic> json,String id){
+    return AutoPartModel(
+      docId: id,
+      imageURL: json['image'],
+      title: json['title'],
+      category: json['category'],
+      type: json['type'],
+      price: json['price'],
+      partStoreId: json['partStoreId'],
+    );
+  }
+  Map<String, dynamic> toMap(){
+    return {
+      'title': title,
+      'category': category,
+      'type' : type,
+      'image' : imageURL,
+      'price': price,
+      'partStoreId': partStoreId,
+    };
+  }
+
 }

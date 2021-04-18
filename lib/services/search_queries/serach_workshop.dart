@@ -28,6 +28,16 @@ class SearchWorkshop{
       _error.errorToastMessage(errorMessage: e.toString());
     }
   }
+  Future<WorkshopDashboardModel> getWorkshopById(String id){
+    try{
+      return _collectionReference.doc(id)
+          .get()
+          .then((doc) => WorkshopDashboardModel.fromJson(doc.data(), doc.reference.id));
+    }catch(e){
+      _error.errorToastMessage(errorMessage: e.toString());
+      return null;
+    }
+  }
   Stream<List<WorkshopDashboardModel>> searchWorkshopByCity({@required String city}){
     try{
       return _collectionReference

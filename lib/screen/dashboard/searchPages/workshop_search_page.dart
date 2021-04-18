@@ -18,6 +18,7 @@ enum search { City, Name }
 
 
 class _WorkshopSearchPageState extends State<WorkshopSearchPage> {
+
   search _character = search.Name;
   String searchOption='';
   int numberOfResults = 0;

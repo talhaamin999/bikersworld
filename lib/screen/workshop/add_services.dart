@@ -30,7 +30,6 @@ class _AddServicesState extends State<AddServices> {
 
   int currentIndex;
   String _cityName;
-  Services _serviceInfo;
   int documentIndex;
   final _serviceTitleController = TextEditingController();
   final _servicePriceController = TextEditingController();
@@ -62,16 +61,17 @@ class _AddServicesState extends State<AddServices> {
   }
   void mapServiceData(){
     if(widget.service != null) {
-      _serviceInfo = Services(title: widget.service.title,
-          category: widget.service.category,
-          price: widget.service.price,
-          workshopCity: widget.service.workshopCity,
-          workshopId: widget.service.workshopCity);
+      // _serviceInfo = Services(title: widget.service.title,
+      //     category: widget.service.category,
+      //     price: widget.service.price,
+      //     workshopCity: widget.service.workshopCity,
+      //     workshopId: widget.service.workshopCity);
       _serviceTitleController.text = widget.service.title;
       _servicePriceController.text = widget.service.price.toString();
       _currentCategorySelected = widget.service.category;
       documentIndex = widget.index;
-      print(documentIndex.toString());
+      print(documentIndex);
+      print(widget.service.workshopId);
     }
   }
 
@@ -172,7 +172,7 @@ class _AddServicesState extends State<AddServices> {
 }
   Future<void> updateService(int price) async{
     try {
-      final Services data = Services(title: _serviceTitleController.text.trim(), category: _currentCategorySelected, price: price, workshopCity: _serviceInfo.workshopCity, workshopId: _serviceInfo.workshopId);
+      final Services data = Services(title: _serviceTitleController.text.trim(), category: _currentCategorySelected, price: price, workshopCity: widget.service.workshopCity, workshopId: widget.service.workshopId);
       bool result = await _add.updateService(data, documentIndex);
       if(result){
         clear();

@@ -1,4 +1,5 @@
 import 'package:bikersworld/model/workshop_model.dart';
+import 'package:bikersworld/screen/dashboard/normalUser/normal_user_workshop_dashboard.dart';
 import 'package:bikersworld/services/search_queries/refine_search.dart';
 import 'package:bikersworld/services/search_queries/search_workshop_service.dart';
 import 'package:bikersworld/services/toast_service.dart';
@@ -297,6 +298,12 @@ class _ServiceSearcPageState extends State<ServiceSearcPage> {
                                 child: Card(
                                   color: Colors.white,
                                   child: ListTile(
+                                    onTap: (){
+                                      print("workshop id");
+                                      print('${snapshot.data[index].workshopId}');
+                                      print('${snapshot.data[index].workshopCity}');
+                                      Navigator.of(context).push(MaterialPageRoute(builder: (context) => NormalUserWorkshopDashboard(workshopId: snapshot.data[index].workshopId,)));
+                                    },
                                     leading: CircleAvatar(
                                         radius: 40,
                                       backgroundImage: AssetImage("assets/service_avatar.jpg"),

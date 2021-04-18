@@ -1,3 +1,4 @@
+import 'package:bikersworld/screen/autoPartStore/Auto%20Part%20Store%20Normal%20User/autoPartStoreDashboard.dart';
 import 'package:bikersworld/widgets/customtiextfield.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -7,7 +8,6 @@ import 'package:bikersworld/widgets/drawer.dart';
 import 'package:bikersworld/widgets/customeTextArea.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:bikersworld/screen/dashboard/normalUser/normal_user_workshop_dashboard.dart';
-import 'file:///C:/Users/Hasham/Desktop/FYP/lib/screen/autoPartStore/Auto%20Part%20Store%20Normal%20User/autoPartStoreDashboard.dart';
 
 
 class autoPartStoreSearchPage extends StatefulWidget {

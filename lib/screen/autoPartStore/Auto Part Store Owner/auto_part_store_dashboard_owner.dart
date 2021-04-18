@@ -317,7 +317,7 @@ class InformationTab extends StatelessWidget {
                   padding: const EdgeInsets.only(left:5,right: 5,top: 10),
                   child: FlatButton(
                     onPressed: (){
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => RegisterAutoParts()));
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => RegisterAutoParts(partStoreId: snapshot.data.id,)));
                     },
                     child: Card(
                       shape: RoundedRectangleBorder(
