@@ -390,6 +390,7 @@ class InformationTab extends StatelessWidget {
                       Row(
                         children: <Widget>[
                           FlatButton(
+                            padding: EdgeInsets.zero,
                             child: ActiveProjectsCard(
                               cardColor: Color(0xffcca63b),
                               title: 'Body',
@@ -402,6 +403,7 @@ class InformationTab extends StatelessWidget {
                           ),
                           // SizedBox(width: 20.0),
                           FlatButton(
+                            padding: EdgeInsets.zero,
                             onPressed: (){
                               Navigator.push(context, MaterialPageRoute(builder: (context) => CategoryList()));
 
@@ -419,6 +421,7 @@ class InformationTab extends StatelessWidget {
                       Row(
                         children: <Widget>[
                           FlatButton(
+                            padding: EdgeInsets.zero,
                             child: ActiveProjectsCard(
                               cardColor: Colors.deepOrangeAccent,
                               title: 'Electronic',
@@ -432,6 +435,7 @@ class InformationTab extends StatelessWidget {
                           ),
                           // SizedBox(width: 20.0),
                           FlatButton(
+                            padding: EdgeInsets.zero,
                             onPressed: (){
                               Navigator.push(context, MaterialPageRoute(builder: (context) => CategoryList()));
 
@@ -449,6 +453,7 @@ class InformationTab extends StatelessWidget {
                       Row(
                         children: <Widget>[
                           FlatButton(
+                            padding: EdgeInsets.zero,
                             child: ActiveProjectsCard(
                               cardColor: Colors.orange,
                               title: 'Engine',
@@ -462,6 +467,7 @@ class InformationTab extends StatelessWidget {
                           ),
                           // SizedBox(width: 20.0),
                           FlatButton(
+                            padding: EdgeInsets.zero,
                             onPressed: (){
                               Navigator.push(context, MaterialPageRoute(builder: (context) => CategoryList()));
 
@@ -600,7 +606,7 @@ class ActiveProjectsCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        margin: EdgeInsets.symmetric(vertical: 10),
+        margin: EdgeInsets.only(left:25,bottom: 15),
         padding: EdgeInsets.only(bottom:15, top: 15),
         height: 130,
         width: 130,

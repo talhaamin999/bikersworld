@@ -4,13 +4,15 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:simple_animations/simple_animations.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:bikersworld/widgets/rating_bar.dart';
-
+import 'package:bikersworld/screen/autoPartStore/Auto Part Store Normal User/reviews_auto_part_form.dart';
 class autoPartStoreDashboardPage extends StatefulWidget {
   @override
   _autoPartStoreDashboardPageState createState() => _autoPartStoreDashboardPageState();
 }
 
 class _autoPartStoreDashboardPageState extends State<autoPartStoreDashboardPage> {
+  bool isVisible = false,_isButtonVisible = true;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -86,32 +88,43 @@ class _autoPartStoreDashboardPageState extends State<autoPartStoreDashboardPage>
                         Container(
                           child: Row(
                             children: [
-                              Container(
-                                width: 80,
-                                height: 40,
-                                decoration: BoxDecoration(
-                                  color: Colors.red,
-                                  borderRadius: BorderRadius.circular(10),
+                              FlatButton(
+                                padding: EdgeInsets.zero,
+                                child: Container(
+                                  width: MediaQuery.of(context).size.width-280,
+                                  height: 40,
+                                  decoration: BoxDecoration(
+                                    color: Colors.red,
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  child: Icon(
+                                    FontAwesomeIcons.calendar,
+                                    size: 20,
+                                    color: Colors.white,
+                                  ),
                                 ),
-                                child: Icon(
-                                  FontAwesomeIcons.calendar,
-                                  size: 20,
-                                  color: Colors.white,
-                                ),
+                                onPressed:(){
+
+                                }
                               ),
-                              SizedBox(width: 10,),
-                              Container(
-                                width: 80,
-                                height: 40,
-                                decoration: BoxDecoration(
-                                  color: Colors.blue,
-                                  borderRadius: BorderRadius.circular(10),
+                              FlatButton(
+                                padding: EdgeInsets.zero,
+                                child: Container(
+                                  width: MediaQuery.of(context).size.width-280,
+                                  height: 40,
+                                  decoration: BoxDecoration(
+                                    color: Colors.blue,
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  child: Icon(
+                                    FontAwesomeIcons.clock,
+                                    size: 20,
+                                    color: Colors.white,
+                                  ),
                                 ),
-                                child: Icon(
-                                  FontAwesomeIcons.clock,
-                                  size: 20,
-                                  color: Colors.white,
-                                ),
+                                  onPressed:(){
+
+                                  }
                               ),
                             ],
                           ),
@@ -286,7 +299,7 @@ class _autoPartStoreDashboardPageState extends State<autoPartStoreDashboardPage>
                   )),
                 ],
               ),
-            )
+            ),
           ],
         ),
       ),
@@ -296,7 +309,7 @@ class _autoPartStoreDashboardPageState extends State<autoPartStoreDashboardPage>
   Widget makeCard({context, startColor, endColor, image}) {
     return GestureDetector(
       onTap: () {
-        Navigator.push(context, PageTransition(type: PageTransitionType.fade, child: ViewSocks()));
+        Navigator.push(context, PageTransition(type: PageTransitionType.fade, child: PartDetail()));
       },
       child: AspectRatio(
         aspectRatio: 4/5,
@@ -334,7 +347,7 @@ class _autoPartStoreDashboardPageState extends State<autoPartStoreDashboardPage>
 
 
 
-class ViewSocks extends StatelessWidget {
+class PartDetail extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var mediaQuery = MediaQuery.of(context);
@@ -359,7 +372,7 @@ class ViewSocks extends StatelessWidget {
               ),
               child: Transform.translate(
                 offset: Offset(30, -30),
-                child: FadeAnimation(1.3, Image.asset('assets/details-page-header.png',)),
+                child: FadeAnimation(1.3, Image.asset('',)),
               ),
             )),
           ),
@@ -461,7 +474,7 @@ class ViewSocks extends StatelessWidget {
                                       ),
                                     ),
                                     onPressed: (){
-                                      //
+                                      Navigator.push(context, MaterialPageRoute(builder: (context) => ReviewAutoPart()));
                                     },
                                   ),
                                 ],

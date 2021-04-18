@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'package:bikersworld/screen/autoPartStore/Auto Part Store Owner/auto_part_detail.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -72,100 +72,25 @@ class _CategoryListState extends State<CategoryList> {
                         children: <Widget>[
                           FlatButton(
                             child: ActiveProjectsCard(
-                              cardColor: Color(0xffcca63b),
+                              cardColor: Colors.white,
+                              image: AssetImage("assets/helogin.jpeg"),
                               title: 'Fenders',
-                              subtitle: 'Frame',
+                              price: '200',
                             ),
                             onPressed: (){
-                              Navigator.push(context, MaterialPageRoute(builder: (context) => CategoryList()));
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => AutoPartDetail()));
                             },
                           ),
-                          // SizedBox(width: 20.0),
-                          FlatButton(
-                            onPressed: (){
-                            },
-                            child: ActiveProjectsCard(
-                              cardColor: Color(0xFFF9BE7C),
-                              title: 'Gas',
-                              subtitle: 'Tank',
-                            ),
-                          ),
-                          FlatButton(
-                            onPressed: (){
-                            },
-                            child: ActiveProjectsCard(
-                              cardColor: Color(0xFFF9BE7C),
-                              title: 'Seat',
-                              subtitle: 'Parts',
-                            ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 5.0),
-                      Row(
-                        children: <Widget>[
                           FlatButton(
                             child: ActiveProjectsCard(
-                              cardColor: Color(0xffcca63b),
-                              title: 'Pedals',
-                              subtitle: 'Pegs',
+                              cardColor: Colors.white,
+                              image: AssetImage("assets/helogin.jpeg"),
+                              title: 'Fenders',
+                              price: '200',
                             ),
                             onPressed: (){
-                              Navigator.push(context, MaterialPageRoute(builder: (context) => CategoryList()));
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => AutoPartDetail()));
                             },
-                          ),
-                          // SizedBox(width: 20.0),
-                          FlatButton(
-                            onPressed: (){
-                            },
-                            child: ActiveProjectsCard(
-                              cardColor: Color(0xFFF9BE7C),
-                              title: 'Handle',
-                              subtitle: 'bar',
-                            ),
-                          ),
-                          FlatButton(
-                            onPressed: (){
-                            },
-                            child: ActiveProjectsCard(
-                              cardColor: Color(0xFFF9BE7C),
-                              title: 'Brake',
-                              subtitle: 'Suspension',
-                            ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 5.0),
-                      Row(
-                        children: <Widget>[
-                          FlatButton(
-                            child: ActiveProjectsCard(
-                              cardColor: Color(0xffcca63b),
-                              title: 'Body',
-                              subtitle: 'Work',
-                            ),
-                            onPressed: (){
-                              Navigator.push(context, MaterialPageRoute(builder: (context) => CategoryList()));
-                            },
-                          ),
-                          // SizedBox(width: 20.0),
-                          FlatButton(
-                            onPressed: (){
-                            },
-                            child: ActiveProjectsCard(
-                              cardColor: Color(0xFFF9BE7C),
-                              title: 'Steering',
-                              subtitle: 'damper',
-                            ),
-                          ),
-                          FlatButton(
-                            onPressed: (){
-                            },
-                            child: ActiveProjectsCard(
-                              cardColor: Color(0xFFF9BE7C),
-                              title: 'Wind',
-                              subtitle: 'Shield',
-                            ),
                           ),
                         ],
                       ),
@@ -186,12 +111,14 @@ class _CategoryListState extends State<CategoryList> {
 class ActiveProjectsCard extends StatelessWidget {
   final Color cardColor;
   final String title;
-  final String subtitle;
+  final String price;
+  final image;
 
   ActiveProjectsCard({
     this.cardColor,
+    this.image,
     this.title,
-    this.subtitle,
+    this.price,
   });
 
   @override
@@ -199,38 +126,50 @@ class ActiveProjectsCard extends StatelessWidget {
     return Container(
       margin: EdgeInsets.symmetric(vertical: 10),
       padding: EdgeInsets.only(bottom:15, top: 15),
-      height: 90,
-      width: 80,
+      height: 185,
+      width: MediaQuery.of(context).size.width - 225,
       decoration: BoxDecoration(
+        border: Border.all(
+          color: Color(0xfff0f0f0),
+        ),
         color: cardColor,
         borderRadius: BorderRadius.circular(5),
       ),
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
+              Container(
+                width:135,
+                height:100,
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    fit: BoxFit.fill,
+                    image: image,
+                  ),
+                ),
+              ),
               Padding(
-                padding: const EdgeInsets.only(left:8.0),
+                padding: const EdgeInsets.only(left:8.0,top: 5),
                 child: Text(
                   title,
                   style: GoogleFonts.quicksand(
                     fontSize: 17,
-                    color: Colors.white,
+                    color: Colors.black,
                     fontWeight: FontWeight.w700,
                   ),
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(left:8.0),
+                padding: const EdgeInsets.only(left:8.0,top: 5),
                 child: Text(
-                  subtitle,
+                  price,
                   style: GoogleFonts.quicksand(
-                    fontSize: 14,
-                    color: Colors.white54,
-                    fontWeight: FontWeight.w400,
+                    fontSize: 15,
+                    color: Colors.black,
                   ),
                 ),
               ),
