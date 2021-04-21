@@ -17,7 +17,7 @@ class _AutoPartDetailState extends State<AutoPartDetail> {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        backgroundColor: Color(0xfff0f0f0),
+        backgroundColor: Colors.white,
         appBar: AppBar(
           title: Text(
             'BIKERSWORLD',
@@ -49,7 +49,7 @@ class _AutoPartDetailState extends State<AutoPartDetail> {
                     .of(context)
                     .size
                     .width,
-                color: Colors.white,
+                color: Color(0xfff2f2f2),
                 child: Image(
                   image: AssetImage("assets/helogin.jpeg",),
                 ),

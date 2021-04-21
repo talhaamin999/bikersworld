@@ -394,12 +394,12 @@ class _CategoriesComboBoxState extends State<CategoriesComboBox> {
 
     return Container(
       color: Color(0xffe3e3e3),
-      width: 350,
+      width: 370,
       height: 50,
       child:  DropdownButton<String>(
         value: dropDownCategoryValue,
         icon: Container(
-          margin: EdgeInsets.only(left: 160),
+          margin: EdgeInsets.only(left: 120),
           child: Icon(
             FontAwesomeIcons.caretDown,
           ),
@@ -454,12 +454,12 @@ class _TypeComboBoxState extends State<TypeComboBox> {
 
     return Container(
       color: Color(0xffe3e3e3),
-      width: 350,
+      width: 370,
       height: 50,
       child:  DropdownButton<String>(
         value: dropDownTypeValue,
         icon: Container(
-          margin: EdgeInsets.only(left: 200),
+          margin: EdgeInsets.only(left:220),
           child: Icon(
             FontAwesomeIcons.caretDown,
           ),

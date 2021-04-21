@@ -6,6 +6,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:bikersworld/screen/autoPartStore/Auto Part Store Owner/register_auto_parts.dart';
 import 'package:bikersworld/widgets/rating_bar.dart';
 import 'package:bikersworld/screen/autoPartStore/Auto Part Store Owner/category_list.dart';
+import 'package:bikersworld/screen/autoPartStore/Auto Part Store Owner/view_all_categories.dart';
 
 
 class AutoPartStoreDashboardOwner extends StatefulWidget {
@@ -369,10 +370,15 @@ class InformationTab extends StatelessWidget {
                             fontSize: 20,
                           ),
                         ),
-                        Text('View all',
-                          style: GoogleFonts.quicksand(
-                            fontSize: 16,
-                            color: Colors.indigo,
+                        FlatButton(
+                          onPressed: (){
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => ViewAllCategories()));
+                          },
+                          child: Text('View all',
+                            style: GoogleFonts.quicksand(
+                              fontSize: 16,
+                              color: Colors.indigo,
+                            ),
                           ),
                         ),
                       ],
@@ -606,10 +612,10 @@ class ActiveProjectsCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        margin: EdgeInsets.only(left:25,bottom: 15),
+        margin: EdgeInsets.only(left:35,bottom: 15),
         padding: EdgeInsets.only(bottom:15, top: 15),
-        height: 130,
-        width: 130,
+        height: 140,
+        width: 140,
         decoration: BoxDecoration(
           color: cardColor,
           borderRadius: BorderRadius.circular(20),
