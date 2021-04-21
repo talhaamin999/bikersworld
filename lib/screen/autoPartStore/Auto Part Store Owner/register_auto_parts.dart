@@ -382,7 +382,7 @@ class CategoriesComboBox extends StatefulWidget {
 
 class _CategoriesComboBoxState extends State<CategoriesComboBox> {
 
-  var _dropDownItems = ['Accessories', 'Body & Frame', 'Brake & Suspension', 'Air Intake', 'Electrical & Ignition', 'Exhaust','Engine & Engine Parts','Lighting & Indicators','Wheel & Tyres','Seating','Other'];
+  var _dropDownItems = ['Accessories', 'Body & Frame', 'Brake & Suspension', 'Air Intake', 'Electrical & Ignition', 'Exhaust System','Engine & Engine Parts','Lighting & Indicators','Wheel & Tyres','Seating','Other'];
 
   @override
   void initState(){

@@ -398,14 +398,14 @@ class InformationTab extends StatelessWidget {
                               icon: Icon(FontAwesomeIcons.motorcycle , size: 45, color: Colors.white,),
                             ),
                             onPressed: (){
-                              Navigator.push(context, MaterialPageRoute(builder: (context) => CategoryList()));
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => CategoryList(category: 'Body & Frame',partStoreId: snapshot.data.id,)));
                             },
                           ),
                           // SizedBox(width: 20.0),
                           FlatButton(
                             padding: EdgeInsets.zero,
                             onPressed: (){
-                              Navigator.push(context, MaterialPageRoute(builder: (context) => CategoryList()));
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => CategoryList(category: 'Brake & Suspension',partStoreId: snapshot.data.id,)));
 
                             },
                             child: ActiveProjectsCard(
@@ -424,12 +424,12 @@ class InformationTab extends StatelessWidget {
                             padding: EdgeInsets.zero,
                             child: ActiveProjectsCard(
                               cardColor: Colors.deepOrangeAccent,
-                              title: 'Electronic',
-                              subtitle: 'Light',
+                              title: 'Lighting &',
+                              subtitle: 'Indicators',
                               icon: Icon(FontAwesomeIcons.bolt , size: 45, color: Colors.white,),
                             ),
                             onPressed: (){
-                              Navigator.push(context, MaterialPageRoute(builder: (context) => CategoryList()));
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => CategoryList(partStoreId: snapshot.data.id, category: 'Lighting & Indicators',)));
 
                             },
                           ),
@@ -437,14 +437,14 @@ class InformationTab extends StatelessWidget {
                           FlatButton(
                             padding: EdgeInsets.zero,
                             onPressed: (){
-                              Navigator.push(context, MaterialPageRoute(builder: (context) => CategoryList()));
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => CategoryList(partStoreId: snapshot.data.id, category: 'Air Intake',)));
 
                             },
                             child: ActiveProjectsCard(
                               cardColor: Color(0xFF1d51b8),
                               title: 'Air',
                               icon: Icon(FontAwesomeIcons.commentDots , size: 55, color: Colors.white,),
-                              subtitle: 'Filter',
+                              subtitle: 'Intake',
                             ),
                           ),
                         ],
@@ -456,12 +456,12 @@ class InformationTab extends StatelessWidget {
                             padding: EdgeInsets.zero,
                             child: ActiveProjectsCard(
                               cardColor: Colors.orange,
-                              title: 'Engine',
-                              subtitle: 'Parts',
+                              title: 'Engine &',
+                              subtitle: 'Engine Parts',
                               icon: Icon(FontAwesomeIcons.clock , size: 45, color: Colors.white,),
                             ),
                             onPressed: (){
-                              Navigator.push(context, MaterialPageRoute(builder: (context) => CategoryList()));
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => CategoryList(category: 'Engine & Engine Parts',partStoreId: snapshot.data.id,)));
 
                             },
                           ),
@@ -469,7 +469,7 @@ class InformationTab extends StatelessWidget {
                           FlatButton(
                             padding: EdgeInsets.zero,
                             onPressed: (){
-                              Navigator.push(context, MaterialPageRoute(builder: (context) => CategoryList()));
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => CategoryList(partStoreId: snapshot.data.id,category: 'Exhaust System',)));
 
                             },
                             child: ActiveProjectsCard(

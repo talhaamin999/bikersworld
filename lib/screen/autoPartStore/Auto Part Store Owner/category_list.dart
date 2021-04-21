@@ -1,14 +1,22 @@
+import 'package:bikersworld/model/partstore_model.dart';
+import 'package:bikersworld/services/part_store_queries/part_queries.dart';
 import 'package:flutter/material.dart';
 import 'package:bikersworld/screen/autoPartStore/Auto Part Store Owner/auto_part_detail.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class CategoryList extends StatefulWidget {
+  final String category;
+  final String partStoreId;
+  CategoryList({@required this.partStoreId,@required this.category});
   @override
   _CategoryListState createState() => _CategoryListState();
 }
 
 class _CategoryListState extends State<CategoryList> {
+
+  final _autoParts = AutoPartQueries();
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -34,72 +42,95 @@ class _CategoryListState extends State<CategoryList> {
           ),
           elevation: 0.0,
         ),
-        body: SingleChildScrollView(
-          child: Container(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(left:25,top: 15),
-                  child: RichText(
-                    textAlign: TextAlign.start,
-                    text: TextSpan(
-                        text: 'Body &',
-                        style: GoogleFonts.quicksand(
-                          fontSize: 20,
-                          color: Color(0xfff7892b),
-                        ),
+        body: FutureBuilder(
+          future: _autoParts.getAutoPartByCategory(userId: widget.partStoreId, category: widget.category),
+          builder: (BuildContext context, AsyncSnapshot<List<AutoPartModel>> snapshot) {
+            if(snapshot.hasData && snapshot.data.isNotEmpty){
+              return ListView.builder(
+                itemCount: snapshot.data.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return SingleChildScrollView(
+                    child: Container(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          TextSpan(
-                              text: ' frame',
-                              style: GoogleFonts.quicksand(
-                                fontSize: 20,
-                                color: Colors.black,
-                              )
-                          ),
-                        ]),
-                  ),
-                ),
-                Container(
-                  color: Colors.transparent,
-                  padding: EdgeInsets.all(10),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      // subheading('Active Projects'),
-                      SizedBox(height: 5.0),
-                      Row(
-                        children: <Widget>[
-                          FlatButton(
-                            child: ActiveProjectsCard(
-                              cardColor: Colors.white,
-                              image: AssetImage("assets/helogin.jpeg"),
-                              title: 'Fenders',
-                              price: '200',
+                          Padding(
+                            padding: const EdgeInsets.only(left:25,top: 15),
+                            child: RichText(
+                              textAlign: TextAlign.start,
+                              text: TextSpan(
+                                  text: 'Body &',
+                                  style: GoogleFonts.quicksand(
+                                    fontSize: 20,
+                                    color: Color(0xfff7892b),
+                                  ),
+                                  children: [
+                                    TextSpan(
+                                        text: ' frame',
+                                        style: GoogleFonts.quicksand(
+                                          fontSize: 20,
+                                          color: Colors.black,
+                                        )
+                                    ),
+                                  ]),
                             ),
-                            onPressed: (){
-                              Navigator.push(context, MaterialPageRoute(builder: (context) => AutoPartDetail()));
-                            },
                           ),
-                          FlatButton(
-                            child: ActiveProjectsCard(
-                              cardColor: Colors.white,
-                              image: AssetImage("assets/helogin.jpeg"),
-                              title: 'Fenders',
-                              price: '200',
+                          Container(
+                            color: Colors.transparent,
+                            padding: EdgeInsets.all(10),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                // subheading('Active Projects'),
+                                SizedBox(height: 5.0),
+                                Row(
+                                  children: <Widget>[
+                                    FlatButton(
+                                      child: ActiveProjectsCard(
+                                        cardColor: Colors.white,
+                                        image: NetworkImage(snapshot.data[index].imageURL),
+                                        title: snapshot.data[index].title,
+                                        price: snapshot.data[index].price.toString(),
+                                      ),
+                                      onPressed: (){
+                                        Navigator.push(context, MaterialPageRoute(builder: (context) => AutoPartDetail()));
+                                      },
+                                    ),
+                                    /*
+                                    FlatButton(
+                                      child: ActiveProjectsCard(
+                                        cardColor: Colors.white,
+                                        image: NetworkImage(snapshot.data[index].imageURL),
+                                        title: snapshot.data[index].title,
+                                        price: snapshot.data[index].price.toString(),
+                                      ),
+                                      onPressed: (){
+                                        Navigator.push(context, MaterialPageRoute(builder: (context) => AutoPartDetail()));
+                                      },
+                                    ),
+
+                                     */
+                                  ],
+                                ),
+                              ],
                             ),
-                            onPressed: (){
-                              Navigator.push(context, MaterialPageRoute(builder: (context) => AutoPartDetail()));
-                            },
                           ),
                         ],
                       ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
+                    ),
+                  );
+                },
+              );
+            }
+            else if(snapshot.hasData && snapshot.data.isEmpty){
+              return Center(child: Text('No Data Found'));
+            }
+            else if(snapshot.hasError){
+              return Center(child: Text(snapshot.error.toString()));
+            }
+            return Center(child: CircularProgressIndicator());
+          },
+
         ),
       ),
     );
