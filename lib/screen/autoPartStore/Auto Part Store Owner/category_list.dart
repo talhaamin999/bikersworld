@@ -130,7 +130,6 @@ class _CategoryListState extends State<CategoryList> {
             }
             return Center(child: CircularProgressIndicator());
           },
-
         ),
       ),
     );

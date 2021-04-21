@@ -489,13 +489,13 @@ class InformationTab extends StatelessWidget {
           );
         }
         else if(snapshot.data == null){
-          Center(child: Text('You are not logged In'));
+          return Center(child: Text('You are not logged In'));
         }
         else if(!snapshot.hasData){
-          Center(child: Text("You Don't have A PartStore Registered"));
+          return Center(child: Text("You Don't have A PartStore Registered"));
         }
         else if(snapshot.hasError){
-          Center(child: Text(snapshot.error.toString()));
+          return Center(child: Text(snapshot.error.toString()));
         }
         return Center(child: CircularProgressIndicator());
       },
