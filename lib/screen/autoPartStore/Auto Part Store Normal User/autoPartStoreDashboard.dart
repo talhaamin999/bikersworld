@@ -91,7 +91,7 @@ class _autoPartStoreDashboardPageState extends State<autoPartStoreDashboardPage>
                               FlatButton(
                                 padding: EdgeInsets.zero,
                                 child: Container(
-                                  width: MediaQuery.of(context).size.width-280,
+                                  width: MediaQuery.of(context).size.width-320,
                                   height: 40,
                                   decoration: BoxDecoration(
                                     color: Colors.red,
@@ -107,10 +107,11 @@ class _autoPartStoreDashboardPageState extends State<autoPartStoreDashboardPage>
 
                                 }
                               ),
+                              SizedBox(width: 5,),
                               FlatButton(
                                 padding: EdgeInsets.zero,
                                 child: Container(
-                                  width: MediaQuery.of(context).size.width-280,
+                                  width: MediaQuery.of(context).size.width-320,
                                   height: 40,
                                   decoration: BoxDecoration(
                                     color: Colors.blue,
