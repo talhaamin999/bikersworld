@@ -7,6 +7,7 @@ import 'package:bikersworld/screen/autoPartStore/Auto Part Store Owner/register_
 import 'package:bikersworld/widgets/rating_bar.dart';
 import 'package:bikersworld/screen/autoPartStore/Auto Part Store Owner/auto_part_dasboard.dart';
 import 'package:bikersworld/screen/autoPartStore/Auto Part Store Owner/view_all_categories.dart';
+import 'package:bikersworld/screen/workshop/edit_workshop_profile.dart';
 
 
 class AutoPartStoreDashboardOwner extends StatefulWidget {
@@ -112,7 +113,7 @@ class _AutoPartStoreDashboardOwnerState extends State<AutoPartStoreDashboardOwne
 
               actions: [
                 PopupMenuButton(
-                  icon: new Icon(FontAwesomeIcons.ellipsisV,
+                  icon: new Icon(Icons.settings,
                       color: Colors.white),
                   onSelected: (option){
 
@@ -140,48 +141,6 @@ class _AutoPartStoreDashboardOwnerState extends State<AutoPartStoreDashboardOwne
                       ),
                       value: null,
                     ),
-                    new PopupMenuItem<userOption>(
-                      child: Container(
-                        child: Row(
-                          children: [
-                            Icon(
-                              FontAwesomeIcons.calendar,
-                              size: 15,
-                              color: Colors.black,
-                            ),
-                            SizedBox(width: 10),
-                            Text(
-                              "Working Days",
-                              style: GoogleFonts.quicksand(
-                                fontSize: 16,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      value: userOption.workshopWorkingDays,
-                    ),
-                    new PopupMenuItem<userOption>(
-                      child: Container(
-                        child: Row(
-                          children: [
-                            Icon(
-                              FontAwesomeIcons.clock,
-                              size: 15,
-                              color: Colors.black,
-                            ),
-                            SizedBox(width: 10),
-                            Text(
-                              "Timing",
-                              style: GoogleFonts.quicksand(
-                                fontSize: 16,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      value: null,
-                    )
                   ],
                 ),
               ],
@@ -301,6 +260,133 @@ class InformationTab extends StatelessWidget {
                         ),
                       ),
                     ],
+                  ),
+                ),
+
+                SizedBox(height: 20,),
+                Container(
+                  height: 100,
+                  color: Colors.transparent,
+                  margin: EdgeInsets.symmetric(horizontal: 23,),
+                  child: Card(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(50),
+                        topRight: Radius.circular(10),
+                        bottomRight: Radius.circular(50),
+                        bottomLeft: Radius.circular(10),
+                      ), // if you need this
+                      side: BorderSide(
+                        color: Colors.grey.withOpacity(0.2),
+                        width: 1,
+                      ),
+                    ),
+                    child: Container(
+                      color: Colors.white,
+                      width: MediaQuery.of(context).size.width - 20,
+                      height: 75,
+                      child: Row(
+                        children: [
+                          FlatButton(
+                            child: Container(
+                              height: 60,
+                              width: 130,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(15),
+                                color:Colors.red,
+                              ),
+                              child: Icon(
+                                Icons.calendar_today,
+                                color: Colors.white,
+                              ),
+                            ),
+                            onPressed: (){
+                              //working days
+                              showDialog(
+                                context: context,
+                                builder: (_) => new AlertDialog(
+                                  title: new Text("Working hours", style: GoogleFonts.quicksand(fontSize: 18 , fontWeight:FontWeight.bold),),
+                                  content: Container(
+                                    child: Row(
+                                      children: [
+                                        Icon(
+                                          FontAwesomeIcons.clock,
+                                          color: Colors.orange,
+                                          size: 30,
+                                        ),
+                                        SizedBox(width: 10,),
+
+                                        Text(
+                                          "",
+                                          style: GoogleFonts.quicksand(
+                                            fontSize:18,
+                                          ),
+                                        ),
+                                        SizedBox(width: 10,),
+                                        Text(
+                                            "-"
+                                        ),
+                                        SizedBox(width: 10,),
+                                        Text(
+                                          "",
+                                          style: GoogleFonts.quicksand(
+                                            fontSize:18,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
+
+                          SizedBox(width: 10,),
+                          FlatButton(
+                            child: Container(
+                              height: 60,
+                              width: 130,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(15),
+                                color:Color(0XFF012A4A),
+                              ),
+                              child: Icon(
+                                FontAwesomeIcons.clock,
+                                color: Colors.white,
+                              ),
+                            ),
+                            onPressed: (){
+                              // Calender
+                              showModalBottomSheet(
+                                  context: context,
+                                  builder: (BuildContext bc){
+                                    return SingleChildScrollView(
+                                      child: Container(
+                                        child: new Wrap(
+                                          children: <Widget>[
+                                            Padding(
+                                              padding: const EdgeInsets.only(top:15, left:15),
+                                              child: Text(
+                                                "Working Days",
+                                                style: GoogleFonts.quicksand(
+                                                  fontSize: 20,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              ),
+                                            ),
+
+                                            SizedBox(height: 20,),
+                                          ],
+                                        ),
+                                      ),
+                                    );
+                                  }
+                              );
+                            },
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
                 ),
                 SizedBox(height:10),

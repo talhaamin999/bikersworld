@@ -61,25 +61,31 @@ class _ViewAllCategoriesState extends State<ViewAllCategories> {
                   shrinkWrap: true,
                   itemCount: _dropDownItems.length,
                     itemBuilder: (context, index) {
-                      return Card(
-                        child: Padding(
-                            padding: EdgeInsets.only(left:25,right: 25,bottom: 10,top: 10),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(_dropDownItems[index]),
-                                 InkWell(
-                                  onTap: (){
-                                    Navigator.of(context)
-                                        .push(MaterialPageRoute(builder: (context) =>
-                                        AutoPartDashboard(partStoreId: widget.partStoreId, category: _dropDownItems[index],)) );
-                                  },
-                                  child: Icon(
-                                    Icons.arrow_forward_ios,
-                                  ),
-                                ),
-                              ],
-                            ),),
+                      return InkWell(
+                        onTap: (){
+                          Navigator.of(context)
+                              .push(MaterialPageRoute(builder: (context) =>
+                              AutoPartDashboard(partStoreId: widget.partStoreId, category: _dropDownItems[index],)) );
+                        },
+                        child: Container(
+                          margin: EdgeInsets.only(left: 10,right: 10,top: 10),
+                          height: 70,
+                          child: Card(
+                            child: Padding(
+                              padding: const EdgeInsets.only(left:10,right: 10),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(_dropDownItems[index], style: GoogleFonts.quicksand(fontSize:16),),
+                                  Icon(
+                                      Icons.arrow_forward_ios,
+                                      color: Colors.grey,
+                                    ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
                       );
                     },
                 ),
