@@ -2,8 +2,6 @@ import 'package:bikersworld/model/partstore_model.dart';
 import 'package:bikersworld/services/part_store_queries/part_queries.dart';
 import 'package:bikersworld/services/toast_service.dart';
 import 'package:bikersworld/services/validate_service.dart';
-import 'package:bikersworld/widgets/entry_field.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -11,21 +9,20 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
-import 'auto_part_store_dashboard_owner.dart';
-import 'package:path/path.dart' as path;
 
 class RegisterAutoParts extends StatefulWidget {
   final String partStoreId;
-  RegisterAutoParts({@required this.partStoreId});
+  final AutoPartModel autoPartInfo;
+  RegisterAutoParts({@required this.partStoreId,this.autoPartInfo});
   @override
   _RegisterAutoPartsState createState() => _RegisterAutoPartsState();
 }
 
 String dropDownTypeValue;
 String dropDownCategoryValue;
+
 class _RegisterAutoPartsState extends State<RegisterAutoParts> {
   int currentIndex;
-  String dropdownValue = 'Electrical';
   bool _isButtonVisible = true;
 
   File _image;
@@ -37,7 +34,6 @@ class _RegisterAutoPartsState extends State<RegisterAutoParts> {
   final _error = ToastErrorMessage();
   final _valid = ToastValidMessage();
   final _addAutoPart = AutoPartQueries();
-  final _storage = FirebaseStorage.instance;
 
   Future getImage() async {
     final pickedFile = await picker.getImage(source: ImageSource.gallery);
@@ -49,7 +45,18 @@ class _RegisterAutoPartsState extends State<RegisterAutoParts> {
       }
     });
   }
-
+  void clear(){
+    _titleController.clear();
+    _priceController.clear();
+  }
+  void mapValues(){
+    if(widget.autoPartInfo != null){
+      _titleController.text = widget.autoPartInfo.title;
+      _priceController.text = widget.autoPartInfo.price.toString();
+      dropDownTypeValue = widget.autoPartInfo.type;
+      dropDownCategoryValue = widget.autoPartInfo.category;
+    }
+  }
   void checkFormState(){
     if(!_formKey.currentState.validate()){
       return;
@@ -67,58 +74,104 @@ class _RegisterAutoPartsState extends State<RegisterAutoParts> {
     else if(!_validateFields.isPriceValid(price: price)){
       _error.errorToastMessage(errorMessage: 'Price must greater than 0');
     }
-    else if(_image == null){
-      _error.errorToastMessage(errorMessage: 'Please Select an Image');
+    else if(_image == null && widget.autoPartInfo == null){
+     _error.errorToastMessage(errorMessage: 'Please Select an Image');
     }
     else{
       addPart(price);
     }
   }
   Future<void> addPart(int price) async{
-
-      var file = File(_image.path);
-      String imageName = path.basename(_image.path);
-      String imageUploadComplete;
-
      try{
        setState(() {
          _isButtonVisible = false;
        });
-      var snapshot = await _storage.ref()
-          .child('partStoreImages/$imageName')
-          .putFile(file)
-          .whenComplete(() =>
-      imageUploadComplete = "image is uploaded to firebase storage")
-          .catchError((onError) =>
-      imageUploadComplete = onError.toString());
 
-      if (imageUploadComplete == "image is uploaded to firebase storage") {
-        var imageUrl = await snapshot.ref.getDownloadURL();
-        final data = AutoPartModel(title: _titleController.text.trim(),price: price,category: dropDownCategoryValue,type: dropDownTypeValue,imageURL: imageUrl,partStoreId: widget.partStoreId);
-        bool result = await _addAutoPart.addAutoPart(data);
-        if (result) {
-          setState(() {
-            _isButtonVisible = true;
-          });
-          _valid.validToastMessage(
-              validMessage: 'Part Successfully Added');
-          Future.delayed(
-              new Duration(seconds: 2),
-                  () {
-                Navigator.pop(context);
-              }
-          );
+     if(widget.autoPartInfo == null) {
+         var imageUrl = await _addAutoPart.uploadImage(_image);
+         if(imageUrl != null) {
+           final data = AutoPartModel(title: _titleController.text.trim(),
+               price: price,
+               category: dropDownCategoryValue,
+               type: dropDownTypeValue,
+               imageURL: imageUrl,
+               partStoreId: widget.partStoreId);
+
+           bool result = await _addAutoPart.addAutoPart(data);
+           if (result) {
+             setState(() {
+               _isButtonVisible = true;
+             });
+             clear();
+             _valid.validToastMessage(
+                 validMessage: 'Part Successfully Added');
+             Future.delayed(
+                 new Duration(seconds: 2),
+                     () {
+                   Navigator.pop(context);
+                 }
+             );
+           }
         }
-      } else {
-        _error.errorToastMessage(errorMessage: imageUploadComplete);
-      }
+     }
+     else if(widget.autoPartInfo != null && _image == null){
+       final data = AutoPartModel(title: _titleController.text.trim(),
+           price: price,
+           category: dropDownCategoryValue,
+           docId: widget.autoPartInfo.docId,
+           type: dropDownTypeValue,
+           imageURL: widget.autoPartInfo.imageURL,
+           partStoreId: widget.autoPartInfo.partStoreId);
+       bool result = await _addAutoPart.updateAutoPart(data);
+       if (result) {
+         setState(() {
+           _isButtonVisible = true;
+         });
+         clear();
+         _valid.validToastMessage(
+             validMessage: 'Part Successfully Updated');
+         Future.delayed(
+             new Duration(seconds: 1),
+                 () {
+               Navigator.pop(context);
+             }
+         );
+       }
+     }
+     else if(widget.autoPartInfo != null && _image != null) {
+         var imageUrl = await _addAutoPart.uploadImage(_image);
+         if(imageUrl != null){
+         final data = AutoPartModel(title: _titleController.text.trim(),
+             price: price,
+             docId: widget.autoPartInfo.docId,
+             category: dropDownCategoryValue,
+             type: dropDownTypeValue,
+             imageURL: imageUrl,
+             partStoreId: widget.autoPartInfo.partStoreId);
+         bool result = await _addAutoPart.updateAutoPart(data);
+         if (result) {
+           setState(() {
+             _isButtonVisible = true;
+           });
+           clear();
+           _valid.validToastMessage(
+               validMessage: 'Part Successfully Updated');
+           Future.delayed(
+               new Duration(seconds: 1),
+                   () {
+                 Navigator.pop(context);
+               }
+           );
+         }
+       }
+     }
    }catch(e){
      _error.errorToastMessage(errorMessage: e.toString());
    }finally{
       setState(() {
         _isButtonVisible = true;
       });
-    }
+   }
 
 }
 
@@ -126,7 +179,14 @@ class _RegisterAutoPartsState extends State<RegisterAutoParts> {
   void dispose() {
     _titleController.dispose();
     _priceController.dispose();
+    dropDownTypeValue = null;
+    dropDownCategoryValue = null;
     super.dispose();
+  }
+  @override
+  void initState() {
+    mapValues();
+    super.initState();
   }
 
   @override
@@ -228,9 +288,10 @@ class _RegisterAutoPartsState extends State<RegisterAutoParts> {
                           child: FittedBox(
                             fit: BoxFit.fill,
                             alignment: Alignment.topLeft,
-                            child: _image == null
-                                ? Text('')
-                                : Image.file(_image),
+                            child: widget.autoPartInfo != null && _image == null
+                                ? Image(
+                                image: NetworkImage(widget.autoPartInfo.imageURL))
+                                : _image == null ? Text('') : Image.file(_image),
                           ),
                         ),
                       ],
@@ -246,7 +307,7 @@ class _RegisterAutoPartsState extends State<RegisterAutoParts> {
                       child: RaisedButton(
                         onPressed: _isButtonVisible ? () => {checkFormState()} : null,
                         child:Text(
-                          'Add Part',
+                          widget.autoPartInfo != null ? 'Update Part' : 'Add Part',
                           style: GoogleFonts.krub(
                             fontSize: 18,
                             color: Colors.white,
@@ -384,9 +445,15 @@ class _CategoriesComboBoxState extends State<CategoriesComboBox> {
 
   var _dropDownItems = ['Accessories', 'Body & Frame', 'Brake & Suspension', 'Air Intake', 'Electrical & Ignition', 'Exhaust System','Engine & Engine Parts','Lighting & Indicators','Wheel & Tyres','Seating','Other'];
 
+  void mapVlaue(){
+    if(dropDownCategoryValue == null){
+      dropDownCategoryValue = _dropDownItems[0];
+    }
+  }
+
   @override
   void initState(){
-    dropDownCategoryValue = _dropDownItems[0];
+    mapVlaue();
     super.initState();
   }
 
@@ -435,7 +502,6 @@ class _CategoriesComboBoxState extends State<CategoriesComboBox> {
 
 class TypeComboBox extends StatefulWidget {
   TypeComboBox({Key key}) : super(key: key);
-
   @override
   _TypeComboBoxState createState() => _TypeComboBoxState();
 }
@@ -444,9 +510,14 @@ class _TypeComboBoxState extends State<TypeComboBox> {
 
   var dropDownItems = ['Local', 'Genuine','Others'];
 
+  void mapVlaue(){
+    if(dropDownTypeValue == null){
+      dropDownTypeValue = dropDownItems[0];
+    }
+  }
   @override
   void initState(){
-    dropDownTypeValue = dropDownItems[0];
+    mapVlaue();
     super.initState();
   }
 

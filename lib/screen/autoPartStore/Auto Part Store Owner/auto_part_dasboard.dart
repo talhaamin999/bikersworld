@@ -1,20 +1,30 @@
 import 'package:bikersworld/model/partstore_model.dart';
+import 'package:bikersworld/screen/autoPartStore/Auto%20Part%20Store%20Owner/register_auto_parts.dart';
 import 'package:bikersworld/services/part_store_queries/part_queries.dart';
+import 'package:bikersworld/services/toast_service.dart';
 import 'package:flutter/material.dart';
 import 'package:bikersworld/screen/autoPartStore/Auto Part Store Owner/auto_part_detail.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class CategoryList extends StatefulWidget {
+class AutoPartDashboard extends StatefulWidget {
   final String category;
   final String partStoreId;
-  CategoryList({@required this.partStoreId,@required this.category});
+  AutoPartDashboard({@required this.partStoreId,@required this.category});
   @override
-  _CategoryListState createState() => _CategoryListState();
+  _AutoPartDashboardState createState() => _AutoPartDashboardState();
 }
 
-class _CategoryListState extends State<CategoryList> {
+class _AutoPartDashboardState extends State<AutoPartDashboard> {
 
   final _autoParts = AutoPartQueries();
+  final _valid = ToastValidMessage();
+
+  Future<void> deleteAutoPart(String docId) async{
+    bool result = await _autoParts.deleteAutoPart(docId: docId);
+    if(result){
+      _valid.validToastMessage(validMessage: 'Part Successfully Deleted');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -58,8 +68,8 @@ class _CategoryListState extends State<CategoryList> {
                 ),
               ),
               SizedBox(height: 20,),
-              FutureBuilder(
-                future: _autoParts.getAutoPartByCategory(userId: widget.partStoreId, category: widget.category),
+              StreamBuilder(
+                stream: _autoParts.getAutoPartByCategory(userId: widget.partStoreId, category: widget.category),
                 builder: (BuildContext context, AsyncSnapshot<List<AutoPartModel>> snapshot) {
                   if(snapshot.hasData && snapshot.data.isNotEmpty){
                     return GridView.builder(
@@ -75,71 +85,72 @@ class _CategoryListState extends State<CategoryList> {
                       itemBuilder: (BuildContext ctx, index) {
                         return Column(
                           children: [
-                          Container(
-                            height: 150,
-                          color: Colors.transparent,
-                          child: FlatButton(
-                            child: ActiveProjectsCard(
-                              cardColor: Colors.white,
-                              image: NetworkImage(snapshot.data[index].imageURL),
-                              title: snapshot.data[index].title,
-                              price: snapshot.data[index].price.toString(),
-                            ),
-                            onPressed: (){
-                              Navigator.push(context, MaterialPageRoute(builder: (context) => AutoPartDetail()));
-                            },
-                          ),
-                        ),
-                        SizedBox(height: 5,),
-                        Expanded(
-                          child:Padding(
-                            padding: const EdgeInsets.only(left:5),
-                            child: Container(
-                              child: Row(
-                                children: [
-                                  FlatButton(
-                                    padding:EdgeInsets.zero,
-                                    materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                                    child: Container(
-                                      height: 40,
-                                      width: 60,
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(10),
-                                        color: Colors.redAccent,
-                                      ),
-                                      child: Icon(
-                                        Icons.remove,
-                                        color: Colors.white,
-                                      ),
-                                    ),
-                                    onPressed: (){
-                                      //
-                                    },
-                                  ),
-                                  FlatButton(
-                                    padding:EdgeInsets.all(0),
-                                    child: Container(
-                                      height: 40,
-                                      width: 60,
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(10),
-                                        color: Colors.blue,
-                                      ),
-                                      child: Icon(
-                                        Icons.edit,
-                                        color: Colors.white,
-                                      ),
-                                    ),
-                                    onPressed: (){
-
-                                    },
-                                  ),
-
-                                ],
+                            Container(
+                              height: 150,
+                              color: Colors.transparent,
+                              child: FlatButton(
+                                child: ActiveProjectsCard(
+                                  cardColor: Colors.white,
+                                  image: NetworkImage(snapshot.data[index].imageURL),
+                                  title: snapshot.data[index].title,
+                                  price: snapshot.data[index].price.toString(),
+                                ),
+                                onPressed: (){
+                                  Navigator.push(context, MaterialPageRoute(builder: (context) => AutoPartDetail(autoPartDetails: snapshot.data[index],)));
+                                },
                               ),
                             ),
-                          ),
-                        ),],
+                            SizedBox(height: 5,),
+                            Expanded(
+                              child:Padding(
+                                padding: const EdgeInsets.only(left:5),
+                                child: Container(
+                                  child: Row(
+                                    children: [
+                                      FlatButton(
+                                        padding:EdgeInsets.zero,
+                                        materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                                        child: Container(
+                                          height: 40,
+                                          width: 60,
+                                          decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.circular(10),
+                                            color: Colors.redAccent,
+                                          ),
+                                          child: Icon(
+                                            Icons.remove,
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                        onPressed: (){
+                                          deleteAutoPart(snapshot.data[index].docId);
+                                        },
+                                      ),
+                                      FlatButton(
+                                        padding:EdgeInsets.all(0),
+                                        child: Container(
+                                          height: 40,
+                                          width: 60,
+                                          decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.circular(10),
+                                            color: Colors.blue,
+                                          ),
+                                          child: Icon(
+                                            Icons.edit,
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                        onPressed: (){
+                                          Navigator.of(context)
+                                              .push(MaterialPageRoute(builder: (context) => RegisterAutoParts(autoPartInfo: snapshot.data[index],))); // ignore: missing_required_param
+                                        },
+                                      ),
+
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),],
                         );
                       },
                     );

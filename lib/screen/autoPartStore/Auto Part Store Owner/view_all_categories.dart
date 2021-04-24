@@ -1,13 +1,19 @@
+import 'package:bikersworld/screen/autoPartStore/Auto%20Part%20Store%20Owner/auto_part_dasboard.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 
 class ViewAllCategories extends StatefulWidget {
+  final partStoreId;
+  ViewAllCategories({@required this.partStoreId});
   @override
   _ViewAllCategoriesState createState() => _ViewAllCategoriesState();
 }
 
 class _ViewAllCategoriesState extends State<ViewAllCategories> {
+
+  var _dropDownItems = ['Accessories', 'Body & Frame', 'Brake & Suspension', 'Air Intake', 'Electrical & Ignition', 'Exhaust System','Engine & Engine Parts','Lighting & Indicators','Wheel & Tyres','Seating','Other','hcgchccf','hgcvhcc','ghchgc'];
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -51,8 +57,9 @@ class _ViewAllCategoriesState extends State<ViewAllCategories> {
               ),
               Container(
                 child: ListView.builder(
+                  physics: NeverScrollableScrollPhysics(),
                   shrinkWrap: true,
-                  itemCount: myProducts.length,
+                  itemCount: _dropDownItems.length,
                     itemBuilder: (context, index) {
                       return Card(
                         child: Padding(
@@ -60,9 +67,16 @@ class _ViewAllCategoriesState extends State<ViewAllCategories> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Text(myProducts[index]),
-                                Icon(
-                                  Icons.arrow_forward_ios,
+                                Text(_dropDownItems[index]),
+                                 InkWell(
+                                  onTap: (){
+                                    Navigator.of(context)
+                                        .push(MaterialPageRoute(builder: (context) =>
+                                        AutoPartDashboard(partStoreId: widget.partStoreId, category: _dropDownItems[index],)));
+                                  },
+                                  child: Icon(
+                                    Icons.arrow_forward_ios,
+                                  ),
                                 ),
                               ],
                             ),),
@@ -77,4 +91,3 @@ class _ViewAllCategoriesState extends State<ViewAllCategories> {
     );
   }
 }
-final myProducts = List<String>.generate(50, (i) => 'Category $i');

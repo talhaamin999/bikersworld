@@ -1,3 +1,4 @@
+import 'package:bikersworld/model/partstore_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -6,6 +7,8 @@ import 'package:bikersworld/widgets/rating_bar.dart';
 
 
 class AutoPartDetail extends StatefulWidget {
+  final AutoPartModel autoPartDetails;
+  AutoPartDetail({@required this.autoPartDetails});
   @override
   _AutoPartDetailState createState() => _AutoPartDetailState();
 }
@@ -51,7 +54,7 @@ class _AutoPartDetailState extends State<AutoPartDetail> {
                     .width,
                 color: Color(0xfff2f2f2),
                 child: Image(
-                  image: AssetImage("assets/helogin.jpeg",),
+                  image: NetworkImage(widget.autoPartDetails.imageURL),
                 ),
               ),
               Padding(
@@ -82,7 +85,7 @@ class _AutoPartDetailState extends State<AutoPartDetail> {
                             ),
                             SizedBox(width: 15,),
                             Text(
-                              "Wheel Bearing",
+                              widget.autoPartDetails.title,
                               style: GoogleFonts.quicksand(
                                 fontSize: 17,
                               ),
@@ -103,7 +106,7 @@ class _AutoPartDetailState extends State<AutoPartDetail> {
                             ),
                             SizedBox(width: 15,),
                             Text(
-                              "Body and frame",
+                              widget.autoPartDetails.category,
                               style: GoogleFonts.quicksand(
                                 fontSize: 17,
                               ),
@@ -124,7 +127,7 @@ class _AutoPartDetailState extends State<AutoPartDetail> {
                             ),
                             SizedBox(width: 15,),
                             Text(
-                              "Geniune",
+                              widget.autoPartDetails.type,
                               style: GoogleFonts.quicksand(
                                 fontSize: 17,
                               ),
@@ -145,7 +148,7 @@ class _AutoPartDetailState extends State<AutoPartDetail> {
                             ),
                             SizedBox(width: 15,),
                             Text(
-                              "200",
+                              widget.autoPartDetails.price.toString(),
                               style: GoogleFonts.quicksand(
                                 fontSize: 17,
                               ),

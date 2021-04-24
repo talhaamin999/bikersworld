@@ -5,7 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:bikersworld/screen/autoPartStore/Auto Part Store Owner/register_auto_parts.dart';
 import 'package:bikersworld/widgets/rating_bar.dart';
-import 'package:bikersworld/screen/autoPartStore/Auto Part Store Owner/category_list.dart';
+import 'package:bikersworld/screen/autoPartStore/Auto Part Store Owner/auto_part_dasboard.dart';
 import 'package:bikersworld/screen/autoPartStore/Auto Part Store Owner/view_all_categories.dart';
 
 
@@ -372,7 +372,7 @@ class InformationTab extends StatelessWidget {
                         ),
                         FlatButton(
                           onPressed: (){
-                            Navigator.push(context, MaterialPageRoute(builder: (context) => ViewAllCategories()));
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => ViewAllCategories(partStoreId: snapshot.data.id,)));
                           },
                           child: Text('View all',
                             style: GoogleFonts.quicksand(
@@ -404,14 +404,14 @@ class InformationTab extends StatelessWidget {
                               icon: Icon(FontAwesomeIcons.motorcycle , size: 45, color: Colors.white,),
                             ),
                             onPressed: (){
-                              Navigator.push(context, MaterialPageRoute(builder: (context) => CategoryList(category: 'Body & Frame',partStoreId: snapshot.data.id,)));
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => AutoPartDashboard(category: 'Body & Frame',partStoreId: snapshot.data.id,)));
                             },
                           ),
                           // SizedBox(width: 20.0),
                           FlatButton(
                             padding: EdgeInsets.zero,
                             onPressed: (){
-                              Navigator.push(context, MaterialPageRoute(builder: (context) => CategoryList(category: 'Brake & Suspension',partStoreId: snapshot.data.id,)));
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => AutoPartDashboard(category: 'Brake & Suspension',partStoreId: snapshot.data.id,)));
 
                             },
                             child: ActiveProjectsCard(
@@ -435,7 +435,7 @@ class InformationTab extends StatelessWidget {
                               icon: Icon(FontAwesomeIcons.bolt , size: 45, color: Colors.white,),
                             ),
                             onPressed: (){
-                              Navigator.push(context, MaterialPageRoute(builder: (context) => CategoryList(partStoreId: snapshot.data.id, category: 'Lighting & Indicators',)));
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => AutoPartDashboard(partStoreId: snapshot.data.id, category: 'Lighting & Indicators',)));
 
                             },
                           ),
@@ -443,7 +443,7 @@ class InformationTab extends StatelessWidget {
                           FlatButton(
                             padding: EdgeInsets.zero,
                             onPressed: (){
-                              Navigator.push(context, MaterialPageRoute(builder: (context) => CategoryList(partStoreId: snapshot.data.id, category: 'Air Intake',)));
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => AutoPartDashboard(partStoreId: snapshot.data.id, category: 'Air Intake',)));
 
                             },
                             child: ActiveProjectsCard(
@@ -467,7 +467,7 @@ class InformationTab extends StatelessWidget {
                               icon: Icon(FontAwesomeIcons.clock , size: 45, color: Colors.white,),
                             ),
                             onPressed: (){
-                              Navigator.push(context, MaterialPageRoute(builder: (context) => CategoryList(category: 'Engine & Engine Parts',partStoreId: snapshot.data.id,)));
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => AutoPartDashboard(category: 'Engine & Engine Parts',partStoreId: snapshot.data.id,)));
 
                             },
                           ),
@@ -475,7 +475,7 @@ class InformationTab extends StatelessWidget {
                           FlatButton(
                             padding: EdgeInsets.zero,
                             onPressed: (){
-                              Navigator.push(context, MaterialPageRoute(builder: (context) => CategoryList(partStoreId: snapshot.data.id,category: 'Exhaust System',)));
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => AutoPartDashboard(partStoreId: snapshot.data.id,category: 'Exhaust System',)));
 
                             },
                             child: ActiveProjectsCard(
