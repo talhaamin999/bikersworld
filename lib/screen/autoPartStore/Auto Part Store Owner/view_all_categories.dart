@@ -72,7 +72,7 @@ class _ViewAllCategoriesState extends State<ViewAllCategories> {
                                   onTap: (){
                                     Navigator.of(context)
                                         .push(MaterialPageRoute(builder: (context) =>
-                                        AutoPartDashboard(partStoreId: widget.partStoreId, category: _dropDownItems[index],)));
+                                        AutoPartDashboard(partStoreId: widget.partStoreId, category: _dropDownItems[index],)) );
                                   },
                                   child: Icon(
                                     Icons.arrow_forward_ios,
