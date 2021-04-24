@@ -104,7 +104,31 @@ class _autoPartStoreDashboardPageState extends State<autoPartStoreDashboardPage>
                                   ),
                                 ),
                                 onPressed:(){
+                                  showModalBottomSheet(
+                                      context: context,
+                                      builder: (BuildContext bc){
+                                        return SingleChildScrollView(
+                                          child: Container(
+                                            child: new Wrap(
+                                              children: <Widget>[
+                                                Padding(
+                                                  padding: const EdgeInsets.only(top:15, left:15),
+                                                  child: Text(
+                                                    "Working Days",
+                                                    style: GoogleFonts.quicksand(
+                                                      fontSize: 20,
+                                                      fontWeight: FontWeight.bold,
+                                                    ),
+                                                  ),
+                                                ),
 
+                                                SizedBox(height: 20,),
+                                              ],
+                                            ),
+                                          ),
+                                        );
+                                      }
+                                  );
                                 }
                               ),
                               SizedBox(width: 5,),
@@ -124,7 +148,42 @@ class _autoPartStoreDashboardPageState extends State<autoPartStoreDashboardPage>
                                   ),
                                 ),
                                   onPressed:(){
+                                    showDialog(
+                                      context: context,
+                                      builder: (_) => new AlertDialog(
+                                        title: new Text("Working hours", style: GoogleFonts.quicksand(fontSize: 18 , fontWeight:FontWeight.bold),),
+                                        content: Container(
+                                          child: Row(
+                                            children: [
+                                              Icon(
+                                                FontAwesomeIcons.clock,
+                                                color: Colors.orange,
+                                                size: 30,
+                                              ),
+                                              SizedBox(width: 10,),
 
+                                              Text(
+                                                "",
+                                                style: GoogleFonts.quicksand(
+                                                  fontSize:18,
+                                                ),
+                                              ),
+                                              SizedBox(width: 10,),
+                                              Text(
+                                                  "-"
+                                              ),
+                                              SizedBox(width: 10,),
+                                              Text(
+                                                "",
+                                                style: GoogleFonts.quicksand(
+                                                  fontSize:18,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    );
                                   }
                               ),
                             ],

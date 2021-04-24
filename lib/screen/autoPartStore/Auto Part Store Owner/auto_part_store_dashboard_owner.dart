@@ -7,6 +7,7 @@ import 'package:bikersworld/screen/autoPartStore/Auto Part Store Owner/register_
 import 'package:bikersworld/widgets/rating_bar.dart';
 import 'package:bikersworld/screen/autoPartStore/Auto Part Store Owner/auto_part_dasboard.dart';
 import 'package:bikersworld/screen/autoPartStore/Auto Part Store Owner/view_all_categories.dart';
+import 'package:bikersworld/screen/autoPartStore/Auto Part Store Owner/register_auto_part_store.dart';
 
 
 class AutoPartStoreDashboardOwner extends StatefulWidget {
@@ -69,39 +70,6 @@ class _AutoPartStoreDashboardOwnerState extends State<AutoPartStoreDashboardOwne
                       ],
                       controller: _tabController,
                     ),
-
-                    actions: [
-                      PopupMenuButton(
-                        icon: new Icon(Icons.settings,
-                            color: Colors.white),
-                        onSelected: (option){
-                        },
-                        itemBuilder: (_) =>
-                        <PopupMenuItem<userOption>>[
-                          new PopupMenuItem<userOption>(
-                            child: Container(
-                              child: Row(
-                                children: [
-                                  Icon(
-                                    FontAwesomeIcons.edit,
-                                    size: 15,
-                                    color: Colors.black,
-                                  ),
-                                  SizedBox(width: 10),
-                                  Text(
-                                    "Edit Profile",
-                                    style: GoogleFonts.quicksand(
-                                      fontSize: 16,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            value: null,
-                          ),
-                        ],
-                      ),
-                    ],
                   ),
                 ];
               },
@@ -249,106 +217,203 @@ class InformationTab extends StatelessWidget {
                       color: Colors.white,
                       width: MediaQuery.of(context).size.width - 20,
                       height: 75,
-                      child: Row(
-                        children: [
-                          FlatButton(
-                            child: Container(
-                              height: 60,
-                              width: 130,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(15),
-                                color:Colors.red,
+                      child: Padding(
+                        padding: const EdgeInsets.only(left:15,),
+                        child: Row(
+                          children: [
+                            FlatButton(
+                              child: Container(
+                                height: 60,
+                                width: 70,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(15),
+                                  color:Colors.red,
+                                ),
+                                child: Icon(
+                                FontAwesomeIcons.clock,
+                                  color: Colors.white,
+                                ),
                               ),
-                              child: Icon(
-                                Icons.calendar_today,
-                                color: Colors.white,
-                              ),
-                            ),
-                            onPressed: (){
-                              //working days
-                              showDialog(
-                                context: context,
-                                builder: (_) => new AlertDialog(
-                                  title: new Text("Working hours", style: GoogleFonts.quicksand(fontSize: 18 , fontWeight:FontWeight.bold),),
-                                  content: Container(
-                                    child: Row(
-                                      children: [
-                                        Icon(
-                                          FontAwesomeIcons.clock,
-                                          color: Colors.orange,
-                                          size: 30,
-                                        ),
-                                        SizedBox(width: 10,),
+                              onPressed: (){
+                                //working days
+                                showDialog(
+                                  context: context,
+                                  builder: (_) => new AlertDialog(
+                                    title: new Text("Working hours", style: GoogleFonts.quicksand(fontSize: 18 , fontWeight:FontWeight.bold),),
+                                    content: Container(
+                                      child: Row(
+                                        children: [
+                                          Icon(
+                                            FontAwesomeIcons.clock,
+                                            color: Colors.orange,
+                                            size: 30,
+                                          ),
+                                          SizedBox(width: 10,),
 
-                                        Text(
-                                          "",
-                                          style: GoogleFonts.quicksand(
-                                            fontSize:18,
+                                          Text(
+                                            partStoreInfo.openTime,
+                                            style: GoogleFonts.quicksand(
+                                              fontSize:18,
+                                            ),
                                           ),
-                                        ),
-                                        SizedBox(width: 10,),
-                                        Text(
-                                            "-"
-                                        ),
-                                        SizedBox(width: 10,),
-                                        Text(
-                                          "",
-                                          style: GoogleFonts.quicksand(
-                                            fontSize:18,
+                                          SizedBox(width: 10,),
+                                          Text(
+                                              "-"
                                           ),
-                                        ),
-                                      ],
+                                          SizedBox(width: 10,),
+                                          Text(
+                                              partStoreInfo.closeTime,
+                                            style: GoogleFonts.quicksand(
+                                              fontSize:18,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
                                     ),
                                   ),
-                                ),
-                              );
-                            },
-                          ),
-
-                          SizedBox(width: 10,),
-                          FlatButton(
-                            child: Container(
-                              height: 60,
-                              width: 130,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(15),
-                                color:Color(0XFF012A4A),
-                              ),
-                              child: Icon(
-                                FontAwesomeIcons.clock,
-                                color: Colors.white,
-                              ),
+                                );
+                              },
                             ),
-                            onPressed: (){
-                              // Calender
-                              showModalBottomSheet(
-                                  context: context,
-                                  builder: (BuildContext bc){
-                                    return SingleChildScrollView(
-                                      child: Container(
-                                        child: new Wrap(
-                                          children: <Widget>[
-                                            Padding(
-                                              padding: const EdgeInsets.only(top:15, left:15),
-                                              child: Text(
-                                                "Working Days",
-                                                style: GoogleFonts.quicksand(
-                                                  fontSize: 20,
-                                                  fontWeight: FontWeight.bold,
+
+                            SizedBox(width: 10,),
+                            FlatButton(
+                              child: Container(
+                                height: 60,
+                                width: 70,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(15),
+                                  color:Color(0XFF012A4A),
+                                ),
+                                child: Icon(
+                                  FontAwesomeIcons.calendar,
+                                  color: Colors.white,
+                                ),
+                              ),
+                              onPressed: (){
+                                // Calender
+                                showModalBottomSheet(
+                                    context: context,
+                                    builder: (BuildContext bc){
+                                      return SingleChildScrollView(
+                                        child: Container(
+                                          child: new Wrap(
+                                            children: <Widget>[
+                                              Padding(
+                                                padding: const EdgeInsets.only(top:15, left:15),
+                                                child: Text(
+                                                  "Working Days",
+                                                  style: GoogleFonts.quicksand(
+                                                    fontSize: 20,
+                                                    fontWeight: FontWeight.bold,
+                                                  ),
                                                 ),
                                               ),
-                                            ),
+                                              ListTile(
+                                                title: Container(
+                                                  child: Row(
+                                                    children: [
+                                                      Text("Monday", style: GoogleFonts.quicksand(fontSize: 20, ),),                                          ],
+                                                  ),
+                                                ),
+                                                leading: partStoreInfo.monday ? Icon(FontAwesomeIcons.check,color: Colors.green,) :  Icon(FontAwesomeIcons.times,color: Colors.red,
+                                                ),
 
-                                            SizedBox(height: 20,),
-                                          ],
+                                              ),
+                                              ListTile(
+                                                title: Container(
+                                                  child: Row(
+                                                    children: [
+                                                      Text("Tuesday", style: GoogleFonts.quicksand(fontSize: 20, ),),
+                                                    ],
+                                                  ),
+                                                ),
+                                                leading: partStoreInfo.tuesday ? Icon(FontAwesomeIcons.check,color: Colors.green,) :  Icon(FontAwesomeIcons.times,color: Colors.red,),
+                                              ),
+                                              ListTile(
+                                                title: Container(
+                                                  child: Row(
+                                                    children: [
+                                                      Text("Wednesday", style: GoogleFonts.quicksand(fontSize: 20, ),),
+                                                    ],
+                                                  ),
+                                                ),
+                                                leading: partStoreInfo.wednesday ? Icon(FontAwesomeIcons.check,color: Colors.green,) :  Icon(FontAwesomeIcons.times,color: Colors.red,),
+
+                                              ),
+                                              ListTile(
+                                                title: Container(
+                                                  child: Row(
+                                                    children: [
+                                                      Text("Thursday", style: GoogleFonts.quicksand(fontSize: 20, ),),
+
+                                                    ],
+                                                  ),
+                                                ),
+
+                                                leading: partStoreInfo.thursday ? Icon(FontAwesomeIcons.check,color: Colors.green,) :  Icon(FontAwesomeIcons.times,color: Colors.red,),
+                                              ),
+                                              ListTile(
+                                                title: Container(
+                                                  child: Row(
+                                                    children: [
+                                                      Text("Friday", style: GoogleFonts.quicksand(fontSize: 20, ),),
+                                                    ],
+                                                  ),
+                                                ),
+                                                leading: partStoreInfo.friday ? Icon(FontAwesomeIcons.check,color: Colors.green,) :  Icon(FontAwesomeIcons.times,color: Colors.red,),
+
+                                              ),
+                                              ListTile(
+                                                title: Container(
+                                                  child: Row(
+                                                    children: [
+                                                      Text("Saturday", style: GoogleFonts.quicksand(fontSize: 20, ),),
+                                                    ],
+                                                  ),
+                                                ),
+                                                leading: partStoreInfo.saturday ? Icon(FontAwesomeIcons.check,color: Colors.green,) :  Icon(FontAwesomeIcons.times,color: Colors.red,),
+
+                                              ),
+                                              ListTile(
+                                                title: Container(
+                                                  child: Row(
+                                                    children: [
+                                                      Text("Sunday", style: GoogleFonts.quicksand(fontSize: 20, ),),
+                                                    ],
+                                                  ),
+                                                ),
+
+                                                leading: partStoreInfo.sunday ? Icon(FontAwesomeIcons.check,color: Colors.green,) :  Icon(FontAwesomeIcons.times,color: Colors.red,),
+                                              ),
+
+                                              SizedBox(height: 20,),
+                                            ],
+                                          ),
                                         ),
-                                      ),
-                                    );
-                                  }
-                              );
-                            },
-                          ),
-                        ],
+                                      );
+                                    }
+                                );
+                              },
+                            ),
+                            FlatButton(
+                              child: Container(
+                                height: 60,
+                                width: 70,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(15),
+                                  color:Colors.orange,
+                                ),
+                                child: Icon(
+                                  Icons.settings,
+                                  color: Colors.white,
+                                ),
+                              ),
+                              onPressed: (){
+                                Navigator.of(context).push(MaterialPageRoute(builder: (context) => RegisterAutoPartStore(storeDetails:partStoreInfo,)));
+                              },
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),
