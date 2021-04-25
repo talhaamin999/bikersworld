@@ -17,12 +17,13 @@ bool monday=false,tuesday=false,wednesday=false,thursday=false,friday=false,satu
 String openTime = '7:15 am',closeTime = '8:00 pm';
 
 class RegisterAutoPartStore extends StatefulWidget {
+  final PartstoreDashboardModel storeDetails;
+  RegisterAutoPartStore({@required this.storeDetails});
   @override
   _RegisterAutoPartStoreState createState() => _RegisterAutoPartStoreState();
 }
 
 class _RegisterAutoPartStoreState extends State<RegisterAutoPartStore> {
-  int currentIndex;
 
   final _formKey = GlobalKey<FormState>();
   final _shopTitleController = TextEditingController();
@@ -38,14 +39,25 @@ class _RegisterAutoPartStoreState extends State<RegisterAutoPartStore> {
 
   @override
   void initState() {
+    mapValues();
     super.initState();
-    currentIndex = 0;
   }
 
-  changePage(int index) {
-    setState(() {
-      currentIndex = index;
-    });
+  void mapValues(){
+    if(widget.storeDetails != null){
+      _shopTitleController.text = widget.storeDetails.shopTitle;
+      _shopAdressController.text = widget.storeDetails.area;
+      _shopCityController.text = widget.storeDetails.city;
+      _ownerNameController.text = widget.storeDetails.ownerName;
+      _ownerContactController.text = widget.storeDetails.ownerContact;
+      monday = widget.storeDetails.monday;
+      tuesday = widget.storeDetails.tuesday;
+      wednesday = widget.storeDetails.wednesday;
+      thursday = widget.storeDetails.thursday;
+      friday = widget.storeDetails.friday;
+      saturday = widget.storeDetails.saturday;
+      sunday = widget.storeDetails.sunday;
+    }
   }
 
   void clear(){

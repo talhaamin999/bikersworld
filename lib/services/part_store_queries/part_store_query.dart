@@ -51,7 +51,7 @@ class RegisterPartStoreQueries {
             .then((doc) => PartstoreDashboardModel.fromJson(doc.data(), doc.reference.id));
       }
       else{
-        return null;
+        _error.errorToastMessage(errorMessage: "You'r not Logged In");
       }
     } catch (e) {
       _error.errorToastMessage(errorMessage: e.toString());

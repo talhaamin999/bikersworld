@@ -7,60 +7,15 @@ import 'package:bikersworld/screen/autoPartStore/Auto Part Store Owner/register_
 import 'package:bikersworld/widgets/rating_bar.dart';
 import 'package:bikersworld/screen/autoPartStore/Auto Part Store Owner/auto_part_dasboard.dart';
 import 'package:bikersworld/screen/autoPartStore/Auto Part Store Owner/view_all_categories.dart';
-import 'package:bikersworld/screen/workshop/edit_workshop_profile.dart';
 
 
 class AutoPartStoreDashboardOwner extends StatefulWidget {
   @override
   _AutoPartStoreDashboardOwnerState createState() => _AutoPartStoreDashboardOwnerState();
 }
+
 final _autoStore = RegisterPartStoreQueries();
-
-
-
 enum userOption{editProfile, workshopWorkingDays, workshopTiming}
-
-Future<void> navigateToOtherScreen(userOption option) async{
-  if(option == userOption.workshopWorkingDays) {
-    var context;
-    showDialog(
-      context: context,
-      builder: (_) => new AlertDialog(
-        title: new Text("Working hours", style: GoogleFonts.quicksand(fontSize: 18 , fontWeight:FontWeight.bold),),
-        content: Container(
-          child: Row(
-            children: [
-              Icon(
-                FontAwesomeIcons.clock,
-                color: Colors.orange,
-                size: 30,
-              ),
-              SizedBox(width: 10,),
-
-              Text(
-                "Time form",
-                style: GoogleFonts.quicksand(
-                  fontSize:18,
-                ),
-              ),
-              SizedBox(width: 10,),
-              Text(
-                  "-"
-              ),
-              SizedBox(width: 10,),
-              Text(
-                "Time till",
-                style: GoogleFonts.quicksand(
-                  fontSize:18,
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
 
 class _AutoPartStoreDashboardOwnerState extends State<AutoPartStoreDashboardOwner>
     with SingleTickerProviderStateMixin {
@@ -84,90 +39,99 @@ class _AutoPartStoreDashboardOwnerState extends State<AutoPartStoreDashboardOwne
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: NestedScrollView(
-        controller: _scrollViewController,
-        headerSliverBuilder: (BuildContext context, bool boxIsScrolled) {
-          return <Widget>[
-            SliverAppBar(
-              backgroundColor: Color(0XFF012A4A),
-              title: Text('Bikers World',
-                style: GoogleFonts.quicksand(
-                    fontSize: 20,
+      body: FutureBuilder(
+        future: _autoStore.getPartStore(),
+        builder: (BuildContext context, AsyncSnapshot<PartstoreDashboardModel> snapshot){
+          if(snapshot.hasData && snapshot.data != null){
+            return NestedScrollView(
+              controller: _scrollViewController,
+              headerSliverBuilder: (BuildContext context, bool boxIsScrolled) {
+                return <Widget>[
+                  SliverAppBar(
+                    backgroundColor: Color(0XFF012A4A),
+                    title: Text('Bikers World',
+                      style: GoogleFonts.quicksand(
+                        fontSize: 20,
 
-                ),
-              ),
-              pinned: true,
-              floating: true,
-              forceElevated: boxIsScrolled,
-              bottom: TabBar(
-                tabs: <Widget>[
-                  Tab(
-                    text: "Information",
+                      ),
+                    ),
+                    pinned: true,
+                    floating: true,
+                    forceElevated: boxIsScrolled,
+                    bottom: TabBar(
+                      tabs: <Widget>[
+                        Tab(
+                          text: "Information",
+                        ),
+                        Tab(
+                          text: "Reviews",
+                        ),
+                      ],
+                      controller: _tabController,
+                    ),
+
+                    actions: [
+                      PopupMenuButton(
+                        icon: new Icon(Icons.settings,
+                            color: Colors.white),
+                        onSelected: (option){
+                        },
+                        itemBuilder: (_) =>
+                        <PopupMenuItem<userOption>>[
+                          new PopupMenuItem<userOption>(
+                            child: Container(
+                              child: Row(
+                                children: [
+                                  Icon(
+                                    FontAwesomeIcons.edit,
+                                    size: 15,
+                                    color: Colors.black,
+                                  ),
+                                  SizedBox(width: 10),
+                                  Text(
+                                    "Edit Profile",
+                                    style: GoogleFonts.quicksand(
+                                      fontSize: 16,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            value: null,
+                          ),
+                        ],
+                      ),
+                    ],
                   ),
-                  Tab(
-                    text: "Reviews",
-                  ),
+                ];
+              },
+              body: TabBarView(
+                children: <Widget>[
+                  InformationTab(partStoreInfo: snapshot.data,),
+                  ReviewsTab(),
                 ],
                 controller: _tabController,
               ),
-
-              actions: [
-                PopupMenuButton(
-                  icon: new Icon(Icons.settings,
-                      color: Colors.white),
-                  onSelected: (option){
-
-                  },
-                  itemBuilder: (_) =>
-                  <PopupMenuItem<userOption>>[
-                    new PopupMenuItem<userOption>(
-                      child: Container(
-                        child: Row(
-                          children: [
-                            Icon(
-                              FontAwesomeIcons.edit,
-                              size: 15,
-                              color: Colors.black,
-                            ),
-                            SizedBox(width: 10),
-                            Text(
-                              "Edit Profile",
-                              style: GoogleFonts.quicksand(
-                                fontSize: 16,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      value: null,
-                    ),
-                  ],
-                ),
-              ],
-            ),
-
-          ];
+            );
+          }
+          else if(snapshot.hasData && snapshot.data == null){
+            return Center(child: Text("You Don't have A PartStore Registered"));
+          }
+          else if(snapshot.hasError){
+            return Center(child: Text(snapshot.error.toString()));
+          }
+          return Center(child: CircularProgressIndicator());
         },
-        body: TabBarView(
-          children: <Widget>[
-            InformationTab(),
-            ReviewsTab(),
-          ],
-          controller: _tabController,
-        ),
       ),
     );
   }
 }
-
 class InformationTab extends StatelessWidget {
+  final PartstoreDashboardModel partStoreInfo;
+  InformationTab({@required this.partStoreInfo});
   @override
   Widget build(BuildContext context) {
-    return  FutureBuilder(
-      future: _autoStore.getPartStore(),
-      builder: (BuildContext context, AsyncSnapshot<PartstoreDashboardModel> snapshot){
-        if(snapshot.hasData && snapshot.data != null){
-          return SingleChildScrollView(
+    return SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
@@ -206,7 +170,7 @@ class InformationTab extends StatelessWidget {
                                     Padding(
                                       padding: const EdgeInsets.only(top:8.0),
                                       child: Text(
-                                        snapshot.data.shopTitle,
+                                        partStoreInfo.shopTitle,
                                         style: GoogleFonts.raleway(
                                           color: Colors.white70,
                                           fontSize: 25,
@@ -223,7 +187,7 @@ class InformationTab extends StatelessWidget {
                                           Padding(
                                             padding: const EdgeInsets.only(top:8.0),
                                             child: Text(
-                                              snapshot.data.ownerName,
+                                              partStoreInfo.ownerName,
                                               style: GoogleFonts.raleway(
                                                 color: Colors.white70,
                                                 fontSize: 18,
@@ -242,7 +206,7 @@ class InformationTab extends StatelessWidget {
                                           Padding(
                                             padding: const EdgeInsets.only(top:8.0),
                                             child: Text(
-                                              snapshot.data.city,
+                                              partStoreInfo.city,
                                               style: GoogleFonts.raleway(
                                                 color: Colors.white70,
                                                 fontSize: 18,
@@ -404,7 +368,7 @@ class InformationTab extends StatelessWidget {
                   padding: const EdgeInsets.only(left:5,right: 5,top: 10),
                   child: FlatButton(
                     onPressed: (){
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => RegisterAutoParts(partStoreId: snapshot.data.id,)));
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => RegisterAutoParts(partStoreId: partStoreInfo.id,)));
                     },
                     child: Card(
                       shape: RoundedRectangleBorder(
@@ -458,7 +422,7 @@ class InformationTab extends StatelessWidget {
                         ),
                         FlatButton(
                           onPressed: (){
-                            Navigator.push(context, MaterialPageRoute(builder: (context) => ViewAllCategories(partStoreId: snapshot.data.id,)));
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => ViewAllCategories(partStoreId: partStoreInfo.id,)));
                           },
                           child: Text('View all',
                             style: GoogleFonts.quicksand(
@@ -490,14 +454,14 @@ class InformationTab extends StatelessWidget {
                               icon: Icon(FontAwesomeIcons.motorcycle , size: 45, color: Colors.white,),
                             ),
                             onPressed: (){
-                              Navigator.push(context, MaterialPageRoute(builder: (context) => AutoPartDashboard(category: 'Body & Frame',partStoreId: snapshot.data.id,)));
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => AutoPartDashboard(category: 'Body & Frame',partStoreId: partStoreInfo.id,)));
                             },
                           ),
                           // SizedBox(width: 20.0),
                           FlatButton(
                             padding: EdgeInsets.zero,
                             onPressed: (){
-                              Navigator.push(context, MaterialPageRoute(builder: (context) => AutoPartDashboard(category: 'Brake & Suspension',partStoreId: snapshot.data.id,)));
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => AutoPartDashboard(category: 'Brake & Suspension',partStoreId: partStoreInfo.id,)));
 
                             },
                             child: ActiveProjectsCard(
@@ -521,7 +485,7 @@ class InformationTab extends StatelessWidget {
                               icon: Icon(FontAwesomeIcons.bolt , size: 45, color: Colors.white,),
                             ),
                             onPressed: (){
-                              Navigator.push(context, MaterialPageRoute(builder: (context) => AutoPartDashboard(partStoreId: snapshot.data.id, category: 'Lighting & Indicators',)));
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => AutoPartDashboard(partStoreId: partStoreInfo.id, category: 'Lighting & Indicators',)));
 
                             },
                           ),
@@ -529,7 +493,7 @@ class InformationTab extends StatelessWidget {
                           FlatButton(
                             padding: EdgeInsets.zero,
                             onPressed: (){
-                              Navigator.push(context, MaterialPageRoute(builder: (context) => AutoPartDashboard(partStoreId: snapshot.data.id, category: 'Air Intake',)));
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => AutoPartDashboard(partStoreId: partStoreInfo.id, category: 'Air Intake',)));
 
                             },
                             child: ActiveProjectsCard(
@@ -553,7 +517,7 @@ class InformationTab extends StatelessWidget {
                               icon: Icon(FontAwesomeIcons.clock , size: 45, color: Colors.white,),
                             ),
                             onPressed: (){
-                              Navigator.push(context, MaterialPageRoute(builder: (context) => AutoPartDashboard(category: 'Engine & Engine Parts',partStoreId: snapshot.data.id,)));
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => AutoPartDashboard(category: 'Engine & Engine Parts',partStoreId: partStoreInfo.id,)));
 
                             },
                           ),
@@ -561,7 +525,7 @@ class InformationTab extends StatelessWidget {
                           FlatButton(
                             padding: EdgeInsets.zero,
                             onPressed: (){
-                              Navigator.push(context, MaterialPageRoute(builder: (context) => AutoPartDashboard(partStoreId: snapshot.data.id,category: 'Exhaust System',)));
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => AutoPartDashboard(partStoreId: partStoreInfo.id,category: 'Exhaust System',)));
 
                             },
                             child: ActiveProjectsCard(
@@ -579,21 +543,8 @@ class InformationTab extends StatelessWidget {
               ],
             ),
           );
-        }
-        else if(snapshot.data == null){
-          return Center(child: Text('You are not logged In'));
-        }
-        else if(!snapshot.hasData){
-          return Center(child: Text("You Don't have A PartStore Registered"));
-        }
-        else if(snapshot.hasError){
-          return Center(child: Text(snapshot.error.toString()));
-        }
-        return Center(child: CircularProgressIndicator());
-      },
-    );
+    }
   }
-}
 
 class ReviewsTab extends StatelessWidget {
   @override
