@@ -59,7 +59,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
           context, MaterialPageRoute(builder: (context) => WelcomePage()));
     }else if(option == userOption.partStore){
       Navigator.push(
-          context, MaterialPageRoute(builder: (context) => autoPartStoreDashboardPage()));
+          context, MaterialPageRoute(builder: (context) => AutoPartStoreDashboardPage()));
     }
   }
   void setUser() {

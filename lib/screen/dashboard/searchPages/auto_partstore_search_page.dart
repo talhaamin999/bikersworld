@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:auto_size_text/auto_size_text.dart';
-
+import 'package:bikersworld/screen/autoPartStore/Auto Part Store Normal User/autoPartStoreDashboard.dart';
 class AutoPartStoreSearchPage extends StatefulWidget {
   @override
   _AutoPartStoreSearchPageState createState() => _AutoPartStoreSearchPageState();
@@ -209,8 +209,7 @@ class _AutoPartStoreSearchPageState extends State<AutoPartStoreSearchPage> {
                               padding: const EdgeInsets.only(bottom: 15),
                               child: FlatButton(
                                 onPressed:(){
-                                  // Navigator.push(context, MaterialPageRoute( builder: (context) => NormalUserWorkshopDashboard(workshopData: snapshot.data[index],),),
-                                  //);
+                                  Navigator.of(context).push(MaterialPageRoute(builder: (context) => AutoPartStoreDashboardPage()));
                                 },
                                 child: Card(
                                   color: Color(0xfff7f7f7),

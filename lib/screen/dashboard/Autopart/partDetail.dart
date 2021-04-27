@@ -379,7 +379,7 @@ class partDetail extends StatelessWidget {
 
               FlatButton(
                 onPressed: (){
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => autoPartStoreDashboardPage()));
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => AutoPartStoreDashboardPage()));
                 },
                 child: Container(
                   margin: EdgeInsets.only(top: 20),

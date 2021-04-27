@@ -5,12 +5,12 @@ import 'package:simple_animations/simple_animations.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:bikersworld/widgets/rating_bar.dart';
 import 'package:bikersworld/screen/autoPartStore/Auto Part Store Normal User/reviews_auto_part_form.dart';
-class autoPartStoreDashboardPage extends StatefulWidget {
+class AutoPartStoreDashboardPage extends StatefulWidget {
   @override
-  _autoPartStoreDashboardPageState createState() => _autoPartStoreDashboardPageState();
+  _AutoPartStoreDashboardPageState createState() => _AutoPartStoreDashboardPageState();
 }
 
-class _autoPartStoreDashboardPageState extends State<autoPartStoreDashboardPage> {
+class _AutoPartStoreDashboardPageState extends State<AutoPartStoreDashboardPage> {
   bool isVisible = false,_isButtonVisible = true;
 
   @override
