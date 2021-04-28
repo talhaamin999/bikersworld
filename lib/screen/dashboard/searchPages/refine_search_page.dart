@@ -8,7 +8,9 @@ import 'package:bikersworld/widgets/city_dropdown.dart';
 class RefineRearchPage extends StatefulWidget {
   final String workshopSearchFilter;
   final String workshopServiceSearchFilter;
-  RefineRearchPage({this.workshopSearchFilter,this.workshopServiceSearchFilter});
+  final String partStoreSearchFilter;
+  final String partStoreServiceSearchFilter;
+  RefineRearchPage({this.workshopSearchFilter,this.workshopServiceSearchFilter,this.partStoreSearchFilter,this.partStoreServiceSearchFilter});
   @override
   _RefineRearchPageState createState() => _RefineRearchPageState();
 }

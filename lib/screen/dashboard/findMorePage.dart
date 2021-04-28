@@ -71,7 +71,7 @@ class _findMoreState extends State<findMore> {
                           ),
                         ),
                         onPressed: (){
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => autoPartStoreSearchPage()));
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => AutoPartStoreSearchPage()));
                         },
                       ),
                       SizedBox(height: 20,),

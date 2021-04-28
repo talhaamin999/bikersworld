@@ -11,6 +11,10 @@ class CityDropDown extends StatefulWidget {
 
 class _CityDropDownState extends State<CityDropDown> {
   @override
+  void initState() {
+    super.initState();
+  }
+  @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only( top:10,right: 0),
@@ -22,7 +26,6 @@ class _CityDropDownState extends State<CityDropDown> {
               validator: (v) => v == null ? "required field" : null,
               hint: "Select your city",
               searchBoxDecoration: InputDecoration(
-
               ),
               showSelectedItem: true,
               items: ['Karachi','Lahore','Faisalabad','Rawalpindi',"islamabad",'Gujranwala','Peshawar',"Multan",'Hyderabad',

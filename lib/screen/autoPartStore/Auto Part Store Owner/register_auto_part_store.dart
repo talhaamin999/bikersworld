@@ -43,8 +43,8 @@ class _RegisterAutoPartStoreState extends State<RegisterAutoPartStore> {
     super.initState();
   }
 
-  void mapValues(){
-    if(widget.storeDetails != null){
+  void mapValues() {
+    if (widget.storeDetails != null) {
       _shopTitleController.text = widget.storeDetails.shopTitle;
       _shopAdressController.text = widget.storeDetails.area;
       _shopCityController.text = widget.storeDetails.city;
@@ -60,20 +60,21 @@ class _RegisterAutoPartStoreState extends State<RegisterAutoPartStore> {
     }
   }
 
-  void clear(){
+  void clear() {
     _shopTitleController.clear();
     _shopAdressController.clear();
     _shopCityController.clear();
     _ownerNameController.clear();
     _ownerContactController.clear();
-    monday=false;
-    tuesday=false;
-    wednesday=false;
-    thursday=false;
-    friday=false;
-    saturday=false;
-    sunday=false;
+    monday = false;
+    tuesday = false;
+    wednesday = false;
+    thursday = false;
+    friday = false;
+    saturday = false;
+    sunday = false;
   }
+
   @override
   void dispose() {
     clear();
@@ -84,13 +85,14 @@ class _RegisterAutoPartStoreState extends State<RegisterAutoPartStore> {
     super.dispose();
   }
 
-  void checkFormState(){
-    if(!_formKey.currentState.validate()){
+  void checkFormState() {
+    if (!_formKey.currentState.validate()) {
       return;
     }
     validateFields();
   }
-  void validateFields(){
+
+  void validateFields() {
     try {
       if (!_validateShop.validateShopTitle(_shopTitleController.text.trim()) &&
           !_validateShop.validateShopCity(_shopCityController.text.trim()) &&
@@ -101,11 +103,13 @@ class _RegisterAutoPartStoreState extends State<RegisterAutoPartStore> {
         _error.errorToastMessage(
             errorMessage: "You Need To Enter Valid Data in every Fields");
       }
-      else if (!_validateShop.validateShopTitle(_shopTitleController.text.trim())) {
+      else
+      if (!_validateShop.validateShopTitle(_shopTitleController.text.trim())) {
         _error.errorToastMessage(
             errorMessage: "You Need To Enter Valid Shop Title");
       }
-      else if (!_validateShop.validateShopCity(_shopCityController.text.trim())) {
+      else
+      if (!_validateShop.validateShopCity(_shopCityController.text.trim())) {
         _error.errorToastMessage(
             errorMessage: "You Need To Enter Valid City Name");
       }
@@ -114,7 +118,8 @@ class _RegisterAutoPartStoreState extends State<RegisterAutoPartStore> {
         _error.errorToastMessage(
             errorMessage: "You Need To Enter Valid Specific Area Title");
       }
-      else if (!_validateShop.validateOwnerName(_ownerNameController.text.trim())) {
+      else
+      if (!_validateShop.validateOwnerName(_ownerNameController.text.trim())) {
         _error.errorToastMessage(
             errorMessage: "You Need To Enter Valid Owner Name");
       }
@@ -127,58 +132,68 @@ class _RegisterAutoPartStoreState extends State<RegisterAutoPartStore> {
           !saturday && !sunday) {
         _error.errorToastMessage(errorMessage: "Working days not selected");
       }
-      else{
+      else {
         setState(() {
           _isButtonVisible = false;
         });
+        print("hello");
         registerPartStore();
       }
-    }catch(e){
+    } catch (e) {
       _error.errorToastMessage(errorMessage: e.toString());
     }
   }
+
   Future<void> registerPartStore() async {
     try {
-      final _data = PartstoreDashboardModel(shopTitle: _shopTitleController.text,city: _shopCityController.text,area: _shopAdressController.text,openTime: openTime,closeTime: closeTime, ownerName: _ownerNameController.text,ownerContact: _ownerContactController.text,monday: monday,tuesday: tuesday,wednesday: wednesday,thursday: thursday,friday: friday,saturday: saturday,sunday: sunday,imageURL: imageUrl);
+      final _data = PartstoreDashboardModel(
+          shopTitle: _shopTitleController.text,
+          city: _shopCityController.text,
+          area: _shopAdressController.text,
+          openTime: openTime,
+          closeTime: closeTime,
+          ownerName: _ownerNameController.text,
+          ownerContact: _ownerContactController.text,
+          monday: monday,
+          tuesday: tuesday,
+          wednesday: wednesday,
+          thursday: thursday,
+          friday: friday,
+          saturday: saturday,
+          sunday: sunday,
+          imageURL: imageUrl);
       final register = RegisterPartStoreQueries();
-      await register.registerPartStore(_data);
-      if(register.resultMessage == "PartStore Successfully Registered"){
+      bool result = await register.registerPartStore(_data);
+      if (result) {
         clear();
-        _valid.validToastMessage(validMessage: register.resultMessage);
+        if (widget.storeDetails != null) {
+          _valid.validToastMessage(
+              validMessage: 'PartStore Information Successfully Updated');
+        } else {
+          _valid.validToastMessage(
+              validMessage: 'PartStore Successfully Registered');
+        }
         setState(() {
           _isButtonVisible = true;
         });
         Future.delayed(
-          new Duration(seconds: 2),
-              (){
+          new Duration(seconds: 1),
+              () {
             Navigator.of(this.context)
-                .push(MaterialPageRoute(builder: (context) => AutoPartStoreDashboardOwner())
+                .push(MaterialPageRoute(
+                builder: (context) => AutoPartStoreDashboardOwner())
             );
           },
         );
       }
-      else if(register.resultMessage == register.roleErrorMessage){
-        _error.errorToastMessage(errorMessage: register.resultMessage);
-        setState(() {
-          _isButtonVisible = true;
-        });
-        Future.delayed(
-          new Duration(seconds: 2),
-              (){
-            Navigator.of(this.context)
-                .push(MaterialPageRoute(builder: (context) => GenericOptionScreen())
-            );
-          },
-        );
-      }
-    }catch(e){
+    } catch (e) {
       _error.errorToastMessage(errorMessage: e.toString());
-    }finally{
+    } finally {
       setState(() {
         _isButtonVisible = true;
       });
     }
- }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -221,12 +236,20 @@ class _RegisterAutoPartStoreState extends State<RegisterAutoPartStore> {
                       SizedBox(height: 20),
                       Center(
                         child: Container(
-                          width: MediaQuery.of(context).size.width - 30,
+                          width: MediaQuery
+                              .of(context)
+                              .size
+                              .width - 30,
                           height: 60,
                           child: RaisedButton(
-                            onPressed: _isButtonVisible ? () => {checkFormState()} : null,
+                            onPressed: _isButtonVisible ? () =>
+                            {
+                              checkFormState()
+                            } : null,
                             child: Text(
-                              'Register',
+                              widget.storeDetails != null
+                                  ? 'Update'
+                                  : 'Register',
                               style: GoogleFonts.krub(
                                 fontSize: 20,
                                 color: Colors.white,
@@ -253,41 +276,15 @@ class _RegisterAutoPartStoreState extends State<RegisterAutoPartStore> {
     );
   }
 
-/*
-Widget _entryField(String title, {bool isPassword = false})
-{
-  return Container(
-    margin: EdgeInsets.symmetric(vertical: 10),
-    child: Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        Text(
-            title,
-            style: GoogleFonts.quicksand(
-              fontSize: 18,
-            )
-        ),
-        SizedBox(
-          height: 10,
-        ),
-        TextField(
-          decoration: InputDecoration(
-            border: InputBorder.none,
-            fillColor: Color(0xffe3e3e3),
-            filled: true,
-          ),
-        ),
-      ],
-    ),
-  );
-}
-*/
   Widget _registerWorkshopWidget() {
     return Form(
       key: _formKey,
       child: Column(
         children: <Widget>[
-          EntryField(title: 'Shop Name',controller: _shopTitleController, filter: FilteringTextInputFormatter.allow(RegExp("[a-zA-Z ]")), inputType: TextInputType.text,),
+          EntryField(title: 'Shop Name',
+            controller: _shopTitleController,
+            filter: FilteringTextInputFormatter.allow(RegExp("[a-zA-Z ]")),
+            inputType: TextInputType.text,),
           SizedBox(height: 5,),
           Container(
             alignment: Alignment.bottomLeft,
@@ -301,7 +298,11 @@ Widget _entryField(String title, {bool isPassword = false})
           SizedBox(height: 5,),
           CityDropDown(controller: _shopCityController,),
           SizedBox(height: 5,),
-          EntryField(title: 'Shop Address',controller: _shopAdressController, filter: FilteringTextInputFormatter.allow(RegExp(r'^(?!\s*$)[a-zA-Z0-9-#,/ ]{1,30}$')), inputType: TextInputType.text,),
+          EntryField(title: 'Shop Address',
+            controller: _shopAdressController,
+            filter: FilteringTextInputFormatter.allow(
+                RegExp(r'^(?!\s*$)[a-zA-Z0-9-#,/ ]{1,30}$')),
+            inputType: TextInputType.text,),
           SizedBox(height: 15,),
           Container(
             child: Text(
@@ -385,7 +386,8 @@ Widget _entryField(String title, {bool isPassword = false})
                   ),
                 ),
 
-                Text('Store Status', style: GoogleFonts.quicksand(fontSize: 15),),
+                Text(
+                  'Store Status', style: GoogleFonts.quicksand(fontSize: 15),),
                 Expanded(
                   child: Padding(
                     padding: EdgeInsets.symmetric(horizontal: 10),
@@ -403,36 +405,40 @@ Widget _entryField(String title, {bool isPassword = false})
 
           ),
 
-          EntryField(title: 'Owner Name',controller: _ownerNameController, filter: FilteringTextInputFormatter.allow(RegExp("[a-zA-Z ]")), inputType: TextInputType.text,),
-          EntryField(title: 'Owner Contact',controller: _ownerContactController, filter: FilteringTextInputFormatter.digitsOnly, inputType: TextInputType.number,),
+          EntryField(title: 'Owner Name',
+            controller: _ownerNameController,
+            filter: FilteringTextInputFormatter.allow(RegExp("[a-zA-Z ]")),
+            inputType: TextInputType.text,),
+          EntryField(title: 'Owner Contact',
+            controller: _ownerContactController,
+            filter: FilteringTextInputFormatter.digitsOnly,
+            inputType: TextInputType.number,),
         ],
       ),
     );
   }
-}
-Widget _title() {
-  return RichText(
-    textAlign: TextAlign.start,
-    text: TextSpan(
-        text: 'Register',
-        style: GoogleFonts.quicksand(
-          fontSize: 30,
-          color: Color(0xfff7892b),
-        ),
-        children: [
-          TextSpan(
-              text: ' Part Store',
-              style: GoogleFonts.quicksand(
-                fontSize: 30,
-                color: Colors.black,
-              )
+
+  Widget _title() {
+    return RichText(
+      textAlign: TextAlign.start,
+      text: TextSpan(
+          text: widget.storeDetails != null ? 'Update' : 'Register',
+          style: GoogleFonts.quicksand(
+            fontSize: 30,
+            color: Color(0xfff7892b),
           ),
-        ]),
-  );
+          children: [
+            TextSpan(
+                text: ' Part Store',
+                style: GoogleFonts.quicksand(
+                  fontSize: 30,
+                  color: Colors.black,
+                )
+            ),
+          ]),
+    );
+  }
 }
-
-
-
 class TimePicker extends StatefulWidget {
   final String time;
   TimePicker({this.time});

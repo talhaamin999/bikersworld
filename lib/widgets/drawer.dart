@@ -383,7 +383,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
                     trailing: Icon(Icons.arrow_forward_ios, size: 15.0,),
                     onTap: () {
                       Navigator.push(context, MaterialPageRoute(
-                          builder: (context) => autoPartStoreSearchPage()));
+                          builder: (context) => AutoPartStoreSearchPage()));
                     },
 
                   ),
@@ -658,7 +658,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
                     trailing: Icon(Icons.arrow_forward_ios, size: 15.0,),
                     onTap: () {
                       Navigator.push(context, MaterialPageRoute(
-                          builder: (context) => autoPartStoreSearchPage()));
+                          builder: (context) => AutoPartStoreSearchPage()));
                     },
 
                   ),
