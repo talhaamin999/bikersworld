@@ -135,7 +135,7 @@ class _RefineRearchPageState extends State<RefineRearchPage> {
                       ),
                       SizedBox(width: 20,),
                       Text(
-                        "Type",
+                        "Part Type",
                         style: GoogleFonts.quicksand(
                           fontSize: 16,
                         ),
