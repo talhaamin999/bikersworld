@@ -79,12 +79,14 @@ class AutoPartModel{
   final String imageURL;
   final String partStoreId;
   final String docId;
+  final String partStoreCity;
 
-  AutoPartModel({@required this.title,@required this.category,@required this.price,@required this.type ,@required this.imageURL,@required this.partStoreId,this.docId});
+  AutoPartModel({@required this.title,@required this.category,@required this.price,@required this.type ,@required this.imageURL,@required this.partStoreId,this.docId,@required this.partStoreCity});
 
   factory AutoPartModel.fromJson(Map<String, dynamic> json,String id){
     return AutoPartModel(
       docId: id,
+      partStoreCity: json['partStore_city'],
       imageURL: json['image'],
       title: json['title'],
       category: json['category'],
@@ -98,6 +100,7 @@ class AutoPartModel{
       'title': title,
       'category': category,
       'type' : type,
+      'partStore_city': partStoreCity,
       'image' : imageURL,
       'price': price,
       'partStoreId': partStoreId,

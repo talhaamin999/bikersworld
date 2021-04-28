@@ -13,7 +13,8 @@ import 'dart:io';
 class RegisterAutoParts extends StatefulWidget {
   final String partStoreId;
   final AutoPartModel autoPartInfo;
-  RegisterAutoParts({@required this.partStoreId,this.autoPartInfo});
+  final String partStoreCity;
+  RegisterAutoParts({@required this.partStoreId,this.autoPartInfo,@required this.partStoreCity});
   @override
   _RegisterAutoPartsState createState() => _RegisterAutoPartsState();
 }
@@ -93,6 +94,7 @@ class _RegisterAutoPartsState extends State<RegisterAutoParts> {
            final data = AutoPartModel(title: _titleController.text.trim(),
                price: price,
                category: dropDownCategoryValue,
+               partStoreCity: widget.partStoreCity,
                type: dropDownTypeValue,
                imageURL: imageUrl,
                partStoreId: widget.partStoreId);
@@ -119,6 +121,7 @@ class _RegisterAutoPartsState extends State<RegisterAutoParts> {
            price: price,
            category: dropDownCategoryValue,
            docId: widget.autoPartInfo.docId,
+           partStoreCity: widget.autoPartInfo.partStoreCity,
            type: dropDownTypeValue,
            imageURL: widget.autoPartInfo.imageURL,
            partStoreId: widget.autoPartInfo.partStoreId);
@@ -143,6 +146,7 @@ class _RegisterAutoPartsState extends State<RegisterAutoParts> {
          if(imageUrl != null){
          final data = AutoPartModel(title: _titleController.text.trim(),
              price: price,
+             partStoreCity: widget.autoPartInfo.partStoreCity,
              docId: widget.autoPartInfo.docId,
              category: dropDownCategoryValue,
              type: dropDownTypeValue,

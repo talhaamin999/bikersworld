@@ -143,7 +143,6 @@ class _RefineRearchPageState extends State<RefineRearchPage> {
                   ),
                 ),
               ),
-
               Visibility(
                 visible: widget.workshopServiceSearchFilter != null ? true : false,
                 child: Container(
@@ -192,7 +191,6 @@ class _RefineRearchPageState extends State<RefineRearchPage> {
                   ),
                 ),
               ),
-
               Visibility(
                 visible: widget.workshopServiceSearchFilter != null ? true : false,
                 child: Padding(
