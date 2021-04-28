@@ -25,20 +25,18 @@ class SearchAutoParts {
       return null;
     }
   }
+
   /*
   Future<List<AutoPartModel>> searchPartTitleWithTypeAndRangeAndCityAndSortFilter({@required String title,@required String type,@required String sortOrder,@required city,@required int min,@required int max}) {
     try {
       if(sortOrder == 'LTH') {
         return _collectionReference
             .where('title', isEqualTo: title)
-            .where('workshop_city',isEqualTo: city)
+            .where('partStore_city',isEqualTo: city)
             .where('price', isGreaterThanOrEqualTo: min)
             .where('price', isLessThanOrEqualTo: max)
             .orderBy('price')
-            .snapshots()
-            .map((snapshot) =>
-            snapshot.docs.map((doc) => Services.fromJson(doc.data()))
-                .toList());
+
       }else{
         return _collectionReference
             .where('title', isEqualTo: title)

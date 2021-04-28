@@ -70,7 +70,7 @@ class PartstoreDashboardModel {
   }
 }
 
-class AutoPartModel{
+class AutoPartModel {
 
   final String title;
   final String category;

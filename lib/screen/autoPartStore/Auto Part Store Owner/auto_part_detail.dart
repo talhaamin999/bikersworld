@@ -180,7 +180,7 @@ class _AutoPartDetailState extends State<AutoPartDetail> {
                   child: ListTile(
                     contentPadding: EdgeInsets.symmetric(
                         horizontal: 15, vertical: 10),
-                    leading: CircleAvatar(
+                    leading: CircleAvatar (
                       child: CircleAvatar(
                         backgroundImage: AssetImage("assets/user.png"),
                         radius: 25,

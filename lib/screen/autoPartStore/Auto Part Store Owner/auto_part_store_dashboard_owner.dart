@@ -435,7 +435,7 @@ class InformationTab extends StatelessWidget {
                     onPressed: (){
                       Navigator.push(context, MaterialPageRoute(builder: (context) => RegisterAutoParts(partStoreId: partStoreInfo.id,partStoreCity: partStoreInfo.city,)));
                     },
-                    child: Card(
+                    child: Card (
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10), // if you need this
                         side: BorderSide(

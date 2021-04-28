@@ -126,7 +126,7 @@ class _AutoPartDashboardState extends State<AutoPartDashboard> {
                                           deleteAutoPart(snapshot.data[index].docId);
                                         },
                                       ),
-                                      FlatButton(
+                                      FlatButton (
                                         padding:EdgeInsets.all(0),
                                         child: Container(
                                           height: 40,

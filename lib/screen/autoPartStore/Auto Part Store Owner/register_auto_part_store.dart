@@ -288,7 +288,7 @@ class _RegisterAutoPartStoreState extends State<RegisterAutoPartStore> {
           SizedBox(height: 5,),
           Container(
             alignment: Alignment.bottomLeft,
-            child: Text(
+            child: Text (
               "City",
               style: GoogleFonts.quicksand(
                 fontSize: 18,
