@@ -9,8 +9,8 @@ class RefineRearchPage extends StatefulWidget {
   final String workshopSearchFilter;
   final String workshopServiceSearchFilter;
   final String partStoreSearchFilter;
-  final String partStoreServiceSearchFilter;
-  RefineRearchPage({this.workshopSearchFilter,this.workshopServiceSearchFilter,this.partStoreSearchFilter,this.partStoreServiceSearchFilter});
+  final String partsSearchFilter;
+  RefineRearchPage({this.workshopSearchFilter,this.workshopServiceSearchFilter,this.partStoreSearchFilter,this.partsSearchFilter});
   @override
   _RefineRearchPageState createState() => _RefineRearchPageState();
 }
@@ -119,57 +119,60 @@ class _RefineRearchPageState extends State<RefineRearchPage> {
 
 
               SizedBox(height: 20,),
-              Padding(
-                padding: const EdgeInsets.only(left:20,right: 20),
-                child: Container(
-                  child: Row(
-                    children: [
-                      CircleAvatar(
-                        child: Icon(
-                          FontAwesomeIcons.tumblrSquare,
-                          color: Colors.black,
-                          size: 25,
+              Visibility(
+                visible: widget.partsSearchFilter != null ? true : false,
+                child: Padding(
+                  padding: const EdgeInsets.only(left:20,right: 20),
+                  child: Container(
+                    child: Row(
+                      children: [
+                        CircleAvatar(
+                          child: Icon(
+                            FontAwesomeIcons.tumblrSquare,
+                            color: Colors.black,
+                            size: 25,
+                          ),
+                          radius: 20,
+                          backgroundColor: Color(0xffe3e3e3),
                         ),
-                        radius: 20,
-                        backgroundColor: Color(0xffe3e3e3),
-                      ),
-                      SizedBox(width: 20,),
-                      Text(
-                        "Part Type",
-                        style: GoogleFonts.quicksand(
-                          fontSize: 16,
+                        SizedBox(width: 20,),
+                        Text(
+                          "Part Type",
+                          style: GoogleFonts.quicksand(
+                            fontSize: 16,
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(left:40, right:20,top: 20),
-                child: Container(
-                  color: Colors.black12,
-                  width: 300 ,
-                  child:  SizedBox(
-                    width: MediaQuery.of(context).size.width ,
-                    child: DropdownSearch<String>(
-                      maxHeight: 180,
-                      validator: (v) => v == null ? "required field" : null,
-                      hint: "Select Part Type",
-                      showSelectedItem: true,
-                      items: ['Local','Geniune','Others'],
-                      showClearButton: true,
-                      onChanged: (value){
-                       // widget.controller.text = value;
-                      },
+                      ],
                     ),
                   ),
                 ),
               ),
-
-
-
               Visibility(
-                visible: widget.workshopServiceSearchFilter != null ? true : false,
+                visible: widget.partsSearchFilter != null ? true : false,
+                child: Padding(
+                  padding: const EdgeInsets.only(left:40, right:20,top: 20),
+                  child: Container(
+                    color: Colors.black12,
+                    width: 300 ,
+                    child:  SizedBox(
+                      width: MediaQuery.of(context).size.width ,
+                      child: DropdownSearch<String>(
+                        maxHeight: 180,
+                        validator: (v) => v == null ? "required field" : null,
+                        hint: "Select Part Type",
+                        showSelectedItem: true,
+                        items: ['Local','Geniune','Others'],
+                        showClearButton: true,
+                        onChanged: (value){
+                         // widget.controller.text = value;
+                        },
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              Visibility(
+                visible: widget.workshopServiceSearchFilter != null || widget.partsSearchFilter != null ? true : false,
                 child: Padding(
                   padding: const EdgeInsets.only(top:20, left: 20),
                   child: Container(
@@ -197,7 +200,7 @@ class _RefineRearchPageState extends State<RefineRearchPage> {
                 ),
               ),
               Visibility(
-                visible: widget.workshopServiceSearchFilter != null ? true : false,
+                visible: widget.workshopServiceSearchFilter != null || widget.partsSearchFilter != null ? true : false,
                 child: Container(
                   width: MediaQuery.of(context).size.width -20,
                   height: 80,
@@ -245,7 +248,7 @@ class _RefineRearchPageState extends State<RefineRearchPage> {
                 ),
               ),
               Visibility(
-                visible: widget.workshopServiceSearchFilter != null ? true : false,
+                visible: widget.workshopServiceSearchFilter != null || widget.partsSearchFilter != null ? true : false,
                 child: Padding(
                   padding: const EdgeInsets.only(top:20, left: 20),
                   child: Container(
@@ -273,7 +276,7 @@ class _RefineRearchPageState extends State<RefineRearchPage> {
                 ),
               ),
               Visibility(
-                visible: widget.workshopServiceSearchFilter != null ? true : false,
+                visible: widget.workshopServiceSearchFilter != null || widget.partsSearchFilter != null ? true : false,
                 child: Padding(
                   padding: const EdgeInsets.only(left:60),
                   child: Container(
