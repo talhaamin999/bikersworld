@@ -1,16 +1,12 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:bikersworld/screen/dashboard/searchPages/refine_search_page.dart';
 import 'package:bikersworld/services/search_queries/refine_search.dart';
 import 'package:bikersworld/services/search_queries/search_part.dart';
 import 'package:bikersworld/services/toast_service.dart';
-import 'package:bikersworld/widgets/customtiextfield.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:bikersworld/widgets/drawer.dart';
-import 'package:bikersworld/widgets/customeTextArea.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:bikersworld/screen/dashboard/Autopart/partDetail.dart';
 
 
 
@@ -34,7 +30,7 @@ class _AutoPartSearchPageState extends State<AutoPartSearchPage> {
 
   navigateToFilterPage(BuildContext context) async{
     final RefineSearchResults _result = await Navigator.of(context)
-        .push(MaterialPageRoute(builder: (context) => RefineRearchPage(partsSearchFilter: 'parts',)));
+        .push(MaterialPageRoute(builder: (context) => RefineRearchPage(partsSearchFilter: 'auto_parts',)));
     if(_result != null){
       print('$_result');
     }
@@ -47,13 +43,13 @@ class _AutoPartSearchPageState extends State<AutoPartSearchPage> {
         title: Text(
           'BIKERSWORLD',
           style: GoogleFonts.quicksand(
-            color: Colors.white,
+            color: Colors.orange,
             fontSize: 18,
+
           ),
         ),
         backgroundColor: Color(0XFF012A4A),
-        iconTheme: IconThemeData(color: Color(0xfffbb448),
-        ),
+        elevation:0,
       ),
       body: SingleChildScrollView(
         child: Container(
@@ -106,7 +102,7 @@ class _AutoPartSearchPageState extends State<AutoPartSearchPage> {
                 ),
               ),
               Container(
-                margin: EdgeInsets.only(left: 22, right: 30),
+                margin: EdgeInsets.only(left: 22, right: 30,top: 15),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
@@ -114,53 +110,38 @@ class _AutoPartSearchPageState extends State<AutoPartSearchPage> {
                       child: Text(
                         "Result: 2",
                         style: GoogleFonts.varelaRound(
-                          fontSize: 15,
-
+                          fontSize: 20,
                         ),
                       ),
                     ),
                     SizedBox(width: 120,),
                     FlatButton(
-                      onPressed: navigateToFilterPage(context),
                       child: Container(
                         child: Row(
                           children: <Widget>[
                             Text(
                               "Filter",
                               style: GoogleFonts.varelaRound(
-                                fontSize: 15,
+                                fontSize: 20,
+                                color: Colors.black,
                               ),
                             ),
                             SizedBox(width: 5,),
                             Icon(
                               FontAwesomeIcons.filter,
-                              size: 15,
+                              size: 20,
+                              color: Colors.black,
                             ),
                           ],
                         ),
                       ),
-                    ),
-                    Container(
-                      child:Row(
-                        children: <Widget>[
-                          Text(
-                            "Sort",
-                            style: GoogleFonts.varelaRound(
-                              fontSize: 17,
-                            ),
-                          ),
-                          SizedBox(width: 5,),
-                          Icon(
-                            FontAwesomeIcons.sortAlphaUp,
-                            size: 17,
-                          ),
-                        ],
-                      ),
+                      onPressed: (){
+                        onPressed: navigateToFilterPage(context);
+                      },
                     ),
                   ],
                 ),
               ),
-              SizedBox(height: 20,),
               Container(
                 margin: EdgeInsets.symmetric(horizontal: 23,),
                 alignment: Alignment.topLeft,
@@ -171,21 +152,100 @@ class _AutoPartSearchPageState extends State<AutoPartSearchPage> {
                 ),
                 ),
               ),
+          SizedBox(height: 10,),
+          Padding(
+            padding: const EdgeInsets.only(bottom: 15),
+            child: FlatButton(
+              onPressed:(){
 
-              SizedBox(height: 20,),
-              
-              Card(
-                child: Column(
-                  children: <Widget>[
-                    _buildCard("Tire", "2000", "assets/part3.jpeg",'Mechanical', 'Geniune','Out of Stock', false, false, context),
-                    _buildCard("Hydrulic", "2000", "assets/part4.jpeg",'Mechanical',  'Geniune','Out of Stock', true, false, context),
-                    _buildCard("Rim", "2000", "assets/part2.jpeg",'Mechanical',  'Geniune','Out of Stock', false, true, context),
+              },
+              child: Card(
+                color: Color(0xfff7f7f7),
+                child: Container(
+                  child: Row(
+                    children: <Widget>[
+                      Expanded(
+                        child: Container(
+                          width: 90,
+                          height: 90,
+                          decoration: BoxDecoration(
+                              shape: BoxShape.rectangle,
+                              image: DecorationImage(
+                                fit: BoxFit.fill,
+                                image: AssetImage("assets/alyrim.jpeg"),
+                              ),
+                          ),
+                        ),
+                      ),
 
-                  ],
+                      SizedBox(width: 5,),
+                      Container(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Container(
+                              child: AutoSizeText(
+                                "Plug",
+                                style: GoogleFonts.quicksand(
+                                  fontSize: 18,
+                                  color: Colors.black,
+                                ),
+                              ),
+                            ),
+                            SizedBox(height: 5,),
+                            Container(
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  Container(
+                                    child: Text(
+                                      "Islamabad",
+                                      style: TextStyle(
+                                          fontSize: 15
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(width: 160,),
+                                  Icon(
+                                    Icons.arrow_forward_ios,
+                                    color: Color(0xffb8b8b8),
+                                  ),
+                                ],
+                              ),
+                            ),
+
+                            SizedBox(height: 3,),
+
+                            Container(
+                              child: Row(
+                                children: <Widget>[
+                                  Text(
+                                    "Status",
+                                    style: TextStyle(
+                                      fontSize: 13,
+                                    ),
+                                  ),
+                                  SizedBox(width: 5,),
+                                  Text(
+                                    "OPEN",
+                                    style: TextStyle(
+                                      fontSize: 13,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            SizedBox(height: 10,),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
-              SizedBox(height: 30,),
-
+            ),
+          ),
             ],
           ),
         ),
@@ -193,180 +253,6 @@ class _AutoPartSearchPageState extends State<AutoPartSearchPage> {
     );
   }
 }
-
-
-
-
-
-Widget _buildCard(String name, String price, String imgPath,String category, String type, String status, bool added,
-    bool isFavorite, context) {
-  return Padding(
-    padding: EdgeInsets.only(top: 5.0, bottom: 5.0, left: 5.0, right: 5.0),
-    child: InkWell(
-      onTap: () {
-        Navigator.of(context).push(
-          MaterialPageRoute(builder: (context) => partDetail(
-              assetPath: imgPath,
-              partprice:price,
-              partname: name,
-              partCateogry: category,
-            partType: type,
-            partStauts: status,
-          ),
-          ),
-        );
-      },
-      child: Container(
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(15),
-            boxShadow: [
-              BoxShadow(
-                  color: Colors.grey.withOpacity(0.2),
-                  spreadRadius: 3.0,
-                  blurRadius: 5.0)
-            ],
-            color: Colors.white
-        ),
-        child: Row(
-          children: [
-          Hero(
-            tag: imgPath,
-            child: Container(
-              height: 115.0,
-              width: 145.0,
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  image: AssetImage(imgPath),
-                ),
-              ),
-            ),
-           ),
-            Container(
-              margin: EdgeInsets.only(left: 10),
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Container(
-                      child: Row(
-                        children: [
-                          Text(
-                            "Name",
-                            style: GoogleFonts.raleway(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          SizedBox(width: 10,),
-                          Text(
-                            name,
-                            style: GoogleFonts.quicksand(
-                              fontSize: 20,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    SizedBox(height: 5,),
-                    Container(
-                      child: Row(
-                        children: [
-                          Text(
-                            "Price",
-                            style: GoogleFonts.quicksand(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          SizedBox(width: 10,),
-                          Text(
-                            price,
-                            style: GoogleFonts.quicksand(
-                              fontSize: 20,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    SizedBox(height: 5,),
-                    Container(
-                      child: Row(
-                        children: [
-                          Text(
-                            "Category",
-                            style: GoogleFonts.quicksand(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          SizedBox(width: 10,),
-                          Text(
-                            category,
-                            style: GoogleFonts.quicksand(
-                              fontSize: 20,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    SizedBox(height:10),
-                    Container(
-                      margin: EdgeInsets.only(left: 170),
-                      height: 30,
-                      width: 30,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        color: Colors.indigo,
-                      ),
-                      child: Icon(
-                        FontAwesomeIcons.arrowRight,
-                        size: 15,
-                        color: Colors.white,
-                      ),
-                    ),
-
-                  ],
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    ),
-  );
-}
-
-
-class ratingBar extends StatelessWidget {
-  const ratingBar({
-    Key key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return RatingBar.builder(
-      initialRating: 4,
-      minRating: 1,
-      direction: Axis.horizontal,
-      allowHalfRating: true,
-      itemCount: 5,
-      itemSize: 20,
-      itemPadding: EdgeInsets.symmetric(horizontal: 3.0),
-      itemBuilder: (context, _) => Icon(
-        Icons.star,
-        color: Colors.amber,
-      ),
-      onRatingUpdate: (rating) {
-        print(rating);
-      },
-    );
-  }
-}
-
-
-
-
 
 
 

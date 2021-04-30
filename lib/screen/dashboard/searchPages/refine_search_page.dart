@@ -5,6 +5,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:bikersworld/widgets/city_dropdown.dart';
+
 class RefineRearchPage extends StatefulWidget {
   final String workshopSearchFilter;
   final String workshopServiceSearchFilter;
@@ -46,30 +47,19 @@ class _RefineRearchPageState extends State<RefineRearchPage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Color(0XFF012A4A),
-        iconTheme: IconThemeData(
-          color: Color(0xfffbb448),
-        ),
         bottomOpacity: 0.0,
         elevation: 0.0,
         title: Text(
           "Refine your Search",
           style: GoogleFonts.quicksand(
             fontSize: 18,
+            color: Colors.orange,
           ),
         ),
-        actions: [
-          Padding(
-            padding: const EdgeInsets.only(right:15),
-            child: Center(
-              child: Text(
-                "Reset",
-                style: GoogleFonts.quicksand(
-                  fontSize: 15,
-                ),
-              ),
-            ),
-          ),
-        ],
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back, color: Colors.white),
+          onPressed: () => Navigator.of(context).pop(),
+        ),
       ),
       body: SingleChildScrollView(
         child: Container(
