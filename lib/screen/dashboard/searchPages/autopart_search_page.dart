@@ -108,7 +108,7 @@ class _AutoPartSearchPageState extends State<AutoPartSearchPage> {
                   children: <Widget>[
                     Container(
                       child: Text(
-                        "Result: 2",
+                        "Result: 3",
                         style: GoogleFonts.varelaRound(
                           fontSize: 20,
                         ),
