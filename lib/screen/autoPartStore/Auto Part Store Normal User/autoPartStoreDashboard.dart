@@ -5,13 +5,27 @@ import 'package:simple_animations/simple_animations.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:bikersworld/widgets/rating_bar.dart';
 import 'package:bikersworld/screen/autoPartStore/Auto Part Store Normal User/reviews_auto_part_form.dart';
+import 'package:bikersworld/model/partstore_model.dart';
+import 'package:bikersworld/screen/autoPartStore/Auto Part Store Normal User/categories_normal_user.dart';
+import 'package:bikersworld/screen/autoPartStore/Auto Part Store Normal User/view_all_auto_parts.dart';
+
 class AutoPartStoreDashboardPage extends StatefulWidget {
+
+  final PartstoreDashboardModel data;
+
+  AutoPartStoreDashboardPage({this.data});
+
   @override
   _AutoPartStoreDashboardPageState createState() => _AutoPartStoreDashboardPageState();
 }
 
 class _AutoPartStoreDashboardPageState extends State<AutoPartStoreDashboardPage> {
   bool isVisible = false,_isButtonVisible = true;
+
+  void abc(){
+   // ignore: unnecessary_statements
+   widget.data.openTime;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -50,11 +64,11 @@ class _AutoPartStoreDashboardPageState extends State<AutoPartStoreDashboardPage>
                   SizedBox(height:20),
                   CircleAvatar(
                     radius: 55,
-                    child: CircleAvatar(
-                      radius:50,
-                      backgroundColor: Colors.white,
-                    ),
                     backgroundColor: Colors.orange,
+                    child: CircleAvatar(
+                      radius: 50,
+                      backgroundImage: widget.data.imageURL != null ? NetworkImage(widget.data.imageURL) : AssetImage("assets/avatar.jpg",)
+                    ),
                   ),
                   SizedBox(width: 15,),
                   Container(
@@ -62,7 +76,7 @@ class _AutoPartStoreDashboardPageState extends State<AutoPartStoreDashboardPage>
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "Khan Auto Parts",
+                          widget.data.shopTitle,
                           style: GoogleFonts.quicksand(
                             fontSize:20,
                             color: Colors.grey,
@@ -70,7 +84,7 @@ class _AutoPartStoreDashboardPageState extends State<AutoPartStoreDashboardPage>
                         ),
                         SizedBox(height: 8,),
                         Text(
-                          "Islamabad",
+                          widget.data.city,
                           style: GoogleFonts.quicksand(
                             fontSize:18,
                             color: Colors.white,
@@ -78,7 +92,7 @@ class _AutoPartStoreDashboardPageState extends State<AutoPartStoreDashboardPage>
                         ),
                         SizedBox(height: 8,),
                         Text(
-                          "03355437782",
+                          widget.data.ownerContact,
                           style: GoogleFonts.quicksand(
                             fontSize:13,
                             color: Colors.white,
@@ -120,6 +134,83 @@ class _AutoPartStoreDashboardPageState extends State<AutoPartStoreDashboardPage>
                                                       fontWeight: FontWeight.bold,
                                                     ),
                                                   ),
+                                                ),
+                                                ListTile(
+                                                  title: Container(
+                                                    child: Row(
+                                                      children: [
+                                                        Text("Monday", style: GoogleFonts.quicksand(fontSize: 20, ),),                                          ],
+                                                    ),
+                                                  ),
+                                                  leading: widget.data.monday ? Icon(FontAwesomeIcons.check,color: Colors.green,) :  Icon(FontAwesomeIcons.times,color: Colors.red,
+                                                  ),
+
+                                                ),
+                                                ListTile(
+                                                  title: Container(
+                                                    child: Row(
+                                                      children: [
+                                                        Text("Tuesday", style: GoogleFonts.quicksand(fontSize: 20, ),),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                  leading: widget.data.tuesday ? Icon(FontAwesomeIcons.check,color: Colors.green,) :  Icon(FontAwesomeIcons.times,color: Colors.red,),
+                                                ),
+                                                ListTile(
+                                                  title: Container(
+                                                    child: Row(
+                                                      children: [
+                                                        Text("Wednesday", style: GoogleFonts.quicksand(fontSize: 20, ),),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                  leading: widget.data.wednesday ? Icon(FontAwesomeIcons.check,color: Colors.green,) :  Icon(FontAwesomeIcons.times,color: Colors.red,),
+
+                                                ),
+                                                ListTile(
+                                                  title: Container(
+                                                    child: Row(
+                                                      children: [
+                                                        Text("Thursday", style: GoogleFonts.quicksand(fontSize: 20, ),),
+
+                                                      ],
+                                                    ),
+                                                  ),
+
+                                                  leading: widget.data.thursday ? Icon(FontAwesomeIcons.check,color: Colors.green,) :  Icon(FontAwesomeIcons.times,color: Colors.red,),
+                                                ),
+                                                ListTile(
+                                                  title: Container(
+                                                    child: Row(
+                                                      children: [
+                                                        Text("Friday", style: GoogleFonts.quicksand(fontSize: 20, ),),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                  leading: widget.data.friday ? Icon(FontAwesomeIcons.check,color: Colors.green,) :  Icon(FontAwesomeIcons.times,color: Colors.red,),
+
+                                                ),
+                                                ListTile(
+                                                  title: Container(
+                                                    child: Row(
+                                                      children: [
+                                                        Text("Saturday", style: GoogleFonts.quicksand(fontSize: 20, ),),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                  leading: widget.data.saturday ? Icon(FontAwesomeIcons.check,color: Colors.green,) :  Icon(FontAwesomeIcons.times,color: Colors.red,),
+
+                                                ),
+                                                ListTile(
+                                                  title: Container(
+                                                    child: Row(
+                                                      children: [
+                                                        Text("Sunday", style: GoogleFonts.quicksand(fontSize: 20, ),),
+                                                      ],
+                                                    ),
+                                                  ),
+
+                                                  leading: widget.data.sunday ? Icon(FontAwesomeIcons.check,color: Colors.green,) :  Icon(FontAwesomeIcons.times,color: Colors.red,),
                                                 ),
 
                                                 SizedBox(height: 20,),
@@ -163,7 +254,7 @@ class _AutoPartStoreDashboardPageState extends State<AutoPartStoreDashboardPage>
                                               SizedBox(width: 10,),
 
                                               Text(
-                                                "",
+                                                widget.data.openTime,
                                                 style: GoogleFonts.quicksand(
                                                   fontSize:18,
                                                 ),
@@ -174,7 +265,7 @@ class _AutoPartStoreDashboardPageState extends State<AutoPartStoreDashboardPage>
                                               ),
                                               SizedBox(width: 10,),
                                               Text(
-                                                "",
+                                                widget.data.closeTime,
                                                 style: GoogleFonts.quicksand(
                                                   fontSize:18,
                                                 ),
@@ -240,10 +331,16 @@ class _AutoPartStoreDashboardPageState extends State<AutoPartStoreDashboardPage>
                                   fontSize: 20,
                                 ),
                               ),
-                              Text('View all',
-                                style: GoogleFonts.quicksand(
-                                  fontSize: 16,
-                                  color: Colors.indigo,
+                              FlatButton(
+                                padding: EdgeInsets.all(0),
+                                onPressed: (){
+                                  Navigator.push(context, MaterialPageRoute(builder: (context) => ViewAllCategoriesNomrmalUser()));
+                                },
+                                child: Text('View all',
+                                  style: GoogleFonts.quicksand(
+                                    fontSize: 16,
+                                    color: Colors.indigo,
+                                  ),
                                 ),
                               ),
                             ],
@@ -252,7 +349,7 @@ class _AutoPartStoreDashboardPageState extends State<AutoPartStoreDashboardPage>
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(left:20,top: 20 , right: 10),
+                      padding: const EdgeInsets.only(left:20, right: 10),
                       child: Container(
                         child: SizedBox(
                           height: 60.0,
@@ -312,7 +409,7 @@ class _AutoPartStoreDashboardPageState extends State<AutoPartStoreDashboardPage>
               ],
             ),
 
-            SizedBox(height:20),
+            SizedBox(height:10),
             FadeAnimation(1.2,
               Padding(
                 padding: const EdgeInsets.only(left:20,right: 15),
@@ -326,10 +423,17 @@ class _AutoPartStoreDashboardPageState extends State<AutoPartStoreDashboardPage>
                           fontSize: 20,
                         ),
                       ),
-                      Text('View all',
-                        style: GoogleFonts.quicksand(
-                          fontSize: 16,
-                          color: Colors.indigo,
+                      FlatButton(
+                        padding: EdgeInsets.all(0),
+                        onPressed: (){
+                          Navigator.push(context,MaterialPageRoute(builder: (context) => ViewAllAutoParts()));
+                        },
+                        child: Text(
+                          'View all',
+                          style: GoogleFonts.quicksand(
+                            fontSize: 16,
+                            color: Colors.indigo,
+                          ),
                         ),
                       ),
                     ],
@@ -372,7 +476,7 @@ class _AutoPartStoreDashboardPageState extends State<AutoPartStoreDashboardPage>
         Navigator.push(context, PageTransition(type: PageTransitionType.fade, child: PartDetail()));
       },
       child: AspectRatio(
-        aspectRatio: 4/5,
+        aspectRatio: 1,
         child: Container(
           margin: EdgeInsets.only(right: 20),
           decoration: BoxDecoration(

@@ -54,12 +54,9 @@ class _CustomDrawerState extends State<CustomDrawer> {
       await _firebaseUser.signOut();
       Navigator.push(
           context, MaterialPageRoute(builder: (context) => HomeDashboard()));
-    }else if(option == userOption.logInSignOut){
+    }else if(option == userOption.logInSignOut) {
       Navigator.push(
           context, MaterialPageRoute(builder: (context) => WelcomePage()));
-    }else if(option == userOption.partStore){
-      Navigator.push(
-          context, MaterialPageRoute(builder: (context) => AutoPartStoreDashboardPage()));
     }
   }
   void setUser() {
@@ -184,27 +181,6 @@ class _CustomDrawerState extends State<CustomDrawer> {
                                         ),
                                         value: userOption.logInSignOut,
                                       ),
-
-                                      new PopupMenuItem<userOption>(
-                                        child: Container(
-                                          child: Row(
-                                            children: [
-                                              Icon(
-                                                FontAwesomeIcons.signInAlt,
-                                                size: 15,
-                                              ),
-                                              SizedBox(width: 10),
-                                              Text(
-                                                "part store normal",
-                                                style: GoogleFonts.quicksand(
-                                                  fontSize: 16,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                        value: userOption.partStore,
-                                      )
                                     ],
                                   ),
                                 ],
