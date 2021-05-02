@@ -114,7 +114,7 @@ class _AutoPartSearchPageState extends State<AutoPartSearchPage> {
                         ),
                       ),
                     ),
-                    SizedBox(width: 120,),
+                    SizedBox (width: 120,),
                     FlatButton(
                       child: Container(
                         child: Row(
