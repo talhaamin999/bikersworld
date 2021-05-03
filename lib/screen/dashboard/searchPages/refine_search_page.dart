@@ -25,6 +25,7 @@ class _RefineRearchPageState extends State<RefineRearchPage> {
   final TextEditingController _controller = TextEditingController();
   final TextEditingController _minController = TextEditingController();
   final TextEditingController _maxController = TextEditingController();
+  final TextEditingController _typeController = TextEditingController();
   priceSelection _price = priceSelection.Not;
 
 
@@ -40,6 +41,173 @@ class _RefineRearchPageState extends State<RefineRearchPage> {
     _controller.clear();
     _minController.clear();
     _maxController.clear();
+  }
+
+  void returnPartFilterOptionsSelected(){
+    if ((_controller.text.isNotEmpty) && (_typeController.text.isNotEmpty) &&
+        (_price == priceSelection.High || _price == priceSelection.Low) &&
+        _minController.text.isNotEmpty && _maxController.text.isNotEmpty) {
+        if (_price == priceSelection.Low) {
+        Navigator.pop(context, RefineSearchResults(
+            city: _controller.text,
+            type: _typeController.text,
+            minRange: _minController.text,
+            maxRange: _maxController.text,
+            sortOrder: 'LTH'));
+      } else {
+        {
+          Navigator.pop(context, RefineSearchResults(
+              city: _controller.text,
+              type: _typeController.text,
+              minRange: _minController.text,
+              maxRange: _maxController.text,
+              sortOrder: 'HTL'));
+        }
+      }
+    }
+    // all city and other combination of city with other filters
+    else if ((_controller.text.isNotEmpty) && (_typeController.text.isNotEmpty) &&
+        (_price == priceSelection.High || _price == priceSelection.Low)) {
+      if (_price == priceSelection.High) {
+        Navigator.pop(context, RefineSearchResults(
+            city: _controller.text,
+            type: _typeController.text,
+            sortOrder: 'HTL'));
+      } else {
+        Navigator.pop(context, RefineSearchResults(
+            city: _controller.text,
+            type: _typeController.text,
+            sortOrder: 'LTH'));
+      }
+    }
+    else if (_controller.text.isNotEmpty && (_typeController.text.isNotEmpty) &&
+        _minController.text.isNotEmpty && _maxController.text.isNotEmpty) {
+      Navigator.pop(context, RefineSearchResults(
+          city: _controller.text,
+          type: _typeController.text,
+          minRange: _minController.text,
+          maxRange: _maxController.text));
+    }
+    else if ((_controller.text.isNotEmpty) &&
+        (_price == priceSelection.Low || _price == priceSelection.High) &&
+        _minController.text.isNotEmpty && _maxController.text.isNotEmpty) {
+      if (_price == priceSelection.Low) {
+        Navigator.pop(context, RefineSearchResults(
+            city: _controller.text,
+            sortOrder: 'LTH',
+            minRange: _minController.text,
+            maxRange: _maxController.text));
+      } else {
+        Navigator.pop(context, RefineSearchResults(
+            city: _controller.text,
+            sortOrder: 'HTL',
+            minRange: _minController.text,
+            maxRange: _maxController.text));
+      }
+    }
+    // type filter combination with others
+    else if ((_typeController.text.isNotEmpty) &&
+        (_price == priceSelection.Low || _price == priceSelection.High) &&
+        _minController.text.isNotEmpty && _maxController.text.isNotEmpty) {
+      if (_price == priceSelection.Low) {
+        Navigator.pop(context, RefineSearchResults(
+            type: _typeController.text,
+            sortOrder: 'LTH',
+            minRange: _minController.text,
+            maxRange: _maxController.text));
+      } else {
+        Navigator.pop(context, RefineSearchResults(
+            type: _typeController.text,
+            sortOrder: 'HTL',
+            minRange: _minController.text,
+            maxRange: _maxController.text));
+      }
+    }
+    else if ((_controller.text.isNotEmpty) && _typeController.text.isNotEmpty) {
+      Navigator.pop(context, RefineSearchResults(
+          city: _controller.text,
+          type: _typeController.text));
+    }
+    else if ((_controller.text.isNotEmpty) &&
+        _minController.text.isNotEmpty && _maxController.text.isNotEmpty) {
+        Navigator.pop(context, RefineSearchResults(
+            city: _controller.text,
+            minRange: _minController.text,
+            maxRange: _maxController.text));
+    }
+    else if ((_controller.text.isNotEmpty) &&
+        (_price == priceSelection.High || _price == priceSelection.Low)) {
+      if (_price == priceSelection.Low) {
+        Navigator.pop(context, RefineSearchResults(
+            city: _controller.text,
+            sortOrder: 'LTH'));
+      } else {
+        {
+          Navigator.pop(context, RefineSearchResults(
+              city: _controller.text,
+              sortOrder: 'HTL'));
+        }
+      }
+    }
+
+    else if ((_typeController.text.isNotEmpty) &&
+        (_price == priceSelection.Low || _price == priceSelection.High)) {
+      if (_price == priceSelection.Low) {
+        Navigator.pop(context, RefineSearchResults(
+            type: _typeController.text,
+            sortOrder: 'LTH'));
+      } else {
+        Navigator.pop(context, RefineSearchResults(
+            type: _typeController.text,
+            sortOrder: 'HTL',
+            minRange: _minController.text));
+      }
+    }
+    else if ((_typeController.text.isNotEmpty) &&
+        _minController.text.isNotEmpty && _maxController.text.isNotEmpty) {
+        Navigator.pop(context, RefineSearchResults(
+            type: _typeController.text,
+            minRange: _minController.text,
+            maxRange: _maxController.text));
+    }
+    // sort filetr combination with others
+
+    else if ((_price == priceSelection.Low || _price == priceSelection.High) &&
+        _minController.text.isNotEmpty && _maxController.text.isNotEmpty) {
+      if (_price == priceSelection.Low) {
+        Navigator.pop(context, RefineSearchResults(
+            sortOrder: 'LTH',
+            minRange: _minController.text,
+            maxRange: _maxController.text));
+      } else {
+        Navigator.pop(context, RefineSearchResults(
+            sortOrder: 'HTL',
+            minRange: _minController.text,
+            maxRange: _maxController.text));
+      }
+    }
+    else if (_controller.text.isNotEmpty) {
+      Navigator.pop(
+          context, RefineSearchResults(city: _controller.text));
+    }
+    else if (_typeController.text.isNotEmpty) {
+      Navigator.pop(
+          context, RefineSearchResults(type: _typeController.text));
+    }
+    else if (_price == priceSelection.Low) {
+      Navigator.pop(
+          context, RefineSearchResults(sortOrder: 'LTH'));
+    }
+    else if (_price == priceSelection.High) {
+      Navigator.pop(
+          context, RefineSearchResults(sortOrder: 'HTL'));
+    }
+    else if (_minController.text.isNotEmpty &&
+        _maxController.text.isNotEmpty) {
+      Navigator.pop(
+          context, RefineSearchResults(minRange: _minController
+          .text, maxRange: _maxController.text));
+    }
   }
 
   @override
@@ -151,10 +319,10 @@ class _RefineRearchPageState extends State<RefineRearchPage> {
                         validator: (v) => v == null ? "required field" : null,
                         hint: "Select Part Type",
                         showSelectedItem: true,
-                        items: ['Local','Geniune','Others'],
+                        items: ['Local','Genuine','Others'],
                         showClearButton: true,
                         onChanged: (value){
-                         // widget.controller.text = value;
+                          _typeController.text = value;
                         },
                       ),
                     ),
@@ -325,49 +493,86 @@ class _RefineRearchPageState extends State<RefineRearchPage> {
           children: <Widget>[
             FlatButton(
               onPressed: (){
-                print('${_minController.text} ${_maxController.text}');
-                if((_controller.text.isNotEmpty) && (_price == priceSelection.High || _price == priceSelection.Low) && _minController.text.isNotEmpty && _maxController.text.isNotEmpty){
-                  if(_price == priceSelection.Low){
-                    Navigator.pop(context,RefineSearchResults(city: _controller.text,minRange: _minController.text,maxRange: _maxController.text,sortOrder: 'LTH'));
-                  }else{
-                    {
-                      Navigator.pop(context,RefineSearchResults(city: _controller.text,minRange: _minController.text,maxRange: _maxController.text,sortOrder: 'HTL'));
+                if(widget.partsSearchFilter != null){
+                  returnPartFilterOptionsSelected();
+                }
+                else {
+                  print('${_minController.text} ${_maxController.text}');
+                  if ((_controller.text.isNotEmpty) &&
+                      (_price == priceSelection.High ||
+                          _price == priceSelection.Low) &&
+                      _minController.text.isNotEmpty &&
+                      _maxController.text.isNotEmpty) {
+                    if (_price == priceSelection.Low) {
+                      Navigator.pop(context, RefineSearchResults(
+                          city: _controller.text,
+                          minRange: _minController.text,
+                          maxRange: _maxController.text,
+                          sortOrder: 'LTH'));
+                    } else {
+                      {
+                        Navigator.pop(context, RefineSearchResults(
+                            city: _controller.text,
+                            minRange: _minController.text,
+                            maxRange: _maxController.text,
+                            sortOrder: 'HTL'));
+                      }
                     }
                   }
-                }
-                else if((_controller.text.isNotEmpty) && (_price == priceSelection.High || _price == priceSelection.Low)){
-                  if(_price == priceSelection.High) {
+                  else if ((_controller.text.isNotEmpty) &&
+                      (_price == priceSelection.High ||
+                          _price == priceSelection.Low)) {
+                    if (_price == priceSelection.High) {
+                      Navigator.pop(context, RefineSearchResults(
+                          city: _controller.text, sortOrder: 'HTL'));
+                    } else {
+                      Navigator.pop(context, RefineSearchResults(
+                          city: _controller.text, sortOrder: 'LTH'));
+                    }
+                  }
+                  else if (_controller.text.isNotEmpty &&
+                      _minController.text.isNotEmpty &&
+                      _maxController.text.isNotEmpty) {
                     Navigator.pop(context, RefineSearchResults(
-                        city: _controller.text, sortOrder: 'HTL'));
-                  }else{
-                    Navigator.pop(context, RefineSearchResults(
-                        city: _controller.text, sortOrder: 'LTH'));
+                        city: _controller.text,
+                        minRange: _minController.text,
+                        maxRange: _maxController.text));
+                  }
+                  else if ((_price == priceSelection.Low ||
+                      _price == priceSelection.High) &&
+                      _minController.text.isNotEmpty &&
+                      _maxController.text.isNotEmpty) {
+                    if (_price == priceSelection.Low) {
+                      Navigator.pop(context, RefineSearchResults(
+                          sortOrder: 'LTH',
+                          minRange: _minController.text,
+                          maxRange: _maxController.text));
+                    } else {
+                      Navigator.pop(context, RefineSearchResults(
+                          sortOrder: 'HTL',
+                          minRange: _minController.text,
+                          maxRange: _maxController.text));
+                    }
+                  }
+                  else if (_controller.text.isNotEmpty) {
+                    Navigator.pop(
+                        context, RefineSearchResults(city: _controller.text));
+                  }
+                  else if (_price == priceSelection.Low) {
+                    Navigator.pop(
+                        context, RefineSearchResults(sortOrder: 'LTH'));
+                  }
+                  else if (_price == priceSelection.High) {
+                    Navigator.pop(
+                        context, RefineSearchResults(sortOrder: 'HTL'));
+                  }
+                  else if (_minController.text.isNotEmpty &&
+                      _maxController.text.isNotEmpty) {
+                    Navigator.pop(
+                        context, RefineSearchResults(minRange: _minController
+                        .text, maxRange: _maxController.text));
                   }
                 }
-                else if(_controller.text.isNotEmpty && _minController.text.isNotEmpty && _maxController.text.isNotEmpty){
-                  Navigator.pop(context, RefineSearchResults(
-                      city: _controller.text,minRange: _minController.text,maxRange: _maxController.text));
-                }
-                else if((_price == priceSelection.Low || _price == priceSelection.High) && _minController.text.isNotEmpty && _maxController.text.isNotEmpty){
-                  if(_price == priceSelection.Low){
-                    Navigator.pop(context,RefineSearchResults(sortOrder: 'LTH',minRange: _minController.text,maxRange: _maxController.text));
-                  }else{
-                    Navigator.pop(context,RefineSearchResults(sortOrder: 'HTL',minRange: _minController.text,maxRange: _maxController.text));
-                  }
-                }
-                else if(_controller.text.isNotEmpty){
-                  Navigator.pop(context,RefineSearchResults(city: _controller.text));
-                }
-                else if(_price == priceSelection.Low){
-                  Navigator.pop(context,RefineSearchResults(sortOrder: 'LTH'));
-                }
-                else if(_price == priceSelection.High){
-                  Navigator.pop(context,RefineSearchResults(sortOrder: 'HTL'));
-                }
-                else if(_minController.text.isNotEmpty && _maxController.text.isNotEmpty){
-                  Navigator.pop(context,RefineSearchResults(minRange: _minController.text,maxRange: _maxController.text));
-                }
-
 
               },
               child: Padding(

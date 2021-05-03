@@ -209,7 +209,7 @@ class _AutoPartStoreSearchPageState extends State<AutoPartStoreSearchPage> {
                               padding: const EdgeInsets.only(bottom: 15),
                               child: FlatButton(
                                 onPressed:(){
-                                  Navigator.of(context).push(MaterialPageRoute(builder: (context) => AutoPartStoreDashboardPage(data: snapshot.data[index],)));
+                                  Navigator.of(context).push(MaterialPageRoute(builder: (context) => AutoPartStoreDashboardPageNormalUser(partStoreData: snapshot.data[index],)));
                                 },
                                 child: Card(
                                   color: Color(0xfff7f7f7),

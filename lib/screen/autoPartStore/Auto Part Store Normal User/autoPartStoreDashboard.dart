@@ -1,3 +1,4 @@
+import 'package:bikersworld/services/search_queries/search_part_store.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -9,23 +10,20 @@ import 'package:bikersworld/model/partstore_model.dart';
 import 'package:bikersworld/screen/autoPartStore/Auto Part Store Normal User/categories_normal_user.dart';
 import 'package:bikersworld/screen/autoPartStore/Auto Part Store Normal User/view_all_auto_parts.dart';
 
-class AutoPartStoreDashboardPage extends StatefulWidget {
+class AutoPartStoreDashboardPageNormalUser extends StatefulWidget {
 
-  final PartstoreDashboardModel data;
+  final PartstoreDashboardModel partStoreData;
+  final String partStoreId;
 
-  AutoPartStoreDashboardPage({this.data});
+  AutoPartStoreDashboardPageNormalUser({this.partStoreData,this.partStoreId});
 
   @override
-  _AutoPartStoreDashboardPageState createState() => _AutoPartStoreDashboardPageState();
+  _AutoPartStoreDashboardPageNormalUserState createState() => _AutoPartStoreDashboardPageNormalUserState();
 }
 
-class _AutoPartStoreDashboardPageState extends State<AutoPartStoreDashboardPage> {
+class _AutoPartStoreDashboardPageNormalUserState extends State<AutoPartStoreDashboardPageNormalUser> {
   bool isVisible = false,_isButtonVisible = true;
-
-  void abc(){
-   // ignore: unnecessary_statements
-   widget.data.openTime;
-  }
+  final _partStore = SearchPartStore();
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +42,445 @@ class _AutoPartStoreDashboardPageState extends State<AutoPartStoreDashboardPage>
           ),
           elevation: 0.0,
       ),
-      body: SingleChildScrollView(
+      body: widget.partStoreId != null ?
+      FutureBuilder(
+        future: _partStore.getPartStoreById(widget.partStoreId),
+        builder: (BuildContext context, AsyncSnapshot<PartstoreDashboardModel> snapshot) {
+          if(snapshot.hasData && snapshot.data != null){
+            return SingleChildScrollView(
+              child: Column(
+                children: <Widget>[
+                  FadeAnimation(1, Container(
+                    height: 200,
+                    width: double.infinity,
+                    padding: EdgeInsets.only(left: 25, right: 25),
+                    decoration: BoxDecoration(
+                      color: Color(0XFF012A4A),
+                      borderRadius: BorderRadius.only(
+                          bottomRight: Radius.circular(50.0),
+                          bottomLeft: Radius.circular(50.0)
+                      ),
+                    ),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        SizedBox(height:20),
+                        CircleAvatar(
+                          radius: 55,
+                          backgroundColor: Colors.orange,
+                          child: CircleAvatar(
+                              radius: 50,
+                              backgroundImage: snapshot.data.imageURL != null ? NetworkImage(snapshot.data.imageURL) : AssetImage("assets/avatar.jpg",)
+                          ),
+                        ),
+                        SizedBox(width: 15,),
+                        Container(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                snapshot.data.shopTitle,
+                                style: GoogleFonts.quicksand(
+                                  fontSize:20,
+                                  color: Colors.grey,
+                                ),
+                              ),
+                              SizedBox(height: 8,),
+                              Text(
+                                snapshot.data.city,
+                                style: GoogleFonts.quicksand(
+                                  fontSize:18,
+                                  color: Colors.white,
+                                ),
+                              ),
+                              SizedBox(height: 8,),
+                              Text(
+                                snapshot.data.ownerContact,
+                                style: GoogleFonts.quicksand(
+                                  fontSize:13,
+                                  color: Colors.white,
+                                ),
+                              ),
+                              SizedBox(height: 15,),
+                              Container(
+                                child: Row(
+                                  children: [
+                                    FlatButton(
+                                        padding: EdgeInsets.zero,
+                                        child: Container(
+                                          width: MediaQuery.of(context).size.width-320,
+                                          height: 40,
+                                          decoration: BoxDecoration(
+                                            color: Colors.red,
+                                            borderRadius: BorderRadius.circular(10),
+                                          ),
+                                          child: Icon(
+                                            FontAwesomeIcons.calendar,
+                                            size: 20,
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                        onPressed:(){
+                                          showModalBottomSheet(
+                                              context: context,
+                                              builder: (BuildContext bc){
+                                                return SingleChildScrollView(
+                                                  child: Container(
+                                                    child: new Wrap(
+                                                      children: <Widget>[
+                                                        Padding(
+                                                          padding: const EdgeInsets.only(top:15, left:15),
+                                                          child: Text(
+                                                            "Working Days",
+                                                            style: GoogleFonts.quicksand(
+                                                              fontSize: 20,
+                                                              fontWeight: FontWeight.bold,
+                                                            ),
+                                                          ),
+                                                        ),
+                                                        ListTile(
+                                                          title: Container(
+                                                            child: Row(
+                                                              children: [
+                                                                Text("Monday", style: GoogleFonts.quicksand(fontSize: 20, ),),                                          ],
+                                                            ),
+                                                          ),
+                                                          leading: snapshot.data.monday ? Icon(FontAwesomeIcons.check,color: Colors.green,) :  Icon(FontAwesomeIcons.times,color: Colors.red,
+                                                          ),
+
+                                                        ),
+                                                        ListTile(
+                                                          title: Container(
+                                                            child: Row(
+                                                              children: [
+                                                                Text("Tuesday", style: GoogleFonts.quicksand(fontSize: 20, ),),
+                                                              ],
+                                                            ),
+                                                          ),
+                                                          leading: snapshot.data.tuesday ? Icon(FontAwesomeIcons.check,color: Colors.green,) :  Icon(FontAwesomeIcons.times,color: Colors.red,),
+                                                        ),
+                                                        ListTile(
+                                                          title: Container(
+                                                            child: Row(
+                                                              children: [
+                                                                Text("Wednesday", style: GoogleFonts.quicksand(fontSize: 20, ),),
+                                                              ],
+                                                            ),
+                                                          ),
+                                                          leading: snapshot.data.wednesday ? Icon(FontAwesomeIcons.check,color: Colors.green,) :  Icon(FontAwesomeIcons.times,color: Colors.red,),
+
+                                                        ),
+                                                        ListTile(
+                                                          title: Container(
+                                                            child: Row(
+                                                              children: [
+                                                                Text("Thursday", style: GoogleFonts.quicksand(fontSize: 20, ),),
+
+                                                              ],
+                                                            ),
+                                                          ),
+
+                                                          leading: snapshot.data.thursday ? Icon(FontAwesomeIcons.check,color: Colors.green,) :  Icon(FontAwesomeIcons.times,color: Colors.red,),
+                                                        ),
+                                                        ListTile(
+                                                          title: Container(
+                                                            child: Row(
+                                                              children: [
+                                                                Text("Friday", style: GoogleFonts.quicksand(fontSize: 20, ),),
+                                                              ],
+                                                            ),
+                                                          ),
+                                                          leading: snapshot.data.friday ? Icon(FontAwesomeIcons.check,color: Colors.green,) :  Icon(FontAwesomeIcons.times,color: Colors.red,),
+
+                                                        ),
+                                                        ListTile(
+                                                          title: Container(
+                                                            child: Row(
+                                                              children: [
+                                                                Text("Saturday", style: GoogleFonts.quicksand(fontSize: 20, ),),
+                                                              ],
+                                                            ),
+                                                          ),
+                                                          leading: snapshot.data.saturday ? Icon(FontAwesomeIcons.check,color: Colors.green,) :  Icon(FontAwesomeIcons.times,color: Colors.red,),
+
+                                                        ),
+                                                        ListTile(
+                                                          title: Container(
+                                                            child: Row(
+                                                              children: [
+                                                                Text("Sunday", style: GoogleFonts.quicksand(fontSize: 20, ),),
+                                                              ],
+                                                            ),
+                                                          ),
+
+                                                          leading: snapshot.data.sunday ? Icon(FontAwesomeIcons.check,color: Colors.green,) :  Icon(FontAwesomeIcons.times,color: Colors.red,),
+                                                        ),
+
+                                                        SizedBox(height: 20,),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                );
+                                              }
+                                          );
+                                        }
+                                    ),
+                                    SizedBox(width: 5,),
+                                    FlatButton(
+                                        padding: EdgeInsets.zero,
+                                        child: Container(
+                                          width: MediaQuery.of(context).size.width-320,
+                                          height: 40,
+                                          decoration: BoxDecoration(
+                                            color: Colors.blue,
+                                            borderRadius: BorderRadius.circular(10),
+                                          ),
+                                          child: Icon(
+                                            FontAwesomeIcons.clock,
+                                            size: 20,
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                        onPressed:(){
+                                          showDialog(
+                                            context: context,
+                                            builder: (_) => new AlertDialog(
+                                              title: new Text("Working hours", style: GoogleFonts.quicksand(fontSize: 18 , fontWeight:FontWeight.bold),),
+                                              content: Container(
+                                                child: Row(
+                                                  children: [
+                                                    Icon(
+                                                      FontAwesomeIcons.clock,
+                                                      color: Colors.orange,
+                                                      size: 30,
+                                                    ),
+                                                    SizedBox(width: 10,),
+
+                                                    Text(
+                                                      snapshot.data.openTime,
+                                                      style: GoogleFonts.quicksand(
+                                                        fontSize:18,
+                                                      ),
+                                                    ),
+                                                    SizedBox(width: 10,),
+                                                    Text(
+                                                        "-"
+                                                    ),
+                                                    SizedBox(width: 10,),
+                                                    Text(
+                                                      snapshot.data.closeTime,
+                                                      style: GoogleFonts.quicksand(
+                                                        fontSize:18,
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                          );
+                                        }
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  )),
+                  Transform.translate(
+                    offset: Offset(0, -35),
+                    child: FadeAnimation(1.2, Container(
+                      height: 60,
+                      padding: EdgeInsets.only(left: 20, top: 8),
+                      margin: EdgeInsets.symmetric(horizontal: 25),
+                      decoration: BoxDecoration(
+                          boxShadow: [
+                            BoxShadow(
+                                color: Colors.grey[350],
+                                blurRadius: 20.0,
+                                offset: Offset(0, 10.0)
+                            )
+                          ],
+                          borderRadius: BorderRadius.circular(5.0),
+                          color: Colors.white
+                      ),
+                      child: TextField(
+                        decoration: InputDecoration(
+                            suffixIcon: Icon(Icons.search, color: Colors.black, size: 20.0,),
+                            border: InputBorder.none,
+                            hintText: 'Search'
+                        ),
+                      ),
+                    )),
+                  ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          FadeAnimation(1.2,
+                            Padding(
+                              padding: const EdgeInsets.only(left:20,right: 15),
+                              child: Container(
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text('Choose category',
+                                      style: GoogleFonts.quicksand(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 20,
+                                      ),
+                                    ),
+                                    FlatButton(
+                                      padding: EdgeInsets.all(0),
+                                      onPressed: (){
+                                        Navigator.push(context, MaterialPageRoute(builder: (context) => ViewAllCategoriesNomrmalUser()));
+                                      },
+                                      child: Text('View all',
+                                        style: GoogleFonts.quicksand(
+                                          fontSize: 16,
+                                          color: Colors.indigo,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(left:20, right: 10),
+                            child: Container(
+                              child: SizedBox(
+                                height: 60.0,
+                                child: ListView(
+                                  scrollDirection: Axis.horizontal,
+                                  children: <Widget>[
+                                    Container(
+                                      width: 100,
+                                      child: Center(
+                                        child: Text("Body"),
+                                      ),
+                                      decoration: BoxDecoration(
+                                        color: Colors.red,
+                                        borderRadius: BorderRadius.circular(10),
+                                      ),
+                                    ),
+                                    SizedBox(width: 10,),
+                                    Container(
+                                      width: 100,
+                                      child: Center(
+                                        child: Text("Engine"),
+                                      ),
+                                      decoration: BoxDecoration(
+                                        color: Colors.blue,
+                                        borderRadius: BorderRadius.circular(10),
+                                      ),
+                                    ),
+                                    SizedBox(width: 10,),
+                                    Container(
+                                      width: 100,
+                                      child: Center(
+                                        child: Text("Light"),
+                                      ),
+                                      decoration: BoxDecoration(
+                                        color: Colors.teal,
+                                        borderRadius: BorderRadius.circular(10),
+                                      ),
+                                    ),
+                                    SizedBox(width: 10,),
+                                    Container(
+                                      width: 100,
+                                      child: Center(
+                                        child: Text("Frame"),
+                                      ),
+                                      decoration: BoxDecoration(
+                                        color: Colors.orange,
+                                        borderRadius: BorderRadius.circular(10),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      )
+                    ],
+                  ),
+
+                  SizedBox(height:10),
+                  FadeAnimation(1.2,
+                    Padding(
+                      padding: const EdgeInsets.only(left:20,right: 15),
+                      child: Container(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text('Auto Parts',
+                              style: GoogleFonts.quicksand(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 20,
+                              ),
+                            ),
+                            FlatButton(
+                              padding: EdgeInsets.all(0),
+                              onPressed: (){
+                                Navigator.push(context,MaterialPageRoute(builder: (context) => ViewAllAutoParts()));
+                              },
+                              child: Text(
+                                'View all',
+                                style: GoogleFonts.quicksand(
+                                  fontSize: 16,
+                                  color: Colors.indigo,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 10.0,),
+                  Container(
+                    height: 280,
+                    width: double.infinity,
+                    child: ListView(
+                      padding: EdgeInsets.only(bottom: 20, left: 20),
+                      scrollDirection: Axis.horizontal,
+                      children: <Widget>[
+                        FadeAnimation(1.3, makeCard(
+                          context: context,
+                          startColor: Color.fromRGBO(251, 121, 155, 1),
+                          endColor: Color.fromRGBO(251, 53, 105, 1),
+                          image: '',
+                        )),
+                        FadeAnimation(1.4, makeCard(
+                          context: context,
+                          startColor: Color.fromRGBO(203, 251, 255, 1),
+                          endColor: Color.fromRGBO(81, 223, 234, 1),
+                          image: '',
+                        )),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            );
+          }
+          else if(snapshot.hasData && snapshot.data == null){
+            return Center(child: Text("No Data Found"));
+          }
+          else if(snapshot.hasError){
+            return Center(child: Text(snapshot.error.toString()));
+          }
+          return Center(child: CircularProgressIndicator());
+        }
+      )
+      : SingleChildScrollView(
         child: Column(
           children: <Widget>[
             FadeAnimation(1, Container(
@@ -67,7 +503,7 @@ class _AutoPartStoreDashboardPageState extends State<AutoPartStoreDashboardPage>
                     backgroundColor: Colors.orange,
                     child: CircleAvatar(
                       radius: 50,
-                      backgroundImage: widget.data.imageURL != null ? NetworkImage(widget.data.imageURL) : AssetImage("assets/avatar.jpg",)
+                      backgroundImage: widget.partStoreData.imageURL != null ? NetworkImage(widget.partStoreData.imageURL) : AssetImage("assets/avatar.jpg",)
                     ),
                   ),
                   SizedBox(width: 15,),
@@ -76,7 +512,7 @@ class _AutoPartStoreDashboardPageState extends State<AutoPartStoreDashboardPage>
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          widget.data.shopTitle,
+                          widget.partStoreData.shopTitle,
                           style: GoogleFonts.quicksand(
                             fontSize:20,
                             color: Colors.grey,
@@ -84,7 +520,7 @@ class _AutoPartStoreDashboardPageState extends State<AutoPartStoreDashboardPage>
                         ),
                         SizedBox(height: 8,),
                         Text(
-                          widget.data.city,
+                          widget.partStoreData.city,
                           style: GoogleFonts.quicksand(
                             fontSize:18,
                             color: Colors.white,
@@ -92,7 +528,7 @@ class _AutoPartStoreDashboardPageState extends State<AutoPartStoreDashboardPage>
                         ),
                         SizedBox(height: 8,),
                         Text(
-                          widget.data.ownerContact,
+                          widget.partStoreData.ownerContact,
                           style: GoogleFonts.quicksand(
                             fontSize:13,
                             color: Colors.white,
@@ -142,7 +578,7 @@ class _AutoPartStoreDashboardPageState extends State<AutoPartStoreDashboardPage>
                                                         Text("Monday", style: GoogleFonts.quicksand(fontSize: 20, ),),                                          ],
                                                     ),
                                                   ),
-                                                  leading: widget.data.monday ? Icon(FontAwesomeIcons.check,color: Colors.green,) :  Icon(FontAwesomeIcons.times,color: Colors.red,
+                                                  leading: widget.partStoreData.monday ? Icon(FontAwesomeIcons.check,color: Colors.green,) :  Icon(FontAwesomeIcons.times,color: Colors.red,
                                                   ),
 
                                                 ),
@@ -154,7 +590,7 @@ class _AutoPartStoreDashboardPageState extends State<AutoPartStoreDashboardPage>
                                                       ],
                                                     ),
                                                   ),
-                                                  leading: widget.data.tuesday ? Icon(FontAwesomeIcons.check,color: Colors.green,) :  Icon(FontAwesomeIcons.times,color: Colors.red,),
+                                                  leading: widget.partStoreData.tuesday ? Icon(FontAwesomeIcons.check,color: Colors.green,) :  Icon(FontAwesomeIcons.times,color: Colors.red,),
                                                 ),
                                                 ListTile(
                                                   title: Container(
@@ -164,7 +600,7 @@ class _AutoPartStoreDashboardPageState extends State<AutoPartStoreDashboardPage>
                                                       ],
                                                     ),
                                                   ),
-                                                  leading: widget.data.wednesday ? Icon(FontAwesomeIcons.check,color: Colors.green,) :  Icon(FontAwesomeIcons.times,color: Colors.red,),
+                                                  leading: widget.partStoreData.wednesday ? Icon(FontAwesomeIcons.check,color: Colors.green,) :  Icon(FontAwesomeIcons.times,color: Colors.red,),
 
                                                 ),
                                                 ListTile(
@@ -177,7 +613,7 @@ class _AutoPartStoreDashboardPageState extends State<AutoPartStoreDashboardPage>
                                                     ),
                                                   ),
 
-                                                  leading: widget.data.thursday ? Icon(FontAwesomeIcons.check,color: Colors.green,) :  Icon(FontAwesomeIcons.times,color: Colors.red,),
+                                                  leading: widget.partStoreData.thursday ? Icon(FontAwesomeIcons.check,color: Colors.green,) :  Icon(FontAwesomeIcons.times,color: Colors.red,),
                                                 ),
                                                 ListTile(
                                                   title: Container(
@@ -187,7 +623,7 @@ class _AutoPartStoreDashboardPageState extends State<AutoPartStoreDashboardPage>
                                                       ],
                                                     ),
                                                   ),
-                                                  leading: widget.data.friday ? Icon(FontAwesomeIcons.check,color: Colors.green,) :  Icon(FontAwesomeIcons.times,color: Colors.red,),
+                                                  leading: widget.partStoreData.friday ? Icon(FontAwesomeIcons.check,color: Colors.green,) :  Icon(FontAwesomeIcons.times,color: Colors.red,),
 
                                                 ),
                                                 ListTile(
@@ -198,7 +634,7 @@ class _AutoPartStoreDashboardPageState extends State<AutoPartStoreDashboardPage>
                                                       ],
                                                     ),
                                                   ),
-                                                  leading: widget.data.saturday ? Icon(FontAwesomeIcons.check,color: Colors.green,) :  Icon(FontAwesomeIcons.times,color: Colors.red,),
+                                                  leading: widget.partStoreData.saturday ? Icon(FontAwesomeIcons.check,color: Colors.green,) :  Icon(FontAwesomeIcons.times,color: Colors.red,),
 
                                                 ),
                                                 ListTile(
@@ -210,7 +646,7 @@ class _AutoPartStoreDashboardPageState extends State<AutoPartStoreDashboardPage>
                                                     ),
                                                   ),
 
-                                                  leading: widget.data.sunday ? Icon(FontAwesomeIcons.check,color: Colors.green,) :  Icon(FontAwesomeIcons.times,color: Colors.red,),
+                                                  leading: widget.partStoreData.sunday ? Icon(FontAwesomeIcons.check,color: Colors.green,) :  Icon(FontAwesomeIcons.times,color: Colors.red,),
                                                 ),
 
                                                 SizedBox(height: 20,),
@@ -254,7 +690,7 @@ class _AutoPartStoreDashboardPageState extends State<AutoPartStoreDashboardPage>
                                               SizedBox(width: 10,),
 
                                               Text(
-                                                widget.data.openTime,
+                                                widget.partStoreData.openTime,
                                                 style: GoogleFonts.quicksand(
                                                   fontSize:18,
                                                 ),
@@ -265,7 +701,7 @@ class _AutoPartStoreDashboardPageState extends State<AutoPartStoreDashboardPage>
                                               ),
                                               SizedBox(width: 10,),
                                               Text(
-                                                widget.data.closeTime,
+                                                widget.partStoreData.closeTime,
                                                 style: GoogleFonts.quicksand(
                                                   fontSize:18,
                                                 ),
