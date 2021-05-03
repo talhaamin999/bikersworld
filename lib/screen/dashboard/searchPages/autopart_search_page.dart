@@ -1,6 +1,5 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:bikersworld/model/partstore_model.dart';
-import 'package:bikersworld/screen/autoPartStore/Auto%20Part%20Store%20Normal%20User/autoPartStoreDashboard.dart';
 import 'package:bikersworld/screen/dashboard/searchPages/refine_search_page.dart';
 import 'package:bikersworld/services/search_queries/refine_search.dart';
 import 'package:bikersworld/services/search_queries/search_part.dart';
@@ -9,6 +8,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:bikersworld/screen/dashboard/searchPages/search_auto_part_detail_page.dart';
 
 
 
@@ -405,8 +405,8 @@ class _AutoPartSearchPageState extends State<AutoPartSearchPage> {
                         padding: const EdgeInsets.only(bottom: 15),
                         child: FlatButton(
                           onPressed:(){
-                            Navigator.of(context).push(MaterialPageRoute(builder: (context) => AutoPartStoreDashboardPageNormalUser(partStoreId: snapshot.data[index].partStoreId,)));
-                          },
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => SearchAutoPartDetailPage(partDetail: snapshot.data[index],)));
+                            },
                           child: Card(
                             color: Color(0xfff7f7f7),
                             child: Container(

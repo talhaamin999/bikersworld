@@ -18,7 +18,7 @@ import 'package:bikersworld/screen/dashboard/searchPages/ads_search_page.dart';
 import 'package:bikersworld/screen/dashboard/searchPages/workshop_search_page.dart';
 import 'package:bikersworld/screen/dashboard/searchPages/service_search_page.dart';
 import 'package:bikersworld/screen/loginSignup/update_profile.dart';
-import 'package:bikersworld/screen/autoPartStore/Auto Part Store Normal User/autoPartStoreDashboard.dart';
+import 'package:bikersworld/screen/autoPartStore/auto_part_store_normal_user/autoPartStoreDashboard.dart';
 
 
 class CustomDrawer extends StatefulWidget {

@@ -59,7 +59,7 @@ dependencies:
   page_transition: ^1.1.7+6
   image_form_field: ^0.1.0
   flat_icons_flutter: ^1.0.1
-
+  random_color: ^1.0.5
 dev_dependencies:
   flutter_test:
     sdk: flutter

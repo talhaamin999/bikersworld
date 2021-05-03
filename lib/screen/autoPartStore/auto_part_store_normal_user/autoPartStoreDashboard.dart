@@ -5,10 +5,11 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:simple_animations/simple_animations.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:bikersworld/widgets/rating_bar.dart';
-import 'package:bikersworld/screen/autoPartStore/Auto Part Store Normal User/reviews_auto_part_form.dart';
+import 'package:bikersworld/screen/autoPartStore/auto_part_store_normal_user/reviews_auto_part_form.dart';
 import 'package:bikersworld/model/partstore_model.dart';
-import 'package:bikersworld/screen/autoPartStore/Auto Part Store Normal User/categories_normal_user.dart';
-import 'package:bikersworld/screen/autoPartStore/Auto Part Store Normal User/view_all_auto_parts.dart';
+import 'package:bikersworld/screen/autoPartStore/auto_part_store_normal_user/categories_normal_user.dart';
+import 'package:bikersworld/screen/autoPartStore/auto_part_store_normal_user/view_all_auto_parts.dart';
+import 'package:bikersworld/screen/autoPartStore/auto_part_store_normal_user/normsl_user_partstore_review.dart';
 
 class AutoPartStoreDashboardPageNormalUser extends StatefulWidget {
 
@@ -24,6 +25,15 @@ class AutoPartStoreDashboardPageNormalUser extends StatefulWidget {
 class _AutoPartStoreDashboardPageNormalUserState extends State<AutoPartStoreDashboardPageNormalUser> {
   bool isVisible = false,_isButtonVisible = true;
   final _partStore = SearchPartStore();
+
+  final List partCategory = [
+    "Body & Frame",
+    "Brake & Suspension",
+    "Lighting & Indicators",
+    "Engine & Parts",
+    "Exhaust & System",
+    "Aur & Intake",
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -280,6 +290,7 @@ class _AutoPartStoreDashboardPageNormalUserState extends State<AutoPartStoreDash
                                           );
                                         }
                                     ),
+
                                   ],
                                 ),
                               ),
@@ -288,7 +299,8 @@ class _AutoPartStoreDashboardPageNormalUserState extends State<AutoPartStoreDash
                         ),
                       ],
                     ),
-                  )),
+                  ),
+                  ),
                   Transform.translate(
                     offset: Offset(0, -35),
                     child: FadeAnimation(1.2, Container(
@@ -351,62 +363,7 @@ class _AutoPartStoreDashboardPageNormalUserState extends State<AutoPartStoreDash
                               ),
                             ),
                           ),
-                          Padding(
-                            padding: const EdgeInsets.only(left:20, right: 10),
-                            child: Container(
-                              child: SizedBox(
-                                height: 60.0,
-                                child: ListView(
-                                  scrollDirection: Axis.horizontal,
-                                  children: <Widget>[
-                                    Container(
-                                      width: 100,
-                                      child: Center(
-                                        child: Text("Body"),
-                                      ),
-                                      decoration: BoxDecoration(
-                                        color: Colors.red,
-                                        borderRadius: BorderRadius.circular(10),
-                                      ),
-                                    ),
-                                    SizedBox(width: 10,),
-                                    Container(
-                                      width: 100,
-                                      child: Center(
-                                        child: Text("Engine"),
-                                      ),
-                                      decoration: BoxDecoration(
-                                        color: Colors.blue,
-                                        borderRadius: BorderRadius.circular(10),
-                                      ),
-                                    ),
-                                    SizedBox(width: 10,),
-                                    Container(
-                                      width: 100,
-                                      child: Center(
-                                        child: Text("Light"),
-                                      ),
-                                      decoration: BoxDecoration(
-                                        color: Colors.teal,
-                                        borderRadius: BorderRadius.circular(10),
-                                      ),
-                                    ),
-                                    SizedBox(width: 10,),
-                                    Container(
-                                      width: 100,
-                                      child: Center(
-                                        child: Text("Frame"),
-                                      ),
-                                      decoration: BoxDecoration(
-                                        color: Colors.orange,
-                                        borderRadius: BorderRadius.circular(10),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
+                          ReuseableGrid(partCategory: partCategory),
                         ],
                       )
                     ],
@@ -784,62 +741,7 @@ class _AutoPartStoreDashboardPageNormalUserState extends State<AutoPartStoreDash
                         ),
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(left:20, right: 10),
-                      child: Container(
-                        child: SizedBox(
-                          height: 60.0,
-                          child: ListView(
-                            scrollDirection: Axis.horizontal,
-                            children: <Widget>[
-                              Container(
-                                width: 100,
-                                child: Center(
-                                  child: Text("Body"),
-                                ),
-                                decoration: BoxDecoration(
-                                  color: Colors.red,
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                              ),
-                              SizedBox(width: 10,),
-                              Container(
-                                width: 100,
-                                child: Center(
-                                  child: Text("Engine"),
-                                ),
-                                decoration: BoxDecoration(
-                                  color: Colors.blue,
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                              ),
-                              SizedBox(width: 10,),
-                              Container(
-                                width: 100,
-                                child: Center(
-                                  child: Text("Light"),
-                                ),
-                                decoration: BoxDecoration(
-                                  color: Colors.teal,
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                              ),
-                              SizedBox(width: 10,),
-                              Container(
-                                width: 100,
-                                child: Center(
-                                  child: Text("Frame"),
-                                ),
-                                decoration: BoxDecoration(
-                                  color: Colors.orange,
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
+                    ReuseableGrid(partCategory: partCategory),
                   ],
                 )
               ],
@@ -903,6 +805,18 @@ class _AutoPartStoreDashboardPageNormalUserState extends State<AutoPartStoreDash
           ],
         ),
       ),
+      floatingActionButton: Container(
+        height: 80,
+        width: 80,
+        child: FloatingActionButton(
+
+          onPressed: () {
+            Navigator.push(context, MaterialPageRoute(builder: (context) => NormalUserPartStoreReivew()));
+          },
+          child: const Icon(FontAwesomeIcons.commentDots, color: Colors.orange, size: 40,),
+          backgroundColor: Color(0XFF012A4A),
+        ),
+      ),
     );
   }
 
@@ -940,6 +854,45 @@ class _AutoPartStoreDashboardPageNormalUserState extends State<AutoPartStoreDash
           ),
         ),
       ),
+    );
+  }
+}
+
+class ReuseableGrid extends StatelessWidget {
+
+  const ReuseableGrid({
+    Key key,
+    @required this.partCategory,
+  }) : super(key: key);
+
+  final List partCategory;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(left:20, right: 10),
+      child: GridView.extent(
+        shrinkWrap: true,
+          physics: NeverScrollableScrollPhysics(),
+          maxCrossAxisExtent: 130.0,
+          crossAxisSpacing: 20.0,
+          mainAxisSpacing: 20.0,
+          children: partCategory.map((el) => Card(
+              child: Center(
+                  child:Padding(
+                    padding: const EdgeInsets.all(3),
+                    child: Text
+                      (el,style: GoogleFonts.montserrat(
+                      fontSize: 15,
+                      color: Color(0xff8c8b8b),
+                    ),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+              ),
+          ),
+          ).toList()
+      )
     );
   }
 }
