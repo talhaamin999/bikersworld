@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:auto_size_text/auto_size_text.dart';
-import 'package:simple_animations/simple_animations.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:bikersworld/screen/autoPartStore/auto_part_store_normal_user/reviews_auto_part_form.dart';
+import 'package:simple_animations/simple_animations.dart';
 import 'package:bikersworld/widgets/rating_bar.dart';
-class ViewAllAutoParts extends StatefulWidget {
+import 'package:auto_size_text/auto_size_text.dart';
+import 'package:bikersworld/screen/autoPartStore/auto_part_store_normal_user/reviews_auto_part_form.dart';
+
+
+class ViewCategoryWiseAutoPart extends StatefulWidget {
   @override
-  _ViewAllAutoPartsState createState() => _ViewAllAutoPartsState();
+  _ViewCategoryWiseAutoPartState createState() => _ViewCategoryWiseAutoPartState();
 }
 
-class _ViewAllAutoPartsState extends State<ViewAllAutoParts> {
+class _ViewCategoryWiseAutoPartState extends State<ViewCategoryWiseAutoPart> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -37,101 +39,97 @@ class _ViewAllAutoPartsState extends State<ViewAllAutoParts> {
           elevation: 0.0,
         ),
         body: SingleChildScrollView(
-          child: Container(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(left:25,top: 15),
-                  child: Container(
-                    child: Text(
-                      "All Auto Parts",
-                      style:GoogleFonts.quicksand(
-                        fontSize: 23,
-                        color: Colors.orange,
-                      ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(left:25,top: 15),
+                child: Container(
+                  child: Text(
+                    "Body and Frame",
+                    style:GoogleFonts.quicksand(
+                      fontSize: 23,
+                      color: Colors.orange,
                     ),
                   ),
                 ),
-                SizedBox(height: 20,),
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 15),
-                  child: FlatButton(
-                    onPressed:(){
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => PartDetail()));
-                    },
-                    child: Card(
-                      color: Color(0xfff7f7f7),
-                      child: Container(
-                        child: Row(
-                          children: <Widget>[
-                            Container(
-                              width: 100,
-                              height: 90,
-                              decoration: BoxDecoration(
-                                shape: BoxShape.rectangle,
-                                image: DecorationImage(
-                                  fit: BoxFit.fill,
-                                  image: AssetImage("assets/alyrim.jpeg"),
-                                ),
+              ),
+              SizedBox(height: 20,),
+              Padding(
+                padding: const EdgeInsets.only(bottom: 15),
+                child: FlatButton(
+                  onPressed:(){
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => PartDetail()));
+                  },
+                  child: Card(
+                    color: Color(0xfff7f7f7),
+                    child: Container(
+                      child: Row(
+                        children: <Widget>[
+                          Container(
+                            width: 100,
+                            height: 90,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.rectangle,
+                              image: DecorationImage(
+                                fit: BoxFit.fill,
+                                image: AssetImage("assets/alyrim.jpeg"),
                               ),
                             ),
-                            SizedBox(width: 20,),
-                            Container(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: <Widget>[
-                                  Container(
-                                    child: AutoSizeText(
-                                      "Plug",
-                                      style: GoogleFonts.quicksand(
-                                        fontSize: 20,
-                                        color: Colors.black,
-                                      ),
+                          ),
+                          SizedBox(width: 20,),
+                          Container(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                Container(
+                                  child: AutoSizeText(
+                                    "Plug",
+                                    style: GoogleFonts.quicksand(
+                                      fontSize: 20,
+                                      color: Colors.black,
                                     ),
                                   ),
-                                  SizedBox(height: 5,),
-                                  Container(
-                                    child: Row(
-                                      children: [
-                                        Container(
-                                          child: Text(
-                                            "Body and Frame",
-                                            style: TextStyle(
-                                                fontSize: 18,
-                                              color: Colors.grey,
-                                            ),
+                                ),
+                                SizedBox(height: 5,),
+                                Container(
+                                  child: Row(
+                                    children: [
+                                      Container(
+                                        child: Text(
+                                          "Body and Frame",
+                                          style: TextStyle(
+                                            fontSize: 18,
+                                            color: Colors.grey,
                                           ),
                                         ),
-                                        SizedBox(width: 65,),
-                                        Icon(
-                                          Icons.arrow_forward_ios,
-                                          color: Color(0xffb8b8b8),
-                                        ),
-                                      ],
-                                    ),
+                                      ),
+                                      SizedBox(width: 65,),
+                                      Icon(
+                                        Icons.arrow_forward_ios,
+                                        color: Color(0xffb8b8b8),
+                                      ),
+                                    ],
                                   ),
+                                ),
 
-                                  SizedBox(height: 10,),
-                                ],
-                              ),
+                                SizedBox(height: 10,),
+                              ],
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
                     ),
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),
     );
   }
 }
-
-
 
 
 class PartDetail extends StatelessWidget {

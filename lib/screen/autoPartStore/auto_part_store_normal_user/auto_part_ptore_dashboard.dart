@@ -12,6 +12,7 @@ import 'package:bikersworld/model/partstore_model.dart';
 import 'package:bikersworld/screen/autoPartStore/auto_part_store_normal_user/categories_normal_user.dart';
 import 'package:bikersworld/screen/autoPartStore/auto_part_store_normal_user/view_all_auto_parts.dart';
 import 'package:bikersworld/screen/autoPartStore/auto_part_store_normal_user/normsl_user_partstore_review.dart';
+import 'package:bikersworld/screen/autoPartStore/auto_part_store_normal_user/view_category_wise_auto_part.dart';
 
 class AutoPartStoreDashboardPageNormalUser extends StatefulWidget {
 
@@ -24,7 +25,8 @@ class AutoPartStoreDashboardPageNormalUser extends StatefulWidget {
 }
 
 class _AutoPartStoreDashboardPageNormalUserState extends State<AutoPartStoreDashboardPageNormalUser> {
-  bool isVisible = false,_isButtonVisible = true;
+  bool isVisible = false,
+      _isButtonVisible = true;
   final _partStore = SearchPartStore();
   final _autoPart = SearchAutoParts();
 
@@ -41,423 +43,648 @@ class _AutoPartStoreDashboardPageNormalUserState extends State<AutoPartStoreDash
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          title: Text(
-            'BIKERSWORLD',
-            style: GoogleFonts.quicksand(
-              color: Colors.white,
-              fontSize: 18,
-            ),
+        title: Text(
+          'BIKERSWORLD',
+          style: GoogleFonts.quicksand(
+            color: Colors.white,
+            fontSize: 18,
           ),
-          backgroundColor: Color(0XFF012A4A),
-          leading: IconButton(icon:Icon(Icons.arrow_back, color: Colors.orange,),
-            onPressed:() => Navigator.pop(context),
-          ),
-          elevation: 0.0,
+        ),
+        backgroundColor: Color(0XFF012A4A),
+        leading: IconButton(icon: Icon(Icons.arrow_back, color: Colors.orange,),
+          onPressed: () => Navigator.pop(context),
+        ),
+        elevation: 0.0,
       ),
       body: FutureBuilder(
-        future: _partStore.getPartStoreById(widget.partStoreId),
-        builder: (BuildContext context, AsyncSnapshot<PartstoreDashboardModel> snapshot) {
-          if(snapshot.hasData && snapshot.data != null){
-            return SingleChildScrollView(
-              child: Column(
-                children: <Widget>[
-                  FadeAnimation(1, Container(
-                    height: 200,
-                    width: double.infinity,
-                    padding: EdgeInsets.only(left: 25, right: 25),
-                    decoration: BoxDecoration(
-                      color: Color(0XFF012A4A),
-                      borderRadius: BorderRadius.only(
-                          bottomRight: Radius.circular(50.0),
-                          bottomLeft: Radius.circular(50.0)
-                      ),
-                    ),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        SizedBox(height:20),
-                        CircleAvatar(
-                          radius: 55,
-                          backgroundColor: Colors.orange,
-                          child: CircleAvatar(
-                              radius: 50,
-                              backgroundImage: snapshot.data.imageURL != null ? NetworkImage(snapshot.data.imageURL) : AssetImage("assets/avatar.jpg",)
-                          ),
+          future: _partStore.getPartStoreById(widget.partStoreId),
+          builder: (BuildContext context,
+              AsyncSnapshot<PartstoreDashboardModel> snapshot) {
+            if (snapshot.hasData && snapshot.data != null) {
+              return SingleChildScrollView(
+                child: Column(
+                  children: <Widget>[
+                    FadeAnimation(1, Container(
+                      height: 200,
+                      width: double.infinity,
+                      padding: EdgeInsets.only(left: 25, right: 25),
+                      decoration: BoxDecoration(
+                        color: Color(0XFF012A4A),
+                        borderRadius: BorderRadius.only(
+                            bottomRight: Radius.circular(50.0),
+                            bottomLeft: Radius.circular(50.0)
                         ),
-                        SizedBox(width: 15,),
-                        Container(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                snapshot.data.shopTitle,
-                                style: GoogleFonts.quicksand(
-                                  fontSize:20,
-                                  color: Colors.grey,
+                      ),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          SizedBox(height: 20),
+                          CircleAvatar(
+                            radius: 55,
+                            backgroundColor: Colors.orange,
+                            child: CircleAvatar(
+                                radius: 50,
+                                backgroundImage: snapshot.data.imageURL != null
+                                    ? NetworkImage(snapshot.data.imageURL)
+                                    : AssetImage("assets/avatar.jpg",)
+                            ),
+                          ),
+                          SizedBox(width: 15,),
+                          Container(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  snapshot.data.shopTitle,
+                                  style: GoogleFonts.quicksand(
+                                    fontSize: 20,
+                                    color: Colors.grey,
+                                  ),
                                 ),
-                              ),
-                              SizedBox(height: 8,),
-                              Text(
-                                snapshot.data.city,
-                                style: GoogleFonts.quicksand(
-                                  fontSize:18,
-                                  color: Colors.white,
+                                SizedBox(height: 8,),
+                                Text(
+                                  snapshot.data.city,
+                                  style: GoogleFonts.quicksand(
+                                    fontSize: 18,
+                                    color: Colors.white,
+                                  ),
                                 ),
-                              ),
-                              SizedBox(height: 8,),
-                              Text(
-                                snapshot.data.ownerContact,
-                                style: GoogleFonts.quicksand(
-                                  fontSize:13,
-                                  color: Colors.white,
+                                SizedBox(height: 8,),
+                                Text(
+                                  snapshot.data.ownerContact,
+                                  style: GoogleFonts.quicksand(
+                                    fontSize: 13,
+                                    color: Colors.white,
+                                  ),
                                 ),
-                              ),
-                              SizedBox(height: 15,),
-                              Container(
-                                child: Row(
-                                  children: [
-                                    FlatButton(
-                                        padding: EdgeInsets.zero,
-                                        child: Container(
-                                          width: MediaQuery.of(context).size.width-320,
-                                          height: 40,
-                                          decoration: BoxDecoration(
-                                            color: Colors.red,
-                                            borderRadius: BorderRadius.circular(10),
+                                SizedBox(height: 15,),
+                                Container(
+                                  child: Row(
+                                    children: [
+                                      FlatButton(
+                                          padding: EdgeInsets.zero,
+                                          child: Container(
+                                            width: MediaQuery
+                                                .of(context)
+                                                .size
+                                                .width - 320,
+                                            height: 40,
+                                            decoration: BoxDecoration(
+                                              color: Colors.red,
+                                              borderRadius: BorderRadius
+                                                  .circular(10),
+                                            ),
+                                            child: Icon(
+                                              FontAwesomeIcons.calendar,
+                                              size: 20,
+                                              color: Colors.white,
+                                            ),
                                           ),
-                                          child: Icon(
-                                            FontAwesomeIcons.calendar,
-                                            size: 20,
-                                            color: Colors.white,
-                                          ),
-                                        ),
-                                        onPressed:(){
-                                          showModalBottomSheet(
-                                              context: context,
-                                              builder: (BuildContext bc){
-                                                return SingleChildScrollView(
-                                                  child: Container(
-                                                    child: new Wrap(
-                                                      children: <Widget>[
-                                                        Padding(
-                                                          padding: const EdgeInsets.only(top:15, left:15),
-                                                          child: Text(
-                                                            "Working Days",
-                                                            style: GoogleFonts.quicksand(
-                                                              fontSize: 20,
-                                                              fontWeight: FontWeight.bold,
+                                          onPressed: () {
+                                            showModalBottomSheet(
+                                                context: context,
+                                                builder: (BuildContext bc) {
+                                                  return SingleChildScrollView(
+                                                    child: Container(
+                                                      child: new Wrap(
+                                                        children: <Widget>[
+                                                          Padding(
+                                                            padding: const EdgeInsets
+                                                                .only(top: 15,
+                                                                left: 15),
+                                                            child: Text(
+                                                              "Working Days",
+                                                              style: GoogleFonts
+                                                                  .quicksand(
+                                                                fontSize: 20,
+                                                                fontWeight: FontWeight
+                                                                    .bold,
+                                                              ),
                                                             ),
                                                           ),
-                                                        ),
-                                                        ListTile(
-                                                          title: Container(
-                                                            child: Row(
-                                                              children: [
-                                                                Text("Monday", style: GoogleFonts.quicksand(fontSize: 20, ),),                                          ],
+                                                          ListTile(
+                                                            title: Container(
+                                                              child: Row(
+                                                                children: [
+                                                                  Text("Monday",
+                                                                    style: GoogleFonts
+                                                                        .quicksand(
+                                                                      fontSize: 20,),),
+                                                                ],
+                                                              ),
                                                             ),
-                                                          ),
-                                                          leading: snapshot.data.monday ? Icon(FontAwesomeIcons.check,color: Colors.green,) :  Icon(FontAwesomeIcons.times,color: Colors.red,
-                                                          ),
-
-                                                        ),
-                                                        ListTile(
-                                                          title: Container(
-                                                            child: Row(
-                                                              children: [
-                                                                Text("Tuesday", style: GoogleFonts.quicksand(fontSize: 20, ),),
-                                                              ],
+                                                            leading: snapshot
+                                                                .data.monday
+                                                                ? Icon(
+                                                              FontAwesomeIcons
+                                                                  .check,
+                                                              color: Colors
+                                                                  .green,)
+                                                                : Icon(
+                                                              FontAwesomeIcons
+                                                                  .times,
+                                                              color: Colors.red,
                                                             ),
+
                                                           ),
-                                                          leading: snapshot.data.tuesday ? Icon(FontAwesomeIcons.check,color: Colors.green,) :  Icon(FontAwesomeIcons.times,color: Colors.red,),
-                                                        ),
-                                                        ListTile(
-                                                          title: Container(
-                                                            child: Row(
-                                                              children: [
-                                                                Text("Wednesday", style: GoogleFonts.quicksand(fontSize: 20, ),),
-                                                              ],
+                                                          ListTile(
+                                                            title: Container(
+                                                              child: Row(
+                                                                children: [
+                                                                  Text(
+                                                                    "Tuesday",
+                                                                    style: GoogleFonts
+                                                                        .quicksand(
+                                                                      fontSize: 20,),),
+                                                                ],
+                                                              ),
                                                             ),
+                                                            leading: snapshot
+                                                                .data.tuesday
+                                                                ? Icon(
+                                                              FontAwesomeIcons
+                                                                  .check,
+                                                              color: Colors
+                                                                  .green,)
+                                                                : Icon(
+                                                              FontAwesomeIcons
+                                                                  .times,
+                                                              color: Colors
+                                                                  .red,),
                                                           ),
-                                                          leading: snapshot.data.wednesday ? Icon(FontAwesomeIcons.check,color: Colors.green,) :  Icon(FontAwesomeIcons.times,color: Colors.red,),
-
-                                                        ),
-                                                        ListTile(
-                                                          title: Container(
-                                                            child: Row(
-                                                              children: [
-                                                                Text("Thursday", style: GoogleFonts.quicksand(fontSize: 20, ),),
-
-                                                              ],
+                                                          ListTile(
+                                                            title: Container(
+                                                              child: Row(
+                                                                children: [
+                                                                  Text(
+                                                                    "Wednesday",
+                                                                    style: GoogleFonts
+                                                                        .quicksand(
+                                                                      fontSize: 20,),),
+                                                                ],
+                                                              ),
                                                             ),
-                                                          ),
+                                                            leading: snapshot
+                                                                .data.wednesday
+                                                                ? Icon(
+                                                              FontAwesomeIcons
+                                                                  .check,
+                                                              color: Colors
+                                                                  .green,)
+                                                                : Icon(
+                                                              FontAwesomeIcons
+                                                                  .times,
+                                                              color: Colors
+                                                                  .red,),
 
-                                                          leading: snapshot.data.thursday ? Icon(FontAwesomeIcons.check,color: Colors.green,) :  Icon(FontAwesomeIcons.times,color: Colors.red,),
-                                                        ),
-                                                        ListTile(
-                                                          title: Container(
-                                                            child: Row(
-                                                              children: [
-                                                                Text("Friday", style: GoogleFonts.quicksand(fontSize: 20, ),),
-                                                              ],
+                                                          ),
+                                                          ListTile(
+                                                            title: Container(
+                                                              child: Row(
+                                                                children: [
+                                                                  Text(
+                                                                    "Thursday",
+                                                                    style: GoogleFonts
+                                                                        .quicksand(
+                                                                      fontSize: 20,),),
+
+                                                                ],
+                                                              ),
                                                             ),
-                                                          ),
-                                                          leading: snapshot.data.friday ? Icon(FontAwesomeIcons.check,color: Colors.green,) :  Icon(FontAwesomeIcons.times,color: Colors.red,),
 
-                                                        ),
-                                                        ListTile(
-                                                          title: Container(
-                                                            child: Row(
-                                                              children: [
-                                                                Text("Saturday", style: GoogleFonts.quicksand(fontSize: 20, ),),
-                                                              ],
+                                                            leading: snapshot
+                                                                .data.thursday
+                                                                ? Icon(
+                                                              FontAwesomeIcons
+                                                                  .check,
+                                                              color: Colors
+                                                                  .green,)
+                                                                : Icon(
+                                                              FontAwesomeIcons
+                                                                  .times,
+                                                              color: Colors
+                                                                  .red,),
+                                                          ),
+                                                          ListTile(
+                                                            title: Container(
+                                                              child: Row(
+                                                                children: [
+                                                                  Text("Friday",
+                                                                    style: GoogleFonts
+                                                                        .quicksand(
+                                                                      fontSize: 20,),),
+                                                                ],
+                                                              ),
                                                             ),
-                                                          ),
-                                                          leading: snapshot.data.saturday ? Icon(FontAwesomeIcons.check,color: Colors.green,) :  Icon(FontAwesomeIcons.times,color: Colors.red,),
+                                                            leading: snapshot
+                                                                .data.friday
+                                                                ? Icon(
+                                                              FontAwesomeIcons
+                                                                  .check,
+                                                              color: Colors
+                                                                  .green,)
+                                                                : Icon(
+                                                              FontAwesomeIcons
+                                                                  .times,
+                                                              color: Colors
+                                                                  .red,),
 
-                                                        ),
-                                                        ListTile(
-                                                          title: Container(
-                                                            child: Row(
-                                                              children: [
-                                                                Text("Sunday", style: GoogleFonts.quicksand(fontSize: 20, ),),
-                                                              ],
+                                                          ),
+                                                          ListTile(
+                                                            title: Container(
+                                                              child: Row(
+                                                                children: [
+                                                                  Text(
+                                                                    "Saturday",
+                                                                    style: GoogleFonts
+                                                                        .quicksand(
+                                                                      fontSize: 20,),),
+                                                                ],
+                                                              ),
                                                             ),
+                                                            leading: snapshot
+                                                                .data.saturday
+                                                                ? Icon(
+                                                              FontAwesomeIcons
+                                                                  .check,
+                                                              color: Colors
+                                                                  .green,)
+                                                                : Icon(
+                                                              FontAwesomeIcons
+                                                                  .times,
+                                                              color: Colors
+                                                                  .red,),
+
+                                                          ),
+                                                          ListTile(
+                                                            title: Container(
+                                                              child: Row(
+                                                                children: [
+                                                                  Text("Sunday",
+                                                                    style: GoogleFonts
+                                                                        .quicksand(
+                                                                      fontSize: 20,),),
+                                                                ],
+                                                              ),
+                                                            ),
+
+                                                            leading: snapshot
+                                                                .data.sunday
+                                                                ? Icon(
+                                                              FontAwesomeIcons
+                                                                  .check,
+                                                              color: Colors
+                                                                  .green,)
+                                                                : Icon(
+                                                              FontAwesomeIcons
+                                                                  .times,
+                                                              color: Colors
+                                                                  .red,),
                                                           ),
 
-                                                          leading: snapshot.data.sunday ? Icon(FontAwesomeIcons.check,color: Colors.green,) :  Icon(FontAwesomeIcons.times,color: Colors.red,),
-                                                        ),
-
-                                                        SizedBox(height: 20,),
-                                                      ],
-                                                    ),
-                                                  ),
-                                                );
-                                              }
-                                          );
-                                        }
-                                    ),
-                                    SizedBox(width: 5,),
-                                    FlatButton(
-                                        padding: EdgeInsets.zero,
-                                        child: Container(
-                                          width: MediaQuery.of(context).size.width-320,
-                                          height: 40,
-                                          decoration: BoxDecoration(
-                                            color: Colors.blue,
-                                            borderRadius: BorderRadius.circular(10),
-                                          ),
-                                          child: Icon(
-                                            FontAwesomeIcons.clock,
-                                            size: 20,
-                                            color: Colors.white,
-                                          ),
-                                        ),
-                                        onPressed:(){
-                                          showDialog(
-                                            context: context,
-                                            builder: (_) => new AlertDialog(
-                                              title: new Text("Working hours", style: GoogleFonts.quicksand(fontSize: 18 , fontWeight:FontWeight.bold),),
-                                              content: Container(
-                                                child: Row(
-                                                  children: [
-                                                    Icon(
-                                                      FontAwesomeIcons.clock,
-                                                      color: Colors.orange,
-                                                      size: 30,
-                                                    ),
-                                                    SizedBox(width: 10,),
-
-                                                    Text(
-                                                      snapshot.data.openTime,
-                                                      style: GoogleFonts.quicksand(
-                                                        fontSize:18,
+                                                          SizedBox(height: 20,),
+                                                        ],
                                                       ),
                                                     ),
-                                                    SizedBox(width: 10,),
-                                                    Text(
-                                                        "-"
+                                                  );
+                                                }
+                                            );
+                                          }
+                                      ),
+                                      SizedBox(width: 5,),
+                                      FlatButton(
+                                          padding: EdgeInsets.zero,
+                                          child: Container(
+                                            width: MediaQuery
+                                                .of(context)
+                                                .size
+                                                .width - 320,
+                                            height: 40,
+                                            decoration: BoxDecoration(
+                                              color: Colors.blue,
+                                              borderRadius: BorderRadius
+                                                  .circular(10),
+                                            ),
+                                            child: Icon(
+                                              FontAwesomeIcons.clock,
+                                              size: 20,
+                                              color: Colors.white,
+                                            ),
+                                          ),
+                                          onPressed: () {
+                                            showDialog(
+                                              context: context,
+                                              builder: (_) =>
+                                              new AlertDialog(
+                                                title: new Text("Working hours",
+                                                  style: GoogleFonts.quicksand(
+                                                      fontSize: 18,
+                                                      fontWeight: FontWeight
+                                                          .bold),),
+                                                content: Container(
+                                                  child: Row(
+                                                    children: [
+                                                      Icon(
+                                                        FontAwesomeIcons.clock,
+                                                        color: Colors.orange,
+                                                        size: 30,
+                                                      ),
+                                                      SizedBox(width: 10,),
+
+                                                      Text(
+                                                        snapshot.data.openTime,
+                                                        style: GoogleFonts
+                                                            .quicksand(
+                                                          fontSize: 18,
+                                                        ),
+                                                      ),
+                                                      SizedBox(width: 10,),
+                                                      Text(
+                                                          "-"
+                                                      ),
+                                                      SizedBox(width: 10,),
+                                                      Text(
+                                                        snapshot.data.closeTime,
+                                                        style: GoogleFonts
+                                                            .quicksand(
+                                                          fontSize: 18,
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ),
+                                            );
+                                          }
+                                      ),
+
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    ),
+                    Transform.translate(
+                      offset: Offset(0, -35),
+                      child: FadeAnimation(1.2, Container(
+                        height: 60,
+                        padding: EdgeInsets.only(left: 20, top: 8),
+                        margin: EdgeInsets.symmetric(horizontal: 25),
+                        decoration: BoxDecoration(
+                            boxShadow: [
+                              BoxShadow(
+                                  color: Colors.grey[350],
+                                  blurRadius: 20.0,
+                                  offset: Offset(0, 10.0)
+                              )
+                            ],
+                            borderRadius: BorderRadius.circular(5.0),
+                            color: Colors.white
+                        ),
+                        child: TextField(
+                          decoration: InputDecoration(
+                              suffixIcon: Icon(
+                                Icons.search, color: Colors.black, size: 20.0,),
+                              border: InputBorder.none,
+                              hintText: 'Search'
+                          ),
+                        ),
+                      )),
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            FadeAnimation(1.2,
+                              Padding(
+                                padding: const EdgeInsets.only(
+                                    left: 20, right: 15),
+                                child: Container(
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment
+                                        .spaceBetween,
+                                    children: [
+                                      Text('Choose category',
+                                        style: GoogleFonts.quicksand(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 20,
+                                        ),
+                                      ),
+                                      FlatButton(
+                                        padding: EdgeInsets.all(0),
+                                        onPressed: () {
+                                          Navigator.push(context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      ViewAllCategoriesNomrmalUser()));
+                                        },
+                                        child: Text('View all',
+                                          style: GoogleFonts.quicksand(
+                                            fontSize: 16,
+                                            color: Colors.indigo,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Container(
+                              padding: EdgeInsets.only(left:20),
+                              height: MediaQuery.of(context).size.height * 0.1,
+                              child: ListView.builder(
+                                  scrollDirection: Axis.horizontal,
+                                  itemCount:5 ,
+                                  itemBuilder: (context, index) {
+                                return FlatButton(
+                                  padding: EdgeInsets.zero,
+                                  onPressed: (){
+                                    Navigator.push(context, MaterialPageRoute(builder: (context) => ViewCategoryWiseAutoPart()));
+                                  },
+                                  child: Container(
+                                    color: Colors.transparent,
+                                    width: MediaQuery.of(context).size.width * 0.5,
+                                    child: Card(
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                          borderRadius:BorderRadius.circular(15),
+                                          gradient: LinearGradient(
+                                            colors: [
+                                              Color(0xff1e3c72),
+                                              Color(0xff2a5298),
+                                            ]
+                                          ),
+                                        ),
+                                        child: Center(
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Text(
+                                              partCategory[index],
+                                              style: GoogleFonts.quicksand(
+                                                fontSize: 17,
+                                                color: Colors.white
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                );
+                              }),
+                            ),
+                          ],
+                        )
+                      ],
+                    ),
+
+                    SizedBox(height: 10),
+                    FadeAnimation(1.2,
+                      Padding(
+                        padding: const EdgeInsets.only(left: 20, right: 15),
+                        child: Container(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text('Auto Parts',
+                                style: GoogleFonts.quicksand(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 20,
+                                ),
+                              ),
+                              FlatButton(
+                                padding: EdgeInsets.all(0),
+                                onPressed: () {
+                                  Navigator.push(context, MaterialPageRoute(
+                                      builder: (context) =>
+                                          ViewAllAutoParts()));
+                                },
+                                child: Text(
+                                  'View all',
+                                  style: GoogleFonts.quicksand(
+                                    fontSize: 16,
+                                    color: Colors.indigo,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 10.0,),
+                    FutureBuilder(
+                      future: _autoPart.getAutoPartByLimit(
+                          partStoreId: widget.partStoreId),
+                      builder: (BuildContext context,
+                          AsyncSnapshot<List<AutoPartModel>> snapshot) {
+                        if (snapshot.hasData && snapshot.data.isNotEmpty) {
+                          return ListView.builder(
+                              shrinkWrap: true,
+                              physics: NeverScrollableScrollPhysics(),
+                              itemCount: snapshot.data.length,
+                              itemBuilder: (context, index) {
+                                return Container(
+                                  height: 200,
+                                  child: ListView(
+                                    padding: EdgeInsets.only(
+                                        bottom: 20, left: 20),
+                                    scrollDirection: Axis.horizontal,
+                                    children: <Widget>[
+                                      FadeAnimation(1.3,
+                                          GestureDetector(
+                                            onTap: () {
+                                              Navigator.push(context, PageTransition( type: PageTransitionType.fade, child: PartDetail()));
+                                            },
+                                            child: AspectRatio(
+                                              aspectRatio: 1,
+                                              child: Container(
+                                                decoration: BoxDecoration(
+                                                   color: Color(0xffe8e8e8),
+                                                    boxShadow: [
+                                                      BoxShadow(
+                                                          color: Colors
+                                                              .grey[350],
+                                                          blurRadius: 10,
+                                                          offset: Offset(5, 10)
+                                                      )
+                                                    ]
+                                                ),
+                                                child:Column(
+                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                  children: [
+                                                    Image.network(snapshot.data[index].imageURL,),
+                                                    Padding(
+                                                      padding: const EdgeInsets.only(left:10),
+                                                      child: Text(
+                                                        "Part Name",
+                                                        style: GoogleFonts.quicksand(
+                                                          fontSize:18,
+                                                        ),
+                                                      ),
                                                     ),
-                                                    SizedBox(width: 10,),
-                                                    Text(
-                                                      snapshot.data.closeTime,
-                                                      style: GoogleFonts.quicksand(
-                                                        fontSize:18,
+                                                    Padding(
+                                                      padding: const EdgeInsets.only(left:10,right:10),
+                                                      child: Container(
+                                                        child: Row(
+                                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                          children: [
+                                                            Text(
+                                                              "200",
+                                                              style: GoogleFonts.quicksand(
+                                                                fontSize:15,
+                                                              ),
+                                                            ),
+                                                            Icon(
+                                                              Icons.arrow_forward_ios,
+                                                              color: Colors.grey,
+                                                            ),
+                                                          ],
+                                                        ),
                                                       ),
                                                     ),
                                                   ],
                                                 ),
                                               ),
                                             ),
-                                          );
-                                        }
-                                    ),
-
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  ),
-                  Transform.translate(
-                    offset: Offset(0, -35),
-                    child: FadeAnimation(1.2, Container(
-                      height: 60,
-                      padding: EdgeInsets.only(left: 20, top: 8),
-                      margin: EdgeInsets.symmetric(horizontal: 25),
-                      decoration: BoxDecoration(
-                          boxShadow: [
-                            BoxShadow(
-                                color: Colors.grey[350],
-                                blurRadius: 20.0,
-                                offset: Offset(0, 10.0)
-                            )
-                          ],
-                          borderRadius: BorderRadius.circular(5.0),
-                          color: Colors.white
-                      ),
-                      child: TextField(
-                        decoration: InputDecoration(
-                            suffixIcon: Icon(Icons.search, color: Colors.black, size: 20.0,),
-                            border: InputBorder.none,
-                            hintText: 'Search'
-                        ),
-                      ),
-                    )),
-                  ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          FadeAnimation(1.2,
-                            Padding(
-                              padding: const EdgeInsets.only(left:20,right: 15),
-                              child: Container(
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text('Choose category',
-                                      style: GoogleFonts.quicksand(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 20,
+                                          ),
                                       ),
-                                    ),
-                                    FlatButton(
-                                      padding: EdgeInsets.all(0),
-                                      onPressed: (){
-                                        Navigator.push(context, MaterialPageRoute(builder: (context) => ViewAllCategoriesNomrmalUser()));
-                                      },
-                                      child: Text('View all',
-                                        style: GoogleFonts.quicksand(
-                                          fontSize: 16,
-                                          color: Colors.indigo,
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
-                          ReuseableGrid(partCategory: partCategory),
-                        ],
-                      )
-                    ],
-                  ),
-
-                  SizedBox(height:10),
-                  FadeAnimation(1.2,
-                    Padding(
-                      padding: const EdgeInsets.only(left:20,right: 15),
-                      child: Container(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text('Auto Parts',
-                              style: GoogleFonts.quicksand(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 20,
-                              ),
-                            ),
-                            FlatButton(
-                              padding: EdgeInsets.all(0),
-                              onPressed: (){
-                                Navigator.push(context,MaterialPageRoute(builder: (context) => ViewAllAutoParts()));
-                              },
-                              child: Text(
-                                'View all',
-                                style: GoogleFonts.quicksand(
-                                  fontSize: 16,
-                                  color: Colors.indigo,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
+                                    ],
+                                  ),
+                                );
+                              }
+                          );
+                        }
+                        else if (snapshot.hasData && snapshot.data.isEmpty) {
+                          return Center(child: Text("NO PARTS Images To Show"));
+                        }
+                        else if (snapshot.hasError) {
+                          return Center(child: Text(snapshot.error.toString()));
+                        }
+                        return Center(child: CircularProgressIndicator(),);
+                      },
                     ),
-                  ),
-                  SizedBox(height: 10.0,),
-                  FutureBuilder(
-                    future: _autoPart.getAutoPartByLimit(partStoreId: widget.partStoreId),
-                    builder: (BuildContext context, AsyncSnapshot<List<AutoPartModel>> snapshot) {
-                      if(snapshot.hasData && snapshot.data.isNotEmpty){
-                        return ListView.builder(
-                            shrinkWrap: true,
-                            itemCount: snapshot.data.length,
-                            itemBuilder:(context,index){
-                             return Container(
-                               height: 280,
-                               width: double.infinity,
-                               child: ListView(
-                                 padding: EdgeInsets.only(bottom: 20, left: 20),
-                                 scrollDirection: Axis.horizontal,
-                                 children: <Widget>[
-                                   FadeAnimation(1.3,
-                                     Image.network(snapshot.data[index].imageURL),
-                                     /*
-                                     makeCard(
-                                     context: context,
-                                     startColor: Color.fromRGBO(251, 121, 155, 1),
-                                     endColor: Color.fromRGBO(251, 53, 105, 1),
-                                     image: '',//Image.network(snapshot.data[index].imageURL),
-                                   )
+                  ],
+                ),
+              );
+            }
 
-                                      */
-                                   ),
 
-                                 ],
-                               ),
-                             );
-                           }
-                         );
-                      }
-                      else if(snapshot.hasData && snapshot.data.isEmpty){
-                        return Center(child: Text("NO PARTS Images To Show"));
-                      }
-                      else if(snapshot.hasError){
-                        return Center(child: Text(snapshot.error.toString()));
-                      }
-                      return Center(child: CircularProgressIndicator(),);
-                    },
-                  ),
-                ],
-              ),
-            );
+            else if (snapshot.hasData && snapshot.data == null) {
+              return Center(child: Text("No Data Found"));
+            }
+            else if (snapshot.hasError) {
+              return Center(child: Text(snapshot.error.toString()));
+            }
+            return Center(child: CircularProgressIndicator());
           }
-          else if(snapshot.hasData && snapshot.data == null){
-            return Center(child: Text("No Data Found"));
-          }
-          else if(snapshot.hasError){
-            return Center(child: Text(snapshot.error.toString()));
-          }
-          return Center(child: CircularProgressIndicator());
-        }
       ),
       floatingActionButton: Container(
         height: 80,
@@ -465,98 +692,18 @@ class _AutoPartStoreDashboardPageNormalUserState extends State<AutoPartStoreDash
         child: FloatingActionButton(
 
           onPressed: () {
-            Navigator.push(context, MaterialPageRoute(builder: (context) => NormalUserPartStoreReivew(partStoreId:widget.partStoreId)));
+            Navigator.push(context, MaterialPageRoute(builder: (context) =>
+                NormalUserPartStoreReivew(partStoreId: widget.partStoreId)));
           },
-          child: const Icon(FontAwesomeIcons.commentDots, color: Colors.orange, size: 40,),
+          child: const Icon(
+            FontAwesomeIcons.commentDots, color: Colors.orange, size: 40,),
           backgroundColor: Color(0XFF012A4A),
         ),
       ),
     );
   }
-
-  Widget makeCard({context, startColor, endColor, image}) {
-    return GestureDetector(
-      onTap: () {
-        Navigator.push(context, PageTransition(type: PageTransitionType.fade, child: PartDetail()));
-      },
-      child: AspectRatio(
-        aspectRatio: 1,
-        child: Container(
-          margin: EdgeInsets.only(right: 20),
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(13.0),
-              gradient: LinearGradient(
-                begin: Alignment.topLeft,
-                colors: [
-                  startColor,
-                  endColor
-                ],
-              ),
-              boxShadow: [
-                BoxShadow(
-                    color: Colors.grey[350],
-                    blurRadius: 10,
-                    offset: Offset(5, 10)
-                )
-              ]
-          ),
-          child: Padding(
-            padding: EdgeInsets.all(50),
-            child: Center(
-              child: Image.asset(image),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
 }
 
-class ReuseableGrid extends StatelessWidget {
-
-  const ReuseableGrid({
-    Key key,
-    @required this.partCategory,
-  }) : super(key: key);
-
-  final List partCategory;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(left:20, right: 10),
-      child: GridView.extent(
-        shrinkWrap: true,
-          physics: NeverScrollableScrollPhysics(),
-          maxCrossAxisExtent: 130.0,
-          crossAxisSpacing: 20.0,
-          mainAxisSpacing: 20.0,
-          children: partCategory.map((value) => InkWell(
-            onTap: (){
-              Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) => SpeicificCategory())
-              );
-            },
-            child: Card(
-                child: Center(
-                    child:Padding(
-                      padding: const EdgeInsets.all(3),
-                      child: Text
-                        (value,style: GoogleFonts.montserrat(
-                        fontSize: 15,
-                        color: Color(0xff8c8b8b),
-                      ),
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
-                ),
-            ),
-          ),
-          ).toList()
-      )
-    );
-  }
-}
 
 class PartDetail extends StatelessWidget {
   @override
