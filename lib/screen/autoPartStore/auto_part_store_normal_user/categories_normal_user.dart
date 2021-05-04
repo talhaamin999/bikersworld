@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-
+import 'package:bikersworld/screen/autoPartStore/auto_part_store_normal_user/specific_category.dart';
 
 class ViewAllCategoriesNomrmalUser extends StatefulWidget {
 
@@ -59,7 +59,7 @@ class _ViewAllCategoriesNomrmalUserState extends State<ViewAllCategoriesNomrmalU
                     itemBuilder: (context, index) {
                       return InkWell(
                         onTap: (){
-                          //
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => SpeicificCategory()));
                         },
                         child: Container(
                           margin: EdgeInsets.only(left: 10,right: 10,top: 10),

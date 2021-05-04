@@ -63,10 +63,8 @@ class _ViewAllCategoriesState extends State<ViewAllCategories> {
                     itemBuilder: (context, index) {
                       return InkWell(
                         onTap: (){
-                          Navigator.of(context)
-                              .push(MaterialPageRoute(builder: (context) =>
-                              AutoPartDashboard(partStoreId: widget.partStoreId, category: _dropDownItems[index],)) );
-                        },
+
+                          },
                         child: Container(
                           margin: EdgeInsets.only(left: 10,right: 10,top: 10),
                           height: 70,
