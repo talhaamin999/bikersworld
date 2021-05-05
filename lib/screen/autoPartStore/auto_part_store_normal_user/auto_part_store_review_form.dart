@@ -1,14 +1,59 @@
+import 'package:bikersworld/model/partstore_model.dart';
+import 'package:bikersworld/screen/autoPartStore/auto_part_store_normal_user/normsl_user_partstore_review.dart';
+import 'package:bikersworld/services/part_store_queries/part_store_review_query.dart';
+import 'package:bikersworld/services/toast_service.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:bikersworld/widgets/rating_bar.dart';
 
 
 class ReviewAutoPartStore extends StatefulWidget {
+  final String partStoreId;
+  ReviewAutoPartStore(this.partStoreId);
   @override
   _ReviewAutoPartStoreState createState() => _ReviewAutoPartStoreState();
 }
 
 class _ReviewAutoPartStoreState extends State<ReviewAutoPartStore> {
+
+  final _reviewerName = TextEditingController();
+  final _description = TextEditingController();
+  final _partStoreReview = ReviewPartstoreQueries();
+  final _error = ToastErrorMessage();
+  bool _isButttonVisible = true;
+
+
+  Future<void> addReview() async {
+    try {
+      setState(() {
+        _isButttonVisible = false;
+      });
+      if (_reviewerName.text.isNotEmpty && _description.text.isNotEmpty) {
+        final _partStoreReviewModel = PartStoreReviews(
+            title: _reviewerName.text,
+            description: _description.text,
+            starRating: RatingsBar.ratings);
+        bool result = await _partStoreReview.reviewPartstore(
+            partStoreId: widget.partStoreId, data: _partStoreReviewModel);
+        if(result){
+          Navigator.of(context).pop();
+        }
+      }
+    } catch (e) {
+       _error.errorToastMessage(errorMessage: e.toString());
+    }finally{
+      setState(() {
+        _isButttonVisible = true;
+      });
+    }
+  }
+
+  @override
+  void dispose() {
+    _reviewerName.dispose();
+    _description.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -62,6 +107,7 @@ class _ReviewAutoPartStoreState extends State<ReviewAutoPartStore> {
                 margin: EdgeInsets.only(left: 20,top: 20),
                 width: MediaQuery.of(context).size.width - 40,
                 child: TextFormField(
+                  controller: _reviewerName,
                   keyboardType: TextInputType.multiline,
                   maxLines: 1,
                   decoration: InputDecoration(
@@ -82,8 +128,8 @@ class _ReviewAutoPartStoreState extends State<ReviewAutoPartStore> {
                 margin: EdgeInsets.only(left: 20),
                 width: MediaQuery.of(context).size.width - 40,
                 child: TextFormField(
+                  controller: _description,
                   keyboardType: TextInputType.multiline,
-                  maxLines: 1,
                   decoration: InputDecoration(
                     filled: true,
                     fillColor: Color(0xffe6e6e6),
@@ -98,9 +144,7 @@ class _ReviewAutoPartStoreState extends State<ReviewAutoPartStore> {
                   width: MediaQuery.of(context).size.width - 35,
                   height: 60,
                   child: RaisedButton(
-                    onPressed: (){
-                      //
-                    },
+                    onPressed: _isButttonVisible ? () => {addReview()} : null,
                     child: Text('Submit',style: GoogleFonts.quicksand(
                         fontSize: 20,
                         color: Colors.white

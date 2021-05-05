@@ -95,8 +95,9 @@ class _AutoPartSearchPageState extends State<AutoPartSearchPage> {
   navigateToFilterPage(BuildContext context) async{
     final RefineSearchResults _result = await Navigator.of(context)
         .push(MaterialPageRoute(builder: (context) => RefineRearchPage(partsSearchFilter: 'parts',)));
-    //only if result is not nul and city variable is assigned a value only then map the values
+    // only chekc for further conditions if the Navigator.pop() method returns some result
     if(_result != null){
+      // check if all the filters options have been selected
       if(_result.city != null && _result.type != null && _result.minRange != null && _result.maxRange != null && _result.sortOrder != null){
         setState(() {
           typeFilterValue = _result.type;
@@ -111,6 +112,7 @@ class _AutoPartSearchPageState extends State<AutoPartSearchPage> {
           filterRange = true;
         });
       }
+      // check if city type and range filters options have been selected
       else if(_result.city != null && _result.type != null && _result.minRange != null && _result.maxRange != null){
         setState(() {
           cityFilterValue = _result.city;
@@ -124,6 +126,7 @@ class _AutoPartSearchPageState extends State<AutoPartSearchPage> {
           filterRange = true;
         });
       }
+      // check if city type and sort filters options have been selected
       else if(_result.city != null && _result.type != null && _result.sortOrder != null){
         setState(() {
           cityFilterValue = _result.city;
@@ -137,7 +140,7 @@ class _AutoPartSearchPageState extends State<AutoPartSearchPage> {
         });
         print('${_result.city} ${_result.sortOrder}');
       }
-      // if city is selected aand also range isentified
+      //check if city sort and range filters options have been selected
       else if(_result.city != null && _result.sortOrder != null && _result.minRange != null && _result.maxRange != null){
         setState(() {
           cityFilterValue = _result.city;
@@ -151,6 +154,7 @@ class _AutoPartSearchPageState extends State<AutoPartSearchPage> {
           filterRange = true;
         });
       }
+      // check if type range and sort filters options have been selected
       else if(_result.type != null && _result.sortOrder != null && _result.minRange != null && _result.maxRange != null){
         setState(() {
           typeFilterValue = _result.type;
@@ -164,7 +168,7 @@ class _AutoPartSearchPageState extends State<AutoPartSearchPage> {
           filterRange = true;
         });
       }
-      // if only city variable filter was selected then on;y map cityFilter value and make title and city boolean options true
+      // check if city and type filters options have been selected
       else if(_result.city != null && _result.type != null){
         setState(() {
           cityFilterValue = _result.city;
@@ -175,7 +179,7 @@ class _AutoPartSearchPageState extends State<AutoPartSearchPage> {
           filterRange = false;
         });
       }
-      // if only sort filter was selected
+      // check if city and range filters options have been selected
       else if(_result.city != null && _result.minRange != null && _result.maxRange != null){
         setState(() {
           cityFilterValue = _result.city;
@@ -189,6 +193,7 @@ class _AutoPartSearchPageState extends State<AutoPartSearchPage> {
         });
         print(_result.sortOrder);
       }
+      // check if city and sort filters options have been selected
       else if(_result.city != null && _result.sortOrder != null){
         setState(() {
           cityFilterValue = _result.city;
@@ -200,6 +205,7 @@ class _AutoPartSearchPageState extends State<AutoPartSearchPage> {
           filterRange = false;
         });
       }
+      // check if type and sort filters options have been selected
       else if(_result.type != null && _result.sortOrder != null){
         setState(() {
           typeFilterValue = _result.type;
@@ -211,6 +217,7 @@ class _AutoPartSearchPageState extends State<AutoPartSearchPage> {
           filterRange = false;
         });
       }
+      // check if type and range filters options have been selected
       else if(_result.type != null && _result.minRange != null && _result.maxRange != null){
         setState(() {
           typeFilterValue = _result.type;
@@ -223,7 +230,7 @@ class _AutoPartSearchPageState extends State<AutoPartSearchPage> {
           filterRange = true;
         });
       }
-      // if range is selected
+      // check if sort and range filters options have been selected
       else if(_result.sortOrder != null && _result.minRange != null && _result.maxRange != null){
         setState(() {
           sortFilterValue = _result.sortOrder;
@@ -236,6 +243,7 @@ class _AutoPartSearchPageState extends State<AutoPartSearchPage> {
           filterRange = true;
         });
       }
+      // check if city filters options have been selected
       else if(_result.city != null){
         setState(() {
           cityFilterValue = _result.city;
@@ -246,6 +254,7 @@ class _AutoPartSearchPageState extends State<AutoPartSearchPage> {
           filterRange = false;
         });
       }
+      // check if type filters options have been selected
       else if(_result.type != null){
         setState(() {
           typeFilterValue = _result.type;
@@ -256,6 +265,7 @@ class _AutoPartSearchPageState extends State<AutoPartSearchPage> {
           filterRange = false;
         });
       }
+      // check if range filters options have been selected
       else if(_result.minRange != null && _result.maxRange != null){
         setState(() {
           minRangeFilterValue = int.tryParse(_result.minRange);
@@ -267,6 +277,7 @@ class _AutoPartSearchPageState extends State<AutoPartSearchPage> {
           filterRange = true;
         });
       }
+      // check if sort filters options have been selected
       else if(_result.sortOrder != null){
         setState(() {
           sortFilterValue = _result.sortOrder;
@@ -420,7 +431,7 @@ class _AutoPartSearchPageState extends State<AutoPartSearchPage> {
                                         shape: BoxShape.rectangle,
                                         image: DecorationImage(
                                           fit: BoxFit.fill,
-                                          image: AssetImage("assets/alyrim.jpeg"),
+                                          image: NetworkImage(snapshot.data[index].imageURL),
                                         ),
                                       ),
                                     ),

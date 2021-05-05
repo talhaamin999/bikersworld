@@ -261,8 +261,6 @@ class _RefineRearchPageState extends State<RefineRearchPage> {
                   ),
                 ),
               ),
-
-
               Visibility(
                   visible:true,
                   child: Padding(
@@ -274,8 +272,6 @@ class _RefineRearchPageState extends State<RefineRearchPage> {
                         )
                     ),
                   )),
-
-
               SizedBox(height: 20,),
               Visibility(
                 visible: widget.partsSearchFilter != null ? true : false,
