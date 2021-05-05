@@ -348,5 +348,17 @@ class SearchAutoParts {
       _error.errorToastMessage(errorMessage: e.toString());
     }
   }
-
+  Future<List<AutoPartModel>> getAutoPartByLimit({@required String partStoreId}){
+    try {
+      return _collectionReference
+          .where('partStoreId',isEqualTo: partStoreId)
+          .limit(5)
+          .get()
+          .then((querySnapshots) => querySnapshots.docs
+          .map((doc) => AutoPartModel.fromJson(doc.data(),doc.reference.id))
+          .toList());
+    } catch (e) {
+      _error.errorToastMessage(errorMessage: e.toString());
+    }
+  }
 }

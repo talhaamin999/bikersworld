@@ -1,3 +1,5 @@
+import 'package:bikersworld/screen/autoPartStore/auto_part_store_normal_user/specific_category.dart';
+import 'package:bikersworld/services/search_queries/search_part.dart';
 import 'package:bikersworld/services/search_queries/search_part_store.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -24,6 +26,7 @@ class AutoPartStoreDashboardPageNormalUser extends StatefulWidget {
 class _AutoPartStoreDashboardPageNormalUserState extends State<AutoPartStoreDashboardPageNormalUser> {
   bool isVisible = false,_isButtonVisible = true;
   final _partStore = SearchPartStore();
+  final _autoPart = SearchAutoParts();
 
   final List partCategory = [
     "Body & Frame",
@@ -400,27 +403,48 @@ class _AutoPartStoreDashboardPageNormalUserState extends State<AutoPartStoreDash
                     ),
                   ),
                   SizedBox(height: 10.0,),
-                  Container(
-                    height: 280,
-                    width: double.infinity,
-                    child: ListView(
-                      padding: EdgeInsets.only(bottom: 20, left: 20),
-                      scrollDirection: Axis.horizontal,
-                      children: <Widget>[
-                        FadeAnimation(1.3, makeCard(
-                          context: context,
-                          startColor: Color.fromRGBO(251, 121, 155, 1),
-                          endColor: Color.fromRGBO(251, 53, 105, 1),
-                          image: '',
-                        )),
-                        FadeAnimation(1.4, makeCard(
-                          context: context,
-                          startColor: Color.fromRGBO(203, 251, 255, 1),
-                          endColor: Color.fromRGBO(81, 223, 234, 1),
-                          image: '',
-                        )),
-                      ],
-                    ),
+                  FutureBuilder(
+                    future: _autoPart.getAutoPartByLimit(partStoreId: widget.partStoreId),
+                    builder: (BuildContext context, AsyncSnapshot<List<AutoPartModel>> snapshot) {
+                      if(snapshot.hasData && snapshot.data.isNotEmpty){
+                        return ListView.builder(
+                            shrinkWrap: true,
+                            itemCount: snapshot.data.length,
+                            itemBuilder:(context,index){
+                             return Container(
+                               height: 280,
+                               width: double.infinity,
+                               child: ListView(
+                                 padding: EdgeInsets.only(bottom: 20, left: 20),
+                                 scrollDirection: Axis.horizontal,
+                                 children: <Widget>[
+                                   FadeAnimation(1.3,
+                                     Image.network(snapshot.data[index].imageURL),
+                                     /*
+                                     makeCard(
+                                     context: context,
+                                     startColor: Color.fromRGBO(251, 121, 155, 1),
+                                     endColor: Color.fromRGBO(251, 53, 105, 1),
+                                     image: '',//Image.network(snapshot.data[index].imageURL),
+                                   )
+
+                                      */
+                                   ),
+
+                                 ],
+                               ),
+                             );
+                           }
+                         );
+                      }
+                      else if(snapshot.hasData && snapshot.data.isEmpty){
+                        return Center(child: Text("NO PARTS Images To Show"));
+                      }
+                      else if(snapshot.hasError){
+                        return Center(child: Text(snapshot.error.toString()));
+                      }
+                      return Center(child: CircularProgressIndicator(),);
+                    },
                   ),
                 ],
               ),
@@ -507,19 +531,26 @@ class ReuseableGrid extends StatelessWidget {
           maxCrossAxisExtent: 130.0,
           crossAxisSpacing: 20.0,
           mainAxisSpacing: 20.0,
-          children: partCategory.map((el) => Card(
-              child: Center(
-                  child:Padding(
-                    padding: const EdgeInsets.all(3),
-                    child: Text
-                      (el,style: GoogleFonts.montserrat(
-                      fontSize: 15,
-                      color: Color(0xff8c8b8b),
+          children: partCategory.map((value) => InkWell(
+            onTap: (){
+              Navigator.of(context).push(
+                  MaterialPageRoute(builder: (context) => SpeicificCategory())
+              );
+            },
+            child: Card(
+                child: Center(
+                    child:Padding(
+                      padding: const EdgeInsets.all(3),
+                      child: Text
+                        (value,style: GoogleFonts.montserrat(
+                        fontSize: 15,
+                        color: Color(0xff8c8b8b),
+                      ),
+                        textAlign: TextAlign.center,
+                      ),
                     ),
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
-              ),
+                ),
+            ),
           ),
           ).toList()
       )

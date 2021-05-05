@@ -4,7 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:bikersworld/widgets/drawer.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:bikersworld/screen/autoPartStore/auto_part_store_normal_user/autoPartStoreDashboard.dart';
+import 'package:bikersworld/screen/autoPartStore/auto_part_store_normal_user/auto_part_ptore_dashboard.dart';
 
 class partDetail extends StatelessWidget {
   final assetPath, partprice, partname , partCateogry , partStauts , partType;
