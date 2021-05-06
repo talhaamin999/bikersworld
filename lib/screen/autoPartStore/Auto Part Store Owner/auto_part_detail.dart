@@ -60,108 +60,128 @@ class _AutoPartDetailState extends State<AutoPartDetail> {
                   image: NetworkImage(widget.autoPartDetails.imageURL),
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.all(20),
-                child: Container(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SizedBox(height: 15,),
-                      Text(
-                        "Information",
-                        style: GoogleFonts.quicksand(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.orange
-                        ),
-                      ),
-                      SizedBox(height: 10,),
-                      Container(
-                        child: Row(
-                          children: [
-                            Text(
-                              "Name",
-                              style: GoogleFonts.quicksand(
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            SizedBox(width: 15,),
-                            Text(
-                              widget.autoPartDetails.title,
-                              style: GoogleFonts.quicksand(
-                                fontSize: 17,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      SizedBox(height: 10,),
-                      Container(
-                        child: Row(
-                          children: [
-                            Text(
-                              "Category",
-                              style: GoogleFonts.quicksand(
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            SizedBox(width: 15,),
-                            Text(
-                              widget.autoPartDetails.category,
-                              style: GoogleFonts.quicksand(
-                                fontSize: 17,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      SizedBox(height: 10,),
-                      Container(
-                        child: Row(
-                          children: [
-                            Text(
-                              "Type",
-                              style: GoogleFonts.quicksand(
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            SizedBox(width: 15,),
-                            Text(
-                              widget.autoPartDetails.type,
-                              style: GoogleFonts.quicksand(
-                                fontSize: 17,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      SizedBox(height: 10,),
-                      Container(
-                        child: Row(
-                          children: [
-                            Text(
-                              "Price",
-                              style: GoogleFonts.quicksand(
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            SizedBox(width: 15,),
-                            Text(
-                              widget.autoPartDetails.price.toString(),
-                              style: GoogleFonts.quicksand(
-                                fontSize: 17,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
+              Container(
+                  padding: const EdgeInsets.all(25.0),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(25),
+                      topRight: Radius.circular(25),
+                    ),
                   ),
-                ),
+                  child: SingleChildScrollView(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Text(
+                            widget.autoPartDetails.title,
+                            style: GoogleFonts.quicksand(
+                              color: Colors.black,
+                              fontSize: 22,
+                            ),
+                          ),
+                          SizedBox(height: 5,),
+                          Container(
+                            child: Row(
+                              children: [
+                                Text(
+                                  "PKR",
+                                  style: GoogleFonts.varelaRound(
+                                    fontSize: 14,
+                                    color: Colors.grey,
+                                  ),
+                                ),
+                                Text(
+                                  widget.autoPartDetails.price.toString(),
+                                  style: GoogleFonts.varelaRound(
+                                    fontSize: 14,
+                                    color: Colors.grey,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+
+                          SizedBox(height: 15,),
+                          Text(
+                            "Accessory Information",
+                            style: GoogleFonts.quicksand(
+                                color: Colors.black,
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold),
+                          ),
+                          SizedBox(height: 15,),
+                            Container(
+                              child: Row(
+                                children: <Widget>[
+                                  Container(
+                                    child: Row(
+                                      children: <Widget>[
+                                        Icon(FontAwesomeIcons.cogs),
+                                        SizedBox(width: 8,),
+                                        SizedBox(width: 18,),
+                                        Container(
+                                          child: Column(
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: <Widget>[Text(
+                                              "Category",
+                                              style: GoogleFonts.montserrat(
+                                                fontSize: 16,
+                                              ),
+                                            ),
+                                              SizedBox(height: 5,),
+                                              Text(
+                                                widget.autoPartDetails.category,
+                                                style: GoogleFonts.montserrat(
+                                                  fontSize: 12,
+                                                  color: Colors.grey,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  SizedBox(width: 20,),
+                                  Container(
+                                    margin: EdgeInsets.only(left: 10),
+                                    child: Row(
+                                      children: <Widget>[
+                                        Icon(FontAwesomeIcons.tumblrSquare),
+                                        SizedBox(width: 18,),
+                                        Container(
+                                          child: Column(
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: <Widget>[Text(
+                                              "Type",
+                                              style: GoogleFonts.montserrat(
+                                                fontSize: 16,
+                                              ),
+                                            ),
+                                              SizedBox(height: 5,),
+                                              Text(
+                                                widget.autoPartDetails.type,
+                                                style: GoogleFonts.montserrat(
+                                                  fontSize: 12,
+                                                  color: Colors.grey,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                        ],
+                      ),
+                  ),
               ),
 
               Padding(

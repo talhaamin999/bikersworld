@@ -1,4 +1,3 @@
-import 'package:bikersworld/screen/autoPartStore/auto_part_store_normal_user/specific_category.dart';
 import 'package:bikersworld/services/search_queries/search_part.dart';
 import 'package:bikersworld/services/search_queries/search_part_store.dart';
 import 'package:flutter/material.dart';
@@ -6,14 +5,12 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:simple_animations/simple_animations.dart';
 import 'package:page_transition/page_transition.dart';
-import 'package:bikersworld/widgets/rating_bar.dart';
-import 'package:bikersworld/screen/autoPartStore/auto_part_store_normal_user/reviews_auto_part_form.dart';
 import 'package:bikersworld/model/partstore_model.dart';
 import 'package:bikersworld/screen/autoPartStore/auto_part_store_normal_user/categories_normal_user.dart';
 import 'package:bikersworld/screen/autoPartStore/auto_part_store_normal_user/view_all_auto_parts.dart';
 import 'package:bikersworld/screen/autoPartStore/auto_part_store_normal_user/normsl_user_partstore_review.dart';
 import 'package:bikersworld/screen/autoPartStore/auto_part_store_normal_user/view_category_wise_auto_part.dart';
-
+import 'dart:math';
 import 'auto_part_details.dart';
 
 class AutoPartStoreDashboardPageNormalUser extends StatefulWidget {
@@ -29,9 +26,10 @@ class AutoPartStoreDashboardPageNormalUser extends StatefulWidget {
 class _AutoPartStoreDashboardPageNormalUserState extends State<AutoPartStoreDashboardPageNormalUser> {
   bool isVisible = false,
       _isButtonVisible = true;
+
   final _partStore = SearchPartStore();
   final _autoPart = SearchAutoParts();
-
+  final _random = Random();
   final List partCategory = [
     "Body & Frame",
     "Brake & Suspension",
@@ -455,7 +453,8 @@ class _AutoPartStoreDashboardPageNormalUserState extends State<AutoPartStoreDash
                               hintText: 'Search'
                           ),
                         ),
-                      )),
+                      ),
+                      ),
                     ),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -514,15 +513,12 @@ class _AutoPartStoreDashboardPageNormalUserState extends State<AutoPartStoreDash
                                     color: Colors.transparent,
                                     width: MediaQuery.of(context).size.width * 0.5,
                                     child: Card(
+                                      color: Color(0xffF8F8F8),
                                       child: Container(
                                         decoration: BoxDecoration(
                                           borderRadius:BorderRadius.circular(15),
-                                          gradient: LinearGradient(
-                                            colors: [
-                                              Color(0xff1e3c72),
-                                              Color(0xff2a5298),
-                                            ]
-                                          ),
+                                          color: Colors.primaries[_random.nextInt(Colors.primaries.length)]
+                                          [_random.nextInt(9) * 100],
                                         ),
                                         child: Center(
                                           child: Padding(
@@ -531,7 +527,7 @@ class _AutoPartStoreDashboardPageNormalUserState extends State<AutoPartStoreDash
                                               partCategory[index],
                                               style: GoogleFonts.quicksand(
                                                 fontSize: 17,
-                                                color: Colors.white
+                                                color: Colors.black,
                                               ),
                                             ),
                                           ),
@@ -581,7 +577,6 @@ class _AutoPartStoreDashboardPageNormalUserState extends State<AutoPartStoreDash
                         ),
                       ),
                     ),
-                    SizedBox(height: 10.0,),
                     FutureBuilder(
                       future: _autoPart.getAutoPartByLimit(
                           partStoreId: widget.partStoreId),
@@ -589,79 +584,72 @@ class _AutoPartStoreDashboardPageNormalUserState extends State<AutoPartStoreDash
                           AsyncSnapshot<List<AutoPartModel>> snapshot) {
                         if (snapshot.hasData && snapshot.data.isNotEmpty) {
                           return ListView.builder(
-                              shrinkWrap: true,
-                              physics: NeverScrollableScrollPhysics(),
-                              itemCount: snapshot.data.length,
-                              itemBuilder: (context, index) {
-                                return Container(
-                                  height: 200,
-                                  child: ListView(
-                                    padding: EdgeInsets.only(
-                                        bottom: 20, left: 20),
-                                    scrollDirection: Axis.horizontal,
-                                    children: <Widget>[
-                                      FadeAnimation(1.3,
-                                          GestureDetector(
-                                            onTap: () {
-                                              Navigator.push(context, PageTransition( type: PageTransitionType.fade, child: AutoPartDetail(snapshot.data[index])));
-                                            },
-                                            child: AspectRatio(
-                                              aspectRatio: 1,
-                                              child: Container(
-                                                decoration: BoxDecoration(
-                                                   color: Color(0xffe8e8e8),
-                                                    boxShadow: [
-                                                      BoxShadow(
-                                                          color: Colors
-                                                              .grey[350],
-                                                          blurRadius: 10,
-                                                          offset: Offset(5, 10)
-                                                      )
-                                                    ]
-                                                ),
-                                                child:Column(
-                                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                                  children: [
-                                                    Image.network(snapshot.data[index].imageURL,),
-                                                    Padding(
-                                                      padding: const EdgeInsets.only(left:10),
-                                                      child: Text(
-                                                        "Part Name",
-                                                        style: GoogleFonts.quicksand(
-                                                          fontSize:18,
-                                                        ),
-                                                      ),
-                                                    ),
-                                                    Padding(
-                                                      padding: const EdgeInsets.only(left:10,right:10),
-                                                      child: Container(
-                                                        child: Row(
-                                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                          children: [
-                                                            Text(
-                                                              "200",
-                                                              style: GoogleFonts.quicksand(
-                                                                fontSize:15,
-                                                              ),
-                                                            ),
-                                                            Icon(
-                                                              Icons.arrow_forward_ios,
-                                                              color: Colors.grey,
-                                                            ),
-                                                          ],
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
+                            shrinkWrap: true,
+                            physics:NeverScrollableScrollPhysics(),
+                            itemCount: snapshot.data.length,
+                            itemBuilder: (context, index) {
+                              return GestureDetector(
+                                onTap: (){
+                                  Navigator.push(context, PageTransition( type: PageTransitionType.fade, child: AutoPartDetail(snapshot.data[index])));
+                                },
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Card(
+                                    color: Colors.white,
+                                    child:Padding(
+                                      padding: const EdgeInsets.only(left:10,right: 20),
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        children: <Widget>[
+                                          Container(
+                                            width: 100,
+                                            height: 100,
+                                            child:Image.network(snapshot.data[index].imageURL,),
+                                          ),
+                                          Container(
+                                           child:Column(
+                                             crossAxisAlignment: CrossAxisAlignment.start,
+                                             children: [
+                                               Text(
+                                                 snapshot.data[index].title,
+                                                 style: GoogleFonts.quicksand(
+                                                   color: Colors.black,
+                                                   fontWeight: FontWeight.bold,
+                                                   fontSize: 20,
+                                                 ),
+                                               ),
+                                               SizedBox(height: 5,),
+                                               Container(
+                                                 height: 2,
+                                                 width: 80,
+                                                 color: Colors.indigo,
+                                               ),
+                                               Text(
+                                                 snapshot.data[index].category,
+                                                 style: GoogleFonts.quicksand(
+                                                   color: Colors.black,
+                                                   fontSize: 16,
+                                                 ),
+                                               ),
+                                             ],
+                                           ),
+                                          ),
+                                          SizedBox(width: 50,),
+                                          Container(
+                                            child: Icon(
+                                              Icons.arrow_forward_ios,
+                                              color: Colors.grey,
+
                                             ),
                                           ),
+
+                                        ],
                                       ),
-                                    ],
+                                    ),
                                   ),
-                                );
-                              }
+                                ),
+                              );
+                            },
                           );
                         }
                         else if (snapshot.hasData && snapshot.data.isEmpty) {
@@ -736,3 +724,4 @@ class FadeAnimation extends StatelessWidget {
     );
   }
 }
+

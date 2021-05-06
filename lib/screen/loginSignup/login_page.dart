@@ -12,7 +12,6 @@ import 'package:bikersworld/screen/loginSignup/forgort_password_page.dart';
 
 class LoginPage extends StatefulWidget {
 
-
   static String id = "loginScreen";
 
   LoginPage({Key key, this.title}) : super(key: key);
@@ -67,6 +66,7 @@ class _LoginPageState extends State<LoginPage> {
               height: 10,
             ),
             TextField(
+
                 keyboardType: TextInputType.emailAddress,
                 controller: emailController,
                 decoration: InputDecoration(
@@ -82,6 +82,9 @@ class _LoginPageState extends State<LoginPage> {
 
 
   Widget _passwordentryField(String title) {
+
+   //bool _isObscure = true;
+
     return Container(
       margin: EdgeInsets.symmetric(vertical: 10),
       child: Column(
@@ -101,7 +104,17 @@ class _LoginPageState extends State<LoginPage> {
               border: InputBorder.none,
               fillColor: Color(0xfff3f3f4),
               filled: true,
+//                suffixIcon: IconButton(
+//                    icon: Icon(
+//                        _isObscure ? Icons.visibility : Icons.visibility_off),
+//                    onPressed: () {
+//                      setState(() {
+//                        _isObscure = !_isObscure;
+//                      });
+//                    },
+//                ),
             ),
+
           ),
         ],
       ),

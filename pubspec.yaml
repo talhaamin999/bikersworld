@@ -60,6 +60,10 @@ dependencies:
   image_form_field: ^0.1.0
   flat_icons_flutter: ^1.0.1
   random_color: ^1.0.5
+  timelines: ^0.0.1
+  timeline_tile: ^0.1.0
+  steps: ^1.0.1
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

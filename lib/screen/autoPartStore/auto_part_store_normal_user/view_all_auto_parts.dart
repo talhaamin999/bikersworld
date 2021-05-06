@@ -80,9 +80,11 @@ class _ViewAllAutoPartsState extends State<ViewAllAutoParts> {
                                 color: Color(0xfff7f7f7),
                                 child: Container(
                                   child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    crossAxisAlignment:CrossAxisAlignment.center,
                                     children: <Widget>[
                                       Container(
-                                        width: 100,
+                                        width: 120,
                                         height: 90,
                                         decoration: BoxDecoration(
                                           shape: BoxShape.rectangle,
@@ -92,7 +94,6 @@ class _ViewAllAutoPartsState extends State<ViewAllAutoParts> {
                                           ),
                                         ),
                                       ),
-                                      SizedBox(width: 20,),
                                       Container(
                                         child: Column(
                                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -119,17 +120,20 @@ class _ViewAllAutoPartsState extends State<ViewAllAutoParts> {
                                                       ),
                                                     ),
                                                   ),
-                                                  SizedBox(width: 65,),
-                                                  Icon(
-                                                    Icons.arrow_forward_ios,
-                                                    color: Color(0xffb8b8b8),
-                                                  ),
                                                 ],
                                               ),
                                             ),
 
                                             SizedBox(height: 10,),
                                           ],
+                                        ),
+                                      ),
+                                      SizedBox(width: 15,),
+                                      Container(
+                                        margin: EdgeInsets.only(right: 15),
+                                        child: Icon(
+                                          Icons.arrow_forward_ios,
+                                          color: Colors.grey,
                                         ),
                                       ),
                                     ],
@@ -158,6 +162,7 @@ class _ViewAllAutoPartsState extends State<ViewAllAutoParts> {
     );
   }
 }
+
 
 class FadeAnimation extends StatelessWidget {
   final double delay;

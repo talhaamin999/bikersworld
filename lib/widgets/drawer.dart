@@ -18,7 +18,6 @@ import 'package:bikersworld/screen/dashboard/searchPages/ads_search_page.dart';
 import 'package:bikersworld/screen/dashboard/searchPages/workshop_search_page.dart';
 import 'package:bikersworld/screen/dashboard/searchPages/service_search_page.dart';
 import 'package:bikersworld/screen/loginSignup/update_profile.dart';
-import 'package:bikersworld/screen/autoPartStore/auto_part_store_normal_user/auto_part_ptore_dashboard.dart';
 
 
 class CustomDrawer extends StatefulWidget {
@@ -122,61 +121,70 @@ class _CustomDrawerState extends State<CustomDrawer> {
                                     itemBuilder: (_) =>
                                     <PopupMenuItem<userOption>>[
                                       new PopupMenuItem<userOption>(
-                                        child: Container(
-                                          child: Row(
-                                            children: [
-                                              Icon(
-                                                FontAwesomeIcons.edit,
-                                                size: 15,
-                                              ),
-                                              SizedBox(width: 10),
-                                              Text(
-                                                "Edit Profile",
-                                                style: GoogleFonts.quicksand(
-                                                  fontSize: 16,
+                                        child: Visibility(
+                                          visible: _firebaseUser.currentUser != null ? true : false,
+                                          child: Container(
+                                            child: Row(
+                                              children: [
+                                                Icon(
+                                                  FontAwesomeIcons.edit,
+                                                  size: 15,
                                                 ),
-                                              ),
-                                            ],
+                                                SizedBox(width: 10),
+                                                Text(
+                                                  "Edit Profile",
+                                                  style: GoogleFonts.quicksand(
+                                                    fontSize: 16,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
                                           ),
                                         ),
                                         value: userOption.updateProfile,
                                       ),
                                       new PopupMenuItem<userOption>(
-                                        child: Container(
-                                          child: Row(
-                                            children: [
-                                              Icon(
-                                                FontAwesomeIcons.signOutAlt,
-                                                size: 15,
-                                              ),
-                                              SizedBox(width: 10),
-                                              Text(
-                                                "Sign Out",
-                                                style: GoogleFonts.quicksand(
-                                                  fontSize: 16,
+                                        child: Visibility(
+                                          visible: _firebaseUser.currentUser != null ? true : false,
+                                          child: Container(
+                                            child: Row(
+                                              children: [
+                                                Icon(
+                                                  FontAwesomeIcons.signOutAlt,
+                                                  size: 15,
                                                 ),
-                                              ),
-                                            ],
+                                                SizedBox(width: 10),
+                                                Text(
+                                                  "Sign Out",
+                                                  style: GoogleFonts.quicksand(
+                                                    fontSize: 16,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
                                           ),
                                         ),
                                         value: userOption.signOut,
                                       ),
                                       new PopupMenuItem<userOption>(
-                                        child: Container(
-                                          child: Row(
-                                            children: [
-                                              Icon(
-                                                FontAwesomeIcons.signInAlt,
-                                                size: 15,
-                                              ),
-                                              SizedBox(width: 10),
-                                              Text(
-                                                "Login / Sign Up",
-                                                style: GoogleFonts.quicksand(
-                                                  fontSize: 16,
+                                        child: Visibility(
+                                          visible: _firebaseUser.currentUser == null ? true : false,
+                                          child: Container(
+                                            child: Row(
+                                              children: [
+                                                Icon(
+                                                  FontAwesomeIcons.signInAlt,
+                                                  size: 15,
                                                 ),
-                                              ),
-                                            ],
+                                                SizedBox(width: 10),
+                                                Text(
+                                                  "Login / Sign Up",
+                                                  style: GoogleFonts.quicksand(
+                                                    fontSize: 16,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
                                           ),
                                         ),
                                         value: userOption.logInSignOut,
@@ -330,17 +338,6 @@ class _CustomDrawerState extends State<CustomDrawer> {
                     },
                   ),
                   ListTile(
-                    leading: Icon(FontAwesomeIcons.cog),
-                    title: Text("Find Auto Part", style: GoogleFonts.montserrat(
-                        fontSize: 15, color: Colors.black),),
-                    trailing: Icon(Icons.arrow_forward_ios, size: 15.0,),
-                    onTap: () {
-                      Navigator.push(context, MaterialPageRoute(
-                          builder: (context) => AutoPartSearchPage()));
-                    },
-                  ),
-
-                  ListTile(
                     leading: Icon(FontAwesomeIcons.adversal),
                     title: Text("Find Ads", style: GoogleFonts.montserrat(
                         fontSize: 15, color: Colors.black),),
@@ -351,6 +348,17 @@ class _CustomDrawerState extends State<CustomDrawer> {
                     },
 
                   ),
+                  ListTile(
+                    leading: Icon(FontAwesomeIcons.cog),
+                    title: Text("Find Auto Part", style: GoogleFonts.montserrat(
+                        fontSize: 15, color: Colors.black),),
+                    trailing: Icon(Icons.arrow_forward_ios, size: 15.0,),
+                    onTap: () {
+                      Navigator.push(context, MaterialPageRoute(
+                          builder: (context) => AutoPartSearchPage()));
+                    },
+                  ),
+
                   ListTile(
                     leading: Icon(FontAwesomeIcons.storeAlt),
                     title: Text("Find Auto Part Store",
@@ -411,46 +419,46 @@ class _CustomDrawerState extends State<CustomDrawer> {
                                     },
                                     itemBuilder: (_) =>
                                     <PopupMenuItem<userOption>>[
-                                      new PopupMenuItem<userOption>(
-                                        child: Container(
-                                          child: Row(
-                                            children: [
-                                              Icon(
-                                                FontAwesomeIcons.edit,
-                                                size: 15,
-                                              ),
-                                              SizedBox(width: 10),
-                                              Text(
-                                                "Edit Profile",
-                                                style: GoogleFonts.quicksand(
-                                                  fontSize: 16,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                        value: userOption.updateProfile,
-                                      ),
-                                      new PopupMenuItem<userOption>(
-                                        child: Container(
-                                          child: Row(
-                                            children: [
-                                              Icon(
-                                                FontAwesomeIcons.signOutAlt,
-                                                size: 15,
-                                              ),
-                                              SizedBox(width: 10),
-                                              Text(
-                                                "Sign Out",
-                                                style: GoogleFonts.quicksand(
-                                                  fontSize: 16,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                        value: userOption.signOut,
-                                      ),
+//                                      new PopupMenuItem<userOption>(
+//                                        child: Container(
+//                                          child: Row(
+//                                            children: [
+//                                              Icon(
+//                                                FontAwesomeIcons.edit,
+//                                                size: 15,
+//                                              ),
+//                                              SizedBox(width: 10),
+//                                              Text(
+//                                                "Edit Profile",
+//                                                style: GoogleFonts.quicksand(
+//                                                  fontSize: 16,
+//                                                ),
+//                                              ),
+//                                            ],
+//                                          ),
+//                                        ),
+//                                        value: userOption.updateProfile,
+//                                      ),
+//                                      new PopupMenuItem<userOption>(
+//                                        child: Container(
+//                                          child: Row(
+//                                            children: [
+//                                              Icon(
+//                                                FontAwesomeIcons.signOutAlt,
+//                                                size: 15,
+//                                              ),
+//                                              SizedBox(width: 10),
+//                                              Text(
+//                                                "Sign Out",
+//                                                style: GoogleFonts.quicksand(
+//                                                  fontSize: 16,
+//                                                ),
+//                                              ),
+//                                            ],
+//                                          ),
+//                                        ),
+//                                        value: userOption.signOut,
+//                                      ),
                                       new PopupMenuItem<userOption>(
                                         child: Container(
                                           child: Row(

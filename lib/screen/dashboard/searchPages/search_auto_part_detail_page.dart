@@ -63,95 +63,113 @@ class _SearchAutoPartDetailPageState extends State<SearchAutoPartDetailPage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       SizedBox(height: 15,),
-                      Text(
-                        "Information",
-                        style: GoogleFonts.quicksand(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.orange
-                        ),
-                      ),
-                      SizedBox(height: 10,),
                       Container(
-                        child: Row(
+                        child:Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
-                              "Name",
-                              style: GoogleFonts.quicksand(
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            SizedBox(width: 15,),
                             Text(
                               widget.partDetail.title,
                               style: GoogleFonts.quicksand(
-                                fontSize: 17,
+                                color: Colors.black,
+                                fontSize: 22,
                               ),
                             ),
-                          ],
-                        ),
-                      ),
-                      SizedBox(height: 10,),
-                      Container(
-                        child: Row(
-                          children: [
+                            Container(
+                              child: Row(
+                                children: [
+                                  Text(
+                                    "PKR",
+                                    style: GoogleFonts.varelaRound(
+                                      fontSize: 14,
+                                      color: Colors.grey,
+                                    ),
+                                  ),
+                                  Text(
+                                    widget.partDetail.price.toString(),
+                                    style: GoogleFonts.varelaRound(
+                                      fontSize: 14,
+                                      color: Colors.grey,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            SizedBox(height: 15,),
                             Text(
-                              "Category",
+                              "Accessory Information",
                               style: GoogleFonts.quicksand(
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
+                                  color: Colors.black,
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
                               ),
                             ),
-                            SizedBox(width: 15,),
-                            Text(
-                              widget.partDetail.category,
-                              style: GoogleFonts.quicksand(
-                                fontSize: 17,
+                            SizedBox(height: 15,),
+                            Container(
+                              child:  Row(
+                                children: <Widget>[
+                                  Container(
+                                    child: Row(
+                                      children: <Widget>[
+                                        Icon(FontAwesomeIcons.cogs),
+                                        SizedBox(width: 8,),
+                                        SizedBox(width: 18,),
+                                        Container(
+                                          child: Column(
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: <Widget>[Text(
+                                              "Category",
+                                              style: GoogleFonts.montserrat(
+                                                fontSize: 16,
+                                              ),
+                                            ),
+                                              SizedBox(height: 5,),
+                                              Text(
+                                                widget.partDetail.category,
+                                                style: GoogleFonts.montserrat(
+                                                  fontSize: 12,
+                                                  color: Colors.grey,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  SizedBox(width: 20,),
+                                  Container(
+                                    margin: EdgeInsets.only(left: 10),
+                                    child: Row(
+                                      children: <Widget>[
+                                        Icon(FontAwesomeIcons.tumblrSquare),
+                                        SizedBox(width: 18,),
+                                        Container(
+                                          child: Column(
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: <Widget>[Text(
+                                              "Type",
+                                              style: GoogleFonts.montserrat(
+                                                fontSize: 16,
+                                              ),
+                                            ),
+                                              SizedBox(height: 5,),
+                                              Text(
+                                                widget.partDetail.type,
+                                                style: GoogleFonts.montserrat(
+                                                  fontSize: 12,
+                                                  color: Colors.grey,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
-                          ],
-                        ),
-                      ),
-                      SizedBox(height: 10,),
-                      Container(
-                        child: Row(
-                          children: [
-                            Text(
-                              "Type",
-                              style: GoogleFonts.quicksand(
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            SizedBox(width: 15,),
-                            Text(
-                             widget.partDetail.type,
-                              style: GoogleFonts.quicksand(
-                                fontSize: 17,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      SizedBox(height: 10,),
-                      Container(
-                        child: Row(
-                          children: [
-                            Text(
-                              "Price",
-                              style: GoogleFonts.quicksand(
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            SizedBox(width: 15,),
-                            Text(
-                              widget.partDetail.price.toString(),
-                              style: GoogleFonts.quicksand(
-                                fontSize: 17,
-                              ),
-                            ),
+                            SizedBox(height: 15,),
                           ],
                         ),
                       ),

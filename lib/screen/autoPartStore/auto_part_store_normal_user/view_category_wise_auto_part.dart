@@ -110,8 +110,8 @@ class _ViewCategoryWiseAutoPartState extends State<ViewCategoryWiseAutoPart> {
                                     ),
                                     Container(
                                       child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                         children: <Widget>[
                                           Container(
                                             child: AutoSizeText(
@@ -131,15 +131,12 @@ class _ViewCategoryWiseAutoPartState extends State<ViewCategoryWiseAutoPart> {
                                                 Container(
                                                   child: Text(
                                                     snapshot
-                                                        .data[index].category,
+                                                        .data[index].price.toString(),
                                                     style: TextStyle(
                                                       fontSize: 18,
                                                       color: Colors.grey,
                                                     ),
                                                   ),
-                                                ),
-                                                SizedBox(
-                                                  width: 65,
                                                 ),
                                                 Icon(
                                                   Icons.arrow_forward_ios,
