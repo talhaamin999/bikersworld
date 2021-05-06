@@ -1,4 +1,6 @@
 import 'package:bikersworld/model/partstore_model.dart';
+import 'package:bikersworld/services/part_store_queries/part_review_query.dart';
+import 'package:bikersworld/services/part_store_queries/part_store_review_query.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -15,6 +17,7 @@ class AutoPartDetail extends StatefulWidget {
 
 class _AutoPartDetailState extends State<AutoPartDetail> {
 
+  final _partReviews = ReviewAutoPartQueries();
 
   @override
   Widget build(BuildContext context) {
@@ -171,54 +174,75 @@ class _AutoPartDetailState extends State<AutoPartDetail> {
                 ),
               ),
 
-              Container(
-                margin: EdgeInsets.only(left: 20, right: 20),
-                child: Card(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: ListTile(
-                    contentPadding: EdgeInsets.symmetric(
-                        horizontal: 15, vertical: 10),
-                    leading: CircleAvatar (
-                      child: CircleAvatar(
-                        backgroundImage: AssetImage("assets/user.png"),
-                        radius: 25,
-                        backgroundColor: Colors.white,
-                      ),
-                      radius: 30,
-                      backgroundColor: Colors.orange,
-                    ),
-                    title: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        SizedBox(height: 15,),
-                        Container(
-                          child: Text(
-                            "Ibtasam ur Rehman",
-                            style: GoogleFonts.raleway(
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold
+              FutureBuilder(
+                future: _partReviews.getAutoPartReviews(partId: widget.autoPartDetails.docId),
+                builder: (BuildContext context, AsyncSnapshot<List<AutoPartReviews>> snapshot) {
+                  if(snapshot.hasData && snapshot.data.isNotEmpty){
+                    return ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: snapshot.data.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return Container(
+                          margin: EdgeInsets.only(left: 20, right: 20),
+                          child: Card(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            child: ListTile(
+                              contentPadding: EdgeInsets.symmetric(
+                                  horizontal: 15, vertical: 10),
+                              leading: CircleAvatar (
+                                child: CircleAvatar(
+                                  backgroundImage: AssetImage("assets/user.png"),
+                                  radius: 25,
+                                  backgroundColor: Colors.white,
+                                ),
+                                radius: 30,
+                                backgroundColor: Colors.orange,
+                              ),
+                              title: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  SizedBox(height: 15,),
+                                  Container(
+                                    child: Text(
+                                      snapshot.data[index].title,
+                                      style: GoogleFonts.raleway(
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.bold
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(height: 10,),
+                                  RatingsBar(snapshot.data[index].starRating),
+                                  SizedBox(height: 10,),
+                                  Container(
+                                    child: Text(
+                                      snapshot.data[index].description,
+                                      style: GoogleFonts.raleway(
+                                        fontSize: 15,
+                                      ),
+                                    ),
+                                  ),
+
+                                ],
+                              ),
+
                             ),
                           ),
-                        ),
-                        SizedBox(height: 10,),
-                        RatingsBar(20),
-                        SizedBox(height: 10,),
-                        Container(
-                          child: Text(
-                            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit ",
-                            style: GoogleFonts.raleway(
-                              fontSize: 15,
-                            ),
-                          ),
-                        ),
+                        );
+                      },
 
-                      ],
-                    ),
-
-                  ),
-                ),
+                    );
+                  }
+                  else if(snapshot.hasData && snapshot.data.isEmpty){
+                    return Center(child: Text("NO REVIEWS ADDED YET"),);
+                  }
+                  else if(snapshot.hasError){
+                    return Center(child: Text(snapshot.error.toString()),);
+                  }
+                  return Center(child: CircularProgressIndicator());
+                },
               ),
               SizedBox(height: 20,),
             ],

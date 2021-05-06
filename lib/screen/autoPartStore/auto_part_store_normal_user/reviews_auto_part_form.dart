@@ -1,3 +1,6 @@
+import 'package:bikersworld/model/partstore_model.dart';
+import 'package:bikersworld/services/part_store_queries/part_review_query.dart';
+import 'package:bikersworld/services/toast_service.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:bikersworld/widgets/rating_bar.dart';
@@ -5,12 +8,57 @@ import 'package:bikersworld/screen/dashboard/normalUser/reviews/workshop_feedbac
 
 
 class ReviewAutoPart extends StatefulWidget {
+  final String partId;
+  ReviewAutoPart(this.partId);
   @override
   _ReviewAutoPartState createState() => _ReviewAutoPartState();
 }
 
 class _ReviewAutoPartState extends State<ReviewAutoPart> {
 
+  final _reviwerControler = TextEditingController();
+  final _descriptionControler = TextEditingController();
+  final _reviewPart = ReviewAutoPartQueries();
+  final _error = ToastErrorMessage();
+  final _valid = ToastValidMessage();
+  bool _isButtonVisible = true;
+
+
+  Future<void> addReview() async{
+    try{
+      setState(() {
+        _isButtonVisible = false;
+      });
+      if(_reviwerControler.text.isNotEmpty && _descriptionControler.text.isNotEmpty){
+        final _reviewData = AutoPartReviews(title: _reviwerControler.text,starRating: RatingsBar.ratings,description: _descriptionControler.text);
+        bool result = await _reviewPart.reviewAutoPart(partId: widget.partId, data: _reviewData);
+        if(result){
+          _valid.validToastMessage(validMessage: 'Review Added');
+          Future.delayed(
+            Duration(seconds: 2),
+              (){
+                Navigator.of(context).pop();
+              }
+          );
+        }
+      }else{
+        _error.errorToastMessage(errorMessage: 'PLease Fill All Required Fields');
+      }
+    }catch(e){
+      _error.errorToastMessage(errorMessage: e.toString());
+    }finally{
+      setState(() {
+        _isButtonVisible = true;
+      });
+    }
+  }
+
+  @override
+  void dispose() {
+    _reviwerControler.dispose();
+    _descriptionControler.dispose();
+    super.dispose();
+  }
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -63,6 +111,7 @@ class _ReviewAutoPartState extends State<ReviewAutoPart> {
                 margin: EdgeInsets.only(left: 20,top: 20),
                 width: MediaQuery.of(context).size.width - 40,
                 child: TextFormField(
+                  controller: _reviwerControler,
                   keyboardType: TextInputType.multiline,
                   maxLines: 1,
                   decoration: InputDecoration(
@@ -83,6 +132,7 @@ class _ReviewAutoPartState extends State<ReviewAutoPart> {
                 margin: EdgeInsets.only(left: 20),
                 width: MediaQuery.of(context).size.width - 40,
                 child: TextFormField(
+                  controller: _descriptionControler,
                   keyboardType: TextInputType.multiline,
                   maxLines: 1,
                   decoration: InputDecoration(
@@ -99,9 +149,7 @@ class _ReviewAutoPartState extends State<ReviewAutoPart> {
                   width: MediaQuery.of(context).size.width - 35,
                   height: 60,
                   child: RaisedButton(
-                    onPressed: (){
-                      //
-                    },
+                    onPressed: _isButtonVisible ? () => {addReview()} : null,
                     child: Text('Submit',style: GoogleFonts.quicksand(
                         fontSize: 20,
                         color: Colors.white

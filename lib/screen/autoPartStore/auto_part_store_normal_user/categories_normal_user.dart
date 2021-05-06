@@ -1,14 +1,25 @@
+import 'package:bikersworld/screen/autoPartStore/auto_part_store_normal_user/view_category_wise_auto_part.dart';
+import 'package:bikersworld/widgets/part_category_list.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:bikersworld/screen/autoPartStore/auto_part_store_normal_user/specific_category.dart';
 
 class ViewAllCategoriesNomrmalUser extends StatefulWidget {
-
+  final partStoreId;
+  ViewAllCategoriesNomrmalUser(this.partStoreId);
   @override
   _ViewAllCategoriesNomrmalUserState createState() => _ViewAllCategoriesNomrmalUserState();
 }
 
 class _ViewAllCategoriesNomrmalUserState extends State<ViewAllCategoriesNomrmalUser> {
+
+ final _categoryList = AutoPartCtaegoryList();
+
+  @override
+  void initState() {
+    print('${_categoryList.getPartsList().first}');
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -55,11 +66,11 @@ class _ViewAllCategoriesNomrmalUserState extends State<ViewAllCategoriesNomrmalU
                 child: ListView.builder(
                   physics: NeverScrollableScrollPhysics(),
                   shrinkWrap: true,
-                  itemCount: 5,
+                  itemCount: _categoryList.getPartsList().length,
                     itemBuilder: (context, index) {
                       return InkWell(
                         onTap: (){
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => SpeicificCategory()));
+                          Navigator.of(context).push(MaterialPageRoute(builder: (context) => ViewCategoryWiseAutoPart(partCategory: _categoryList.getPartsList()[index],partStoreId: widget.partStoreId,)));
                         },
                         child: Container(
                           margin: EdgeInsets.only(left: 10,right: 10,top: 10),
@@ -70,7 +81,7 @@ class _ViewAllCategoriesNomrmalUserState extends State<ViewAllCategoriesNomrmalU
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Text("Category 1", style: GoogleFonts.quicksand(fontSize:16),),
+                                  Text(_categoryList.getPartsList()[index], style: GoogleFonts.quicksand(fontSize:16),),
                                   Icon(
                                       Icons.arrow_forward_ios,
                                       color: Colors.grey,

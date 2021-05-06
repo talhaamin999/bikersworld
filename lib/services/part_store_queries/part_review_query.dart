@@ -30,4 +30,17 @@ class ReviewAutoPartQueries {
       return reviewStatus;
     }
   }
+  Future<List<AutoPartReviews>> getAutoPartReviews({@required String partId}) async {
+    try{
+        return _firestoreInstance.collection(AUTOPART_COLLECTION)
+            .doc(partId)
+            .collection(AUTOPART_REVIEW_COLLECTION)
+            .get()
+            .then((querySnapshots) => querySnapshots.docs
+            .map((doc) => AutoPartReviews.fromJson(doc.data(), doc.reference.id))
+            .toList());
+    }catch(e){
+      _error.errorToastMessage(errorMessage: e.toString());
+    }
+  }
 }

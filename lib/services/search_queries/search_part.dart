@@ -25,6 +25,31 @@ class SearchAutoParts {
       return null;
     }
   }
+  Future<List<AutoPartModel>> searchPartByCategory({@required String partStoreId,@required String category}){
+    try {
+        return _collectionReference
+            .where('partStoreId' ,isEqualTo: partStoreId)
+            .where('category',isEqualTo: category)
+            .get()
+            .then((querySanpshot) => querySanpshot.docs
+            .map((doc) => AutoPartModel.fromJson(doc.data(), doc.reference.id))
+            .toList());
+    } catch (e) {
+      _error.errorToastMessage(errorMessage: e.toString());
+    }
+  }
+  Future<List<AutoPartModel>> searchPartByPartStore({@required String partStoreId}){
+    try {
+      return _collectionReference
+          .where('partStoreId' ,isEqualTo: partStoreId)
+          .get()
+          .then((querySanpshot) => querySanpshot.docs
+          .map((doc) => AutoPartModel.fromJson(doc.data(), doc.reference.id))
+          .toList());
+    } catch (e) {
+      _error.errorToastMessage(errorMessage: e.toString());
+    }
+  }
   // serach parts by title and applying city filter
   Future<List<AutoPartModel>> searchPartByTitleWithCityFilter({@required String title,@required String city}) {
     try {
@@ -361,4 +386,5 @@ class SearchAutoParts {
       _error.errorToastMessage(errorMessage: e.toString());
     }
   }
+
 }

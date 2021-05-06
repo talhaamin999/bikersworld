@@ -217,7 +217,7 @@ class PartDetail extends StatelessWidget {
                                       ),
                                     ),
                                     onPressed: (){
-                                     Navigator.push(context, MaterialPageRoute(builder: (context) => ReviewAutoPart()));
+                                     Navigator.push(context, MaterialPageRoute(builder: (context) => ReviewAutoPart(null)));
                                     },
                                   ),
                                 ],
