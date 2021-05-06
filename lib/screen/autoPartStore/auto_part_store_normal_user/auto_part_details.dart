@@ -198,7 +198,7 @@ class AutoPartDetail extends StatelessWidget {
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
-                                    'Reviews',
+                                    'Reviews ',
                                     style: GoogleFonts.quicksand(
                                         color: Colors.black,
                                         fontSize: 18,
