@@ -153,7 +153,7 @@ class _NormalUserPartStoreReivewState extends State<NormalUserPartStoreReivew> {
                                     ),
                                   ),
                                   SizedBox(height: 10,),
-                                  RatingsBar(snapshot.data[index].starRating),
+                                  RatingsBar(20,userRating: snapshot.data[index].starRating,),
                                   SizedBox(height: 10,),
                                   Container(
                                     child: Text(

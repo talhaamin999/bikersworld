@@ -1,5 +1,4 @@
 import 'package:bikersworld/model/partstore_model.dart';
-import 'package:bikersworld/screen/autoPartStore/auto_part_store_normal_user/auto_part_store_review_form.dart';
 import 'package:bikersworld/services/part_store_queries/part_store_query.dart';
 import 'package:bikersworld/services/part_store_queries/part_store_review_query.dart';
 import 'package:flutter/material.dart';
@@ -689,7 +688,7 @@ class ReviewsTab extends StatelessWidget {
                                  ),
                                ),
                                SizedBox(height: 10,),
-                               RatingsBar(snapshot.data[index].starRating),
+                               RatingsBar(20,userRating: snapshot.data[index].starRating),
                                SizedBox(height: 10,),
                                Container(
                                  child: Text(

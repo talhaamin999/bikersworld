@@ -5,7 +5,7 @@ import 'package:bikersworld/services/toast_service.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:bikersworld/widgets/rating_bar.dart';
-
+import 'package:bikersworld/services/string_extension.dart';
 
 class ReviewAutoPartStore extends StatefulWidget {
   final String partStoreId;
@@ -30,8 +30,8 @@ class _ReviewAutoPartStoreState extends State<ReviewAutoPartStore> {
       });
       if (_reviewerName.text.isNotEmpty && _description.text.isNotEmpty) {
         final _partStoreReviewModel = PartStoreReviews(
-            title: _reviewerName.text,
-            description: _description.text,
+            title: _reviewerName.text.capitalizeFirstofEach,
+            description: _description.text.firstinCaps,
             starRating: RatingsBar.ratings);
         bool result = await _partStoreReview.reviewPartstore(
             partStoreId: widget.partStoreId, data: _partStoreReviewModel);

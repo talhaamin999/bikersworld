@@ -9,6 +9,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
+import 'package:bikersworld/services/string_extension.dart';
 
 class RegisterAutoParts extends StatefulWidget {
   final String partStoreId;
@@ -91,10 +92,10 @@ class _RegisterAutoPartsState extends State<RegisterAutoParts> {
      if(widget.autoPartInfo == null) {
          var imageUrl = await _addAutoPart.uploadImage(_image);
          if(imageUrl != null) {
-           final data = AutoPartModel(title: _titleController.text.trim(),
+           final data = AutoPartModel(title: _titleController.text.trim().firstinCaps,
                price: price,
                category: dropDownCategoryValue,
-               partStoreCity: widget.partStoreCity,
+               partStoreCity: widget.partStoreCity.firstinCaps,
                type: dropDownTypeValue,
                imageURL: imageUrl,
                partStoreId: widget.partStoreId);
@@ -117,7 +118,7 @@ class _RegisterAutoPartsState extends State<RegisterAutoParts> {
         }
      }
      else if(widget.autoPartInfo != null && _image == null){
-       final data = AutoPartModel(title: _titleController.text.trim(),
+       final data = AutoPartModel(title: _titleController.text.trim().firstinCaps,
            price: price,
            category: dropDownCategoryValue,
            docId: widget.autoPartInfo.docId,
@@ -144,7 +145,7 @@ class _RegisterAutoPartsState extends State<RegisterAutoParts> {
      else if(widget.autoPartInfo != null && _image != null) {
          var imageUrl = await _addAutoPart.uploadImage(_image);
          if(imageUrl != null){
-         final data = AutoPartModel(title: _titleController.text.trim(),
+         final data = AutoPartModel(title: _titleController.text.trim().firstinCaps,
              price: price,
              partStoreCity: widget.autoPartInfo.partStoreCity,
              docId: widget.autoPartInfo.docId,

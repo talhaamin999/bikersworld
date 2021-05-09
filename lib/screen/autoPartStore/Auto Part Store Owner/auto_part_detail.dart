@@ -1,12 +1,9 @@
 import 'package:bikersworld/model/partstore_model.dart';
 import 'package:bikersworld/services/part_store_queries/part_review_query.dart';
-import 'package:bikersworld/services/part_store_queries/part_store_review_query.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:bikersworld/widgets/rating_bar.dart';
-
 
 class AutoPartDetail extends StatefulWidget {
   final AutoPartModel autoPartDetails;
@@ -234,7 +231,7 @@ class _AutoPartDetailState extends State<AutoPartDetail> {
                                     ),
                                   ),
                                   SizedBox(height: 10,),
-                                  RatingsBar(snapshot.data[index].starRating),
+                                  RatingsBar(20,userRating:snapshot.data[index].starRating),
                                   SizedBox(height: 10,),
                                   Container(
                                     child: Text(

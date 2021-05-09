@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 
 import '../toast_service.dart';
+import 'package:bikersworld/services/string_extension.dart';
 
 class SearchAutoParts {
 
@@ -15,7 +16,7 @@ class SearchAutoParts {
   Future<List<AutoPartModel>> searchPartByTitle({@required String title}) {
     try {
       return _collectionReference
-          .where('title', isEqualTo: title)
+          .where('title', isEqualTo: title.firstinCaps)
           .get()
           .then((querySanpshot) => querySanpshot.docs
           .map((doc) => AutoPartModel.fromJson(doc.data(), doc.reference.id))
@@ -54,7 +55,7 @@ class SearchAutoParts {
   Future<List<AutoPartModel>> searchPartByTitleWithCityFilter({@required String title,@required String city}) {
     try {
       return _collectionReference
-          .where('title', isEqualTo: title)
+          .where('title', isEqualTo: title.firstinCaps)
           .where('partStore_city', isEqualTo: city)
           .get()
           .then((querySanpshot) => querySanpshot.docs
@@ -68,7 +69,7 @@ class SearchAutoParts {
   Future<List<AutoPartModel>> searchPartByTitleWithCityAndTypeFilter({@required String title,@required String city,@required String type}) {
     try {
       return _collectionReference
-          .where('title', isEqualTo: title)
+          .where('title', isEqualTo: title.firstinCaps)
           .where('partStore_city', isEqualTo: city)
           .where('type' , isEqualTo: type)
           .get()
@@ -83,7 +84,7 @@ class SearchAutoParts {
   Future<List<AutoPartModel>> searchPartByTitleWithCityAndRangeFilter({@required String title,@required String city,@required int min,@required int max}) {
     try {
       return _collectionReference
-          .where('title', isEqualTo: title)
+          .where('title', isEqualTo: title.firstinCaps)
           .where('partStore_city', isEqualTo: city)
           .where('price' , isGreaterThanOrEqualTo: min)
           .where('price' , isLessThanOrEqualTo: max)
@@ -100,7 +101,7 @@ class SearchAutoParts {
     try {
       if(sortOrder == 'LTH') {
         return _collectionReference
-            .where('title', isEqualTo: title)
+            .where('title', isEqualTo: title.firstinCaps)
             .where('partStore_city', isEqualTo: city)
             .orderBy('price')
             .get()
@@ -111,7 +112,7 @@ class SearchAutoParts {
                 .toList());
       }
       return _collectionReference
-          .where('title', isEqualTo: title)
+          .where('title', isEqualTo: title.firstinCaps)
           .where('partStore_city', isEqualTo: city)
           .orderBy('price',descending: true)
           .get()
@@ -128,7 +129,7 @@ class SearchAutoParts {
   Future<List<AutoPartModel>> searchPartByTitleWithCityAndTypeAndRangeFilters({@required String title,@required String city,@required String type,@required int min,@required int max}) {
     try {
         return _collectionReference
-            .where('title', isEqualTo: title)
+            .where('title', isEqualTo: title.firstinCaps)
             .where('partStore_city', isEqualTo: city)
             .where('price' , isGreaterThanOrEqualTo: min)
             .where('price' , isLessThanOrEqualTo: max)
@@ -147,7 +148,7 @@ class SearchAutoParts {
     try {
       if(sortOrder == 'LTH') {
         return _collectionReference
-            .where('title', isEqualTo: title)
+            .where('title', isEqualTo: title.firstinCaps)
             .where('partStore_city', isEqualTo: city)
             .orderBy('price')
             .get()
@@ -159,7 +160,7 @@ class SearchAutoParts {
       }
       else{
         return _collectionReference
-            .where('title', isEqualTo: title)
+            .where('title', isEqualTo: title.firstinCaps)
             .where('partStore_city', isEqualTo: city)
             .orderBy('price',descending: true)
             .get()
@@ -178,7 +179,7 @@ class SearchAutoParts {
     try {
       if(sortOrder == 'LTH') {
         return _collectionReference
-            .where('title', isEqualTo: title)
+            .where('title', isEqualTo: title.firstinCaps)
             .where('partStore_city', isEqualTo: city)
             .where('type' , isEqualTo: type)
             .where('price' , isGreaterThanOrEqualTo: min)
@@ -193,7 +194,7 @@ class SearchAutoParts {
       }
       else{
         return _collectionReference
-            .where('title', isEqualTo: title)
+            .where('title', isEqualTo: title.firstinCaps)
             .where('partStore_city', isEqualTo: city)
             .where('type' , isEqualTo: type)
             .where('price' , isGreaterThanOrEqualTo: min)
@@ -214,7 +215,7 @@ class SearchAutoParts {
   Future<List<AutoPartModel>> searchPartByTitleWithType({@required String title,@required String type}) {
     try {
       return _collectionReference
-          .where('title', isEqualTo: title)
+          .where('title', isEqualTo: title.firstinCaps)
           .where('type', isEqualTo: type)
           .get()
           .then((querySanpshot) => querySanpshot.docs
@@ -228,7 +229,7 @@ class SearchAutoParts {
   Future<List<AutoPartModel>> searchPartByTitleWithTypeAndRangeFilter({@required String title,@required String type,@required int min,@required int max}) {
     try {
       return _collectionReference
-          .where('title', isEqualTo: title)
+          .where('title', isEqualTo: title.firstinCaps)
           .where('type' , isEqualTo: type)
           .where('price' , isGreaterThanOrEqualTo: min)
           .where('price' , isLessThanOrEqualTo: max)
@@ -245,7 +246,7 @@ class SearchAutoParts {
     try {
       if(sortOrder == 'LTH') {
         return _collectionReference
-            .where('title', isEqualTo: title)
+            .where('title', isEqualTo: title.firstinCaps)
             .where('type', isEqualTo: type)
             .orderBy('price')
             .get()
@@ -257,7 +258,7 @@ class SearchAutoParts {
       }
       else{
         return _collectionReference
-            .where('title', isEqualTo: title)
+            .where('title', isEqualTo: title.firstinCaps)
             .where('type', isEqualTo: type)
             .orderBy('price',descending: true)
             .get()
@@ -276,7 +277,7 @@ class SearchAutoParts {
     try {
       if(sortOrder == 'LTH') {
         return _collectionReference
-            .where('title', isEqualTo: title)
+            .where('title', isEqualTo: title.firstinCaps)
             .where('type', isEqualTo: type)
             .where('price', isGreaterThanOrEqualTo: min)
             .where('price', isLessThanOrEqualTo: max)
@@ -289,7 +290,7 @@ class SearchAutoParts {
                 .toList());
       }
       return _collectionReference
-          .where('title', isEqualTo: title)
+          .where('title', isEqualTo: title.firstinCaps)
           .where('type', isEqualTo: type)
           .where('price', isGreaterThanOrEqualTo: min)
           .where('price', isLessThanOrEqualTo: max)
@@ -308,7 +309,7 @@ class SearchAutoParts {
   Future<List<AutoPartModel>> searchPartByTitleWithRangeFilter({@required String title,@required int min,@required int max}) {
     try {
       return _collectionReference
-          .where('title', isEqualTo: title)
+          .where('title', isEqualTo: title.firstinCaps)
           .where('price' , isGreaterThanOrEqualTo: min)
           .where('price' , isLessThanOrEqualTo: max)
           .get()
@@ -324,7 +325,7 @@ class SearchAutoParts {
     try {
       if(sortOrder == 'LTH') {
         return _collectionReference
-            .where('title', isEqualTo: title)
+            .where('title', isEqualTo: title.firstinCaps)
             .where('price', isGreaterThanOrEqualTo: min)
             .where('price', isLessThanOrEqualTo: max)
             .orderBy('price')
@@ -336,7 +337,7 @@ class SearchAutoParts {
                 .toList());
       }
       return _collectionReference
-          .where('title', isEqualTo: title)
+          .where('title', isEqualTo: title.firstinCaps)
           .where('price' , isGreaterThanOrEqualTo: min)
           .where('price' , isLessThanOrEqualTo: max)
           .orderBy('price',descending: true)
@@ -353,7 +354,7 @@ class SearchAutoParts {
     try {
       if(sortOrder == 'LTH') {
         return _collectionReference
-            .where('title', isEqualTo: title)
+            .where('title', isEqualTo: title.firstinCaps)
             .orderBy('price')
             .get()
             .then((querySanpshot) =>
@@ -363,7 +364,7 @@ class SearchAutoParts {
                 .toList());
       }
       return _collectionReference
-          .where('title', isEqualTo: title)
+          .where('title', isEqualTo: title.firstinCaps)
           .orderBy('price',descending: true)
           .get()
           .then((querySanpshot) => querySanpshot.docs

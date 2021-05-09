@@ -4,8 +4,7 @@ import 'package:bikersworld/services/toast_service.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:bikersworld/widgets/rating_bar.dart';
-import 'package:bikersworld/screen/dashboard/normalUser/reviews/workshop_feedback_form.dart';
-
+import 'package:bikersworld/services/string_extension.dart';
 
 class ReviewAutoPart extends StatefulWidget {
   final String partId;
@@ -30,7 +29,7 @@ class _ReviewAutoPartState extends State<ReviewAutoPart> {
         _isButtonVisible = false;
       });
       if(_reviwerControler.text.isNotEmpty && _descriptionControler.text.isNotEmpty){
-        final _reviewData = AutoPartReviews(title: _reviwerControler.text,starRating: RatingsBar.ratings,description: _descriptionControler.text);
+        final _reviewData = AutoPartReviews(title: _reviwerControler.text.capitalizeFirstofEach,starRating: RatingsBar.ratings,description: _descriptionControler.text.firstinCaps);
         bool result = await _reviewPart.reviewAutoPart(partId: widget.partId, data: _reviewData);
         if(result){
           _valid.validToastMessage(validMessage: 'Review Added');

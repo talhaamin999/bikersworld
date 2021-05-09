@@ -1,5 +1,4 @@
 import 'package:bikersworld/model/partstore_model.dart';
-import 'package:bikersworld/screen/loginSignup/user_role_option.dart';
 import 'package:bikersworld/services/part_store_queries/part_store_query.dart';
 import 'package:bikersworld/services/toast_service.dart';
 import 'package:bikersworld/services/validate_service.dart';
@@ -7,11 +6,10 @@ import 'package:bikersworld/widgets/entry_field.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:bikersworld/widgets/city_dropdown.dart';
 import 'package:bikersworld/screen/autoPartStore/Auto Part Store Owner/auto_part_store_dashboard_owner.dart';
-
+import 'package:bikersworld/services/string_extension.dart';
 
 bool monday=false,tuesday=false,wednesday=false,thursday=false,friday=false,saturday=false,sunday=false;
 String openTime = '7:15 am',closeTime = '8:00 pm';
@@ -147,12 +145,12 @@ class _RegisterAutoPartStoreState extends State<RegisterAutoPartStore> {
   Future<void> registerPartStore() async {
     try {
       final _data = PartstoreDashboardModel(
-          shopTitle: _shopTitleController.text,
+          shopTitle: _shopTitleController.text.capitalizeFirstofEach,
           city: _shopCityController.text,
-          area: _shopAdressController.text,
+          area: _shopAdressController.text.toLowerCase(),
           openTime: openTime,
           closeTime: closeTime,
-          ownerName: _ownerNameController.text,
+          ownerName: _ownerNameController.text.capitalizeFirstofEach,
           ownerContact: _ownerContactController.text,
           monday: monday,
           tuesday: tuesday,
