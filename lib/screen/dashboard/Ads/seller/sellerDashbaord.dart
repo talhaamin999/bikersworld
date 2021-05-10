@@ -7,127 +7,160 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:bikersworld/screen/dashboard/normalUser/reviews/reviews_normal_user.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'dart:math';
 
-class sellerDashboard extends StatefulWidget {
-  @override
-  _sellerDashboardState createState() => _sellerDashboardState();
-}
-
-
-class _sellerDashboardState extends State<sellerDashboard>
-    with SingleTickerProviderStateMixin {
-  TabController _tabController;
-  ScrollController _scrollViewController;
-
-  @override
-  void initState() {
-    super.initState();
-    _tabController = TabController(vsync: this, length: 2);
-    _scrollViewController = ScrollController(initialScrollOffset: 0.0);
-  }
-
-  @override
-  void dispose() {
-    _tabController.dispose();
-    _scrollViewController.dispose();
-    super.dispose();
-  }
-
+class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    double statusBarHeight = MediaQuery.of(context).padding.top;
+
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          'BIKERSWORLD',
-          style: GoogleFonts.quicksand(
-            color: Colors.white,
-            fontSize: 18,
-          ),
-        ),
+      appBar: new AppBar(
         backgroundColor: Color(0XFF012A4A),
-        iconTheme: IconThemeData(color: Color(0xfffbb448)),
+        title: new Text("Bikers World", style: GoogleFonts.quicksand(fontSize: 20, color: Colors.orange),),
+        elevation: 0.0,
       ),
-
-      body: SingleChildScrollView(
-        child: Column(
-          children: <Widget>[
-            SizedBox(height: 30,),
-            Container(
-              margin: EdgeInsets.symmetric(horizontal: 23,),
-              alignment: Alignment.topLeft,
-              child: Text("Seller Dashboard", style: GoogleFonts.quicksand(
-                color: Colors.black,
-                fontSize: 22,
-                fontWeight: FontWeight.w500,
-              ),),
+      backgroundColor: Color(0xffF5F5F7),
+      body: Stack(
+        children: <Widget>[
+          ClipPath(
+            clipper: MyCustomClipper(clipType: ClipType.bottom),
+            child: Container(
+              color: Color(0XFF012A4A),
+              height: Constants.headerHeight + statusBarHeight,
             ),
-            SizedBox(height: 10,),
-
-            divider("Seller Information"),
-
-            Padding(
-              padding: const EdgeInsets.only(left: 15, top: 10, right: 10),
+          ),
+          Positioned(
+            right: -45,
+            top: -30,
+            child: ClipOval(
               child: Container(
-                width: MediaQuery.of(context).size.width - 30,
-                height: 130,
-                decoration: BoxDecoration(
-                  color: Color(0Xff024070),
-                  borderRadius: BorderRadius.only(
-                    topLeft:  const  Radius.circular(10.0),
-                    topRight: const  Radius.circular(10.0),
-                    bottomLeft:  const  Radius.circular(10.0),
-                    bottomRight: const  Radius.circular(10.0),
+                color: Colors.black.withOpacity(0.05),
+                height: 220,
+                width: 220,
+              ),
+            ),
+          ),
+
+          // BODY
+          Padding(
+            padding: EdgeInsets.all(Constants.paddingSide),
+            child: ListView(
+              children: <Widget>[
+                // Header - Greetings and Avatar
+                Row(
+                  children: <Widget>[
+                    Expanded(
+                      child: Text("Ibtasam\nRehman",
+                        style: GoogleFonts.quicksand(
+                            fontSize: 25,
+                            color: Colors.white
+                        ),
+                      ),
+                    ),
+                    CircleAvatar(
+                        radius: 26.0,
+                      backgroundColor: Color(0XFF012A4A),
+                    )
+                  ],
+                ),
+
+                SizedBox(height: 50),
+
+                // Main Cards - Heartbeat and Blood Pressure
+                Container(
+                  height: 140,
+                  child: ListView(
+                    scrollDirection: Axis.horizontal,
+                    children: <Widget>[
+                      CardMain(
+                        image: AssetImage(''),
+                        title: "",
+                        value: "",
+                        unit: "",
+                        color: Constants.lightGreen,
+                      ),
+                      CardMain(
+                          image: AssetImage(''),
+                          title: "",
+                          value: "",
+                          unit: "",
+                          color: Constants.lightYellow
+                      )
+                    ],
                   ),
                 ),
 
-                child: Container(
-                  margin: EdgeInsets.only(left: 20, top: 18),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
+                // Section Cards - Daily Medication
+                SizedBox(height: 10),
 
+                Text("YOUR ADVERTISMENTS",
+                  style: GoogleFonts.quicksand(
+                    color:Color(0xff808080),
+                    fontSize: 16,
+                  ),
+                ),
+                SizedBox(height: 20,),
+                Container(
+                  height: 240,
+                  child: ListView(
+                    shrinkWrap: true,
+                    physics: NeverScrollableScrollPhysics(),
+                    // This next line does the trick.
+                    scrollDirection: Axis.horizontal,
+                    children: <Widget>[
                       Container(
-                        child: Row(
-                          children: <Widget>[
-                            Icon(FontAwesomeIcons.user , color: Colors.white, size: 20,),
-                            SizedBox(width: 10,),
-                            Text(
-                              "Ibtasam",
-                              style: GoogleFonts.montserrat(
-                                fontSize: 20,
-                                color: Colors.white,
+                        width: 230.0,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20),
+                          color: Color(0xffe6e9ed),
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            ClipRRect(
+                              borderRadius: BorderRadius.circular(20.0),
+                              child: Image(
+                                image: AssetImage(
+                                  "assets/1.png",
+                                ),
                               ),
                             ),
-                          ],
-                        ),
-                      ),
-                      SizedBox(height:10),
-                      Container(
-                        child: Row(
-                          children: <Widget>[
-                            Icon(FontAwesomeIcons.phone , color: Colors.white, size: 20,),
-                            SizedBox(width: 10,),
-                            Text(
-                              "0335544882",
-                              style: GoogleFonts.montserrat(
-                                fontSize: 15,
-                                color: Colors.white,
+                            Padding(
+                              padding: const EdgeInsets.only(left: 10,top: 10),
+                              child: Text(
+                                "Kawasaki Ninja",
+                                style: GoogleFonts.quicksand(fontSize: 17),
                               ),
                             ),
-                          ],
-                        ),
-                      ),
-                      SizedBox(height: 10,),
-                      Container(
-                        child: Row(
-                          children: <Widget>[
-                            Icon(FontAwesomeIcons.locationArrow , color: Colors.white, size: 20,),
-                            SizedBox(width: 10,),
-                            Text(
-                              "Islamabad",
-                              style: GoogleFonts.montserrat(
-                                fontSize: 15,
-                                color: Colors.white,
+                            Padding(
+                              padding: const EdgeInsets.only(left: 10,top: 5),
+                              child: Text(
+                                "Islamabad",
+                                style: GoogleFonts.quicksand(fontSize: 15,color: Colors.grey),
+                              ),
+                            ),
+
+                            Container(
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 10,top: 5),
+                                    child: Text(
+                                      "PKR 234567",
+                                      style: GoogleFonts.varelaRound(fontSize: 15,color: Colors.black,fontWeight: FontWeight.bold),
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(right:8.0),
+                                    child: Icon(
+                                      Icons.arrow_forward_ios,
+                                      color: Colors.grey,
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
                           ],
@@ -135,119 +168,87 @@ class _sellerDashboardState extends State<sellerDashboard>
                       ),
                     ],
                   ),
-                ),
-              ),
+                )
+
+              ],
             ),
-
-            SizedBox(height: 40,),
-
-            divider("Your Advertisements"),
-
-            Container(
-              child: Column(
-                  children: <Widget>[
-                    FlatButton(
-                      onPressed: (){
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => AdDetail()));
-                      },
-                      child: Container(
-                        margin: EdgeInsets.only(top: 10),
-                        height: 310,
-                        child: ListView(
-                          scrollDirection: Axis.horizontal,
-                          children: <Widget>[
-                            Container(
-                              width: MediaQuery.of(context).size.width - 30,
-                              child: Card(
-                                child: Wrap(
-                                  children: <Widget>[
-                                    Center(
-                                      child: Image(
-                                        image: AssetImage('assets/bike.jpeg'),
-                                      ),
-                                    ),
-                                    ListTile(
-                                      title: Text(
-                                        "Honda",
-                                        style: GoogleFonts.nunito(
-                                          fontSize: 25,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                      subtitle: Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                        children: <Widget>[
-                                          Text(
-                                            "CD - 125",
-                                            style: GoogleFonts.nunito(
-                                              fontSize: 18,
-                                            ),
-                                          ),
-                                          Text(
-                                            "View More ",
-                                            style: GoogleFonts.nunito(
-                                              fontSize: 18,
-                                              color: Colors.indigo,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-
-                                  ],
-                                ),
-                              ),
-                            ),
-
-                          ],
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                    ),
-                  ]
-              ),
-            ),
-          ],
-        ),
+          )
+        ],
       ),
-
-     // drawer: Drawer(),
     );
   }
 }
 
-class divider extends StatelessWidget {
-  divider(this.text);
-  String text;
+
+class Constants {
+
+  static Color darkGreen = Color(0xFF3ABD6F);
+  static Color lightGreen = Color(0xFFA1ECBF);
+
+  // Yellow
+  static Color darkYellow = Color(0xFF3ABD6F);
+  static Color lightYellow = Color(0xFFFFDA7A);
+
+  static Color darkOrange = Color(0xFFFFB74D);
+
+  static ThemeData lighTheme(BuildContext context) {
+    return ThemeData(
+
+      textTheme: GoogleFonts.latoTextTheme(Theme.of(context).textTheme),
+      appBarTheme: AppBarTheme(
+        textTheme: GoogleFonts.latoTextTheme(Theme.of(context).textTheme),
+
+      ),
+    );
+  }
+
+  static double headerHeight = 228.5;
+  static double paddingSide = 30.0;
+}
+
+
+class CardItems extends StatelessWidget {
+  final Image image;
+  final String title;
+  final String value;
+  final String unit;
+  final Color color;
+  final int progress;
+
+  CardItems({
+    Key key,
+    @required this.image,
+    @required this.title,
+    @required this.value,
+    @required this.unit,
+    @required this.color,
+    @required this.progress,
+  }) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.symmetric(vertical: 10),
-      child: Row(
+      margin: EdgeInsets.only(bottom: 20),
+      height: 100,
+      decoration: new BoxDecoration(
+        borderRadius: BorderRadius.all(Radius.circular(10.0)),
+        shape: BoxShape.rectangle,
+        color: Colors.white,
+      ),
+      child: Stack(
         children: <Widget>[
-          SizedBox(
-            width: 20,
-          ),
-          Expanded(
-            child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 10),
-              child: Divider(
-                thickness: 1,
+          Positioned(
+            child: ClipPath(
+              clipper: MyCustomClipper(clipType: ClipType.halfCircle),
+              child: Container(
+                decoration: new BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                  color: color.withOpacity(0.1),
+                ),
+                height: 100,
+                width: 100,
               ),
             ),
-          ),
-          Text(text ,style: GoogleFonts.quicksand(fontSize: 15),),
-          Expanded(
-            child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 10),
-              child: Divider(
-                thickness: 1,
-              ),
-            ),
-          ),
-          SizedBox(
-            width: 20,
           ),
         ],
       ),
@@ -256,31 +257,194 @@ class divider extends StatelessWidget {
 }
 
 
-class ratingBar extends StatelessWidget {
-  const ratingBar({
-    Key key,
-  }) : super(key: key);
+
+class CardMain extends StatelessWidget {
+  final ImageProvider image;
+  final String title;
+  final String value;
+  final String unit;
+  final Color color;
+
+  CardMain(
+      {Key key,
+        @required this.image,
+        @required this.title,
+        @required this.value,
+        @required this.unit,
+        @required this.color})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.only(left: 35),
-      child: RatingBar.builder(
-        initialRating: 4,
-        minRating: 1,
-        direction: Axis.horizontal,
-        allowHalfRating: true,
-        itemCount: 5,
-        itemSize: 15,
-        itemBuilder: (context, _) => Icon(
-          Icons.star,
-          color: Colors.amber,
-          size: 5.0,
+    return Align(
+      alignment: Alignment.topLeft,
+      child: Container(
+        margin: const EdgeInsets.only(right: 15.0),
+        width: (
+            (MediaQuery.of(context).size.width - (Constants.paddingSide * 2 + Constants.paddingSide / 2)) /
+                2),
+        decoration: new BoxDecoration(
+          borderRadius: BorderRadius.all(Radius.circular(10.0)),
+          shape: BoxShape.rectangle,
+          color: color,
         ),
-        onRatingUpdate: (rating) {
-          print(rating);
-        },
+        child: Material(
+          child: InkWell(
+            borderRadius: BorderRadius.all(Radius.circular(10.0)),
+            child: Stack(
+              overflow: Overflow.clip,
+              children: <Widget>[
+                Positioned(
+                  child: ClipPath(
+                    clipper: MyCustomClipper(clipType: ClipType.semiCircle),
+                    child: Container(
+                      decoration: new BoxDecoration(
+                        borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                        color: Colors.black.withOpacity(0.03),
+                      ),
+                      height: 120,
+                      width: 120,
+                    ),
+                  ),
+                ),
+//                Padding(
+//                  padding: EdgeInsets.all(20.0),
+//                  child: Column(
+//                    crossAxisAlignment: CrossAxisAlignment.start,
+//                    children: <Widget>[
+//                      // Icon and Hearbeat
+//                      Row(
+//                        crossAxisAlignment: CrossAxisAlignment.center,
+//                        children: <Widget>[
+//                          Image(
+//                              width: 32,
+//                              height: 32,
+//                              image: image
+//                          ),
+//                          SizedBox(
+//                            width: 10,
+//                          ),
+//                          Expanded(
+//                            child: Text(
+//                              title,
+//                              overflow: TextOverflow.ellipsis,
+//                              style: TextStyle(
+//                                  fontSize: 13,
+//                                  color: Constants.textDark
+//                              ),
+//                            ),
+//                          ),
+//                        ],
+//                      ),
+//                      SizedBox(height: 10),
+//                      Text(value,
+//                        style: TextStyle(
+//                          fontSize: 30,
+//                          fontWeight: FontWeight.w900,
+//                          color: Constants.textDark,
+//                        ),
+//                      ),
+//                      Text(
+//                        unit,
+//                        style: TextStyle(
+//                            fontSize: 15,
+//                            color: Constants.textDark
+//                        ),
+//                      ),
+//                    ],
+//                  ),
+//                )
+              ],
+            ),
+          ),
+          color: Colors.transparent,
+        ),
       ),
     );
   }
 }
+
+
+
+enum ClipType { bottom, semiCircle, halfCircle, multiple }
+
+class MyCustomClipper extends CustomClipper<Path> {
+  ClipType clipType;
+
+  MyCustomClipper({this.clipType});
+
+  @override
+  getClip(Size size) {
+    var path = new Path();
+    if (clipType == ClipType.bottom) {
+      createBottom(size, path);
+    } else if (clipType == ClipType.semiCircle) {
+      createSemiCirle(size, path);
+    } else if (clipType == ClipType.halfCircle) {
+      createHalfCircle(size, path);
+    } else if (clipType == ClipType.multiple) {
+      createMultiple(size, path);
+    }
+    path.close();
+    return path;
+  }
+
+  createSemiCirle(Size size, Path path) {
+    path.lineTo(size.width / 1.40, 0);
+
+    var firstControlPoint = new Offset(size.width / 1.30, size.height / 2.5);
+    var firstEndPoint = new Offset(size.width / 1.85, size.height / 1.85);
+
+    var secondControlPoint = new Offset(size.width / 4, size.height / 1.45);
+    var secondEndPoint = new Offset(0, size.height / 1.75);
+
+    path.quadraticBezierTo(
+        firstControlPoint.dx, firstControlPoint.dy, firstEndPoint.dx, firstEndPoint.dy);
+
+    path.quadraticBezierTo(
+        secondControlPoint.dx, secondControlPoint.dy, secondEndPoint.dx, secondEndPoint.dy);
+
+    path.lineTo(0, size.height / 1.75);
+  }
+
+  createBottom(Size size, Path path) {
+    path.lineTo(0, size.height / 1.19);
+    var secondControlPoint = new Offset((size.width / 2), size.height);
+    var secondEndPoint = new Offset(size.width, size.height / 1.19);
+
+    path.quadraticBezierTo(
+        secondControlPoint.dx, secondControlPoint.dy, secondEndPoint.dx, secondEndPoint.dy);
+    path.lineTo(size.width, 0);
+  }
+
+  createHalfCircle(Size size, Path path) {
+    path.lineTo(size.width / 2, 0);
+    var firstControlPoint = new Offset(size.width / 1.10, size.height / 2);
+    var firstEndPoint = new Offset(size.width / 2, size.height);
+    path.quadraticBezierTo(
+        firstControlPoint.dx, firstControlPoint.dy, firstEndPoint.dx, firstEndPoint.dy);
+    path.lineTo(0, size.height);
+  }
+
+  createMultiple(Size size, Path path) {
+    path.lineTo(0, size.height);
+
+    var curXPos = 0.0;
+    var curYPos = size.height;
+    Random rnd = new Random();
+
+    var increment = size.width / 40;
+    while (curXPos < size.width) {
+      curXPos += increment;
+      curYPos = curYPos == size.height ? size.height - rnd.nextInt(50 - 0) : size.height;
+      path.lineTo(curXPos, curYPos);
+    }
+    path.lineTo(size.width, 0);
+  }
+
+  @override
+  bool shouldReclip(CustomClipper oldClipper) {
+    return true;
+  }
+}
+

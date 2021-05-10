@@ -25,6 +25,10 @@ class _postAdSellerState extends State<postAdSeller> {
           ),
           backgroundColor: Color(0XFF012A4A),
           iconTheme: IconThemeData(color: Color(0xfffbb448)),
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back, color: Colors.orange),
+            onPressed: () => Navigator.of(context).pop(),
+          ),
 
         ),
         body: SingleChildScrollView(
@@ -38,6 +42,7 @@ class _postAdSellerState extends State<postAdSeller> {
                     "Post An Ad",
                     style: GoogleFonts.raleway(
                       fontSize: 25,
+                      color: Colors.orange,
                     ),
                   ),
                 ),
@@ -199,7 +204,7 @@ class _postAdSellerState extends State<postAdSeller> {
               Container(
                 child: FlatButton(
                   onPressed: (){
-                    Navigator.push(context, MaterialPageRoute(builder: (context)=>sellerDashboard()));
+                    Navigator.push(context, MaterialPageRoute(builder: (context)=> HomeScreen()));
                   },
                   child: Container(
                     width: MediaQuery.of(context).size.width,
