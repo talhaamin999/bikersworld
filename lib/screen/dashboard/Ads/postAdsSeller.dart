@@ -72,6 +72,16 @@ class _postAdSellerState extends State<postAdSeller> {
                 margin: EdgeInsets.only(left: 20),
                 child: Row(
                   children: <Widget>[
+                    Icon(FontAwesomeIcons.table),
+                    postAdTextfield("Modal"),
+                  ],
+                ),
+              ),
+              SizedBox(height: 15,),
+              Container(
+                margin: EdgeInsets.only(left: 20),
+                child: Row(
+                  children: <Widget>[
                     Icon(FontAwesomeIcons.mapMarkerAlt),
                     postAdTextfield("Location"),
                   ],
@@ -88,16 +98,7 @@ class _postAdSellerState extends State<postAdSeller> {
                   ],
                 ),
               ),
-              SizedBox(height: 15,),
-              Container(
-                margin: EdgeInsets.only(left: 20),
-                child: Row(
-                  children: <Widget>[
-                    Icon(FontAwesomeIcons.table),
-                    postAdTextfield("Modal"),
-                  ],
-                ),
-              ),
+
 
               SizedBox(height: 15,),
               Container(

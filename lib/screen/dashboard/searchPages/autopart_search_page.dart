@@ -443,6 +443,7 @@ class _AutoPartSearchPageState extends State<AutoPartSearchPage> {
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: <Widget>[
                                         Container(
+                                          margin:EdgeInsets.only(left:5),
                                           child: AutoSizeText(
                                             snapshot.data[index].title,
                                             style: GoogleFonts.quicksand(
@@ -457,39 +458,48 @@ class _AutoPartSearchPageState extends State<AutoPartSearchPage> {
                                             mainAxisAlignment: MainAxisAlignment.end,
                                             children: [
                                               Container(
-                                                child: Text(
-                                                  snapshot.data[index].partStoreCity,
-                                                  style: TextStyle(
-                                                      fontSize: 15
-                                                  ),
+                                                child: Column(
+                                                  children: [
+                                                    Icon(
+                                                      Icons.location_on,
+                                                      color: Colors.grey,
+                                                    ),
+                                                    SizedBox(height: 5,),
+                                                    Text(
+                                                      snapshot.data[index].partStoreCity,
+                                                      style: GoogleFonts.quicksand(
+                                                          fontSize: 13,
+                                                        color: Colors.grey,
+                                                      ),
+                                                    ),
+                                                  ],
                                                 ),
                                               ),
-                                              SizedBox(width: 160,),
-                                              Icon(
-                                                Icons.arrow_forward_ios,
-                                                color: Color(0xffb8b8b8),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-
-                                        SizedBox(height: 3,),
-
-                                        Container(
-                                          child: Row(
-                                            children: <Widget>[
-                                              Text(
-                                                snapshot.data[index].type,
-                                                style: TextStyle(
-                                                  fontSize: 13,
+                                              SizedBox(width: 15,),
+                                              Container(
+                                                child: Column(
+                                                  children: [
+                                                    Icon(
+                                                      FontAwesomeIcons.tumblrSquare,
+                                                      color: Colors.grey,
+                                                    ),
+                                                    SizedBox(height: 5,),
+                                                    Text(
+                                                      snapshot.data[index].type,
+                                                      style: GoogleFonts.quicksand(
+                                                        fontSize: 13,
+                                                        color: Colors.grey,
+                                                      ),
+                                                    ),
+                                                  ],
                                                 ),
                                               ),
-                                              SizedBox(width: 5,),
-                                              Text(
-                                                snapshot.data[index].price.toString(),
-                                                style: TextStyle(
-                                                  fontSize: 13,
-                                                  fontWeight: FontWeight.bold,
+                                              SizedBox(width: 70,),
+                                              Padding(
+                                                padding: const EdgeInsets.only(right:10),
+                                                child: Icon(
+                                                  Icons.arrow_forward_ios,
+                                                  color: Color(0xffb8b8b8),
                                                 ),
                                               ),
                                             ],

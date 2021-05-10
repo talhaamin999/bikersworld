@@ -239,6 +239,7 @@ class _AutoPartStoreSearchPageState extends State<AutoPartStoreSearchPage> {
                                             crossAxisAlignment: CrossAxisAlignment.start,
                                             children: <Widget>[
                                               Container(
+                                                margin:EdgeInsets.only(left:10),
                                                 child: AutoSizeText(
                                                   snapshot.data !=null ? snapshot.data[index].shopTitle : "Automotive repair",
                                                   style: GoogleFonts.quicksand(
@@ -253,14 +254,19 @@ class _AutoPartStoreSearchPageState extends State<AutoPartStoreSearchPage> {
                                                   mainAxisAlignment: MainAxisAlignment.end,
                                                   children: [
                                                     Container(
-                                                      child: Text(
-                                                        snapshot.data != null ? snapshot.data[index].city: "Islamabad",
-                                                        style: TextStyle(
-                                                            fontSize: 15
-                                                        ),
+                                                      child:Row(
+                                                        children: [
+                                                          Icon(Icons.location_on,color: Colors.grey,),
+                                                          Text(
+                                                            snapshot.data != null ? snapshot.data[index].city: "Islamabad",
+                                                            style: TextStyle(
+                                                                fontSize: 15
+                                                            ),
+                                                          ),
+                                                        ],
                                                       ),
                                                     ),
-                                                    SizedBox(width: 160,),
+                                                    SizedBox(width: 130,),
                                                     Icon(
                                                       Icons.arrow_forward_ios,
                                                       color: Color(0xffb8b8b8),
@@ -271,26 +277,26 @@ class _AutoPartStoreSearchPageState extends State<AutoPartStoreSearchPage> {
 
                                               SizedBox(height: 3,),
 
-                                              Container(
-                                                child: Row(
-                                                  children: <Widget>[
-                                                    Text(
-                                                      "Time",
-                                                      style: TextStyle(
-                                                        fontSize: 13,
-                                                      ),
-                                                    ),
-                                                    SizedBox(width: 5,),
-                                                    Text(
-                                                      "${snapshot.data[index].openTime} - ${snapshot.data[index].closeTime}",
-                                                      style: TextStyle(
-                                                        fontSize: 13,
-                                                        fontWeight: FontWeight.bold,
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
+//                                              Container(
+//                                                child: Row(
+//                                                  children: <Widget>[
+//                                                    Text(
+//                                                      "Time",
+//                                                      style: TextStyle(
+//                                                        fontSize: 13,
+//                                                      ),
+//                                                    ),
+//                                                    SizedBox(width: 5,),
+//                                                    Text(
+//                                                      "${snapshot.data[index].openTime} - ${snapshot.data[index].closeTime}",
+//                                                      style: TextStyle(
+//                                                        fontSize: 13,
+//                                                        fontWeight: FontWeight.bold,
+//                                                      ),
+//                                                    ),
+//                                                  ],
+//                                                ),
+//                                              ),
                                               SizedBox(height: 10,),
                                             ],
                                           ),
