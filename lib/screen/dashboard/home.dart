@@ -6,17 +6,10 @@ import 'package:bikersworld/widgets/drawer.dart';
 import 'package:flutter/rendering.dart';
 import 'package:bikersworld/screen/dashboard/findMorePage.dart';
 import 'package:bikersworld/screen/dashboard/Autopart/partGrid.dart';
-import 'package:bikersworld/screen/dashboard/searchPages/workshop_search_page.dart';
-import 'package:bikersworld/screen/dashboard/searchPages/autopart_search_page.dart';
-import 'package:bikersworld/screen/dashboard/searchPages/auto_partstore_search_page.dart';
-import 'package:bikersworld/screen/dashboard/Ads/AdDetail.dart';
-import 'package:bikersworld/screen/dashboard/searchPages/ads_search_page.dart';
 import 'package:bikersworld/screen/loginSignup/signup.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:bikersworld/widgets/search_text_field.dart';
-import 'package:bubble_bottom_bar/bubble_bottom_bar.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-
+import 'package:bikersworld/screen/dashboard/Ads/seller/sellerDashbaord.dart';
 class HomeDashboard extends StatefulWidget {
   @override
   _HomeDashboardState createState() => _HomeDashboardState();
@@ -129,245 +122,251 @@ class _HomeDashboardState extends State<HomeDashboard>  with SingleTickerProvide
                         ),
                       ),
                     ),
-                    Container(
-                      margin: EdgeInsets.only(top: 200),
-                      height: 340,
-                      child: Padding(
-                        padding: const EdgeInsets.only(left:10, top:10),
-                        child: ListView(
-                          scrollDirection: Axis.horizontal,
-                          children: <Widget>[
-                            Container(
-                              width: 300,
-                              child: Card(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Container(
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(2),
-                                        child: Image(
-                                          image: AssetImage(
-                                            "assets/1.png",
+                    FlatButton(
+                      padding: EdgeInsets.zero,
+                      onPressed: (){
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => HomeScreen()));
+                      },
+                      child: Container(
+                        margin: EdgeInsets.only(top: 200),
+                        height: 340,
+                        child: Padding(
+                          padding: const EdgeInsets.only(left:10, top:10),
+                          child: ListView(
+                            scrollDirection: Axis.horizontal,
+                            children: <Widget>[
+                              Container(
+                                width: 300,
+                                child: Card(
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Container(
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(2),
+                                          child: Image(
+                                            image: AssetImage(
+                                              "assets/1.png",
+                                            ),
                                           ),
                                         ),
                                       ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Text(
-                                        "Karawasai Ninja",
-                                        style: GoogleFonts.varelaRound(
-                                          fontSize: 18,
-                                          color: Colors.black,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                    ),
-                                    rating(),
-                                    Padding(
-                                      padding: const EdgeInsets.only(left:10),
-                                      child: Container(
-                                        child: Row(
-                                          children: [
-                                            Container(
-                                              child: Icon(
-                                                FontAwesomeIcons.adn,
-                                                color: Colors.grey,
-                                              ),
-                                            ),
-                                            SizedBox(width:20),
-                                            Container(
-                                              child: Column(
-                                                crossAxisAlignment: CrossAxisAlignment.start,
-                                                children: [
-                                                  Text(
-                                                    "Modal",
-                                                    style: GoogleFonts.mukta(
-                                                      fontSize: 16,
-                                                      fontWeight: FontWeight.bold,
-                                                    ),
-                                                  ),
-                                                  Text(
-                                                    "H2",
-                                                    style: GoogleFonts.varelaRound(
-                                                      fontSize: 14,
-                                                      color: Colors.grey,
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                            SizedBox(width: 10,),
-                                            Container(
-                                              child: Column(
-                                                crossAxisAlignment: CrossAxisAlignment.start,
-                                                children: [
-                                                  Text(
-                                                    "Year",
-                                                    style: GoogleFonts.mukta(
-                                                      fontSize: 16,
-                                                      fontWeight: FontWeight.bold,
-                                                    ),
-                                                  ),
-                                                  Text(
-                                                    "2020",
-                                                    style: GoogleFonts.varelaRound(
-                                                      fontSize: 14,
-                                                      color: Colors.grey,
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                            SizedBox(width: 10,),
-                                            Container(
-                                              child: Column(
-                                                crossAxisAlignment: CrossAxisAlignment.start,
-
-                                                children: [
-                                                  Text(
-                                                    "Make",
-                                                    style: GoogleFonts.mukta(
-                                                      fontSize: 16,
-                                                      fontWeight: FontWeight.bold,
-                                                    ),
-                                                  ),
-                                                  Text(
-                                                    "Karasaki",
-                                                    style: GoogleFonts.varelaRound(
-                                                      fontSize: 14,
-                                                      color: Colors.grey,
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-
-                            SizedBox(width: 30,),
-                            Container(
-                              width: 300,
-                              child: Card(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Container(
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(2),
-                                        child: Image(
-                                          image: AssetImage(
-                                            "assets/1.png",
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Text(
+                                          "Karawasai Ninja",
+                                          style: GoogleFonts.varelaRound(
+                                            fontSize: 18,
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.bold,
                                           ),
                                         ),
                                       ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Text(
-                                        "Karawasai Ninja H2",
-                                        style: GoogleFonts.varelaRound(
-                                          fontSize: 18,
-                                          color: Colors.black,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                    ),
-                                    rating(),
-                                    Padding(
-                                      padding: const EdgeInsets.only(left:10),
-                                      child: Container(
-                                        child: Row(
-                                          children: [
-                                            Container(
-                                              child: Icon(
-                                                FontAwesomeIcons.adn,
-                                                color: Colors.grey,
+                                      rating(),
+                                      Padding(
+                                        padding: const EdgeInsets.only(left:10),
+                                        child: Container(
+                                          child: Row(
+                                            children: [
+                                              Container(
+                                                child: Icon(
+                                                  FontAwesomeIcons.adn,
+                                                  color: Colors.grey,
+                                                ),
                                               ),
-                                            ),
-                                            SizedBox(width:20),
-                                            Container(
-                                              child: Column(
-                                                crossAxisAlignment: CrossAxisAlignment.start,
-                                                children: [
-                                                  Text(
-                                                    "Modal",
-                                                    style: GoogleFonts.mukta(
-                                                      fontSize: 16,
-                                                      fontWeight: FontWeight.bold,
+                                              SizedBox(width:20),
+                                              Container(
+                                                child: Column(
+                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                  children: [
+                                                    Text(
+                                                      "Modal",
+                                                      style: GoogleFonts.mukta(
+                                                        fontSize: 16,
+                                                        fontWeight: FontWeight.bold,
+                                                      ),
                                                     ),
-                                                  ),
-                                                  Text(
-                                                    "H2",
-                                                    style: GoogleFonts.varelaRound(
-                                                      fontSize: 14,
-                                                      color: Colors.grey,
+                                                    Text(
+                                                      "H2",
+                                                      style: GoogleFonts.varelaRound(
+                                                        fontSize: 14,
+                                                        color: Colors.grey,
+                                                      ),
                                                     ),
-                                                  ),
-                                                ],
+                                                  ],
+                                                ),
                                               ),
-                                            ),
-                                            SizedBox(width: 10,),
-                                            Container(
-                                              child: Column(
-                                                crossAxisAlignment: CrossAxisAlignment.start,
-                                                children: [
-                                                  Text(
-                                                    "Year",
-                                                    style: GoogleFonts.mukta(
-                                                      fontSize: 16,
-                                                      fontWeight: FontWeight.bold,
+                                              SizedBox(width: 10,),
+                                              Container(
+                                                child: Column(
+                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                  children: [
+                                                    Text(
+                                                      "Year",
+                                                      style: GoogleFonts.mukta(
+                                                        fontSize: 16,
+                                                        fontWeight: FontWeight.bold,
+                                                      ),
                                                     ),
-                                                  ),
-                                                  Text(
-                                                    "2020",
-                                                    style: GoogleFonts.varelaRound(
-                                                      fontSize: 14,
-                                                      color: Colors.grey,
+                                                    Text(
+                                                      "2020",
+                                                      style: GoogleFonts.varelaRound(
+                                                        fontSize: 14,
+                                                        color: Colors.grey,
+                                                      ),
                                                     ),
-                                                  ),
-                                                ],
+                                                  ],
+                                                ),
                                               ),
-                                            ),
-                                            SizedBox(width: 10,),
-                                            Container(
-                                              child: Column(
-                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                              SizedBox(width: 10,),
+                                              Container(
+                                                child: Column(
+                                                  crossAxisAlignment: CrossAxisAlignment.start,
 
-                                                children: [
-                                                  Text(
-                                                    "Make",
-                                                    style: GoogleFonts.mukta(
-                                                      fontSize: 16,
-                                                      fontWeight: FontWeight.bold,
+                                                  children: [
+                                                    Text(
+                                                      "Make",
+                                                      style: GoogleFonts.mukta(
+                                                        fontSize: 16,
+                                                        fontWeight: FontWeight.bold,
+                                                      ),
                                                     ),
-                                                  ),
-                                                  Text(
-                                                    "Karasaki",
-                                                    style: GoogleFonts.varelaRound(
-                                                      fontSize: 14,
-                                                      color: Colors.grey,
+                                                    Text(
+                                                      "Karasaki",
+                                                      style: GoogleFonts.varelaRound(
+                                                        fontSize: 14,
+                                                        color: Colors.grey,
+                                                      ),
                                                     ),
-                                                  ),
-                                                ],
+                                                  ],
+                                                ),
                                               ),
-                                            ),
-                                          ],
+                                            ],
+                                          ),
                                         ),
                                       ),
-                                    ),
-                                  ],
+                                    ],
+                                  ),
                                 ),
                               ),
-                            ),
-                          ],
+
+                              SizedBox(width: 30,),
+                              Container(
+                                width: 300,
+                                child: Card(
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Container(
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(2),
+                                          child: Image(
+                                            image: AssetImage(
+                                              "assets/1.png",
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Text(
+                                          "Karawasai Ninja H2",
+                                          style: GoogleFonts.varelaRound(
+                                            fontSize: 18,
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ),
+                                      rating(),
+                                      Padding(
+                                        padding: const EdgeInsets.only(left:10),
+                                        child: Container(
+                                          child: Row(
+                                            children: [
+                                              Container(
+                                                child: Icon(
+                                                  FontAwesomeIcons.adn,
+                                                  color: Colors.grey,
+                                                ),
+                                              ),
+                                              SizedBox(width:20),
+                                              Container(
+                                                child: Column(
+                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                  children: [
+                                                    Text(
+                                                      "Modal",
+                                                      style: GoogleFonts.mukta(
+                                                        fontSize: 16,
+                                                        fontWeight: FontWeight.bold,
+                                                      ),
+                                                    ),
+                                                    Text(
+                                                      "H2",
+                                                      style: GoogleFonts.varelaRound(
+                                                        fontSize: 14,
+                                                        color: Colors.grey,
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                              SizedBox(width: 10,),
+                                              Container(
+                                                child: Column(
+                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                  children: [
+                                                    Text(
+                                                      "Year",
+                                                      style: GoogleFonts.mukta(
+                                                        fontSize: 16,
+                                                        fontWeight: FontWeight.bold,
+                                                      ),
+                                                    ),
+                                                    Text(
+                                                      "2020",
+                                                      style: GoogleFonts.varelaRound(
+                                                        fontSize: 14,
+                                                        color: Colors.grey,
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                              SizedBox(width: 10,),
+                                              Container(
+                                                child: Column(
+                                                  crossAxisAlignment: CrossAxisAlignment.start,
+
+                                                  children: [
+                                                    Text(
+                                                      "Make",
+                                                      style: GoogleFonts.mukta(
+                                                        fontSize: 16,
+                                                        fontWeight: FontWeight.bold,
+                                                      ),
+                                                    ),
+                                                    Text(
+                                                      "Karasaki",
+                                                      style: GoogleFonts.varelaRound(
+                                                        fontSize: 14,
+                                                        color: Colors.grey,
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ),
