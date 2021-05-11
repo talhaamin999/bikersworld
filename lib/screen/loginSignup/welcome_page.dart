@@ -383,7 +383,7 @@ class _GettingStartedScreenState extends State<GettingStartedScreen> {
                         ),
                         child: Center(
                           child: Text(
-                            "Login",
+                            "Login ",
                             style: GoogleFonts.quicksand(
                               fontSize: 21,
                               color: Colors.white,
