@@ -154,7 +154,7 @@ class _HomeDashboardState extends State<HomeDashboard>  with SingleTickerProvide
                                       Padding(
                                         padding: const EdgeInsets.all(8.0),
                                         child: Text(
-                                          "Karawasai Ninja",
+                                          "Karawasaki Ninja",
                                           style: GoogleFonts.varelaRound(
                                             fontSize: 18,
                                             color: Colors.black,
