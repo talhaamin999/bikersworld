@@ -311,11 +311,11 @@ class _AutoPartSearchPageState extends State<AutoPartSearchPage> {
           child: Column(
             children: <Widget>[
               Container(
-                height: 85,
+                height: 55,
                 width: MediaQuery.of(context).size.width,
                 color: Color(0XFF012A4A),
                 child: Padding(
-                  padding: EdgeInsets.symmetric(vertical: 8 , horizontal: 15),
+                 padding: EdgeInsets.only(left: 10,right: 10,bottom: 10),
                   child: Container(
                     child: TextField(
                       textInputAction: TextInputAction.search,
@@ -344,66 +344,100 @@ class _AutoPartSearchPageState extends State<AutoPartSearchPage> {
                       decoration: new InputDecoration(
                           border: new OutlineInputBorder(
                             borderRadius: const BorderRadius.all(
-                              const Radius.circular(50),
+                              const Radius.circular(10),
                             ),
                           ),
                           filled: true,
                           hintStyle: GoogleFonts.quicksand(color: Colors.black, fontSize:15),
                           hintText: "Type Service Name",
+                          contentPadding: EdgeInsets.only(top: 7),
                           prefixIcon: Icon(Icons.search, size: 25,),
                           fillColor: Colors.white),
                     ),
                   ),
                 ),
               ),
+//              Container(
+//                color: Color(0xfff7f7f7),
+//                child: Row(
+//                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//                  children: <Widget>[
+//                    Container(
+//                      child: Text(
+//                        "Result: 3",
+//                        style: GoogleFonts.varelaRound(
+//                          fontSize: 20,
+//                        ),
+//                      ),
+//                    ),
+//                    SizedBox (width: 120,),
+
+//                  ],
+//                ),
+//              ),
               Container(
-                margin: EdgeInsets.only(left: 22, right: 30,top: 15),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Container(
-                      child: Text(
-                        "Result: 3",
-                        style: GoogleFonts.varelaRound(
-                          fontSize: 20,
-                        ),
-                      ),
-                    ),
-                    SizedBox (width: 120,),
-                    FlatButton(
-                      onPressed: (){
-                        navigateToFilterPage(context);
-                      },
-                      child: Container(
+                height: 55,
+                decoration: BoxDecoration(
+                    boxShadow: <BoxShadow>[
+                      BoxShadow(
+                          color: Color(0xffb6b6b8),
+                          blurRadius: 10,
+                          offset: Offset(0.2, 0.75)
+                      )
+                    ],
+                    color: Colors.white,
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.only(left:15,right: 15),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Container(
                         child: Row(
                           children: [
                             Text(
-                              "Filter",
-                              style: GoogleFonts.quicksand(
-                                fontSize: 18,
+                              "Results",
+                              style: GoogleFonts.varelaRound(
+                                fontSize: 15,
+                                color: Colors.black,
                               ),
                             ),
                             SizedBox(width: 5,),
-                            Icon(FontAwesomeIcons.filter, size: 16,),
-
+                            Text(
+                              "30",
+                              style: GoogleFonts.varelaRound(
+                                fontSize: 15,
+                                color: Colors.black,
+                              ),
+                            ),
                           ],
                         ),
                       ),
-                    ),
-                  ],
+                      FlatButton(
+                        onPressed: (){
+                          navigateToFilterPage(context);
+                        },
+                        child: Container(
+                          child: Row(
+                            children: [
+                              Text(
+                                "Filter",
+                                style: GoogleFonts.varelaRound(
+                                  fontSize: 15,
+                                ),
+                              ),
+                              SizedBox(width: 5,),
+                              Icon(FontAwesomeIcons.filter, size: 15,),
+
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
-              Container(
-                margin: EdgeInsets.symmetric(horizontal: 23,),
-                alignment: Alignment.topLeft,
-                child: Text("Search Result", style: GoogleFonts.quicksand(
-                  color: Colors.black,
-                  fontSize: 20,
-                  fontWeight: FontWeight.w500,
-                ),
-                ),
-              ),
-          SizedBox(height: 10,),
+          SizedBox(height: 30,),
           FutureBuilder(
             future: getAutoParts(),
             builder: (BuildContext context, AsyncSnapshot<List<AutoPartModel>> snapshot) {
@@ -422,6 +456,7 @@ class _AutoPartSearchPageState extends State<AutoPartSearchPage> {
                             color: Color(0xfff7f7f7),
                             child: Container(
                               child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: <Widget>[
                                   Expanded(
                                     child: Container(
@@ -436,80 +471,64 @@ class _AutoPartSearchPageState extends State<AutoPartSearchPage> {
                                       ),
                                     ),
                                   ),
+                                  SizedBox(width: 10,),
 
-                                  SizedBox(width: 5,),
                                   Container(
                                     child: Column(
                                       crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: <Widget>[
-                                        Container(
-                                          margin:EdgeInsets.only(left:5),
-                                          child: AutoSizeText(
-                                            snapshot.data[index].title,
-                                            style: GoogleFonts.quicksand(
-                                              fontSize: 18,
-                                              color: Colors.black,
-                                            ),
+                                      children: [
+                                        Text(
+                                          snapshot.data[index].title,
+                                          style: GoogleFonts.quicksand(
+                                            fontSize: 22,
+                                            color: Colors.black,
                                           ),
                                         ),
                                         SizedBox(height: 5,),
                                         Container(
                                           child: Row(
-                                            mainAxisAlignment: MainAxisAlignment.end,
                                             children: [
-                                              Container(
-                                                child: Column(
-                                                  children: [
-                                                    Icon(
-                                                      Icons.location_on,
-                                                      color: Colors.grey,
-                                                    ),
-                                                    SizedBox(height: 5,),
-                                                    Text(
-                                                      snapshot.data[index].partStoreCity,
-                                                      style: GoogleFonts.quicksand(
-                                                          fontSize: 13,
-                                                        color: Colors.grey,
-                                                      ),
-                                                    ),
-                                                  ],
+                                              Text(
+                                                "PKR",
+                                                style: GoogleFonts.quicksand(
+                                                  fontSize: 15,
+                                                  color: Colors.black,
+                                                  fontWeight: FontWeight.bold,
                                                 ),
                                               ),
-                                              SizedBox(width: 15,),
-                                              Container(
-                                                child: Column(
-                                                  children: [
-                                                    Icon(
-                                                      FontAwesomeIcons.tumblrSquare,
-                                                      color: Colors.grey,
-                                                    ),
-                                                    SizedBox(height: 5,),
-                                                    Text(
-                                                      snapshot.data[index].type,
-                                                      style: GoogleFonts.quicksand(
-                                                        fontSize: 13,
-                                                        color: Colors.grey,
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                              SizedBox(width: 70,),
-                                              Padding(
-                                                padding: const EdgeInsets.only(right:10),
-                                                child: Icon(
-                                                  Icons.arrow_forward_ios,
-                                                  color: Color(0xffb8b8b8),
+                                              Text(
+                                                snapshot.data[index].price.toString(),
+                                                style: GoogleFonts.quicksand(
+                                                  fontSize: 15,
+                                                  color: Colors.black,
+                                                  fontWeight: FontWeight.bold,
                                                 ),
                                               ),
                                             ],
                                           ),
                                         ),
-                                        SizedBox(height: 10,),
+                                        Text(
+                                          snapshot.data[index].partStoreCity,
+                                          style: GoogleFonts.quicksand(
+                                            fontSize: 15,
+                                            color: Colors.black,
+                                          ),
+                                        ),
                                       ],
                                     ),
                                   ),
-                                ],
+                                  SizedBox(width: 20,),
+
+                                  CircleAvatar(backgroundColor: Color(0xfff7f7f7),),
+                                 // SizedBox(width: 20,),
+                                  Padding(
+                                    padding: const EdgeInsets.only(left:15,right:14),
+                                    child: Icon(
+                                      Icons.arrow_forward_ios,
+                                      color: Colors.grey,
+                                    ),
+                                  ),
+                                ]
                               ),
                             ),
                           ),

@@ -1,7 +1,8 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:bikersworld/screen/onboarding/onboarding.dart';
-
+import 'package:bikersworld/screen/loginSignup/welcome_page.dart';
+import 'package:bikersworld/screen/dashboard/searchPages/autopart_search_page.dart';
 Future<void> main() async{
 
   WidgetsFlutterBinding.ensureInitialized();
@@ -19,7 +20,9 @@ class MyApp extends StatelessWidget{
       theme: ThemeData(
         primarySwatch: Colors.deepOrange,
       ),
-      home: GettingStartedScreen(),
+      //home: LoadingScreen(),
+      //home: GettingStartedScreen(),
+      home: AutoPartSearchPage(),
     );
   }
 }

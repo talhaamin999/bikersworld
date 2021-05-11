@@ -88,11 +88,11 @@ class _AutoPartStoreSearchPageState extends State<AutoPartStoreSearchPage> {
           child: Column(
             children: <Widget>[
               Container(
-                height: 85,
+                height: 55,
                 width: MediaQuery.of(context).size.width,
                 color: Color(0XFF012A4A),
                 child: Padding(
-                  padding: EdgeInsets.symmetric(vertical: 8 , horizontal: 15),
+                  padding: EdgeInsets.only(left: 10,right: 10,bottom: 10),
                   child: Container(
                     child: TextField(
                       textInputAction: TextInputAction.search,
@@ -119,12 +119,13 @@ class _AutoPartStoreSearchPageState extends State<AutoPartStoreSearchPage> {
                               icon: Icon(Icons.clear)),
                           border: new OutlineInputBorder(
                             borderRadius: const BorderRadius.all(
-                              const Radius.circular(50),
+                              const Radius.circular(10),
                             ),
                           ),
                           filled: true,
                           hintStyle: GoogleFonts.quicksand(color: Colors.black, fontSize:15),
                           hintText: "Type Store Name",
+                          contentPadding: EdgeInsets.only(top: 7),
                           prefixIcon: Icon(Icons.search, size: 25,),
                           fillColor: Colors.white),
                     ),
@@ -132,30 +133,43 @@ class _AutoPartStoreSearchPageState extends State<AutoPartStoreSearchPage> {
                 ),
               ),
               Container(
-                width: MediaQuery.of(context).size.width,
-                height: 50,
+                height: 55,
                 decoration: BoxDecoration(
-                    color: Color(0xffe8e8e8),
-                    borderRadius: BorderRadius.only(
-                      bottomLeft: Radius.circular(20),
-                      bottomRight: Radius.circular(20),
+                  boxShadow: <BoxShadow>[
+                    BoxShadow(
+                        color: Color(0xffb6b6b8),
+                        blurRadius: 10,
+                        offset: Offset(0.2, 0.75)
                     )
+                  ],
+                  color: Colors.white,
                 ),
-                child: Container(
-                  margin: EdgeInsets.only(left: 22, right: 30),
+                child: Padding(
+                  padding: const EdgeInsets.only(left:15,right: 15),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
+                    children: [
                       Container(
-                        child: Text(
-                          //"Result $numberOfResults",
-                          "Result",
-                          style: GoogleFonts.varelaRound(
-                            fontSize: 15,
-                          ),
+                        child: Row(
+                          children: [
+                            Text(
+                              "Results",
+                              style: GoogleFonts.varelaRound(
+                                fontSize: 15,
+                                color: Colors.black,
+                              ),
+                            ),
+                            SizedBox(width: 5,),
+                            Text(
+                              "30",
+                              style: GoogleFonts.varelaRound(
+                                fontSize: 15,
+                                color: Colors.black,
+                              ),
+                            ),
+                          ],
                         ),
                       ),
-                      SizedBox(width: 90,),
                       FlatButton(
                         onPressed: (){
                           navigateToFilterPage(context);
@@ -165,33 +179,22 @@ class _AutoPartStoreSearchPageState extends State<AutoPartStoreSearchPage> {
                             children: [
                               Text(
                                 "Filter",
-                                style: GoogleFonts.quicksand(
-                                  fontSize: 18,
+                                style: GoogleFonts.varelaRound(
+                                  fontSize: 15,
                                 ),
                               ),
                               SizedBox(width: 5,),
-                              Icon(FontAwesomeIcons.filter, size: 16,),
+                              Icon(FontAwesomeIcons.filter, size: 15,),
 
                             ],
                           ),
                         ),
                       ),
-
                     ],
                   ),
                 ),
               ),
               SizedBox(height: 10,),
-              Container(
-                margin: EdgeInsets.symmetric(horizontal: 23,),
-                alignment: Alignment.topLeft,
-                child: Text("Search Result", style: GoogleFonts.quicksand(
-                  color: Colors.black,
-                  fontSize: 20,
-                  fontWeight: FontWeight.w500,
-                ),
-                ),
-              ),
 
               SizedBox(height: 20,),
 

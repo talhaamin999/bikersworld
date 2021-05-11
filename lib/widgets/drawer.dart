@@ -55,7 +55,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
           context, MaterialPageRoute(builder: (context) => HomeDashboard()));
     }else if(option == userOption.logInSignOut) {
       Navigator.push(
-          context, MaterialPageRoute(builder: (context) => WelcomePage()));
+          context, MaterialPageRoute(builder: (context) => GettingStartedScreen()));
     }
   }
   void setUser() {
