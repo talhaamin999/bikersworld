@@ -265,7 +265,7 @@ class LoadingScreen extends StatelessWidget {
                     lineHeight: 7.0,
                     animation: true,
                     percent: 1.0,
-                    animationDuration: 3590,
+                    animationDuration: 3000,
                     backgroundColor: Color(0XFF012A4A),
                     progressColor: Colors.orange,
                   )
