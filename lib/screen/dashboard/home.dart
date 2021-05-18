@@ -125,7 +125,7 @@ class _HomeDashboardState extends State<HomeDashboard>  with SingleTickerProvide
                     FlatButton(
                       padding: EdgeInsets.zero,
                       onPressed: (){
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => HomeScreen()));
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => SellerHomeScreen()));
                       },
                       child: Container(
                         margin: EdgeInsets.only(top: 200),

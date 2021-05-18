@@ -1,5 +1,6 @@
 import 'dart:ffi';
-
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:bikersworld/screen/dashboard/Ads/seller/sellerDashbaord.dart';
 import 'package:bikersworld/model/bike_add_model.dart';
 import 'package:bikersworld/services/toast_service.dart';
 import 'package:bikersworld/services/validate_service.dart';
@@ -14,6 +15,9 @@ class PostAdSeller extends StatefulWidget {
 }
 
 class _PostAdSellerState extends State<PostAdSeller> with SingleTickerProviderStateMixin {
+
+  bool isVisible = false,_isButtonVisible = true;
+
 
   final _titleController = TextEditingController();
   final _makeController = TextEditingController();
@@ -120,8 +124,20 @@ class _PostAdSellerState extends State<PostAdSeller> with SingleTickerProviderSt
                   child: postAdTextfield("Modal",controller:_modelController,inputType: TextInputType.text,),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(left: 15, right: 15),
-                  child: postAdTextfield("Year",controller:_yearController,inputType: TextInputType.number,),
+                  padding: const EdgeInsets.only(left: 15, right: 15,),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                          "Year",
+                          style: GoogleFonts.quicksand(
+                            fontSize: 18,
+                          )
+                      ),
+                      SizedBox(height: 10,),
+                      YearComboBox(),
+                    ],
+                  )
                 ),
                 Padding(
                   padding: const EdgeInsets.only(left: 15, right: 15),
@@ -172,6 +188,14 @@ class _PostAdSellerState extends State<PostAdSeller> with SingleTickerProviderSt
                   ),
                 ),
                 SizedBox(height: 15,),
+                FlatButton(
+                  child: Text(
+                    "img screen",
+                  ),
+                  onPressed: (){
+                    Navigator.push(context, MaterialPageRoute(builder: (context) =>MyApp()));
+                  },
+                ),
               ],
             ),
           ),
@@ -222,7 +246,7 @@ class _SellerInformationState extends State<SellerInformation> {
     }
     else{
       final _data = BikeAddModel(title: widget.data.title,make: widget.data.make,model: widget.data.model,year: widget.data.year,price: widget.data.price,description: widget.data.description,sellerName: _sellerNameController.text,sellerContact: _sellerContactController.text,city: _cityController.text,address: _addressController.text);
-      Navigator.push(context, MaterialPageRoute(builder: (context) => MyApp(data: _data,)));
+      //Navigator.push(context, MaterialPageRoute(builder: (context) => MyApp(data: _data,)));
 
     }
   }
@@ -346,8 +370,8 @@ class _SellerInformationState extends State<SellerInformation> {
 
 
 class MyApp extends StatefulWidget {
-  final BikeAddModel data;
-  MyApp({@required this.data});
+  //final BikeAddModel data;
+  //MyApp({@required this.data});
   @override
   _MyAppState createState() => new _MyAppState();
 }
@@ -358,7 +382,7 @@ class _MyAppState extends State<MyApp> {
 
   @override
   void initState() {
-    print('${widget.data.title} ${widget.data.price} ${widget.data.sellerName} ${widget.data.city}');
+   // print('${widget.data.title} ${widget.data.price} ${widget.data.sellerName} ${widget.data.city}');
     super.initState();
   }
 
@@ -457,17 +481,54 @@ class _MyAppState extends State<MyApp> {
                 ),
               ),
             ),
-            SizedBox(height: 20,),
             Expanded(
               child: Padding(
                 padding: EdgeInsets.all(10),
-                child: buildGridView(),
+                child: Container(
+                  decoration: BoxDecoration(
+                    border: Border(
+                      top: BorderSide(width: 5, color: Colors.lightBlue.shade900),
+                      bottom: BorderSide(width: 5, color: Colors.lightBlue.shade900),
+                      left: BorderSide(width: 5, color: Colors.lightBlue.shade900),
+                      right: BorderSide(width: 5, color: Colors.lightBlue.shade900),
+                    ),
+                    color: Colors.white,
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(5),
+                    child: buildGridView(),
+                  ),
+                ),
               ),
             ),
             FlatButton(
               padding: EdgeInsets.zero,
               onPressed: (){
                 loadAssets();
+              },
+              child: Container(
+                height: 60,
+                width: MediaQuery.of(context).size.width - 30,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(10)),
+                  border: Border.all(color: Color(0xff585859), width: 2),
+                ),
+                child: Center(
+                  child: Text(
+                    "Pick Images",
+                    style: GoogleFonts.quicksand(
+                      fontSize: 21,
+                      color: Colors.black,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            SizedBox(height: 20,),
+            FlatButton(
+              padding: EdgeInsets.zero,
+              onPressed: (){
+                Navigator.push(context, MaterialPageRoute(builder: (context) => SellerHomeScreen()));
               },
               child: Container(
                 height: 60,
@@ -485,7 +546,7 @@ class _MyAppState extends State<MyApp> {
                 ),
                 child: Center(
                   child: Text(
-                    "Pick Images",
+                    "Submit",
                     style: GoogleFonts.quicksand(
                       fontSize: 21,
                       color: Colors.white,
@@ -496,6 +557,64 @@ class _MyAppState extends State<MyApp> {
             ),
             SizedBox(height: 50,)
           ],
+        ),
+      ),
+    );
+  }
+}
+
+class YearComboBox extends StatefulWidget {
+
+  YearComboBox({Key key}) : super(key: key);
+  @override
+  _YearComboBoxState createState() => _YearComboBoxState();
+}
+
+class _YearComboBoxState extends State<YearComboBox> {
+
+  var _dropDownItems = [''
+      '1990','1991','1992','1993','1994','1995','1996','1997','1998','1999','2000',
+    '2001','2002','2003','2004','2005','2006','2007','2008','2009','2010','2011',
+    '2012','2013','2014','2015','2015','2016','2017','2018','2019','2020','2021',
+    '2022','2023','2024','2025','2026','2027','2028','2029','2030',
+
+  ];
+
+  Widget build(BuildContext context) {
+    return Container(
+      color: Color(0xffe3e3e3),
+      width: 380,
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: DropdownButton<String>(
+          value: null,
+          icon: Container(
+            margin: EdgeInsets.only(left: 200),
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(45.0, 0, 0, 0),
+              child: Icon(
+                FontAwesomeIcons.caretDown,
+              ),
+            ),
+          ),
+          iconSize: 24,
+          elevation: 16,
+          style: TextStyle(color: Colors.black,),
+          underline: Container(
+            height: 2,
+          ),
+          onChanged: (String newValue) {
+            setState(() {
+             // _currentCategorySelected = newValue;
+            });
+          },
+          items: _dropDownItems
+              .map((String dropDownStringItem) {
+            return DropdownMenuItem<String>(
+              value: dropDownStringItem,
+              child: Text(dropDownStringItem, style: GoogleFonts.quicksand(fontSize: 15)),
+            );
+          }).toList(),
         ),
       ),
     );

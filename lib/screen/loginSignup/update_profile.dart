@@ -268,27 +268,6 @@ class _UpdateProfileState extends State<UpdateProfile> {
                                   child: Column(
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: <Widget>[
-                                      /*
-                                      Text(
-                                          "Old Password",
-                                          style: GoogleFonts.quicksand(
-                                            fontSize: 18,
-                                          )
-                                      ),
-                                      SizedBox(
-                                        height: 10,
-                                      ),
-                                      TextFormField(
-                                        controller: oldPasswordController,
-                                        decoration: InputDecoration(
-                                          border: InputBorder.none,
-                                          fillColor: Color(0xffe3e3e3),
-                                          filled: true,
-                                        ),
-                                      ),
-                                      SizedBox(height: 15,),
-
-                                      */
                                       Text(
                                           "New Password",
                                           style: GoogleFonts.quicksand(

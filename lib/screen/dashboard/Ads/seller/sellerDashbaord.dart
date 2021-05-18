@@ -10,7 +10,7 @@ import 'package:bikersworld/screen/dashboard/normalUser/reviews/reviews_normal_u
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'dart:math';
 
-class HomeScreen extends StatelessWidget {
+class SellerHomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double statusBarHeight = MediaQuery.of(context).padding.top;
