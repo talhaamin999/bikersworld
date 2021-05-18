@@ -188,14 +188,6 @@ class _PostAdSellerState extends State<PostAdSeller> with SingleTickerProviderSt
                   ),
                 ),
                 SizedBox(height: 15,),
-                FlatButton(
-                  child: Text(
-                    "img screen",
-                  ),
-                  onPressed: (){
-                    Navigator.push(context, MaterialPageRoute(builder: (context) =>MyApp()));
-                  },
-                ),
               ],
             ),
           ),
@@ -246,7 +238,7 @@ class _SellerInformationState extends State<SellerInformation> {
     }
     else{
       final _data = BikeAddModel(title: widget.data.title,make: widget.data.make,model: widget.data.model,year: widget.data.year,price: widget.data.price,description: widget.data.description,sellerName: _sellerNameController.text,sellerContact: _sellerContactController.text,city: _cityController.text,address: _addressController.text);
-      //Navigator.push(context, MaterialPageRoute(builder: (context) => MyApp(data: _data,)));
+      Navigator.push(context, MaterialPageRoute(builder: (context) => MyApp(data: _data,)));
 
     }
   }
@@ -370,8 +362,8 @@ class _SellerInformationState extends State<SellerInformation> {
 
 
 class MyApp extends StatefulWidget {
-  //final BikeAddModel data;
-  //MyApp({@required this.data});
+  final BikeAddModel data;
+  MyApp({@required this.data});
   @override
   _MyAppState createState() => new _MyAppState();
 }
@@ -382,7 +374,7 @@ class _MyAppState extends State<MyApp> {
 
   @override
   void initState() {
-   // print('${widget.data.title} ${widget.data.price} ${widget.data.sellerName} ${widget.data.city}');
+   print('${widget.data.title} ${widget.data.price} ${widget.data.sellerName} ${widget.data.city}');
     super.initState();
   }
 
