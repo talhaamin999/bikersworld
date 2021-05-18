@@ -1,17 +1,60 @@
-import 'package:flutter/services.dart';
+import 'dart:ffi';
+
+import 'package:bikersworld/model/bike_add_model.dart';
+import 'package:bikersworld/services/toast_service.dart';
+import 'package:bikersworld/services/validate_service.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:bikersworld/widgets/postAdTextfield.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
-import 'dart:io';
 
-class postAdSeller extends StatefulWidget {
+class PostAdSeller extends StatefulWidget {
   @override
-  _postAdSellerState createState() => _postAdSellerState();
+  _PostAdSellerState createState() => _PostAdSellerState();
 }
 
-class _postAdSellerState extends State<postAdSeller> with SingleTickerProviderStateMixin {
-  int _state = 0;
+class _PostAdSellerState extends State<PostAdSeller> with SingleTickerProviderStateMixin {
+
+  final _titleController = TextEditingController();
+  final _makeController = TextEditingController();
+  final _modelController = TextEditingController();
+  final _yearController = TextEditingController();
+  final _priceController = TextEditingController();
+  final _descriptionController = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
+  final _validate = ValidateBikeAdd();
+  final _error = ToastErrorMessage();
+
+  @override
+  void dispose() {
+    // _titleController.dispose();
+    // _makeController.dispose();
+    // _modelController.dispose();
+    // _yearController.dispose();
+    // _priceController.dispose();
+    // _descriptionController.dispose();
+    super.dispose();
+  }
+
+  void validateFields(){
+    double price = double.tryParse(_priceController.text);
+    if((!_validate.valiadteTitle(_titleController.text)) && (!_validate.validateMake(_makeController.text)) && (!_validate.validateModel(_modelController.text)) &&  (!_validate.validatePrice(price))){
+      _error.errorToastMessage(errorMessage: 'PLease Enter valid Information');
+    }
+    else if(!_validate.validateMake(_makeController.text)){
+      _error.errorToastMessage(errorMessage: 'Bike Make is Invalid');
+    }
+    else if(!_validate.validateModel(_modelController.text)){
+      _error.errorToastMessage(errorMessage: 'Bike model is Invalid');
+    }
+    else if(!_validate.validatePrice(price)){
+      _error.errorToastMessage(errorMessage: "Bike Price can't be 0");
+    }
+    else{
+      final _data = BikeAddModel(title: _titleController.text,make: _makeController.text,model: _modelController.text,year: _yearController.text,price: price,description: _descriptionController.text);
+      Navigator.push(context, MaterialPageRoute(builder: (context) => SellerInformation(data: _data,)));
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,95 +77,103 @@ class _postAdSellerState extends State<postAdSeller> with SingleTickerProviderSt
 
         ),
         body: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.all(20),
-                child: Container(
-                  child: Row(
-                    children: [
-                      Text(
-                        "Bike",
-                        style: GoogleFonts.raleway(
-                          fontSize: 25,
-                          color: Colors.orange,
-                        ),
-                      ),
-                      SizedBox(width: 5,),
-                      Text(
-                        "Information",
-                        style: GoogleFonts.raleway(
-                          fontSize: 25,
-                          color: Color(0XFF012A4A),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-
-              Padding(
-                padding: const EdgeInsets.only(left: 15, right: 15),
-                child: postAdTextfield("Title"),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(left: 15, right: 15),
-                child: postAdTextfield("Make"),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(left: 15, right: 15),
-                child: postAdTextfield("Modal"),
-              ), Padding(
-                padding: const EdgeInsets.only(left: 15, right: 15),
-                child: postAdTextfield("Year"),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(left: 15, right: 15),
-                child: postAdTextfield("Price"),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(left: 15, right: 15),
-                child: postAdTextfield("Description"),
-              ),
-              SizedBox(height: 20,),
-              Center(
-                child: FlatButton(
-                  padding: EdgeInsets.zero,
-                  onPressed: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => SellerInformation()));
-                  },
+          child: Form(
+            key: _formKey,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.all(20),
                   child: Container(
-                    height: 60,
-                    width: MediaQuery
-                        .of(context)
-                        .size
-                        .width - 30,
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
-                        colors: [
-                          Color(0xfffbb448),
-                          Color(0xfff7892b),
-                        ],
-                      ),
-                      borderRadius: BorderRadius.circular(10),
+                    child: Row(
+                      children: [
+                        Text(
+                          "Bike",
+                          style: GoogleFonts.raleway(
+                            fontSize: 25,
+                            color: Colors.orange,
+                          ),
+                        ),
+                        SizedBox(width: 5,),
+                        Text(
+                          "Information",
+                          style: GoogleFonts.raleway(
+                            fontSize: 25,
+                            color: Color(0XFF012A4A),
+                          ),
+                        ),
+                      ],
                     ),
-                    child: Center(
-                      child: Text(
-                        "Submit",
-                        style: GoogleFonts.quicksand(
-                          fontSize: 21,
-                          color: Colors.white,
+                  ),
+                ),
+
+                Padding(
+                  padding: const EdgeInsets.only(left: 15, right: 15),
+                  child: postAdTextfield("Title",controller:_titleController,inputType: TextInputType.text,),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 15, right: 15),
+                  child: postAdTextfield("Make",controller:_makeController,inputType: TextInputType.name,),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 15, right: 15),
+                  child: postAdTextfield("Modal",controller:_modelController,inputType: TextInputType.text,),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 15, right: 15),
+                  child: postAdTextfield("Year",controller:_yearController,inputType: TextInputType.number,),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 15, right: 15),
+                  child: postAdTextfield("Price",controller:_priceController,inputType: TextInputType.number,),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 15, right: 15),
+                  child: postAdTextfield("Description",controller:_descriptionController,inputType: TextInputType.text,),
+                ),
+                SizedBox(height: 20,),
+                Center(
+                  child: FlatButton(
+                    padding: EdgeInsets.zero,
+                    onPressed: () {
+
+                      if(!_formKey.currentState.validate()){
+                        return null;
+                      }
+                      validateFields();
+                    },
+                    child: Container(
+                      height: 60,
+                      width: MediaQuery
+                          .of(context)
+                          .size
+                          .width - 30,
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                          colors: [
+                            Color(0xfffbb448),
+                            Color(0xfff7892b),
+                          ],
+                        ),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Center(
+                        child: Text(
+                          "Next",
+                          style: GoogleFonts.quicksand(
+                            fontSize: 21,
+                            color: Colors.white,
+                          ),
                         ),
                       ),
                     ),
                   ),
                 ),
-              ),
-              SizedBox(height: 15,),
-            ],
+                SizedBox(height: 15,),
+              ],
+            ),
           ),
         ),
       ),
@@ -131,11 +182,52 @@ class _postAdSellerState extends State<postAdSeller> with SingleTickerProviderSt
 }
 
 class SellerInformation extends StatefulWidget {
+  final BikeAddModel data;
+  SellerInformation({@required this.data});
   @override
   _SellerInformationState createState() => _SellerInformationState();
 }
 
 class _SellerInformationState extends State<SellerInformation> {
+
+  final _sellerNameController = TextEditingController();
+  final _sellerContactController = TextEditingController();
+  final _cityController = TextEditingController();
+  final _addressController = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
+  final _validate = ValidateBikeAdd();
+  final _error = ToastErrorMessage();
+
+  @override
+  void initState() {
+    print('${widget.data.title} ${widget.data.price}');
+    super.initState();
+  }
+
+  void validateFields(){
+    if((!_validate.validateSellerName(_sellerNameController.text)) && (!_validate.validateSellerContact(_sellerContactController.text)) && (!_validate.validateCity(_cityController.text)) &&  (!_validate.validateAddress(_addressController.text))){
+      _error.errorToastMessage(errorMessage: 'PLease Enter valid Information');
+    }
+    else if(!_validate.validateSellerName(_sellerNameController.text)){
+      _error.errorToastMessage(errorMessage: 'Seller Name is Invalid');
+    }
+    else if(!_validate.validateSellerContact(_sellerContactController.text)){
+      _error.errorToastMessage(errorMessage: 'Seller Contact is Invalid');
+    }
+    else if(!_validate.validateCity(_cityController.text)){
+      _error.errorToastMessage(errorMessage: 'City is Invalid');
+    }
+    else if(!_validate.validateAddress(_addressController.text)){
+      _error.errorToastMessage(errorMessage: "Address is Invalid");
+    }
+    else{
+      final _data = BikeAddModel(title: widget.data.title,make: widget.data.make,model: widget.data.model,year: widget.data.year,price: widget.data.price,description: widget.data.description,sellerName: _sellerNameController.text,sellerContact: _sellerContactController.text,city: _cityController.text,address: _addressController.text);
+      Navigator.push(context, MaterialPageRoute(builder: (context) => MyApp(data: _data,)));
+
+    }
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -157,87 +249,93 @@ class _SellerInformationState extends State<SellerInformation> {
 
         ),
         body: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.all(20),
-                child: Container(
-                  child: Row(
-                    children: [
-                      Text(
-                        "Seller",
-                        style: GoogleFonts.raleway(
-                          fontSize: 25,
-                          color: Colors.orange,
-                        ),
-                      ),
-                      SizedBox(width: 5,),
-                      Text(
-                        "Information",
-                        style: GoogleFonts.raleway(
-                          fontSize: 25,
-                          color: Color(0XFF012A4A),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-
-              Padding(
-                padding: const EdgeInsets.only(left: 15, right: 15),
-                child: postAdTextfield("Name"),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(left: 15, right: 15),
-                child: postAdTextfield("Contact"),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(left: 15, right: 15),
-                child: postAdTextfield("Location"),
-              ), Padding(
-                padding: const EdgeInsets.only(left: 15, right: 15),
-                child: postAdTextfield("Address"),
-              ),
-              SizedBox(height: 20,),
-              Center(
-                child: FlatButton(
-                  padding: EdgeInsets.zero,
-                  onPressed: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => MyApp()));
-                  },
+          child: Form(
+            key: _formKey,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.all(20),
                   child: Container(
-                    height: 60,
-                    width: MediaQuery
-                        .of(context)
-                        .size
-                        .width - 30,
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
-                        colors: [
-                          Color(0xfffbb448),
-                          Color(0xfff7892b),
-                        ],
-                      ),
-                      borderRadius: BorderRadius.circular(10),
+                    child: Row(
+                      children: [
+                        Text(
+                          "Seller",
+                          style: GoogleFonts.raleway(
+                            fontSize: 25,
+                            color: Colors.orange,
+                          ),
+                        ),
+                        SizedBox(width: 5,),
+                        Text(
+                          "Information",
+                          style: GoogleFonts.raleway(
+                            fontSize: 25,
+                            color: Color(0XFF012A4A),
+                          ),
+                        ),
+                      ],
                     ),
-                    child: Center(
-                      child: Text(
-                        "Submit",
-                        style: GoogleFonts.quicksand(
-                          fontSize: 21,
-                          color: Colors.white,
+                  ),
+                ),
+
+                Padding(
+                  padding: const EdgeInsets.only(left: 15, right: 15),
+                  child: postAdTextfield("Name",controller: _sellerNameController,inputType: TextInputType.text,),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 15, right: 15),
+                  child: postAdTextfield("Contact",controller: _sellerContactController,inputType: TextInputType.number),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 15, right: 15),
+                  child: postAdTextfield("City",controller: _cityController,inputType: TextInputType.text),
+                ), Padding(
+                  padding: const EdgeInsets.only(left: 15, right: 15),
+                  child: postAdTextfield("Full Address",controller: _addressController,inputType: TextInputType.text),
+                ),
+                SizedBox(height: 20,),
+                Center(
+                  child: FlatButton(
+                    padding: EdgeInsets.zero,
+                    onPressed: () {
+                      if(!_formKey.currentState.validate()){
+                        return null;
+                      }
+                      validateFields();
+                    },
+                    child: Container(
+                      height: 60,
+                      width: MediaQuery
+                          .of(context)
+                          .size
+                          .width - 30,
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                          colors: [
+                            Color(0xfffbb448),
+                            Color(0xfff7892b),
+                          ],
+                        ),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Center(
+                        child: Text(
+                          "Submit",
+                          style: GoogleFonts.quicksand(
+                            fontSize: 21,
+                            color: Colors.white,
+                          ),
                         ),
                       ),
                     ),
                   ),
                 ),
-              ),
-              SizedBox(height: 15,),
-            ],
+                SizedBox(height: 15,),
+              ],
+            ),
           ),
         ),
       ),
@@ -248,6 +346,8 @@ class _SellerInformationState extends State<SellerInformation> {
 
 
 class MyApp extends StatefulWidget {
+  final BikeAddModel data;
+  MyApp({@required this.data});
   @override
   _MyAppState createState() => new _MyAppState();
 }
@@ -258,6 +358,7 @@ class _MyAppState extends State<MyApp> {
 
   @override
   void initState() {
+    print('${widget.data.title} ${widget.data.price} ${widget.data.sellerName} ${widget.data.city}');
     super.initState();
   }
 

@@ -3,9 +3,12 @@ import 'package:google_fonts/google_fonts.dart';
 
 
 class postAdTextfield extends StatelessWidget {
-  String title;
 
-  postAdTextfield(this.title,);
+  final String title;
+  final TextEditingController controller;
+  final TextInputType inputType;
+
+  postAdTextfield(this.title,{@required this.controller,@required this.inputType});
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -23,6 +26,14 @@ class postAdTextfield extends StatelessWidget {
             height: 10,
           ),
           TextFormField(
+            controller: controller,
+            keyboardType: inputType,
+            validator: (value){
+              if(value.isEmpty){
+                return "$title is a Required Field";
+              }
+              return null;
+            },
             decoration: InputDecoration(
               border: InputBorder.none,
               fillColor: Color(0xffe3e3e3),
