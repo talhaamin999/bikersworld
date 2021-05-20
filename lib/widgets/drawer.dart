@@ -18,7 +18,7 @@ import 'package:bikersworld/screen/dashboard/searchPages/ads_search_page.dart';
 import 'package:bikersworld/screen/dashboard/searchPages/workshop_search_page.dart';
 import 'package:bikersworld/screen/dashboard/searchPages/service_search_page.dart';
 import 'package:bikersworld/screen/loginSignup/update_profile.dart';
-
+import 'package:bikersworld/screen/dashboard/Ads/seller/sellerDashbaord.dart';
 
 class CustomDrawer extends StatefulWidget {
   const CustomDrawer({
@@ -254,8 +254,20 @@ class _CustomDrawerState extends State<CustomDrawer> {
 
                     ),
                   ),
+                  Visibility(
+                    visible: snapshot.data == 'seller' ? true : false,
+                    child: ListTile(
+                      leading: Icon(FontAwesomeIcons.ad),
+                      title: Text("Your Adds", style: GoogleFonts.montserrat(
+                          fontSize: 15, color: Colors.black),),
+                      trailing: Icon(Icons.arrow_forward_ios, size: 15.0,),
+                      onTap: () {
+                        Navigator.push(context, MaterialPageRoute(
+                            builder: (context) => SellerHomeScreen()));
+                      },
 
-
+                    ),
+                  ),
                   Visibility(
                     visible: snapshot.data == 'partstore_owner' ? true : false,
                     child: ListTile(

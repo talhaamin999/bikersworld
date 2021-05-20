@@ -16,7 +16,7 @@ class AuthenticationService {
   final GoogleSignIn _googleSignIn = new GoogleSignIn();
   Stream<User> get authStateChanges => _firebaseAuth.idTokenChanges();
   bool passwordChanged = false,imageUploaded = false;
-  String userName,userImageURL;
+  String userName,userImageURL,userId;
 
   Future<void> signOut() async {
     await _firebaseAuth.signOut();
@@ -132,6 +132,17 @@ class AuthenticationService {
     }catch(e){
       _error.errorToastMessage(errorMessage: e.toString());
       return userName;
+    }
+  }
+  String getUserId(){
+    try{
+      if(_firebaseAuth.currentUser != null){
+        userId = _firebaseAuth.currentUser.uid;
+      }
+      return userId;
+    }catch(e){
+      _error.errorToastMessage(errorMessage: e.toString());
+      return userId;
     }
   }
   String getUserImageUrl() {

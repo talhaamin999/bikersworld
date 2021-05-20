@@ -1,6 +1,5 @@
-import 'dart:ffi';
+import 'dart:io';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:bikersworld/screen/dashboard/Ads/seller/sellerDashbaord.dart';
 import 'package:bikersworld/model/bike_add_model.dart';
 import 'package:bikersworld/services/toast_service.dart';
 import 'package:bikersworld/services/validate_service.dart';
@@ -8,11 +7,16 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:bikersworld/widgets/postAdTextfield.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
+import 'package:bikersworld/services/bike_add_queries.dart';
+import 'package:bikersworld/services/authenticate_service.dart';
+import 'package:flutter_absolute_path/flutter_absolute_path.dart';
 
 class PostAdSeller extends StatefulWidget {
   @override
   _PostAdSellerState createState() => _PostAdSellerState();
 }
+
+String yearSelected;
 
 class _PostAdSellerState extends State<PostAdSeller> with SingleTickerProviderStateMixin {
 
@@ -238,7 +242,7 @@ class _SellerInformationState extends State<SellerInformation> {
     }
     else{
       final _data = BikeAddModel(title: widget.data.title,make: widget.data.make,model: widget.data.model,year: widget.data.year,price: widget.data.price,description: widget.data.description,sellerName: _sellerNameController.text,sellerContact: _sellerContactController.text,city: _cityController.text,address: _addressController.text);
-      Navigator.push(context, MaterialPageRoute(builder: (context) => MyApp(data: _data,)));
+      Navigator.push(context, MaterialPageRoute(builder: (context) => UploadImages(data: _data,)));
 
     }
   }
@@ -361,16 +365,21 @@ class _SellerInformationState extends State<SellerInformation> {
 
 
 
-class MyApp extends StatefulWidget {
+class UploadImages extends StatefulWidget {
   final BikeAddModel data;
-  MyApp({@required this.data});
+  UploadImages({@required this.data});
   @override
-  _MyAppState createState() => new _MyAppState();
+  _UploadImagesState createState() => new _UploadImagesState();
 }
 
-class _MyAppState extends State<MyApp> {
+class _UploadImagesState extends State<UploadImages> {
   List<Asset> images = List<Asset>();
+  List<File> files = [];
   String _error = 'No Error Dectected';
+  final _postAdd = PostAddQueries();
+  final _currentUser = AuthenticationService();
+  final _errorMessage = ToastErrorMessage();
+  final _valid = ToastValidMessage();
 
   @override
   void initState() {
@@ -395,7 +404,6 @@ class _MyAppState extends State<MyApp> {
   Future<void> loadAssets() async {
     List<Asset> resultList = List<Asset>();
     String error = 'No Error Dectected';
-
     try {
       resultList = await MultiImagePicker.pickImages(
         maxImages: 6,
@@ -412,18 +420,52 @@ class _MyAppState extends State<MyApp> {
         ),
       );
     } on Exception catch (e) {
-      error = e.toString();
+     _errorMessage.errorToastMessage(errorMessage: e.toString());
     }
-
-    // If the widget was removed from the tree while the asynchronous platform
-    // message was in flight, we want to discard the reply rather than calling
-    // setState to update our non-existent appearance.
     if (!mounted) return;
 
+      resultList.forEach((imageAsset) async {
+      final filePath = await FlutterAbsolutePath.getAbsolutePath(imageAsset.identifier);
+      File tempFile = File(filePath);
+      if (tempFile.existsSync()) {
+        files.add(tempFile);
+      }
+    });
     setState(() {
       images = resultList;
       _error = error;
     });
+  }
+
+  Future<void> uploadAdd() async{
+    if(_currentUser.getCurrentUser()) {
+      if (images.isNotEmpty) {
+        final List<String> urls = await _postAdd.uploadFiles(files);
+        if(urls != null) {
+          final bikeData = BikeAddModel(title: widget.data.title,
+              make: widget.data.make,
+              model: widget.data.model,
+              year: widget.data.year,
+              price: widget.data.price,
+              description: widget.data.description,
+              sellerName: widget.data.sellerName,
+              sellerContact: widget.data.sellerContact,
+              city: widget.data.city,
+              address: widget.data.address,
+              images: urls,
+              postedBy: _currentUser.getUserId());
+
+          final bool result = await _postAdd.postAdd(bikeData);
+          if(result){
+            _valid.validToastMessage(validMessage: "Add has been Posted");
+          }
+        }
+      }else{
+        _errorMessage.errorToastMessage(errorMessage: "No Images Selected");
+      }
+    }else{
+      _errorMessage.errorToastMessage(errorMessage: "You'r Not Logged In");
+    }
   }
 
   @override
@@ -520,7 +562,8 @@ class _MyAppState extends State<MyApp> {
             FlatButton(
               padding: EdgeInsets.zero,
               onPressed: (){
-                Navigator.push(context, MaterialPageRoute(builder: (context) => SellerHomeScreen()));
+                uploadAdd();
+                //Navigator.push(context, MaterialPageRoute(builder: (context) => SellerHomeScreen()));
               },
               child: Container(
                 height: 60,
@@ -571,6 +614,16 @@ class _YearComboBoxState extends State<YearComboBox> {
     '2022','2023','2024','2025','2026','2027','2028','2029','2030',
 
   ];
+  @override
+  void initState(){
+    yearSelected = _dropDownItems[0];
+    super.initState();
+  }
+  @override
+  void dispose(){
+    yearSelected = null;
+    super.dispose();
+  }
 
   Widget build(BuildContext context) {
     return Container(
@@ -579,7 +632,7 @@ class _YearComboBoxState extends State<YearComboBox> {
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: DropdownButton<String>(
-          value: null,
+          value: yearSelected,
           icon: Container(
             margin: EdgeInsets.only(left: 200),
             child: Padding(
@@ -597,7 +650,7 @@ class _YearComboBoxState extends State<YearComboBox> {
           ),
           onChanged: (String newValue) {
             setState(() {
-             // _currentCategorySelected = newValue;
+             yearSelected = newValue;
             });
           },
           items: _dropDownItems

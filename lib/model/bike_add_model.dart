@@ -13,13 +13,14 @@ class BikeAddModel{
   final String address;
   final List<String> images;
   final String id;
+  final String postedBy;
 
-
-  BikeAddModel({this.title,this.make,this.model,this.year,this.description,this.price,this.sellerName,this.sellerContact,this.city,this.address,this.id,this.images});
+  BikeAddModel({this.title,this.make,this.model,this.year,this.description,this.price,this.sellerName,this.sellerContact,this.city,this.address,this.id,this.images,this.postedBy});
 
   factory BikeAddModel.fromJson(Map<String, dynamic> json,String docId){
     return BikeAddModel(
       id: docId,
+      postedBy: json['posted_by'],
       title: json['title'],
       make: json['make'],
       model: json['model'],
@@ -46,6 +47,7 @@ class BikeAddModel{
       'city':city,
       'address':address,
       'images':images,
+      'posted_by':postedBy,
     };
   }
 
