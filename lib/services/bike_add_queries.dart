@@ -27,15 +27,14 @@ class PostAddQueries{
     return addPosted;
   }
 
-  Future<List<BikeAddModel>> getSellerAdds(String postedBy) async{
+  Future<List<BikeAddModel>> getSellerAdds(String postedBy) {
     try{
       return _firestoreInstance.collection(BIKE_ADD_COLLECTION)
           .where('posted_by',isEqualTo: postedBy)
           .get()
-          .then((snapshots) => snapshots.docs
+          .then((querySanpshot) => querySanpshot.docs
           .map((doc) => BikeAddModel.fromJson(doc.data(), doc.reference.id))
           .toList());
-
     }catch(e){
       _error.errorToastMessage(errorMessage: e.toString());
     }

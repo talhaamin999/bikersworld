@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:bikersworld/screen/dashboard/Ads/seller/sellerDashbaord.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:bikersworld/model/bike_add_model.dart';
 import 'package:bikersworld/services/toast_service.dart';
@@ -458,6 +459,12 @@ class _UploadImagesState extends State<UploadImages> {
           final bool result = await _postAdd.postAdd(bikeData);
           if(result){
             _valid.validToastMessage(validMessage: "Add has been Posted");
+            Future.delayed(
+              new Duration(seconds: 2),
+                (){
+                  Navigator.of(context).push(MaterialPageRoute(builder: (context) => SellerHomeScreen()));
+                }
+            );
           }
         }
       }else{

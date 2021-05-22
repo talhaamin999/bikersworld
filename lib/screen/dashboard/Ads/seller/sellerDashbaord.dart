@@ -1,19 +1,33 @@
+import 'package:bikersworld/model/bike_add_model.dart';
+import 'package:bikersworld/services/authenticate_service.dart';
+import 'package:bikersworld/services/bike_add_queries.dart';
+import 'package:bikersworld/services/toast_service.dart';
 import 'package:flutter/material.dart';
-import 'package:bikersworld/screen/dashboard/Ads/AdDetail.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:bikersworld/widgets/drawer.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:bikersworld/screen/dashboard/normalUser/reviews/reviews_normal_user.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'dart:math';
 
+
 class SellerHomeScreen extends StatelessWidget {
+
+  final _user = AuthenticationService();
+  final _adds = PostAddQueries();
+  final _error = ToastErrorMessage();
+
+  Future<List<BikeAddModel>> getSellerAdds(){
+    try {
+      if (_user.getCurrentUser()) {
+        return _adds.getSellerAdds(_user.getUserId());
+      }
+      return null;
+    }catch(e){
+      _error.errorToastMessage(errorMessage: e.toString());
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    double statusBarHeight = MediaQuery.of(context).padding.top;
+   double statusBarHeight = MediaQuery.of(context).padding.top;
 
     return Scaffold(
       appBar: new AppBar(
@@ -102,74 +116,93 @@ class SellerHomeScreen extends StatelessWidget {
                   ),
                 ),
                 SizedBox(height: 20,),
-                Container(
-                  height: 240,
-                  child: ListView(
-                    shrinkWrap: true,
-                    physics: NeverScrollableScrollPhysics(),
-                    // This next line does the trick.
-                    scrollDirection: Axis.horizontal,
-                    children: <Widget>[
-                      Container(
-                        width: 230.0,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20),
-                          color: Color(0xffe6e9ed),
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            ClipRRect(
-                              borderRadius: BorderRadius.circular(20.0),
-                              child: Image(
-                                image: AssetImage(
-                                  "assets/1.png",
+                FutureBuilder(
+                  future: getSellerAdds(),
+                  builder: (BuildContext context, AsyncSnapshot<List<BikeAddModel>> snapshot) {
+                    if(snapshot.hasData && snapshot.data.isNotEmpty){
+                      return ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: snapshot.data.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return Container(
+                            height: 240,
+                            child: ListView(
+                              shrinkWrap: true,
+                              physics: NeverScrollableScrollPhysics(),
+                              // This next line does the trick.
+                              scrollDirection: Axis.horizontal,
+                              children: <Widget>[
+                                Container(
+                                  width: 230.0,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(20),
+                                    color: Color(0xffe6e9ed),
+                                  ),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      ClipRRect(
+                                        borderRadius: BorderRadius.circular(20.0),
+                                        child: Image(
+                                          image: NetworkImage(
+                                            snapshot.data[index].images.first,
+                                          ),
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.only(left: 10,top: 10),
+                                        child: Text(
+                                          snapshot.data[index].title,
+                                          style: GoogleFonts.quicksand(fontSize: 17),
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.only(left: 10,top: 5),
+                                        child: Text(
+                                          snapshot.data[index].city,
+                                          style: GoogleFonts.quicksand(fontSize: 15,color: Colors.grey),
+                                        ),
+                                      ),
+
+                                      Container(
+                                        child: Row(
+                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Padding(
+                                              padding: const EdgeInsets.only(left: 10,top: 5),
+                                              child: Text(
+                                                "PKR ${snapshot.data[index].price}",
+                                                style: GoogleFonts.varelaRound(fontSize: 15,color: Colors.black,fontWeight: FontWeight.bold),
+                                              ),
+                                            ),
+                                            Padding(
+                                              padding: const EdgeInsets.only(right:8.0),
+                                              child: Icon(
+                                                Icons.arrow_forward_ios,
+                                                color: Colors.grey,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 ),
-                              ),
+                              ],
                             ),
-                            Padding(
-                              padding: const EdgeInsets.only(left: 10,top: 10),
-                              child: Text(
-                                "Kawasaki Ninja",
-                                style: GoogleFonts.quicksand(fontSize: 17),
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(left: 10,top: 5),
-                              child: Text(
-                                "Islamabad",
-                                style: GoogleFonts.quicksand(fontSize: 15,color: Colors.grey),
-                              ),
-                            ),
-
-                            Container(
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(left: 10,top: 5),
-                                    child: Text(
-                                      "PKR 234567",
-                                      style: GoogleFonts.varelaRound(fontSize: 15,color: Colors.black,fontWeight: FontWeight.bold),
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(right:8.0),
-                                    child: Icon(
-                                      Icons.arrow_forward_ios,
-                                      color: Colors.grey,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                )
-
+                          );
+                        },
+                      );
+                    }
+                    else if(snapshot.hasData && snapshot.data.isEmpty){
+                      return Center(child: Text("No Adds Found"));
+                    }
+                    else if(snapshot.hasError){
+                      return Center(child: Text(snapshot.error.toString()));
+                    }
+                    return Center(child: CircularProgressIndicator(),);
+                  },
+                ),
               ],
             ),
           )

@@ -139,6 +139,7 @@ class AuthenticationService {
       if(_firebaseAuth.currentUser != null){
         userId = _firebaseAuth.currentUser.uid;
       }
+      print("$userId hello ");
       return userId;
     }catch(e){
       _error.errorToastMessage(errorMessage: e.toString());

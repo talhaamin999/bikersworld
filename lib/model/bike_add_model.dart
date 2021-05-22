@@ -11,7 +11,7 @@ class BikeAddModel{
   final String sellerContact;
   final String city;
   final String address;
-  final List<String> images;
+  final List<dynamic> images;
   final String id;
   final String postedBy;
 
