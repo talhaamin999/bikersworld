@@ -6,6 +6,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'dart:math';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:bikersworld/screen/dashboard/Ads/AdDetail.dart';
+
+enum userOption{edit,delete}
 
 
 class SellerHomeScreen extends StatelessWidget {
@@ -24,6 +28,8 @@ class SellerHomeScreen extends StatelessWidget {
       _error.errorToastMessage(errorMessage: e.toString());
     }
   }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -121,74 +127,130 @@ class SellerHomeScreen extends StatelessWidget {
                   builder: (BuildContext context, AsyncSnapshot<List<BikeAddModel>> snapshot) {
                     if(snapshot.hasData && snapshot.data.isNotEmpty){
                       return ListView.builder(
+                        physics: NeverScrollableScrollPhysics(),
                         shrinkWrap: true,
                         itemCount: snapshot.data.length,
                         itemBuilder: (BuildContext context, int index) {
-                          return Container(
-                            height: 240,
-                            child: ListView(
-                              shrinkWrap: true,
-                              physics: NeverScrollableScrollPhysics(),
-                              // This next line does the trick.
-                              scrollDirection: Axis.horizontal,
-                              children: <Widget>[
-                                Container(
-                                  width: 230.0,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(20),
-                                    color: Color(0xffe6e9ed),
-                                  ),
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      ClipRRect(
+                          return FlatButton(
+                            padding: EdgeInsets.zero,
+                            onPressed: (){
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => AdDetail()));
+                            },
+                            child: Container(
+                              margin: EdgeInsets.only(bottom: 20),
+                              height: 140,
+                              width: MediaQuery.of(context).size.width - 30,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(20),
+                                color: Color(0xffe6e9ed),
+                              ),
+                              child: Container(
+                                child: Row(
+                                  //mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Container(
+                                      height: 140,
+                                      width: 140,
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(20),
+                                        color: Colors.red,
+                                      ),
+                                      child: ClipRRect(
                                         borderRadius: BorderRadius.circular(20.0),
                                         child: Image(
                                           image: NetworkImage(
                                             snapshot.data[index].images.first,
                                           ),
+                                          fit: BoxFit.fill,
                                         ),
                                       ),
-                                      Padding(
-                                        padding: const EdgeInsets.only(left: 10,top: 10),
-                                        child: Text(
-                                          snapshot.data[index].title,
-                                          style: GoogleFonts.quicksand(fontSize: 17),
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.only(left: 10,top: 5),
-                                        child: Text(
-                                          snapshot.data[index].city,
-                                          style: GoogleFonts.quicksand(fontSize: 15,color: Colors.grey),
-                                        ),
-                                      ),
-
-                                      Container(
-                                        child: Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Padding(
-                                              padding: const EdgeInsets.only(left: 10,top: 5),
-                                              child: Text(
-                                                "PKR ${snapshot.data[index].price}",
-                                                style: GoogleFonts.varelaRound(fontSize: 15,color: Colors.black,fontWeight: FontWeight.bold),
-                                              ),
+                                    ),
+                                    Container(
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        mainAxisAlignment: MainAxisAlignment.start,
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.only(left: 10,top: 20),
+                                            child: Text(
+                                              snapshot.data[index].title,
+                                              style: GoogleFonts.quicksand(fontSize: 20),
                                             ),
-                                            Padding(
-                                              padding: const EdgeInsets.only(right:8.0),
-                                              child: Icon(
-                                                Icons.arrow_forward_ios,
-                                                color: Colors.grey,
-                                              ),
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.only(left: 10,top: 10),
+                                            child: Text(
+                                              snapshot.data[index].city,
+                                              style: GoogleFonts.quicksand(fontSize: 22,color: Colors.grey),
                                             ),
-                                          ],
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.only(left: 10,top: 10),
+                                            child: Text(
+                                              "PKR ${snapshot.data[index].price}",
+                                              style: GoogleFonts.varelaRound(fontSize: 16,color: Colors.black,fontWeight: FontWeight.bold),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    SizedBox(width: 20,),
+                                Padding(
+                                  padding: const EdgeInsets.only(top: 10),
+                                  child:  PopupMenuButton(
+                                    icon: new Icon(FontAwesomeIcons.ellipsisV,
+                                        color: Colors.grey),
+                                    onSelected: (option){
+                                    },
+                                    itemBuilder: (_) =>
+                                    <PopupMenuItem<userOption>>[
+                                      new PopupMenuItem<userOption>(
+                                        child: Container(
+                                          child: Row(
+                                            children: [
+                                              Icon(
+                                                FontAwesomeIcons.edit,
+                                                size: 15,
+                                              ),
+                                              SizedBox(width: 10),
+                                              Text(
+                                                "Edit",
+                                                style: GoogleFonts.quicksand(
+                                                  fontSize: 16,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
                                         ),
+                                        value: userOption.edit,
+                                      ),
+                                      new PopupMenuItem<userOption>(
+                                        child: Container(
+                                          child: Row(
+                                            children: [
+                                              Icon(
+                                                FontAwesomeIcons.minus,
+                                                size: 15,
+                                              ),
+                                              SizedBox(width: 10),
+                                              Text(
+                                                "Delete",
+                                                style: GoogleFonts.quicksand(
+                                                  fontSize: 16,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        value: userOption.delete,
                                       ),
                                     ],
                                   ),
                                 ),
-                              ],
+                                  ],
+                                ),
+                              ),
                             ),
                           );
                         },
@@ -212,7 +274,17 @@ class SellerHomeScreen extends StatelessWidget {
   }
 }
 
-
+/*
+* ListView.builder(
+                        physics: NeverScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                        itemCount: snapshot.data.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return Container(
+                            child: Column(),
+                          );
+                        },
+                      );*/
 class Constants {
 
   static Color darkGreen = Color(0xFF3ABD6F);
@@ -481,3 +553,125 @@ class MyCustomClipper extends CustomClipper<Path> {
   }
 }
 
+
+/*
+* Container(
+                            height: 180,
+
+                            child: ListView(
+                              shrinkWrap: true,
+                              physics: NeverScrollableScrollPhysics(),
+                              // This next line does the trick.
+                              scrollDirection: Axis.horizontal,
+                              children: <Widget>[
+                                Container(
+                                  margin: EdgeInsets.only(bottom: 20),
+                                  width: MediaQuery.of(context).size.width - 30,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(20),
+                                    color: Color(0xffe6e9ed),
+                                  ),
+                                  child: Row(
+                                    children: [
+                                      ClipRRect(
+                                        borderRadius: BorderRadius.circular(20.0),
+                                        child: Image(
+                                          height: 200,
+                                          image: NetworkImage(
+                                            snapshot.data[index].images.first,
+                                          ),
+                                        ),
+                                      ),
+                                      Container(
+                                        child: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            Container(
+                                              child: Row(
+                                                mainAxisAlignment: MainAxisAlignment.end,
+                                                children: [
+                                                  Padding(
+                                                    padding: const EdgeInsets.only(left: 10,top: 10),
+                                                    child: Text(
+                                                      snapshot.data[index].title,
+                                                      style: GoogleFonts.quicksand(fontSize: 17),
+                                                    ),
+                                                  ),
+                                                  Padding(
+                                                    padding: const EdgeInsets.only(top: 10),
+                                                    child:  PopupMenuButton(
+                                                      icon: new Icon(FontAwesomeIcons.ellipsisV,
+                                                          color: Colors.black),
+                                                      onSelected: (option){
+                                                      },
+                                                      itemBuilder: (_) =>
+                                                      <PopupMenuItem<userOption>>[
+                                                        new PopupMenuItem<userOption>(
+                                                          child: Container(
+                                                            child: Row(
+                                                              children: [
+                                                                Icon(
+                                                                  FontAwesomeIcons.edit,
+                                                                  size: 15,
+                                                                ),
+                                                                SizedBox(width: 10),
+                                                                Text(
+                                                                  "Edit",
+                                                                  style: GoogleFonts.quicksand(
+                                                                    fontSize: 16,
+                                                                  ),
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          ),
+                                                          value: userOption.edit,
+                                                        ),
+                                                        new PopupMenuItem<userOption>(
+                                                          child: Container(
+                                                            child: Row(
+                                                              children: [
+                                                                Icon(
+                                                                  FontAwesomeIcons.minus,
+                                                                  size: 15,
+                                                                ),
+                                                                SizedBox(width: 10),
+                                                                Text(
+                                                                  "Delete",
+                                                                  style: GoogleFonts.quicksand(
+                                                                    fontSize: 16,
+                                                                  ),
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          ),
+                                                          value: userOption.delete,
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                            Padding(
+                                              padding: const EdgeInsets.only(left: 10,top: 5),
+                                              child: Text(
+                                                snapshot.data[index].city,
+                                                style: GoogleFonts.quicksand(fontSize: 15,color: Colors.grey),
+                                              ),
+                                            ),
+                                            Padding(
+                                              padding: const EdgeInsets.only(left: 10,top: 5),
+                                              child: Text(
+                                                "PKR ${snapshot.data[index].price}",
+                                                style: GoogleFonts.varelaRound(fontSize: 15,color: Colors.black,fontWeight: FontWeight.bold),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          );*/

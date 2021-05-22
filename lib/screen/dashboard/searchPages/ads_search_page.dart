@@ -5,6 +5,7 @@ import 'package:bikersworld/widgets/drawer.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:bikersworld/screen/dashboard/Ads/AdDetail.dart';
 import 'package:bikersworld/widgets/backButton.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 
 class adSearchPage extends StatefulWidget {
   @override
@@ -125,7 +126,85 @@ class _adSearchPageState extends State<adSearchPage> {
                 ),
               ),
               SizedBox(height: 20,),
+          Padding(
+            padding: const EdgeInsets.only(bottom: 15),
+            child: FlatButton(
+              onPressed:(){
+                Navigator.push(context, MaterialPageRoute(builder: (context) => AdDetail()));
+              },
+              child: Card(
+                color: Color(0xfff7f7f7),
+                child: Container(
+                  child: Row(
+                    children: <Widget>[
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.all(10),
+                          child: Container(
+                            width: 90,
+                            height: 90,
+                            decoration: BoxDecoration(
+                                shape: BoxShape.rectangle,
+                                image: DecorationImage(
+                                    fit: BoxFit.fill,
+                                    image: AssetImage("assets/bike1.jpeg",)
+                                )
+                            ),
+                          ),
+                        ),
+                      ),
 
+                      SizedBox(width: 5,),
+                      Container(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Container(
+                              margin:EdgeInsets.only(left:10),
+                              child: AutoSizeText(
+                                "Honda",
+                                style: GoogleFonts.quicksand(
+                                  fontSize: 18,
+                                  color: Colors.black,
+                                ),
+                              ),
+                            ),
+                            SizedBox(height: 5,),
+                            Container(
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  Container(
+                                    child:Row(
+                                      children: [
+                                        Icon(Icons.location_on,color: Colors.grey,),
+                                        Text(
+                                          "Islamabad",
+                                          style: TextStyle(
+                                              fontSize: 15
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  SizedBox(width: 130,),
+                                  Icon(
+                                    Icons.arrow_forward_ios,
+                                    color: Color(0xffb8b8b8),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            SizedBox(height: 10,),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ),
             ],
           ),
         ),

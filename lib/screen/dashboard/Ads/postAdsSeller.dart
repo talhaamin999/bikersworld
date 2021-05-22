@@ -11,6 +11,7 @@ import 'package:multi_image_picker/multi_image_picker.dart';
 import 'package:bikersworld/services/bike_add_queries.dart';
 import 'package:bikersworld/services/authenticate_service.dart';
 import 'package:flutter_absolute_path/flutter_absolute_path.dart';
+import 'package:bikersworld/widgets/city_dropdown.dart';
 
 class PostAdSeller extends StatefulWidget {
   @override
@@ -308,10 +309,28 @@ class _SellerInformationState extends State<SellerInformation> {
                   padding: const EdgeInsets.only(left: 15, right: 15),
                   child: postAdTextfield("Contact",controller: _sellerContactController,inputType: TextInputType.number),
                 ),
+
                 Padding(
                   padding: const EdgeInsets.only(left: 15, right: 15),
-                  child: postAdTextfield("City",controller: _cityController,inputType: TextInputType.text),
-                ), Padding(
+                  child: Container(
+                    child: Column(
+                      children: [
+                        Container(
+                          alignment: Alignment.bottomLeft,
+                          child: Text(
+                            "City",
+                            style: GoogleFonts.quicksand(
+                              fontSize:18,
+                            ),
+                          ),
+                        ),
+                        CityDropDown(controller: _cityController),
+                      ],
+                    ),
+                  ),
+                ),
+
+                Padding(
                   padding: const EdgeInsets.only(left: 15, right: 15),
                   child: postAdTextfield("Full Address",controller: _addressController,inputType: TextInputType.text),
                 ),

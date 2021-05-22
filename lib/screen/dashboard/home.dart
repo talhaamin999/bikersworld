@@ -52,7 +52,7 @@ class _HomeDashboardState extends State<HomeDashboard>  with SingleTickerProvide
                   overflow: Overflow.visible,
                   children: [
                     Container(
-                      height: 300,
+                      height: 220,
                       width: MediaQuery.of(context).size.width,
                       color: Color(0XFF012A4A),
                       child: Padding(
@@ -60,23 +60,37 @@ class _HomeDashboardState extends State<HomeDashboard>  with SingleTickerProvide
                         child: Column(
                           children: [
                             Container(
-                              width: MediaQuery.of(context).size.width - 40,
-                              child: new TextField(
-                                decoration: new InputDecoration(
-                                  border: new OutlineInputBorder(
-                                    borderRadius: const BorderRadius.all(
-                                      const Radius.circular(20),
-                                    ),
+                              height: 65,
+                              width: MediaQuery.of(context).size.width,
+                              color: Color(0XFF012A4A),
+                              child: Padding(
+                                padding: EdgeInsets.only(left: 10,right: 10,bottom: 10),
+                                child: Container(
+                                  child: TextField(
+                                    textInputAction: TextInputAction.search,
+                                    onSubmitted: (value){
+
+                                    },
+                                   // controller: _controller,
+                                    decoration: new InputDecoration(
+                                        suffixIcon: IconButton(
+                                           // onPressed: () => _controller.clear(),
+                                            icon: Icon(Icons.clear)),
+                                        border: new OutlineInputBorder(
+                                          borderRadius: const BorderRadius.all(
+                                            const Radius.circular(10),
+                                          ),
+                                        ),
+                                        filled: true,
+                                        hintStyle: GoogleFonts.quicksand(color: Colors.black, fontSize:15),
+                                        hintText: "Search Anything",
+                                        contentPadding: EdgeInsets.only(top: 7),
+                                        prefixIcon: Icon(Icons.search, size: 25,),
+                                        fillColor: Colors.white),
                                   ),
-                                  filled: true,
-                                  hintStyle: new TextStyle(color: Colors.grey),
-                                  hintText: "Type in your text",
-                                  fillColor: Color(0xffe6e6e6),
-                                  suffixIcon: Icon(Icons.search),
                                 ),
                               ),
                             ),
-                            SizedBox(height: 30,),
                             Container(
                               child: Row(
                                 children: [
@@ -128,7 +142,7 @@ class _HomeDashboardState extends State<HomeDashboard>  with SingleTickerProvide
                         Navigator.push(context, MaterialPageRoute(builder: (context) => SellerHomeScreen()));
                       },
                       child: Container(
-                        margin: EdgeInsets.only(top: 200),
+                        margin: EdgeInsets.only(top: 170),
                         height: 340,
                         child: Padding(
                           padding: const EdgeInsets.only(left:10, top:10),
@@ -433,144 +447,166 @@ class _HomeDashboardState extends State<HomeDashboard>  with SingleTickerProvide
                       child: Column(
                         children: [
                           Container(
-                            width: MediaQuery.of(context).size.width - 35,
-
-                            height: 80,
-                            child: Card(
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                              color: Colors.white,
-                              elevation: 3,
+                            height: 100,
+                            width: MediaQuery.of(context).size.width - 30,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              color: Color(0XFF012A4A),
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.only(left:20),
                               child: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: <Widget>[
-                                  SizedBox(width: 15,),
-                                  CircleAvatar(
-                                    radius: 20,
-                                    backgroundColor: Color(0XFF012A4A),
-                                    child: Icon(FontAwesomeIcons.ad , color: Colors.white),
-                                  ),
-                                  SizedBox(width: 20,),
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  CircleAvatar(),
                                   Container(
-                                    child: Column(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                            'Advertisements', style: GoogleFonts.quicksand(fontSize:20,color: Colors.black)
-                                        ),
-                                      ],
+                                    width: 2,
+                                    height: 50,
+                                    color: Colors.grey,
+                                  ),
+                                 Container(
+                                   child: Column(
+                                     crossAxisAlignment: CrossAxisAlignment.start,
+                                     mainAxisAlignment: MainAxisAlignment.center,
+                                     children: [
+                                       Text(
+                                         "Workshops",
+                                         style: GoogleFonts.quicksand(
+                                           fontSize:22,
+                                           color: Colors.white,
+                                         ),
+                                       ),
+                                       SizedBox(height: 5,),
+                                       Container(
+                                         height: 5,
+                                         width: 100,
+                                         color:Colors.orange,
+                                       ),
+                                     ],
+                                   ),
+                                 ),
+                                  SizedBox(width: 50,),
+                                  Padding(
+                                    padding: const EdgeInsets.only(right:10),
+                                    child: Icon(
+                                     Icons.arrow_forward_ios,
+                                      color: Colors.grey,
                                     ),
                                   ),
                                 ],
                               ),
                             ),
                           ),
-                          SizedBox(height:12),
+                        ],
+                      ),
+                    ),
+                    SizedBox(height: 10,),
+                    Container(
+                      child: Column(
+                        children: [
                           Container(
-                            width: MediaQuery.of(context).size.width - 35,
-
-                            height: 80,
-                            child: Card(
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                              color: Colors.white,
-                              elevation: 3,
+                            height: 100,
+                            width: MediaQuery.of(context).size.width - 30,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              color: Color(0XFF012A4A),
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.only(left:20),
                               child: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: <Widget>[
-                                  SizedBox(width: 15,),
-                                  CircleAvatar(
-                                    radius: 20,
-                                    backgroundColor: Color(0XFF012A4A),
-                                    child: Icon(FontAwesomeIcons.home , color: Colors.white),
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  CircleAvatar(),
+                                  Container(
+                                    width: 2,
+                                    height: 50,
+                                    color: Colors.grey,
                                   ),
-                                  SizedBox(width: 20,),
                                   Container(
                                     child: Column(
-                                      mainAxisAlignment: MainAxisAlignment.center,
                                       crossAxisAlignment: CrossAxisAlignment.start,
+                                      mainAxisAlignment: MainAxisAlignment.center,
                                       children: [
                                         Text(
-                                            'Workshop', style: GoogleFonts.quicksand(fontSize:20,color: Colors.black)
+                                          "Advertisements",
+                                          style: GoogleFonts.quicksand(
+                                            fontSize:22,
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                        SizedBox(height: 5,),
+                                        Container(
+                                          height: 5,
+                                          width: 100,
+                                          color:Colors.orange,
                                         ),
                                       ],
+                                    ),
+                                  ),
+                                  SizedBox(width: 30,),
+                                  Padding(
+                                    padding: const EdgeInsets.only(right:10),
+                                    child: Icon(
+                                      Icons.arrow_forward_ios,
+                                      color: Colors.grey,
                                     ),
                                   ),
                                 ],
                               ),
                             ),
                           ),
-                          SizedBox(height:12),
-
+                        ],
+                      ),
+                    ),
+                    SizedBox(height: 10,),
+                    Container(
+                      child: Column(
+                        children: [
                           Container(
-                            width: MediaQuery.of(context).size.width - 35,
-
-                            height: 80,
-                            child: Card(
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                              color: Colors.white,
-                              elevation: 3,
+                            height: 100,
+                            width: MediaQuery.of(context).size.width - 30,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              color: Color(0XFF012A4A),
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.only(left:20),
                               child: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: <Widget>[
-                                  SizedBox(width: 15,),
-                                  CircleAvatar(
-                                    radius: 20,
-                                    backgroundColor: Color(0XFF012A4A),
-                                    child: Icon(Icons.speed, color: Colors.white) ,
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  CircleAvatar(),
+                                  Container(
+                                    width: 2,
+                                    height: 50,
+                                    color: Colors.grey,
                                   ),
-                                  SizedBox(width: 20,),
                                   Container(
                                     child: Column(
-                                      mainAxisAlignment: MainAxisAlignment.center,
                                       crossAxisAlignment: CrossAxisAlignment.start,
+                                      mainAxisAlignment: MainAxisAlignment.center,
                                       children: [
                                         Text(
-                                            'Auto Parts', style: GoogleFonts.quicksand(fontSize:20,color: Colors.black)
+                                          "Auto Part Stors",
+                                          style: GoogleFonts.quicksand(
+                                            fontSize:22,
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                        SizedBox(height: 5,),
+                                        Container(
+                                          height: 5,
+                                          width: 100,
+                                          color:Colors.orange,
                                         ),
                                       ],
                                     ),
                                   ),
-                                ],
-                              ),
-                            ),
-                          ),
-                          SizedBox(height:12),
-
-                          Container(
-                            width: MediaQuery.of(context).size.width - 35,
-
-                            height: 80,
-                            child: Card(
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                              color: Colors.white,
-                              elevation: 3,
-                              child: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: <Widget>[
-                                  SizedBox(width: 15,),
-                                  CircleAvatar(
-                                    radius: 20,
-                                    backgroundColor: Color(0XFF012A4A),
-                                    child: Center(child: Icon(FontAwesomeIcons.store , color: Colors.white)),
-                                  ),
-                                  SizedBox(width: 20,),
-                                  Container(
-                                    child: Column(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                            'Auto Stors', style: GoogleFonts.quicksand(fontSize:20,color: Colors.black)
-                                        ),
-                                      ],
+                                  SizedBox(width: 30,),
+                                  Padding(
+                                    padding: const EdgeInsets.only(right:10),
+                                    child: Icon(
+                                      Icons.arrow_forward_ios,
+                                      color: Colors.grey,
                                     ),
                                   ),
                                 ],
