@@ -1,4 +1,5 @@
 import 'package:bikersworld/model/bike_add_model.dart';
+import 'package:bikersworld/screen/dashboard/searchPages/ads_search_page.dart';
 import 'package:bikersworld/services/authenticate_service.dart';
 import 'package:bikersworld/services/bike_add_queries.dart';
 import 'package:bikersworld/services/toast_service.dart';
@@ -9,7 +10,9 @@ import 'dart:math';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:bikersworld/screen/dashboard/Ads/AdDetail.dart';
 
-enum userOption{edit,delete}
+import '../postAdsSeller.dart';
+
+enum addOption{updateBikeInfo,upadateSellerInfo,updateImages,delete}
 
 
 class SellerHomeScreen extends StatelessWidget {
@@ -29,6 +32,17 @@ class SellerHomeScreen extends StatelessWidget {
     }
   }
 
+  void NavigateToUpdatePage(addOption option,BuildContext context,BikeAddModel data){
+    if(option == addOption.updateBikeInfo){
+      Navigator.of(context).push(MaterialPageRoute(builder: (context) => PostBikeInfo(data: data,)));
+    }
+    else if(option == addOption.upadateSellerInfo){
+      Navigator.of(context).push(MaterialPageRoute(builder: (context) => SellerInformation(data: data)));
+    }
+    else if(option == addOption.updateImages){
+      Navigator.of(context).push(MaterialPageRoute(builder: (context) => PostAddImages(data: data)));
+    }
+  }
 
 
   @override
@@ -134,7 +148,7 @@ class SellerHomeScreen extends StatelessWidget {
                           return FlatButton(
                             padding: EdgeInsets.zero,
                             onPressed: (){
-                              Navigator.push(context, MaterialPageRoute(builder: (context) => AdDetail()));
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => AddDetail(data: snapshot.data[index],)));
                             },
                             child: Container(
                               margin: EdgeInsets.only(bottom: 20),
@@ -202,10 +216,11 @@ class SellerHomeScreen extends StatelessWidget {
                                     icon: new Icon(FontAwesomeIcons.ellipsisV,
                                         color: Colors.grey),
                                     onSelected: (option){
+                                      NavigateToUpdatePage(option,context,snapshot.data[index]);
                                     },
                                     itemBuilder: (_) =>
-                                    <PopupMenuItem<userOption>>[
-                                      new PopupMenuItem<userOption>(
+                                    <PopupMenuItem<addOption>>[
+                                      new PopupMenuItem<addOption>(
                                         child: Container(
                                           child: Row(
                                             children: [
@@ -215,7 +230,7 @@ class SellerHomeScreen extends StatelessWidget {
                                               ),
                                               SizedBox(width: 10),
                                               Text(
-                                                "Edit",
+                                                "Update Bike Info",
                                                 style: GoogleFonts.quicksand(
                                                   fontSize: 16,
                                                 ),
@@ -223,9 +238,49 @@ class SellerHomeScreen extends StatelessWidget {
                                             ],
                                           ),
                                         ),
-                                        value: userOption.edit,
+                                        value: addOption.updateBikeInfo,
                                       ),
-                                      new PopupMenuItem<userOption>(
+                                      new PopupMenuItem<addOption>(
+                                        child: Container(
+                                          child: Row(
+                                            children: [
+                                              Icon(
+                                                FontAwesomeIcons.edit,
+                                                size: 15,
+                                              ),
+                                              SizedBox(width: 10),
+                                              Text(
+                                                "Update Seller Info",
+                                                style: GoogleFonts.quicksand(
+                                                  fontSize: 16,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        value: addOption.upadateSellerInfo,
+                                      ),
+                                      new PopupMenuItem<addOption>(
+                                        child: Container(
+                                          child: Row(
+                                            children: [
+                                              Icon(
+                                                FontAwesomeIcons.edit,
+                                                size: 15,
+                                              ),
+                                              SizedBox(width: 10),
+                                              Text(
+                                                "Update Add Images",
+                                                style: GoogleFonts.quicksand(
+                                                  fontSize: 16,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        value: addOption.updateImages,
+                                      ),
+                                      new PopupMenuItem<addOption>(
                                         child: Container(
                                           child: Row(
                                             children: [
@@ -243,7 +298,7 @@ class SellerHomeScreen extends StatelessWidget {
                                             ],
                                           ),
                                         ),
-                                        value: userOption.delete,
+                                        value: addOption.delete,
                                       ),
                                     ],
                                   ),

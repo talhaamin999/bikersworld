@@ -1,32 +1,25 @@
+import 'package:bikersworld/model/bike_add_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:bikersworld/widgets/drawer.dart';
-import 'package:bubble_bottom_bar/bubble_bottom_bar.dart';
 import 'package:carousel_pro/carousel_pro.dart';
 import 'package:bikersworld/screen/dashboard/home.dart';
-import 'package:bikersworld/widgets/backButton.dart';
 
-class AdDetail extends StatefulWidget {
+class AddDetail extends StatefulWidget {
+  final BikeAddModel data;
+  AddDetail({@required this.data});
   @override
-  _AdDetailState createState() => _AdDetailState();
+  _AddDetailState createState() => _AddDetailState();
 }
 
-class _AdDetailState extends State<AdDetail>  with SingleTickerProviderStateMixin {
-  int currentIndex;
+class _AddDetailState extends State<AddDetail>  with SingleTickerProviderStateMixin {
 
   @override
   void initState() {
     super.initState();
-    currentIndex = 0;
   }
 
-  changePage(int index) {
-    setState(() {
-      currentIndex = index;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -71,7 +64,7 @@ class _AdDetailState extends State<AdDetail>  with SingleTickerProviderStateMixi
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         Text(
-                          "Yamaha YBR",
+                          widget.data.title,
                           style: GoogleFonts.quicksand(
                             fontSize: 20,
                             color: Colors.black,
@@ -79,7 +72,7 @@ class _AdDetailState extends State<AdDetail>  with SingleTickerProviderStateMixi
                         ),
                         SizedBox(height: 5,),
                         Text(
-                          "PKR 1,15000",
+                          "PKR ${widget.data.price}",
                           style: GoogleFonts.roboto(
                             fontSize: 17,
                             color: Colors.black,
@@ -90,7 +83,7 @@ class _AdDetailState extends State<AdDetail>  with SingleTickerProviderStateMixi
                           child: Row(
                             children: <Widget>[
                               Text(
-                                "Bahria Town Rawalpindi",
+                                widget.data.address,
                                 style: GoogleFonts.roboto(
                                     fontSize: 14,
                                     color: Colors.grey
@@ -130,14 +123,14 @@ class _AdDetailState extends State<AdDetail>  with SingleTickerProviderStateMixi
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: <Widget>[Text(
-                                    "Modal Year",
+                                    "Year",
                                     style: GoogleFonts.montserrat(
                                       fontSize: 14,
                                     ),
                                   ),
                                   SizedBox(height: 5,),
                                   Text(
-                                    "2020",
+                                    widget.data.year,
                                     style: GoogleFonts.montserrat(
                                       fontSize: 10,
                                       color: Colors.grey,
@@ -160,7 +153,8 @@ class _AdDetailState extends State<AdDetail>  with SingleTickerProviderStateMixi
                             Container(
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
-                                children: <Widget>[Text(
+                                children: <Widget>[
+                                  Text(
                                   "Milage",
                                   style: GoogleFonts.montserrat(
                                     fontSize: 14,
@@ -183,13 +177,6 @@ class _AdDetailState extends State<AdDetail>  with SingleTickerProviderStateMixi
                     ],
                   ),
                 ),
-
-
-
-
-
-
-
 
                 SizedBox(height: 30,),
                 Container(
@@ -244,7 +231,7 @@ class _AdDetailState extends State<AdDetail>  with SingleTickerProviderStateMixi
                                 ),
                                   SizedBox(height: 5,),
                                   Text(
-                                    "Islamabad",
+                                    widget.data.city,
                                     style: GoogleFonts.montserrat(
                                       fontSize: 10,
                                       color: Colors.grey,

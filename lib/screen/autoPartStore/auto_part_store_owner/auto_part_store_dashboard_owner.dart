@@ -4,11 +4,11 @@ import 'package:bikersworld/services/part_store_queries/part_store_review_query.
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:bikersworld/screen/autoPartStore/Auto Part Store Owner/register_auto_parts.dart';
+import 'package:bikersworld/screen/autoPartStore/auto_part_store_owner/register_auto_parts.dart';
 import 'package:bikersworld/widgets/rating_bar.dart';
-import 'package:bikersworld/screen/autoPartStore/Auto Part Store Owner/auto_part_dasboard.dart';
-import 'package:bikersworld/screen/autoPartStore/Auto Part Store Owner/view_all_categories.dart';
-import 'package:bikersworld/screen/autoPartStore/Auto Part Store Owner/register_auto_part_store.dart';
+import 'package:bikersworld/screen/autoPartStore/auto_part_store_owner/auto_part_dasboard.dart';
+import 'package:bikersworld/screen/autoPartStore/auto_part_store_owner/view_all_categories.dart';
+import 'package:bikersworld/screen/autoPartStore/auto_part_store_owner/register_auto_part_store.dart';
 
 
 class AutoPartStoreDashboardOwner extends StatefulWidget {

@@ -50,5 +50,28 @@ class BikeAddModel{
       'posted_by':postedBy,
     };
   }
+  Map<String, dynamic> mapBikeInfo(){
+    return {
+      'title': title,
+      'make':make,
+      'model':model,
+      'year':year,
+      'price':price,
+      'description':description,
+    };
+  }
+  Map<String, dynamic> mapSellerInfo(){
+    return {
+      'seller_name':sellerName,
+      'seller_contact':sellerContact,
+      'city':city,
+      'address':address,
+    };
+  }
+  Map<String, dynamic> mapBikeImages(){
+    return {
+      'images':images,
+    };
+  }
 
 }

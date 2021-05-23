@@ -1,5 +1,5 @@
-import 'package:bikersworld/screen/autoPartStore/Auto%20Part%20Store%20Owner/auto_part_store_dashboard_owner.dart';
-import 'package:bikersworld/screen/autoPartStore/Auto%20Part%20Store%20Owner/register_auto_part_store.dart';
+import 'package:bikersworld/screen/autoPartStore/auto_part_store_owner/auto_part_store_dashboard_owner.dart';
+import 'package:bikersworld/screen/autoPartStore/auto_part_store_owner/register_auto_part_store.dart';
 import 'package:bikersworld/screen/dashboard/searchPages/auto_partstore_search_page.dart';
 import 'package:bikersworld/screen/workshop/workshop_dashboard.dart';
 import 'package:bikersworld/services/toast_service.dart';
@@ -249,7 +249,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
                       trailing: Icon(Icons.arrow_forward_ios, size: 15.0,),
                       onTap: () {
                         Navigator.push(context, MaterialPageRoute(
-                            builder: (context) => PostAdSeller()));
+                            builder: (context) => PostBikeInfo()));
                       },
 
                     ),
@@ -544,7 +544,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
                     trailing: Icon(Icons.arrow_forward_ios, size: 15.0,),
                     onTap: () {
                       Navigator.push(context, MaterialPageRoute(
-                          builder: (context) => PostAdSeller()));
+                          builder: (context) => PostBikeInfo()));
                     },
 
                   ),

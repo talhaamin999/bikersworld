@@ -1,9 +1,9 @@
 import 'package:bikersworld/model/partstore_model.dart';
-import 'package:bikersworld/screen/autoPartStore/Auto%20Part%20Store%20Owner/register_auto_parts.dart';
+import 'package:bikersworld/screen/autoPartStore/auto_part_store_owner/register_auto_parts.dart';
 import 'package:bikersworld/services/part_store_queries/part_queries.dart';
 import 'package:bikersworld/services/toast_service.dart';
 import 'package:flutter/material.dart';
-import 'package:bikersworld/screen/autoPartStore/Auto Part Store Owner/auto_part_detail.dart';
+import 'package:bikersworld/screen/autoPartStore/auto_part_store_owner/auto_part_detail.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class AutoPartDashboard extends StatefulWidget {

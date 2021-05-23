@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:bikersworld/screen/dashboard/Ads/seller/sellerDashbaord.dart';
+import 'package:bikersworld/screen/workshop/workshop_dashboard.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:bikersworld/model/bike_add_model.dart';
 import 'package:bikersworld/services/toast_service.dart';
@@ -13,17 +14,18 @@ import 'package:bikersworld/services/authenticate_service.dart';
 import 'package:flutter_absolute_path/flutter_absolute_path.dart';
 import 'package:bikersworld/widgets/city_dropdown.dart';
 
-class PostAdSeller extends StatefulWidget {
+class PostBikeInfo extends StatefulWidget {
+
+  final BikeAddModel data;
+
+  PostBikeInfo({this.data});
   @override
-  _PostAdSellerState createState() => _PostAdSellerState();
+  _PostBikeInfoState createState() => _PostBikeInfoState();
 }
 
-String yearSelected;
+//String yearSelected;
 
-class _PostAdSellerState extends State<PostAdSeller> with SingleTickerProviderStateMixin {
-
-  bool isVisible = false,_isButtonVisible = true;
-
+class _PostBikeInfoState extends State<PostBikeInfo> with SingleTickerProviderStateMixin {
 
   final _titleController = TextEditingController();
   final _makeController = TextEditingController();
@@ -34,19 +36,45 @@ class _PostAdSellerState extends State<PostAdSeller> with SingleTickerProviderSt
   final _formKey = GlobalKey<FormState>();
   final _validate = ValidateBikeAdd();
   final _error = ToastErrorMessage();
+  final _valid = ToastValidMessage();
+  bool _isButtonVisible = true;
+
+  void mapValues(){
+    if(widget.data != null){
+      _titleController.text = widget.data.title;
+      _makeController.text = widget.data.make;
+      _modelController.text = widget.data.model;
+      _yearController.text = widget.data.year;
+      _priceController.text = widget.data.price.toString();
+      _descriptionController.text = widget.data.description;
+    }
+  }
+
+  @override
+  initState(){
+    mapValues();
+    super.initState();
+  }
 
   @override
   void dispose() {
-    // _titleController.dispose();
-    // _makeController.dispose();
-    // _modelController.dispose();
-    // _yearController.dispose();
-    // _priceController.dispose();
-    // _descriptionController.dispose();
+    _titleController.dispose();
+    _makeController.dispose();
+    _modelController.dispose();
+    _yearController.dispose();
+    _priceController.dispose();
+    _descriptionController.dispose();
     super.dispose();
   }
 
-  void validateFields(){
+  void checkFormState(){
+    if(!_formKey.currentState.validate()){
+      return null;
+    }
+    validateFields();
+  }
+
+  void validateFields() async{
     double price = double.tryParse(_priceController.text);
     if((!_validate.valiadteTitle(_titleController.text)) && (!_validate.validateMake(_makeController.text)) && (!_validate.validateModel(_modelController.text)) &&  (!_validate.validatePrice(price))){
       _error.errorToastMessage(errorMessage: 'PLease Enter valid Information');
@@ -61,8 +89,42 @@ class _PostAdSellerState extends State<PostAdSeller> with SingleTickerProviderSt
       _error.errorToastMessage(errorMessage: "Bike Price can't be 0");
     }
     else{
-      final _data = BikeAddModel(title: _titleController.text,make: _makeController.text,model: _modelController.text,year: _yearController.text,price: price,description: _descriptionController.text);
-      Navigator.push(context, MaterialPageRoute(builder: (context) => SellerInformation(data: _data,)));
+      if(widget.data != null){
+        try {
+          setState(() {
+            _isButtonVisible = false;
+          });
+          final _data = BikeAddModel(title: _titleController.text,
+              make: _makeController.text,
+              model: _modelController.text,
+              year: _yearController.text,
+              price: price,
+              description: _descriptionController.text,
+              id: widget.data.id);
+          final _update = PostAddQueries();
+          final bool result = await _update.updateBikeInfo(_data);
+          if (result) {
+            _valid.validToastMessage(validMessage: 'Add Updated Succedfully');
+            Future.delayed(
+                Duration(seconds: 2),
+                    () {
+                  Navigator.of(context).pop();
+                }
+            );
+          }
+        }catch(e){
+          _error.errorToastMessage(errorMessage: e.toString());
+        }finally{
+          setState(() {
+            _isButtonVisible = true;
+          });
+        }
+      }
+      else {
+        final _data = BikeAddModel(title: _titleController.text,make: _makeController.text,model: _modelController.text,year: _yearController.text,price: price,description: _descriptionController.text);
+        Navigator.push(context, MaterialPageRoute(
+            builder: (context) => SellerInformation(data: _data,)));
+      }
     }
   }
 
@@ -130,20 +192,8 @@ class _PostAdSellerState extends State<PostAdSeller> with SingleTickerProviderSt
                   child: postAdTextfield("Modal",controller:_modelController,inputType: TextInputType.text,),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(left: 15, right: 15,),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                          "Year",
-                          style: GoogleFonts.quicksand(
-                            fontSize: 18,
-                          )
-                      ),
-                      SizedBox(height: 10,),
-                      YearComboBox(),
-                    ],
-                  )
+                  padding: const EdgeInsets.only(left: 15, right: 15),
+                  child: postAdTextfield("Year",controller: _yearController,inputType: TextInputType.number,),
                 ),
                 Padding(
                   padding: const EdgeInsets.only(left: 15, right: 15),
@@ -151,45 +201,25 @@ class _PostAdSellerState extends State<PostAdSeller> with SingleTickerProviderSt
                 ),
                 Padding(
                   padding: const EdgeInsets.only(left: 15, right: 15),
-                  child: postAdTextfield("Description",controller:_descriptionController,inputType: TextInputType.text,),
+                  child: postAdTextfield("Description",controller:_descriptionController,inputType: TextInputType.text),
                 ),
                 SizedBox(height: 20,),
                 Center(
-                  child: FlatButton(
-                    padding: EdgeInsets.zero,
-                    onPressed: () {
-
-                      if(!_formKey.currentState.validate()){
-                        return null;
-                      }
-                      validateFields();
-                    },
-                    child: Container(
-                      height: 60,
-                      width: MediaQuery
-                          .of(context)
-                          .size
-                          .width - 30,
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          begin: Alignment.topLeft,
-                          end: Alignment.bottomRight,
-                          colors: [
-                            Color(0xfffbb448),
-                            Color(0xfff7892b),
-                          ],
-                        ),
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: Center(
-                        child: Text(
-                          "Next",
-                          style: GoogleFonts.quicksand(
-                            fontSize: 21,
-                            color: Colors.white,
-                          ),
+                  child: Container(
+                    width: MediaQuery.of(context).size.width - 30,
+                    height: 60,
+                    child: RaisedButton(
+                      onPressed: _isButtonVisible ? () => {checkFormState()} : null,
+                      child:Text(
+                        widget.data != null ? "Update" : "Next",
+                        style: GoogleFonts.krub(
+                          fontSize: 18,
+                          color: Colors.white,
                         ),
                       ),
+                      color: Color(0xfff7892b),
+                      disabledColor: Colors.grey.shade400,
+                      disabledTextColor: Colors.black,
                     ),
                   ),
                 ),
@@ -219,14 +249,41 @@ class _SellerInformationState extends State<SellerInformation> {
   final _formKey = GlobalKey<FormState>();
   final _validate = ValidateBikeAdd();
   final _error = ToastErrorMessage();
+  final _valid = ToastValidMessage();
+  bool _isButtonVisible = true;
+
+  void mapValues(){
+    if((widget.data.sellerName != null) && (widget.data.sellerContact != null) && (widget.data.city != null) && (widget.data.address != null)){
+      _sellerNameController.text = widget.data.sellerName;
+      _sellerContactController.text = widget.data.sellerContact;
+      _cityController.text = widget.data.city;
+      _addressController.text = widget.data.address;
+    }
+  }
 
   @override
   void initState() {
+    mapValues();
     print('${widget.data.title} ${widget.data.price}');
     super.initState();
   }
 
-  void validateFields(){
+  @override
+  void dispose() {
+    _sellerNameController.dispose();
+    _sellerContactController.dispose();
+    _cityController.dispose();
+    _addressController.dispose();
+    super.dispose();
+  }
+
+  void checkFormState(){
+    if(!_formKey.currentState.validate()){
+      return null;
+    }
+    validateFields();
+  }
+  void validateFields() async{
     if((!_validate.validateSellerName(_sellerNameController.text)) && (!_validate.validateSellerContact(_sellerContactController.text)) && (!_validate.validateCity(_cityController.text)) &&  (!_validate.validateAddress(_addressController.text))){
       _error.errorToastMessage(errorMessage: 'PLease Enter valid Information');
     }
@@ -243,12 +300,51 @@ class _SellerInformationState extends State<SellerInformation> {
       _error.errorToastMessage(errorMessage: "Address is Invalid");
     }
     else{
-      final _data = BikeAddModel(title: widget.data.title,make: widget.data.make,model: widget.data.model,year: widget.data.year,price: widget.data.price,description: widget.data.description,sellerName: _sellerNameController.text,sellerContact: _sellerContactController.text,city: _cityController.text,address: _addressController.text);
-      Navigator.push(context, MaterialPageRoute(builder: (context) => UploadImages(data: _data,)));
+      if((widget.data.sellerName != null) && (widget.data.sellerContact != null) && (widget.data.city != null) &&(widget.data.address != null)) {
+        try {
+          setState(() {
+            _isButtonVisible = false;
+          });
+          final _data = BikeAddModel(
+              sellerName: _sellerNameController.text,
+              sellerContact: _sellerContactController.text,
+              city: _cityController.text,
+              address: _addressController.text,
+              id: widget.data.id);
+          final _update = PostAddQueries();
+          final bool result = await _update.updateSellerInfo(_data);
+          if (result) {
+            _valid.validToastMessage(validMessage: "Seller Info Updated Successfully");
+            Future.delayed(
+              Duration(seconds: 2),
+                (){
+                  Navigator.of(context).pop();
+                }
+            );
+          }
+        }catch(e){
 
+        }finally{
+          setState(() {
+            _isButtonVisible = true;
+          });
+        }
+      }else {
+        final _data = BikeAddModel(title: widget.data.title,
+            make: widget.data.make,
+            model: widget.data.model,
+            year: widget.data.year,
+            price: widget.data.price,
+            description: widget.data.description,
+            sellerName: _sellerNameController.text,
+            sellerContact: _sellerContactController.text,
+            city: _cityController.text,
+            address: _addressController.text);
+        Navigator.push(context, MaterialPageRoute(
+            builder: (context) => PostAddImages(data: _data,)));
+      }
     }
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -336,40 +432,21 @@ class _SellerInformationState extends State<SellerInformation> {
                 ),
                 SizedBox(height: 20,),
                 Center(
-                  child: FlatButton(
-                    padding: EdgeInsets.zero,
-                    onPressed: () {
-                      if(!_formKey.currentState.validate()){
-                        return null;
-                      }
-                      validateFields();
-                    },
-                    child: Container(
-                      height: 60,
-                      width: MediaQuery
-                          .of(context)
-                          .size
-                          .width - 30,
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          begin: Alignment.topLeft,
-                          end: Alignment.bottomRight,
-                          colors: [
-                            Color(0xfffbb448),
-                            Color(0xfff7892b),
-                          ],
-                        ),
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: Center(
-                        child: Text(
-                          "Submit",
-                          style: GoogleFonts.quicksand(
-                            fontSize: 21,
-                            color: Colors.white,
-                          ),
+                  child: Container(
+                    width: MediaQuery.of(context).size.width - 30,
+                    height: 60,
+                    child: RaisedButton(
+                      onPressed: _isButtonVisible ? () => {checkFormState()} : null,
+                      child:Text(
+                        widget.data.sellerName != null ? "Update" : "Next",
+                        style: GoogleFonts.krub(
+                          fontSize: 18,
+                          color: Colors.white,
                         ),
                       ),
+                      color: Color(0xfff7892b),
+                      disabledColor: Colors.grey.shade400,
+                      disabledTextColor: Colors.black,
                     ),
                   ),
                 ),
@@ -385,14 +462,15 @@ class _SellerInformationState extends State<SellerInformation> {
 
 
 
-class UploadImages extends StatefulWidget {
+class PostAddImages extends StatefulWidget {
+
   final BikeAddModel data;
-  UploadImages({@required this.data});
+  PostAddImages({@required this.data});
   @override
-  _UploadImagesState createState() => new _UploadImagesState();
+  _PostAddImagesState createState() => new _PostAddImagesState();
 }
 
-class _UploadImagesState extends State<UploadImages> {
+class _PostAddImagesState extends State<PostAddImages> {
   List<Asset> images = List<Asset>();
   List<File> files = [];
   String _error = 'No Error Dectected';
@@ -400,6 +478,7 @@ class _UploadImagesState extends State<UploadImages> {
   final _currentUser = AuthenticationService();
   final _errorMessage = ToastErrorMessage();
   final _valid = ToastValidMessage();
+  bool _isButtonVisible = true;
 
   @override
   void initState() {
@@ -458,39 +537,68 @@ class _UploadImagesState extends State<UploadImages> {
   }
 
   Future<void> uploadAdd() async{
-    if(_currentUser.getCurrentUser()) {
-      if (images.isNotEmpty) {
-        final List<String> urls = await _postAdd.uploadFiles(files);
-        if(urls != null) {
-          final bikeData = BikeAddModel(title: widget.data.title,
-              make: widget.data.make,
-              model: widget.data.model,
-              year: widget.data.year,
-              price: widget.data.price,
-              description: widget.data.description,
-              sellerName: widget.data.sellerName,
-              sellerContact: widget.data.sellerContact,
-              city: widget.data.city,
-              address: widget.data.address,
-              images: urls,
-              postedBy: _currentUser.getUserId());
+    try {
+      setState(() {
+        _isButtonVisible = false;
+      });
+      if (_currentUser.getCurrentUser()) {
+        if (images.isNotEmpty) {
+          final List<String> urls = await _postAdd.uploadFiles(files);
+          if (urls != null) {
+            if (widget.data.images.isNotEmpty) {
+              final bikeData = BikeAddModel(
+                  images: urls,
+                  id: widget.data.id);
+              final bool result = await _postAdd.updateImages(bikeData);
+              if (result) {
+                _valid.validToastMessage(
+                    validMessage: "Add Images Successfully Updated");
+                Future.delayed(
+                    new Duration(seconds: 2),
+                        () {
+                      Navigator.of(context).pop();
+                    }
+                );
+              }
+            } else {
+              final bikeData = BikeAddModel(title: widget.data.title,
+                  make: widget.data.make,
+                  model: widget.data.model,
+                  year: widget.data.year,
+                  price: widget.data.price,
+                  description: widget.data.description,
+                  sellerName: widget.data.sellerName,
+                  sellerContact: widget.data.sellerContact,
+                  city: widget.data.city,
+                  address: widget.data.address,
+                  images: urls,
+                  postedBy: _currentUser.getUserId());
 
-          final bool result = await _postAdd.postAdd(bikeData);
-          if(result){
-            _valid.validToastMessage(validMessage: "Add has been Posted");
-            Future.delayed(
-              new Duration(seconds: 2),
-                (){
-                  Navigator.of(context).push(MaterialPageRoute(builder: (context) => SellerHomeScreen()));
-                }
-            );
+              final bool result = await _postAdd.postAdd(bikeData);
+              if (result) {
+                _valid.validToastMessage(validMessage: "Add has been Posted");
+                Future.delayed(
+                    new Duration(seconds: 2),
+                        () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => SellerHomeScreen()));
+                    }
+                );
+              }
+            }
           }
+        } else {
+          _errorMessage.errorToastMessage(errorMessage: "No Images Selected");
         }
-      }else{
-        _errorMessage.errorToastMessage(errorMessage: "No Images Selected");
+      } else {
+        _errorMessage.errorToastMessage(errorMessage: "You'r Not Logged In");
       }
-    }else{
-      _errorMessage.errorToastMessage(errorMessage: "You'r Not Logged In");
+    }catch(e){
+      _errorMessage.errorToastMessage(errorMessage: e.toString());
+    }finally{
+      setState(() {
+        _isButtonVisible = true;
+      });
     }
   }
 
@@ -585,34 +693,22 @@ class _UploadImagesState extends State<UploadImages> {
               ),
             ),
             SizedBox(height: 20,),
-            FlatButton(
-              padding: EdgeInsets.zero,
-              onPressed: (){
-                uploadAdd();
-                //Navigator.push(context, MaterialPageRoute(builder: (context) => SellerHomeScreen()));
-              },
+            Center(
               child: Container(
-                height: 60,
                 width: MediaQuery.of(context).size.width - 30,
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                    colors: [
-                      Color(0xfffbb448),
-                      Color(0xfff7892b),
-                    ],
-                  ),
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: Center(
-                  child: Text(
-                    "Submit",
-                    style: GoogleFonts.quicksand(
-                      fontSize: 21,
+                height: 60,
+                child: RaisedButton(
+                  onPressed: _isButtonVisible ? () => {uploadAdd()} : null,
+                  child:Text(
+                    widget.data.images.isNotEmpty != null ? "Update" : "Post Add",
+                    style: GoogleFonts.krub(
+                      fontSize: 18,
                       color: Colors.white,
                     ),
                   ),
+                  color: Color(0xfff7892b),
+                  disabledColor: Colors.grey.shade400,
+                  disabledTextColor: Colors.black,
                 ),
               ),
             ),
@@ -624,70 +720,69 @@ class _UploadImagesState extends State<UploadImages> {
   }
 }
 
-class YearComboBox extends StatefulWidget {
-
-  YearComboBox({Key key}) : super(key: key);
-  @override
-  _YearComboBoxState createState() => _YearComboBoxState();
-}
-
-class _YearComboBoxState extends State<YearComboBox> {
-
-  var _dropDownItems = [''
-      '1990','1991','1992','1993','1994','1995','1996','1997','1998','1999','2000',
-    '2001','2002','2003','2004','2005','2006','2007','2008','2009','2010','2011',
-    '2012','2013','2014','2015','2015','2016','2017','2018','2019','2020','2021',
-    '2022','2023','2024','2025','2026','2027','2028','2029','2030',
-
-  ];
-  @override
-  void initState(){
-    yearSelected = _dropDownItems[0];
-    super.initState();
-  }
-  @override
-  void dispose(){
-    yearSelected = null;
-    super.dispose();
-  }
-
-  Widget build(BuildContext context) {
-    return Container(
-      color: Color(0xffe3e3e3),
-      width: 380,
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: DropdownButton<String>(
-          value: yearSelected,
-          icon: Container(
-            margin: EdgeInsets.only(left: 200),
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(45.0, 0, 0, 0),
-              child: Icon(
-                FontAwesomeIcons.caretDown,
-              ),
-            ),
-          ),
-          iconSize: 24,
-          elevation: 16,
-          style: TextStyle(color: Colors.black,),
-          underline: Container(
-            height: 2,
-          ),
-          onChanged: (String newValue) {
-            setState(() {
-             yearSelected = newValue;
-            });
-          },
-          items: _dropDownItems
-              .map((String dropDownStringItem) {
-            return DropdownMenuItem<String>(
-              value: dropDownStringItem,
-              child: Text(dropDownStringItem, style: GoogleFonts.quicksand(fontSize: 15)),
-            );
-          }).toList(),
-        ),
-      ),
-    );
-  }
-}
+// class YearComboBox extends StatefulWidget {
+//
+//   YearComboBox({Key key}) : super(key: key);
+//   @override
+//   _YearComboBoxState createState() => _YearComboBoxState();
+// }
+//
+// class _YearComboBoxState extends State<YearComboBox> {
+//
+//   var _dropDownItems = [''
+//       '1990','1991','1992','1993','1994','1995','1996','1997','1998','1999','2000',
+//     '2001','2002','2003','2004','2005','2006','2007','2008','2009','2010','2011',
+//     '2012','2013','2014','2015','2015','2016','2017','2018','2019','2020','2021',
+//     '2022','2023','2024','2025','2026','2027','2028','2029','2030',
+//
+//   ];
+//
+//   @override
+//   void initState(){
+//     super.initState();
+//   }
+//   @override
+//   void dispose(){
+//     super.dispose();
+//   }
+//
+//   Widget build(BuildContext context) {
+//     return Container(
+//       color: Color(0xffe3e3e3),
+//       width: 380,
+//       child: Padding(
+//         padding: const EdgeInsets.all(8.0),
+//         child: DropdownButton<String>(
+//           value: yearSelected,
+//           icon: Container(
+//             margin: EdgeInsets.only(left: 200),
+//             child: Padding(
+//               padding: const EdgeInsets.fromLTRB(45.0, 0, 0, 0),
+//               child: Icon(
+//                 FontAwesomeIcons.caretDown,
+//               ),
+//             ),
+//           ),
+//           iconSize: 24,
+//           elevation: 16,
+//           style: TextStyle(color: Colors.black,),
+//           underline: Container(
+//             height: 2,
+//           ),
+//           onChanged: (String newValue) {
+//             setState(() {
+//              yearSelected = newValue;
+//             });
+//           },
+//           items: _dropDownItems
+//               .map((String dropDownStringItem) {
+//             return DropdownMenuItem<String>(
+//               value: dropDownStringItem,
+//               child: Text(dropDownStringItem, style: GoogleFonts.quicksand(fontSize: 15)),
+//             );
+//           }).toList(),
+//         ),
+//       ),
+//     );
+//   }
+// }

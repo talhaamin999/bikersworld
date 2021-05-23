@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:bikersworld/widgets/city_dropdown.dart';
-import 'package:bikersworld/screen/autoPartStore/Auto Part Store Owner/auto_part_store_dashboard_owner.dart';
+import 'package:bikersworld/screen/autoPartStore/auto_part_store_owner/auto_part_store_dashboard_owner.dart';
 import 'package:bikersworld/services/string_extension.dart';
 
 bool monday=false,tuesday=false,wednesday=false,thursday=false,friday=false,saturday=false,sunday=false;

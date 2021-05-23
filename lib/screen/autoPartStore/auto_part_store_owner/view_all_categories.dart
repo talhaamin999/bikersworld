@@ -1,4 +1,4 @@
-import 'package:bikersworld/screen/autoPartStore/Auto%20Part%20Store%20Owner/auto_part_dasboard.dart';
+import 'package:bikersworld/screen/autoPartStore/auto_part_store_owner//auto_part_dasboard.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
