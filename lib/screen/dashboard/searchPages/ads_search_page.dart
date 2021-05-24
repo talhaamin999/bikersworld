@@ -46,7 +46,7 @@ class _adSearchPageState extends State<adSearchPage> {
                         child: Row(
                           children: [
                             Padding(
-                              padding: const EdgeInsets.only( top:10,right: 0),
+                              padding: const EdgeInsets.only( top:10),
                               child:Container(
                                 color: Colors.white,
                                 child: SizedBox(
