@@ -19,7 +19,7 @@ class _CityDropDownState extends State<CityDropDown> {
     return Padding(
       padding: const EdgeInsets.only( top:10,right: 0),
       child:Container(
-        color: Colors.black12,
+        color: Colors.white,
         child: SizedBox(
           width: MediaQuery.of(context).size.width ,
           child: DropdownSearch<String>(
