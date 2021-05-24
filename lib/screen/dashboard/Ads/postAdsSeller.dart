@@ -13,6 +13,9 @@ import 'package:bikersworld/services/bike_add_queries.dart';
 import 'package:bikersworld/services/authenticate_service.dart';
 import 'package:flutter_absolute_path/flutter_absolute_path.dart';
 import 'package:bikersworld/widgets/city_dropdown.dart';
+import 'package:dropdown_search/dropdown_search.dart';
+import 'package:bikersworld/services/search_queries/bike_add_search/bike_admin_data.dart';
+
 
 class PostBikeInfo extends StatefulWidget {
 
@@ -128,6 +131,18 @@ class _PostBikeInfoState extends State<PostBikeInfo> with SingleTickerProviderSt
     }
   }
 
+
+  String make,model;
+  final _adminData = BikeAdminDataQueries();
+  Future<List<BikeSearchModel>> getMakeAndModel() {
+    try {
+      return _adminData.getMakeAndModel();
+    }
+    catch(e){
+    }
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -183,14 +198,144 @@ class _PostBikeInfoState extends State<PostBikeInfo> with SingleTickerProviderSt
                   padding: const EdgeInsets.only(left: 15, right: 15),
                   child: postAdTextfield("Title",controller:_titleController,inputType: TextInputType.text,),
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 15, right: 15),
-                  child: postAdTextfield("Make",controller:_makeController,inputType: TextInputType.name,),
+
+                FutureBuilder(
+                  future: getMakeAndModel(),
+                  builder: (BuildContext context, AsyncSnapshot<List<BikeSearchModel>> snapshot) {
+                    if(snapshot.hasData && snapshot.data.isNotEmpty){
+                      return Container(
+                        child: Padding(
+                          padding: const EdgeInsets.only(left:15,right:15),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(left:5,top: 10),
+                                child: Text(
+                                    "Make",
+                                    style: GoogleFonts.quicksand(
+                                      fontSize: 18,
+                                    )
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only( top:10),
+                                child:Container(
+                                  color: Colors.white,
+                                  child: SizedBox(
+                                    width: MediaQuery.of(context).size.width,
+                                    child: DropdownSearch<String>(
+                                      validator: (v) => v == null ? "required field" : null,
+                                      hint: "Select Make",
+                                      searchBoxDecoration: InputDecoration(
+                                        border: new OutlineInputBorder(
+                                          borderRadius: const BorderRadius.all(
+                                            const Radius.circular(5),
+                                          ),
+                                        ),
+                                      ),
+                                      showSelectedItem: true,
+                                      items: snapshot.data.map((doc) => doc.make).toList(),
+                                      // showClearButton: true,
+                                      onChanged: (value){
+                                        setState(() {
+                                          make = value;
+                                        });
+                                      },
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              SizedBox(width: 10,),
+                              FutureBuilder(
+                                future: _adminData.getModelForMake(make),
+                                builder: (BuildContext context, AsyncSnapshot<BikeSearchModel> docSnapshot) {
+                                  if(docSnapshot.hasData && docSnapshot.data != null){
+                                    return Padding(
+                                      padding: const EdgeInsets.only( top:10,right: 15),
+                                      child:Container(
+                                        color: Colors.white,
+                                        child: SizedBox(
+                                          width: MediaQuery.of(context).size.width,
+                                          child: DropdownSearch<String>(
+                                            validator: (v) => v == null ? "required field" : null,
+                                            hint: "Select Modal",
+                                            searchBoxDecoration: InputDecoration(
+                                              border: new OutlineInputBorder(
+                                                borderRadius: const BorderRadius.all(
+                                                  const Radius.circular(5),
+                                                ),
+                                              ),
+                                            ),
+                                            showSelectedItem: true,
+                                            items: List<String>.from(docSnapshot.data.model),
+                                            // showClearButton: true,
+                                            onChanged: (value){
+                                              model = value;
+                                            },
+                                          ),
+                                        ),
+                                      ),
+                                    );
+                                  }
+                                  else if(docSnapshot.data == null){
+                                    return Padding(
+                                      padding: const EdgeInsets.only( top:15,right: 0),
+                                      child:Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.only(left:5,top: 10),
+                                            child: Text(
+                                                "Modal",
+                                                style: GoogleFonts.quicksand(
+                                                  fontSize: 18,
+                                                )
+                                            ),
+                                          ),
+                                          SizedBox(height: 10,),
+                                          Container(
+                                            color: Colors.white,
+                                            child: SizedBox(
+                                              width: MediaQuery.of(context).size.width,
+                                              child: DropdownSearch<String>(
+                                                validator: (v) => v == null ? "required field" : null,
+                                                hint: "Select Modal",
+                                                searchBoxDecoration: InputDecoration(
+                                                  border: new OutlineInputBorder(
+                                                    borderRadius: const BorderRadius.all(
+                                                      const Radius.circular(5),
+                                                    ),
+                                                  ),
+                                                ),
+                                                showSelectedItem: true,
+                                                items: [],
+                                                // showClearButton: true,
+                                                onChanged: (value){
+
+                                                },
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    );
+                                  }
+                                  else if(docSnapshot.hasError){
+                                    return Center(child: Text(docSnapshot.error.toString()));
+                                  }
+                                  return Center(child: CircularProgressIndicator(),);
+                                },
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+                    }
+                    return Center(child:CircularProgressIndicator());
+                  },
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 15, right: 15),
-                  child: postAdTextfield("Modal",controller:_modelController,inputType: TextInputType.text,),
-                ),
+
                 Padding(
                   padding: const EdgeInsets.only(left: 15, right: 15),
                   child: postAdTextfield("Year",controller: _yearController,inputType: TextInputType.number,),
