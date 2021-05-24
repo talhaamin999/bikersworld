@@ -6,6 +6,7 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:bikersworld/screen/dashboard/Ads/AdDetail.dart';
 import 'package:bikersworld/widgets/backButton.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:dropdown_search/dropdown_search.dart';
 
 class adSearchPage extends StatefulWidget {
   @override
@@ -27,40 +28,188 @@ class _adSearchPageState extends State<adSearchPage> {
         backgroundColor: Color(0XFF012A4A),
         iconTheme: IconThemeData(color: Color(0xfffbb448),
         ),
+        elevation: 0,
       ),
       body: SingleChildScrollView(
         child: Container(
           child: Column(
             children: <Widget>[
               Container(
-                height: 55,
+                height: 220,
                 width: MediaQuery.of(context).size.width,
                 color: Color(0XFF012A4A),
-                child: Padding(
-                  padding: EdgeInsets.only(left: 10,right: 10,bottom: 10),
-                  child: Container(
-                    child: TextField(
-                      textInputAction: TextInputAction.search,
-                      onSubmitted: (value){
-                      },
-                     // controller: _controller,
-                      decoration: new InputDecoration(
-                          suffixIcon: IconButton(
-                             // onPressed: () => _controller.clear(),
-                              icon: Icon(Icons.clear)),
-                          border: new OutlineInputBorder(
-                            borderRadius: const BorderRadius.all(
-                              const Radius.circular(10),
+                child: Column(
+                  children: [
+                    Container(
+                      child: Padding(
+                        padding: const EdgeInsets.only(left:10,right:10),
+                        child: Row(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only( top:10,right: 0),
+                              child:Container(
+                                color: Colors.white,
+                                child: SizedBox(
+                                  width: MediaQuery.of(context).size.width - 220,
+                                  child: DropdownSearch<String>(
+                                    validator: (v) => v == null ? "required field" : null,
+                                    hint: "Select Make",
+                                    searchBoxDecoration: InputDecoration(
+                                      border: new OutlineInputBorder(
+                                        borderRadius: const BorderRadius.all(
+                                          const Radius.circular(5),
+                                        ),
+                                      ),
+                                    ),
+                                    showSelectedItem: true,
+                                    items: [
+                                      'Honda',
+                                      'BMW',
+                                      'Crown',
+                                      'Suzuki',
+                                    ],
+                                    // showClearButton: true,
+                                    onChanged: (value){
+
+                                    },
+                                    popupItemDisabled: (String s) => s.startsWith('I'),
+                                  ),
+                                ),
+                              ),
                             ),
-                          ),
-                          filled: true,
-                          hintStyle: GoogleFonts.quicksand(color: Colors.black, fontSize:15),
-                          hintText: "Search Ads",
-                          contentPadding: EdgeInsets.only(top: 7),
-                          prefixIcon: Icon(Icons.search, size: 25,),
-                          fillColor: Colors.white),
+                            SizedBox(width: 10,),
+                            Padding(
+                              padding: const EdgeInsets.only( top:10,right: 0),
+                              child:Container(
+                                color: Colors.white,
+                                child: SizedBox(
+                                  width: MediaQuery.of(context).size.width - 220,
+                                  child: DropdownSearch<String>(
+                                    validator: (v) => v == null ? "required field" : null,
+                                    hint: "Select Modal",
+                                    searchBoxDecoration: InputDecoration(
+                                      border: new OutlineInputBorder(
+                                        borderRadius: const BorderRadius.all(
+                                          const Radius.circular(5),
+                                        ),
+                                      ),
+                                    ),
+                                    showSelectedItem: true,
+                                    items: [
+                                      '2016',
+                                      '2017',
+                                      '2018',
+                                      '2019',
+                                      '2020',
+                                      '2021',
+                                    ],
+                                    // showClearButton: true,
+                                    onChanged: (value){
+
+                                    },
+                                    popupItemDisabled: (String s) => s.startsWith('I'),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
-                  ),
+                    SizedBox(height: 10,),
+                    Padding(
+                      padding: EdgeInsets.only(left: 10,right: 10,bottom: 10),
+                      child: Container(
+                        width: MediaQuery.of(context).size.width - 20,
+                        child: TextField(
+                          textInputAction: TextInputAction.search,
+                          onSubmitted: (value){
+                          },
+                          // controller: _controller,
+                          decoration: new InputDecoration(
+                              suffixIcon: IconButton(
+                                //onPressed: () => _controller.clear(),
+                                  icon: Icon(Icons.clear)),
+                              border: new OutlineInputBorder(
+                                borderRadius: const BorderRadius.all(
+                                  const Radius.circular(5),
+                                ),
+                              ),
+                              filled: true,
+                              hintStyle: GoogleFonts.quicksand(color: Colors.black, fontSize:15),
+                              hintText: "Enter Year",
+                              contentPadding: EdgeInsets.only(top: 7),
+                              prefixIcon: Icon(Icons.search, size: 25,),
+                              fillColor: Colors.white),
+                        ),
+                      ),
+                    ),
+                    Container(
+                      child: Padding(
+                        padding: const EdgeInsets.only(left:10,right:10),
+                        child: Row(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(right: 0),
+                              child:Container(
+                                color: Colors.white,
+                                child: SizedBox(
+                                  width: MediaQuery.of(context).size.width - 220,
+                                  child: DropdownSearch<String>(
+                                    validator: (v) => v == null ? "required field" : null,
+                                    hint: "Select Your City",
+                                    searchBoxDecoration: InputDecoration(
+                                      border: new OutlineInputBorder(
+                                        borderRadius: const BorderRadius.all(
+                                          const Radius.circular(5),
+                                        ),
+                                      ),
+                                    ),
+                                    showSelectedItem: true,
+                                    items: ['Karachi','Lahore','Faisalabad','Rawalpindi',"islamabad",'Gujranwala','Peshawar',"Multan",'Hyderabad',
+                                      'Quetta','Bahawalpur','Sargodha','Sialkot','Sukkur','Larkana','Sheikhupura',
+                                      'Rahim Yar Khan','Jhang','Dera Ghazi Khan','Gujrat','Sahiwal','Wah Cantonment','Mardan',
+                                      'Kasur','Okara','Mingora','Nawabshah','Chiniot','Kotri','Kāmoke','Hafizabad','Sadiqabad',
+                                      'Mirpur Khas','Burewala','Kohat','Khanewal','Dera Ismail Khan','Turbat','Muzaffargarh',
+                                      'Abbotabad','Mandi Bahauddin','Shikarpur','Jacobabad','Jhelum','Khanpur','Khairpur',
+                                      'Khuzdar','Pakpattan','Hub','Daska','Gojra','Dadu','Muridke','Bahawalnagar',
+                                      'Samundri','Tando Allahyar','Tando Adam','Jaranwala','Chishtian','Muzaffarabad',
+                                      'Attock','Vehari','Kot Abdul Malik','Ferozwala','Chakwal','Gujranwala Cantonment',
+                                      'Kamalia','Umerkot','Ahmedpur East','Kot Addu','Wazirabad','Mansehra','Layyah',
+                                      'Mirpur','Swabi','Chaman','Taxila','Nowshera','Khushab','Shahdadkot','Mianwali',
+                                      'Kabal','Lodhran','Hasilpur', 'Charsadda', 'Bhakkar', 'Badin', 'Arif Wala','Ghotki','Sambrial','Jatoi','Haroonabad','Daharki','Narowal','Tando Muhammad Khan','Kamber Ali Khan','Mirpur Mathelo','Kandhkot','Bhalwal',],
+                                    // showClearButton: true,
+                                    onChanged: (value){
+
+                                    },
+                                    popupItemDisabled: (String s) => s.startsWith('I'),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            SizedBox(width: 10,),
+                            Padding(
+                              padding: EdgeInsets.only(left: 10,bottom: 10 , top: 8),
+                              child: Container(
+                                width: MediaQuery.of(context).size.width - 230,
+                                height: 60,
+                                color: Colors.orange,
+                                child: Center(
+                                  child: Text(
+                                    "Submit",
+                                    style: GoogleFonts.quicksand(
+                                      fontSize: 20,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
               Container(
@@ -213,3 +362,10 @@ class _adSearchPageState extends State<adSearchPage> {
     );
   }
 }
+
+
+
+// make drop down list
+// modql dorp down list
+// year textfeld
+// city list

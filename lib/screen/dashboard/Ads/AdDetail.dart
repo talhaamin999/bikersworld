@@ -5,8 +5,10 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:carousel_pro/carousel_pro.dart';
 import 'package:bikersworld/screen/dashboard/home.dart';
-
+import 'package:url_launcher/url_launcher.dart';
 class AddDetail extends StatefulWidget {
+
+
   final BikeAddModel data;
   AddDetail({@required this.data});
   @override
@@ -82,6 +84,7 @@ class _AddDetailState extends State<AddDetail>  with SingleTickerProviderStateMi
                         Container(
                           child: Row(
                             children: <Widget>[
+                              Icon(Icons.location_on),
                               Text(
                                 widget.data.address,
                                 style: GoogleFonts.roboto(
@@ -89,7 +92,6 @@ class _AddDetailState extends State<AddDetail>  with SingleTickerProviderStateMi
                                     color: Colors.grey
                                 ),
                               ),
-                              Icon(Icons.location_on),
                             ],
                           ),
                         ),
@@ -123,14 +125,14 @@ class _AddDetailState extends State<AddDetail>  with SingleTickerProviderStateMi
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: <Widget>[Text(
-                                    "Year",
+                                    "Make",
                                     style: GoogleFonts.montserrat(
                                       fontSize: 14,
                                     ),
                                   ),
                                   SizedBox(height: 5,),
                                   Text(
-                                    widget.data.year,
+                                    widget.data.make,
                                     style: GoogleFonts.montserrat(
                                       fontSize: 10,
                                       color: Colors.grey,
@@ -142,79 +144,9 @@ class _AddDetailState extends State<AddDetail>  with SingleTickerProviderStateMi
                           ],
                         ),
                       ),
-                      SizedBox(width: 40,),
+                      SizedBox(width: 60,),
                       Container(
                         margin: EdgeInsets.only(left: 20),
-                        child: Row(
-                          children: <Widget>[
-                            Icon(FontAwesomeIcons.table),
-                            SizedBox(width: 8,),
-                            SizedBox(width: 18,),
-                            Container(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: <Widget>[
-                                  Text(
-                                  "Milage",
-                                  style: GoogleFonts.montserrat(
-                                    fontSize: 14,
-                                  ),
-                                ),
-                                  SizedBox(height: 5,),
-                                  Text(
-                                    "18",
-                                    style: GoogleFonts.montserrat(
-                                      fontSize: 10,
-                                      color: Colors.grey,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-
-                SizedBox(height: 30,),
-                Container(
-                  child: Row(
-                    children: <Widget>[
-                      Container(
-                        margin: EdgeInsets.only(left: 20),
-                        child: Row(
-                          children: <Widget>[
-                            Icon(FontAwesomeIcons.fill),
-                            SizedBox(width: 8,),
-                            SizedBox(width: 18,),
-                            Container(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: <Widget>[Text(
-                                  "Colors",
-                                  style: GoogleFonts.montserrat(
-                                    fontSize: 14,
-                                  ),
-                                ),
-                                  SizedBox(height: 5,),
-                                  Text(
-                                    "Blue",
-                                    style: GoogleFonts.montserrat(
-                                      fontSize: 10,
-                                      color: Colors.grey,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      SizedBox(width: 40,),
-                      Container(
-                        margin: EdgeInsets.only(left: 55),
                         child: Row(
                           children: <Widget>[
                             Icon(FontAwesomeIcons.mapMarkedAlt),
@@ -223,7 +155,8 @@ class _AddDetailState extends State<AddDetail>  with SingleTickerProviderStateMi
                             Container(
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
-                                children: <Widget>[Text(
+                                children: <Widget>[
+                                  Text(
                                   "City",
                                   style: GoogleFonts.montserrat(
                                     fontSize: 14,
@@ -246,7 +179,7 @@ class _AddDetailState extends State<AddDetail>  with SingleTickerProviderStateMi
                     ],
                   ),
                 ),
-                SizedBox(height: 30,),
+                SizedBox(height: 15,),
                 Container(
                   child: Row(
                     children: <Widget>[
@@ -261,14 +194,14 @@ class _AddDetailState extends State<AddDetail>  with SingleTickerProviderStateMi
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: <Widget>[Text(
-                                  "Price",
+                                  "Modal",
                                   style: GoogleFonts.montserrat(
                                     fontSize: 14,
                                   ),
                                 ),
                                   SizedBox(height: 5,),
                                   Text(
-                                    "1,15000",
+                                    widget.data.model,
                                     style: GoogleFonts.montserrat(
                                       fontSize: 10,
                                       color: Colors.grey,
@@ -280,26 +213,27 @@ class _AddDetailState extends State<AddDetail>  with SingleTickerProviderStateMi
                           ],
                         ),
                       ),
-                      SizedBox(width: 40,),
+                      SizedBox(width: 60,),
                       Container(
-                        margin: EdgeInsets.only(left: 55),
+                        margin: EdgeInsets.only(left: 20),
                         child: Row(
                           children: <Widget>[
-                            Icon(FontAwesomeIcons.sortNumericUp),
+                            Icon(FontAwesomeIcons.mapMarkedAlt),
                             SizedBox(width: 8,),
                             SizedBox(width: 18,),
                             Container(
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
-                                children: <Widget>[Text(
-                                  "Number",
-                                  style: GoogleFonts.montserrat(
-                                    fontSize: 14,
+                                children: <Widget>[
+                                  Text(
+                                    "Year",
+                                    style: GoogleFonts.montserrat(
+                                      fontSize: 14,
+                                    ),
                                   ),
-                                ),
                                   SizedBox(height: 5,),
                                   Text(
-                                    "ABC-444",
+                                    widget.data.year,
                                     style: GoogleFonts.montserrat(
                                       fontSize: 10,
                                       color: Colors.grey,
@@ -315,82 +249,6 @@ class _AddDetailState extends State<AddDetail>  with SingleTickerProviderStateMi
                   ),
                 ),
 
-
-
-
-
-
-
-
-                SizedBox(height: 30,),
-                Container(
-                  child: Row(
-                    children: <Widget>[
-                      Container(
-                        margin: EdgeInsets.only(left: 20),
-                        child: Row(
-                          children: <Widget>[
-                            Icon(FontAwesomeIcons.table),
-                            SizedBox(width: 8,),
-                            SizedBox(width: 18,),
-                            Container(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: <Widget>[Text(
-                                  "Modal Year",
-                                  style: GoogleFonts.montserrat(
-                                    fontSize: 14,
-                                  ),
-                                ),
-                                  SizedBox(height: 5,),
-                                  Text(
-                                    "2020",
-                                    style: GoogleFonts.montserrat(
-                                      fontSize: 10,
-                                      color: Colors.grey,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      SizedBox(width: 40,),
-                      Container(
-                        margin: EdgeInsets.only(left: 20),
-                        child: Row(
-                          children: <Widget>[
-                            Icon(FontAwesomeIcons.table),
-                            SizedBox(width: 8,),
-                            SizedBox(width: 18,),
-                            Container(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: <Widget>[Text(
-                                  "Modal Year",
-                                  style: GoogleFonts.montserrat(
-                                    fontSize: 14,
-                                  ),
-                                ),
-                                  SizedBox(height: 5,),
-                                  Text(
-                                    "2020",
-                                    style: GoogleFonts.montserrat(
-                                      fontSize: 10,
-                                      color: Colors.grey,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                SizedBox(height: 20,),
                 Padding(
                   padding: const EdgeInsets.all(15),
                   child: Container(
@@ -409,7 +267,7 @@ class _AddDetailState extends State<AddDetail>  with SingleTickerProviderStateMi
                   padding: const EdgeInsets.only(left: 15, right: 20),
                   child: Container(
                     child: Text(
-                      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat",
+                      widget.data.description,
                       style: GoogleFonts.quicksand(
                         fontSize: 15,
                         color: Colors.grey,
@@ -474,35 +332,42 @@ class _AddDetailState extends State<AddDetail>  with SingleTickerProviderStateMi
         ),
        // drawer: Drawer(),
         floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
-        bottomNavigationBar: Container(
-          margin: EdgeInsets.only(left: 10, right: 10),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Container(
-                  width: MediaQuery.of(context).size.width - 40,
-                  height:60,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(5)),
-                    border: Border.all(color: Color(0XFF396ca3),  width: 2),
-                    color: Color(0XFF396ca3),
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Icon(FontAwesomeIcons.phoneAlt, color: Colors.white,),
-                      SizedBox(width: 5,),
-                      Text("Call Seller",
-                        style: GoogleFonts.quicksand(fontSize: 15, color: Colors.white),),
-                    ],
+        bottomNavigationBar: FlatButton(
+          padding: EdgeInsets.zero,
+          onPressed: (){
+            launch(
+                'tel://${widget.data.sellerContact}'
+            );
+          },
+          child: Container(
+            margin: EdgeInsets.only(left: 10, right: 10),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Container(
+                    width: MediaQuery.of(context).size.width - 40,
+                    height:60,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(5)),
+                      border: Border.all(color: Color(0XFF396ca3),  width: 2),
+                      color: Color(0XFF396ca3),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Icon(FontAwesomeIcons.phoneAlt, color: Colors.white,),
+                        SizedBox(width: 5,),
+                        Text("Call Seller",
+                          style: GoogleFonts.quicksand(fontSize: 15, color: Colors.white),),
+                      ],
+                    ),
                   ),
                 ),
-              ),
 
-            ],
+              ],
+            ),
           ),
         ),
 

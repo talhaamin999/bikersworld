@@ -9,10 +9,11 @@ import 'package:google_fonts/google_fonts.dart';
 import 'dart:math';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:bikersworld/screen/dashboard/Ads/AdDetail.dart';
-
+import 'package:percent_indicator/percent_indicator.dart';
 import '../postAdsSeller.dart';
 
 enum addOption{updateBikeInfo,upadateSellerInfo,updateImages,delete}
+
 
 
 class SellerHomeScreen extends StatelessWidget {
@@ -47,7 +48,7 @@ class SellerHomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-   double statusBarHeight = MediaQuery.of(context).padding.top;
+    double statusBarHeight = MediaQuery.of(context).padding.top;
 
     return Scaffold(
       appBar: new AppBar(
@@ -86,7 +87,7 @@ class SellerHomeScreen extends StatelessWidget {
                 Row(
                   children: <Widget>[
                     Expanded(
-                      child: Text("Ibtasam\nRehman",
+                      child: Text(" Your \n Dashboard",
                         style: GoogleFonts.quicksand(
                             fontSize: 25,
                             color: Colors.white
@@ -94,42 +95,15 @@ class SellerHomeScreen extends StatelessWidget {
                       ),
                     ),
                     CircleAvatar(
-                        radius: 26.0,
+                      radius: 26.0,
                       backgroundColor: Color(0XFF012A4A),
                     )
                   ],
                 ),
 
-                SizedBox(height: 50),
-
-                // Main Cards - Heartbeat and Blood Pressure
-                Container(
-                  height: 140,
-                  child: ListView(
-                    scrollDirection: Axis.horizontal,
-                    children: <Widget>[
-                      CardMain(
-                        image: AssetImage(''),
-                        title: "",
-                        value: "",
-                        unit: "",
-                        color: Constants.lightGreen,
-                      ),
-                      CardMain(
-                          image: AssetImage(''),
-                          title: "",
-                          value: "",
-                          unit: "",
-                          color: Constants.lightYellow
-                      )
-                    ],
-                  ),
-                ),
-
-                // Section Cards - Daily Medication
                 SizedBox(height: 10),
 
-                Text("YOUR ADVERTISMENTS",
+                Text(" YOUR ADVERTISMENTS",
                   style: GoogleFonts.quicksand(
                     color:Color(0xff808080),
                     fontSize: 16,
@@ -210,99 +184,99 @@ class SellerHomeScreen extends StatelessWidget {
                                       ),
                                     ),
                                     SizedBox(width: 20,),
-                                Padding(
-                                  padding: const EdgeInsets.only(top: 10),
-                                  child:  PopupMenuButton(
-                                    icon: new Icon(FontAwesomeIcons.ellipsisV,
-                                        color: Colors.grey),
-                                    onSelected: (option){
-                                      NavigateToUpdatePage(option,context,snapshot.data[index]);
-                                    },
-                                    itemBuilder: (_) =>
-                                    <PopupMenuItem<addOption>>[
-                                      new PopupMenuItem<addOption>(
-                                        child: Container(
-                                          child: Row(
-                                            children: [
-                                              Icon(
-                                                FontAwesomeIcons.edit,
-                                                size: 15,
+                                    Padding(
+                                      padding: const EdgeInsets.only(top: 10),
+                                      child:  PopupMenuButton(
+                                        icon: new Icon(FontAwesomeIcons.ellipsisV,
+                                            color: Colors.grey),
+                                        onSelected: (option){
+                                          NavigateToUpdatePage(option,context,snapshot.data[index]);
+                                        },
+                                        itemBuilder: (_) =>
+                                        <PopupMenuItem<addOption>>[
+                                          new PopupMenuItem<addOption>(
+                                            child: Container(
+                                              child: Row(
+                                                children: [
+                                                  Icon(
+                                                    FontAwesomeIcons.edit,
+                                                    size: 15,
+                                                  ),
+                                                  SizedBox(width: 10),
+                                                  Text(
+                                                    "Update Bike Info",
+                                                    style: GoogleFonts.quicksand(
+                                                      fontSize: 16,
+                                                    ),
+                                                  ),
+                                                ],
                                               ),
-                                              SizedBox(width: 10),
-                                              Text(
-                                                "Update Bike Info",
-                                                style: GoogleFonts.quicksand(
-                                                  fontSize: 16,
-                                                ),
-                                              ),
-                                            ],
+                                            ),
+                                            value: addOption.updateBikeInfo,
                                           ),
-                                        ),
-                                        value: addOption.updateBikeInfo,
-                                      ),
-                                      new PopupMenuItem<addOption>(
-                                        child: Container(
-                                          child: Row(
-                                            children: [
-                                              Icon(
-                                                FontAwesomeIcons.edit,
-                                                size: 15,
+                                          new PopupMenuItem<addOption>(
+                                            child: Container(
+                                              child: Row(
+                                                children: [
+                                                  Icon(
+                                                    FontAwesomeIcons.edit,
+                                                    size: 15,
+                                                  ),
+                                                  SizedBox(width: 10),
+                                                  Text(
+                                                    "Update Seller Info",
+                                                    style: GoogleFonts.quicksand(
+                                                      fontSize: 16,
+                                                    ),
+                                                  ),
+                                                ],
                                               ),
-                                              SizedBox(width: 10),
-                                              Text(
-                                                "Update Seller Info",
-                                                style: GoogleFonts.quicksand(
-                                                  fontSize: 16,
-                                                ),
-                                              ),
-                                            ],
+                                            ),
+                                            value: addOption.upadateSellerInfo,
                                           ),
-                                        ),
-                                        value: addOption.upadateSellerInfo,
-                                      ),
-                                      new PopupMenuItem<addOption>(
-                                        child: Container(
-                                          child: Row(
-                                            children: [
-                                              Icon(
-                                                FontAwesomeIcons.edit,
-                                                size: 15,
+                                          new PopupMenuItem<addOption>(
+                                            child: Container(
+                                              child: Row(
+                                                children: [
+                                                  Icon(
+                                                    FontAwesomeIcons.edit,
+                                                    size: 15,
+                                                  ),
+                                                  SizedBox(width: 10),
+                                                  Text(
+                                                    "Update Add Images",
+                                                    style: GoogleFonts.quicksand(
+                                                      fontSize: 16,
+                                                    ),
+                                                  ),
+                                                ],
                                               ),
-                                              SizedBox(width: 10),
-                                              Text(
-                                                "Update Add Images",
-                                                style: GoogleFonts.quicksand(
-                                                  fontSize: 16,
-                                                ),
-                                              ),
-                                            ],
+                                            ),
+                                            value: addOption.updateImages,
                                           ),
-                                        ),
-                                        value: addOption.updateImages,
-                                      ),
-                                      new PopupMenuItem<addOption>(
-                                        child: Container(
-                                          child: Row(
-                                            children: [
-                                              Icon(
-                                                FontAwesomeIcons.minus,
-                                                size: 15,
+                                          new PopupMenuItem<addOption>(
+                                            child: Container(
+                                              child: Row(
+                                                children: [
+                                                  Icon(
+                                                    FontAwesomeIcons.minus,
+                                                    size: 15,
+                                                  ),
+                                                  SizedBox(width: 10),
+                                                  Text(
+                                                    "Delete",
+                                                    style: GoogleFonts.quicksand(
+                                                      fontSize: 16,
+                                                    ),
+                                                  ),
+                                                ],
                                               ),
-                                              SizedBox(width: 10),
-                                              Text(
-                                                "Delete",
-                                                style: GoogleFonts.quicksand(
-                                                  fontSize: 16,
-                                                ),
-                                              ),
-                                            ],
+                                            ),
+                                            value: addOption.delete,
                                           ),
-                                        ),
-                                        value: addOption.delete,
+                                        ],
                                       ),
-                                    ],
-                                  ),
-                                ),
+                                    ),
                                   ],
                                 ),
                               ),
@@ -609,124 +583,3 @@ class MyCustomClipper extends CustomClipper<Path> {
 }
 
 
-/*
-* Container(
-                            height: 180,
-
-                            child: ListView(
-                              shrinkWrap: true,
-                              physics: NeverScrollableScrollPhysics(),
-                              // This next line does the trick.
-                              scrollDirection: Axis.horizontal,
-                              children: <Widget>[
-                                Container(
-                                  margin: EdgeInsets.only(bottom: 20),
-                                  width: MediaQuery.of(context).size.width - 30,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(20),
-                                    color: Color(0xffe6e9ed),
-                                  ),
-                                  child: Row(
-                                    children: [
-                                      ClipRRect(
-                                        borderRadius: BorderRadius.circular(20.0),
-                                        child: Image(
-                                          height: 200,
-                                          image: NetworkImage(
-                                            snapshot.data[index].images.first,
-                                          ),
-                                        ),
-                                      ),
-                                      Container(
-                                        child: Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          children: [
-                                            Container(
-                                              child: Row(
-                                                mainAxisAlignment: MainAxisAlignment.end,
-                                                children: [
-                                                  Padding(
-                                                    padding: const EdgeInsets.only(left: 10,top: 10),
-                                                    child: Text(
-                                                      snapshot.data[index].title,
-                                                      style: GoogleFonts.quicksand(fontSize: 17),
-                                                    ),
-                                                  ),
-                                                  Padding(
-                                                    padding: const EdgeInsets.only(top: 10),
-                                                    child:  PopupMenuButton(
-                                                      icon: new Icon(FontAwesomeIcons.ellipsisV,
-                                                          color: Colors.black),
-                                                      onSelected: (option){
-                                                      },
-                                                      itemBuilder: (_) =>
-                                                      <PopupMenuItem<userOption>>[
-                                                        new PopupMenuItem<userOption>(
-                                                          child: Container(
-                                                            child: Row(
-                                                              children: [
-                                                                Icon(
-                                                                  FontAwesomeIcons.edit,
-                                                                  size: 15,
-                                                                ),
-                                                                SizedBox(width: 10),
-                                                                Text(
-                                                                  "Edit",
-                                                                  style: GoogleFonts.quicksand(
-                                                                    fontSize: 16,
-                                                                  ),
-                                                                ),
-                                                              ],
-                                                            ),
-                                                          ),
-                                                          value: userOption.edit,
-                                                        ),
-                                                        new PopupMenuItem<userOption>(
-                                                          child: Container(
-                                                            child: Row(
-                                                              children: [
-                                                                Icon(
-                                                                  FontAwesomeIcons.minus,
-                                                                  size: 15,
-                                                                ),
-                                                                SizedBox(width: 10),
-                                                                Text(
-                                                                  "Delete",
-                                                                  style: GoogleFonts.quicksand(
-                                                                    fontSize: 16,
-                                                                  ),
-                                                                ),
-                                                              ],
-                                                            ),
-                                                          ),
-                                                          value: userOption.delete,
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                            Padding(
-                                              padding: const EdgeInsets.only(left: 10,top: 5),
-                                              child: Text(
-                                                snapshot.data[index].city,
-                                                style: GoogleFonts.quicksand(fontSize: 15,color: Colors.grey),
-                                              ),
-                                            ),
-                                            Padding(
-                                              padding: const EdgeInsets.only(left: 10,top: 5),
-                                              child: Text(
-                                                "PKR ${snapshot.data[index].price}",
-                                                style: GoogleFonts.varelaRound(fontSize: 15,color: Colors.black,fontWeight: FontWeight.bold),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
-                          );*/

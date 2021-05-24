@@ -545,7 +545,7 @@ class _PostAddImagesState extends State<PostAddImages> {
         if (images.isNotEmpty) {
           final List<String> urls = await _postAdd.uploadFiles(files);
           if (urls != null) {
-            if (widget.data.images.isNotEmpty) {
+            if (widget.data.images !=null) {
               final bikeData = BikeAddModel(
                   images: urls,
                   id: widget.data.id);
@@ -700,7 +700,7 @@ class _PostAddImagesState extends State<PostAddImages> {
                 child: RaisedButton(
                   onPressed: _isButtonVisible ? () => {uploadAdd()} : null,
                   child:Text(
-                    widget.data.images.isNotEmpty != null ? "Update" : "Post Add",
+                    widget.data.images != null ? "Update" : "Post Add",
                     style: GoogleFonts.krub(
                       fontSize: 18,
                       color: Colors.white,
