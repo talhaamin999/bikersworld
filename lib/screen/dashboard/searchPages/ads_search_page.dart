@@ -148,16 +148,249 @@ class _adSearchPageState extends State<adSearchPage> {
                         ),
                       ),
                       FlatButton(
+//                        onPressed: (){
+//                          showModalBottomSheet(
+//                              context: context,
+//                              builder: (context) {
+//                                return SingleChildScrollView(
+//                                  child: Column(
+//                                    crossAxisAlignment: CrossAxisAlignment.start,
+//                                    children: <Widget>[
+//                                      Padding(
+//                                        padding: const EdgeInsets.only(left:15,top: 20),
+//                                        child: Text(
+//                                          "Search here",
+//                                          style: GoogleFonts.montserrat(
+//                                            fontSize: 20,
+//                                            color: Colors.black,
+//                                          ),
+//                                        ),
+//                                      ),
+//                                      SizedBox(height: 10,),
+//                                      FutureBuilder(
+//                                        future: getMakeAndModel(),
+//                                        builder: (BuildContext context, AsyncSnapshot<List<BikeSearchModel>> snapshot) {
+//                                          if(snapshot.hasData && snapshot.data.isNotEmpty){
+//                                            return Container(
+//                                              child: Padding(
+//                                                padding: const EdgeInsets.only(left:15,right:15),
+//                                                child: Column(
+//                                                  children: [
+//                                                    Padding(
+//                                                      padding: const EdgeInsets.only( top:10),
+//                                                      child:Container(
+//                                                        color: Colors.white,
+//                                                        child: SizedBox(
+//                                                          width: MediaQuery.of(context).size.width,
+//                                                          child: DropdownSearch<String>(
+//                                                            validator: (v) => v == null ? "required field" : null,
+//                                                            hint: "Select Make",
+//                                                            searchBoxDecoration: InputDecoration(
+//                                                              border: new OutlineInputBorder(
+//                                                                borderRadius: const BorderRadius.all(
+//                                                                  const Radius.circular(5),
+//                                                                ),
+//                                                              ),
+//                                                            ),
+//                                                            showSelectedItem: true,
+//                                                            items: snapshot.data.map((doc) => doc.make).toList(),
+//                                                            // showClearButton: true,
+//                                                            onChanged: (value){
+//                                                              setState(() {
+//                                                                make = value;
+//                                                                print(make);
+//                                                              });
+//                                                            },
+//                                                          ),
+//                                                        ),
+//                                                      ),
+//                                                    ),
+//                                                    SizedBox(width: 10,),
+//                                                    FutureBuilder(
+//                                                      future: getBikeModel(),
+//                                                      builder: (BuildContext context, AsyncSnapshot<BikeSearchModel> docSnapshot) {
+//                                                        if(docSnapshot.hasData && docSnapshot.data != null){
+//                                                          return Padding(
+//                                                            padding: const EdgeInsets.only( top:10,right: 15),
+//                                                            child:Container(
+//                                                              color: Colors.white,
+//                                                              child: SizedBox(
+//                                                                width: MediaQuery.of(context).size.width,
+//                                                                child: DropdownSearch<String>(
+//                                                                  validator: (v) => v == null ? "required field" : null,
+//                                                                  hint: "Select Modal",
+//                                                                  searchBoxDecoration: InputDecoration(
+//                                                                    border: new OutlineInputBorder(
+//                                                                      borderRadius: const BorderRadius.all(
+//                                                                        const Radius.circular(5),
+//                                                                      ),
+//                                                                    ),
+//                                                                  ),
+//                                                                  showSelectedItem: true,
+//                                                                  items: List<String>.from(docSnapshot.data.model),
+//                                                                  // showClearButton: true,
+//                                                                  onChanged: (value){
+//                                                                    model = value;
+//                                                                  },
+//                                                                ),
+//                                                              ),
+//                                                            ),
+//                                                          );
+//                                                        }
+//                                                        else if(docSnapshot.data == null){
+//                                                          return Padding(
+//                                                            padding: const EdgeInsets.only( top:15,right: 0),
+//                                                            child:Container(
+//                                                              color: Colors.white,
+//                                                              child: SizedBox(
+//                                                                width: MediaQuery.of(context).size.width,
+//                                                                child: DropdownSearch<String>(
+//                                                                  validator: (v) => v == null ? "required field" : null,
+//                                                                  hint: "Select Modal",
+//                                                                  searchBoxDecoration: InputDecoration(
+//                                                                    border: new OutlineInputBorder(
+//                                                                      borderRadius: const BorderRadius.all(
+//                                                                        const Radius.circular(5),
+//                                                                      ),
+//                                                                    ),
+//                                                                  ),
+//                                                                  showSelectedItem: true,
+//                                                                  items: [],
+//                                                                  // showClearButton: true,
+//                                                                  onChanged: (value){
+//
+//                                                                  },
+//                                                                ),
+//                                                              ),
+//                                                            ),
+//                                                          );
+//                                                        }
+//
+//                                                        else if(docSnapshot.hasError){
+//                                                          return Center(child: Text(docSnapshot.error.toString()));
+//                                                        }
+//                                                        return Center(child: CircularProgressIndicator(),);
+//                                                      },
+//                                                    ),
+//                                                  ],
+//                                                ),
+//                                              ),
+//                                            );
+//                                          }
+//                                          return Center(child:CircularProgressIndicator());
+//                                        },
+//                                      ),
+//                                      SizedBox(height: 10,),
+//                                      Padding(
+//                                        padding: const EdgeInsets.only(left:15,right: 15),
+//                                        child: CityDropDown(controller:_cityController),
+//                                      ),
+//                                      SizedBox(height: 15,),
+//
+//                                      Padding(
+//                                        padding: EdgeInsets.only(left: 15,right: 15,),
+//                                        child: Container(
+//                                          width: MediaQuery.of(context).size.width - 20,
+//                                          child: TextField(
+//                                            controller: _yearController,
+//                                            keyboardType: TextInputType.number,
+//                                            textInputAction: TextInputAction.search,
+//                                            onSubmitted: (value){
+//                                            },
+//                                            decoration: new InputDecoration(
+//                                                suffixIcon: IconButton(
+//                                                  //onPressed: () => _controller.clear(),
+//                                                    icon: Icon(Icons.clear)),
+//                                                border: new OutlineInputBorder(
+//                                                  borderRadius: const BorderRadius.all(
+//                                                    const Radius.circular(5),
+//                                                  ),
+//                                                ),
+//                                                filled: true,
+//                                                hintStyle: GoogleFonts.quicksand(color: Colors.black, fontSize:15),
+//                                                hintText: "Enter Year",
+//                                                contentPadding: EdgeInsets.only(top: 7),
+//                                                prefixIcon: Icon(Icons.search, size: 25,),
+//                                                fillColor: Colors.white),
+//                                          ),
+//                                        ),
+//                                      ),
+//
+//                                      SizedBox(height: 10,),
+//                                      Padding(
+//                                        padding: const EdgeInsets.only(left:15,top: 10),
+//                                        child: Text(
+//                                          "Price",
+//                                          style: GoogleFonts.quicksand(
+//                                            fontSize: 20,
+//                                          ),
+//                                        ),
+//                                      ),
+//                                      SizedBox(height: 10,),
+//                                      Container(
+//                                        width: MediaQuery.of(context).size.width -20,
+//                                        height: 80,
+//                                        child: Padding(
+//                                          padding: const EdgeInsets.only(left:55),
+//                                          child: Row(
+//                                            crossAxisAlignment:CrossAxisAlignment.start,
+//                                            children: [
+//                                              Container(
+//                                                  width: 133,
+//                                                  child: TextField(
+//                                                    controller: _minController,
+//                                                    keyboardType: TextInputType.number,
+//                                                    decoration: new InputDecoration(
+//                                                        border: InputBorder.none,
+//                                                        filled: true,
+//                                                        hintStyle: new TextStyle(color: Colors.grey[800]),
+//                                                        hintText: "Min",
+//                                                        fillColor: Color(0xffe3e3e3)),
+//                                                  )
+//                                              ),
+//                                              SizedBox(width: 10,),
+//                                              Text(
+//                                                "to",
+//                                                style: GoogleFonts.quicksand(
+//                                                  fontSize: 18,
+//                                                ),
+//                                              ),
+//                                              SizedBox(width: 10,),
+//                                              Container(
+//                                                  width: 134,
+//                                                  child: TextField(
+//                                                    controller: _maxController,
+//                                                    keyboardType: TextInputType.number,
+//                                                    decoration: new InputDecoration(
+//                                                      border: InputBorder.none,
+//                                                      filled: true,
+//                                                      hintStyle: new TextStyle(color: Colors.grey[800]),
+//                                                      hintText: "Max",
+//                                                      fillColor: Color(0xffe3e3e3),
+//                                                    ),
+//                                                  )
+//                                              ),
+//                                            ],
+//                                          ),
+//                                        ),
+//                                      ),
+//                                      SizedBox(height: 15,),
+//                                    ],
+//                                  ),
+//                                );
+//                              }
+//                          ).whenComplete(() => getAdds());
+//                        },
                         onPressed: (){
-                          showModalBottomSheet(
+                          showDialog(
                               context: context,
-                              builder: (context) {
-                                return SingleChildScrollView(
-                                  child: Column(
+                              builder: (BuildContext context){
+                                return AlertDialog(
+                                  content: Column(
                                     crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: <Widget>[
+                                    children: [
                                       Padding(
-                                        padding: const EdgeInsets.only(left:15,top: 20),
+                                        padding: const EdgeInsets.only(left:10,top: 20),
                                         child: Text(
                                           "Search here",
                                           style: GoogleFonts.montserrat(
@@ -172,9 +405,7 @@ class _adSearchPageState extends State<adSearchPage> {
                                         builder: (BuildContext context, AsyncSnapshot<List<BikeSearchModel>> snapshot) {
                                           if(snapshot.hasData && snapshot.data.isNotEmpty){
                                             return Container(
-                                              child: Padding(
-                                                padding: const EdgeInsets.only(left:15,right:15),
-                                                child: Column(
+                                              child: Column(
                                                   children: [
                                                     Padding(
                                                       padding: const EdgeInsets.only( top:10),
@@ -274,112 +505,101 @@ class _adSearchPageState extends State<adSearchPage> {
                                                     ),
                                                   ],
                                                 ),
-                                              ),
                                             );
                                           }
                                           return Center(child:CircularProgressIndicator());
                                         },
                                       ),
                                       SizedBox(height: 10,),
-                                      Padding(
-                                        padding: const EdgeInsets.only(left:15,right: 15),
-                                        child: CityDropDown(controller:_cityController),
-                                      ),
+                                      CityDropDown(controller:_cityController),
                                       SizedBox(height: 15,),
 
-                                      Padding(
-                                        padding: EdgeInsets.only(left: 15,right: 15,),
-                                        child: Container(
-                                          width: MediaQuery.of(context).size.width - 20,
-                                          child: TextField(
-                                            controller: _yearController,
-                                            keyboardType: TextInputType.number,
-                                            textInputAction: TextInputAction.search,
-                                            onSubmitted: (value){
-                                            },
-                                            decoration: new InputDecoration(
-                                                suffixIcon: IconButton(
-                                                  //onPressed: () => _controller.clear(),
-                                                    icon: Icon(Icons.clear)),
-                                                border: new OutlineInputBorder(
-                                                  borderRadius: const BorderRadius.all(
-                                                    const Radius.circular(5),
-                                                  ),
+                                      Container(
+                                        width: MediaQuery.of(context).size.width - 20,
+                                        child: TextField(
+                                          controller: _yearController,
+                                          keyboardType: TextInputType.number,
+                                          textInputAction: TextInputAction.search,
+                                          onSubmitted: (value){
+                                          },
+                                          decoration: new InputDecoration(
+                                              suffixIcon: IconButton(
+                                                //onPressed: () => _controller.clear(),
+                                                  icon: Icon(Icons.clear)),
+                                              border: new OutlineInputBorder(
+                                                borderRadius: const BorderRadius.all(
+                                                  const Radius.circular(5),
                                                 ),
-                                                filled: true,
-                                                hintStyle: GoogleFonts.quicksand(color: Colors.black, fontSize:15),
-                                                hintText: "Enter Year",
-                                                contentPadding: EdgeInsets.only(top: 7),
-                                                prefixIcon: Icon(Icons.search, size: 25,),
-                                                fillColor: Colors.white),
-                                          ),
+                                              ),
+                                              filled: true,
+                                              hintStyle: GoogleFonts.quicksand(color: Colors.black, fontSize:15),
+                                              hintText: "Enter Year",
+                                              contentPadding: EdgeInsets.only(top: 7),
+                                              prefixIcon: Icon(Icons.search, size: 25,),
+                                              fillColor: Colors.white),
                                         ),
                                       ),
 
                                       SizedBox(height: 10,),
-                                      Padding(
-                                        padding: const EdgeInsets.only(left:15,top: 10),
-                                        child: Text(
+                                      Text(
                                           "Price",
                                           style: GoogleFonts.quicksand(
                                             fontSize: 20,
                                           ),
-                                        ),
                                       ),
                                       SizedBox(height: 10,),
                                       Container(
                                         width: MediaQuery.of(context).size.width -20,
-                                        height: 80,
-                                        child: Padding(
-                                          padding: const EdgeInsets.only(left:55),
-                                          child: Row(
+                                        //height: 80,
+                                        child:Column(
                                             crossAxisAlignment:CrossAxisAlignment.start,
+                                            mainAxisAlignment:MainAxisAlignment.start,
                                             children: [
                                               Container(
-                                                  width: 133,
+                                                  width: MediaQuery.of(context).size.width,
                                                   child: TextField(
                                                     controller: _minController,
                                                     keyboardType: TextInputType.number,
                                                     decoration: new InputDecoration(
-                                                        border: InputBorder.none,
+                                                      border: new OutlineInputBorder(
+                                                        borderRadius: const BorderRadius.all(
+                                                          const Radius.circular(5),
+                                                        ),
+                                                      ),
                                                         filled: true,
                                                         hintStyle: new TextStyle(color: Colors.grey[800]),
                                                         hintText: "Min",
-                                                        fillColor: Color(0xffe3e3e3)),
+
+                                                    ),
                                                   )
                                               ),
-                                              SizedBox(width: 10,),
-                                              Text(
-                                                "to",
-                                                style: GoogleFonts.quicksand(
-                                                  fontSize: 18,
-                                                ),
-                                              ),
-                                              SizedBox(width: 10,),
+                                              SizedBox(height: 15,),
                                               Container(
-                                                  width: 134,
+                                                  width: MediaQuery.of(context).size.width,
                                                   child: TextField(
                                                     controller: _maxController,
                                                     keyboardType: TextInputType.number,
                                                     decoration: new InputDecoration(
-                                                      border: InputBorder.none,
+                                                      border: new OutlineInputBorder(
+                                                        borderRadius: const BorderRadius.all(
+                                                          const Radius.circular(5),
+                                                        ),
+                                                      ),
                                                       filled: true,
                                                       hintStyle: new TextStyle(color: Colors.grey[800]),
                                                       hintText: "Max",
-                                                      fillColor: Color(0xffe3e3e3),
                                                     ),
                                                   )
                                               ),
                                             ],
                                           ),
-                                        ),
                                       ),
                                       SizedBox(height: 15,),
                                     ],
                                   ),
                                 );
                               }
-                          ).whenComplete(() => getAdds());
+                          );
                         },
                         child: Container(
                           child: Row(

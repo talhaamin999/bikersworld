@@ -26,6 +26,7 @@ class _CityDropDownState extends State<CityDropDown> {
               validator: (v) => v == null ? "required field" : null,
               hint: "Select your city",
               searchBoxDecoration: InputDecoration(
+                  fillColor: Color(0xffe3e3e3)
               ),
               showSelectedItem: true,
               items: ['Karachi','Lahore','Faisalabad','Rawalpindi',"islamabad",'Gujranwala','Peshawar',"Multan",'Hyderabad',
