@@ -19,8 +19,8 @@ class MyApp extends StatelessWidget{
       theme: ThemeData(
         primarySwatch: Colors.deepOrange,
       ),
-      //home: LoadingScreen(),
-      home: adSearchPage(),
+      home: LoadingScreen(),
+      //home: adSearchPage(),
       //home: PostBikeInfo(),
     );
   }

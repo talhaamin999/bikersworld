@@ -27,7 +27,7 @@ class BikeAddModel{
       make: json['make'],
       model: json['model'],
       year: json['year'],
-      price: json['price'],
+      price: double.tryParse(json['price'].toString()),
       description: json['description'],
       sellerName: json['seller_name'],
       sellerContact: json['seller_contact'],

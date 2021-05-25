@@ -1,5 +1,6 @@
 import 'package:bikersworld/model/bike_add_model.dart';
 import 'package:bikersworld/services/search_queries/bike_add_search/bike_admin_data.dart';
+import 'package:flat_icons_flutter/flat_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -7,6 +8,8 @@ import 'package:bikersworld/screen/dashboard/Ads/AdDetail.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:bikersworld/widgets/city_dropdown.dart';
+import 'package:bikersworld/services/search_queries/bike_add_search/bike_add_Search_queries.dart';
+
 class adSearchPage extends StatefulWidget {
   @override
   _adSearchPageState createState() => _adSearchPageState();
@@ -16,17 +19,46 @@ class _adSearchPageState extends State<adSearchPage> {
 
   final _adminData = BikeAdminDataQueries();
   final _yearController = TextEditingController();
+  final _minController = TextEditingController();
+  final _maxController = TextEditingController();
+  final _cityController = TextEditingController();
+  double _minValue;
+  double _maxVlaue;
+  final _searchAdds = SearchBikeAddQueries();
+
   String make,model;
+  bool makeSelected=false,modelSelected=false,yearSelected=false,citySelected=false,rangeSelected=false;
 
   Future<List<BikeSearchModel>> getMakeAndModel() {
     try {
       return _adminData.getMakeAndModel();
-    }
-    catch(e){
-    }
+    }catch(e){}
+  }
+  Future<BikeSearchModel> getBikeModel() {
+    try {
+      return _adminData.getModelForMake(make);
+    }catch(e){}
   }
 
-
+  @override
+  void dispose() {
+    _minController.dispose();
+    _maxController.dispose();
+    _yearController.dispose();
+    _cityController.dispose();
+    super.dispose();
+  }
+  double stringToDouble(String value){
+    return double.tryParse(value);
+  }
+  Future<List<BikeAddModel>> getAdds(){
+    if((make != null) && (model != null) && _yearController.text.isNotEmpty && _cityController.text.isNotEmpty &&_minController.text.isNotEmpty && _maxController.text.isNotEmpty){
+      _minValue = stringToDouble(_minController.text);
+      _maxVlaue = stringToDouble(_maxController.text);
+      return _searchAdds.searchAddByMakeAndModelAndYearAndCityAndRange(make: make, model: model, year: _yearController.text, city: _cityController.text, min: _minValue, max: _maxVlaue);
+    }
+    return null;
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -166,6 +198,7 @@ class _adSearchPageState extends State<adSearchPage> {
                                                             onChanged: (value){
                                                               setState(() {
                                                                 make = value;
+                                                                print(make);
                                                               });
                                                             },
                                                           ),
@@ -174,7 +207,7 @@ class _adSearchPageState extends State<adSearchPage> {
                                                     ),
                                                     SizedBox(width: 10,),
                                                     FutureBuilder(
-                                                      future: _adminData.getModelForMake(make),
+                                                      future: getBikeModel(),
                                                       builder: (BuildContext context, AsyncSnapshot<BikeSearchModel> docSnapshot) {
                                                         if(docSnapshot.hasData && docSnapshot.data != null){
                                                           return Padding(
@@ -232,6 +265,7 @@ class _adSearchPageState extends State<adSearchPage> {
                                                             ),
                                                           );
                                                         }
+
                                                         else if(docSnapshot.hasError){
                                                           return Center(child: Text(docSnapshot.error.toString()));
                                                         }
@@ -249,7 +283,7 @@ class _adSearchPageState extends State<adSearchPage> {
                                       SizedBox(height: 10,),
                                       Padding(
                                         padding: const EdgeInsets.only(left:15,right: 15),
-                                        child: CityDropDown(controller:null),
+                                        child: CityDropDown(controller:_cityController),
                                       ),
                                       SizedBox(height: 15,),
 
@@ -304,6 +338,7 @@ class _adSearchPageState extends State<adSearchPage> {
                                               Container(
                                                   width: 133,
                                                   child: TextField(
+                                                    controller: _minController,
                                                     keyboardType: TextInputType.number,
                                                     decoration: new InputDecoration(
                                                         border: InputBorder.none,
@@ -324,6 +359,7 @@ class _adSearchPageState extends State<adSearchPage> {
                                               Container(
                                                   width: 134,
                                                   child: TextField(
+                                                    controller: _maxController,
                                                     keyboardType: TextInputType.number,
                                                     decoration: new InputDecoration(
                                                       border: InputBorder.none,
@@ -343,7 +379,7 @@ class _adSearchPageState extends State<adSearchPage> {
                                   ),
                                 );
                               }
-                          );
+                          ).whenComplete(() => getAdds());
                         },
                         child: Container(
                           child: Row(
@@ -366,85 +402,108 @@ class _adSearchPageState extends State<adSearchPage> {
                 ),
               ),
               SizedBox(height: 20,),
-          Padding(
-            padding: const EdgeInsets.only(bottom: 15),
-            child: FlatButton(
-              onPressed:(){
-                Navigator.push(context, MaterialPageRoute(builder: (context) => AddDetail()));
-              },
-              child: Card(
-                color: Color(0xfff7f7f7),
-                child: Container(
-                  child: Row(
-                    children: <Widget>[
-                      Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.all(10),
-                          child: Container(
-                            width: 90,
-                            height: 90,
-                            decoration: BoxDecoration(
-                                shape: BoxShape.rectangle,
-                                image: DecorationImage(
-                                    fit: BoxFit.fill,
-                                    image: AssetImage("assets/bike1.jpeg",)
-                                )
-                            ),
-                          ),
-                        ),
-                      ),
+              FutureBuilder(
+                future: getAdds(),
+                builder: (BuildContext context, AsyncSnapshot<List<BikeAddModel>> snapshot) {
+                  if(snapshot.hasData && snapshot.data.isNotEmpty){
+                    return ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: snapshot.data.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return Padding(
+                          padding: const EdgeInsets.only(bottom: 15),
+                          child: FlatButton(
+                            onPressed:(){
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => AddDetail(data: snapshot.data[index],)));
+                            },
+                            child: Card(
+                              color: Color(0xfff7f7f7),
+                              child: Container(
+                                child: Row(
+                                  children: <Widget>[
+                                    Expanded(
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(10),
+                                        child: Container(
+                                          width: 90,
+                                          height: 90,
+                                          decoration: BoxDecoration(
+                                              shape: BoxShape.rectangle,
+                                              image: DecorationImage(
+                                                  fit: BoxFit.fill,
+                                                  image: NetworkImage(snapshot.data[index].images.last)
+                                              )
+                                          ),
+                                        ),
+                                      ),
+                                    ),
 
-                      SizedBox(width: 5,),
-                      Container(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Container(
-                              margin:EdgeInsets.only(left:10),
-                              child: AutoSizeText(
-                                "Honda",
-                                style: GoogleFonts.quicksand(
-                                  fontSize: 18,
-                                  color: Colors.black,
+                                    SizedBox(width: 5,),
+                                    Container(
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: <Widget>[
+                                          Container(
+                                            margin:EdgeInsets.only(left:10),
+                                            child: AutoSizeText(
+                                              snapshot.data[index].make,
+                                              style: GoogleFonts.quicksand(
+                                                fontSize: 18,
+                                                color: Colors.black,
+                                              ),
+                                            ),
+                                          ),
+                                          SizedBox(height: 5,),
+                                          Container(
+                                            child: Row(
+                                              mainAxisAlignment: MainAxisAlignment.end,
+                                              children: [
+                                                Container(
+                                                  child:Row(
+                                                    children: [
+                                                      Icon(Icons.location_on,color: Colors.grey,),
+                                                      Text(
+                                                        snapshot.data[index].city,
+                                                        style: TextStyle(
+                                                            fontSize: 15
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                                SizedBox(width: 130,),
+                                                Icon(
+                                                  Icons.arrow_forward_ios,
+                                                  color: Color(0xffb8b8b8),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                          SizedBox(height: 10,),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ),
                             ),
-                            SizedBox(height: 5,),
-                            Container(
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: [
-                                  Container(
-                                    child:Row(
-                                      children: [
-                                        Icon(Icons.location_on,color: Colors.grey,),
-                                        Text(
-                                          "Islamabad",
-                                          style: TextStyle(
-                                              fontSize: 15
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  SizedBox(width: 130,),
-                                  Icon(
-                                    Icons.arrow_forward_ios,
-                                    color: Color(0xffb8b8b8),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            SizedBox(height: 10,),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
+                          ),
+                        );
+                      },
+                    );
+                  }
+                  else if(snapshot.hasData && snapshot.data.isEmpty){
+                    return Center(child: Text("NO ADDS FOUND"),);
+                  }
+                  else if(snapshot.data == null){
+                    return Center(child: Text("Search For Adds"),);
+                  }
+                  else if(snapshot.hasError){
+                    return Center(child: Text(snapshot.error.toString()),);
+                  }
+                  return Center(child: CircularProgressIndicator());
+                },
               ),
-            ),
-          ),
             ],
           ),
         ),
