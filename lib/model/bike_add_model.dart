@@ -1,4 +1,6 @@
 
+import 'package:flutter/cupertino.dart';
+
 class BikeAddModel{
 
   final String title;
@@ -72,6 +74,23 @@ class BikeAddModel{
     return {
       'images':images,
     };
+  }
+
+}
+class BikeSearchModel {
+
+  final String make;
+  final List<dynamic> model;
+  final String id;
+
+  BikeSearchModel({@required this.make,@required this.model,this.id});
+
+  factory BikeSearchModel.fromJson(Map<String, dynamic> json,String docId){
+    return BikeSearchModel(
+      id: docId,
+      make: json['make'],
+      model: json['model'],
+    );
   }
 
 }

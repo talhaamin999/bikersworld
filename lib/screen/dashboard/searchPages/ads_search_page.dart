@@ -1,3 +1,6 @@
+import 'package:bikersworld/model/bike_add_model.dart';
+import 'package:bikersworld/services/search_queries/bike_add_search/bike_admin_data.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -14,6 +17,20 @@ class adSearchPage extends StatefulWidget {
 }
 
 class _adSearchPageState extends State<adSearchPage> {
+
+  final _adminData = BikeAdminDataQueries();
+  final _yearController = TextEditingController();
+  String make,model;
+
+  Future<List<BikeSearchModel>> getMakeAndModel() {
+    try {
+      return _adminData.getMakeAndModel();
+    }
+    catch(e){
+    }
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,81 +57,116 @@ class _adSearchPageState extends State<adSearchPage> {
                 color: Color(0XFF012A4A),
                 child: Column(
                   children: [
-                    Container(
-                      child: Padding(
-                        padding: const EdgeInsets.only(left:10,right:10),
-                        child: Row(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only( top:10),
-                              child:Container(
-                                color: Colors.white,
-                                child: SizedBox(
-                                  width: MediaQuery.of(context).size.width - 220,
-                                  child: DropdownSearch<String>(
-                                    validator: (v) => v == null ? "required field" : null,
-                                    hint: "Select Make",
-                                    searchBoxDecoration: InputDecoration(
-                                      border: new OutlineInputBorder(
-                                        borderRadius: const BorderRadius.all(
-                                          const Radius.circular(5),
+                    FutureBuilder(
+                      future: getMakeAndModel(),
+                      builder: (BuildContext context, AsyncSnapshot<List<BikeSearchModel>> snapshot) {
+                        if(snapshot.hasData && snapshot.data.isNotEmpty){
+                          return Container(
+                            child: Padding(
+                              padding: const EdgeInsets.only(left:10,right:10),
+                              child: Row(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only( top:10),
+                                    child:Container(
+                                      color: Colors.white,
+                                      child: SizedBox(
+                                        width: MediaQuery.of(context).size.width - 220,
+                                        child: DropdownSearch<String>(
+                                          validator: (v) => v == null ? "required field" : null,
+                                          hint: "Select Make",
+                                          searchBoxDecoration: InputDecoration(
+                                            border: new OutlineInputBorder(
+                                              borderRadius: const BorderRadius.all(
+                                                const Radius.circular(5),
+                                              ),
+                                            ),
+                                          ),
+                                          showSelectedItem: true,
+                                          items: snapshot.data.map((doc) => doc.make).toList(),
+                                          // showClearButton: true,
+                                          onChanged: (value){
+                                            setState(() {
+                                              make = value;
+                                            });
+                                          },
                                         ),
                                       ),
                                     ),
-                                    showSelectedItem: true,
-                                    items: [
-                                      'Honda',
-                                      'BMW',
-                                      'Crown',
-                                      'Suzuki',
-                                    ],
-                                    // showClearButton: true,
-                                    onChanged: (value){
-
-                                    },
-                                    popupItemDisabled: (String s) => s.startsWith('I'),
                                   ),
-                                ),
+                                  SizedBox(width: 10,),
+                                  FutureBuilder(
+                                    future: _adminData.getModelForMake(make),
+                                    builder: (BuildContext context, AsyncSnapshot<BikeSearchModel> docSnapshot) {
+                                      if(docSnapshot.hasData && docSnapshot.data != null){
+                                        return Padding(
+                                          padding: const EdgeInsets.only( top:10,right: 0),
+                                          child:Container(
+                                            color: Colors.white,
+                                            child: SizedBox(
+                                              width: MediaQuery.of(context).size.width - 220,
+                                              child: DropdownSearch<String>(
+                                                validator: (v) => v == null ? "required field" : null,
+                                                hint: "Select Modal",
+                                                searchBoxDecoration: InputDecoration(
+                                                  border: new OutlineInputBorder(
+                                                    borderRadius: const BorderRadius.all(
+                                                      const Radius.circular(5),
+                                                    ),
+                                                  ),
+                                                ),
+                                                showSelectedItem: true,
+                                                items: List<String>.from(docSnapshot.data.model),
+                                                // showClearButton: true,
+                                                onChanged: (value){
+                                                  model = value;
+                                                },
+                                              ),
+                                            ),
+                                          ),
+                                        );
+                                      }
+                                      else if(docSnapshot.data == null){
+                                        return Padding(
+                                          padding: const EdgeInsets.only( top:10,right: 0),
+                                          child:Container(
+                                            color: Colors.white,
+                                            child: SizedBox(
+                                              width: MediaQuery.of(context).size.width - 220,
+                                              child: DropdownSearch<String>(
+                                                validator: (v) => v == null ? "required field" : null,
+                                                hint: "Select Modal",
+                                                searchBoxDecoration: InputDecoration(
+                                                  border: new OutlineInputBorder(
+                                                    borderRadius: const BorderRadius.all(
+                                                      const Radius.circular(5),
+                                                    ),
+                                                  ),
+                                                ),
+                                                showSelectedItem: true,
+                                                items: [],
+                                                // showClearButton: true,
+                                                onChanged: (value){
+
+                                                },
+                                              ),
+                                            ),
+                                          ),
+                                        );
+                                      }
+                                      else if(docSnapshot.hasError){
+                                        return Center(child: Text(docSnapshot.error.toString()));
+                                      }
+                                      return Center(child: CircularProgressIndicator(),);
+                                    },
+                                  ),
+                                ],
                               ),
                             ),
-                            SizedBox(width: 10,),
-                            Padding(
-                              padding: const EdgeInsets.only( top:10,right: 0),
-                              child:Container(
-                                color: Colors.white,
-                                child: SizedBox(
-                                  width: MediaQuery.of(context).size.width - 220,
-                                  child: DropdownSearch<String>(
-                                    validator: (v) => v == null ? "required field" : null,
-                                    hint: "Select Modal",
-                                    searchBoxDecoration: InputDecoration(
-                                      border: new OutlineInputBorder(
-                                        borderRadius: const BorderRadius.all(
-                                          const Radius.circular(5),
-                                        ),
-                                      ),
-                                    ),
-                                    showSelectedItem: true,
-                                    items: [
-                                      '2016',
-                                      '2017',
-                                      '2018',
-                                      '2019',
-                                      '2020',
-                                      '2021',
-                                    ],
-                                    // showClearButton: true,
-                                    onChanged: (value){
-
-                                    },
-                                    popupItemDisabled: (String s) => s.startsWith('I'),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
+                          );
+                        }
+                        return Center(child:CircularProgressIndicator());
+                      },
                     ),
                     SizedBox(height: 10,),
                     Padding(
@@ -122,10 +174,11 @@ class _adSearchPageState extends State<adSearchPage> {
                       child: Container(
                         width: MediaQuery.of(context).size.width - 20,
                         child: TextField(
+                          controller: _yearController,
+                          keyboardType: TextInputType.number,
                           textInputAction: TextInputAction.search,
                           onSubmitted: (value){
                           },
-                          // controller: _controller,
                           decoration: new InputDecoration(
                               suffixIcon: IconButton(
                                 //onPressed: () => _controller.clear(),
