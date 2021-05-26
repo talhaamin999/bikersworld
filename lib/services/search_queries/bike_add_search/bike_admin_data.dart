@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import '../../toast_service.dart';
 import 'package:bikersworld/model/bike_add_model.dart';
 
@@ -21,12 +22,12 @@ class BikeAdminDataQueries {
       _error.errorToastMessage(errorMessage: e.toString());
     }
   }
-  Future<BikeSearchModel> getModelForMake(String make){
+  Stream<BikeSearchModel> getModelForMake(String make){
     try{
       return _collectionReference
           .doc(make)
-          .get()
-          .then((doc) => BikeSearchModel.fromJson(doc.data(), doc.reference.id));
+          .snapshots()
+          .map((doc) => BikeSearchModel.fromJson(doc.data(), doc.reference.id));
     }catch(e){
       _error.errorToastMessage(errorMessage: e.toString());
     }

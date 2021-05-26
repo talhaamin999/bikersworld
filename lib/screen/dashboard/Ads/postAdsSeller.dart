@@ -247,8 +247,8 @@ class _PostBikeInfoState extends State<PostBikeInfo> with SingleTickerProviderSt
                                 ),
                               ),
                               SizedBox(width: 10,),
-                              FutureBuilder(
-                                future: _adminData.getModelForMake(make),
+                              StreamBuilder(
+                                stream: _adminData.getModelForMake(make),
                                 builder: (BuildContext context, AsyncSnapshot<BikeSearchModel> docSnapshot) {
                                   if(docSnapshot.hasData && docSnapshot.data != null){
                                     return Padding(

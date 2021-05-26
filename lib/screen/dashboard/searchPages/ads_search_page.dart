@@ -34,7 +34,7 @@ class _adSearchPageState extends State<adSearchPage> {
       return _adminData.getMakeAndModel();
     }catch(e){}
   }
-  Future<BikeSearchModel> getBikeModel() {
+  Stream<BikeSearchModel> getBikeModel() {
     try {
       return _adminData.getModelForMake(make);
     }catch(e){}
@@ -56,6 +56,25 @@ class _adSearchPageState extends State<adSearchPage> {
       _minValue = stringToDouble(_minController.text);
       _maxVlaue = stringToDouble(_maxController.text);
       return _searchAdds.searchAddByMakeAndModelAndYearAndCityAndRange(make: make, model: model, year: _yearController.text, city: _cityController.text, min: _minValue, max: _maxVlaue);
+    }
+    else if((make != null) && (model != null) && (_yearController.text.isNotEmpty) && (_cityController.text.isNotEmpty)){
+      return _searchAdds.searchAddByMakeAndModelAndYearAndCity(make: make, model: model, year: _yearController.text, city: _cityController.text);
+    }
+    else if((make != null) && (model != null) && (_yearController.text.isNotEmpty) && (_minController.text.isNotEmpty) && (_maxController.text.isNotEmpty)){
+      print("mmyr");
+      _minValue = stringToDouble(_minController.text);
+      _maxVlaue = stringToDouble(_maxController.text);
+      return _searchAdds.searchAddByMakeAndModelAndYearAndRange(make: make, model: model, year: _yearController.text, min: _minValue, max: _maxVlaue);
+    }
+    else if((make != null) && (model != null) && (_cityController.text.isNotEmpty) && (_minController.text.isNotEmpty) && (_maxController.text.isNotEmpty)){
+      _minValue = stringToDouble(_minController.text);
+      _maxVlaue = stringToDouble(_maxController.text);
+      return _searchAdds.searchAddByMakeAndModelAndCityAndRange(make: make, model: model, city: _cityController.text, min: _minValue, max: _maxVlaue);
+    }
+    else if((make != null) && (_yearController.text.isNotEmpty) && (_cityController.text.isNotEmpty) && (_minController.text.isNotEmpty) && (_maxController.text.isNotEmpty)){
+      _minValue = stringToDouble(_minController.text);
+      _maxVlaue = stringToDouble(_maxController.text);
+      return _searchAdds.searchAddByMakeAndYearAndCityAndRange(make: make, year: _yearController.text, city: _cityController.text, min: _minValue, max: _maxVlaue);
     }
     return null;
   }
@@ -147,6 +166,7 @@ class _adSearchPageState extends State<adSearchPage> {
                           ],
                         ),
                       ),
+                      SizedBox(height: 50,),
                       FlatButton(
 //                        onPressed: (){
 //                          showModalBottomSheet(
@@ -382,6 +402,7 @@ class _adSearchPageState extends State<adSearchPage> {
 //                          ).whenComplete(() => getAdds());
 //                        },
                         onPressed: (){
+                          setState(() {
                           showDialog(
                               context: context,
                               builder: (BuildContext context){
@@ -430,6 +451,7 @@ class _adSearchPageState extends State<adSearchPage> {
                                                               setState(() {
                                                                 make = value;
                                                                 print(make);
+                                                                getBikeModel();
                                                               });
                                                             },
                                                           ),
@@ -437,8 +459,8 @@ class _adSearchPageState extends State<adSearchPage> {
                                                       ),
                                                     ),
                                                     SizedBox(width: 10,),
-                                                    FutureBuilder(
-                                                      future: getBikeModel(),
+                                                    StreamBuilder(
+                                                      stream: getBikeModel(),
                                                       builder: (BuildContext context, AsyncSnapshot<BikeSearchModel> docSnapshot) {
                                                         if(docSnapshot.hasData && docSnapshot.data != null){
                                                           return Padding(
@@ -449,18 +471,18 @@ class _adSearchPageState extends State<adSearchPage> {
                                                                 width: MediaQuery.of(context).size.width,
                                                                 child: DropdownSearch<String>(
                                                                   validator: (v) => v == null ? "required field" : null,
-                                                                  hint: "Select Modal",
-                                                                  searchBoxDecoration: InputDecoration(
-                                                                    border: new OutlineInputBorder(
-                                                                      borderRadius: const BorderRadius.all(
-                                                                        const Radius.circular(5),
-                                                                      ),
-                                                                    ),
-                                                                  ),
-                                                                  showSelectedItem: true,
-                                                                  items: List<String>.from(docSnapshot.data.model),
-                                                                  // showClearButton: true,
-                                                                  onChanged: (value){
+                                                            hint: "Select Modal",
+                                                            searchBoxDecoration: InputDecoration(
+                                                              border: new OutlineInputBorder(
+                                                                borderRadius: const BorderRadius.all(
+                                                                  const Radius.circular(5),
+                                                                ),
+                                                              ),
+                                                            ),
+                                                            showSelectedItem: true,
+                                                            items: List<String>.from(docSnapshot.data.model),
+                                                            // showClearButton: true,
+                                                            onChanged: (value){
                                                                     model = value;
                                                                   },
                                                                 ),
@@ -496,7 +518,6 @@ class _adSearchPageState extends State<adSearchPage> {
                                                             ),
                                                           );
                                                         }
-
                                                         else if(docSnapshot.hasError){
                                                           return Center(child: Text(docSnapshot.error.toString()));
                                                         }
@@ -600,6 +621,7 @@ class _adSearchPageState extends State<adSearchPage> {
                                 );
                               }
                           );
+                          });
                         },
                         child: Container(
                           child: Row(
