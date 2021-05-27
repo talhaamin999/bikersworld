@@ -1,7 +1,5 @@
 import 'dart:io';
 import 'package:bikersworld/screen/dashboard/Ads/seller/sellerDashbaord.dart';
-import 'package:bikersworld/screen/workshop/workshop_dashboard.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:bikersworld/model/bike_add_model.dart';
 import 'package:bikersworld/services/toast_service.dart';
 import 'package:bikersworld/services/validate_service.dart';
@@ -14,6 +12,7 @@ import 'package:bikersworld/services/authenticate_service.dart';
 import 'package:flutter_absolute_path/flutter_absolute_path.dart';
 import 'package:bikersworld/widgets/city_dropdown.dart';
 import 'package:dropdown_search/dropdown_search.dart';
+import 'package:bikersworld/services/string_extension.dart';
 import 'package:bikersworld/services/search_queries/bike_add_search/bike_admin_data.dart';
 
 
@@ -31,8 +30,6 @@ class PostBikeInfo extends StatefulWidget {
 class _PostBikeInfoState extends State<PostBikeInfo> with SingleTickerProviderStateMixin {
 
   final _titleController = TextEditingController();
-  final _makeController = TextEditingController();
-  final _modelController = TextEditingController();
   final _yearController = TextEditingController();
   final _priceController = TextEditingController();
   final _descriptionController = TextEditingController();
@@ -41,12 +38,11 @@ class _PostBikeInfoState extends State<PostBikeInfo> with SingleTickerProviderSt
   final _error = ToastErrorMessage();
   final _valid = ToastValidMessage();
   bool _isButtonVisible = true;
+  String make,model;
 
   void mapValues(){
     if(widget.data != null){
       _titleController.text = widget.data.title;
-      _makeController.text = widget.data.make;
-      _modelController.text = widget.data.model;
       _yearController.text = widget.data.year;
       _priceController.text = widget.data.price.toString();
       _descriptionController.text = widget.data.description;
@@ -62,8 +58,6 @@ class _PostBikeInfoState extends State<PostBikeInfo> with SingleTickerProviderSt
   @override
   void dispose() {
     _titleController.dispose();
-    _makeController.dispose();
-    _modelController.dispose();
     _yearController.dispose();
     _priceController.dispose();
     _descriptionController.dispose();
@@ -79,13 +73,13 @@ class _PostBikeInfoState extends State<PostBikeInfo> with SingleTickerProviderSt
 
   void validateFields() async{
     double price = double.tryParse(_priceController.text);
-    if((!_validate.valiadteTitle(_titleController.text)) && (!_validate.validateMake(_makeController.text)) && (!_validate.validateModel(_modelController.text)) &&  (!_validate.validatePrice(price))){
+    if((!_validate.valiadteTitle(_titleController.text)) && (!_validate.validateMake(make)) && (!_validate.validateModel(model)) &&  (!_validate.validatePrice(price))){
       _error.errorToastMessage(errorMessage: 'PLease Enter valid Information');
     }
-    else if(!_validate.validateMake(_makeController.text)){
+    else if(!_validate.validateMake(make)){
       _error.errorToastMessage(errorMessage: 'Bike Make is Invalid');
     }
-    else if(!_validate.validateModel(_modelController.text)){
+    else if(!_validate.validateModel(model)){
       _error.errorToastMessage(errorMessage: 'Bike model is Invalid');
     }
     else if(!_validate.validatePrice(price)){
@@ -97,9 +91,9 @@ class _PostBikeInfoState extends State<PostBikeInfo> with SingleTickerProviderSt
           setState(() {
             _isButtonVisible = false;
           });
-          final _data = BikeAddModel(title: _titleController.text,
-              make: _makeController.text,
-              model: _modelController.text,
+          final _data = BikeAddModel(title: _titleController.text.capitalizeFirstofEach,
+              make: make,
+              model: model,
               year: _yearController.text,
               price: price,
               description: _descriptionController.text,
@@ -124,15 +118,13 @@ class _PostBikeInfoState extends State<PostBikeInfo> with SingleTickerProviderSt
         }
       }
       else {
-        final _data = BikeAddModel(title: _titleController.text,make: _makeController.text,model: _modelController.text,year: _yearController.text,price: price,description: _descriptionController.text);
+        final _data = BikeAddModel(title: _titleController.text.capitalizeFirstofEach,make: make,model: model,year: _yearController.text,price: price,description: _descriptionController.text);
         Navigator.push(context, MaterialPageRoute(
-            builder: (context) => SellerInformation(data: _data,)));
+            builder: (context) => SellerInformation(data: _data)));
       }
     }
   }
 
-
-  String make,model;
   final _adminData = BikeAdminDataQueries();
   Future<List<BikeSearchModel>> getMakeAndModel() {
     try {
@@ -451,7 +443,7 @@ class _SellerInformationState extends State<SellerInformation> {
             _isButtonVisible = false;
           });
           final _data = BikeAddModel(
-              sellerName: _sellerNameController.text,
+              sellerName: _sellerNameController.text.capitalizeFirstofEach,
               sellerContact: _sellerContactController.text,
               city: _cityController.text,
               address: _addressController.text,
@@ -481,7 +473,7 @@ class _SellerInformationState extends State<SellerInformation> {
             year: widget.data.year,
             price: widget.data.price,
             description: widget.data.description,
-            sellerName: _sellerNameController.text,
+            sellerName: _sellerNameController.text.capitalizeFirstofEach,
             sellerContact: _sellerContactController.text,
             city: _cityController.text,
             address: _addressController.text);
