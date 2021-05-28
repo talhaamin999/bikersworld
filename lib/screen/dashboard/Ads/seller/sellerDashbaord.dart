@@ -1,5 +1,4 @@
 import 'package:bikersworld/model/bike_add_model.dart';
-import 'package:bikersworld/screen/dashboard/searchPages/ads_search_page.dart';
 import 'package:bikersworld/services/authenticate_service.dart';
 import 'package:bikersworld/services/bike_add_queries.dart';
 import 'package:bikersworld/services/toast_service.dart';
@@ -9,7 +8,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'dart:math';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:bikersworld/screen/dashboard/Ads/AdDetail.dart';
-import 'package:percent_indicator/percent_indicator.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 import '../postAdsSeller.dart';
 
 enum addOption{updateBikeInfo,upadateSellerInfo,updateImages,delete}
@@ -53,8 +52,11 @@ class SellerHomeScreen extends StatelessWidget {
     return Scaffold(
       appBar: new AppBar(
         backgroundColor: Color(0XFF012A4A),
-        title: new Text("Bikers World", style: GoogleFonts.quicksand(fontSize: 20, color: Colors.orange),),
+        title: new Text("Bikers World", style: GoogleFonts.quicksand(fontSize: 20, color: Colors.white ),),
         elevation: 0.0,
+          leading: IconButton(icon:Icon(Icons.arrow_back, color: Colors.orange,),
+            onPressed:() => Navigator.pop(context),
+          )
       ),
       backgroundColor: Color(0xffF5F5F7),
       body: Stack(
@@ -83,14 +85,14 @@ class SellerHomeScreen extends StatelessWidget {
             padding: EdgeInsets.all(Constants.paddingSide),
             child: ListView(
               children: <Widget>[
-                // Header - Greetings and Avatar
                 Row(
                   children: <Widget>[
                     Expanded(
                       child: Text(" Your \n Dashboard",
                         style: GoogleFonts.quicksand(
                             fontSize: 25,
-                            color: Colors.white
+                            color: Colors.orange,
+                            fontWeight: FontWeight.bold,
                         ),
                       ),
                     ),
@@ -101,9 +103,9 @@ class SellerHomeScreen extends StatelessWidget {
                   ],
                 ),
 
-                SizedBox(height: 10),
+                SizedBox(height:15),
 
-                Text(" YOUR ADVERTISMENTS",
+                Text(" ADVERTISMENTS",
                   style: GoogleFonts.quicksand(
                     color:Color(0xff808080),
                     fontSize: 16,
@@ -124,161 +126,193 @@ class SellerHomeScreen extends StatelessWidget {
                             onPressed: (){
                               Navigator.push(context, MaterialPageRoute(builder: (context) => AddDetail(data: snapshot.data[index],)));
                             },
-                            child: Container(
-                              margin: EdgeInsets.only(bottom: 20),
-                              height: 140,
-                              width: MediaQuery.of(context).size.width - 30,
-                              decoration: BoxDecoration(
+                            child: Card(
+                              color: Color(0xffdedede),
+                              margin: const EdgeInsets.all(10.0),
+                              shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(20),
-                                color: Color(0xffe6e9ed),
                               ),
-                              child: Container(
-                                child: Row(
-                                  //mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Container(
-                                      height: 140,
-                                      width: 140,
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(20),
-                                        color: Colors.red,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  AspectRatio(
+                                    aspectRatio: 25.0 / 15.0,
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(20.0),
+                                      child: Image.network(
+                                        snapshot.data[index].images.first,
+                                        fit: BoxFit.fill,
                                       ),
-                                      child: ClipRRect(
-                                        borderRadius: BorderRadius.circular(20.0),
-                                        child: Image(
-                                          image: NetworkImage(
-                                            snapshot.data[index].images.first,
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsets.fromLTRB(16.0, 12.0, 16.0, 8.0),
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                       Container(
+                                         child: Row(
+                                           mainAxisAlignment:MainAxisAlignment.spaceBetween,
+                                           children: [
+                                             Expanded(
+                                               child: Text(
+                                                 snapshot.data[index].title,
+                                                 style: GoogleFonts.quicksand(
+                                                   fontSize:20,
+                                                 ),
+                                               ),
+                                             ),
+                                             PopupMenuButton(
+                                                 icon: new Icon(FontAwesomeIcons.ellipsisV,
+                                                     color: Colors.grey),
+                                                 onSelected: (option){
+                                                   NavigateToUpdatePage(option,context,snapshot.data[index]);
+                                                 },
+                                                 itemBuilder: (_) =>
+                                                 <PopupMenuItem<addOption>>[
+                                                   new PopupMenuItem<addOption>(
+                                                     child: Container(
+                                                       child: Row(
+                                                         children: [
+                                                           Icon(
+                                                             FontAwesomeIcons.edit,
+                                                             size: 15,
+                                                           ),
+                                                           SizedBox(width: 10),
+                                                           Text(
+                                                             "Update Bike Info",
+                                                             style: GoogleFonts.quicksand(
+                                                               fontSize: 16,
+                                                             ),
+                                                           ),
+                                                         ],
+                                                       ),
+                                                     ),
+                                                     value: addOption.updateBikeInfo,
+                                                   ),
+                                                   new PopupMenuItem<addOption>(
+                                                     child: Container(
+                                                       child: Row(
+                                                         children: [
+                                                           Icon(
+                                                             FontAwesomeIcons.edit,
+                                                             size: 15,
+                                                           ),
+                                                           SizedBox(width: 10),
+                                                           Text(
+                                                             "Update Seller Info",
+                                                             style: GoogleFonts.quicksand(
+                                                               fontSize: 16,
+                                                             ),
+                                                           ),
+                                                         ],
+                                                       ),
+                                                     ),
+                                                     value: addOption.upadateSellerInfo,
+                                                   ),
+                                                   new PopupMenuItem<addOption>(
+                                                     child: Container(
+                                                       child: Row(
+                                                         children: [
+                                                           Icon(
+                                                             FontAwesomeIcons.edit,
+                                                             size: 15,
+                                                           ),
+                                                           SizedBox(width: 10),
+                                                           Text(
+                                                             "Update Add Images",
+                                                             style: GoogleFonts.quicksand(
+                                                               fontSize: 16,
+                                                             ),
+                                                           ),
+                                                         ],
+                                                       ),
+                                                     ),
+                                                     value: addOption.updateImages,
+                                                   ),
+                                                   new PopupMenuItem<addOption>(
+                                                     child: FlatButton(
+                                                       padding: EdgeInsets.zero,
+                                                       onPressed: (){
+                                                         Alert(
+                                                           context: context,
+                                                           type: AlertType.warning,
+                                                           title: "Warning",
+                                                           desc: "Are you sure you want to delete it...",
+                                                           buttons: [
+                                                             DialogButton(
+                                                               color: Colors.indigo,
+                                                               width: 120,
+                                                               child: Text(
+                                                                 "Cancel",
+                                                                 style: GoogleFonts.quicksand(color: Colors.white, fontSize: 20),
+                                                               ),
+                                                               onPressed: () {
+                                                                 //option = 'cancel';
+                                                                 //Navigator.of(context,rootNavigator: true).pop();
+                                                               },
+                                                             ),
+                                                             DialogButton(
+                                                                 width: 120,
+                                                                 child: Text(
+                                                                   "Okay",
+                                                                   style: GoogleFonts.quicksand(color: Colors.white, fontSize: 20),
+                                                                 ),
+                                                                 onPressed: () {
+                                                                   //option = 'ok';
+                                                                   //Navigator.of(context, rootNavigator: true).pop();
+                                                                 }
+                                                             )
+                                                           ],
+                                                         ).show();
+                                                       },
+                                                       child: Container(
+                                                         child: Row(
+                                                           children: [
+                                                             Icon(
+                                                               FontAwesomeIcons.minus,
+                                                               size: 15,
+                                                             ),
+                                                             SizedBox(width: 10),
+                                                             Text(
+                                                               "Delete",
+                                                               style: GoogleFonts.quicksand(
+                                                                 fontSize: 16,
+                                                               ),
+                                                             ),
+                                                           ],
+                                                         ),
+                                                       ),
+                                                     ),
+                                                     value: addOption.delete,
+                                                   ),
+                                                 ],
+                                               ),
+                                           ],
+                                         ),
+                                       ),
+                                        Container(
+                                          child: Row(
+                                            children: [
+                                              Text(
+                                                snapshot.data[index].city,
+                                                style: GoogleFonts.quicksand(fontSize: 16,color: Colors.grey),
+                                              ),
+                                              SizedBox(width: 5,),
+                                              Text("|"),
+                                              SizedBox(width: 5,),
+                                              Text(
+                                                "PKR ${snapshot.data[index].price}",
+                                                style: GoogleFonts.varelaRound(fontSize: 16,color: Colors.black,fontWeight: FontWeight.bold),
+                                              ),
+                                            ],
                                           ),
-                                          fit: BoxFit.fill,
                                         ),
-                                      ),
+
+                                      ],
                                     ),
-                                    Container(
-                                      child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        mainAxisAlignment: MainAxisAlignment.start,
-                                        children: [
-                                          Padding(
-                                            padding: const EdgeInsets.only(left: 10,top: 20),
-                                            child: Text(
-                                              snapshot.data[index].title,
-                                              style: GoogleFonts.quicksand(fontSize: 20),
-                                            ),
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.only(left: 10,top: 10),
-                                            child: Text(
-                                              snapshot.data[index].city,
-                                              style: GoogleFonts.quicksand(fontSize: 22,color: Colors.grey),
-                                            ),
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.only(left: 10,top: 10),
-                                            child: Text(
-                                              "PKR ${snapshot.data[index].price}",
-                                              style: GoogleFonts.varelaRound(fontSize: 16,color: Colors.black,fontWeight: FontWeight.bold),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    SizedBox(width: 20,),
-                                    Padding(
-                                      padding: const EdgeInsets.only(top: 10),
-                                      child:  PopupMenuButton(
-                                        icon: new Icon(FontAwesomeIcons.ellipsisV,
-                                            color: Colors.grey),
-                                        onSelected: (option){
-                                          NavigateToUpdatePage(option,context,snapshot.data[index]);
-                                        },
-                                        itemBuilder: (_) =>
-                                        <PopupMenuItem<addOption>>[
-                                          new PopupMenuItem<addOption>(
-                                            child: Container(
-                                              child: Row(
-                                                children: [
-                                                  Icon(
-                                                    FontAwesomeIcons.edit,
-                                                    size: 15,
-                                                  ),
-                                                  SizedBox(width: 10),
-                                                  Text(
-                                                    "Update Bike Info",
-                                                    style: GoogleFonts.quicksand(
-                                                      fontSize: 16,
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                            value: addOption.updateBikeInfo,
-                                          ),
-                                          new PopupMenuItem<addOption>(
-                                            child: Container(
-                                              child: Row(
-                                                children: [
-                                                  Icon(
-                                                    FontAwesomeIcons.edit,
-                                                    size: 15,
-                                                  ),
-                                                  SizedBox(width: 10),
-                                                  Text(
-                                                    "Update Seller Info",
-                                                    style: GoogleFonts.quicksand(
-                                                      fontSize: 16,
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                            value: addOption.upadateSellerInfo,
-                                          ),
-                                          new PopupMenuItem<addOption>(
-                                            child: Container(
-                                              child: Row(
-                                                children: [
-                                                  Icon(
-                                                    FontAwesomeIcons.edit,
-                                                    size: 15,
-                                                  ),
-                                                  SizedBox(width: 10),
-                                                  Text(
-                                                    "Update Add Images",
-                                                    style: GoogleFonts.quicksand(
-                                                      fontSize: 16,
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                            value: addOption.updateImages,
-                                          ),
-                                          new PopupMenuItem<addOption>(
-                                            child: Container(
-                                              child: Row(
-                                                children: [
-                                                  Icon(
-                                                    FontAwesomeIcons.minus,
-                                                    size: 15,
-                                                  ),
-                                                  SizedBox(width: 10),
-                                                  Text(
-                                                    "Delete",
-                                                    style: GoogleFonts.quicksand(
-                                                      fontSize: 16,
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                            value: addOption.delete,
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ],
-                                ),
+                                  ),
+                                ],
                               ),
                             ),
                           );
@@ -302,18 +336,20 @@ class SellerHomeScreen extends StatelessWidget {
     );
   }
 }
-
 /*
-* ListView.builder(
-                        physics: NeverScrollableScrollPhysics(),
-                        shrinkWrap: true,
-                        itemCount: snapshot.data.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          return Container(
-                            child: Column(),
-                          );
-                        },
-                      );*/
+Column(
+                              children: [
+                                Container(
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(20.0),
+                                    child: Image(
+                                      image: NetworkImage(
+                                        snapshot.data[index].images.first,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+**/
 class Constants {
 
   static Color darkGreen = Color(0xFF3ABD6F);
@@ -339,57 +375,6 @@ class Constants {
   static double headerHeight = 228.5;
   static double paddingSide = 30.0;
 }
-
-
-class CardItems extends StatelessWidget {
-  final Image image;
-  final String title;
-  final String value;
-  final String unit;
-  final Color color;
-  final int progress;
-
-  CardItems({
-    Key key,
-    @required this.image,
-    @required this.title,
-    @required this.value,
-    @required this.unit,
-    @required this.color,
-    @required this.progress,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.only(bottom: 20),
-      height: 100,
-      decoration: new BoxDecoration(
-        borderRadius: BorderRadius.all(Radius.circular(10.0)),
-        shape: BoxShape.rectangle,
-        color: Colors.white,
-      ),
-      child: Stack(
-        children: <Widget>[
-          Positioned(
-            child: ClipPath(
-              clipper: MyCustomClipper(clipType: ClipType.halfCircle),
-              child: Container(
-                decoration: new BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                  color: color.withOpacity(0.1),
-                ),
-                height: 100,
-                width: 100,
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
 
 
 class CardMain extends StatelessWidget {
@@ -441,53 +426,6 @@ class CardMain extends StatelessWidget {
                     ),
                   ),
                 ),
-//                Padding(
-//                  padding: EdgeInsets.all(20.0),
-//                  child: Column(
-//                    crossAxisAlignment: CrossAxisAlignment.start,
-//                    children: <Widget>[
-//                      // Icon and Hearbeat
-//                      Row(
-//                        crossAxisAlignment: CrossAxisAlignment.center,
-//                        children: <Widget>[
-//                          Image(
-//                              width: 32,
-//                              height: 32,
-//                              image: image
-//                          ),
-//                          SizedBox(
-//                            width: 10,
-//                          ),
-//                          Expanded(
-//                            child: Text(
-//                              title,
-//                              overflow: TextOverflow.ellipsis,
-//                              style: TextStyle(
-//                                  fontSize: 13,
-//                                  color: Constants.textDark
-//                              ),
-//                            ),
-//                          ),
-//                        ],
-//                      ),
-//                      SizedBox(height: 10),
-//                      Text(value,
-//                        style: TextStyle(
-//                          fontSize: 30,
-//                          fontWeight: FontWeight.w900,
-//                          color: Constants.textDark,
-//                        ),
-//                      ),
-//                      Text(
-//                        unit,
-//                        style: TextStyle(
-//                            fontSize: 15,
-//                            color: Constants.textDark
-//                        ),
-//                      ),
-//                    ],
-//                  ),
-//                )
               ],
             ),
           ),
@@ -499,6 +437,50 @@ class CardMain extends StatelessWidget {
 }
 
 
+class AdvanceCustomAlert extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Dialog(
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(4.0)
+        ),
+        child: Stack(
+          overflow: Overflow.visible,
+          alignment: Alignment.topCenter,
+          children: [
+            Container(
+              height: 200,
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(10, 70, 10, 10),
+                child: Column(
+                  children: [
+                    Text('Warning !!!', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),),
+                    SizedBox(height: 5,),
+                    Text('You can not access this file', style: TextStyle(fontSize: 20),),
+                    SizedBox(height: 20,),
+                    RaisedButton(onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                      color: Colors.redAccent,
+                      child: Text('Okay', style: TextStyle(color: Colors.white),),
+                    )
+                  ],
+                ),
+              ),
+            ),
+            Positioned(
+                top: -60,
+                child: CircleAvatar(
+                  backgroundColor: Colors.redAccent,
+                  radius: 60,
+                  child: Icon(Icons.assistant_photo, color: Colors.white, size: 50,),
+                )
+            ),
+          ],
+        )
+    );
+  }
+}
 
 enum ClipType { bottom, semiCircle, halfCircle, multiple }
 
@@ -581,5 +563,4 @@ class MyCustomClipper extends CustomClipper<Path> {
     return true;
   }
 }
-
 

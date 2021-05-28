@@ -391,13 +391,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "4.1.2+1"
-  flutter_staggered_grid_view:
-    dependency: "direct main"
-    description:
-      name: flutter_staggered_grid_view
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.3.4"
   flutter_svg:
     dependency: "direct main"
     description:
@@ -737,13 +730,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.1.2"
-  scrollable_bottom_sheet:
-    dependency: "direct main"
-    description:
-      name: scrollable_bottom_sheet
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.2.1"
   searchable_dropdown:
     dependency: "direct main"
     description:

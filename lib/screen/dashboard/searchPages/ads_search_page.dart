@@ -412,7 +412,7 @@ class _AdSearchPageState extends State<AdSearchPage> {
                             child: Row(
                               children: [
                                 Text(
-                                  "Filter",
+                                  "Advance Option",
                                   style: GoogleFonts.varelaRound(
                                     fontSize: 15,
                                   ),
@@ -447,68 +447,112 @@ class _AdSearchPageState extends State<AdSearchPage> {
                             child: Card(
                               color: Color(0xfff7f7f7),
                               child: Container(
+                                //height: 125,
                                 child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: <Widget>[
-                                    Expanded(
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(10),
-                                        child: Container(
-                                          width: 90,
-                                          height: 90,
-                                          decoration: BoxDecoration(
-                                              shape: BoxShape.rectangle,
-                                              image: DecorationImage(
-                                                  fit: BoxFit.fill,
-                                                  image: NetworkImage(snapshot.data[index].images.last)
-                                              )
-                                          ),
-                                        ),
+                                    Container(
+                                      child: Image(
+                                          image:NetworkImage(snapshot.data[index].images.last),
+                                          width: 130,
+                                          height: 130,
+                                          fit:BoxFit.fill
                                       ),
                                     ),
-
                                     SizedBox(width: 5,),
-                                    Container(
-                                      child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: <Widget>[
-                                          Container(
-                                            margin:EdgeInsets.only(left:10),
-                                            child: AutoSizeText(
-                                              snapshot.data[index].make,
-                                              style: GoogleFonts.quicksand(
-                                                fontSize: 18,
-                                                color: Colors.black,
+                                    Expanded(
+                                      child: Container(
+                                        child: Column(
+                                          mainAxisAlignment: MainAxisAlignment.start,
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: <Widget>[
+                                            Container(
+                                              margin:EdgeInsets.only(left:5, top: 10),
+                                              child: Text(
+                                                snapshot.data[index].title,
+                                                style: GoogleFonts.quicksand(
+                                                  fontSize: 19,
+                                                  color: Colors.black,
+                                                ),
                                               ),
                                             ),
-                                          ),
-                                          SizedBox(height: 5,),
-                                          Container(
-                                            child: Row(
-                                              mainAxisAlignment: MainAxisAlignment.end,
-                                              children: [
-                                                Container(
-                                                  child:Row(
-                                                    children: [
-                                                      Icon(Icons.location_on,color: Colors.grey,),
-                                                      Text(
-                                                        snapshot.data[index].city,
-                                                        style: TextStyle(
-                                                            fontSize: 15
+                                            Container(
+                                              margin: EdgeInsets.only(top: 5, left: 10),
+                                              child: Row(
+                                                children: [
+                                                  Container(
+                                                    child:Row(
+                                                      mainAxisAlignment:MainAxisAlignment.start,
+                                                      children: [
+                                                        Text(
+                                                          "PKR",
+                                                          style: GoogleFonts.roboto(
+                                                            fontSize: 15,
+                                                            color: Colors.black,
+                                                            fontWeight: FontWeight.bold,
+                                                          ),
                                                         ),
-                                                      ),
-                                                    ],
+                                                        SizedBox(width: 5,),
+                                                        Text(
+                                                          snapshot.data[index].price.toString(),
+                                                          style: GoogleFonts.roboto(
+                                                            fontSize: 15,
+                                                            fontWeight: FontWeight.bold,
+                                                            color: Colors.black,
+                                                          ),
+                                                        ),
+                                                        
+                                                      ],
+                                                    ),
                                                   ),
-                                                ),
-                                                SizedBox(width: 130,),
-                                                Icon(
-                                                  Icons.arrow_forward_ios,
-                                                  color: Color(0xffb8b8b8),
-                                                ),
-                                              ],
+                                                ],
+                                              ),
                                             ),
-                                          ),
-                                          SizedBox(height: 10,),
-                                        ],
+                                            Padding(
+                                              padding: const EdgeInsets.only(left:10),
+                                              child: Text(
+                                                snapshot.data[index].city,
+                                                style: TextStyle(
+                                                    fontSize: 16,
+                                                  color: Colors.grey,
+                                                ),
+                                              ),
+                                            ),
+                                            SizedBox(height: 5,),
+                                            Container(
+                                              margin: EdgeInsets.only(left: 10),
+                                              child: Row(
+                                                children: [
+                                                  Text(
+                                                    snapshot.data[index].model,
+                                                    style: TextStyle(
+                                                      fontSize: 16,
+                                                      color: Colors.grey,
+                                                    ),
+                                                  ),
+                                                  SizedBox(width: 5,),
+                                                  Text(
+                                                    "|",
+                                                    style: TextStyle(
+                                                      color: Colors.grey,
+                                                    ),
+                                                  ),
+                                                  SizedBox(width: 5,),
+
+                                                  Text(
+                                                    snapshot.data[index].year,
+                                                    style: TextStyle(
+                                                      fontSize: 16,
+                                                      color: Colors.grey,
+                                                    ),
+                                                  ),
+                                                  SizedBox(width: 5,),
+
+                                                ],
+                                              ),
+                                            ),
+                                          ],
+                                        ),
                                       ),
                                     ),
                                   ],

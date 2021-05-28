@@ -4,7 +4,6 @@ import 'package:bikersworld/model/workshop_model.dart';
 import 'package:bikersworld/services/toast_service.dart';
 import 'package:bikersworld/services/validate_service.dart';
 import 'package:bikersworld/services/workshop_queries/service_queries.dart';
-import 'package:bikersworld/widgets/bottom_modal_sheet.dart';
 import 'package:bikersworld/widgets/entry_field.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';

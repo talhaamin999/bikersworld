@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:carousel_pro/carousel_pro.dart';
-import 'package:bikersworld/screen/dashboard/home.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:bikersworld/screen/dashboard/searchPages/ads_search_page.dart';
 class AddDetail extends StatefulWidget {
 
 
@@ -82,17 +82,12 @@ class _AddDetailState extends State<AddDetail>  with SingleTickerProviderStateMi
                         ),
                         SizedBox(height: 5,),
                         Container(
-                          child: Row(
-                            children: <Widget>[
-                              Icon(Icons.location_on),
-                              Text(
-                                widget.data.address,
-                                style: GoogleFonts.roboto(
-                                    fontSize: 14,
-                                    color: Colors.grey
-                                ),
-                              ),
-                            ],
+                          child:Text(
+                            widget.data.address,
+                            style: GoogleFonts.roboto(
+                                fontSize: 16,
+                                color: Colors.grey
+                            ),
                           ),
                         ),
                       ],
@@ -118,7 +113,7 @@ class _AddDetailState extends State<AddDetail>  with SingleTickerProviderStateMi
                         margin: EdgeInsets.only(left: 20),
                         child: Row(
                           children: <Widget>[
-                            Icon(FontAwesomeIcons.table),
+                            Icon(FontAwesomeIcons.building),
                             SizedBox(width: 8,),
                             SizedBox(width: 18,),
                             Container(
@@ -127,14 +122,14 @@ class _AddDetailState extends State<AddDetail>  with SingleTickerProviderStateMi
                                 children: <Widget>[Text(
                                     "Make",
                                     style: GoogleFonts.montserrat(
-                                      fontSize: 14,
+                                      fontSize: 16,
                                     ),
                                   ),
                                   SizedBox(height: 5,),
                                   Text(
                                     widget.data.make,
                                     style: GoogleFonts.montserrat(
-                                      fontSize: 10,
+                                      fontSize: 12,
                                       color: Colors.grey,
                                     ),
                                   ),
@@ -159,14 +154,14 @@ class _AddDetailState extends State<AddDetail>  with SingleTickerProviderStateMi
                                   Text(
                                   "City",
                                   style: GoogleFonts.montserrat(
-                                    fontSize: 14,
+                                    fontSize: 16,
                                   ),
                                 ),
                                   SizedBox(height: 5,),
                                   Text(
                                     widget.data.city,
                                     style: GoogleFonts.montserrat(
-                                      fontSize: 10,
+                                      fontSize: 12,
                                       color: Colors.grey,
                                     ),
                                   ),
@@ -196,14 +191,14 @@ class _AddDetailState extends State<AddDetail>  with SingleTickerProviderStateMi
                                 children: <Widget>[Text(
                                   "Modal",
                                   style: GoogleFonts.montserrat(
-                                    fontSize: 14,
+                                    fontSize: 16,
                                   ),
                                 ),
                                   SizedBox(height: 5,),
                                   Text(
                                     widget.data.model,
                                     style: GoogleFonts.montserrat(
-                                      fontSize: 10,
+                                      fontSize: 12,
                                       color: Colors.grey,
                                     ),
                                   ),
@@ -218,7 +213,7 @@ class _AddDetailState extends State<AddDetail>  with SingleTickerProviderStateMi
                         margin: EdgeInsets.only(left: 20),
                         child: Row(
                           children: <Widget>[
-                            Icon(FontAwesomeIcons.mapMarkedAlt),
+                            Icon(FontAwesomeIcons.calendar),
                             SizedBox(width: 8,),
                             SizedBox(width: 18,),
                             Container(
@@ -228,14 +223,14 @@ class _AddDetailState extends State<AddDetail>  with SingleTickerProviderStateMi
                                   Text(
                                     "Year",
                                     style: GoogleFonts.montserrat(
-                                      fontSize: 14,
+                                      fontSize: 16,
                                     ),
                                   ),
                                   SizedBox(height: 5,),
                                   Text(
                                     widget.data.year,
                                     style: GoogleFonts.montserrat(
-                                      fontSize: 10,
+                                      fontSize: 12,
                                       color: Colors.grey,
                                     ),
                                   ),
@@ -250,19 +245,17 @@ class _AddDetailState extends State<AddDetail>  with SingleTickerProviderStateMi
                 ),
 
                 Padding(
-                  padding: const EdgeInsets.all(15),
+                  padding: const EdgeInsets.only(left:15,top:15,right: 15,bottom: 5),
                   child: Container(
                     child: Text(
                       "Description",
                       style: GoogleFonts.quicksand(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
-
                       ),
                     ),
                   ),
                 ),
-
                 Padding(
                   padding: const EdgeInsets.only(left: 15, right: 20),
                   child: Container(
@@ -284,7 +277,7 @@ class _AddDetailState extends State<AddDetail>  with SingleTickerProviderStateMi
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       Text(
-                        "Get your vechicle",
+                        "Search for more ads",
                         style: GoogleFonts.montserrat(
                           fontSize: 25,
                           color: Colors.white,
@@ -302,7 +295,7 @@ class _AddDetailState extends State<AddDetail>  with SingleTickerProviderStateMi
                       Container(
                         child:InkWell(
                           onTap: (){
-                            Navigator.push(context, MaterialPageRoute(builder: (context) => HomeDashboard()));
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => AdSearchPage()));
                           },
                           child: Container(
                             width: MediaQuery.of(context).size.width - 200,
@@ -310,11 +303,11 @@ class _AddDetailState extends State<AddDetail>  with SingleTickerProviderStateMi
                             alignment: Alignment.center,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.all(Radius.circular(5)),
-                              border: Border.all(color: Colors.white, width: 2),
+                              border: Border.all(color: Colors.orange, width: 2),
                             ),
                             child: Text(
-                              'Dashboard',
-                              style: TextStyle(fontSize: 20, color: Colors.white),
+                              'Find more',
+                              style: TextStyle(fontSize: 20, color: Colors.orange),
                             ),
                           ),
                         ),
@@ -322,17 +315,96 @@ class _AddDetailState extends State<AddDetail>  with SingleTickerProviderStateMi
                     ],
                   ),
                 ),
-
-
-                SizedBox(height: 40,),
-
               ],
             ),
           ),
         ),
        // drawer: Drawer(),
         floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
-        bottomNavigationBar: FlatButton(
+        bottomNavigationBar: ListTile(
+          //contentPadding: EdgeInsets.all(<some value here>),//change for side padding
+          title: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+                Expanded(
+                    child:FlatButton(
+                      padding: EdgeInsets.zero,
+                      onPressed: (){
+                        launch(
+                            "whatsapp://send?phone=${widget.data.sellerContact}"
+                        );
+                      },
+                      child: Container(
+                        height:60,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(5)),
+                          border: Border.all(color: Color(0XFF128C7E),  width: 2),
+                          color: Color(0XFF128C7E),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Icon(FontAwesomeIcons.whatsapp, color: Colors.white,size: 30,),
+                            SizedBox(width: 10,),
+                            Text("Whatsapp",
+                              style: GoogleFonts.quicksand(fontSize: 18, color: Colors.white),),
+                          ],
+                        ),
+                      ),
+                    ),
+                ),
+                SizedBox(width: 10,),
+                Expanded(
+                    child:FlatButton(
+                      padding: EdgeInsets.zero,
+                      onPressed: (){
+                        launch(
+                            'tel://${widget.data.sellerContact}'
+                        );
+                      },
+                      child: Container(
+                        height:60,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(5)),
+                          border: Border.all(color: Color(0XFF396ca3),  width: 2),
+                          color: Color(0XFF396ca3),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Icon(FontAwesomeIcons.phoneAlt, color: Colors.white,),
+                            SizedBox(width: 10,),
+                            Text("Call Seller",
+                              style: GoogleFonts.quicksand(fontSize: 18, color: Colors.white),),
+                          ],
+                        ),
+                      ),
+                    ),
+                ),
+              ],
+            ),
+          ),
+        )
+      ),
+    );
+  }
+}
+
+/*
+*  ListTile(
+              //contentPadding: EdgeInsets.all(<some value here>),//change for side padding
+              title: Row(
+                children: <Widget>[
+                  Expanded(child: RaisedButton(onPressed: () {},child: Text("Clear"),color: Colors.black,textColor: Colors.white,)),
+                  Expanded(child: RaisedButton(onPressed: () {},child: Text("Filter"),color: Colors.black,textColor: Colors.white,)),
+                ],
+              ),
+            )*/
+
+/*
+* FlatButton(
           padding: EdgeInsets.zero,
           onPressed: (){
             launch(
@@ -347,7 +419,7 @@ class _AddDetailState extends State<AddDetail>  with SingleTickerProviderStateMi
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Container(
-                    width: MediaQuery.of(context).size.width - 40,
+                    width:40,
                     height:60,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.all(Radius.circular(5)),
@@ -370,8 +442,4 @@ class _AddDetailState extends State<AddDetail>  with SingleTickerProviderStateMi
             ),
           ),
         ),
-
-      ),
-    );
-  }
-}
+*/
