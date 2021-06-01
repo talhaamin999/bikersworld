@@ -20,12 +20,12 @@ class MyApp extends StatelessWidget{
       theme: ThemeData(
         primarySwatch: Colors.deepOrange,
       ),
-      //home: LoadingScreen(),
+      home: LoadingScreen(),
       //home: AdSearchPage(),
       ////home: PostBikeInfo(),
       //home: AdSearchPage(),
       //home:SellerHomeScreen(),
-      home: HomeDashboard(),
+      //home: HomeDashboard(),
     );
   }
 }

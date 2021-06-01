@@ -11,66 +11,10 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:bikersworld/widgets/bezierContainer.dart';
 import 'package:bikersworld/screen/dashboard/Ads/AdDetail.dart';
-//            SizedBox(height: 30,),
-//
-//            Container(
-//              width: double.infinity,
-//              height: 190,
-//              color: Color(0XFF012A4A),
-//              child: Padding(
-//                padding: const EdgeInsets.all(20),
-//                child: Column(
-//                  crossAxisAlignment: CrossAxisAlignment.start,
-//                  children: <Widget>[
-//
-//                    Text(
-//                      "BE THE FIRST TO KNOW",
-//                      style: GoogleFonts.quicksand(
-//                        fontSize: 20,
-//                        color: Colors.white,
-//                        fontWeight: FontWeight.bold,
-//                      ),
-//                    ),
-//                    SizedBox(height: 20,),
-//                    Container(
-//                      child: Column(
-//                        crossAxisAlignment: CrossAxisAlignment.start,
-//                        children: <Widget>[
-//                          Text(
-//                            "Get all the latest information about bikes, workshop, auto store and auto parts.",
-//                            style: GoogleFonts.quicksand(
-//                              fontSize: 15,
-//                              color: Colors.white,
-//                            ),
-//                          ),
-//                          SizedBox(height: 10,),
-//                          Text(
-//                            "Signup for registeration",
-//                            style: GoogleFonts.quicksand(
-//                              fontSize: 15,
-//                              color: Colors.white,
-//                            ),
-//                          ),
-//                        ],
-//                      ),
-//                    ),
-//
-//                  ],
-//                ),
-//              ),
-//            ),
-//
-//            SizedBox(height: 20,),
-//          ],
-//        ),
-//      ),
-//      drawer: CustomDrawer(),
-//
-//    );
-//  }
-//}
-//
-
+import 'package:bikersworld/screen/dashboard/searchPages/auto_partstore_search_page.dart';
+import 'package:bikersworld/screen/loginSignup/welcome_page.dart';
+import 'package:bikersworld/screen/dashboard/searchPages/autopart_search_page.dart';
+import 'package:bikersworld/widgets/constants.dart';
 
 class rating extends StatefulWidget {
   @override
@@ -559,15 +503,16 @@ class _HomeDashboardState extends State<HomeDashboard> {
                             },
                             child: Container(
                               width: 180,
-                              height: 200,
+                              height: 220,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(20),
+
                               ),
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
                                   AspectRatio(
-                                    aspectRatio: 15.0 / 15.0,
+                                    aspectRatio: 10.0 / 10.0,
                                     child: ClipRRect(
                                       borderRadius: BorderRadius.circular(20.0),
                                       child: Image(
@@ -592,6 +537,7 @@ class _HomeDashboardState extends State<HomeDashboard> {
                               height: 200,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(20),
+
                               ),
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -602,7 +548,7 @@ class _HomeDashboardState extends State<HomeDashboard> {
                                       borderRadius: BorderRadius.circular(20.0),
                                       child: Image(
                                         image: AssetImage(
-                                          "assets/autoPartStore1.jpeg",
+                                          "assets/autoParttStore4.jpeg",
                                         ),
                                         fit: BoxFit.fill,
                                       ),
@@ -623,6 +569,7 @@ class _HomeDashboardState extends State<HomeDashboard> {
                               height: 200,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(20),
+
                               ),
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -633,11 +580,14 @@ class _HomeDashboardState extends State<HomeDashboard> {
                                       borderRadius: BorderRadius.circular(20.0),
                                       child: Image(
                                         image: AssetImage(
-                                          "assets/autoPartStore1.jpeg",
+                                          "assets/autoPartStre3.jpeg",
                                         ),
                                         fit: BoxFit.fill,
                                       ),
                                     ),
+                                  ),
+                                  Text(
+                                    "sdf",
                                   ),
                                 ],
                               ),
@@ -730,7 +680,7 @@ class _HomeDashboardState extends State<HomeDashboard> {
                       ),
                     ),
                    Container(
-                     margin: EdgeInsets.only(left:20),
+                     margin: EdgeInsets.only(left:20, top:20),
                      height: 280,
                      child: ListView(
                        scrollDirection: Axis.horizontal,
@@ -745,7 +695,7 @@ class _HomeDashboardState extends State<HomeDashboard> {
                            child: Container(
                              width: MediaQuery.of(context).size.width - 80,
                              child: Card(
-                               color: Color(0xffdedede),
+                               color: Color(0xfff2f0f0),
                                shape: RoundedRectangleBorder(
                                  borderRadius: BorderRadius.circular(20),
                                ),
@@ -802,11 +752,9 @@ class _HomeDashboardState extends State<HomeDashboard> {
                                                  height: 40,
                                                  width: 40,
                                                  decoration: BoxDecoration(
-                                                   color: Colors.indigo,
+                                                   color: Color(0XFF012A4A),
                                                    borderRadius: BorderRadius.only(
-                                                     topRight: Radius.circular(10),
                                                      bottomRight: Radius.circular(20),
-                                                     bottomLeft: Radius.circular(10),
                                                      topLeft: Radius.circular(10),
                                                    ),
                                                  ),
@@ -835,7 +783,7 @@ class _HomeDashboardState extends State<HomeDashboard> {
                            child: Container(
                              width: MediaQuery.of(context).size.width - 80,
                              child: Card(
-                               color: Color(0xffdedede),
+                               color: Color(0xfff2f0f0),
                                shape: RoundedRectangleBorder(
                                  borderRadius: BorderRadius.circular(20),
                                ),
@@ -892,11 +840,9 @@ class _HomeDashboardState extends State<HomeDashboard> {
                                                height: 40,
                                                width: 40,
                                                decoration: BoxDecoration(
-                                                 color: Colors.indigo,
+                                                 color: Color(0XFF012A4A),
                                                  borderRadius: BorderRadius.only(
-                                                   topRight: Radius.circular(10),
                                                    bottomRight: Radius.circular(20),
-                                                   bottomLeft: Radius.circular(10),
                                                    topLeft: Radius.circular(10),
                                                  ),
                                                ),
@@ -942,7 +888,7 @@ class _HomeDashboardState extends State<HomeDashboard> {
                                   "Sell you bike with bikers world",
                                   style: GoogleFonts.varelaRound(
                                     fontSize: 22,
-                                    color: Colors.indigo,
+                                    color: Color(0XFF012A4A),
                                   ),
                                 ),
                               ),
@@ -961,14 +907,15 @@ class _HomeDashboardState extends State<HomeDashboard> {
                                                     child: Row(
                                                       children: [
                                                         Icon(
-                                                            FontAwesomeIcons.check
+                                                            FontAwesomeIcons.check,
+                                                          color:Color(0xff8a8a8a),
                                                         ),
                                                         SizedBox(width: 10,),
                                                         Text(
                                                           "Dedicted sale expert to \n sell your bike",
-                                                          style: GoogleFonts.varelaRound(
+                                                          style: GoogleFonts.krub(
                                                             fontSize: 17,
-                                                            color: Colors.black,
+                                                            color: Color(0xff8a8a8a),
                                                           ),
                                                           softWrap: true,
                                                         ),
@@ -980,14 +927,16 @@ class _HomeDashboardState extends State<HomeDashboard> {
                                                     child: Row(
                                                       children: [
                                                         Icon(
-                                                            FontAwesomeIcons.check
+                                                            FontAwesomeIcons.check,
+                                                          color:Color(0xff8a8a8a),
+
                                                         ),
                                                         SizedBox(width: 10,),
                                                         Text(
                                                           "Dedicted sale expert to \n sell your bike",
-                                                          style: GoogleFonts.varelaRound(
+                                                          style: GoogleFonts.krub(
                                                             fontSize: 17,
-                                                            color: Colors.black,
+                                                            color: Color(0xff8a8a8a),
                                                           ),
                                                           softWrap: true,
                                                         ),
@@ -1000,14 +949,16 @@ class _HomeDashboardState extends State<HomeDashboard> {
                                                     child: Row(
                                                       children: [
                                                         Icon(
-                                                            FontAwesomeIcons.check
+                                                            FontAwesomeIcons.check,
+                                                          color:Color(0xff8a8a8a),
+
                                                         ),
                                                         SizedBox(width: 10,),
                                                         Text(
                                                           "Dedicted sale expert to \n sell your bike",
-                                                          style: GoogleFonts.varelaRound(
+                                                          style: GoogleFonts.krub(
                                                             fontSize: 17,
-                                                            color: Colors.black,
+                                                            color: Color(0xff8a8a8a),
                                                           ),
                                                           softWrap: true,
                                                         ),
@@ -1061,6 +1012,395 @@ class _HomeDashboardState extends State<HomeDashboard> {
                     ),
 
                     SizedBox(height: 20,),
+                    Container(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(left:25, top: 10),
+                            child: Container(
+                              height: 50,
+                              width: 8,
+                              color:Colors.orange,
+                            ),
+                          ),
+                          Container(
+                            child: Padding(
+                              padding: const EdgeInsets.only(top: 1),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    "AUTO PART STORES",
+                                    style: GoogleFonts.mukta(
+                                      fontSize: 20,
+                                      color: Color(0XFF012A4A),
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(top:0),
+                                    child: Text(
+                                      "Find the best we have",
+                                      style: GoogleFonts.varelaRound(
+                                        fontSize: 16,
+                                        color: Colors.grey,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                          SizedBox(width: 10,),
+                          CircleAvatar(backgroundColor: Colors.white,),
+                          FlatButton(
+                            padding: EdgeInsets.only(top: 20,right: 20),
+                            onPressed: (){
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => AutoPartStoreSearchPage()));
+                            },
+                            child: Container(
+                              height:35,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.all(Radius.circular(5)),
+                                border: Border.all(color: Color(0XFF012A4A),  width: 1),
+                              ),
+                              child: Center(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text("View All", textAlign: TextAlign.center,
+                                    style: GoogleFonts.quicksand(fontSize: 15, color: Color(0XFF012A4A),),),
+                                ),
+                              ),
+                            ),
+                          ),
+
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(left:20,right:20, top:10),
+                      child: Card(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(15),
+                        ),
+                        color: Color(0XFF012A4A),
+                        child: Padding(
+                          padding: const EdgeInsets.only(left:8,top:8),
+                          child: Row(
+                            mainAxisAlignment:MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              Padding(
+                                padding: const EdgeInsets.only(left:8.0,bottom:10),
+                                child: Container(
+                                  width: 70.0,
+                                  height: 70.0,
+                                  decoration: new BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      image: new DecorationImage(
+                                          fit: BoxFit.cover,
+                                          image: AssetImage("assets/autoPartStore1.jpeg")
+                                      )
+                                  ),
+                                ),
+                              ),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  Text("General Autos",
+                                    style: TextStyle (
+                                        color: Colors.white,
+                                        fontSize: 18
+                                    ),
+                                  ),
+                                  Text("Islamabad",
+                                    style: TextStyle (
+                                        color: Colors.white,
+                                        fontSize: 12
+                                    ),
+                                  )
+                                ],
+                              ),
+                              Container(
+                                margin: EdgeInsets.only(top: 30),
+                                alignment: Alignment.bottomRight,
+                                height:50,
+                                width: 130,
+                                decoration:BoxDecoration(
+                                  borderRadius: BorderRadius.only(
+                                    topLeft: Radius.circular(15),
+                                    bottomRight: Radius.circular(15),
+                                  ),
+                                  color: Colors.orange,
+                                ),
+                                child: Center(
+                                  child:Text(
+                                    "View",
+                                    style: GoogleFonts.raleway(
+                                      fontSize: 18,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ),
+                              ),
+
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(left:20,right:20, top:10),
+                      child: Card(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(15),
+                        ),
+                        color: Color(0XFF012A4A),
+                        child: Padding(
+                          padding: const EdgeInsets.only(left:8,top:8),
+                          child: Row(
+                            mainAxisAlignment:MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              Padding(
+                                padding: const EdgeInsets.only(left:8.0,bottom:10),
+                                child: Container(
+                                  width: 70.0,
+                                  height: 70.0,
+                                  decoration: new BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      image: new DecorationImage(
+                                          fit: BoxFit.cover,
+                                          image: AssetImage("assets/autoPartStore1.jpeg")
+                                      )
+                                  ),
+                                ),
+                              ),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  Text("General Autos",
+                                    style: TextStyle (
+                                        color: Colors.white,
+                                        fontSize: 18
+                                    ),
+                                  ),
+                                  Text("Islamabad",
+                                    style: TextStyle (
+                                        color: Colors.white,
+                                        fontSize: 12
+                                    ),
+                                  )
+                                ],
+                              ),
+                              Container(
+                                margin: EdgeInsets.only(top: 30),
+                                alignment: Alignment.bottomRight,
+                                height:50,
+                                width: 130,
+                                decoration:BoxDecoration(
+                                  borderRadius: BorderRadius.only(
+                                    topLeft: Radius.circular(15),
+                                    bottomRight: Radius.circular(15),
+                                  ),
+                                  color: Colors.orange,
+                                ),
+                                child: Center(
+                                  child:Text(
+                                    "View",
+                                    style: GoogleFonts.raleway(
+                                      fontSize: 18,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ),
+                              ),
+
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+
+                    /*SizedBox(height:10),
+                    Container(
+                      width: double.infinity,
+                      height: 230,
+                      color: Color(0XFF012A4A),
+                      child: Padding(
+                        padding: const EdgeInsets.all(20),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+
+                            Text(
+                              "BE THE FIRST TO KNOW",
+                              style: GoogleFonts.quicksand(
+                                fontSize: 20,
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            SizedBox(height: 20,),
+                            Container(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  Text(
+                                    "Get all the latest information about bikes, workshop, auto store and auto parts.",
+                                    style: GoogleFonts.quicksand(
+                                      fontSize: 15,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                  SizedBox(height: 10,),
+                                  Text(
+                                    "Signup for registeration",
+                                    style: GoogleFonts.quicksand(
+                                      fontSize: 15,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            SizedBox(height:20),
+                            Center(
+                              child: FlatButton(
+                                padding:EdgeInsets.zero,
+                                onPressed:(){
+                                  Navigator.push(context, MaterialPageRoute(builder: (context) => GettingStartedScreen()));
+                                },
+                                child: Container(
+                                  height: 50,
+                                  width: MediaQuery.of(context).size.width - 100,
+                                  decoration:BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                    color: Colors.orange,
+                                  ),
+                                  child: Center(
+                                    child:Text(
+                                      "Sign Up",
+                                      style:GoogleFonts.quicksand(
+                                        fontSize:20,
+                                        color:Colors.white,
+                                      )
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+
+                          ],
+                        ),
+                      ),
+                    ),*/
+                    SizedBox(height: 20,),
+                    Container(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(left:25, top: 10),
+                            child: Container(
+                              height: 50,
+                              width: 8,
+                              color:Colors.orange,
+                            ),
+                          ),
+                          Container(
+                            child: Padding(
+                              padding: const EdgeInsets.only(top: 1),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    "AUTO PART",
+                                    style: GoogleFonts.mukta(
+                                      fontSize: 20,
+                                      color: Color(0XFF012A4A),
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(top:0),
+                                    child: Text(
+                                      "Find the best we have",
+                                      style: GoogleFonts.varelaRound(
+                                        fontSize: 16,
+                                        color: Colors.grey,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                          SizedBox(width: 10,),
+                          CircleAvatar(backgroundColor: Colors.white,),
+                          FlatButton(
+                            padding: EdgeInsets.only(top: 20,right: 20),
+                            onPressed: (){
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => AutoPartSearchPage()));
+                            },
+                            child: Container(
+                              height:35,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.all(Radius.circular(5)),
+                                border: Border.all(color: Color(0XFF012A4A),  width: 1),
+                              ),
+                              child: Center(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text("View All", textAlign: TextAlign.center,
+                                    style: GoogleFonts.quicksand(fontSize: 15, color: Color(0XFF012A4A),),),
+                                ),
+                              ),
+                            ),
+                          ),
+
+                        ],
+                      ),
+                    ),
+                    SizedBox(height:10),
+                    Container(
+                      color: Colors.transparent,
+                      padding: EdgeInsets.symmetric(horizontal: 20,vertical: 10),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Row(
+                            children: <Widget>[
+                              ActiveProjectsCard(
+                                  image: "assets/p1.jpeg",
+                                  title: 'Spray Kit',
+                                  subtitle: '1500',
+                                ),
+                              SizedBox(width: 20.0),
+                              ActiveProjectsCard(
+                                image: "assets/p1.jpeg",
+                                title: 'Spray Kit',
+                                subtitle: '1500',
+                              ),
+                            ],
+                          ),
+                          Row(
+                            children: <Widget>[
+                              ActiveProjectsCard(
+                                cardColor: LightColors.kDarkYellow,
+                                image: "assets/p1.jpeg",
+                                title: 'Spray Kit',
+                                subtitle: '1500',
+                              ),
+                              SizedBox(width: 20.0),
+                              ActiveProjectsCard(
+                                title: 'Spray Kit',
+                                subtitle: '1500',
+                                image: "assets/p1.jpeg",
+
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -1072,77 +1412,99 @@ class _HomeDashboardState extends State<HomeDashboard> {
     );
   }
 }
-/*
-* Container(
-                          margin: EdgeInsets.only(left:10),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                "Sell you bike with bikers world",
-                                style: GoogleFonts.lato(
-                                  fontSize: 20,
-                                  color: Colors.indigo,
-                                ),
-                                softWrap: true,
-                              ),
-                              SizedBox(height: 10,),
-                              Text(
-                                "Dedicted sale expert to \n sell your bike",
-                                style: GoogleFonts.varelaRound(
-                                  fontSize: 17,
-                                  color: Colors.black,
-                                ),
-                                softWrap: true,
-                              ),
-                              SizedBox(height: 5,),
-                              Container(
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(
-                                      "Dedicted sale expert to \n sell your bike",
-                                      style: GoogleFonts.varelaRound(
-                                        fontSize: 17,
-                                        color: Colors.black,
-                                      ),
-                                      softWrap: true,
-                                    ),
-                                    Image(
-                                      image: AssetImage(
-                                        "assets/trade.png",
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              SizedBox(height: 5,),
-                              Text(
-                                "Dedicted sale expert to \n sell your bike",
-                                style: GoogleFonts.varelaRound(
-                                  fontSize: 17,
-                                  color: Colors.black,
-                                ),
-                                softWrap: true,
-                              ),
 
-                              Container(
-                                margin: EdgeInsets.only(right:10,bottom: 15, top:15),
-                                height: 40,
-                                decoration: BoxDecoration(
-                                  color: Color(0XFF012A4A),
-                                  borderRadius: BorderRadius.circular(5),
-                                ),
-                                child: Center(
-                                  child: Text(
-                                    "Register you bike",
-                                    style: GoogleFonts.quicksand(
-                                      color: Colors.white,
-                                      fontSize: 17,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
+
+
+
+
+
+class ActiveProjectsCard extends StatelessWidget {
+  final Color cardColor;
+  final String title;
+  final String subtitle;
+  final String image;
+  ActiveProjectsCard({
+    this.cardColor,
+    this.title,
+    this.subtitle,
+    this.image,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      flex: 1,
+      child: Container(
+        margin: EdgeInsets.symmetric(vertical: 10.0),
+        height: 225,
+        decoration: BoxDecoration(
+          color: Color(0xfff2f2f2),
+          borderRadius: BorderRadius.circular(20.0),
+          border: Border.all(
+            width: 1,
+            color: Color(0xffdedede),
+          ),
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            AspectRatio(
+              aspectRatio: 10.0 / 10.0,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(10.0),
+                child: Image(
+                  image: AssetImage(
+                    image,
+                  ),
+                  fit: BoxFit.fill,
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left:8.0,bottom:10),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Text(
+                    title,
+                    style: GoogleFonts.quicksand(
+                      fontSize: 18.0,
+                      color: Colors.black,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                  SizedBox(height:5),
+                  Container(
+                    child:Row(
+                      children: [
+                        Text(
+                          "PKR",
+                          style: GoogleFonts.quicksand(
+                            fontSize: 15.0,
+                            color: Colors.black,
+                            fontWeight: FontWeight.w400,
                           ),
-                        ),*/
+                        ),
+                        SizedBox(width:5),
+                        Text(
+                          subtitle,
+                          style: GoogleFonts.quicksand(
+                            fontSize: 15.0,
+                            color: Colors.black,
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}

@@ -283,20 +283,6 @@ class _CustomDrawerState extends State<CustomDrawer> {
 
                     ),
                   ),
-                  Visibility(
-                    visible: snapshot.data == 'partstore_owner' ? true : false,
-                    child: ListTile(
-                      leading: Icon(FontAwesomeIcons.registered),
-                      title: Text("PartStore Dashboard",
-                        style: GoogleFonts.montserrat(
-                            fontSize: 15, color: Colors.black),),
-                      trailing: Icon(Icons.arrow_forward_ios, size: 15.0,),
-                      onTap: () {
-                        Navigator.push(context, MaterialPageRoute(
-                            builder: (context) => AutoPartStoreDashboardOwner()));
-                      },
-                    ),
-                  ),
                   Container(
                     margin: EdgeInsets.symmetric(vertical: 10),
                     child: Row(
