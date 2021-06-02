@@ -15,6 +15,9 @@ import 'package:bikersworld/screen/dashboard/searchPages/auto_partstore_search_p
 import 'package:bikersworld/screen/loginSignup/welcome_page.dart';
 import 'package:bikersworld/screen/dashboard/searchPages/autopart_search_page.dart';
 import 'package:bikersworld/widgets/constants.dart';
+import 'package:bubble_bottom_bar/bubble_bottom_bar.dart';
+import 'package:fancy_bottom_navigation/fancy_bottom_navigation.dart';
+
 
 class rating extends StatefulWidget {
   @override
@@ -45,6 +48,10 @@ class _ratingState extends State<rating> {
 }
 
 class HomeDashboard extends StatefulWidget {
+
+  int currentIndex = 0;
+
+
   @override
   _HomeDashboardState createState() => _HomeDashboardState();
 }
@@ -1409,6 +1416,19 @@ class _HomeDashboardState extends State<HomeDashboard> {
         ),
       ),
       drawer: CustomDrawer(),
+//        bottomNavigationBar: FancyBottomNavigation(
+//          tabs: [
+//            TabData(iconData: Icons.home, title: "Home",),
+//            TabData(iconData: FontAwesomeIcons.wrench, title: "Auto Parts"),
+//            TabData(iconData: FontAwesomeIcons.building, title: "Workshop"),
+//            TabData(iconData: FontAwesomeIcons.ad, title: "Advertisements"),
+//          ],
+//          onTabChangedListener: (position) {
+//            setState(() {
+//            //  currentPage = position;
+//            });
+//          },
+//        )
     );
   }
 }
@@ -1508,3 +1528,4 @@ class ActiveProjectsCard extends StatelessWidget {
     );
   }
 }
+

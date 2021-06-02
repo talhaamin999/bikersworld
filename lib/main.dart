@@ -1,9 +1,8 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:bikersworld/screen/onboarding/onboarding.dart';
-import 'package:bikersworld/screen/dashboard/searchPages/ads_search_page.dart';
-import 'package:bikersworld/screen/dashboard/home.dart';
-import 'package:bikersworld/screen/dashboard/Ads/seller/sellerDashbaord.dart';
+
+
 Future<void> main() async{
 
   WidgetsFlutterBinding.ensureInitialized();
@@ -21,10 +20,6 @@ class MyApp extends StatelessWidget{
         primarySwatch: Colors.deepOrange,
       ),
       home: LoadingScreen(),
-      //home: AdSearchPage(),
-      ////home: PostBikeInfo(),
-      //home: AdSearchPage(),
-      //home:SellerHomeScreen(),
       //home: HomeDashboard(),
     );
   }
