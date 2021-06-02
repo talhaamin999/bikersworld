@@ -9,7 +9,7 @@ class PostAddQueries{
 
   final _storage = FirebaseStorage.instance;
   final String BIKE_ADD_COLLECTION = "post_add";
-  bool imageUploaded = false,addPosted = false,updatedBikeInfo = false,updatedSllerInfo = false,updatedImages = false;
+  bool imageUploaded = false,addPosted = false,updatedBikeInfo = false,updatedSllerInfo = false,updatedImages = false,deletedAdd = false;
   final _error = ToastErrorMessage();
   final FirebaseFirestore _firestoreInstance = FirebaseFirestore.instance;
 
@@ -52,6 +52,19 @@ class PostAddQueries{
     }
     return updatedSllerInfo;
   }
+  Future<bool> deleteAdd(String docId) async{
+    try {
+      await _firestoreInstance.collection(BIKE_ADD_COLLECTION)
+          .doc(docId)
+          .delete()
+          .then((_) => deletedAdd = true)
+          .catchError((onError) =>
+          _error.errorToastMessage(errorMessage: onError));
+    }catch(e){
+      _error.errorToastMessage(errorMessage: e.toString());
+    }
+    return deletedAdd;
+  }
   Future<bool> updateImages(BikeAddModel data) async{
     try {
       await _firestoreInstance.collection(BIKE_ADD_COLLECTION)
@@ -65,12 +78,12 @@ class PostAddQueries{
     }
     return updatedImages;
   }
-  Future<List<BikeAddModel>> getSellerAdds(String postedBy) {
+  Stream<List<BikeAddModel>> getSellerAdds(String postedBy) {
     try{
       return _firestoreInstance.collection(BIKE_ADD_COLLECTION)
           .where('posted_by',isEqualTo: postedBy)
-          .get()
-          .then((querySanpshot) => querySanpshot.docs
+          .snapshots()
+          .map((querySanpshot) => querySanpshot.docs
           .map((doc) => BikeAddModel.fromJson(doc.data(), doc.reference.id))
           .toList());
     }catch(e){

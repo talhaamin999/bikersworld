@@ -2,13 +2,13 @@ import 'package:bikersworld/model/bike_add_model.dart';
 import 'package:bikersworld/services/authenticate_service.dart';
 import 'package:bikersworld/services/bike_add_queries.dart';
 import 'package:bikersworld/services/toast_service.dart';
+import 'package:bikersworld/widgets/warning_popup.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'dart:math';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:bikersworld/screen/dashboard/Ads/AdDetail.dart';
-import 'package:rflutter_alert/rflutter_alert.dart';
 import '../postAdsSeller.dart';
 
 enum addOption{updateBikeInfo,upadateSellerInfo,updateImages,delete}
@@ -20,8 +20,12 @@ class SellerHomeScreen extends StatelessWidget {
   final _user = AuthenticationService();
   final _adds = PostAddQueries();
   final _error = ToastErrorMessage();
+  final _warning = WarningPopUp();
+  final _option = TextEditingController();
+  final _bikeQuery = PostAddQueries();
+  final _valid = ToastValidMessage();
 
-  Future<List<BikeAddModel>> getSellerAdds(){
+  Stream<List<BikeAddModel>> getSellerAdds(){
     try {
       if (_user.getCurrentUser()) {
         return _adds.getSellerAdds(_user.getUserId());
@@ -41,6 +45,16 @@ class SellerHomeScreen extends StatelessWidget {
     }
     else if(option == addOption.updateImages){
       Navigator.of(context).push(MaterialPageRoute(builder: (context) => PostAddImages(data: data)));
+    }
+  }
+
+  void warningMessage(BuildContext context,String docId) async{
+    await _warning.getWarning(context, _option);
+    if(_option.text == 'ok'){
+      bool _result = await _bikeQuery.deleteAdd(docId);
+      if(_result){
+        _valid.validToastMessage(validMessage: 'Add Deletd Sucessfully');
+      }
     }
   }
 
@@ -112,8 +126,8 @@ class SellerHomeScreen extends StatelessWidget {
                   ),
                 ),
                 SizedBox(height: 20,),
-                FutureBuilder(
-                  future: getSellerAdds(),
+                StreamBuilder(
+                  stream: getSellerAdds(),
                   builder: (BuildContext context, AsyncSnapshot<List<BikeAddModel>> snapshot) {
                     if(snapshot.hasData && snapshot.data.isNotEmpty){
                       return ListView.builder(
@@ -234,37 +248,7 @@ class SellerHomeScreen extends StatelessWidget {
                                                      child: FlatButton(
                                                        padding: EdgeInsets.zero,
                                                        onPressed: (){
-                                                         Alert(
-                                                           context: context,
-                                                           type: AlertType.warning,
-                                                           title: "Warning",
-                                                           desc: "Are you sure you want to delete it...",
-                                                           buttons: [
-                                                             DialogButton(
-                                                               color: Colors.indigo,
-                                                               width: 120,
-                                                               child: Text(
-                                                                 "Cancel",
-                                                                 style: GoogleFonts.quicksand(color: Colors.white, fontSize: 20),
-                                                               ),
-                                                               onPressed: () {
-                                                                 //option = 'cancel';
-                                                                 //Navigator.of(context,rootNavigator: true).pop();
-                                                               },
-                                                             ),
-                                                             DialogButton(
-                                                                 width: 120,
-                                                                 child: Text(
-                                                                   "Okay",
-                                                                   style: GoogleFonts.quicksand(color: Colors.white, fontSize: 20),
-                                                                 ),
-                                                                 onPressed: () {
-                                                                   //option = 'ok';
-                                                                   //Navigator.of(context, rootNavigator: true).pop();
-                                                                 }
-                                                             )
-                                                           ],
-                                                         ).show();
+                                                         warningMessage(context,snapshot.data[index].id);
                                                        },
                                                        child: Container(
                                                          child: Row(
