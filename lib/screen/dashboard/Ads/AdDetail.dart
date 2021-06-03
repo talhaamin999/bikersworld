@@ -6,6 +6,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:carousel_pro/carousel_pro.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:bikersworld/screen/dashboard/searchPages/ads_search_page.dart';
+import 'package:image_slider/image_slider.dart';
+
 class AddDetail extends StatefulWidget {
 
 
@@ -15,13 +17,19 @@ class AddDetail extends StatefulWidget {
   _AddDetailState createState() => _AddDetailState();
 }
 
-class _AddDetailState extends State<AddDetail>  with SingleTickerProviderStateMixin {
+class _AddDetailState extends State<AddDetail>  with SingleTickerProviderStateMixin  {
 
   @override
   void initState() {
     super.initState();
+    tabController = TabController(length: 3, vsync: this);
   }
-
+  TabController tabController;
+  static List<String> links = [
+    "https://www.google.com/search?q=images&client=firefox-b-d&sxsrf=ALeKk00CSoEjMR8iWKy7qSOkXiJHlZXZmA:1622746214609&tbm=isch&source=iu&ictx=1&fir=ez-ubljHwN9MSM%252CJEwZUI4DSxP5DM%252C_&vet=1&usg=AI4_-kQW3bzyukRDZqpkdOpBWmPJAsZdQQ&sa=X&ved=2ahUKEwjnr7rdkPzwAhWEsKQKHQo7BHYQ9QF6BAgNEAE#imgrc=ez-ubljHwN9MSM",
+    "https://www.google.com/search?q=images&client=firefox-b-d&sxsrf=ALeKk01Rb3ZtiLu_QKT5pbZ6kQtl3tjm3A:1622746379120&source=lnms&tbm=isch&sa=X&ved=2ahUKEwiElvOrkfzwAhUThVwKHUNsCz4Q_AUoAXoECAEQAw&biw=1536&bih=778#imgrc=kHpcTNTA2NHBJM",
+    "https://www.google.com/search?q=images&client=firefox-b-d&sxsrf=ALeKk01Rb3ZtiLu_QKT5pbZ6kQtl3tjm3A:1622746379120&source=lnms&tbm=isch&sa=X&ved=2ahUKEwiElvOrkfzwAhUThVwKHUNsCz4Q_AUoAXoECAEQAw&biw=1536&bih=778#imgrc=wmuD1bt6xzE89M",
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -45,19 +53,41 @@ class _AddDetailState extends State<AddDetail>  with SingleTickerProviderStateMi
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Container(
-                  height: 250.0,
-                  width: double.infinity,
-                  child: Carousel(
-                    images: [
-                      AssetImage("assets/Ads/ad1.jpeg",),
-                      AssetImage("assets/Ads/ad2.jpeg"),
-                      AssetImage("assets/Ads/ad3.jpeg"),
-                      AssetImage("assets/Ads/ad4.jpeg"),
-                      AssetImage("assets/Ads/ad5.jpeg"),
-                      AssetImage("assets/Ads/ad6.jpeg"),
-                    ],
-                  ),
+                Column(
+                  children: [
+                    Container(
+                      margin: EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          border: Border.all(width: 2)),
+                      child: ImageSlider(
+                        showTabIndicator: false,
+                        tabIndicatorColor: Colors.lightBlue,
+                        tabIndicatorSelectedColor: Color.fromARGB(255, 0, 0, 255),
+                        tabIndicatorHeight: 16,
+                        tabIndicatorSize: 16,
+                        tabController: tabController,
+                        curve: Curves.fastOutSlowIn,
+                        width: MediaQuery.of(context).size.width,
+                        height: 220,
+                        autoSlide: false,
+                        duration: new Duration(seconds: 6),
+                        allowManualSlide: true,
+                        children: links.map((String link) {
+                          return new ClipRRect(
+                            borderRadius: BorderRadius.circular(8.0),
+                            child: Image.network(
+                              link,
+                              width: MediaQuery.of(context).size.width,
+                              height: 220,
+                              fit: BoxFit.fill,
+                            ),
+                          );
+                        },
+                        ).toList(),
+                      ),
+                    ),
+                  ],
                 ),
                 Padding(
                   padding: const EdgeInsets.all(15),
@@ -208,14 +238,14 @@ class _AddDetailState extends State<AddDetail>  with SingleTickerProviderStateMi
                           ],
                         ),
                       ),
-                      SizedBox(width: 60,),
+                      SizedBox(width: 20,),
                       Container(
                         margin: EdgeInsets.only(left: 20),
                         child: Row(
                           children: <Widget>[
                             Icon(FontAwesomeIcons.calendar),
-                            SizedBox(width: 8,),
-                            SizedBox(width: 18,),
+                            SizedBox(width: 5,),
+                            SizedBox(width: 15,),
                             Container(
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
