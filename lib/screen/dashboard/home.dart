@@ -19,8 +19,6 @@ import 'package:bikersworld/widgets/bezierContainer.dart';
 import 'package:bikersworld/screen/dashboard/Ads/AdDetail.dart';
 import 'package:bikersworld/screen/dashboard/searchPages/auto_partstore_search_page.dart';
 import 'package:bikersworld/screen/dashboard/searchPages/autopart_search_page.dart';
-import 'package:bikersworld/widgets/constants.dart';
-
 
 class HomeDashboard extends StatefulWidget {
 
@@ -480,6 +478,7 @@ class _HomeDashboardState extends State<HomeDashboard> {
                       if(snapshot.hasData && snapshot.data.isNotEmpty){
                         return ListView.builder(
                           shrinkWrap: true,
+                          physics:NeverScrollableScrollPhysics(),
                           itemCount: snapshot.data.length,
                           itemBuilder: (BuildContext context, int index) {
                             return Padding(
@@ -947,6 +946,7 @@ class _HomeDashboardState extends State<HomeDashboard> {
                         if(snapshot.hasData && snapshot.data.isNotEmpty){
                           return ListView.builder(
                             shrinkWrap: true,
+                            physics:NeverScrollableScrollPhysics(),
                             itemCount: snapshot.data.length,
                             itemBuilder: (BuildContext context, int index) {
                               return Padding(
