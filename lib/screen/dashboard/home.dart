@@ -1,3 +1,10 @@
+import 'package:bikersworld/model/bike_add_model.dart';
+import 'package:bikersworld/model/partstore_model.dart';
+import 'package:bikersworld/model/workshop_model.dart';
+import 'package:bikersworld/services/bike_add_queries.dart';
+import 'package:bikersworld/services/part_store_queries/part_queries.dart';
+import 'package:bikersworld/services/part_store_queries/part_store_query.dart';
+import 'package:bikersworld/services/workshop_queries/workshop_queries.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:bikersworld/screen/autoPartStore/auto_part_store_normal_user/auto_part_ptore_dashboard.dart';
@@ -8,55 +15,26 @@ import 'package:bikersworld/widgets/drawer.dart';
 import 'package:flutter/rendering.dart';
 import 'package:bikersworld/screen/dashboard/findMorePage.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:bikersworld/widgets/bezierContainer.dart';
 import 'package:bikersworld/screen/dashboard/Ads/AdDetail.dart';
 import 'package:bikersworld/screen/dashboard/searchPages/auto_partstore_search_page.dart';
-import 'package:bikersworld/screen/loginSignup/welcome_page.dart';
 import 'package:bikersworld/screen/dashboard/searchPages/autopart_search_page.dart';
 import 'package:bikersworld/widgets/constants.dart';
-import 'package:bubble_bottom_bar/bubble_bottom_bar.dart';
-import 'package:fancy_bottom_navigation/fancy_bottom_navigation.dart';
 
-
-class rating extends StatefulWidget {
-  @override
-  _ratingState createState() => _ratingState();
-}
-
-class _ratingState extends State<rating> {
-  @override
-  Widget build(BuildContext context) {
-    return RatingBar.builder(
-      initialRating: 3,
-      minRating: 2,
-      direction: Axis.horizontal,
-      allowHalfRating: true,
-      itemCount: 5,
-      itemSize: 20,
-      itemPadding: EdgeInsets.only(left:2),
-      itemBuilder: (context, _) => Icon(
-        Icons.star,
-        color: Colors.amber,
-      ),
-      onRatingUpdate: (rating) {
-        print(rating);
-      },
-    );
-
-  }
-}
 
 class HomeDashboard extends StatefulWidget {
-
-  int currentIndex = 0;
-
 
   @override
   _HomeDashboardState createState() => _HomeDashboardState();
 }
 
 class _HomeDashboardState extends State<HomeDashboard> {
+
+  final adds = PostAddQueries();
+  final _workshops = RegisterWorkshopQueries();
+  final _partStore = RegisterPartStoreQueries();
+  final _autoPart = AutoPartQueries();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -496,115 +474,67 @@ class _HomeDashboardState extends State<HomeDashboard> {
                       ],
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(left:25,top: 20),
-                    child: Container(
-                      height: 200,
-                      child: ListView(
-                        shrinkWrap: true,
-                        scrollDirection: Axis.horizontal,
-                        children: <Widget>[
-                          FlatButton(
-                            padding:EdgeInsets.zero,
-                            onPressed: (){
-                            },
-                            child: Container(
-                              width: 180,
-                              height: 220,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(20),
+                  FutureBuilder(
+                    future: _workshops.getLimitedWorkshops(),
+                    builder: (BuildContext context, AsyncSnapshot<List<WorkshopDashboardModel>> snapshot) {
+                      if(snapshot.hasData && snapshot.data.isNotEmpty){
+                        return ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: snapshot.data.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            return Padding(
+                              padding: const EdgeInsets.only(left:25,top: 20),
+                              child: Container(
+                                height: 200,
+                                child: ListView(
+                                  physics: NeverScrollableScrollPhysics(),
+                                  shrinkWrap: true,
+                                  scrollDirection: Axis.horizontal,
+                                  children: <Widget>[
+                                    FlatButton(
+                                      padding:EdgeInsets.zero,
+                                      onPressed: (){
+                                      },
+                                      child: Container(
+                                        width: 180,
+                                        height: 220,
+                                        decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(20),
 
-                              ),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  AspectRatio(
-                                    aspectRatio: 10.0 / 10.0,
-                                    child: ClipRRect(
-                                      borderRadius: BorderRadius.circular(20.0),
-                                      child: Image(
-                                        image: AssetImage(
-                                          "assets/autoPartStore1.jpeg",
                                         ),
-                                        fit: BoxFit.fill,
+                                        child: Column(
+                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            AspectRatio(
+                                              aspectRatio: 10.0 / 10.0,
+                                              child: ClipRRect(
+                                                borderRadius: BorderRadius.circular(20.0),
+                                                child: Image(
+                                                  image: snapshot.data[index].imageURL != null ?
+                                                  NetworkImage(
+                                                    snapshot.data[index].imageURL,
+                                                  ) :
+                                                      AssetImage(
+                                                          "assets/avatar.jpg",
+                                                      ),
+                                                  fit: BoxFit.fill,
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                ],
+                                  ],
+                                )
+                                ,
                               ),
-                            ),
-                          ),
-                          SizedBox(width: 15,),
-                          FlatButton(
-                            padding:EdgeInsets.zero,
-                            onPressed: (){
-                            },
-                            child: Container(
-                              width: 180,
-                              height: 200,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(20),
-
-                              ),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  AspectRatio(
-                                    aspectRatio: 15.0 / 15.0,
-                                    child: ClipRRect(
-                                      borderRadius: BorderRadius.circular(20.0),
-                                      child: Image(
-                                        image: AssetImage(
-                                          "assets/autoParttStore4.jpeg",
-                                        ),
-                                        fit: BoxFit.fill,
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                          SizedBox(width: 15,),
-
-                          FlatButton(
-                            padding:EdgeInsets.zero,
-                            onPressed: (){
-                            },
-                            child: Container(
-                              width: 180,
-                              height: 200,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(20),
-
-                              ),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  AspectRatio(
-                                    aspectRatio: 15.0 / 15.0,
-                                    child: ClipRRect(
-                                      borderRadius: BorderRadius.circular(20.0),
-                                      child: Image(
-                                        image: AssetImage(
-                                          "assets/autoPartStre3.jpeg",
-                                        ),
-                                        fit: BoxFit.fill,
-                                      ),
-                                    ),
-                                  ),
-                                  Text(
-                                    "sdf",
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                          SizedBox(width: 15,),
-                        ],
-                      )
-                      ,
-                    ),
+                            );
+                          },
+                        );
+                      }
+                      return Center(child: CircularProgressIndicator());
+                    },
                   ),
 
                 ],
@@ -686,192 +616,119 @@ class _HomeDashboardState extends State<HomeDashboard> {
                         ],
                       ),
                     ),
-                   Container(
-                     margin: EdgeInsets.only(left:20, top:20),
-                     height: 280,
-                     child: ListView(
-                       scrollDirection: Axis.horizontal,
-                       shrinkWrap: true,
-                       physics: AlwaysScrollableScrollPhysics(),
-                       children: [
-                         FlatButton(
-                           padding: EdgeInsets.zero,
-                           onPressed: (){
-                             Navigator.push(context, MaterialPageRoute(builder: (context) => AddDetail()));
-                           },
-                           child: Container(
-                             width: MediaQuery.of(context).size.width - 80,
-                             child: Card(
-                               color: Color(0xfff2f0f0),
-                               shape: RoundedRectangleBorder(
-                                 borderRadius: BorderRadius.circular(20),
-                               ),
-                               child: Column(
-                                 crossAxisAlignment: CrossAxisAlignment.start,
-                                 children: [
-                                   ClipRRect(
-                                     borderRadius: BorderRadius.circular(20.0),
-                                     child: Image(
-                                       image: AssetImage(
-                                         "assets/1.png",
-                                       ),
-                                       fit: BoxFit.fill,
-                                     ),
-                                   ),
-                                   Column(
-                                       crossAxisAlignment: CrossAxisAlignment.start,
-                                       children: [
-                                         Container(
-                                           margin:EdgeInsets.only(left:10,top:10),
-                                           child: Row(
-                                             mainAxisAlignment:MainAxisAlignment.spaceBetween,
-                                             children: [
-                                               Expanded(
-                                                 child: Text(
-                                                   "Kawasaki Ninja",
-                                                   style: GoogleFonts.quicksand(
-                                                     fontSize:20,
-                                                   ),
-                                                 ),
-                                               ),
-                                             ],
-                                           ),
-                                         ),
-                                         Container(
-                                           margin:EdgeInsets.only(left:10,),
-                                           child: Row(
-                                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                             children: [
-                                               Text(
-                                                 "Rawalpindi",
-                                                 style: GoogleFonts.quicksand(fontSize: 16,color: Colors.grey),
-                                               ),
-                                               SizedBox(width: 5,),
-                                               Text("|"),
-                                               SizedBox(width: 5,),
-                                               Text(
-                                                 "PKR 250,000",
-                                                 style: GoogleFonts.varelaRound(fontSize: 16,color: Colors.black,fontWeight: FontWeight.bold),
-                                               ),
-                                               SizedBox(width: 20,),
-                                               Container(
-                                                // margin: EdgeInsets.only(top: 20),
-                                                 height: 40,
-                                                 width: 40,
-                                                 decoration: BoxDecoration(
-                                                   color: Color(0XFF012A4A),
-                                                   borderRadius: BorderRadius.only(
-                                                     bottomRight: Radius.circular(20),
-                                                     topLeft: Radius.circular(10),
-                                                   ),
-                                                 ),
-                                                 child: Icon(
-                                                   Icons.arrow_forward,
-                                                   color: Colors.white,
-                                                 ),
-                                               ),
-                                             ],
-                                           ),
-                                         ),
 
-                                       ],
-                                     ),
-                                 ],
-                               ),
-                             ),
-                           ),
-                         ),
-                         SizedBox(width: 15,),
-                         FlatButton(
-                           padding: EdgeInsets.zero,
-                           onPressed: (){
-                             Navigator.push(context, MaterialPageRoute(builder: (context) => AddDetail()));
-                           },
-                           child: Container(
-                             width: MediaQuery.of(context).size.width - 80,
-                             child: Card(
-                               color: Color(0xfff2f0f0),
-                               shape: RoundedRectangleBorder(
-                                 borderRadius: BorderRadius.circular(20),
-                               ),
-                               child: Column(
-                                 crossAxisAlignment: CrossAxisAlignment.start,
-                                 children: [
-                                   ClipRRect(
-                                     borderRadius: BorderRadius.circular(20.0),
-                                     child: Image(
-                                       image: AssetImage(
-                                         "assets/1.png",
-                                       ),
-                                       fit: BoxFit.fill,
-                                     ),
-                                   ),
-                                   Column(
-                                     crossAxisAlignment: CrossAxisAlignment.start,
-                                     children: [
-                                       Container(
-                                         margin:EdgeInsets.only(left:10,top:10),
-                                         child: Row(
-                                           mainAxisAlignment:MainAxisAlignment.spaceBetween,
-                                           children: [
-                                             Expanded(
-                                               child: Text(
-                                                 "Kawasaki Ninja",
-                                                 style: GoogleFonts.quicksand(
-                                                   fontSize:20,
-                                                 ),
-                                               ),
-                                             ),
-                                           ],
-                                         ),
-                                       ),
-                                       Container(
-                                         margin:EdgeInsets.only(left:10,),
-                                         child: Row(
-                                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                           children: [
-                                             Text(
-                                               "Rawalpindi",
-                                               style: GoogleFonts.quicksand(fontSize: 16,color: Colors.grey),
-                                             ),
-                                             SizedBox(width: 5,),
-                                             Text("|"),
-                                             SizedBox(width: 5,),
-                                             Text(
-                                               "PKR 250,000",
-                                               style: GoogleFonts.varelaRound(fontSize: 16,color: Colors.black,fontWeight: FontWeight.bold),
-                                             ),
-                                             SizedBox(width: 20,),
-                                             Container(
-                                               // margin: EdgeInsets.only(top: 20),
-                                               height: 40,
-                                               width: 40,
-                                               decoration: BoxDecoration(
-                                                 color: Color(0XFF012A4A),
-                                                 borderRadius: BorderRadius.only(
-                                                   bottomRight: Radius.circular(20),
-                                                   topLeft: Radius.circular(10),
-                                                 ),
-                                               ),
-                                               child: Icon(
-                                                 Icons.arrow_forward,
-                                                 color: Colors.white,
-                                               ),
-                                             ),
-                                           ],
-                                         ),
-                                       ),
+                    FutureBuilder(
+                      future: adds.getLimitedAdds(),
+                      builder: (BuildContext context, AsyncSnapshot<List<BikeAddModel>> snapshot) {
+                        if(snapshot.hasData && snapshot.data.isNotEmpty){
+                          return ListView.builder(
+                            physics: NeverScrollableScrollPhysics(),
+                            shrinkWrap: true,
+                            itemCount: snapshot.data.length,
+                            itemBuilder: (BuildContext context, int index) {
+                              return Container(
+                                margin: EdgeInsets.only(left:20, top:20),
+                                height: 280,
+                                child: FlatButton(
+                                  padding: EdgeInsets.zero,
+                                  onPressed: (){
+                                    Navigator.push(context, MaterialPageRoute(builder: (context) => AddDetail(data: snapshot.data[index],)));
+                                  },
+                                  child: Container(
+                                    width: MediaQuery.of(context).size.width - 80,
+                                    child: Card(
+                                      color: Color(0xfff2f0f0),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(20),
+                                      ),
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          ClipRRect(
+                                            borderRadius: BorderRadius.circular(20.0),
+                                            child: Image(
+                                              image: NetworkImage(
+                                                snapshot.data[index].images.first,
+                                              ),
+                                              fit: BoxFit.fill,
+                                            ),
+                                          ),
+                                          Column(
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: [
+                                              Container(
+                                                margin:EdgeInsets.only(left:10,top:10),
+                                                child: Row(
+                                                  mainAxisAlignment:MainAxisAlignment.spaceBetween,
+                                                  children: [
+                                                    Expanded(
+                                                      child: Text(
+                                                        snapshot.data[index].title,
+                                                        style: GoogleFonts.quicksand(
+                                                          fontSize:20,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                              Container(
+                                                margin:EdgeInsets.only(left:10,),
+                                                child: Row(
+                                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                  children: [
+                                                    Text(
+                                                      snapshot.data[index].city,
+                                                      style: GoogleFonts.quicksand(fontSize: 16,color: Colors.grey),
+                                                    ),
+                                                    SizedBox(width: 5,),
+                                                    Text("|"),
+                                                    SizedBox(width: 5,),
+                                                    Text(
+                                                      "PKR ${snapshot.data[index].price}",
+                                                      style: GoogleFonts.varelaRound(fontSize: 16,color: Colors.black,fontWeight: FontWeight.bold),
+                                                    ),
+                                                    SizedBox(width: 20,),
+                                                    Container(
+                                                      // margin: EdgeInsets.only(top: 20),
+                                                      height: 40,
+                                                      width: 40,
+                                                      decoration: BoxDecoration(
+                                                        color: Color(0XFF012A4A),
+                                                        borderRadius: BorderRadius.only(
+                                                          bottomRight: Radius.circular(20),
+                                                          topLeft: Radius.circular(10),
+                                                        ),
+                                                      ),
+                                                      child: Icon(
+                                                        Icons.arrow_forward,
+                                                        color: Colors.white,
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
 
-                                     ],
-                                   ),
-                                 ],
-                               ),
-                             ),
-                           ),
-                         ),
-                       ],
-                     ),
-                   ),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              );
+                            },
+                          );
+                        }
+                        else if(snapshot.hasData && snapshot.data.isEmpty){
+                          return Center(child: Text("No Adds Currently Present"));
+                        }
+                        else if(snapshot.hasError){
+                          return Center(child: Text(snapshot.error.toString()));
+                        }
+                        return Center(child: CircularProgressIndicator());
+                      },
+                    ),
                     SizedBox(height:20),
 
 
@@ -1084,222 +941,100 @@ class _HomeDashboardState extends State<HomeDashboard> {
                         ],
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(left:20,right:20, top:10),
-                      child: Card(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(15),
-                        ),
-                        color: Color(0XFF012A4A),
-                        child: Padding(
-                          padding: const EdgeInsets.only(left:8,top:8),
-                          child: Row(
-                            mainAxisAlignment:MainAxisAlignment.spaceBetween,
-                            children: <Widget>[
-                              Padding(
-                                padding: const EdgeInsets.only(left:8.0,bottom:10),
-                                child: Container(
-                                  width: 70.0,
-                                  height: 70.0,
-                                  decoration: new BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      image: new DecorationImage(
-                                          fit: BoxFit.cover,
-                                          image: AssetImage("assets/autoPartStore1.jpeg")
-                                      )
+                    FutureBuilder(
+                      future: _partStore.getLimitedPartStore(),
+                      builder: (BuildContext context, AsyncSnapshot<List<PartstoreDashboardModel>> snapshot) {
+                        if(snapshot.hasData && snapshot.data.isNotEmpty){
+                          return ListView.builder(
+                            shrinkWrap: true,
+                            itemCount: snapshot.data.length,
+                            itemBuilder: (BuildContext context, int index) {
+                              return Padding(
+                                padding: const EdgeInsets.only(left:20,right:20, top:10),
+                                child: Card(
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(15),
                                   ),
-                                ),
-                              ),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: <Widget>[
-                                  Text("General Autos",
-                                    style: TextStyle (
-                                        color: Colors.white,
-                                        fontSize: 18
-                                    ),
-                                  ),
-                                  Text("Islamabad",
-                                    style: TextStyle (
-                                        color: Colors.white,
-                                        fontSize: 12
-                                    ),
-                                  )
-                                ],
-                              ),
-                              Container(
-                                margin: EdgeInsets.only(top: 30),
-                                alignment: Alignment.bottomRight,
-                                height:50,
-                                width: 130,
-                                decoration:BoxDecoration(
-                                  borderRadius: BorderRadius.only(
-                                    topLeft: Radius.circular(15),
-                                    bottomRight: Radius.circular(15),
-                                  ),
-                                  color: Colors.orange,
-                                ),
-                                child: Center(
-                                  child:Text(
-                                    "View",
-                                    style: GoogleFonts.raleway(
-                                      fontSize: 18,
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                ),
-                              ),
+                                  color: Color(0XFF012A4A),
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(left:8,top:8),
+                                    child: Row(
+                                      mainAxisAlignment:MainAxisAlignment.spaceBetween,
+                                      children: <Widget>[
+                                        Padding(
+                                          padding: const EdgeInsets.only(left:8.0,bottom:10),
+                                          child: Container(
+                                            width: 70.0,
+                                            height: 70.0,
+                                            decoration: new BoxDecoration(
+                                                shape: BoxShape.circle,
+                                                image: new DecorationImage(
+                                                    fit: BoxFit.cover,
+                                                    image: snapshot.data[index].imageURL != null ?
+                                                    NetworkImage(snapshot.data[index].imageURL)
+                                                    : AssetImage("assets/partstore.jpg"),
+                                                )
+                                            ),
+                                          ),
+                                        ),
+                                        Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: <Widget>[
+                                            Text(snapshot.data[index].shopTitle,
+                                              style: TextStyle (
+                                                  color: Colors.white,
+                                                  fontSize: 18
+                                              ),
+                                            ),
+                                            Text(snapshot.data[index].city,
+                                              style: TextStyle (
+                                                  color: Colors.white,
+                                                  fontSize: 12
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                        Container(
+                                          margin: EdgeInsets.only(top: 30),
+                                          alignment: Alignment.bottomRight,
+                                          height:50,
+                                          width: 130,
+                                          decoration:BoxDecoration(
+                                            borderRadius: BorderRadius.only(
+                                              topLeft: Radius.circular(15),
+                                              bottomRight: Radius.circular(15),
+                                            ),
+                                            color: Colors.orange,
+                                          ),
+                                          child: Center(
+                                            child:Text(
+                                              "View",
+                                              style: GoogleFonts.raleway(
+                                                fontSize: 18,
+                                                color: Colors.white,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
 
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(left:20,right:20, top:10),
-                      child: Card(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(15),
-                        ),
-                        color: Color(0XFF012A4A),
-                        child: Padding(
-                          padding: const EdgeInsets.only(left:8,top:8),
-                          child: Row(
-                            mainAxisAlignment:MainAxisAlignment.spaceBetween,
-                            children: <Widget>[
-                              Padding(
-                                padding: const EdgeInsets.only(left:8.0,bottom:10),
-                                child: Container(
-                                  width: 70.0,
-                                  height: 70.0,
-                                  decoration: new BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      image: new DecorationImage(
-                                          fit: BoxFit.cover,
-                                          image: AssetImage("assets/autoPartStore1.jpeg")
-                                      )
-                                  ),
-                                ),
-                              ),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: <Widget>[
-                                  Text("General Autos",
-                                    style: TextStyle (
-                                        color: Colors.white,
-                                        fontSize: 18
-                                    ),
-                                  ),
-                                  Text("Islamabad",
-                                    style: TextStyle (
-                                        color: Colors.white,
-                                        fontSize: 12
-                                    ),
-                                  )
-                                ],
-                              ),
-                              Container(
-                                margin: EdgeInsets.only(top: 30),
-                                alignment: Alignment.bottomRight,
-                                height:50,
-                                width: 130,
-                                decoration:BoxDecoration(
-                                  borderRadius: BorderRadius.only(
-                                    topLeft: Radius.circular(15),
-                                    bottomRight: Radius.circular(15),
-                                  ),
-                                  color: Colors.orange,
-                                ),
-                                child: Center(
-                                  child:Text(
-                                    "View",
-                                    style: GoogleFonts.raleway(
-                                      fontSize: 18,
-                                      color: Colors.white,
+                                      ],
                                     ),
                                   ),
                                 ),
-                              ),
-
-                            ],
-                          ),
-                        ),
-                      ),
+                              );
+                            },
+                          );
+                        }
+                        else if(snapshot.hasData && snapshot.data.isEmpty){
+                          return Center(child: Text("No PartStores currently Present"));
+                        }
+                        else if(snapshot.hasError){
+                          return Center(child: Text(snapshot.error.toString()));
+                        }
+                        return Center(child: CircularProgressIndicator());
+                      },
                     ),
 
-                    /*SizedBox(height:10),
-                    Container(
-                      width: double.infinity,
-                      height: 230,
-                      color: Color(0XFF012A4A),
-                      child: Padding(
-                        padding: const EdgeInsets.all(20),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-
-                            Text(
-                              "BE THE FIRST TO KNOW",
-                              style: GoogleFonts.quicksand(
-                                fontSize: 20,
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            SizedBox(height: 20,),
-                            Container(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: <Widget>[
-                                  Text(
-                                    "Get all the latest information about bikes, workshop, auto store and auto parts.",
-                                    style: GoogleFonts.quicksand(
-                                      fontSize: 15,
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                  SizedBox(height: 10,),
-                                  Text(
-                                    "Signup for registeration",
-                                    style: GoogleFonts.quicksand(
-                                      fontSize: 15,
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            SizedBox(height:20),
-                            Center(
-                              child: FlatButton(
-                                padding:EdgeInsets.zero,
-                                onPressed:(){
-                                  Navigator.push(context, MaterialPageRoute(builder: (context) => GettingStartedScreen()));
-                                },
-                                child: Container(
-                                  height: 50,
-                                  width: MediaQuery.of(context).size.width - 100,
-                                  decoration:BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10),
-                                    color: Colors.orange,
-                                  ),
-                                  child: Center(
-                                    child:Text(
-                                      "Sign Up",
-                                      style:GoogleFonts.quicksand(
-                                        fontSize:20,
-                                        color:Colors.white,
-                                      )
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-
-                          ],
-                        ),
-                      ),
-                    ),*/
                     SizedBox(height: 20,),
                     Container(
                       child: Row(
@@ -1367,46 +1102,39 @@ class _HomeDashboardState extends State<HomeDashboard> {
                       ),
                     ),
                     SizedBox(height:10),
-                    Container(
-                      color: Colors.transparent,
-                      padding: EdgeInsets.symmetric(horizontal: 20,vertical: 10),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Row(
-                            children: <Widget>[
-                              ActiveProjectsCard(
-                                  image: "assets/p1.jpeg",
-                                  title: 'Spray Kit',
-                                  subtitle: '1500',
+                    FutureBuilder(
+                      future: _autoPart.getLimitedAutoPart(),
+                      builder: (BuildContext context, AsyncSnapshot<List<AutoPartModel>> snapshot) {
+                        if(snapshot.hasData && snapshot.data.isNotEmpty){
+                          return ListView.builder(
+                            physics: NeverScrollableScrollPhysics(),
+                            shrinkWrap: true,
+                            itemCount: snapshot.data.length,
+                            itemBuilder: (BuildContext context, int index) {
+                              return Container(
+                                color: Colors.transparent,
+                                padding: EdgeInsets.symmetric(horizontal: 20,vertical: 10),
+                                child: Row(
+                                  children: <Widget>[
+                                    ActiveProjectsCard(
+                                      image: "assets/p1.jpeg",
+                                      title: snapshot.data[index].title,
+                                      subtitle: 'PKR ${snapshot.data[index].price}',
+                                    ),
+                                  ],
                                 ),
-                              SizedBox(width: 20.0),
-                              ActiveProjectsCard(
-                                image: "assets/p1.jpeg",
-                                title: 'Spray Kit',
-                                subtitle: '1500',
-                              ),
-                            ],
-                          ),
-                          Row(
-                            children: <Widget>[
-                              ActiveProjectsCard(
-                                cardColor: LightColors.kDarkYellow,
-                                image: "assets/p1.jpeg",
-                                title: 'Spray Kit',
-                                subtitle: '1500',
-                              ),
-                              SizedBox(width: 20.0),
-                              ActiveProjectsCard(
-                                title: 'Spray Kit',
-                                subtitle: '1500',
-                                image: "assets/p1.jpeg",
-
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
+                              );
+                            },
+                          );
+                        }
+                        else if(snapshot.hasData && snapshot.data.isEmpty){
+                          return Center(child: Text("No Parts currently Present"));
+                        }
+                        else if(snapshot.hasError){
+                          return Center(child: Text(snapshot.error.toString()));
+                        }
+                        return Center(child: CircularProgressIndicator());
+                      },
                     ),
                   ],
                 ),

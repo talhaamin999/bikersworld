@@ -14,6 +14,7 @@ class PostAddQueries{
   final FirebaseFirestore _firestoreInstance = FirebaseFirestore.instance;
 
 
+
   Future<bool> postAdd(BikeAddModel data) async{
     try {
       await _firestoreInstance.collection(BIKE_ADD_COLLECTION)
@@ -26,6 +27,7 @@ class PostAddQueries{
     }
     return addPosted;
   }
+
   Future<bool> updateBikeInfo(BikeAddModel data) async{
     try {
       await _firestoreInstance.collection(BIKE_ADD_COLLECTION)
@@ -77,6 +79,18 @@ class PostAddQueries{
       _error.errorToastMessage(errorMessage: e.toString());
     }
     return updatedImages;
+  }
+  Future<List<BikeAddModel>> getLimitedAdds() {
+    try {
+      return _firestoreInstance.collection(BIKE_ADD_COLLECTION)
+          .limit(10)
+          .get()
+          .then((querySnapshots) => querySnapshots.docs
+          .map((doc) => BikeAddModel.fromJson(doc.data(), doc.reference.id))
+          .toList());
+    }catch(e){
+      _error.errorToastMessage(errorMessage: e.toString());
+    }
   }
   Stream<List<BikeAddModel>> getSellerAdds(String postedBy) {
     try{

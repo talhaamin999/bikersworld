@@ -75,6 +75,18 @@ class AutoPartQueries {
       return null;
     }
   }
+  Future<List<AutoPartModel>> getLimitedAutoPart(){
+    try {
+        return _firestoreInstance.collection(AUTOPART_COLLECTION)
+            .limit(10)
+            .get()
+            .then((querySnapshot) => querySnapshot.docs
+            .map((doc) => AutoPartModel.fromJson(doc.data(), doc.reference.id))
+            .toList());
+    } catch (e) {
+      _error.errorToastMessage(errorMessage: e.toString());
+    }
+  }
   Future<bool> deleteAutoPart({@required String docId}) async{
     try {
       DocumentSnapshot _documentSnapshot = await _firestoreInstance.collection(AUTOPART_COLLECTION)
