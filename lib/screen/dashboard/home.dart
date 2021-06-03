@@ -1416,19 +1416,7 @@ class _HomeDashboardState extends State<HomeDashboard> {
         ),
       ),
       drawer: CustomDrawer(),
-//        bottomNavigationBar: FancyBottomNavigation(
-//          tabs: [
-//            TabData(iconData: Icons.home, title: "Home",),
-//            TabData(iconData: FontAwesomeIcons.wrench, title: "Auto Parts"),
-//            TabData(iconData: FontAwesomeIcons.building, title: "Workshop"),
-//            TabData(iconData: FontAwesomeIcons.ad, title: "Advertisements"),
-//          ],
-//          onTabChangedListener: (position) {
-//            setState(() {
-//            //  currentPage = position;
-//            });
-//          },
-//        )
+
     );
   }
 }
