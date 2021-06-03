@@ -1,12 +1,9 @@
 import 'package:bikersworld/model/workshop_model.dart';
-import 'package:bikersworld/screen/workshop/add_services.dart';
 import 'package:bikersworld/services/toast_service.dart';
 import 'package:bikersworld/services/user_role_queries/add_user_role.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:flutter/material.dart';
-import 'package:path/path.dart';
 
 class RegisterWorkshopQueries {
 
@@ -64,5 +61,17 @@ class RegisterWorkshopQueries {
          .snapshots().listen((DocumentSnapshot snapshot) {
            return print(snapshot.data());
      });
+   }
+   Future<List<WorkshopDashboardModel>> getLimitedWorkshops() {
+     try {
+       return _firestoreInstance.collection(WORKSHOP_COLLECTION)
+           .limit(10)
+           .get()
+           .then((querySnapshot) => querySnapshot.docs
+           .map((doc) => WorkshopDashboardModel.fromJson(doc.data(), doc.reference.id))
+           .toList());
+     }catch(e){
+       _error.errorToastMessage(errorMessage: e.toString());
+     }
    }
 }

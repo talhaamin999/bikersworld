@@ -60,4 +60,16 @@ class RegisterPartStoreQueries {
       _error.errorToastMessage(errorMessage: e.toString());
     }
   }
+  Future<List<PartstoreDashboardModel>> getLimitedPartStore() async {
+    try {
+        return _firestoreInstance.collection(PARTSTORE_COLLECTION)
+            .limit(10)
+            .get()
+            .then((querySnapshots) => querySnapshots.docs
+            .map((doc) => PartstoreDashboardModel.fromJson(doc.data(), doc.reference.id))
+            .toList());
+    } catch (e) {
+      _error.errorToastMessage(errorMessage: e.toString());
+    }
+  }
 }
