@@ -22,14 +22,12 @@ class _AddDetailState extends State<AddDetail>  with SingleTickerProviderStateMi
   @override
   void initState() {
     super.initState();
-    tabController = TabController(length: 3, vsync: this);
+    tabController = TabController(length: widget.data.images.length, vsync: this);
+    links = List<String>.from(widget.data.images);
   }
   TabController tabController;
-  static List<String> links = [
-    "https://www.google.com/search?q=images&client=firefox-b-d&sxsrf=ALeKk00CSoEjMR8iWKy7qSOkXiJHlZXZmA:1622746214609&tbm=isch&source=iu&ictx=1&fir=ez-ubljHwN9MSM%252CJEwZUI4DSxP5DM%252C_&vet=1&usg=AI4_-kQW3bzyukRDZqpkdOpBWmPJAsZdQQ&sa=X&ved=2ahUKEwjnr7rdkPzwAhWEsKQKHQo7BHYQ9QF6BAgNEAE#imgrc=ez-ubljHwN9MSM",
-    "https://www.google.com/search?q=images&client=firefox-b-d&sxsrf=ALeKk01Rb3ZtiLu_QKT5pbZ6kQtl3tjm3A:1622746379120&source=lnms&tbm=isch&sa=X&ved=2ahUKEwiElvOrkfzwAhUThVwKHUNsCz4Q_AUoAXoECAEQAw&biw=1536&bih=778#imgrc=kHpcTNTA2NHBJM",
-    "https://www.google.com/search?q=images&client=firefox-b-d&sxsrf=ALeKk01Rb3ZtiLu_QKT5pbZ6kQtl3tjm3A:1622746379120&source=lnms&tbm=isch&sa=X&ved=2ahUKEwiElvOrkfzwAhUThVwKHUNsCz4Q_AUoAXoECAEQAw&biw=1536&bih=778#imgrc=wmuD1bt6xzE89M",
-  ];
+  static List<String> links;
+
 
   @override
   Widget build(BuildContext context) {
