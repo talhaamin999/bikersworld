@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:bikersworld/screen/dashboard/Ads/AdDetail.dart';
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:bikersworld/services/search_queries/bike_add_search/bike_add_Search_queries.dart';
 import 'advance_add_search.dart';
+import 'package:shimmer/shimmer.dart';
 
 class AdSearchPage extends StatefulWidget {
   @override
@@ -573,7 +573,139 @@ class _AdSearchPageState extends State<AdSearchPage> {
                   else if(snapshot.hasError){
                     return Center(child: Text(snapshot.error.toString()),);
                   }
-                  return Center(child: CircularProgressIndicator());
+                  return Shimmer.fromColors(
+                      baseColor: Colors.red,
+                      highlightColor: Colors.yellow,
+                      child: Center(
+                          child: Padding(
+                            padding: const EdgeInsets.only(bottom: 15),
+                            child: FlatButton(
+                              onPressed:(){
+                               // Navigator.push(context, MaterialPageRoute(builder: (context) => AddDetail(data: snapshot.data[index],)));
+                              },
+                              child: Card(
+                                color: Color(0xfff7f7f7),
+                                child: Container(
+                                  //height: 125,
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: <Widget>[
+                                      Container(
+                                        child: Image(
+                                            image:NetworkImage(''),
+                                            width: 130,
+                                            height: 130,
+                                            fit:BoxFit.fill
+                                        ),
+                                      ),
+                                      SizedBox(width: 5,),
+                                      Expanded(
+                                        child: Container(
+                                          child: Column(
+                                            mainAxisAlignment: MainAxisAlignment.start,
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: <Widget>[
+                                              Container(
+                                                margin:EdgeInsets.only(left:5, top: 10),
+                                                child: Text(
+                                                  '',
+                                                  // snapshot.data[index].title,
+                                                  style: GoogleFonts.quicksand(
+                                                    fontSize: 19,
+                                                    color: Colors.black,
+                                                  ),
+                                                ),
+                                              ),
+                                              Container(
+                                                margin: EdgeInsets.only(top: 5, left: 10),
+                                                child: Row(
+                                                  children: [
+                                                    Container(
+                                                      child:Row(
+                                                        mainAxisAlignment:MainAxisAlignment.start,
+                                                        children: [
+                                                          Text(
+                                                            "PKR",
+                                                            style: GoogleFonts.roboto(
+                                                              fontSize: 15,
+                                                              color: Colors.black,
+                                                              fontWeight: FontWeight.bold,
+                                                            ),
+                                                          ),
+                                                          SizedBox(width: 5,),
+                                                          Text(
+                                                            '',
+                                                            style: GoogleFonts.roboto(
+                                                              fontSize: 15,
+                                                              fontWeight: FontWeight.bold,
+                                                              color: Colors.black,
+                                                            ),
+                                                          ),
+
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                              Padding(
+                                                padding: const EdgeInsets.only(left:10),
+                                                child: Text(
+                                                  '',
+                                                  //snapshot.data[index].city,
+                                                  style: TextStyle(
+                                                    fontSize: 16,
+                                                    color: Colors.grey,
+                                                  ),
+                                                ),
+                                              ),
+                                              SizedBox(height: 5,),
+                                              Container(
+                                                margin: EdgeInsets.only(left: 10),
+                                                child: Row(
+                                                  children: [
+                                                    Text(
+                                                      '',
+                                                      //snapshot.data[index].model,
+                                                      style: TextStyle(
+                                                        fontSize: 16,
+                                                        color: Colors.grey,
+                                                      ),
+                                                    ),
+                                                    SizedBox(width: 5,),
+                                                    Text(
+                                                      "|",
+                                                      style: TextStyle(
+                                                        color: Colors.grey,
+                                                      ),
+                                                    ),
+                                                    SizedBox(width: 5,),
+
+                                                    Text(
+                                                      '',
+                                                      //snapshot.data[index].year,
+                                                      style: TextStyle(
+                                                        fontSize: 16,
+                                                        color: Colors.grey,
+                                                      ),
+                                                    ),
+                                                    SizedBox(width: 5,),
+
+                                                  ],
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                          )
+                      )
+                  );
                 },
               ),
             ],

@@ -29,6 +29,7 @@ class _AddDetailState extends State<AddDetail>  with SingleTickerProviderStateMi
   static List<String> links;
 
 
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
