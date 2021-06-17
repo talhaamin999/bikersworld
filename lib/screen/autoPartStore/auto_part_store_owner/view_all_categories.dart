@@ -12,7 +12,7 @@ class ViewAllCategories extends StatefulWidget {
 
 class _ViewAllCategoriesState extends State<ViewAllCategories> {
 
-  var _dropDownItems = ['Accessories', 'Body & Frame', 'Brake & Suspension', 'Air Intake', 'Electrical & Ignition', 'Exhaust System','Engine & Engine Parts','Lighting & Indicators','Wheel & Tyres','Seating','Other','hcgchccf','hgcvhcc','ghchgc'];
+  var _dropDownItems = ['Accessories', 'Body & Frame', 'Brake & Suspension', 'Air Intake', 'Electrical & Ignition', 'Exhaust System','Engine & Engine Parts','Lighting & Indicators','Wheel & Tyres','Seating','Other'];
 
   @override
   Widget build(BuildContext context) {

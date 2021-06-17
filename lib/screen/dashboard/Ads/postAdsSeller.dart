@@ -13,7 +13,7 @@ import 'package:flutter_absolute_path/flutter_absolute_path.dart';
 import 'package:bikersworld/widgets/city_dropdown.dart';
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:bikersworld/services/string_extension.dart';
-import 'package:bikersworld/services/search_queries/bike_add_search/bike_admin_data.dart';
+import 'package:bikersworld/services/admin_data_queries/bike_add_search/bike_admin_data.dart';
 
 
 class PostBikeInfo extends StatefulWidget {

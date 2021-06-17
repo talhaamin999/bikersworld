@@ -1,21 +1,21 @@
 import 'dart:async';
-import 'dart:developer';
 import 'package:bikersworld/model/workshop_model.dart';
+import 'package:bikersworld/services/admin_data_queries/admin_workshop_queries.dart';
 import 'package:bikersworld/services/toast_service.dart';
 import 'package:bikersworld/services/validate_service.dart';
 import 'package:bikersworld/services/workshop_queries/service_queries.dart';
 import 'package:bikersworld/widgets/entry_field.dart';
+import 'package:dropdown_search/dropdown_search.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 
 ToastErrorMessage _error = ToastErrorMessage();
 ToastValidMessage _valid = ToastValidMessage();
-String _currentCategorySelected = 'Mechanical';
+String _currentCategorySelected;
 
 class AddServices extends StatefulWidget {
   final Services service;
@@ -331,45 +331,74 @@ class SpecializationComboBox extends StatefulWidget {
 
 class _SpecializationComboBoxState extends State<SpecializationComboBox> {
 
-  var _dropDownItems = ['Mechanical', 'Electrical', 'Tuning'];
+  final _adminData = AdminWorkshopQueries();
 
   Widget build(BuildContext context) {
-    return Container(
-      color: Color(0xfff3f3f4),
-      width: 380,
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: DropdownButton<String>(
-          value: _currentCategorySelected,
-          icon: Container(
-            margin: EdgeInsets.only(left: 200),
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(35.0, 0, 0, 0),
-              child: Icon(
-                FontAwesomeIcons.caretDown,
+    return FutureBuilder(
+      future: _adminData.getWorkshopServiceCategory(),
+      builder: (BuildContext context, AsyncSnapshot<List<String>> snapshot) {
+        if(snapshot.hasData && snapshot.data.isNotEmpty){
+          return Padding(
+            padding: const EdgeInsets.only( top:10),
+            child:Container(
+              color: Colors.white,
+              child: SizedBox(
+                width: MediaQuery.of(context).size.width,
+                child: DropdownSearch<String>(
+                  validator: (v) => v == null ? "required field" : null,
+                  hint: "Select Category",
+                  searchBoxDecoration: InputDecoration(
+                    border: new OutlineInputBorder(
+                      borderRadius: const BorderRadius.all(
+                        const Radius.circular(5),
+                      ),
+                    ),
+                  ),
+                  showSelectedItem: true,
+                  items: snapshot.data,
+                  // showClearButton: true,
+                  onChanged: (value){
+                    setState(() {
+                      _currentCategorySelected = value;
+                    });
+                  },
+                ),
               ),
             ),
-          ),
-          iconSize: 24,
-          elevation: 16,
-          style: TextStyle(color: Colors.black,),
-          underline: Container(
-            height: 2,
-          ),
-          onChanged: (String newValue) {
-            setState(() {
-              _currentCategorySelected = newValue;
-            });
-          },
-          items: _dropDownItems
-              .map((String dropDownStringItem) {
-            return DropdownMenuItem<String>(
-              value: dropDownStringItem,
-              child: Text(dropDownStringItem, style: GoogleFonts.quicksand(fontSize: 15)),
-            );
-          }).toList(),
-        ),
-      ),
+          );
+        }
+        else if(snapshot.hasData && snapshot.data.isEmpty){
+          return Padding(
+            padding: const EdgeInsets.only( top:10),
+            child:Container(
+              color: Colors.white,
+              child: SizedBox(
+                width: MediaQuery.of(context).size.width,
+                child: DropdownSearch<String>(
+                  validator: (v) => v == null ? "required field" : null,
+                  hint: "Select Category",
+                  searchBoxDecoration: InputDecoration(
+                    border: new OutlineInputBorder(
+                      borderRadius: const BorderRadius.all(
+                        const Radius.circular(5),
+                      ),
+                    ),
+                  ),
+                  showSelectedItem: true,
+                  items: ['mechanical','Electrical','Tuning','Other'],
+                  // showClearButton: true,
+                  onChanged: (value){
+                    setState(() {
+                      _currentCategorySelected = value;
+                    });
+                  },
+                ),
+              ),
+            ),
+          );
+        }
+        return Center(child: CircularProgressIndicator(),);
+      },
     );
   }
 }

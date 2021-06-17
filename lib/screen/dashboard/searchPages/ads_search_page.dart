@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:bikersworld/screen/dashboard/Ads/AdDetail.dart';
-import 'package:bikersworld/services/search_queries/bike_add_search/bike_add_Search_queries.dart';
+import 'package:bikersworld/services/admin_data_queries/bike_add_search/bike_add_Search_queries.dart';
 import 'advance_add_search.dart';
 import 'package:shimmer/shimmer.dart';
 

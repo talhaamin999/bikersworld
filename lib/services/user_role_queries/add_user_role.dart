@@ -54,24 +54,15 @@ class AddUserRoleQuerie {
       errorMessage = e.toString();
     }
   }
-  Future<String> getUserRole(String id) async{
+  Stream<String> getUserRole(String id) {
     try{
-        await _collectionReference.doc(id)
-            .get()
-            .then((doc) {
-          if(doc.exists) {
-            userRole = doc.get('role');
-          }else{
-            userRole = null;
-          }
-        })
-            .catchError((onError) => errorMessage = onError.toString());
-        return userRole;
+        return _collectionReference
+            .doc(id)
+            .snapshots()
+            .map((doc) => userRole = doc.get('role'));
     }catch(e){
       errorMessage = e.toString();
-      return userRole;
     }
-
 
   }
   Future<bool> checkRoleExists(String id) async{

@@ -1,21 +1,18 @@
 import 'package:bikersworld/model/workshop_model.dart';
-import 'package:bikersworld/screen/workshop/workshop_dashboard.dart';
+import 'package:bikersworld/services/admin_data_queries/admin_workshop_queries.dart';
 import 'package:bikersworld/services/toast_service.dart';
 import 'package:bikersworld/services/validate_service.dart';
 import 'package:bikersworld/services/workshop_queries/mechanic_queries.dart';
 import 'package:bikersworld/widgets/entry_field.dart';
+import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/services.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:path/path.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:bikersworld/widgets/drawer.dart';
-import 'package:bikersworld/screen/workshop/add_services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 final _formKey = GlobalKey<FormState>();
-String _currentItemselected = 'Electrician';
+String _currentItemselected;
 
 class AddMechanics extends StatefulWidget {
 
@@ -35,6 +32,7 @@ class _AddMechanicsState extends State<AddMechanics> {
   Mechanics _mechanics;
   final RegisterMechanicQueries _register = RegisterMechanicQueries();
   bool _isButtonVisible = true;
+  final _adminData = AdminWorkshopQueries();
 
   void mapMechanicData(){
    if(widget.mechanics != null) {
@@ -63,11 +61,6 @@ class _AddMechanicsState extends State<AddMechanics> {
     _formKey.currentState.reset();
     mechanicNameController.clear();
     mechanicContactController.clear();
-  }
-  changePage(int index) {
-    setState(() {
-      currentIndex = index;
-    });
   }
 
   validateFields() async{
@@ -248,15 +241,6 @@ Widget _registerWorkshopWidget({@required TextEditingController nameController,@
             SizedBox(height:15),
             EntryField(title: "Contact",hintText: "0310345635",controller: contactController,inputType: TextInputType.number,filter: FilteringTextInputFormatter.digitsOnly),
             SizedBox(height:15),
-            Text(
-                "Specilization",
-                style: GoogleFonts.quicksand(
-                  fontSize: 18,
-                )
-            ),
-            SizedBox(
-              height: 15,
-            ),
             SpecializationComboBox(),
          ],
         ),
@@ -295,45 +279,74 @@ class SpecializationComboBox extends StatefulWidget {
 
 class _SpecializationComboBoxState extends State<SpecializationComboBox> {
 
-  var _dropDownItems = ['Electrician', 'Mechanic', 'Both'];
+  final _adminData = AdminWorkshopQueries();
 
   Widget build(BuildContext context) {
-    return Container(
-      color: Color(0xfff3f3f4),
-      width: 380,
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: DropdownButton<String>(
-          value: _currentItemselected,
-          icon: Container(
-            margin: EdgeInsets.only(left: 200),
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(35.0, 0, 0, 0),
-              child: Icon(
-                FontAwesomeIcons.caretDown,
+    return FutureBuilder(
+      future: _adminData.getWorkshopMechanicSpeciality(),
+      builder: (BuildContext context, AsyncSnapshot<List<String>> snapshot) {
+        if(snapshot.hasData && snapshot.data.isNotEmpty){
+          return Padding(
+            padding: const EdgeInsets.only( top:10),
+            child:Container(
+              color: Colors.white,
+              child: SizedBox(
+                width: MediaQuery.of(context).size.width,
+                child: DropdownSearch<String>(
+                  validator: (v) => v == null ? "required field" : null,
+                  hint: "Select Speciality",
+                  searchBoxDecoration: InputDecoration(
+                    border: new OutlineInputBorder(
+                      borderRadius: const BorderRadius.all(
+                        const Radius.circular(5),
+                      ),
+                    ),
+                  ),
+                  showSelectedItem: true,
+                  items: snapshot.data,
+                  // showClearButton: true,
+                  onChanged: (value){
+                    setState(() {
+                      _currentItemselected = value;
+                    });
+                  },
+                ),
               ),
             ),
-          ),
-          iconSize: 24,
-          elevation: 16,
-          style: TextStyle(color: Colors.black,),
-          underline: Container(
-            height: 2,
-          ),
-          onChanged: (String newValue) {
-            setState(() {
-              _currentItemselected = newValue;
-            });
-          },
-          items: _dropDownItems
-              .map((String dropDownStringItem) {
-            return DropdownMenuItem<String>(
-              value: dropDownStringItem,
-              child: Text(dropDownStringItem, style: GoogleFonts.quicksand(fontSize: 15)),
-            );
-          }).toList(),
-        ),
-      ),
+          );
+        }
+        else if(snapshot.hasData && snapshot.data.isEmpty){
+          return Padding(
+            padding: const EdgeInsets.only( top:10),
+            child:Container(
+              color: Colors.white,
+              child: SizedBox(
+                width: MediaQuery.of(context).size.width,
+                child: DropdownSearch<String>(
+                  validator: (v) => v == null ? "required field" : null,
+                  hint: "Select Speciality",
+                  searchBoxDecoration: InputDecoration(
+                    border: new OutlineInputBorder(
+                      borderRadius: const BorderRadius.all(
+                        const Radius.circular(5),
+                      ),
+                    ),
+                  ),
+                  showSelectedItem: true,
+                  items: ['mechanic','Electrician','Both'],
+                  // showClearButton: true,
+                  onChanged: (value){
+                    setState(() {
+                      _currentItemselected = value;
+                    });
+                  },
+                ),
+              ),
+            ),
+          );
+        }
+        return Center(child: CircularProgressIndicator(),);
+      },
     );
   }
-}
+ }
