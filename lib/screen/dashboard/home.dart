@@ -16,10 +16,8 @@ import 'package:flutter/rendering.dart';
 import 'package:bikersworld/screen/dashboard/findMorePage.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:bikersworld/widgets/bezierContainer.dart';
-import 'package:bikersworld/screen/dashboard/Ads/AdDetail.dart';
 import 'package:bikersworld/screen/dashboard/searchPages/auto_partstore_search_page.dart';
 import 'package:bikersworld/screen/dashboard/searchPages/autopart_search_page.dart';
-import 'package:bikersworld/screen/dashboard/searchPages/ads_search_page.dart';
 class HomeDashboard extends StatefulWidget {
 
   @override
