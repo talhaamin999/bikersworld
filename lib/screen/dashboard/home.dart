@@ -19,7 +19,6 @@ import 'package:bikersworld/widgets/bezierContainer.dart';
 import 'package:bikersworld/screen/dashboard/Ads/AdDetail.dart';
 import 'package:bikersworld/screen/dashboard/searchPages/auto_partstore_search_page.dart';
 import 'package:bikersworld/screen/dashboard/searchPages/autopart_search_page.dart';
-
 import 'package:bikersworld/screen/dashboard/searchPages/ads_search_page.dart';
 class HomeDashboard extends StatefulWidget {
 
@@ -690,7 +689,7 @@ class _HomeDashboardState extends State<HomeDashboard> {
                                                   Text(
                                                     snapshot.data[index].city,
                                                     style: GoogleFonts.quicksand(fontSize: 16,color: Colors.grey),
-                         ),
+                                                  ),
                                                   SizedBox(width: 5,),
                                                   Text("|"),
                                                   SizedBox(width: 5,),
@@ -1091,7 +1090,7 @@ class _HomeDashboardState extends State<HomeDashboard> {
                     SizedBox(height:10),
                     FutureBuilder(
                       future: _autoPart.getLimitedAutoPart(),
-                       builder: (BuildContext context, AsyncSnapshot<List<AutoPartModel>> snapshot) {
+                      builder: (BuildContext context, AsyncSnapshot<List<AutoPartModel>> snapshot) {
                         if(snapshot.hasData && snapshot.data.isNotEmpty){
                           return  Container(
                             height: 268,
