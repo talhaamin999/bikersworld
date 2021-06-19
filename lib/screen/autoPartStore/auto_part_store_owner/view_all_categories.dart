@@ -1,4 +1,5 @@
 import 'package:bikersworld/screen/autoPartStore/auto_part_store_owner//auto_part_dasboard.dart';
+import 'package:bikersworld/services/admin_data_queries/admin_partstore_queries.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -12,7 +13,7 @@ class ViewAllCategories extends StatefulWidget {
 
 class _ViewAllCategoriesState extends State<ViewAllCategories> {
 
-  var _dropDownItems = ['Accessories', 'Body & Frame', 'Brake & Suspension', 'Air Intake', 'Electrical & Ignition', 'Exhaust System','Engine & Engine Parts','Lighting & Indicators','Wheel & Tyres','Seating','Other'];
+  final _adminData = AdminPartStoreQueries();
 
   @override
   Widget build(BuildContext context) {
@@ -56,41 +57,49 @@ class _ViewAllCategoriesState extends State<ViewAllCategories> {
                 ),
               ),
               Container(
-                child: ListView.builder(
-                  physics: NeverScrollableScrollPhysics(),
-                  shrinkWrap: true,
-                  itemCount: _dropDownItems.length,
-                    itemBuilder: (context, index) {
-                      return InkWell(
-                        onTap: (){
-                         Navigator.of(context).push(
-                           MaterialPageRoute(builder: (context) => AutoPartDashboard(
-                             partStoreId: widget.partStoreId,
-                             category: _dropDownItems[index],
-                           ))
-                         );
-                       },
-                        child: Container(
-                          margin: EdgeInsets.only(left: 10,right: 10,top: 10),
-                          height: 70,
-                          child: Card(
-                            child: Padding(
-                              padding: const EdgeInsets.only(left:10,right: 10),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(_dropDownItems[index], style: GoogleFonts.quicksand(fontSize:16),),
-                                  Icon(
-                                      Icons.arrow_forward_ios,
-                                      color: Colors.grey,
-                                    ),
-                                ],
+                child: FutureBuilder(
+                  future: _adminData.getPartStorePartCategories(),
+                  builder: (BuildContext context, AsyncSnapshot<List<String>> snapshot) {
+                    if(snapshot.hasData && snapshot.data.isNotEmpty){
+                      return ListView.builder(
+                        physics: NeverScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                        itemCount: snapshot.data.length,
+                        itemBuilder: (context, index) {
+                          return InkWell(
+                            onTap: (){
+                              Navigator.of(context).push(
+                                  MaterialPageRoute(builder: (context) => AutoPartDashboard(
+                                    partStoreId: widget.partStoreId,
+                                    category: snapshot.data[index],
+                                  ))
+                              );
+                            },
+                            child: Container(
+                              margin: EdgeInsets.only(left: 10,right: 10,top: 10),
+                              height: 70,
+                              child: Card(
+                                child: Padding(
+                                  padding: const EdgeInsets.only(left:10,right: 10),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(snapshot.data[index], style: GoogleFonts.quicksand(fontSize:16),),
+                                      Icon(
+                                        Icons.arrow_forward_ios,
+                                        color: Colors.grey,
+                                      ),
+                                    ],
+                                  ),
+                                ),
                               ),
                             ),
-                          ),
-                        ),
+                          );
+                        },
                       );
-                    },
+                    }
+                    return Center(child: CircularProgressIndicator());
+                  },
                 ),
               ),
             ],

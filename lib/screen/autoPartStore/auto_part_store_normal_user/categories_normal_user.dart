@@ -1,4 +1,5 @@
 import 'package:bikersworld/screen/autoPartStore/auto_part_store_normal_user/view_category_wise_auto_part.dart';
+import 'package:bikersworld/services/admin_data_queries/admin_partstore_queries.dart';
 import 'package:bikersworld/widgets/part_category_list.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -13,11 +14,10 @@ class ViewAllCategoriesNomrmalUser extends StatefulWidget {
 
 class _ViewAllCategoriesNomrmalUserState extends State<ViewAllCategoriesNomrmalUser> {
 
- final _categoryList = AutoPartCtaegoryList();
+ final _adminData = AdminPartStoreQueries();
 
   @override
   void initState() {
-    print('${_categoryList.getPartsList().first}');
     super.initState();
   }
 
@@ -63,36 +63,47 @@ class _ViewAllCategoriesNomrmalUserState extends State<ViewAllCategoriesNomrmalU
                 ),
               ),
               Container(
-                child: ListView.builder(
-                  physics: NeverScrollableScrollPhysics(),
-                  shrinkWrap: true,
-                  itemCount: _categoryList.getPartsList().length,
-                    itemBuilder: (context, index) {
-                      return InkWell(
-                        onTap: (){
-                          Navigator.of(context).push(MaterialPageRoute(builder: (context) => ViewCategoryWiseAutoPart(partCategory: _categoryList.getPartsList()[index],partStoreId: widget.partStoreId,)));
-                        },
-                        child: Container(
-                          margin: EdgeInsets.only(left: 10,right: 10,top: 10),
-                          height: 70,
-                          child: Card(
-                            child: Padding(
-                              padding: const EdgeInsets.only(left:10,right: 10),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(_categoryList.getPartsList()[index], style: GoogleFonts.quicksand(fontSize:16),),
-                                  Icon(
-                                      Icons.arrow_forward_ios,
-                                      color: Colors.grey,
-                                    ),
-                                ],
+                child: FutureBuilder(
+                  future: _adminData.getPartStorePartCategories(),
+                  builder: (BuildContext context, AsyncSnapshot<List<String>> snapshot) {
+                    if(snapshot.hasData && snapshot.data.isNotEmpty){
+                      return ListView.builder(
+                        physics: NeverScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                        itemCount: snapshot.data.length,
+                        itemBuilder: (context, index) {
+                          return InkWell(
+                            onTap: (){
+                              Navigator.of(context).push(MaterialPageRoute(builder: (context) => ViewCategoryWiseAutoPart(partCategory: snapshot.data[index],partStoreId: widget.partStoreId,)));
+                            },
+                            child: Container(
+                              margin: EdgeInsets.only(left: 10,right: 10,top: 10),
+                              height: 70,
+                              child: Card(
+                                child: Padding(
+                                  padding: const EdgeInsets.only(left:10,right: 10),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(snapshot.data[index], style: GoogleFonts.quicksand(fontSize:16),),
+                                      Icon(
+                                        Icons.arrow_forward_ios,
+                                        color: Colors.grey,
+                                      ),
+                                    ],
+                                  ),
+                                ),
                               ),
                             ),
-                          ),
-                        ),
+                          );
+                        },
                       );
-                    },
+                    }
+                    else if(snapshot.hasData && snapshot.data.isEmpty){
+                      return Center(child: Text("No Categories Found"),);
+                    }
+                    return Center(child: CircularProgressIndicator(),);
+                  },
                 ),
               ),
             ],

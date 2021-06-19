@@ -1,7 +1,9 @@
 import 'package:bikersworld/model/partstore_model.dart';
+import 'package:bikersworld/services/admin_data_queries/admin_partstore_queries.dart';
 import 'package:bikersworld/services/part_store_queries/part_queries.dart';
 import 'package:bikersworld/services/toast_service.dart';
 import 'package:bikersworld/services/validate_service.dart';
+import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -448,58 +450,77 @@ class CategoriesComboBox extends StatefulWidget {
 
 class _CategoriesComboBoxState extends State<CategoriesComboBox> {
 
-  var _dropDownItems = ['Accessories', 'Body & Frame', 'Brake & Suspension', 'Air Intake', 'Electrical & Ignition', 'Exhaust System','Engine & Engine Parts','Lighting & Indicators','Wheel & Tyres','Seating','Other'];
-
-  void mapVlaue(){
-    if(dropDownCategoryValue == null){
-      dropDownCategoryValue = _dropDownItems[0];
-    }
-  }
-
-  @override
-  void initState(){
-    mapVlaue();
-    super.initState();
-  }
+  final _adminData = AdminPartStoreQueries();
 
   Widget build(BuildContext context) {
-
-    return Container(
-      color: Color(0xffe3e3e3),
-      width: 370,
-      height: 50,
-      child:  DropdownButton<String>(
-        value: dropDownCategoryValue,
-        icon: Container(
-          margin: EdgeInsets.only(left: 120),
-          child: Icon(
-            FontAwesomeIcons.caretDown,
-          ),
-        ),
-        iconSize: 24,
-        elevation: 16,
-        style: TextStyle(color: Colors.black,),
-        underline: Container(
-          height: 2,
-        ),
-        onChanged: (String newValue) {
-          setState(() {
-            dropDownCategoryValue = newValue;
-          });
-        },
-        items: _dropDownItems
-            .map<DropdownMenuItem<String>>((String value) {
-          return DropdownMenuItem<String>(
-            value: value,
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(value, style: GoogleFonts.quicksand(fontSize: 15),),
+    return FutureBuilder(
+      future: _adminData.getPartStorePartCategories(),
+      builder: (BuildContext context, AsyncSnapshot<List<String>> snapshot) {
+        if(snapshot.hasData && snapshot.data.isNotEmpty){
+          return Padding(
+            padding: const EdgeInsets.only( top:10),
+            child:Container(
+              color: Colors.white,
+              child: SizedBox(
+                width: MediaQuery.of(context).size.width,
+                child: DropdownSearch<String>(
+                  validator: (v) => v == null ? "required field" : null,
+                  hint: "Select Category",
+                  searchBoxDecoration: InputDecoration(
+                    border: new OutlineInputBorder(
+                      borderRadius: const BorderRadius.all(
+                        const Radius.circular(5),
+                      ),
+                    ),
+                  ),
+                  showSelectedItem: true,
+                  items: snapshot.data,
+                  // showClearButton: true,
+                  onChanged: (value){
+                    setState(() {
+                      dropDownCategoryValue = value;
+                    });
+                  },
+                ),
+              ),
             ),
           );
-        }).toList(),
-      ),
+        }
+        else if(snapshot.hasData && snapshot.data.isEmpty){
+          return Padding(
+            padding: const EdgeInsets.only( top:10),
+            child:Container(
+              color: Colors.white,
+              child: SizedBox(
+                width: MediaQuery.of(context).size.width,
+                child: DropdownSearch<String>(
+                  validator: (v) => v == null ? "required field" : null,
+                  hint: "Select Category",
+                  searchBoxDecoration: InputDecoration(
+                    border: new OutlineInputBorder(
+                      borderRadius: const BorderRadius.all(
+                        const Radius.circular(5),
+                      ),
+                    ),
+                  ),
+                  showSelectedItem: true,
+                  items: ['mechanical','Electrical','Brake & Suspension','Other'],
+                  // showClearButton: true,
+                  onChanged: (value){
+                    setState(() {
+                      dropDownCategoryValue = value;
+                    });
+                  },
+                ),
+              ),
+            ),
+          );
+        }
+        return Center(child: CircularProgressIndicator(),);
+      },
     );
   }
+
 }
 
 
@@ -513,55 +534,74 @@ class TypeComboBox extends StatefulWidget {
 
 class _TypeComboBoxState extends State<TypeComboBox> {
 
-  var dropDownItems = ['Local', 'Genuine','Others'];
-
-  void mapVlaue(){
-    if(dropDownTypeValue == null){
-      dropDownTypeValue = dropDownItems[0];
-    }
-  }
-  @override
-  void initState(){
-    mapVlaue();
-    super.initState();
-  }
+  final _adminData = AdminPartStoreQueries();
 
   Widget build(BuildContext context) {
-
-    return Container(
-      color: Color(0xffe3e3e3),
-      width: 370,
-      height: 50,
-      child:  DropdownButton<String>(
-        value: dropDownTypeValue,
-        icon: Container(
-          margin: EdgeInsets.only(left:220),
-          child: Icon(
-            FontAwesomeIcons.caretDown,
-          ),
-        ),
-        iconSize: 24,
-        elevation: 16,
-        style: TextStyle(color: Colors.black,),
-        underline: Container(
-          height: 2,
-        ),
-        onChanged: (String newValue) {
-          setState(() {
-            dropDownTypeValue = newValue;
-          });
-        },
-        items: dropDownItems
-            .map<DropdownMenuItem<String>>((String value) {
-          return DropdownMenuItem<String>(
-            value: value,
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(value, style: GoogleFonts.quicksand(fontSize: 15),),
+    return FutureBuilder(
+      future: _adminData.getPartStorePartType(),
+      builder: (BuildContext context, AsyncSnapshot<List<String>> snapshot) {
+        if(snapshot.hasData && snapshot.data.isNotEmpty){
+          return Padding(
+            padding: const EdgeInsets.only( top:10),
+            child:Container(
+              color: Colors.white,
+              child: SizedBox(
+                width: MediaQuery.of(context).size.width,
+                child: DropdownSearch<String>(
+                  validator: (v) => v == null ? "required field" : null,
+                  hint: "Select Type",
+                  searchBoxDecoration: InputDecoration(
+                    border: new OutlineInputBorder(
+                      borderRadius: const BorderRadius.all(
+                        const Radius.circular(5),
+                      ),
+                    ),
+                  ),
+                  showSelectedItem: true,
+                  items: snapshot.data,
+                  // showClearButton: true,
+                  onChanged: (value){
+                    setState(() {
+                      dropDownTypeValue = value;
+                    });
+                  },
+                ),
+              ),
             ),
           );
-        }).toList(),
-      ),
+        }
+        else if(snapshot.hasData && snapshot.data.isEmpty){
+          return Padding(
+            padding: const EdgeInsets.only( top:10),
+            child:Container(
+              color: Colors.white,
+              child: SizedBox(
+                width: MediaQuery.of(context).size.width,
+                child: DropdownSearch<String>(
+                  validator: (v) => v == null ? "required field" : null,
+                  hint: "Select Type",
+                  searchBoxDecoration: InputDecoration(
+                    border: new OutlineInputBorder(
+                      borderRadius: const BorderRadius.all(
+                        const Radius.circular(5),
+                      ),
+                    ),
+                  ),
+                  showSelectedItem: true,
+                  items: ['Local','Genuine','Other'],
+                  // showClearButton: true,
+                  onChanged: (value){
+                    setState(() {
+                      dropDownTypeValue = value;
+                    });
+                  },
+                ),
+              ),
+            ),
+          );
+        }
+        return Center(child: CircularProgressIndicator(),);
+      },
     );
   }
 }
