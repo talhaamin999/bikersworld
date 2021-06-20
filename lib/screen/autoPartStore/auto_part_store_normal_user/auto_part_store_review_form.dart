@@ -64,7 +64,7 @@ class _ReviewAutoPartStoreState extends State<ReviewAutoPartStore> {
           title: Text(
             'BIKERSWORLD',
             style: GoogleFonts.quicksand(
-              color: Colors.white,
+              color: Colors.orange,
               fontSize: 18,
             ),
           ),
@@ -76,7 +76,7 @@ class _ReviewAutoPartStoreState extends State<ReviewAutoPartStore> {
               },
               child: Icon(
                 Icons.arrow_back,
-                color: Colors.orange,
+                color: Colors.white,
               )
           ),
         ),

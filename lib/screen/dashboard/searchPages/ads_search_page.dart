@@ -326,7 +326,7 @@ class _AdSearchPageState extends State<AdSearchPage> {
         title: Text(
           'BIKERSWORLD',
           style: GoogleFonts.quicksand(
-            color: Colors.white,
+            color: Colors.orange,
             fontSize: 18,
           ),
         ),
@@ -334,7 +334,7 @@ class _AdSearchPageState extends State<AdSearchPage> {
         iconTheme: IconThemeData(color: Color(0xfffbb448),
         ),
         elevation: 0,
-          leading: IconButton(icon:Icon(Icons.arrow_back, color: Colors.orange,),
+          leading: IconButton(icon:Icon(Icons.arrow_back, color: Colors.white,),
             onPressed:() => Navigator.pop(context),
           )
       ),

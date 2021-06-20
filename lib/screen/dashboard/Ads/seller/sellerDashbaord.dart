@@ -69,13 +69,13 @@ class SellerHomeScreen extends StatelessWidget {
           backgroundColor: Color(0XFF012A4A),
           title: new Text(
             "Bikers World",
-            style: GoogleFonts.quicksand(fontSize: 20, color: Colors.white),
+            style: GoogleFonts.quicksand(fontSize: 20, color: Colors.orange),
           ),
           elevation: 0.0,
           leading: IconButton(
             icon: Icon(
               Icons.arrow_back,
-              color: Colors.orange,
+              color: Colors.white,
             ),
             onPressed: () => Navigator.pop(context),
           )),

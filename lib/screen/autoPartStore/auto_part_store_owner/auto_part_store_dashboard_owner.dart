@@ -54,7 +54,7 @@ class _AutoPartStoreDashboardOwnerState extends State<AutoPartStoreDashboardOwne
                     title: Text('Bikers World',
                       style: GoogleFonts.quicksand(
                         fontSize: 20,
-
+                        color: Colors.orange,
                       ),
                     ),
                     pinned: true,

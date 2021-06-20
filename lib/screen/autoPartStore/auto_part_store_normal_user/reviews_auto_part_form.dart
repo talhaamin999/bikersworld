@@ -67,7 +67,7 @@ class _ReviewAutoPartState extends State<ReviewAutoPart> {
         title: Text(
           'BIKERSWORLD',
           style: GoogleFonts.quicksand(
-            color: Colors.white,
+            color: Colors.orange,
             fontSize: 18,
           ),
         ),
@@ -79,7 +79,7 @@ class _ReviewAutoPartState extends State<ReviewAutoPart> {
             },
             child: Icon(
               Icons.arrow_back,
-              color: Colors.orange,
+              color: Colors.white,
             )
         ),
       ),

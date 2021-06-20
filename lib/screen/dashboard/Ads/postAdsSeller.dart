@@ -143,14 +143,14 @@ class _PostBikeInfoState extends State<PostBikeInfo> with SingleTickerProviderSt
           title: Text(
             'BIKERSWORLD',
             style: GoogleFonts.quicksand(
-              color: Colors.white,
+              color: Colors.orange,
               fontSize: 18,
             ),
           ),
           backgroundColor: Color(0XFF012A4A),
           iconTheme: IconThemeData(color: Color(0xfffbb448)),
           leading: IconButton(
-            icon: Icon(Icons.arrow_back, color: Colors.orange),
+            icon: Icon(Icons.arrow_back, color: Colors.white),
             onPressed: () => Navigator.of(context).pop(),
           ),
 

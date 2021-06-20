@@ -1,5 +1,4 @@
 import 'package:bikersworld/model/workshop_model.dart';
-import 'package:bikersworld/screen/dashboard/workshop/workshopGrid.dart';
 import 'package:bikersworld/services/search_queries/search_workshop_mechanics.dart';
 import 'package:bikersworld/services/toast_service.dart';
 import 'package:bikersworld/services/workshop_queries/mechanic_queries.dart';
@@ -45,7 +44,7 @@ class _NormalUserWorkshopEmployeeState
         title: Text(
           'BIKERSWORLD',
           style: GoogleFonts.quicksand(
-            color: Colors.white,
+            color: Colors.orange,
             fontSize: 18,
           ),
         ),
@@ -57,7 +56,7 @@ class _NormalUserWorkshopEmployeeState
             },
             child: Icon(
               Icons.arrow_back,
-              color: Colors.orange,
+              color: Colors.white,
             )),
         elevation: 0.0,
       ),

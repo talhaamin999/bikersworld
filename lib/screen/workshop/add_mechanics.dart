@@ -167,14 +167,14 @@ class _AddMechanicsState extends State<AddMechanics> {
           title: Text(
             'BIKERSWORLD',
             style: GoogleFonts.quicksand(
-              color: Colors.white,
+              color: Colors.orange,
               fontSize: 18,
             ),
           ),
           backgroundColor: Color(0XFF012A4A),
           iconTheme: IconThemeData(color: Color(0xfffbb448),
           ),
-          leading: IconButton(icon:Icon(Icons.arrow_back, color: Colors.orange,),
+          leading: IconButton(icon:Icon(Icons.arrow_back, color: Colors.white,),
         onPressed:() {
           clear();
             Navigator

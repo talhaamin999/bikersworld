@@ -305,6 +305,15 @@ class _AutoPartSearchPageState extends State<AutoPartSearchPage> {
         ),
         backgroundColor: Color(0XFF012A4A),
         elevation:0,
+        iconTheme: IconThemeData(color: Color(0xfffbb448)),
+        leading: FlatButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            child: Icon(
+              Icons.arrow_back,
+              color: Colors.white,
+            )),
       ),
       body: SingleChildScrollView(
         child: Container(

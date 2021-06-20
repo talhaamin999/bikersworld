@@ -27,7 +27,7 @@ class _ViewAllAutoPartsState extends State<ViewAllAutoParts> {
           title: Text(
             'BIKERSWORLD',
             style: GoogleFonts.quicksand(
-              color: Colors.white,
+              color: Colors.orange,
               fontSize: 18,
             ),
           ),
@@ -39,7 +39,7 @@ class _ViewAllAutoPartsState extends State<ViewAllAutoParts> {
               },
               child: Icon(
                 Icons.arrow_back,
-                color: Colors.orange,
+                color: Colors.white,
               )
           ),
           elevation: 0.0,

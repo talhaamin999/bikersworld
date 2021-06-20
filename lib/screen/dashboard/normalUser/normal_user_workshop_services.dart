@@ -49,13 +49,14 @@ class _NormalUserWorkshopServicesState extends State<NormalUserWorkshopServices>
                   },
                   child: Icon(
                     Icons.arrow_back,
-                    color: Colors.orange,
+                    color: Colors.white,
                   )
               ),
               backgroundColor: Color(0XFF012A4A),
               title: Text('Bikers World',
                 style: GoogleFonts.quicksand(
-                    fontSize: 20
+                    fontSize: 20,
+                  color: Colors.orange,
                 ),
               ),
               pinned: true,

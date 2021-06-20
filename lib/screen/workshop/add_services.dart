@@ -217,12 +217,12 @@ class _AddServicesState extends State<AddServices> {
           title: Text(
             'BIKERSWORLD',
             style: GoogleFonts.quicksand(
-              color: Colors.white,
+              color: Colors.orange,
               fontSize: 18,
             ),
           ),
           backgroundColor: Color(0XFF012A4A),
-            leading: IconButton(icon:Icon(Icons.arrow_back, color: Colors.orange,),
+            leading: IconButton(icon:Icon(Icons.arrow_back, color: Colors.white,),
               onPressed:() {
                 clear();
                 Navigator.pop(context);

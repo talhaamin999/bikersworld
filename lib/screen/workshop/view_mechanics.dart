@@ -64,7 +64,7 @@ class _ViewMechanicsState extends State<ViewMechanics> {
             title: Text(
               'BIKERSWORLD',
               style: GoogleFonts.quicksand(
-                color: Colors.white,
+                color: Colors.orange,
                 fontSize: 18,
               ),
             ),
@@ -72,7 +72,7 @@ class _ViewMechanicsState extends State<ViewMechanics> {
             leading: IconButton(
               icon: Icon(
                 Icons.arrow_back,
-                color: Colors.orange,
+                color: Colors.white,
               ),
               onPressed: () => Navigator.pop(context),
             )),

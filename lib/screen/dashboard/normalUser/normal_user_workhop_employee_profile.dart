@@ -40,7 +40,7 @@ class _NormalUserWorkshopEmployeeProfileState extends State<NormalUserWorkshopEm
           title: Text(
             'BIKERSWORLD',
             style: GoogleFonts.quicksand(
-              color: Colors.white,
+              color: Colors.orange,
               fontSize: 18,
             ),
           ),
@@ -52,7 +52,7 @@ class _NormalUserWorkshopEmployeeProfileState extends State<NormalUserWorkshopEm
               },
               child: Icon(
                 Icons.arrow_back,
-                color: Colors.orange,
+                color: Colors.white,
               )
           ),
           elevation: 0.0,

@@ -46,12 +46,12 @@ class _WorkshopDashboardState extends State<WorkshopDashboard> {
         brightness: Brightness.dark,
         textTheme: TextTheme(
           title: GoogleFonts.quicksand(
-            color: Colors.white,
+            color: Colors.orange,
             fontSize: 22,
           ),
         ),
         iconTheme: IconThemeData(
-          color: Colors.orangeAccent,
+          color: Colors.white,
         ),
         actions: <Widget>[
           IconButton(

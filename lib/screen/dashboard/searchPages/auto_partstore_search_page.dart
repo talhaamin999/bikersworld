@@ -73,12 +73,12 @@ class _AutoPartStoreSearchPageState extends State<AutoPartStoreSearchPage> {
         title: Text(
           'BIKERSWORLD',
           style: GoogleFonts.quicksand(
-            color: Colors.white,
+            color: Colors.orange,
             fontSize: 18,
           ),
         ),
         backgroundColor: Color(0XFF012A4A),
-        iconTheme: IconThemeData(color: Color(0xfffbb448),
+        iconTheme: IconThemeData(color: Colors.white,
         ),
         bottomOpacity: 0.0,
         elevation: 0.0,
