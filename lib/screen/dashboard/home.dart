@@ -1,10 +1,12 @@
 import 'package:bikersworld/model/bike_add_model.dart';
 import 'package:bikersworld/model/partstore_model.dart';
 import 'package:bikersworld/model/workshop_model.dart';
+import 'package:bikersworld/screen/loginSignup/signup.dart';
 import 'package:bikersworld/services/bike_add_queries.dart';
 import 'package:bikersworld/services/part_store_queries/part_queries.dart';
 import 'package:bikersworld/services/part_store_queries/part_store_query.dart';
 import 'package:bikersworld/services/workshop_queries/workshop_queries.dart';
+import 'package:bubble_bottom_bar/bubble_bottom_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:bikersworld/screen/autoPartStore/auto_part_store_normal_user/auto_part_ptore_dashboard.dart';
@@ -18,6 +20,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:bikersworld/widgets/bezierContainer.dart';
 import 'package:bikersworld/screen/dashboard/searchPages/auto_partstore_search_page.dart';
 import 'package:bikersworld/screen/dashboard/searchPages/autopart_search_page.dart';
+import 'package:google_nav_bar/google_nav_bar.dart';
+import 'package:line_icons/line_icons.dart';
 
 class HomeDashboard extends StatefulWidget {
 
@@ -31,6 +35,20 @@ class _HomeDashboardState extends State<HomeDashboard> {
   final _workshops = RegisterWorkshopQueries();
   final _partStore = RegisterPartStoreQueries();
   final _autoPart = AutoPartQueries();
+
+  int currentIndex = 0;
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    currentIndex = 0;
+  }
+
+  void changePage(int index) {
+    setState(() {
+      currentIndex = index;
+    });
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -75,27 +93,40 @@ class _HomeDashboardState extends State<HomeDashboard> {
                           ),
                         ),
                       ),
-                      FadeAnimation(
-                        1.3,
-                        Padding(
-                          padding: const EdgeInsets.only(right: 50,top: 10, left: 15),
-                          child: TextField(
-                            textInputAction: TextInputAction.search,
-                            onSubmitted: (value){
-                            },
-                            decoration: new InputDecoration(
-
-                              border: new OutlineInputBorder(
-                                borderRadius: const BorderRadius.all(
-                                  const Radius.circular(10),
+                      FlatButton(
+                        onPressed: (){
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => SignUpPage()));
+                        },
+                        child: FadeAnimation(
+                          1.6,
+                          Padding(
+                            padding: const EdgeInsets.only(right: 50,top: 10, left: 15),
+                            child: Container(
+                              height: 45,
+                              width: MediaQuery.of(context).size.width - 20,
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(6),
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.only(left:20),
+                                child: Row(
+                                  children: [
+                                    Icon(
+                                      FontAwesomeIcons.signOutAlt,
+                                      color: Colors.grey,
+                                    ),
+                                    SizedBox(width: 15,),
+                                    Text(
+                                      "Join Now",
+                                      style: GoogleFonts.quicksand(
+                                        fontSize: 18,
+                                        color: Colors.grey,
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ),
-                              filled: true,
-                              hintStyle: GoogleFonts.quicksand(color: Colors.black, fontSize:15),
-                              hintText: "Search Anything",
-                              contentPadding: EdgeInsets.only(top: 7),
-                              prefixIcon: Icon(Icons.search, size: 25,),
-                              fillColor: Colors.white,
                             ),
                           ),
                         ),
@@ -107,14 +138,14 @@ class _HomeDashboardState extends State<HomeDashboard> {
             ),
             SizedBox(height: 20,),
             Container(
-              margin: EdgeInsets.only(left: 20,top: 60),
+              margin: EdgeInsets.only(left: 20,top: 40),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     "Categories",
                     style: GoogleFonts.poppins(
-                        fontSize: 30,
+                        fontSize: 25,
                         color: Color(0xffadadad),
                     ),
                   ),
@@ -480,7 +511,7 @@ class _HomeDashboardState extends State<HomeDashboard> {
                     builder: (BuildContext context, AsyncSnapshot<List<WorkshopDashboardModel>> snapshot) {
                       if(snapshot.hasData && snapshot.data.isNotEmpty){
                         return Container(
-                          height: 281,
+                          height: 275,
                           child: ListView.builder(
                             scrollDirection: Axis.horizontal,
                             shrinkWrap: true,
@@ -490,50 +521,79 @@ class _HomeDashboardState extends State<HomeDashboard> {
                                return FlatButton(
                                  padding: EdgeInsets.only(left:20,top:10),
                                  onPressed: (){
+                                   //workshop card
+                                   print("onpress for workshop");
                                  },
                                  child: Card(
-                                   margin: const EdgeInsets.only(left:10,top:10 , bottom: 10),
+                                   margin: const EdgeInsets.only(left:10, bottom: 10),
                                    shape: RoundedRectangleBorder(
-                                     borderRadius: BorderRadius.circular(20),
+                                     borderRadius: BorderRadius.circular(10),
                                    ),
-                                   child:Column(
-                                     crossAxisAlignment: CrossAxisAlignment.start,
-                                     children: [
-                                       Container(
-                                         width: MediaQuery.of(context).size.width - 100,
-                                         height: 180,
-                                         decoration: BoxDecoration(
-                                           borderRadius: BorderRadius.circular(20),
-                                           image: DecorationImage(
-                                             fit: BoxFit.fill,
-                                             image: snapshot.data[index].imageURL != null ?
-                                           NetworkImage(snapshot.data[index].imageURL,) : AssetImage("assets/avatar.jpg",),
-                                           ),
-                                         ),
-                                       ),
-                                       Padding(
-                                           padding:EdgeInsets.only(top:5,left: 10,),
-                                           child: Text(
-                                           snapshot.data[index].shopTitle,
-                                             style: GoogleFonts.mukta(
-                                               fontSize:20,
-                                               color: Colors.black,
+                                   child:Padding(
+                                     padding: const EdgeInsets.only(bottom:5),
+                                     child: Column(
+                                       crossAxisAlignment: CrossAxisAlignment.start,
+                                       children: [
+                                         Container(
+                                           width: MediaQuery.of(context).size.width - 100,
+                                           height: 185,
+                                           decoration: BoxDecoration(
+                                             borderRadius: BorderRadius.circular(10),
+                                             image: DecorationImage(
+                                               fit: BoxFit.fill,
+                                               image: snapshot.data[index].imageURL != null ?
+                                             NetworkImage(snapshot.data[index].imageURL,) : AssetImage("assets/avatar.jpg",),
                                              ),
-                                             softWrap: true,
-                                         ),
-                                       ),
-                                       Padding(
-                                         padding:EdgeInsets.only(left: 10,),
-                                         child: Text(
-                                           snapshot.data[index].city,
-                                           style: GoogleFonts.mukta(
-                                             fontSize:16,
-                                             color: Colors.grey,
                                            ),
-                                           softWrap: true,
                                          ),
-                                       ),
-                                     ],
+                                         Padding(
+                                             padding:EdgeInsets.only(left: 10,top:5),
+                                             child: Text(
+                                             snapshot.data[index].shopTitle,
+                                               style: GoogleFonts.mukta(
+                                                 fontSize:18,
+                                                 color: Colors.black,
+                                               ),
+                                               softWrap: true,
+                                           ),
+                                         ),
+                                        Container(
+                                          child: Row(
+                                            children: [
+                                              Padding(
+                                                padding:EdgeInsets.only(left: 10,),
+                                                child: Text(
+                                                  snapshot.data[index].city,
+                                                  style: GoogleFonts.mukta(
+                                                    fontSize:16,
+                                                    color: Colors.grey,
+                                                  ),
+                                                  softWrap: true,
+                                                ),
+                                              ),
+                                              Container(
+                                                height: 20,
+                                                width: 1.0,
+                                                color: Colors.grey,
+                                                margin: const EdgeInsets.only(left: 10.0, right: 10.0),
+                                              ),
+
+                                              Padding(
+                                                padding:EdgeInsets.only(left: 1,),
+                                                child: Text(
+                                                  snapshot.data[index].ownerContact,
+                                                  style: GoogleFonts.mukta(
+                                                    fontSize:16,
+                                                    color: Colors.grey,
+                                                  ),
+                                                  softWrap: true,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                       ],
+                                     ),
                                    ),
                                  ),
                                );
@@ -640,7 +700,7 @@ class _HomeDashboardState extends State<HomeDashboard> {
                                   return FlatButton(
                                     padding: EdgeInsets.only(left:20,top:10,  right: 10),
                                     onPressed: (){
-
+                                      print("ads ");
                                     },
                                     child: Container(
                                       width: MediaQuery.of(context).size.width - 100,
@@ -674,7 +734,7 @@ class _HomeDashboardState extends State<HomeDashboard> {
                                                 padding:EdgeInsets.only(left:10,top: 5),
                                                 child: Text(
                                                   snapshot.data[index].title,
-                                                  style: GoogleFonts.quicksand(
+                                                  style: GoogleFonts.mukta(
                                                     fontSize:20,
                                                   ),
                                                 ),
@@ -687,7 +747,7 @@ class _HomeDashboardState extends State<HomeDashboard> {
                                                 children: [
                                                   Text(
                                                     snapshot.data[index].city,
-                                                    style: GoogleFonts.quicksand(fontSize: 16,color: Colors.grey),
+                                                    style: GoogleFonts.mukta(fontSize: 16,color: Colors.grey),
                                                   ),
                                                   SizedBox(width: 5,),
                                                   Text("|"),
@@ -954,56 +1014,62 @@ class _HomeDashboardState extends State<HomeDashboard> {
                             physics:NeverScrollableScrollPhysics(),
                             itemCount: snapshot.data.length,
                             itemBuilder: (BuildContext context, int index) {
-                              return Padding(
-                                padding: const EdgeInsets.only(left:20,right:20, top:5),
-                                child:  Card(
-                                  elevation: 8.0,
-                                  margin: new EdgeInsets.symmetric(horizontal: 10.0, vertical: 6.0),
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                        color: Color(0XFF012A4A),
-                                    ),
-                                    child:ListTile(
-                                        contentPadding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
-                                        leading: Container(
-                                          padding: EdgeInsets.only(right: 12.0),
-                                          decoration: new BoxDecoration(
-                                              border: new Border(
-                                                  right: new BorderSide(
-                                                      width: 3,
-                                                      color: Colors.white24,
-                                                  ),
-                                              ),
-                                          ),
-                                          child: Image(
-                                            image:snapshot.data[index].imageURL != null ? NetworkImage(snapshot.data[index].imageURL) : AssetImage("assets/partstore.jpg"),
-                                          ),
-                                        ),
-                                        title: Text(
-                                          snapshot.data[index].shopTitle,
-                                          style: TextStyle (
-                                              color: Colors.white,
-                                              fontSize: 18
-                                          ),
-                                        ),
-
-                                        subtitle: Row(
-                                          children: <Widget>[
-                                            Icon(
-                                                Icons.linear_scale,
-                                                color: Colors.orange,
+                              return FlatButton(
+                                padding: EdgeInsets.zero,
+                                onPressed:(){
+                                  print("auto part store");
+                                },
+                                child: Padding(
+                                  padding: const EdgeInsets.only(left:20,right:20, top:5),
+                                  child:  Card(
+                                    elevation: 8.0,
+                                    margin: new EdgeInsets.symmetric(horizontal: 10.0, vertical: 6.0),
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                          color: Color(0XFF012A4A),
+                                      ),
+                                      child:ListTile(
+                                          contentPadding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+                                          leading: Container(
+                                            padding: EdgeInsets.only(right: 12.0),
+                                            decoration: new BoxDecoration(
+                                                border: new Border(
+                                                    right: new BorderSide(
+                                                        width: 3,
+                                                        color: Colors.white24,
+                                                    ),
+                                                ),
                                             ),
-                                            Text(
-                                              snapshot.data[index].city,
-                                              style: TextStyle (
-                                                  color: Colors.white,
-                                                  fontSize: 12
+                                            child: Image(
+                                              image:snapshot.data[index].imageURL != null ? NetworkImage(snapshot.data[index].imageURL) : AssetImage("assets/partstore.jpg"),
+                                            ),
+                                          ),
+                                          title: Text(
+                                            snapshot.data[index].shopTitle,
+                                            style: TextStyle (
+                                                color: Colors.white,
+                                                fontSize: 18
+                                            ),
+                                          ),
+
+                                          subtitle: Row(
+                                            children: <Widget>[
+                                              Icon(
+                                                  Icons.linear_scale,
+                                                  color: Colors.orange,
                                               ),
-                                            )
-                                          ],
-                                        ),
-                                        trailing:
-                                        Icon(Icons.keyboard_arrow_right, color: Colors.white, size: 30.0)),
+                                              Text(
+                                                snapshot.data[index].city,
+                                                style: TextStyle (
+                                                    color: Colors.white,
+                                                    fontSize: 12
+                                                ),
+                                              )
+                                            ],
+                                          ),
+                                          trailing:
+                                          Icon(Icons.keyboard_arrow_right, color: Colors.white, size: 30.0)),
+                                    ),
                                   ),
                                 ),
                               );
@@ -1092,7 +1158,7 @@ class _HomeDashboardState extends State<HomeDashboard> {
                       builder: (BuildContext context, AsyncSnapshot<List<AutoPartModel>> snapshot) {
                         if(snapshot.hasData && snapshot.data.isNotEmpty){
                           return  Container(
-                            height: 268,
+                            height: 248,
                             child: ListView.builder(
                                 scrollDirection: Axis.horizontal,
                                 shrinkWrap: true,
@@ -1100,16 +1166,17 @@ class _HomeDashboardState extends State<HomeDashboard> {
                                 itemCount: snapshot.data.length,
                                 itemBuilder: (BuildContext context, int index){
                                   return FlatButton(
-                                    padding: EdgeInsets.only(left:20,top:10),
+                                    padding: EdgeInsets.only(left:20,top:10,),
                                     onPressed: (){
+                                      print("Auto parts");
                                     },
                                     child: Container(
                                       width: MediaQuery.of(context).size.width -200,
                                       child: Card(
                                         color: Color(0xfff2f2f2),
-                                        margin: const EdgeInsets.only(left:10,top:10 , bottom: 10),
+                                        margin: const EdgeInsets.only(left:10,),
                                         shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(20),
+                                          borderRadius: BorderRadius.circular(10),
                                         ),
                                         child:Column(
                                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -1118,10 +1185,10 @@ class _HomeDashboardState extends State<HomeDashboard> {
                                               width: MediaQuery.of(context).size.width - 100,
                                               height: 160,
                                               decoration: BoxDecoration(
-                                                borderRadius: BorderRadius.circular(20),
+                                                borderRadius: BorderRadius.circular(10),
                                               ),
                                               child: ClipRRect(
-                                                borderRadius: BorderRadius.circular(20.0),
+                                                borderRadius: BorderRadius.circular(10.0),
                                                 child: Image(
 //                                                  image: NetworkImage(
 //                                                    snapshot.data[index].imageURL != null ?
@@ -1132,69 +1199,61 @@ class _HomeDashboardState extends State<HomeDashboard> {
                                                 ),
                                               ),
                                             ),
-                                            Expanded(
-                                              child: Padding(
-                                                padding:EdgeInsets.only(left:10,top: 5),
-                                                child: Column(
-                                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                                  children: [
-                                                    Text(
-                                                      snapshot.data[index].title,
-                                                      style: GoogleFonts.mukta(
-                                                        fontSize:20,
-                                                      ),
-                                                    ),
-                                                    Container(
-                                                      child:Row(
-                                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                        children: [
-                                                          Container(
-                                                            child: Row(
-                                                              children: [
-                                                                Text(
-                                                                  "PKR",
-                                                                  style: GoogleFonts.quicksand(
-                                                                    fontSize: 15,
-                                                                    color: Colors.grey,
-                                                                    fontWeight: FontWeight.bold,
-                                                                  ),
-                                                                ),
-                                                                Text(
-                                                                  snapshot.data[index].price.toString(),
-                                                                  style: GoogleFonts.quicksand(
-                                                                    fontSize: 15,
-                                                                    color: Colors.grey,
-                                                                    fontWeight: FontWeight.bold,
-                                                                  ),
-                                                                ),
-                                                              ],
-                                                            ),
-                                                          ),
-                                                          Container(
-                                                            // margin: EdgeInsets.only(top: 20),
-                                                            height: 40,
-                                                            width: 40,
-                                                            decoration: BoxDecoration(
-                                                              color: Color(0XFF012A4A),
-                                                              borderRadius: BorderRadius.only(
-                                                                bottomRight: Radius.circular(20),
-                                                                topLeft: Radius.circular(10),
-                                                              ),
-                                                            ),
-                                                            child: Icon(
-                                                              Icons.arrow_forward,
-                                                              color: Colors.white,
-                                                            ),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    ),
-                                                  ],
+                                            Padding(
+                                              padding: const EdgeInsets.only(left:5,top: 5),
+                                              child: Text(
+                                                snapshot.data[index].title,
+                                                style: GoogleFonts.mukta(
+                                                  fontSize:20,
                                                 ),
-
                                               ),
                                             ),
-
+                                            Container(
+                                              margin: EdgeInsets.only(left: 5),
+                                              child:Row(
+                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                children: [
+                                                  Container(
+                                                    child: Row(
+                                                      children: [
+                                                        Text(
+                                                          "PKR",
+                                                          style: GoogleFonts.quicksand(
+                                                            fontSize: 15,
+                                                            color: Colors.grey,
+                                                            fontWeight: FontWeight.bold,
+                                                          ),
+                                                        ),
+                                                        Text(
+                                                          snapshot.data[index].price.toString(),
+                                                          style: GoogleFonts.quicksand(
+                                                            fontSize: 15,
+                                                            color: Colors.grey,
+                                                            fontWeight: FontWeight.bold,
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                  Container(
+                                                    // margin: EdgeInsets.only(top: 20),
+                                                    height: 40,
+                                                    width: 40,
+                                                    decoration: BoxDecoration(
+                                                      color: Color(0XFF012A4A),
+                                                      borderRadius: BorderRadius.only(
+                                                        bottomRight: Radius.circular(10),
+                                                        topLeft: Radius.circular(10),
+                                                      ),
+                                                    ),
+                                                    child: Icon(
+                                                      Icons.arrow_forward,
+                                                      color: Colors.white,
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
                                           ],
                                         ),
                                       ),
@@ -1213,7 +1272,7 @@ class _HomeDashboardState extends State<HomeDashboard> {
                         return Center(child: CircularProgressIndicator());
                       },
                     ),
-                    SizedBox(height:15),
+                    SizedBox(height:25),
                   ],
                 ),
               ),
@@ -1222,163 +1281,81 @@ class _HomeDashboardState extends State<HomeDashboard> {
         ),
       ),
       drawer: CustomDrawer(),
-
+//      floatingActionButton: FloatingActionButton(
+//        onPressed:(){
+//          // for regsiter ads
+//          // lakin ads register krny sy phly user register hona chahhiyeh77
+//        },
+//        child: Icon(Icons.add),
+//        backgroundColor: Colors.red,
+//      ),
+//      floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
+//      bottomNavigationBar: BubbleBottomBar(
+//        hasNotch: true,
+//        fabLocation: BubbleBottomBarFabLocation.end,
+//        opacity: .2,
+//        currentIndex: currentIndex,
+//        onTap: changePage,
+//        borderRadius: BorderRadius.vertical(
+//            top: Radius.circular(
+//                16)), //border radius doesn't work when the notch is enabled.
+//        elevation: 8,
+//        items: <BubbleBottomBarItem>[
+//          BubbleBottomBarItem(
+//              backgroundColor: Colors.red,
+//              icon: Icon(
+//                Icons.home,
+//                size:20,
+//                color: Colors.black,
+//              ),
+//              activeIcon: Icon(
+//                Icons.home,
+//                size:20,
+//                color: Colors.red,
+//              ),
+//              title: Text("Workshop")),
+//          BubbleBottomBarItem(
+//              backgroundColor: Colors.deepPurple,
+//              icon: Icon(
+//                FontAwesomeIcons.storeAlt,
+//                size:20,
+//                color: Colors.black,
+//              ),
+//              activeIcon: Icon(
+//                FontAwesomeIcons.storeAlt,
+//                size:20,
+//                color: Colors.deepPurple,
+//              ),
+//              title: Text("Auto Store")),
+//          BubbleBottomBarItem(
+//              backgroundColor: Colors.indigo,
+//              icon: Icon(
+//                FontAwesomeIcons.cogs,
+//                size:20,
+//                color: Colors.black,
+//              ),
+//              activeIcon: Icon(
+//                FontAwesomeIcons.cogs,
+//                size:20,
+//                color: Colors.indigo,
+//              ),
+//              title: Text("Auto Parts")),
+//          BubbleBottomBarItem(
+//              backgroundColor: Colors.green,
+//              icon: Icon(
+//                FontAwesomeIcons.ad,
+//                size:20,
+//                color: Colors.black,
+//              ),
+//              activeIcon: Icon(
+//                FontAwesomeIcons.ad,
+//                size:20,
+//                color: Colors.green,
+//              ),
+//              title: Text("Ads"))
+//        ],
+//      ),
     );
   }
 }
 
-
-
-
-
-
-class ActiveProjectsCard extends StatelessWidget {
-  final Color cardColor;
-  final String title;
-  final String subtitle;
-  final String image;
-  ActiveProjectsCard({
-    this.cardColor,
-    this.title,
-    this.subtitle,
-    this.image,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Expanded(
-      flex: 1,
-      child: Container(
-        margin: EdgeInsets.symmetric(vertical: 10.0),
-        height: 225,
-        decoration: BoxDecoration(
-          color: Color(0xfff2f2f2),
-          borderRadius: BorderRadius.circular(20.0),
-          border: Border.all(
-            width: 1,
-            color: Color(0xffdedede),
-          ),
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            AspectRatio(
-              aspectRatio: 10.0 / 10.0,
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(10.0),
-                child: Image(
-                  image: AssetImage(
-                    image,
-                  ),
-                  fit: BoxFit.fill,
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(left:8.0,bottom:10),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Text(
-                    title,
-                    style: GoogleFonts.quicksand(
-                      fontSize: 18.0,
-                      color: Colors.black,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                  SizedBox(height:5),
-                  Container(
-                    child:Row(
-                      children: [
-                        Text(
-                          "PKR",
-                          style: GoogleFonts.quicksand(
-                            fontSize: 15.0,
-                            color: Colors.black,
-                            fontWeight: FontWeight.w400,
-                          ),
-                        ),
-                        SizedBox(width:5),
-                        Text(
-                          subtitle,
-                          style: GoogleFonts.quicksand(
-                            fontSize: 15.0,
-                            color: Colors.black,
-                            fontWeight: FontWeight.w400,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-/*
-* Padding(
-                                    padding: const EdgeInsets.only(left:8,top:8 , bottom: 5),
-                                    child: Row(
-                                      mainAxisAlignment:MainAxisAlignment.spaceBetween,
-                                      children: <Widget>[
-                                        Padding(
-                                          padding: const EdgeInsets.only(left:8.0,),
-                                          child: CircleAvatar(
-                                            radius: 30,
-                                            backgroundImage: snapshot.data[index].imageURL != null ? NetworkImage(snapshot.data[index].imageURL) : AssetImage("assets/partstore.jpg"),
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding: EdgeInsets.only(left:10),
-                                          child: Column(
-                                            crossAxisAlignment: CrossAxisAlignment.start,
-                                            children: <Widget>[
-                                              Text(snapshot.data[index].shopTitle,
-                                                style: TextStyle (
-                                                    color: Colors.white,
-                                                    fontSize: 18
-                                                ),
-                                              ),
-                                              Text(snapshot.data[index].city,
-                                                style: TextStyle (
-                                                    color: Colors.white,
-                                                    fontSize: 12
-                                                ),
-                                              )
-                                            ],
-                                          ),
-                                        ),
-                                        SizedBox(width:20),
-                                        Container(
-                                          margin: EdgeInsets.only(top: 30),
-                                          alignment: Alignment.bottomRight,
-                                          height:35,
-                                          width: 100,
-                                          decoration:BoxDecoration(
-                                            borderRadius: BorderRadius.only(
-                                              topLeft: Radius.circular(15),
-                                              bottomRight: Radius.circular(15),
-                                            ),
-                                            color: Colors.orange,
-                                          ),
-                                          child: Center(
-                                            child:Text(
-                                              "View",
-                                              style: GoogleFonts.raleway(
-                                                fontSize: 18,
-                                                color: Colors.white,
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),*/

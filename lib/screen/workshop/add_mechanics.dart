@@ -9,7 +9,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 final _formKey = GlobalKey<FormState>();
 String _currentItemselected;
@@ -241,7 +240,14 @@ Widget _registerWorkshopWidget({@required TextEditingController nameController,@
             SizedBox(height:15),
             EntryField(title: "Contact",hintText: "0310345635",controller: contactController,inputType: TextInputType.number,filter: FilteringTextInputFormatter.digitsOnly),
             SizedBox(height:15),
+            Text(
+                "Speciality",
+                style: GoogleFonts.quicksand(
+                  fontSize: 18,
+                )
+            ),
             SpecializationComboBox(),
+            MyStatefulWidget(),
          ],
         ),
   );
@@ -269,6 +275,60 @@ Widget _title(Mechanics mec) {
   );
 }
 
+enum Status { Avaliable, Not, }
+
+class MyStatefulWidget extends StatefulWidget {
+  MyStatefulWidget({Key key}) : super(key: key);
+
+  @override
+  _MyStatefulWidgetState createState() => _MyStatefulWidgetState();
+}
+
+class _MyStatefulWidgetState extends State<MyStatefulWidget> {
+  Status status = Status.Avaliable;
+
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(left:10,top:10),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          SizedBox(height: 15,),
+          Text(
+              "Mechanic Status",
+              style: GoogleFonts.quicksand(
+                fontSize: 18,
+              )
+          ),
+          ListTile(
+            title: const Text('Avaliable'),
+            leading: Radio(
+              value: Status.Avaliable,
+              groupValue: status,
+              onChanged: (Status value) {
+                setState(() {
+                  status = value;
+                });
+              },
+            ),
+          ),
+          ListTile(
+            title: const Text('Not Avaliable'),
+            leading: Radio(
+              value: Status.Not,
+              groupValue: status,
+              onChanged: (Status value) {
+                setState(() {
+                  status = value;
+                });
+              },
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
 
 class SpecializationComboBox extends StatefulWidget {
 

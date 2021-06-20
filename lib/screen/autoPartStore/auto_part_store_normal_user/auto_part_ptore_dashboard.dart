@@ -65,14 +65,14 @@ class _AutoPartStoreDashboardPageNormalUserState extends State<AutoPartStoreDash
                 child: Column(
                   children: <Widget>[
                     FadeAnimation(1, Container(
-                      height: 200,
+                      height: 180,
                       width: double.infinity,
                       padding: EdgeInsets.only(left: 25, right: 25),
                       decoration: BoxDecoration(
                         color: Color(0XFF012A4A),
                         borderRadius: BorderRadius.only(
-                            bottomRight: Radius.circular(50.0),
-                            bottomLeft: Radius.circular(50.0)
+                            bottomRight: Radius.circular(30.0),
+                            bottomLeft: Radius.circular(30.0)
                         ),
                       ),
                       child: Row(
@@ -118,307 +118,309 @@ class _AutoPartStoreDashboardPageNormalUserState extends State<AutoPartStoreDash
                                   ),
                                 ),
                                 SizedBox(height: 15,),
-                                Container(
-                                  child: Row(
-                                    children: [
-                                      FlatButton(
-                                          padding: EdgeInsets.zero,
-                                          child: Container(
-                                            width: MediaQuery
-                                                .of(context)
-                                                .size
-                                                .width - 320,
-                                            height: 40,
-                                            decoration: BoxDecoration(
-                                              color: Colors.red,
-                                              borderRadius: BorderRadius
-                                                  .circular(10),
+                                FadeAnimation(1.5,
+                                  Container(
+                                    child: Row(
+                                      children: [
+                                        FlatButton(
+                                            padding: EdgeInsets.zero,
+                                            child: Container(
+                                              width: MediaQuery
+                                                  .of(context)
+                                                  .size
+                                                  .width - 320,
+                                              height: 40,
+                                              decoration: BoxDecoration(
+                                                color: Colors.red,
+                                                borderRadius: BorderRadius
+                                                    .circular(10),
+                                              ),
+                                              child: Icon(
+                                                FontAwesomeIcons.calendar,
+                                                size: 20,
+                                                color: Colors.white,
+                                              ),
                                             ),
-                                            child: Icon(
-                                              FontAwesomeIcons.calendar,
-                                              size: 20,
-                                              color: Colors.white,
+                                            onPressed: () {
+                                              showModalBottomSheet(
+                                                  context: context,
+                                                  builder: (BuildContext bc) {
+                                                    return SingleChildScrollView(
+                                                      child: Container(
+                                                        child: new Wrap(
+                                                          children: <Widget>[
+                                                            Padding(
+                                                              padding: const EdgeInsets
+                                                                  .only(top: 15,
+                                                                  left: 15),
+                                                              child: Text(
+                                                                "Working Days",
+                                                                style: GoogleFonts
+                                                                    .quicksand(
+                                                                  fontSize: 20,
+                                                                  fontWeight: FontWeight
+                                                                      .bold,
+                                                                ),
+                                                              ),
+                                                            ),
+                                                            ListTile(
+                                                              title: Container(
+                                                                child: Row(
+                                                                  children: [
+                                                                    Text("Monday",
+                                                                      style: GoogleFonts
+                                                                          .quicksand(
+                                                                        fontSize: 20,),),
+                                                                  ],
+                                                                ),
+                                                              ),
+                                                              leading: snapshot
+                                                                  .data.monday
+                                                                  ? Icon(
+                                                                FontAwesomeIcons
+                                                                    .check,
+                                                                color: Colors
+                                                                    .green,)
+                                                                  : Icon(
+                                                                FontAwesomeIcons
+                                                                    .times,
+                                                                color: Colors.red,
+                                                              ),
+
+                                                            ),
+                                                            ListTile(
+                                                              title: Container(
+                                                                child: Row(
+                                                                  children: [
+                                                                    Text(
+                                                                      "Tuesday",
+                                                                      style: GoogleFonts
+                                                                          .quicksand(
+                                                                        fontSize: 20,),),
+                                                                  ],
+                                                                ),
+                                                              ),
+                                                              leading: snapshot
+                                                                  .data.tuesday
+                                                                  ? Icon(
+                                                                FontAwesomeIcons
+                                                                    .check,
+                                                                color: Colors
+                                                                    .green,)
+                                                                  : Icon(
+                                                                FontAwesomeIcons
+                                                                    .times,
+                                                                color: Colors
+                                                                    .red,),
+                                                            ),
+                                                            ListTile(
+                                                              title: Container(
+                                                                child: Row(
+                                                                  children: [
+                                                                    Text(
+                                                                      "Wednesday",
+                                                                      style: GoogleFonts
+                                                                          .quicksand(
+                                                                        fontSize: 20,),),
+                                                                  ],
+                                                                ),
+                                                              ),
+                                                              leading: snapshot
+                                                                  .data.wednesday
+                                                                  ? Icon(
+                                                                FontAwesomeIcons
+                                                                    .check,
+                                                                color: Colors
+                                                                    .green,)
+                                                                  : Icon(
+                                                                FontAwesomeIcons
+                                                                    .times,
+                                                                color: Colors
+                                                                    .red,),
+
+                                                            ),
+                                                            ListTile(
+                                                              title: Container(
+                                                                child: Row(
+                                                                  children: [
+                                                                    Text(
+                                                                      "Thursday",
+                                                                      style: GoogleFonts
+                                                                          .quicksand(
+                                                                        fontSize: 20,),),
+
+                                                                  ],
+                                                                ),
+                                                              ),
+
+                                                              leading: snapshot
+                                                                  .data.thursday
+                                                                  ? Icon(
+                                                                FontAwesomeIcons
+                                                                    .check,
+                                                                color: Colors
+                                                                    .green,)
+                                                                  : Icon(
+                                                                FontAwesomeIcons
+                                                                    .times,
+                                                                color: Colors
+                                                                    .red,),
+                                                            ),
+                                                            ListTile(
+                                                              title: Container(
+                                                                child: Row(
+                                                                  children: [
+                                                                    Text("Friday",
+                                                                      style: GoogleFonts
+                                                                          .quicksand(
+                                                                        fontSize: 20,),),
+                                                                  ],
+                                                                ),
+                                                              ),
+                                                              leading: snapshot
+                                                                  .data.friday
+                                                                  ? Icon(
+                                                                FontAwesomeIcons
+                                                                    .check,
+                                                                color: Colors
+                                                                    .green,)
+                                                                  : Icon(
+                                                                FontAwesomeIcons
+                                                                    .times,
+                                                                color: Colors
+                                                                    .red,),
+
+                                                            ),
+                                                            ListTile(
+                                                              title: Container(
+                                                                child: Row(
+                                                                  children: [
+                                                                    Text(
+                                                                      "Saturday",
+                                                                      style: GoogleFonts
+                                                                          .quicksand(
+                                                                        fontSize: 20,),),
+                                                                  ],
+                                                                ),
+                                                              ),
+                                                              leading: snapshot
+                                                                  .data.saturday
+                                                                  ? Icon(
+                                                                FontAwesomeIcons
+                                                                    .check,
+                                                                color: Colors
+                                                                    .green,)
+                                                                  : Icon(
+                                                                FontAwesomeIcons
+                                                                    .times,
+                                                                color: Colors
+                                                                    .red,),
+
+                                                            ),
+                                                            ListTile(
+                                                              title: Container(
+                                                                child: Row(
+                                                                  children: [
+                                                                    Text("Sunday",
+                                                                      style: GoogleFonts
+                                                                          .quicksand(
+                                                                        fontSize: 20,),),
+                                                                  ],
+                                                                ),
+                                                              ),
+
+                                                              leading: snapshot
+                                                                  .data.sunday
+                                                                  ? Icon(
+                                                                FontAwesomeIcons
+                                                                    .check,
+                                                                color: Colors
+                                                                    .green,)
+                                                                  : Icon(
+                                                                FontAwesomeIcons
+                                                                    .times,
+                                                                color: Colors
+                                                                    .red,),
+                                                            ),
+
+                                                            SizedBox(height: 20,),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                    );
+                                                  }
+                                              );
+                                            }
+                                        ),
+                                        SizedBox(width: 5,),
+                                        FlatButton(
+                                            padding: EdgeInsets.zero,
+                                            child: Container(
+                                              width: MediaQuery
+                                                  .of(context)
+                                                  .size
+                                                  .width - 320,
+                                              height: 40,
+                                              decoration: BoxDecoration(
+                                                color: Colors.blue,
+                                                borderRadius: BorderRadius
+                                                    .circular(10),
+                                              ),
+                                              child: Icon(
+                                                FontAwesomeIcons.clock,
+                                                size: 20,
+                                                color: Colors.white,
+                                              ),
                                             ),
-                                          ),
-                                          onPressed: () {
-                                            showModalBottomSheet(
+                                            onPressed: () {
+                                              showDialog(
                                                 context: context,
-                                                builder: (BuildContext bc) {
-                                                  return SingleChildScrollView(
-                                                    child: Container(
-                                                      child: new Wrap(
-                                                        children: <Widget>[
-                                                          Padding(
-                                                            padding: const EdgeInsets
-                                                                .only(top: 15,
-                                                                left: 15),
-                                                            child: Text(
-                                                              "Working Days",
-                                                              style: GoogleFonts
-                                                                  .quicksand(
-                                                                fontSize: 20,
-                                                                fontWeight: FontWeight
-                                                                    .bold,
-                                                              ),
-                                                            ),
-                                                          ),
-                                                          ListTile(
-                                                            title: Container(
-                                                              child: Row(
-                                                                children: [
-                                                                  Text("Monday",
-                                                                    style: GoogleFonts
-                                                                        .quicksand(
-                                                                      fontSize: 20,),),
-                                                                ],
-                                                              ),
-                                                            ),
-                                                            leading: snapshot
-                                                                .data.monday
-                                                                ? Icon(
-                                                              FontAwesomeIcons
-                                                                  .check,
-                                                              color: Colors
-                                                                  .green,)
-                                                                : Icon(
-                                                              FontAwesomeIcons
-                                                                  .times,
-                                                              color: Colors.red,
-                                                            ),
+                                                builder: (_) =>
+                                                new AlertDialog(
+                                                  title: new Text("Working hours",
+                                                    style: GoogleFonts.quicksand(
+                                                        fontSize: 18,
+                                                        fontWeight: FontWeight
+                                                            .bold),),
+                                                  content: Container(
+                                                    child: Row(
+                                                      children: [
+                                                        Icon(
+                                                          FontAwesomeIcons.clock,
+                                                          color: Colors.orange,
+                                                          size: 30,
+                                                        ),
+                                                        SizedBox(width: 10,),
 
+                                                        Text(
+                                                          snapshot.data.openTime,
+                                                          style: GoogleFonts
+                                                              .quicksand(
+                                                            fontSize: 18,
                                                           ),
-                                                          ListTile(
-                                                            title: Container(
-                                                              child: Row(
-                                                                children: [
-                                                                  Text(
-                                                                    "Tuesday",
-                                                                    style: GoogleFonts
-                                                                        .quicksand(
-                                                                      fontSize: 20,),),
-                                                                ],
-                                                              ),
-                                                            ),
-                                                            leading: snapshot
-                                                                .data.tuesday
-                                                                ? Icon(
-                                                              FontAwesomeIcons
-                                                                  .check,
-                                                              color: Colors
-                                                                  .green,)
-                                                                : Icon(
-                                                              FontAwesomeIcons
-                                                                  .times,
-                                                              color: Colors
-                                                                  .red,),
+                                                        ),
+                                                        SizedBox(width: 10,),
+                                                        Text(
+                                                            "-"
+                                                        ),
+                                                        SizedBox(width: 10,),
+                                                        Text(
+                                                          snapshot.data.closeTime,
+                                                          style: GoogleFonts
+                                                              .quicksand(
+                                                            fontSize: 18,
                                                           ),
-                                                          ListTile(
-                                                            title: Container(
-                                                              child: Row(
-                                                                children: [
-                                                                  Text(
-                                                                    "Wednesday",
-                                                                    style: GoogleFonts
-                                                                        .quicksand(
-                                                                      fontSize: 20,),),
-                                                                ],
-                                                              ),
-                                                            ),
-                                                            leading: snapshot
-                                                                .data.wednesday
-                                                                ? Icon(
-                                                              FontAwesomeIcons
-                                                                  .check,
-                                                              color: Colors
-                                                                  .green,)
-                                                                : Icon(
-                                                              FontAwesomeIcons
-                                                                  .times,
-                                                              color: Colors
-                                                                  .red,),
-
-                                                          ),
-                                                          ListTile(
-                                                            title: Container(
-                                                              child: Row(
-                                                                children: [
-                                                                  Text(
-                                                                    "Thursday",
-                                                                    style: GoogleFonts
-                                                                        .quicksand(
-                                                                      fontSize: 20,),),
-
-                                                                ],
-                                                              ),
-                                                            ),
-
-                                                            leading: snapshot
-                                                                .data.thursday
-                                                                ? Icon(
-                                                              FontAwesomeIcons
-                                                                  .check,
-                                                              color: Colors
-                                                                  .green,)
-                                                                : Icon(
-                                                              FontAwesomeIcons
-                                                                  .times,
-                                                              color: Colors
-                                                                  .red,),
-                                                          ),
-                                                          ListTile(
-                                                            title: Container(
-                                                              child: Row(
-                                                                children: [
-                                                                  Text("Friday",
-                                                                    style: GoogleFonts
-                                                                        .quicksand(
-                                                                      fontSize: 20,),),
-                                                                ],
-                                                              ),
-                                                            ),
-                                                            leading: snapshot
-                                                                .data.friday
-                                                                ? Icon(
-                                                              FontAwesomeIcons
-                                                                  .check,
-                                                              color: Colors
-                                                                  .green,)
-                                                                : Icon(
-                                                              FontAwesomeIcons
-                                                                  .times,
-                                                              color: Colors
-                                                                  .red,),
-
-                                                          ),
-                                                          ListTile(
-                                                            title: Container(
-                                                              child: Row(
-                                                                children: [
-                                                                  Text(
-                                                                    "Saturday",
-                                                                    style: GoogleFonts
-                                                                        .quicksand(
-                                                                      fontSize: 20,),),
-                                                                ],
-                                                              ),
-                                                            ),
-                                                            leading: snapshot
-                                                                .data.saturday
-                                                                ? Icon(
-                                                              FontAwesomeIcons
-                                                                  .check,
-                                                              color: Colors
-                                                                  .green,)
-                                                                : Icon(
-                                                              FontAwesomeIcons
-                                                                  .times,
-                                                              color: Colors
-                                                                  .red,),
-
-                                                          ),
-                                                          ListTile(
-                                                            title: Container(
-                                                              child: Row(
-                                                                children: [
-                                                                  Text("Sunday",
-                                                                    style: GoogleFonts
-                                                                        .quicksand(
-                                                                      fontSize: 20,),),
-                                                                ],
-                                                              ),
-                                                            ),
-
-                                                            leading: snapshot
-                                                                .data.sunday
-                                                                ? Icon(
-                                                              FontAwesomeIcons
-                                                                  .check,
-                                                              color: Colors
-                                                                  .green,)
-                                                                : Icon(
-                                                              FontAwesomeIcons
-                                                                  .times,
-                                                              color: Colors
-                                                                  .red,),
-                                                          ),
-
-                                                          SizedBox(height: 20,),
-                                                        ],
-                                                      ),
+                                                        ),
+                                                      ],
                                                     ),
-                                                  );
-                                                }
-                                            );
-                                          }
-                                      ),
-                                      SizedBox(width: 5,),
-                                      FlatButton(
-                                          padding: EdgeInsets.zero,
-                                          child: Container(
-                                            width: MediaQuery
-                                                .of(context)
-                                                .size
-                                                .width - 320,
-                                            height: 40,
-                                            decoration: BoxDecoration(
-                                              color: Colors.blue,
-                                              borderRadius: BorderRadius
-                                                  .circular(10),
-                                            ),
-                                            child: Icon(
-                                              FontAwesomeIcons.clock,
-                                              size: 20,
-                                              color: Colors.white,
-                                            ),
-                                          ),
-                                          onPressed: () {
-                                            showDialog(
-                                              context: context,
-                                              builder: (_) =>
-                                              new AlertDialog(
-                                                title: new Text("Working hours",
-                                                  style: GoogleFonts.quicksand(
-                                                      fontSize: 18,
-                                                      fontWeight: FontWeight
-                                                          .bold),),
-                                                content: Container(
-                                                  child: Row(
-                                                    children: [
-                                                      Icon(
-                                                        FontAwesomeIcons.clock,
-                                                        color: Colors.orange,
-                                                        size: 30,
-                                                      ),
-                                                      SizedBox(width: 10,),
-
-                                                      Text(
-                                                        snapshot.data.openTime,
-                                                        style: GoogleFonts
-                                                            .quicksand(
-                                                          fontSize: 18,
-                                                        ),
-                                                      ),
-                                                      SizedBox(width: 10,),
-                                                      Text(
-                                                          "-"
-                                                      ),
-                                                      SizedBox(width: 10,),
-                                                      Text(
-                                                        snapshot.data.closeTime,
-                                                        style: GoogleFonts
-                                                            .quicksand(
-                                                          fontSize: 18,
-                                                        ),
-                                                      ),
-                                                    ],
                                                   ),
                                                 ),
-                                              ),
-                                            );
-                                          }
-                                      ),
+                                              );
+                                            }
+                                        ),
 
-                                    ],
+                                      ],
+                                    ),
                                   ),
                                 ),
                               ],
@@ -428,34 +430,34 @@ class _AutoPartStoreDashboardPageNormalUserState extends State<AutoPartStoreDash
                       ),
                     ),
                     ),
-                    Transform.translate(
-                      offset: Offset(0, -35),
-                      child: FadeAnimation(1.2, Container(
-                        height: 60,
-                        padding: EdgeInsets.only(left: 20, top: 8),
-                        margin: EdgeInsets.symmetric(horizontal: 25),
-                        decoration: BoxDecoration(
-                            boxShadow: [
-                              BoxShadow(
-                                  color: Colors.grey[350],
-                                  blurRadius: 20.0,
-                                  offset: Offset(0, 10.0)
-                              )
-                            ],
-                            borderRadius: BorderRadius.circular(5.0),
-                            color: Colors.white
-                        ),
-                        child: TextField(
-                          decoration: InputDecoration(
-                              suffixIcon: Icon(
-                                Icons.search, color: Colors.black, size: 20.0,),
-                              border: InputBorder.none,
-                              hintText: 'Search'
-                          ),
-                        ),
-                      ),
-                      ),
-                    ),
+//                    Transform.translate(
+//                      offset: Offset(0, -35),
+//                      child: FadeAnimation(1.2, Container(
+//                        height: 60,
+//                        padding: EdgeInsets.only(left: 20, top: 8),
+//                        margin: EdgeInsets.symmetric(horizontal: 25),
+//                        decoration: BoxDecoration(
+//                            boxShadow: [
+//                              BoxShadow(
+//                                  color: Colors.grey[350],
+//                                  blurRadius: 20.0,
+//                                  offset: Offset(0, 10.0)
+//                              )
+//                            ],
+//                            borderRadius: BorderRadius.circular(5.0),
+//                            color: Colors.white
+//                        ),
+//                        child: TextField(
+//                          decoration: InputDecoration(
+//                              suffixIcon: Icon(
+//                                Icons.search, color: Colors.black, size: 20.0,),
+//                              border: InputBorder.none,
+//                              hintText: 'Search'
+//                          ),
+//                        ),
+//                      ),
+//                      ),
+//                    ),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
