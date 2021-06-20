@@ -27,8 +27,7 @@ class WorkshopDashboard extends StatefulWidget {
 
 class _WorkshopDashboardState extends State<WorkshopDashboard> {
 
-  int _checkboxValue;
-  static final String _WORKSHOP_COLLECTION = "workshop";
+  static final String WORKSHOP_COLLECTION = "workshop";
   final _firebaseUser = FirebaseAuth.instance.currentUser;
   @override
   void initState() {
@@ -67,8 +66,8 @@ class _WorkshopDashboardState extends State<WorkshopDashboard> {
           )
         ],
       ),
-      body: StreamBuilder(
-        stream: FirebaseFirestore.instance.collection(_WORKSHOP_COLLECTION).doc(_firebaseUser.uid).snapshots(),
+      body: FutureBuilder(
+        future: FirebaseFirestore.instance.collection(WORKSHOP_COLLECTION).doc(_firebaseUser.uid).get(),
         // ignore: missing_return
         builder: (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
           if(snapshot.hasData && snapshot.data.exists){

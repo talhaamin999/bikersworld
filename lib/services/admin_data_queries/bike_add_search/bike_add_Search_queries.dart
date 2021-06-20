@@ -11,6 +11,20 @@ class SearchBikeAddQueries{
   final CollectionReference _collectionReference = FirebaseFirestore.instance.collection(BIKE_ADD_COLLECTION);
 
 // Search bike adds with all the available filters
+
+  Future<List<BikeAddModel>> serachByTitle({@required title}){
+    try{
+      return _collectionReference
+          .where('title',isEqualTo: title)
+          .get()
+          .then((snashots) => snashots.docs
+          .map((doc) => BikeAddModel.fromJson(doc.data(), doc.reference.id))
+          .toList());
+
+    }catch(e){
+      _error.errorToastMessage(errorMessage: e.toString());
+    }
+  }
   Future<List<BikeAddModel>> searchAddByMakeAndModelAndYearAndCityAndRange({@required String make,@required String model,@required String year,@required String city,@required double min,@required double max}) {
     try {
           return _collectionReference

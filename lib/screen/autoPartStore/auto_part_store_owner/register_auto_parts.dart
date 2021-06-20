@@ -94,7 +94,7 @@ class _RegisterAutoPartsState extends State<RegisterAutoParts> {
      if(widget.autoPartInfo == null) {
          var imageUrl = await _addAutoPart.uploadImage(_image);
          if(imageUrl != null) {
-           final data = AutoPartModel(title: _titleController.text.trim().firstinCaps,
+           final data = AutoPartModel(title: _titleController.text.trim().capitalizeFirstofEach,
                price: price,
                category: dropDownCategoryValue,
                partStoreCity: widget.partStoreCity.firstinCaps,
@@ -120,7 +120,7 @@ class _RegisterAutoPartsState extends State<RegisterAutoParts> {
         }
      }
      else if(widget.autoPartInfo != null && _image == null){
-       final data = AutoPartModel(title: _titleController.text.trim().firstinCaps,
+       final data = AutoPartModel(title: _titleController.text.trim().capitalizeFirstofEach,
            price: price,
            category: dropDownCategoryValue,
            docId: widget.autoPartInfo.docId,
@@ -147,7 +147,7 @@ class _RegisterAutoPartsState extends State<RegisterAutoParts> {
      else if(widget.autoPartInfo != null && _image != null) {
          var imageUrl = await _addAutoPart.uploadImage(_image);
          if(imageUrl != null){
-         final data = AutoPartModel(title: _titleController.text.trim().firstinCaps,
+         final data = AutoPartModel(title: _titleController.text.trim().capitalizeFirstofEach,
              price: price,
              partStoreCity: widget.autoPartInfo.partStoreCity,
              docId: widget.autoPartInfo.docId,

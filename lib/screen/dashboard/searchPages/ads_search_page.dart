@@ -7,6 +7,7 @@ import 'package:bikersworld/screen/dashboard/Ads/AdDetail.dart';
 import 'package:bikersworld/services/admin_data_queries/bike_add_search/bike_add_Search_queries.dart';
 import 'advance_add_search.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:bikersworld/services/string_extension.dart';
 
 class AdSearchPage extends StatefulWidget {
   @override
@@ -19,15 +20,18 @@ class _AdSearchPageState extends State<AdSearchPage> {
   RefineAddsSearchResults _result;
   double _minValue;
   double _maxValue;
-
-  bool _makeSelected=false,_modelSelected=false,_yearSelected=false,_citySelected=false,_rangeSelected=false;
+  final _titleController = TextEditingController();
+  bool _serachByTitle = false,_makeSelected=false,_modelSelected=false,_yearSelected=false,_citySelected=false,_rangeSelected=false;
 
   double stringToDouble(String value){
     return double.tryParse(value);
   }
 
   Future<List<BikeAddModel>> getAdds(){
-    if(_makeSelected && _modelSelected && _yearSelected && _citySelected && _rangeSelected){
+    if(_serachByTitle){
+      return _searchAdds.serachByTitle(title: _titleController.text.capitalizeFirstofEach);
+    }
+    else if(_makeSelected && _modelSelected && _yearSelected && _citySelected && _rangeSelected){
       _minValue = stringToDouble(_result.minRange);
       _maxValue = stringToDouble(_result.maxRange);
       return _searchAdds.searchAddByMakeAndModelAndYearAndCityAndRange(make: _result.make, model: _result.model, year: _result.year, city: _result.city, min: _minValue, max: _maxValue);
@@ -146,6 +150,7 @@ class _AdSearchPageState extends State<AdSearchPage> {
 
   void goToAdvanceSearchPage(BuildContext context) async{
     setState(() {
+      _serachByTitle = false;
       _makeSelected = false;
       _modelSelected = false;
       _yearSelected = false;
@@ -345,10 +350,26 @@ class _AdSearchPageState extends State<AdSearchPage> {
                   padding: EdgeInsets.only(left: 10,right: 10,bottom: 10),
                   child: Container(
                     child: TextField(
+                      controller: _titleController,
+                      onSubmitted: (value){
+                        setState(() {
+                        if(_titleController.text.isNotEmpty){
+                          _serachByTitle = true;
+                          _makeSelected = false;
+                          _modelSelected = false;
+                          _yearSelected = false;
+                          _citySelected = false;
+                          _rangeSelected = false;
+                        }
+                        });
+                      },
                       textInputAction: TextInputAction.search,
                       decoration: new InputDecoration(
                           suffixIcon: IconButton(
-                              icon: Icon(Icons.clear)),
+                              icon: Icon(Icons.clear),
+                            onPressed: () {
+                                _titleController.clear();
+                            },),
                           border: new OutlineInputBorder(
                             borderRadius: const BorderRadius.all(
                               const Radius.circular(10),
