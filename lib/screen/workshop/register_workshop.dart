@@ -10,9 +10,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:bikersworld/widgets/drawer.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:bikersworld/widgets/city_dropdown.dart';
+import 'package:bikersworld/services/string_extension.dart';
 
 ToastErrorMessage error = ToastErrorMessage();
 ToastValidMessage valid = ToastValidMessage();
@@ -165,7 +164,7 @@ class _RegisterWorkshopState extends State<RegisterWorkshop> {
 
   Future<void> addWorkshop() async{
     try {
-      final _data = WorkshopDashboardModel(shopTitle: _shopTitleController.text,city: _shopCityController.text,area: _shopSpecificAreaController.text,openTime: openTime,closeTime: closeTime, ownerName: _ownerNameController.text,ownerContact: _ownerContactController.text,monday: monday,tuesday: tuesday,wednesday: wednesday,thursday: thursday,friday: friday,saturday: saturday,sunday: sunday,imageURL: imageUrl);
+      final _data = WorkshopDashboardModel(shopTitle: _shopTitleController.text.capitalizeFirstofEach,city: _shopCityController.text,area: _shopSpecificAreaController.text,openTime: openTime,closeTime: closeTime, ownerName: _ownerNameController.text,ownerContact: _ownerContactController.text,monday: monday,tuesday: tuesday,wednesday: wednesday,thursday: thursday,friday: friday,saturday: saturday,sunday: sunday,imageURL: imageUrl);
       final RegisterWorkshopQueries register = RegisterWorkshopQueries();
       await register.registerWorkshop(_data);
         if(register.resultMessage == "Workshop Successfully Registered"){

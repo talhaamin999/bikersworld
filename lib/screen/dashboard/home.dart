@@ -1,6 +1,8 @@
 import 'package:bikersworld/model/bike_add_model.dart';
 import 'package:bikersworld/model/partstore_model.dart';
 import 'package:bikersworld/model/workshop_model.dart';
+import 'package:bikersworld/screen/dashboard/Ads/AdDetail.dart';
+import 'package:bikersworld/screen/dashboard/searchPages/search_auto_part_detail_page.dart';
 import 'package:bikersworld/screen/loginSignup/signup.dart';
 import 'package:bikersworld/services/bike_add_queries.dart';
 import 'package:bikersworld/services/part_store_queries/part_queries.dart';
@@ -20,8 +22,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:bikersworld/widgets/bezierContainer.dart';
 import 'package:bikersworld/screen/dashboard/searchPages/auto_partstore_search_page.dart';
 import 'package:bikersworld/screen/dashboard/searchPages/autopart_search_page.dart';
-import 'package:google_nav_bar/google_nav_bar.dart';
-import 'package:line_icons/line_icons.dart';
+
+import 'normalUser/normal_user_workshop_dashboard.dart';
 
 class HomeDashboard extends StatefulWidget {
 
@@ -503,8 +505,8 @@ class _HomeDashboardState extends State<HomeDashboard> {
                           ),
                         ),
 
-                      ],
-                    ),
+  ],
+ ),
                   ),
                   FutureBuilder(
                     future: _workshops.getLimitedWorkshops(),
@@ -521,8 +523,7 @@ class _HomeDashboardState extends State<HomeDashboard> {
                                return FlatButton(
                                  padding: EdgeInsets.only(left:20,top:10),
                                  onPressed: (){
-                                   //workshop card
-                                   print("onpress for workshop");
+                                   Navigator.push(context, MaterialPageRoute( builder: (context) => NormalUserWorkshopDashboard(workshopData: snapshot.data[index])));
                                  },
                                  child: Card(
                                    margin: const EdgeInsets.only(left:10, bottom: 10),
@@ -700,7 +701,7 @@ class _HomeDashboardState extends State<HomeDashboard> {
                                   return FlatButton(
                                     padding: EdgeInsets.only(left:20,top:10,  right: 10),
                                     onPressed: (){
-                                      print("ads ");
+                                      Navigator.of(context).push(MaterialPageRoute(builder: (context) => AddDetail(data: snapshot.data[index],)));
                                     },
                                     child: Container(
                                       width: MediaQuery.of(context).size.width - 100,
@@ -1017,7 +1018,7 @@ class _HomeDashboardState extends State<HomeDashboard> {
                               return FlatButton(
                                 padding: EdgeInsets.zero,
                                 onPressed:(){
-                                  print("auto part store");
+                                  Navigator.of(context).push(MaterialPageRoute(builder: (context) => AutoPartStoreDashboardPageNormalUser(partStoreId: snapshot.data[index].id,)));
                                 },
                                 child: Padding(
                                   padding: const EdgeInsets.only(left:20,right:20, top:5),
@@ -1168,7 +1169,7 @@ class _HomeDashboardState extends State<HomeDashboard> {
                                   return FlatButton(
                                     padding: EdgeInsets.only(left:20,top:10,),
                                     onPressed: (){
-                                      print("Auto parts");
+                                      Navigator.push(context, MaterialPageRoute(builder: (context) => SearchAutoPartDetailPage(partDetail: snapshot.data[index],)));
                                     },
                                     child: Container(
                                       width: MediaQuery.of(context).size.width -200,

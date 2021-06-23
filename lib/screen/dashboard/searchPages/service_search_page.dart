@@ -31,35 +31,42 @@ class _ServiceSearcPageState extends State<ServiceSearcPage> {
       // search by service title and apply All the filters
       if(serviceTitleSearchOption && filterCityOption && filterSortOption
       && filterRange){
+        print("csr");
         return _service.searchServiceTitleWithRangeAndCityAndSortFilter(title: _controller.text, city: cityFilter, sortOrder: sortFilter, min: minRangeFilter,max: maxRangeFilter);
       }
       // search service title by applying city and sort filter
       else if(serviceTitleSearchOption && filterCityOption && filterSortOption){
+        print("cs");
         return _service.searchServiceTitleWithCityFilterAndSort(title: _controller.text, city: cityFilter, sortOrder: sortFilter);
       }
       //search by title and apply city and range filter
       else if(serviceTitleSearchOption && filterCityOption && filterRange){
+        print("cr");
         return _service.searchServiceTitleWithRangeAndCityFilter(title: _controller.text, city: cityFilter, min: minRangeFilter, max: maxRangeFilter);
       }
       // search by title and apply sort and range filters
       else if(serviceTitleSearchOption && filterSortOption && filterRange){
+        print("sr");
         return _service.searchServiceTitleWithRangeAndSortFilter(title: _controller.text, sortOrder: sortFilter, min: minRangeFilter, max: maxRangeFilter);
       }
       // search by service title and apply city filter
       else if(serviceTitleSearchOption && filterCityOption){
+        print("c");
         return _service.searchServiceTitleWithCityFilter(title: _controller.text, city: cityFilter);
       }
       // search by service title and apply sort filter
       else if(serviceTitleSearchOption && filterSortOption){
+        print("s");
         return _service.searchServiceTitleWithSort(title: _controller.text, sortOrder: sortFilter);
       }
       // search with title and range
       else if(serviceTitleSearchOption && filterRange){
-        print("hello world");
+        print("r");
         return _service.searchServiceTitleWithRangeFilter(title: _controller.text, min: minRangeFilter, max: maxRangeFilter);
       }
       // search by service title
       else if(serviceTitleSearchOption){
+        print("title");
         return _service.searchWorkshopByServiceTitle(title: _controller.text);
       }
 
