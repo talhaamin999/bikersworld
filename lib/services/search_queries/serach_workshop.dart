@@ -38,12 +38,12 @@ class SearchWorkshop{
       return null;
     }
   }
-  Stream<List<WorkshopDashboardModel>> searchWorkshopByCity({@required String city}){
+  Future<List<WorkshopDashboardModel>> searchWorkshopByCity({@required String city}){
     try{
       return _collectionReference
           .where('city', isEqualTo: city)
-          .snapshots()
-          .map((snapshot) => snapshot.docs
+          .get()
+          .then((snapshots) => snapshots.docs
           .map((doc) => WorkshopDashboardModel.fromJson(doc.data(),doc.reference.id))
           .toList());
 

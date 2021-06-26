@@ -1,7 +1,5 @@
 import 'package:bikersworld/model/workshop_model.dart';
 import 'package:bikersworld/services/search_queries/refine_search.dart';
-import 'package:bikersworld/services/search_queries/serach_workshop.dart';
-import 'package:bikersworld/services/toast_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -9,67 +7,110 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:bikersworld/screen/dashboard/searchPages/refine_search_page.dart';
 import 'package:bikersworld/screen/dashboard/normalUser/normal_user_workshop_dashboard.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class WorkshopSearchPage extends StatefulWidget {
   @override
   _WorkshopSearchPageState createState() => _WorkshopSearchPageState();
 }
 
-enum search { City, Name }
-
-
 class _WorkshopSearchPageState extends State<WorkshopSearchPage> {
 
-  search _character = search.Name;
-  String searchOption='';
-  int numberOfResults = 0;
-  final TextEditingController _controller = TextEditingController()..text = '';
-  final SearchWorkshop _searchWorkshop = SearchWorkshop();
+  final TextEditingController _searchController = TextEditingController()..text = '';
   String cityFilter;
-  bool cityFilterOption=false,workshopNameOption=false;
+  bool cityFilterOption=false;
+  final CollectionReference _collectionReference = FirebaseFirestore.instance.collection('workshop');
+  Future resultsLoaded;
+  List<WorkshopDashboardModel> _allResults = [];
+  List<WorkshopDashboardModel> _resultsList = [];
+  List<WorkshopDashboardModel> _cityResultsList = [];
 
-  Stream<List<WorkshopDashboardModel>> searchByNameOrCity(){
-    try {
-         // search according to workshop Name and also filter applied of city with it
-         if(workshopNameOption && cityFilterOption && _controller.text.isNotEmpty){
-           return _searchWorkshop.searchWorkshopByNameAndCity(title: _controller.text, city: cityFilter);
+  searchByCity(){
+      List<WorkshopDashboardModel> showResults = [];
+         if(cityFilterOption){
+           _allResults.forEach((doc) {
+             if(cityFilter == doc.city){
+               showResults.add(doc);
+             }
+           });
          }
-         // search according to workshop title only if text in field is not empty
-         else if(workshopNameOption && _controller.text.isNotEmpty) {
-           return _searchWorkshop.searchWorkshopByName(
-               name: _controller.text.trim());
-         }
-         // search according to only city filter when text in field is empty
-         else if(cityFilterOption){
-           return _searchWorkshop.searchWorkshopByCity(city: cityFilter);
-         }
-    }catch(e){
-      final _error = ToastErrorMessage();
-      _error.errorToastMessage(errorMessage: e.toString());
-    }
-    return null;
-  }
-  counter(int index){
-    setState(() {
-      numberOfResults = index;
-    });
+        setState(() {
+           _cityResultsList = showResults;
+        });
   }
   navigateToFilterPage(BuildContext context) async{
-     final RefineSearchResults _result = await Navigator.of(context)
+     _searchController.clear();
+    final RefineSearchResults _result = await Navigator.of(context)
         .push(MaterialPageRoute(builder: (context) => RefineRearchPage(workshopSearchFilter: 'workshop',)));
      //only if result is not nul and city variable is assigned a value only then map the values
      if(_result != null && _result.city != null){
       setState(() {
         cityFilterOption = true;
-        workshopNameOption = true;
         cityFilter = _result.city;
       });
+      searchByCity();
      }
+  }
+
+  getWorkshops() async{
+    var data = await _collectionReference
+        .get()
+        .then((snapshots) =>  snapshots.docs
+        .map((doc) => WorkshopDashboardModel.fromJson(doc.data(),doc.reference.id))
+        .toList());
+    setState(() {
+      _allResults = data;
+    });
+    searchResultsList();
+    return "complete";
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    resultsLoaded = getWorkshops();
   }
 
   @override
   void initState() {
     super.initState();
+    _searchController.addListener(_onSearchChanged);
   }
+
+  @override
+  void dispose() {
+    _searchController.removeListener(_onSearchChanged);
+    _searchController.dispose();
+    super.dispose();
+  }
+
+  _onSearchChanged() {
+    if(_searchController.text.isNotEmpty) {
+      setState(() {
+        cityFilterOption = false;
+      });
+    }
+    searchResultsList();
+    print(_searchController.text);
+  }
+
+  searchResultsList() {
+    List<WorkshopDashboardModel> showResults = [];
+    if(_searchController.text.isNotEmpty) {
+      _allResults.forEach((doc) {
+        var title = doc.shopTitle.toLowerCase();
+        if(title.contains(_searchController.text.toLowerCase())){
+          showResults.add(doc);
+        }
+      });
+    } else {
+      showResults = List.from(_allResults);
+    }
+    setState(() {
+      _resultsList = showResults;
+    });
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -101,26 +142,10 @@ class _WorkshopSearchPageState extends State<WorkshopSearchPage> {
                     child: Container(
                       child: TextField(
                         textInputAction: TextInputAction.search,
-                        onSubmitted: (value){
-                          // if field is empty then don't search by workshop title
-                          if(_controller.text.isEmpty){
-                            setState(() {
-                              workshopNameOption = false;
-                            });
-                          }
-                          // else when pressed and field is not empty then search only by name
-                          else {
-                            setState(() {
-                              workshopNameOption = true;
-                              cityFilterOption = false;
-                            });
-                          }
-                          print(_controller.text);
-                        },
-                        controller: _controller,
+                        controller: _searchController,
                         decoration: new InputDecoration(
                             suffixIcon: IconButton(
-                                onPressed: () => _controller.clear(),
+                                onPressed: () => _searchController.clear(),
                                 icon: Icon(Icons.clear)),
                             border: new OutlineInputBorder(
                               borderRadius: const BorderRadius.all(
@@ -212,7 +237,217 @@ class _WorkshopSearchPageState extends State<WorkshopSearchPage> {
               ),
 
               SizedBox(height: 20,),
+              cityFilterOption ? Container(
+                child: ListView.builder(
+                    physics: NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    itemCount: _cityResultsList.length,
+                    itemBuilder: (context,index){
+                      return  Padding(
+                        padding: const EdgeInsets.only(bottom: 15),
+                        child: FlatButton(
+                          onPressed:(){
+                            Navigator.push(context, MaterialPageRoute( builder: (context) => NormalUserWorkshopDashboard(workshopData: _cityResultsList[index],),),
+                            );
+                          },
+                          child: Card(
+                            color: Color(0xfff7f7f7),
+                            child: Container(
+                              child: Row(
+                                children: <Widget>[
+                                  Expanded(
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(10),
+                                      child: Container(
+                                        width: 90,
+                                        height: 70,
+                                        decoration: BoxDecoration(
+                                            shape: BoxShape.rectangle,
+                                            image: DecorationImage(
+                                                fit: BoxFit.fill,
+                                                image: _cityResultsList[index].imageURL != null ? NetworkImage(_cityResultsList[index].imageURL) : AssetImage("assets/avatar.jpg",)
+                                            )
+                                        ),
+                                      ),
+                                    ),
+                                  ),
 
+                                  SizedBox(width: 5,),
+                                  Container(
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: <Widget>[
+                                        Container(
+                                          child: AutoSizeText(
+                                            _cityResultsList[index] !=null ? _cityResultsList[index].shopTitle : "Automotive repair",
+                                            style: GoogleFonts.quicksand(
+                                              fontSize: 18,
+                                              color: Colors.black,
+                                            ),
+                                          ),
+                                        ),
+                                        SizedBox(height: 5,),
+                                        Container(
+                                          child: Row(
+                                            mainAxisAlignment: MainAxisAlignment.end,
+                                            children: [
+                                              Container(
+                                                child: Text(
+                                                  _cityResultsList[index] != null ? _cityResultsList[index].city: "Islamabad",
+                                                  style: TextStyle(
+                                                      fontSize: 15
+                                                  ),
+                                                ),
+                                              ),
+                                              SizedBox(width: 160,),
+                                              Icon(
+                                                Icons.arrow_forward_ios,
+                                                color: Color(0xffb8b8b8),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+
+                                        SizedBox(height: 3,),
+
+                                        Container(
+                                          child: Row(
+                                            children: <Widget>[
+                                              Text(
+                                                "Status",
+                                                style: TextStyle(
+                                                  fontSize: 13,
+                                                ),
+                                              ),
+                                              SizedBox(width: 5,),
+                                              Text(
+                                                "OPEN",
+                                                style: TextStyle(
+                                                  fontSize: 13,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        SizedBox(height: 10,),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      );
+                    }
+                ),
+              ) :
+              ListView.builder(
+              physics: NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+              itemCount: _resultsList.length,
+              itemBuilder: (context,index){
+                return  Padding(
+                  padding: const EdgeInsets.only(bottom: 15),
+                  child: FlatButton(
+                    onPressed:(){
+                      Navigator.push(context, MaterialPageRoute( builder: (context) => NormalUserWorkshopDashboard(workshopData: _resultsList[index],),),
+                      );
+                    },
+                    child: Card(
+                      color: Color(0xfff7f7f7),
+                      child: Container(
+                        child: Row(
+                          children: <Widget>[
+                            Expanded(
+                              child: Padding(
+                                padding: const EdgeInsets.all(10),
+                                child: Container(
+                                  width: 90,
+                                  height: 70,
+                                  decoration: BoxDecoration(
+                                      shape: BoxShape.rectangle,
+                                      image: DecorationImage(
+                                          fit: BoxFit.fill,
+                                          image: _resultsList[index].imageURL != null ? NetworkImage(_resultsList[index].imageURL) : AssetImage("assets/avatar.jpg",)
+                                      )
+                                  ),
+                                ),
+                              ),
+                            ),
+
+                            SizedBox(width: 5,),
+                            Container(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  Container(
+                                    child: AutoSizeText(
+                                      _resultsList[index] !=null ? _resultsList[index].shopTitle : "Automotive repair",
+                                      style: GoogleFonts.quicksand(
+                                        fontSize: 18,
+                                        color: Colors.black,
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(height: 5,),
+                                  Container(
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: [
+                                        Container(
+                                          child: Text(
+                                            _resultsList[index] != null ? _resultsList[index].city: "Islamabad",
+                                            style: TextStyle(
+                                                fontSize: 15
+                                            ),
+                                          ),
+                                        ),
+                                        SizedBox(width: 160,),
+                                        Icon(
+                                          Icons.arrow_forward_ios,
+                                          color: Color(0xffb8b8b8),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+
+                                  SizedBox(height: 3,),
+
+                                  Container(
+                                    child: Row(
+                                      children: <Widget>[
+                                        Text(
+                                          "Status",
+                                          style: TextStyle(
+                                            fontSize: 13,
+                                          ),
+                                        ),
+                                        SizedBox(width: 5,),
+                                        Text(
+                                          "OPEN",
+                                          style: TextStyle(
+                                            fontSize: 13,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  SizedBox(height: 10,),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                );
+              }
+          ),
+              /*
               Container(
                 child:  StreamBuilder<List<WorkshopDashboardModel>>(
                   stream: searchByNameOrCity(),
@@ -337,6 +572,8 @@ class _WorkshopSearchPageState extends State<WorkshopSearchPage> {
                 ),
               ),
 
+
+              */
 
             ],
           ),

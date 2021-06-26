@@ -1,8 +1,7 @@
 import 'package:bikersworld/model/partstore_model.dart';
 import 'package:bikersworld/screen/dashboard/searchPages/refine_search_page.dart';
 import 'package:bikersworld/services/search_queries/refine_search.dart';
-import 'package:bikersworld/services/search_queries/search_part_store.dart';
-import 'package:bikersworld/services/toast_service.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -14,56 +13,101 @@ class AutoPartStoreSearchPage extends StatefulWidget {
   _AutoPartStoreSearchPageState createState() => _AutoPartStoreSearchPageState();
 }
 
-enum search { City, Name }
-
-
 class _AutoPartStoreSearchPageState extends State<AutoPartStoreSearchPage> {
 
-   search _character = search.Name;
-   String searchOption='';
-   int numberOfResults = 0;
-   final TextEditingController _controller = TextEditingController()..text = '';
-   final SearchPartStore _searchPartStore = SearchPartStore();
-   String cityFilter;
-   bool cityFilterOption=false,partStoreNameOption=false;
+  final TextEditingController _searchController = TextEditingController()..text = '';
+  String cityFilter;
+  bool cityFilterOption=false;
+  final CollectionReference _collectionReference = FirebaseFirestore.instance.collection('partstore');
+  Future resultsLoaded;
+  List<PartstoreDashboardModel> _allResults = [];
+  List<PartstoreDashboardModel> _resultsList = [];
+  List<PartstoreDashboardModel> _cityResultsList = [];
 
- Future<List<PartstoreDashboardModel>> searchByNameOrCity(){
-   try {
-     // search according to workshop Name and also filter applied of city with it
-     if(partStoreNameOption && cityFilterOption && _controller.text.isNotEmpty){
-       return _searchPartStore.searchPartStoreByNameAndCity(title: _controller.text, city: cityFilter);
-     }
-     // search according to workshop title only if text in field is not empty
-     else if(partStoreNameOption && _controller.text.isNotEmpty) {
-       return _searchPartStore.searchPartStoreByName(
-           name: _controller.text.trim());
-     }
-     // search according to only city filter when text in field is empty
-     else if(cityFilterOption){
-       return _searchPartStore.searchPartStoreByCity(city: cityFilter);
-     }
-   }catch(e){
-     final _error = ToastErrorMessage();
-     _error.errorToastMessage(errorMessage: e.toString());
-   }
-   return null;
- }
- navigateToFilterPage(BuildContext context) async{
-   final RefineSearchResults _result = await Navigator.of(context)
-       .push(MaterialPageRoute(builder: (context) => RefineRearchPage(partStoreSearchFilter: 'partStore',)));
-   //only if result is not nul and city variable is assigned a value only then map the values
-   if(_result != null && _result.city != null){
-     setState(() {
-       cityFilterOption = true;
-       partStoreNameOption = true;
-       cityFilter = _result.city;
-     });
-   }
- }
+  searchByCity(){
+    List<PartstoreDashboardModel> showResults = [];
+    if(cityFilterOption){
+      _allResults.forEach((doc) {
+        if(cityFilter == doc.city){
+          showResults.add(doc);
+        }
+      });
+    }
+    setState(() {
+      _cityResultsList = showResults;
+    });
+  }
+  navigateToFilterPage(BuildContext context) async{
+    _searchController.clear();
+    final RefineSearchResults _result = await Navigator.of(context)
+        .push(MaterialPageRoute(builder: (context) => RefineRearchPage(partStoreSearchFilter: 'partStore',)));
+    //only if result is not nul and city variable is assigned a value only then map the values
+    if(_result != null && _result.city != null){
+      setState(() {
+        cityFilterOption = true;
+        cityFilter = _result.city;
+      });
+      searchByCity();
+    }
+  }
+
+  getWorkshops() async{
+    var data = await _collectionReference
+        .get()
+        .then((snapshots) =>  snapshots.docs
+        .map((doc) => PartstoreDashboardModel.fromJson(doc.data(),doc.reference.id))
+        .toList());
+    setState(() {
+      _allResults = data;
+    });
+    searchResultsList();
+    return "complete";
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    resultsLoaded = getWorkshops();
+  }
 
   @override
   void initState() {
     super.initState();
+    _searchController.addListener(_onSearchChanged);
+  }
+
+  @override
+  void dispose() {
+    _searchController.removeListener(_onSearchChanged);
+    _searchController.dispose();
+    super.dispose();
+  }
+
+  _onSearchChanged() {
+    if(_searchController.text.isNotEmpty) {
+      setState(() {
+        cityFilterOption = false;
+      });
+    }
+    searchResultsList();
+    print(_searchController.text);
+  }
+
+  searchResultsList() {
+    List<PartstoreDashboardModel> showResults = [];
+    if(_searchController.text.isNotEmpty) {
+      _allResults.forEach((doc) {
+        var title = doc.shopTitle.toLowerCase();
+        if(title.contains(_searchController.text.toLowerCase())){
+          showResults.add(doc);
+        }
+      });
+    } else {
+      showResults = List.from(_allResults);
+    }
+    setState(() {
+      _resultsList = showResults;
+    });
   }
 
   @override
@@ -96,26 +140,10 @@ class _AutoPartStoreSearchPageState extends State<AutoPartStoreSearchPage> {
                   child: Container(
                     child: TextField(
                       textInputAction: TextInputAction.search,
-                     onSubmitted: (value){
-                       // if field is empty then don't search by partstore title
-                       if(_controller.text.isEmpty){
-                         setState(() {
-                           partStoreNameOption = false;
-                         });
-                       }
-                       // else when pressed and field is not empty then search only by name
-                       else {
-                         setState(() {
-                           partStoreNameOption = true;
-                           cityFilterOption = false;
-                         });
-                       }
-                       print(_controller.text);
-                     },
-                      controller: _controller,
+                      controller: _searchController,
                       decoration: new InputDecoration(
                           suffixIcon: IconButton(
-                              onPressed: () => _controller.clear(),
+                              onPressed: () => _searchController.clear(),
                               icon: Icon(Icons.clear)),
                           border: new OutlineInputBorder(
                             borderRadius: const BorderRadius.all(
@@ -198,133 +226,215 @@ class _AutoPartStoreSearchPageState extends State<AutoPartStoreSearchPage> {
 
               SizedBox(height: 20,),
 
-              Container(
-                child:  FutureBuilder(
-                  future: searchByNameOrCity(),
-                  builder: (BuildContext context, AsyncSnapshot<List<PartstoreDashboardModel>> snapshot) {
-                    if(snapshot.hasData && snapshot.data.isNotEmpty){
-                      return ListView.builder(
-                          physics: NeverScrollableScrollPhysics(),
-                          shrinkWrap: true,
-                          itemCount: snapshot.data.length,
-                          itemBuilder: (context,index){
-                            return  Padding(
-                              padding: const EdgeInsets.only(bottom: 15),
-                              child: FlatButton(
-                                onPressed:(){
-                                  Navigator.of(context).push(MaterialPageRoute(builder: (context) => AutoPartStoreDashboardPageNormalUser(partStoreId: snapshot.data[index].id,)));
-                                },
-                                child: Card(
-                                  color: Color(0xfff7f7f7),
-                                  child: Container(
-                                    child: Row(
+              cityFilterOption ? Container(
+                child: ListView.builder(
+                    physics: NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    itemCount: _cityResultsList.length,
+                    itemBuilder: (context,index){
+                      return  Padding(
+                        padding: const EdgeInsets.only(bottom: 15),
+                        child: FlatButton(
+                          onPressed:(){
+                            Navigator.push(context, MaterialPageRoute( builder: (context) => AutoPartStoreDashboardPageNormalUser(partStoreId: _cityResultsList[index].id)),
+                            );
+                          },
+                          child: Card(
+                            color: Color(0xfff7f7f7),
+                            child: Container(
+                              child: Row(
+                                children: <Widget>[
+                                  Expanded(
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(10),
+                                      child: Container(
+                                        width: 90,
+                                        height: 70,
+                                        decoration: BoxDecoration(
+                                            shape: BoxShape.rectangle,
+                                            image: DecorationImage(
+                                                fit: BoxFit.fill,
+                                                image: _cityResultsList[index].imageURL != null ? NetworkImage(_cityResultsList[index].imageURL) : AssetImage("assets/avatar.jpg",)
+                                            )
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+
+                                  SizedBox(width: 5,),
+                                  Container(
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
                                       children: <Widget>[
-                                        Expanded(
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(10),
-                                            child: Container(
-                                              width: 90,
-                                              height: 70,
-                                              decoration: BoxDecoration(
-                                                  shape: BoxShape.rectangle,
-                                                  image: DecorationImage(
-                                                      fit: BoxFit.fill,
-                                                      image: snapshot.data[index].imageURL != null ? NetworkImage(snapshot.data[index].imageURL) : AssetImage("assets/avatar.jpg",)
-                                                  )
-                                              ),
+                                        Container(
+                                          child: AutoSizeText(
+                                            _cityResultsList[index] !=null ? _cityResultsList[index].shopTitle : "Automotive repair",
+                                            style: GoogleFonts.quicksand(
+                                              fontSize: 18,
+                                              color: Colors.black,
                                             ),
                                           ),
                                         ),
-
-                                        SizedBox(width: 5,),
+                                        SizedBox(height: 5,),
                                         Container(
-                                          child: Column(
-                                            crossAxisAlignment: CrossAxisAlignment.start,
-                                            children: <Widget>[
+                                          child: Row(
+                                            mainAxisAlignment: MainAxisAlignment.end,
+                                            children: [
                                               Container(
-                                                margin:EdgeInsets.only(left:10),
-                                                child: AutoSizeText(
-                                                  snapshot.data !=null ? snapshot.data[index].shopTitle : "Automotive repair",
-                                                  style: GoogleFonts.quicksand(
-                                                    fontSize: 18,
-                                                    color: Colors.black,
+                                                child: Text(
+                                                  _cityResultsList[index] != null ? _cityResultsList[index].city: "Islamabad",
+                                                  style: TextStyle(
+                                                      fontSize: 15
                                                   ),
                                                 ),
                                               ),
-                                              SizedBox(height: 5,),
-                                              Container(
-                                                child: Row(
-                                                  mainAxisAlignment: MainAxisAlignment.end,
-                                                  children: [
-                                                    Container(
-                                                      child:Row(
-                                                        children: [
-                                                          Icon(Icons.location_on,color: Colors.grey,),
-                                                          Text(
-                                                            snapshot.data != null ? snapshot.data[index].city: "Islamabad",
-                                                            style: TextStyle(
-                                                                fontSize: 15
-                                                            ),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    ),
-                                                    SizedBox(width: 130,),
-                                                    Icon(
-                                                      Icons.arrow_forward_ios,
-                                                      color: Color(0xffb8b8b8),
-                                                    ),
-                                                  ],
-                                                ),
+                                              SizedBox(width: 160,),
+                                              Icon(
+                                                Icons.arrow_forward_ios,
+                                                color: Color(0xffb8b8b8),
                                               ),
-
-                                              SizedBox(height: 3,),
-
-//                                              Container(
-//                                                child: Row(
-//                                                  children: <Widget>[
-//                                                    Text(
-//                                                      "Time",
-//                                                      style: TextStyle(
-//                                                        fontSize: 13,
-//                                                      ),
-//                                                    ),
-//                                                    SizedBox(width: 5,),
-//                                                    Text(
-//                                                      "${snapshot.data[index].openTime} - ${snapshot.data[index].closeTime}",
-//                                                      style: TextStyle(
-//                                                        fontSize: 13,
-//                                                        fontWeight: FontWeight.bold,
-//                                                      ),
-//                                                    ),
-//                                                  ],
-//                                                ),
-//                                              ),
-                                              SizedBox(height: 10,),
                                             ],
                                           ),
                                         ),
+
+                                        SizedBox(height: 3,),
+
+                                        Container(
+                                          child: Row(
+                                            children: <Widget>[
+                                              Text(
+                                                "Status",
+                                                style: TextStyle(
+                                                  fontSize: 13,
+                                                ),
+                                              ),
+                                              SizedBox(width: 5,),
+                                              Text(
+                                                "OPEN",
+                                                style: TextStyle(
+                                                  fontSize: 13,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        SizedBox(height: 10,),
                                       ],
                                     ),
                                   ),
-                                ),
+                                ],
                               ),
-                            );
-                          }
+                            ),
+                          ),
+                        ),
                       );
                     }
-                    else if(snapshot.data == null){
-                      return Text('Search For Workshops');
-                    }
-                    else if(snapshot.hasData && snapshot.data.isEmpty){
-                      return Text('No Data Found Matching Your Search');
-                    }
-                    else if(snapshot.hasError){
-                      return Text(snapshot.error.toString());
-                    }
-                    return Center(child:CircularProgressIndicator());
-                  },
                 ),
+              ) :
+              ListView.builder(
+                  physics: NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  itemCount: _resultsList.length,
+                  itemBuilder: (context,index){
+                    return  Padding(
+                      padding: const EdgeInsets.only(bottom: 15),
+                      child: FlatButton(
+                        onPressed:(){
+                          Navigator.push(context, MaterialPageRoute( builder: (context) => AutoPartStoreDashboardPageNormalUser(partStoreId: _resultsList[index].id)),
+                          );
+                        },
+                        child: Card(
+                          color: Color(0xfff7f7f7),
+                          child: Container(
+                            child: Row(
+                              children: <Widget>[
+                                Expanded(
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(10),
+                                    child: Container(
+                                      width: 90,
+                                      height: 70,
+                                      decoration: BoxDecoration(
+                                          shape: BoxShape.rectangle,
+                                          image: DecorationImage(
+                                              fit: BoxFit.fill,
+                                              image: _resultsList[index].imageURL != null ? NetworkImage(_resultsList[index].imageURL) : AssetImage("assets/avatar.jpg",)
+                                          )
+                                      ),
+                                    ),
+                                  ),
+                                ),
+
+                                SizedBox(width: 5,),
+                                Container(
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: <Widget>[
+                                      Container(
+                                        child: AutoSizeText(
+                                          _resultsList[index] !=null ? _resultsList[index].shopTitle : "Automotive repair",
+                                          style: GoogleFonts.quicksand(
+                                            fontSize: 18,
+                                            color: Colors.black,
+                                          ),
+                                        ),
+                                      ),
+                                      SizedBox(height: 5,),
+                                      Container(
+                                        child: Row(
+                                          mainAxisAlignment: MainAxisAlignment.end,
+                                          children: [
+                                            Container(
+                                              child: Text(
+                                                _resultsList[index] != null ? _resultsList[index].city: "Islamabad",
+                                                style: TextStyle(
+                                                    fontSize: 15
+                                                ),
+                                              ),
+                                            ),
+                                            SizedBox(width: 160,),
+                                            Icon(
+                                              Icons.arrow_forward_ios,
+                                              color: Color(0xffb8b8b8),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+
+                                      SizedBox(height: 3,),
+
+                                      Container(
+                                        child: Row(
+                                          children: <Widget>[
+                                            Text(
+                                              "Status",
+                                              style: TextStyle(
+                                                fontSize: 13,
+                                              ),
+                                            ),
+                                            SizedBox(width: 5,),
+                                            Text(
+                                              "OPEN",
+                                              style: TextStyle(
+                                                fontSize: 13,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      SizedBox(height: 10,),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    );
+                  }
               ),
             ],
           ),
