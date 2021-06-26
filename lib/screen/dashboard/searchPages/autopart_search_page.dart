@@ -9,7 +9,8 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:bikersworld/screen/dashboard/searchPages/search_auto_part_detail_page.dart';
-
+import 'package:paginate_firestore/paginate_firestore.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 
 class AutoPartSearchPage extends StatefulWidget {
@@ -447,6 +448,7 @@ class _AutoPartSearchPageState extends State<AutoPartSearchPage> {
                 ),
               ),
           SizedBox(height: 30,),
+
           FutureBuilder(
             future: getAutoParts(),
             builder: (BuildContext context, AsyncSnapshot<List<AutoPartModel>> snapshot) {
@@ -559,6 +561,24 @@ class _AutoPartSearchPageState extends State<AutoPartSearchPage> {
             },
 
           ),
+
+         /*
+          Expanded(
+             child :PaginateFirestore(
+                itemBuilderType: PaginateBuilderType.listView, //Change types accordingly
+                itemBuilder: (index, context, documentSnapshot) => ListTile(
+                  leading: CircleAvatar(child: Icon(Icons.person)),
+                  title: Text(documentSnapshot.data()['title']),
+                  subtitle: Text(documentSnapshot.id),
+                ),
+                // orderBy is compulsory to enable pagination
+                query: FirebaseFirestore.instance.collection('auto_parts').orderBy('title'),
+                // to fetch real-time data
+                isLive: true,
+              ),
+          ),
+
+           */
             ],
           ),
         ),
