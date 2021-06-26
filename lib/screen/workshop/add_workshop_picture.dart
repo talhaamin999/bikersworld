@@ -7,6 +7,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart' as path;
+import 'package:flutter_image_compress/flutter_image_compress.dart';
+
 
 class WorkshopProfilePhoto extends StatefulWidget {
   @override
@@ -18,14 +20,14 @@ class _WorkshopProfilePhotoState extends State<WorkshopProfilePhoto> {
   bool _isButtonVisible = true;
 
   Future getImagefromcamera() async {
-    var image = await ImagePicker.pickImage(source: ImageSource.camera);
+    var image = await ImagePicker.pickImage(source: ImageSource.camera, imageQuality: 85,);
     setState(() {
       _image = image;
     });
   }
 
   Future getImagefromGallery() async {
-    var image = await ImagePicker.pickImage(source: ImageSource.gallery);
+    var image = await ImagePicker.pickImage(source: ImageSource.gallery, imageQuality: 85,);
     setState(() {
       _image = image;
     });
