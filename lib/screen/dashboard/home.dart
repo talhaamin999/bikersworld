@@ -68,7 +68,8 @@ class _HomeDashboardState extends State<HomeDashboard> {
             Container(
               height: 205,
               width: MediaQuery.of(context).size.width,
-              child: new CustomPaint(
+              child: FadeAnimation(
+                3.5,CustomPaint(
                 painter: new CircularBackgroundPainter(
                 ),
                 child: Container(
@@ -99,35 +100,32 @@ class _HomeDashboardState extends State<HomeDashboard> {
                         onPressed: (){
                           Navigator.push(context, MaterialPageRoute(builder: (context) => SignUpPage()));
                         },
-                        child: FadeAnimation(
-                          1.6,
-                          Padding(
-                            padding: const EdgeInsets.only(right: 50,top: 10, left: 15),
-                            child: Container(
-                              height: 45,
-                              width: MediaQuery.of(context).size.width - 20,
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(6),
-                              ),
-                              child: Padding(
-                                padding: const EdgeInsets.only(left:20),
-                                child: Row(
-                                  children: [
-                                    Icon(
-                                      FontAwesomeIcons.signOutAlt,
+                        child: Padding(
+                          padding: const EdgeInsets.only(right: 50,top: 10, left: 15),
+                          child: Container(
+                            height: 45,
+                            width: MediaQuery.of(context).size.width - 20,
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(6),
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.only(left:20),
+                              child: Row(
+                                children: [
+                                  Icon(
+                                    FontAwesomeIcons.signOutAlt,
+                                    color: Colors.grey,
+                                  ),
+                                  SizedBox(width: 15,),
+                                  Text(
+                                    "Join Now",
+                                    style: GoogleFonts.quicksand(
+                                      fontSize: 18,
                                       color: Colors.grey,
                                     ),
-                                    SizedBox(width: 15,),
-                                    Text(
-                                      "Join Now",
-                                      style: GoogleFonts.quicksand(
-                                        fontSize: 18,
-                                        color: Colors.grey,
-                                      ),
-                                    ),
-                                  ],
-                                ),
+                                  ),
+                                ],
                               ),
                             ),
                           ),
@@ -136,6 +134,7 @@ class _HomeDashboardState extends State<HomeDashboard> {
                     ],
                   ),
                 ),
+              ),
               ),
             ),
             SizedBox(height: 20,),
@@ -1167,7 +1166,7 @@ class _HomeDashboardState extends State<HomeDashboard> {
                                 itemCount: snapshot.data.length,
                                 itemBuilder: (BuildContext context, int index){
                                   return FlatButton(
-                                    padding: EdgeInsets.only(left:20,top:10,),
+                                    padding: EdgeInsets.only(left:20,top:10, right: 10),
                                     onPressed: (){
                                       Navigator.push(context, MaterialPageRoute(builder: (context) => SearchAutoPartDetailPage(partDetail: snapshot.data[index],)));
                                     },
@@ -1191,11 +1190,9 @@ class _HomeDashboardState extends State<HomeDashboard> {
                                               child: ClipRRect(
                                                 borderRadius: BorderRadius.circular(10.0),
                                                 child: Image(
-//                                                  image: NetworkImage(
-//                                                    snapshot.data[index].imageURL != null ?
-//                                                    NetworkImage(snapshot.data[index].imageURL,) : AssetImage("assets/avatar.jpg",),
-//                                                  ),
-                                                image: AssetImage("assets/p1.jpeg"),
+                                                    image: NetworkImage(
+                                                      snapshot.data[index].imageURL,
+                                                    ),
                                                   fit: BoxFit.fill,
                                                 ),
                                               ),
@@ -1273,7 +1270,7 @@ class _HomeDashboardState extends State<HomeDashboard> {
                         return Center(child: CircularProgressIndicator());
                       },
                     ),
-                    SizedBox(height:25),
+                    SizedBox(height:15),
                   ],
                 ),
               ),

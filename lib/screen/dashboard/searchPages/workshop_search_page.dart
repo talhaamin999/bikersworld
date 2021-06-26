@@ -419,17 +419,19 @@ class _WorkshopSearchPageState extends State<WorkshopSearchPage> {
                                     child: Row(
                                       children: <Widget>[
                                         Text(
-                                          "Status",
+                                          _resultsList[index] != null ? _resultsList[index].openTime: "open",
                                           style: TextStyle(
                                             fontSize: 13,
                                           ),
                                         ),
+                                        Text(
+                                          "|",
+                                        ),
                                         SizedBox(width: 5,),
                                         Text(
-                                          "OPEN",
+                                          _resultsList[index] != null ? _resultsList[index].closeTime: "close",
                                           style: TextStyle(
                                             fontSize: 13,
-                                            fontWeight: FontWeight.bold,
                                           ),
                                         ),
                                       ],

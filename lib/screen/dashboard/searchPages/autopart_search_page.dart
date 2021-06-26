@@ -29,7 +29,7 @@ class _AutoPartSearchPageState extends State<AutoPartSearchPage> {
   bool filterTypeOption = false;
   bool filterSortOption = false;
   bool filterRange = false;
-
+  //PaginateRefreshedChangeListener refreshChangeListener = PaginateRefreshedChangeListener();
 
 
   Future<List<AutoPartModel>> getAutoParts(){
@@ -359,7 +359,7 @@ class _AutoPartSearchPageState extends State<AutoPartSearchPage> {
                           ),
                           filled: true,
                           hintStyle: GoogleFonts.quicksand(color: Colors.black, fontSize:15),
-                          hintText: "Type Service Name",
+                          hintText: "Type Part Name",
                           contentPadding: EdgeInsets.only(top: 7),
                           prefixIcon: Icon(Icons.search, size: 25,),
                           fillColor: Colors.white),
@@ -367,24 +367,6 @@ class _AutoPartSearchPageState extends State<AutoPartSearchPage> {
                   ),
                 ),
               ),
-//              Container(
-//                color: Color(0xfff7f7f7),
-//                child: Row(
-//                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//                  children: <Widget>[
-//                    Container(
-//                      child: Text(
-//                        "Result: 3",
-//                        style: GoogleFonts.varelaRound(
-//                          fontSize: 20,
-//                        ),
-//                      ),
-//                    ),
-//                    SizedBox (width: 120,),
-
-//                  ],
-//                ),
-//              ),
               Container(
                 height: 55,
                 decoration: BoxDecoration(
@@ -452,94 +434,115 @@ class _AutoPartSearchPageState extends State<AutoPartSearchPage> {
           FutureBuilder(
             future: getAutoParts(),
             builder: (BuildContext context, AsyncSnapshot<List<AutoPartModel>> snapshot) {
-              if(snapshot.hasData && snapshot.data.isNotEmpty){
+              if (snapshot.hasData && snapshot.data.isNotEmpty) {
                 return ListView.builder(
                     shrinkWrap: true,
                     itemCount: snapshot.data.length,
-                    itemBuilder:(context,index){
+                    itemBuilder: (context, index) {
                       return Padding(
                         padding: const EdgeInsets.only(bottom: 15),
                         child: FlatButton(
-                          onPressed:(){
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => SearchAutoPartDetailPage(partDetail: snapshot.data[index],)));
-                            },
+                          onPressed: () {
+                            Navigator.push(context, MaterialPageRoute(
+                                builder: (context) =>
+                                    SearchAutoPartDetailPage(
+                                      partDetail: snapshot.data[index],)));
+                          },
                           child: Card(
                             color: Color(0xfff7f7f7),
                             child: Container(
                               child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: <Widget>[
                                   Expanded(
-                                    child: Container(
-                                      width: 90,
-                                      height: 90,
-                                      decoration: BoxDecoration(
-                                        shape: BoxShape.rectangle,
-                                        image: DecorationImage(
-                                          fit: BoxFit.fill,
-                                          image: NetworkImage(snapshot.data[index].imageURL),
-                                        ),
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(10),
+                                      child: Container(
+                                          width: 90,
+                                          height: 70,
+                                          decoration: BoxDecoration(
+                                              shape: BoxShape.rectangle,
+                                              image: DecorationImage(
+                                                fit: BoxFit.fill,
+                                                image: NetworkImage(
+                                                    snapshot.data[index]
+                                                        .imageURL),)
+                                          )
                                       ),
                                     ),
                                   ),
-                                  SizedBox(width: 10,),
 
+                                  SizedBox(width: 5,),
                                   Container(
                                     child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          snapshot.data[index].title,
-                                          style: GoogleFonts.quicksand(
-                                            fontSize: 22,
-                                            color: Colors.black,
+                                      crossAxisAlignment: CrossAxisAlignment
+                                          .start,
+                                      children: <Widget>[
+                                        Container(
+                                          child: AutoSizeText(
+                                            snapshot.data[index].title,
+                                            style: GoogleFonts.quicksand(
+                                              fontSize: 18,
+                                              color: Colors.black,
+                                            ),
                                           ),
                                         ),
                                         SizedBox(height: 5,),
                                         Container(
                                           child: Row(
+                                            mainAxisAlignment: MainAxisAlignment
+                                                .end,
                                             children: [
-                                              Text(
-                                                "PKR",
-                                                style: GoogleFonts.quicksand(
-                                                  fontSize: 15,
-                                                  color: Colors.black,
-                                                  fontWeight: FontWeight.bold,
+                                              Container(
+                                                child: Row(
+                                                  children: [
+                                                    Text(
+                                                      "PKR",
+                                                      style: GoogleFonts
+                                                          .quicksand(
+                                                        fontSize: 15,
+                                                        color: Colors.black,
+                                                        fontWeight: FontWeight
+                                                            .bold,
+                                                      ),
+                                                    ),
+                                                    SizedBox(width: 6,),
+                                                    Text(
+                                                      snapshot.data[index].price
+                                                          .toString(),
+                                                      style: GoogleFonts
+                                                          .quicksand(
+                                                        fontSize: 15,
+                                                        color: Colors.black,
+                                                        fontWeight: FontWeight
+                                                            .bold,
+                                                      ),
+                                                    ),
+                                                  ],
                                                 ),
                                               ),
-                                              Text(
-                                                snapshot.data[index].price.toString(),
-                                                style: GoogleFonts.quicksand(
-                                                  fontSize: 15,
-                                                  color: Colors.black,
-                                                  fontWeight: FontWeight.bold,
-                                                ),
+                                              SizedBox(width: 160,),
+                                              Icon(
+                                                Icons.arrow_forward_ios,
+                                                color: Color(0xffb8b8b8),
                                               ),
                                             ],
                                           ),
                                         ),
+
+                                        SizedBox(height: 3,),
+
                                         Text(
-                                          snapshot.data[index].partStoreCity,
+                                          snapshot.data[index].category,
                                           style: GoogleFonts.quicksand(
                                             fontSize: 15,
                                             color: Colors.black,
                                           ),
                                         ),
+                                        SizedBox(height: 10,),
                                       ],
                                     ),
                                   ),
-                                  SizedBox(width: 20,),
-
-                                  CircleAvatar(backgroundColor: Color(0xfff7f7f7),),
-                                 // SizedBox(width: 20,),
-                                  Padding(
-                                    padding: const EdgeInsets.only(left:15,right:14),
-                                    child: Icon(
-                                      Icons.arrow_forward_ios,
-                                      color: Colors.grey,
-                                    ),
-                                  ),
-                                ]
+                                ],
                               ),
                             ),
                           ),
@@ -548,45 +551,115 @@ class _AutoPartSearchPageState extends State<AutoPartSearchPage> {
                     }
                 );
               }
-              else if(snapshot.hasData && snapshot.data.isEmpty) {
+              else if (snapshot.hasData && snapshot.data.isEmpty) {
                 return Center(child: Text("No Data Found"));
               }
-              else if(snapshot.data == null) {
-                return Center(child: Text("Search Part"));
+              else if (snapshot.data == null) {
+                return Center(child: Text(""));
               }
-              else if(snapshot.hasError){
+              else if (snapshot.hasError) {
                 return Center(child: Text(snapshot.error.toString()));
               }
               return Center(child: CircularProgressIndicator());
             },
-
           ),
+              PaginateFirestore(
+                shrinkWrap: true,
+                itemsPerPage: 5,
+                physics: NeverScrollableScrollPhysics(),
+                itemBuilderType: PaginateBuilderType.listView,
+                //Change types accordingly
+                itemBuilder: (index, context, snapshot) =>
+                    TextButton(
+                      onPressed: (){
+                        Navigator.push(context, MaterialPageRoute(
+                            builder: (context) =>
+                                SearchAutoPartDetailPage(
+                                  partDetail: snapshot[index],
+                                ),
+                        ),
+                        );
+                      },
+                      child: Padding(
+                        padding: EdgeInsets.zero,
+                        child: Card(
+                          color: Color(0xfff7f7f7),
+                          child: ListTile(
+                              leading: Container(
+                                  width: 90,
+                                  height: 90,
+                                  decoration: BoxDecoration(
+                                    // shape: BoxShape.rectangle,
+                                      image: DecorationImage(
+                                        fit: BoxFit.fill,
+                                        image: NetworkImage(
+                                          snapshot.get('image'),
+                                        ),)
+                                  )
+                              ),
+                              title: Text(snapshot.data()['title']),
+                              subtitle: Container(
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "PKR  ${snapshot.get('price').toString()}",
+                                      style: GoogleFonts
+                                          .quicksand(
+                                        fontSize: 15,
+                                        color: Colors.black,
+                                        fontWeight: FontWeight
+                                            .bold,
+                                      ),
+                                    ),
+                                    Text(
+                                      snapshot.get('category'),
+                                      style: GoogleFonts.quicksand(
+                                        fontSize: 15,
+                                        color: Colors.black,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
 
-         /*
-          Expanded(
-             child :PaginateFirestore(
-                itemBuilderType: PaginateBuilderType.listView, //Change types accordingly
-                itemBuilder: (index, context, documentSnapshot) => ListTile(
-                  leading: CircleAvatar(child: Icon(Icons.person)),
-                  title: Text(documentSnapshot.data()['title']),
-                  subtitle: Text(documentSnapshot.id),
-                ),
+                          ),
+                        ),
+                      ),
+                    ),
                 // orderBy is compulsory to enable pagination
+
                 query: FirebaseFirestore.instance.collection('auto_parts').orderBy('title'),
                 // to fetch real-time data
                 isLive: true,
               ),
-          ),
-
-           */
             ],
           ),
         ),
+
       ),
     );
   }
 }
 
+/*
+*  PaginateRefreshedChangeListener refreshChangeListener = PaginateRefreshedChangeListener();
 
-
-
+      RefreshIndicator(
+        child: PaginateFirestore(
+          itemBuilder: (context, documentSnapshot) => ListTile(
+            leading: CircleAvatar(child: Icon(Icons.person)),
+            title: Text(documentSnapshot.data['name']),
+            subtitle: Text(documentSnapshot.documentID),
+          ),
+          // orderBy is compulsary to enable pagination
+          query: Firestore.instance.collection('users').orderBy('name'),
+          listeners: [
+            refreshChangeListener,
+          ],
+        ),
+        onRefresh: () async {
+          refreshChangeListener.refreshed = true;
+        },
+      )*/
