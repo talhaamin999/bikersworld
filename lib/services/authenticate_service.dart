@@ -26,8 +26,12 @@ class AuthenticationService {
 
   Future<String> signInWithEmailAndPassword({String email, String password}) async {
     try {
-      await _firebaseAuth.signInWithEmailAndPassword(email: email, password: password);
-      return signedIn;
+      User _user = (await _firebaseAuth.signInWithEmailAndPassword(email: email, password: password)).user;
+      if(_user.emailVerified){
+        return signedIn;
+      }else{
+        return "You'r Email isn't Verified";
+      }
     } on FirebaseAuthException catch (e) {
       return e.message;
     }
@@ -35,9 +39,19 @@ class AuthenticationService {
 
   Future<String> signUpWithEmailAndPasword({String email, String password}) async {
     try {
-      await _firebaseAuth.createUserWithEmailAndPassword(email: email, password: password);
-      return signedUp;
+      User _user = (await _firebaseAuth.createUserWithEmailAndPassword(email: email, password: password)).user;
+      try{
+        await _user.sendEmailVerification();
+        return signedUp;
+      }catch(e) {
+        return e.toString();
+      }
     } on FirebaseAuthException catch (e) {
+      if (e.code == 'weak-password') {
+        return 'The password provided is too weak.';
+      } else if (e.code == 'email-already-in-use') {
+        return 'The account already exists for that email.';
+      }
       return e.message;
     }
   }

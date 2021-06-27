@@ -1,29 +1,35 @@
-import 'package:bikersworld/services/authenticate_service.dart';
 import 'package:bikersworld/services/toast_service.dart';
-import 'package:bikersworld/widgets/dashboard.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:bikersworld/widgets/bezierContainer.dart';
-import 'package:bikersworld/screen/loginSignup/signup.dart';
-import 'package:bikersworld/screen/dashboard/home.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 
-class forgetPassword extends StatefulWidget {
-
+class ForgotPassword extends StatefulWidget {
 
   @override
-  _forgetPasswordState createState() => _forgetPasswordState();
+  _ForgotPasswordState createState() => _ForgotPasswordState();
 }
 
-class _forgetPasswordState extends State<forgetPassword> {
+class _ForgotPasswordState extends State<ForgotPassword> {
 
   @override
   Widget build(BuildContext context) {
-    final TextEditingController emailController = TextEditingController();
 
+    final _emailController = TextEditingController();
     final height = MediaQuery.of(context).size.height;
+    final _error = ToastErrorMessage();
+    final _firebaseAuth = FirebaseAuth.instance;
+
+   Future<void> resetPassword() async{
+      if(_emailController.text.isNotEmpty){
+         await _firebaseAuth.sendPasswordResetEmail(email: _emailController.text.trim());
+         Navigator.of(context).pop();
+      }else{
+        _error.errorToastMessage(errorMessage: 'Enter Your Email');
+      }
+    }
     return MaterialApp(
       home: Scaffold(
         body: Container(
@@ -90,7 +96,7 @@ class _forgetPasswordState extends State<forgetPassword> {
                             ),
                             SizedBox(height: 10,),
                             TextField(
-                              controller: emailController,
+                              controller: _emailController,
                               decoration: InputDecoration(
                                 border: InputBorder.none,
                                 fillColor: Color(0xfff3f3f4),
@@ -105,7 +111,7 @@ class _forgetPasswordState extends State<forgetPassword> {
 
                       FlatButton(
                         onPressed: (){
-                          Navigator.pop(context);
+                          resetPassword();
                         },
                         child: Container(
                           width: MediaQuery.of(context).size.width,

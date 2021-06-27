@@ -8,7 +8,7 @@ import 'package:bikersworld/screen/dashboard/home.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:bikersworld/screen/loginSignup/forgort_password_page.dart';
+import 'package:bikersworld/screen/loginSignup/forgot_password_page.dart';
 
 class LoginPage extends StatefulWidget {
 
@@ -482,15 +482,18 @@ class _LoginPageState extends State<LoginPage> {
                   _submitButton(),
                   FlatButton(
                     onPressed: (){
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => forgetPassword()));
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => ForgotPassword()));
                     },
-                    child: Container(
-                      padding: EdgeInsets.symmetric(vertical: 5),
-                      margin: EdgeInsets.only(right: 20, top: 10),
-                      alignment: Alignment.centerRight,
-                       child: Text('Forgot Password ?',
-                          style: GoogleFonts.quicksand(
-                              fontSize: 18,),
+                    child: TextButton(
+                      onPressed: () => Navigator.of(context).push(MaterialPageRoute(builder: (context) => ForgotPassword())),
+                      child: Container(
+                        padding: EdgeInsets.symmetric(vertical: 5),
+                        margin: EdgeInsets.only(right: 20, top: 10),
+                        alignment: Alignment.centerRight,
+                         child: Text('Forgot Password ?',
+                            style: GoogleFonts.quicksand(
+                                fontSize: 18,),
+                        ),
                       ),
                     ),
                   ),

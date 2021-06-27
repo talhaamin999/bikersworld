@@ -1,7 +1,9 @@
 import 'package:bikersworld/screen/dashboard/home.dart';
+import 'package:bikersworld/screen/loginSignup/verify_email.dart';
 import 'package:bikersworld/services/authenticate_service.dart';
 import 'package:bikersworld/services/toast_service.dart';
 import 'package:email_validator/email_validator.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -30,6 +32,7 @@ class _SignUpPageState extends State<SignUpPage> {
   ToastErrorMessage error = ToastErrorMessage();
   ToastValidMessage valid = ToastValidMessage();
   AuthenticationService auth;
+  final _firebaseAuth = FirebaseAuth.instance;
 
   Widget _backButton() {
     return InkWell(
@@ -144,20 +147,16 @@ class _SignUpPageState extends State<SignUpPage> {
     );
 
     if(result == AuthenticationService.signedUp){
-
-      valid.validToastMessage(validMessage: "Signed Up Successful");
-
-      await Future.delayed(
-          new Duration(
-            seconds: 1,
-          ),
-              (){
-            Navigator.of(context).push(
-              MaterialPageRoute(builder: (context) => GenericOptionScreen()),
-            );
-          }
-      );
-
+         await Future.delayed(
+             new Duration(
+               seconds: 1,
+             ),
+                 (){
+               Navigator.of(context).push(
+                 MaterialPageRoute(builder: (context) => VerifyEmail()),
+               );
+             }
+         );
     }
     else{
       error.errorToastMessage(errorMessage: result);

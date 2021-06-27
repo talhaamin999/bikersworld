@@ -57,7 +57,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
     }
   }
   void setUser() {
-    if (_firebaseUser.currentUser != null) {
+    if (_firebaseUser.currentUser != null && _firebaseUser.currentUser.emailVerified) {
       setState(() {
         user = _firebaseUser.currentUser.email.split('@')[0];
       });
@@ -72,7 +72,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
-      stream: _firebaseUser.currentUser != null ? _userRole.getUserRole(_firebaseUser.currentUser.uid) : _userRole.getUserRole('abc'),
+      stream: _firebaseUser.currentUser != null && _firebaseUser.currentUser.emailVerified ? _userRole.getUserRole(_firebaseUser.currentUser.uid) : _userRole.getUserRole('abc'),
       builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
         if (snapshot.hasData) {
           print("doc");
@@ -458,66 +458,87 @@ class _CustomDrawerState extends State<CustomDrawer> {
                                     },
                                     itemBuilder: (_) =>
                                     <PopupMenuItem<userOption>>[
-//                                      new PopupMenuItem<userOption>(
-//                                        child: Container(
-//                                          child: Row(
-//                                            children: [
-//                                              Icon(
-//                                                FontAwesomeIcons.edit,
-//                                                size: 15,
-//                                              ),
-//                                              SizedBox(width: 10),
-//                                              Text(
-//                                                "Edit Profile",
-//                                                style: GoogleFonts.quicksand(
-//                                                  fontSize: 16,
-//                                                ),
-//                                              ),
-//                                            ],
-//                                          ),
-//                                        ),
-//                                        value: userOption.updateProfile,
-//                                      ),
-//                                      new PopupMenuItem<userOption>(
-//                                        child: Container(
-//                                          child: Row(
-//                                            children: [
-//                                              Icon(
-//                                                FontAwesomeIcons.signOutAlt,
-//                                                size: 15,
-//                                              ),
-//                                              SizedBox(width: 10),
-//                                              Text(
-//                                                "Sign Out",
-//                                                style: GoogleFonts.quicksand(
-//                                                  fontSize: 16,
-//                                                ),
-//                                              ),
-//                                            ],
-//                                          ),
-//                                        ),
-//                                        value: userOption.signOut,
-//                                      ),
                                       new PopupMenuItem<userOption>(
-                                        child: Container(
-                                          child: Row(
-                                            children: [
-                                              Icon(
-                                                FontAwesomeIcons.signInAlt,
-                                                size: 15,
-                                              ),
-                                              SizedBox(width: 10),
-                                              Text(
-                                                "Login / Sign Up",
-                                                style: GoogleFonts.quicksand(
-                                                  fontSize: 16,
+                                        child: Visibility(
+                                          visible: _firebaseUser
+                                              .currentUser != null
+                                              ? true
+                                              : false,
+                                          child: Container(
+                                            child: Row(
+                                              children: [
+                                                Icon(
+                                                  FontAwesomeIcons.edit,
+                                                  size: 15,
                                                 ),
-                                              ),
-                                            ],
+                                                SizedBox(width: 10),
+                                                Text(
+                                                  "Edit Profile",
+                                                  style: GoogleFonts
+                                                      .quicksand(
+                                                    fontSize: 16,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                        value: userOption.updateProfile,
+                                      ),
+                                      new PopupMenuItem<userOption>(
+                                        child: Visibility(
+                                          visible: _firebaseUser
+                                              .currentUser != null
+                                              ? true
+                                              : false,
+                                          child: Container(
+                                            child: Row(
+                                              children: [
+                                                Icon(
+                                                  FontAwesomeIcons.signOutAlt,
+                                                  size: 15,
+                                                ),
+                                                SizedBox(width: 10),
+                                                Text(
+                                                  "Sign Out",
+                                                  style: GoogleFonts
+                                                      .quicksand(
+                                                    fontSize: 16,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                        value: userOption.signOut,
+                                      ),
+                                      new PopupMenuItem<userOption>(
+                                        child: Visibility(
+                                          visible: _firebaseUser
+                                              .currentUser == null
+                                              ? true
+                                              : false,
+                                          child: Container(
+                                            child: Row(
+                                              children: [
+                                                Icon(
+                                                  FontAwesomeIcons.signInAlt,
+                                                  size: 15,
+                                                ),
+                                                SizedBox(width: 10),
+                                                Text(
+                                                  "Login / Sign Up",
+                                                  style: GoogleFonts
+                                                      .quicksand(
+                                                    fontSize: 16,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
                                           ),
                                         ),
                                         value: userOption.logInSignOut,
-                                      )
+                                      ),
                                     ],
                                   ),
                                 ],
