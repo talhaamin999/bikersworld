@@ -144,11 +144,19 @@ class _ViewMechanicsState extends State<ViewMechanics> {
                                               ),
                                             ],
                                           ),
-                                          subtitle: Padding(
-                                            padding:
-                                                const EdgeInsets.only(left: 50),
-                                            child: Text(
-                                                snapshot.data[index].contact),
+                                          subtitle: Column(
+                                            children: [
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.only(left: 50),
+                                                child: Text(
+                                                    snapshot.data[index].contact),
+                                              ),
+                                              SizedBox(
+                                                width: 16,
+                                              ),
+                                              snapshot.data[index].mechanicStatus ? Text("Status Available") : Text("Status Not Available")
+                                            ],
                                           ),
                                         ),
                                       ],
@@ -239,7 +247,7 @@ class _ViewMechanicsState extends State<ViewMechanics> {
                                                   fontSize: 17,
                                                   color: Colors.white,
                                                 ),
-                                              )
+                                              ),
                                             ],
                                           ),
                                           onPressed: () {

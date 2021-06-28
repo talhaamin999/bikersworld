@@ -1,4 +1,4 @@
-
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 
 class BikeAddModel{
@@ -16,8 +16,9 @@ class BikeAddModel{
   final List<dynamic> images;
   final String id;
   final String postedBy;
+  final Timestamp date;
 
-  BikeAddModel({this.title,this.make,this.model,this.year,this.description,this.price,this.sellerName,this.sellerContact,this.city,this.address,this.id,this.images,this.postedBy});
+  BikeAddModel({this.title,this.make,this.model,this.year,this.description,this.price,this.sellerName,this.sellerContact,this.city,this.address,this.id,this.images,this.postedBy,this.date});
 
   factory BikeAddModel.fromJson(Map<String, dynamic> json,String docId){
     return BikeAddModel(
@@ -34,6 +35,7 @@ class BikeAddModel{
       city: json['city'],
       address: json['address'],
       images: json['images'],
+      date: json['post_date'],
     );
   }
   Map<String, dynamic> toMap(){
@@ -50,6 +52,7 @@ class BikeAddModel{
       'address':address,
       'images':images,
       'posted_by':postedBy,
+      'post_date' : DateTime.now(),
     };
   }
   Map<String, dynamic> mapBikeInfo(){

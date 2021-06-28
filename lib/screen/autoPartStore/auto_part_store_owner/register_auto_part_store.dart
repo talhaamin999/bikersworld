@@ -92,49 +92,31 @@ class _RegisterAutoPartStoreState extends State<RegisterAutoPartStore> {
 
   void validateFields() {
     try {
-      if (!_validateShop.validateShopTitle(_shopTitleController.text.trim()) &&
-          !_validateShop.validateShopCity(_shopCityController.text.trim()) &&
-          !_validateShop.validateShopArea(_shopAdressController.text.trim()) &&
-          !_validateShop.validateOwnerName(_ownerNameController.text.trim()) &&
-          !_validateShop.validateOwnerContact(
-              _ownerContactController.text.trim())) {
-        _error.errorToastMessage(
-            errorMessage: "You Need To Enter Valid Data in every Fields");
+      if (!_validateShop.validateShopTitle(_shopTitleController.text.trim()) && !_validateShop.validateShopCity(_shopCityController.text.trim()) &&
+          !_validateShop.validateShopArea(_shopAdressController.text.trim()) && !_validateShop.validateOwnerName(_ownerNameController.text.trim()) &&
+          !_validateShop.validateOwnerContact(_ownerContactController.text.trim())) {
+        _error.errorToastMessage(errorMessage: "You Need To Enter Valid Data in every Fields");
       }
-      else
-      if (!_validateShop.validateShopTitle(_shopTitleController.text.trim())) {
-        _error.errorToastMessage(
-            errorMessage: "You Need To Enter Valid Shop Title");
+      else if (!_validateShop.validateShopTitle(_shopTitleController.text.trim())) {
+        _error.errorToastMessage(errorMessage: "You Need To Enter Valid Shop Title");
       }
-      else
-      if (!_validateShop.validateShopCity(_shopCityController.text.trim())) {
-        _error.errorToastMessage(
-            errorMessage: "You Need To Enter Valid City Name");
+      else if (!_validateShop.validateShopCity(_shopCityController.text.trim())) {
+        _error.errorToastMessage(errorMessage: "You Need To Enter Valid City Name");
       }
-      else if (!_validateShop.validateShopArea(
-          _shopAdressController.text.trim())) {
-        _error.errorToastMessage(
-            errorMessage: "You Need To Enter Valid Specific Area Title");
+      else if (!_validateShop.validateShopArea(_shopAdressController.text.trim())) {
+        _error.errorToastMessage(errorMessage: "You Need To Enter Valid Specific Area Title");
       }
-      else
-      if (!_validateShop.validateOwnerName(_ownerNameController.text.trim())) {
-        _error.errorToastMessage(
-            errorMessage: "You Need To Enter Valid Owner Name");
+      else if (!_validateShop.validateOwnerName(_ownerNameController.text.trim())) {
+        _error.errorToastMessage(errorMessage: "You Need To Enter Valid Owner Name");
       }
-      else if (!_validateShop.validateOwnerContact(
-          _ownerContactController.text.trim())) {
-        _error.errorToastMessage(
-            errorMessage: "You Need To Enter Valid Pakistan Number");
+      else if (!_validateShop.validateOwnerContact(_ownerContactController.text.trim())) {
+        _error.errorToastMessage(errorMessage: "You Need To Enter Valid Pakistan Number");
       }
-      else if (!monday && !tuesday && !wednesday && !thursday && !friday &&
-          !saturday && !sunday) {
+      else if (!monday && !tuesday && !wednesday && !thursday && !friday && !saturday && !sunday) {
         _error.errorToastMessage(errorMessage: "Working days not selected");
       }
       else {
-        setState(() {
-          _isButtonVisible = false;
-        });
-        print("hello");
+        setState(() {_isButtonVisible = false;});
         registerPartStore();
       }
     } catch (e) {

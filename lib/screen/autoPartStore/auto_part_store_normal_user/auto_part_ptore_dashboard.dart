@@ -8,7 +8,7 @@ import 'package:page_transition/page_transition.dart';
 import 'package:bikersworld/model/partstore_model.dart';
 import 'package:bikersworld/screen/autoPartStore/auto_part_store_normal_user/categories_normal_user.dart';
 import 'package:bikersworld/screen/autoPartStore/auto_part_store_normal_user/view_all_auto_parts.dart';
-import 'package:bikersworld/screen/autoPartStore/auto_part_store_normal_user/normsl_user_partstore_review.dart';
+import 'package:bikersworld/screen/autoPartStore/auto_part_store_normal_user/normal_user_partstore_review.dart';
 import 'package:bikersworld/screen/autoPartStore/auto_part_store_normal_user/view_category_wise_auto_part.dart';
 import 'dart:math';
 import 'auto_part_details.dart';

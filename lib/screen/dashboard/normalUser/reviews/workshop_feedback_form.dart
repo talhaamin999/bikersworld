@@ -31,48 +31,31 @@ class _WorkshopFeedbackFormState extends State<WorkshopFeedbackForm> {
 
   Future<void> addReview() async{
     if(_firebaseUser.getCurrentUser()) {
-      try {
-        setState(() {
-          _isButtonVisible = false;
-        });
-        if (_titleController.text.isNotEmpty &&
-            _descriptionController.text.isNotEmpty) {
-          final CollectionReference _collectionReference = FirebaseFirestore
-              .instance
-              .collection(_workshopCollection).doc(id).collection(
-              _workshopReviewsCollection);
-          final _reviewModel = WorkshopReviews(title: _titleController.text,
-              starRating: RatingsBar.ratings,
-              description: _descriptionController.text);
+        try {
+          setState(() {_isButtonVisible = false;});
+          if (_titleController.text.isNotEmpty &&
+              _descriptionController.text.isNotEmpty) {
+         final CollectionReference _collectionReference = FirebaseFirestore.instance.collection(_workshopCollection).doc(id).collection(_workshopReviewsCollection);
+         final _reviewModel = WorkshopReviews(title: _titleController.text, starRating: RatingsBar.ratings, description: _descriptionController.text);
 
-          await _collectionReference.add(_reviewModel.toMap())
-              .then((_) {
-            clearFields();
-            setState(() {
-              reviewAdded = true;
-            });
-            _valid.validToastMessage(validMessage: 'Review Added');
-          })
-              .catchError((onError) =>
-              _error.errorToastMessage(errorMessage: onError.toString()));
-        } else {
-          _error.errorToastMessage(errorMessage: 'Kindly Fill All Fields');
-        }
-      } catch (e) {
-        _error.errorToastMessage(errorMessage: e.toString());
-      } finally {
-        setState(() {
-          _isButtonVisible = true;
-        });
-        if (reviewAdded) {
-          Future.delayed(
-              new Duration(seconds: 2),
-                  () {
-                Navigator.pop(context);
-              }
-          );
-        }
-      }
+            await _collectionReference.add(_reviewModel.toMap())
+                .then((_) {clearFields();
+              setState(() {reviewAdded = true;});
+              _valid.validToastMessage(validMessage: 'Review Added');
+            })
+                .catchError((onError) => _error.errorToastMessage(errorMessage: onError.toString()));
+          }
+          else {
+            _error.errorToastMessage(errorMessage: 'Kindly Fill All Fields');
+          }
+        } catch (e) {
+          _error.errorToastMessage(errorMessage: e.toString());
+        } finally {
+          setState(() {_isButtonVisible = true;});
+          if (reviewAdded) {
+            Future.delayed(new Duration(seconds: 2), () {Navigator.pop(context);});
+          }
+     }
     }else{
       _error.errorToastMessage(errorMessage: 'Need to create an account to give review');
     }

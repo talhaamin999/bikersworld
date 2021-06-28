@@ -81,10 +81,19 @@ class _AddMechanicsState extends State<AddMechanics> {
       setState(() {
         _isButtonVisible = false;
       });
-      final Mechanics _mecahnicData = Mechanics(name: mechanicNameController.text.trim(),contact: mechanicContactController.text.trim(),speciality: _currentItemselected);
       if(_mechanics != null) {
-         await updateDocument(mechanics: _mecahnicData, index: widget.index);
+          final Mechanics _mecahnicData = Mechanics(
+              name: mechanicNameController.text.trim(),
+              contact: mechanicContactController.text.trim(),
+              speciality: _currentItemselected,
+              mechanicStatus: _mechanicStatus == Status.Avaliable ? true : false);
+          await updateDocument(mechanics: _mecahnicData, index: widget.index);
       }else{
+        final Mechanics _mecahnicData = Mechanics(
+            name: mechanicNameController.text.trim(),
+            contact: mechanicContactController.text.trim(),
+            speciality: _currentItemselected,
+            mechanicStatus: true);
         await registerMechanic(_mecahnicData);
       }
     }
@@ -195,7 +204,7 @@ class _AddMechanicsState extends State<AddMechanics> {
                       SizedBox(height: 20,),
                       _title(_mechanics),
                       SizedBox(height: 20),
-                      _registerWorkshopWidget(nameController: mechanicNameController,contactController: mechanicContactController),
+                      _registerWorkshopWidget(nameController: mechanicNameController,contactController: mechanicContactController,mechanicData: widget.mechanics),
                       SizedBox(height: 20),
                       Center(
                         child: Container(
@@ -228,8 +237,7 @@ class _AddMechanicsState extends State<AddMechanics> {
   }
 }
 
-Widget _registerWorkshopWidget({@required TextEditingController nameController,@required TextEditingController contactController}) {
-
+Widget _registerWorkshopWidget({@required TextEditingController nameController,@required TextEditingController contactController,@required Mechanics mechanicData}) {
   return Form(
     key: _formKey,
     autovalidateMode: AutovalidateMode.disabled,
@@ -247,7 +255,9 @@ Widget _registerWorkshopWidget({@required TextEditingController nameController,@
                 )
             ),
             SpecializationComboBox(),
-            MyStatefulWidget(),
+            Visibility(
+                visible: mechanicData != null ? true : false,
+                child: MyStatefulWidget()),
          ],
         ),
   );
@@ -276,6 +286,7 @@ Widget _title(Mechanics mec) {
 }
 
 enum Status { Avaliable, Not, }
+Status _mechanicStatus = Status.Avaliable;
 
 class MyStatefulWidget extends StatefulWidget {
   MyStatefulWidget({Key key}) : super(key: key);
@@ -285,8 +296,7 @@ class MyStatefulWidget extends StatefulWidget {
 }
 
 class _MyStatefulWidgetState extends State<MyStatefulWidget> {
-  Status status = Status.Avaliable;
-
+  
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(left:10,top:10),
@@ -304,10 +314,10 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
             title: const Text('Avaliable'),
             leading: Radio(
               value: Status.Avaliable,
-              groupValue: status,
+              groupValue: _mechanicStatus,
               onChanged: (Status value) {
                 setState(() {
-                  status = value;
+                  _mechanicStatus = value;
                 });
               },
             ),
@@ -316,10 +326,10 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
             title: const Text('Not Avaliable'),
             leading: Radio(
               value: Status.Not,
-              groupValue: status,
+              groupValue: _mechanicStatus,
               onChanged: (Status value) {
                 setState(() {
-                  status = value;
+                  _mechanicStatus = value;
                 });
               },
             ),

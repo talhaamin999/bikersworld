@@ -75,9 +75,10 @@ class Mechanics{
   final String name;
   final String contact;
   final String speciality;
+  final bool mechanicStatus;
   final String id;
 
-  Mechanics({this.name,this.contact,this.speciality,this.id});
+  Mechanics({this.name,this.contact,this.speciality,this.id,this.mechanicStatus});
 
   factory Mechanics.fromJson(Map<String, dynamic> json,String mechanicId){
     return Mechanics(
@@ -85,6 +86,7 @@ class Mechanics{
       name: json['name'],
       contact: json['contact'],
       speciality: json['speciality'],
+      mechanicStatus: json['status'],
     );
   }
   Map<String, dynamic> toMap(){
@@ -92,6 +94,7 @@ class Mechanics{
       'name': name,
       'contact': contact,
       'speciality': speciality,
+      'status' : mechanicStatus,
     };
   }
 

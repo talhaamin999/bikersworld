@@ -1,12 +1,9 @@
 import 'package:bikersworld/model/workshop_model.dart';
 import 'package:bikersworld/services/search_queries/serach_workshop.dart';
 import 'package:bikersworld/services/toast_service.dart';
-import 'package:bikersworld/services/workshop_queries/workshop_queries.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:bikersworld/widgets/drawer.dart';
 import 'package:flutter/rendering.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:bikersworld/widgets/rating_bar.dart';
 
@@ -32,12 +29,6 @@ class _WorkshopDashboardReviewsState extends State<WorkshopDashboardReviews> {
     super.initState();
     currentIndex = 0;
 
-  }
-
-  changePage(int index) {
-    setState(() {
-      currentIndex = index;
-    });
   }
 
   Future<List<WorkshopReviews>> getReviews(){

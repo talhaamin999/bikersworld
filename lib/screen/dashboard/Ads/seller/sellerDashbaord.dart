@@ -9,6 +9,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'dart:math';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:bikersworld/screen/dashboard/Ads/AdDetail.dart';
+import 'package:intl/intl.dart';
 import 'package:shimmer/shimmer.dart';
 import '../postAdsSeller.dart';
 
@@ -189,6 +190,14 @@ class SellerHomeScreen extends StatelessWidget {
                                               Expanded(
                                                 child: Text(
                                                   snapshot.data[index].title,
+                                                  style: GoogleFonts.quicksand(
+                                                    fontSize: 20,
+                                                  ),
+                                                ),
+                                              ),
+                                              Expanded(
+                                                child: Text(
+                                                  '${DateFormat("dd-MM-yyyy").format(DateTime.parse(snapshot.data[index].date.toDate().toString()))}',
                                                   style: GoogleFonts.quicksand(
                                                     fontSize: 20,
                                                   ),

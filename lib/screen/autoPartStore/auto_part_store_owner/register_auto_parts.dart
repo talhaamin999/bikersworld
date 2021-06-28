@@ -87,59 +87,32 @@ class _RegisterAutoPartsState extends State<RegisterAutoParts> {
   }
   Future<void> addPart(int price) async{
      try{
-       setState(() {
-         _isButtonVisible = false;
-       });
-
+       setState(() {_isButtonVisible = false;});
      if(widget.autoPartInfo == null) {
          var imageUrl = await _addAutoPart.uploadImage(_image);
          if(imageUrl != null) {
-           final data = AutoPartModel(title: _titleController.text.trim().capitalizeFirstofEach,
-               price: price,
-               category: dropDownCategoryValue,
-               partStoreCity: widget.partStoreCity.firstinCaps,
-               type: dropDownTypeValue,
-               imageURL: imageUrl,
-               partStoreId: widget.partStoreId);
-
+           final data = AutoPartModel(title: _titleController.text.trim().capitalizeFirstofEach,price: price,category: dropDownCategoryValue,partStoreCity: widget.partStoreCity.firstinCaps,
+               type: dropDownTypeValue,imageURL: imageUrl,partStoreId: widget.partStoreId);
            bool result = await _addAutoPart.addAutoPart(data);
            if (result) {
-             setState(() {
-               _isButtonVisible = true;
-             });
+             setState(() {_isButtonVisible = true;});
              clear();
-             _valid.validToastMessage(
-                 validMessage: 'Part Successfully Added');
-             Future.delayed(
-                 new Duration(seconds: 2),
-                     () {
-                   Navigator.pop(context);
-                 }
-             );
+             _valid.validToastMessage(validMessage: 'Part Successfully Added');
+             Future.delayed(new Duration(seconds: 2), () {Navigator.pop(context);});
            }
         }
      }
      else if(widget.autoPartInfo != null && _image == null){
-       final data = AutoPartModel(title: _titleController.text.trim().capitalizeFirstofEach,
-           price: price,
-           category: dropDownCategoryValue,
-           docId: widget.autoPartInfo.docId,
-           partStoreCity: widget.autoPartInfo.partStoreCity,
-           type: dropDownTypeValue,
-           imageURL: widget.autoPartInfo.imageURL,
-           partStoreId: widget.autoPartInfo.partStoreId);
+       final data = AutoPartModel(title: _titleController.text.trim().capitalizeFirstofEach,price: price,category: dropDownCategoryValue, docId: widget.autoPartInfo.docId,
+           partStoreCity: widget.autoPartInfo.partStoreCity,type: dropDownTypeValue,imageURL: widget.autoPartInfo.imageURL, partStoreId: widget.autoPartInfo.partStoreId);
        bool result = await _addAutoPart.updateAutoPart(data);
        if (result) {
-         setState(() {
-           _isButtonVisible = true;
-         });
+         setState(() {_isButtonVisible = true;});
          clear();
          _valid.validToastMessage(
              validMessage: 'Part Successfully Updated');
-         Future.delayed(
-             new Duration(seconds: 1),
-                 () {
-               Navigator.pop(context);
+         Future.delayed(new Duration(seconds: 1), () {
+           Navigator.pop(context);
              }
          );
        }

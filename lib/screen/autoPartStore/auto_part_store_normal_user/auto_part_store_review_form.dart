@@ -1,5 +1,5 @@
 import 'package:bikersworld/model/partstore_model.dart';
-import 'package:bikersworld/screen/autoPartStore/auto_part_store_normal_user/normsl_user_partstore_review.dart';
+import 'package:bikersworld/screen/autoPartStore/auto_part_store_normal_user/normal_user_partstore_review.dart';
 import 'package:bikersworld/services/part_store_queries/part_store_review_query.dart';
 import 'package:bikersworld/services/toast_service.dart';
 import 'package:flutter/material.dart';
