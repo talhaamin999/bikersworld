@@ -109,8 +109,7 @@ class _ViewMechanicsState extends State<ViewMechanics> {
                 StreamBuilder<List<Mechanics>>(
                   stream: _mechanic.getMechanics(),
                   builder: (context, snapshot) {
-                    if (snapshot.hasData &&
-                        snapshot.connectionState == ConnectionState.done) {
+                    if (snapshot.hasData && snapshot.data.isNotEmpty) {
                       return ListView.builder(
                         shrinkWrap: true,
                         itemCount: snapshot.data.length,
@@ -264,156 +263,9 @@ class _ViewMechanicsState extends State<ViewMechanics> {
                           );
                         },
                       );
-                    } else if (snapshot.connectionState ==
-                        ConnectionState.active) {
-                      return ListView.builder(
-                        physics: NeverScrollableScrollPhysics(),
-                        shrinkWrap: true,
-                        itemCount: snapshot.data.length,
-                        itemBuilder: (context, index) {
-                          return Padding(
-                            padding: const EdgeInsets.only(
-                                top: 10, left: 15, right: 10),
-                            child: Card(
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              child: Column(
-                                children: <Widget>[
-                                  Container(
-                                    child: Column(
-                                      children: [
-                                        ListTile(
-                                          title: Row(
-                                            children: [
-                                              CircleAvatar(
-                                                  backgroundImage: AssetImage("assets/mechanicavatar.jpg"),
-                                              ),
-                                              SizedBox(
-                                                width: 10,
-                                              ),
-                                              Text(
-                                                snapshot.hasData ? snapshot.data[index].name:'Mechanic Name',
-                                                style: GoogleFonts.raleway(
-                                                  fontSize: 18,
-                                                  color: Color(0XFF012A4A),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                          subtitle: Padding(
-                                            padding:
-                                                const EdgeInsets.only(left: 50),
-                                            child: Text(
-                                                snapshot.hasData ? snapshot.data[index].contact : 'Mechanic Contact'),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    height: 10,
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                        left: 8.0, bottom: 8, right: 8),
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.end,
-                                      children: <Widget>[
-                                        RaisedButton(
-                                          color: Colors.orange,
-                                          child: Row(
-                                            children: [
-                                              Icon(
-                                                Icons.info_outline,
-                                                size: 15,
-                                                color: Colors.white,
-                                              ),
-                                              SizedBox(
-                                                width: 5,
-                                              ),
-                                              Text(
-                                                "Info",
-                                                style: GoogleFonts.raleway(
-                                                  fontSize: 17,
-                                                  color: Colors.white,
-                                                ),
-                                              )
-                                            ],
-                                          ),
-                                          onPressed: () {
-                                            Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        WorkshopkMechanicsReviews(workshopId: widget.workshopId,mechanic: snapshot.data[index],),
-                                                ),
-                                            );
-                                          },
-                                        ),
-                                        const SizedBox(width: 8),
-                                        RaisedButton(
-                                          color: Colors.blue,
-                                          child: Row(
-                                            children: [
-                                              Icon(
-                                                Icons.edit,
-                                                size: 15,
-                                                color: Colors.white,
-                                              ),
-                                              SizedBox(
-                                                width: 5,
-                                              ),
-                                              Text(
-                                                "Edit",
-                                                style: GoogleFonts.raleway(
-                                                  fontSize: 17,
-                                                  color: Colors.white,
-                                                ),
-                                              )
-                                            ],
-                                          ),
-                                          onPressed: () {
-                                            final Mechanics mec = Mechanics(name: snapshot.data[index].name,contact: snapshot.data[index].contact,speciality: snapshot.data[index].speciality);
-                                            Navigator.of(context)
-                                                .push(MaterialPageRoute(builder: (context) => AddMechanics(mechanics: mec,index: index)));
-                                          },
-                                        ),
-                                        const SizedBox(width: 8),
-                                        RaisedButton(
-                                          color: Colors.red,
-                                          child: Row(
-                                            children: [
-                                              Icon(
-                                                FontAwesomeIcons.userMinus,
-                                                size: 15,
-                                                color: Colors.white,
-                                              ),
-                                              SizedBox(
-                                                width: 16,
-                                              ),
-                                              Text(
-                                                "Delete",
-                                                style: GoogleFonts.raleway(
-                                                  fontSize: 17,
-                                                  color: Colors.white,
-                                                ),
-                                              )
-                                            ],
-                                          ),
-                                          onPressed: () {
-                                           // print("hello");
-                                            deleteDocument(index: index);
-                                          },
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          );
-                        },
+                    } else if (snapshot.hasData && snapshot.data.isEmpty){
+                      return Center(
+                        child: Text("No Mechanics Added"),
                       );
                     } else if (snapshot.hasError) {
                       return Center(
