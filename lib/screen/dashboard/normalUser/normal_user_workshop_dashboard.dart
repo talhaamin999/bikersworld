@@ -81,7 +81,7 @@ class _NormalUserWorkshopDashboardState extends State<NormalUserWorkshopDashboar
                                          backgroundColor: Colors.orange,
                                        ),
                                      ),
-                                     SizedBox(width: 20,),
+                                     SizedBox(width: 10,),
                                      Column(
                                        crossAxisAlignment: CrossAxisAlignment.start,
                                        children: <Widget>[
@@ -90,7 +90,7 @@ class _NormalUserWorkshopDashboardState extends State<NormalUserWorkshopDashboar
                                             snapshot.data.shopTitle,
                                              textAlign: TextAlign.start,
                                              style: GoogleFonts.quicksand(
-                                                 fontSize: 22,
+                                                 fontSize: 19,
                                                  fontWeight: FontWeight.bold,
                                                  color: Colors.white),
                                            ),
@@ -394,7 +394,7 @@ class _NormalUserWorkshopDashboardState extends State<NormalUserWorkshopDashboar
                                crossAxisAlignment: CrossAxisAlignment.start,
                                children: [
                                  Text(
-                                   "Name",
+                                   "Owner Name",
                                    style: GoogleFonts.quicksand(
                                      fontSize: 19,
                                      color: Colors.black,
@@ -434,7 +434,7 @@ class _NormalUserWorkshopDashboardState extends State<NormalUserWorkshopDashboar
                                crossAxisAlignment: CrossAxisAlignment.start,
                                children: [
                                  Text(
-                                   "Address",
+                                   "Workshop Address",
                                    style: GoogleFonts.quicksand(
                                      fontSize: 17,
                                      color: Colors.black,
@@ -879,7 +879,7 @@ class _NormalUserWorkshopDashboardState extends State<NormalUserWorkshopDashboar
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            "Name",
+                            "Owner Name",
                             style: GoogleFonts.quicksand(
                               fontSize: 19,
                               color: Colors.black,
@@ -919,7 +919,7 @@ class _NormalUserWorkshopDashboardState extends State<NormalUserWorkshopDashboar
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            "Address",
+                            "Workshop Address",
                             style: GoogleFonts.quicksand(
                               fontSize: 17,
                               color: Colors.black,

@@ -98,6 +98,7 @@ class _AutoPartStoreDashboardPageNormalUserState extends State<AutoPartStoreDash
                                   snapshot.data.shopTitle,
                                   style: GoogleFonts.quicksand(
                                     fontSize: 20,
+                                    fontWeight: FontWeight.bold,
                                     color: Colors.grey,
                                   ),
                                 ),
