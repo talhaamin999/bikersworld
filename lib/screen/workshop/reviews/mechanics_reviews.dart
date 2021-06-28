@@ -98,6 +98,15 @@ class _WorkshopkMechanicsReviewsState extends State<WorkshopkMechanicsReviews> {
                     ),
                   ),
                   SizedBox(height: 10,),
+                  Container(
+                    child: Text(
+                      widget.mechanic.speciality,
+                      style: GoogleFonts.quicksand(
+                        fontSize: 20,
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 10,),
 
                   Container(
                     child: Text(

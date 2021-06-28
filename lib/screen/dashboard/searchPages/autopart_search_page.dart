@@ -431,215 +431,215 @@ class _AutoPartSearchPageState extends State<AutoPartSearchPage> {
               ),
           SizedBox(height: 30,),
 
-          // FutureBuilder(
-          //   future: getAutoParts(),
-          //   builder: (BuildContext context, AsyncSnapshot<List<AutoPartModel>> snapshot) {
-          //     if (snapshot.hasData && snapshot.data.isNotEmpty) {
-          //       return ListView.builder(
-          //           shrinkWrap: true,
-          //           itemCount: snapshot.data.length,
-          //           itemBuilder: (context, index) {
-          //             return Padding(
-          //               padding: const EdgeInsets.only(bottom: 15),
-          //               child: FlatButton(
-          //                 onPressed: () {
-          //                   Navigator.push(context, MaterialPageRoute(
-          //                       builder: (context) =>
-          //                           SearchAutoPartDetailPage(
-          //                             partDetail: snapshot.data[index],)));
-          //                 },
-          //                 child: Card(
-          //                   color: Color(0xfff7f7f7),
-          //                   child: Container(
-          //                     child: Row(
-          //                       children: <Widget>[
-          //                         Expanded(
-          //                           child: Padding(
-          //                             padding: const EdgeInsets.all(10),
-          //                             child: Container(
-          //                                 width: 90,
-          //                                 height: 70,
-          //                                 decoration: BoxDecoration(
-          //                                     shape: BoxShape.rectangle,
-          //                                     image: DecorationImage(
-          //                                       fit: BoxFit.fill,
-          //                                       image: NetworkImage(
-          //                                           snapshot.data[index]
-          //                                               .imageURL),)
-          //                                 )
-          //                             ),
-          //                           ),
-          //                         ),
-          //
-          //                         SizedBox(width: 5,),
-          //                         Container(
-          //                           child: Column(
-          //                             crossAxisAlignment: CrossAxisAlignment
-          //                                 .start,
-          //                             children: <Widget>[
-          //                               Container(
-          //                                 child: AutoSizeText(
-          //                                   snapshot.data[index].title,
-          //                                   style: GoogleFonts.quicksand(
-          //                                     fontSize: 18,
-          //                                     color: Colors.black,
-          //                                   ),
-          //                                 ),
-          //                               ),
-          //                               SizedBox(height: 5,),
-          //                               Container(
-          //                                 child: Row(
-          //                                   mainAxisAlignment: MainAxisAlignment
-          //                                       .end,
-          //                                   children: [
-          //                                     Container(
-          //                                       child: Row(
-          //                                         children: [
-          //                                           Text(
-          //                                             "PKR",
-          //                                             style: GoogleFonts
-          //                                                 .quicksand(
-          //                                               fontSize: 15,
-          //                                               color: Colors.black,
-          //                                               fontWeight: FontWeight
-          //                                                   .bold,
-          //                                             ),
-          //                                           ),
-          //                                           SizedBox(width: 6,),
-          //                                           Text(
-          //                                             snapshot.data[index].price
-          //                                                 .toString(),
-          //                                             style: GoogleFonts
-          //                                                 .quicksand(
-          //                                               fontSize: 15,
-          //                                               color: Colors.black,
-          //                                               fontWeight: FontWeight
-          //                                                   .bold,
-          //                                             ),
-          //                                           ),
-          //                                         ],
-          //                                       ),
-          //                                     ),
-          //                                     SizedBox(width: 160,),
-          //                                     Icon(
-          //                                       Icons.arrow_forward_ios,
-          //                                       color: Color(0xffb8b8b8),
-          //                                     ),
-          //                                   ],
-          //                                 ),
-          //                               ),
-          //
-          //                               SizedBox(height: 3,),
-          //
-          //                               Text(
-          //                                 snapshot.data[index].category,
-          //                                 style: GoogleFonts.quicksand(
-          //                                   fontSize: 15,
-          //                                   color: Colors.black,
-          //                                 ),
-          //                               ),
-          //                               SizedBox(height: 10,),
-          //                             ],
-          //                           ),
-          //                         ),
-          //                       ],
-          //                     ),
-          //                   ),
-          //                 ),
-          //               ),
-          //             );
-          //           }
-          //       );
-          //     }
-          //     else if (snapshot.hasData && snapshot.data.isEmpty) {
-          //       return Center(child: Text("No Data Found"));
-          //     }
-          //     else if (snapshot.data == null) {
-          //       return Center(child: Text(""));
-          //     }
-          //     else if (snapshot.hasError) {
-          //       return Center(child: Text(snapshot.error.toString()));
-          //     }
-          //     return Center(child: CircularProgressIndicator());
-          //   },
-          // ),
-
-              PaginateFirestore(
-                shrinkWrap: true,
-                physics: NeverScrollableScrollPhysics(),
-                itemBuilderType: PaginateBuilderType.listView,
-                //Change types accordingly
-                itemBuilder: (index, context, snapshot) =>
-                    TextButton(
-                      onPressed: (){
-                        Navigator.push(context, MaterialPageRoute(
-                            builder: (context) =>
-                                SearchAutoPartDetailPage(
-                                  partDetail: snapshot[index],
-                                ),
-                        ),
-                        );
-                      },
-                      child: Padding(
-                        padding: EdgeInsets.zero,
-                        child: Card(
-                          color: Color(0xfff7f7f7),
-                          child: ListTile(
-                              // leading: Container(
-                              //     width: 90,
-                              //     height: 90,
-                              //     decoration: BoxDecoration(
-                              //       // shape: BoxShape.rectangle,
-                              //         image: DecorationImage(
-                              //           fit: BoxFit.fill,
-                              //           image: NetworkImage(
-                              //             snapshot.get('image'),
-                              //           ),)
-                              //     )
-                              // ),
-                              title: Text(snapshot.data()['title']),
-                              subtitle: Container(
-                                /*
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      "PKR  ${snapshot.get('price').toString()}",
-                                      style: GoogleFonts
-                                          .quicksand(
-                                        fontSize: 15,
-                                        color: Colors.black,
-                                        fontWeight: FontWeight
-                                            .bold,
-                                      ),
-                                    ),
-                                    /*
-                                    Text(
-                                      snapshot.get('category'),
-                                      style: GoogleFonts.quicksand(
-                                        fontSize: 15,
-                                        color: Colors.black,
+           FutureBuilder(
+             future: getAutoParts(),
+             builder: (BuildContext context, AsyncSnapshot<List<AutoPartModel>> snapshot) {
+               if (snapshot.hasData && snapshot.data.isNotEmpty) {
+                 return ListView.builder(
+                     shrinkWrap: true,
+                     itemCount: snapshot.data.length,
+                     itemBuilder: (context, index) {
+                       return Padding(
+                         padding: const EdgeInsets.only(bottom: 15),
+                         child: FlatButton(
+                           onPressed: () {
+                             Navigator.push(context, MaterialPageRoute(
+                                 builder: (context) =>
+                                     SearchAutoPartDetailPage(
+                                       partDetail: snapshot.data[index],)));
+                           },
+                           child: Card(
+                             color: Color(0xfff7f7f7),
+                             child: Container(
+                               child: Row(
+                                 children: <Widget>[
+                                   Expanded(
+                                     child: Padding(
+                                       padding: const EdgeInsets.all(10),
+                                       child: Container(
+                                           width: 90,
+                                           height: 70,
+                                           decoration: BoxDecoration(
+                                               shape: BoxShape.rectangle,
+                                               image: DecorationImage(
+                                                 fit: BoxFit.fill,
+                                                 image: NetworkImage(
+                                                     snapshot.data[index]
+                                                         .imageURL),)
+                                           )
+                                       ),
                                      ),
-                                    ),
+                                   ),
 
-                                     */
-                                  ],
-                                ),
+                                   SizedBox(width: 5,),
+                                   Container(
+                                     child: Column(
+                                       crossAxisAlignment: CrossAxisAlignment
+                                           .start,
+                                       children: <Widget>[
+                                         Container(
+                                           child: AutoSizeText(
+                                             snapshot.data[index].title,
+                                             style: GoogleFonts.quicksand(
+                                               fontSize: 18,
+                                               color: Colors.black,
+                                             ),
+                                           ),
+                                         ),
+                                         SizedBox(height: 5,),
+                                         Container(
+                                           child: Row(
+                                             mainAxisAlignment: MainAxisAlignment
+                                                 .end,
+                                             children: [
+                                               Container(
+                                                 child: Row(
+                                                   children: [
+                                                     Text(
+                                                       "PKR",
+                                                       style: GoogleFonts
+                                                           .quicksand(
+                                                         fontSize: 15,
+                                                         color: Colors.black,
+                                                         fontWeight: FontWeight
+                                                             .bold,
+                                                       ),
+                                                     ),
+                                                     SizedBox(width: 6,),
+                                                     Text(
+                                                       snapshot.data[index].price
+                                                           .toString(),
+                                                       style: GoogleFonts
+                                                           .quicksand(
+                                                         fontSize: 15,
+                                                         color: Colors.black,
+                                                         fontWeight: FontWeight
+                                                             .bold,
+                                                       ),
+                                                     ),
+                                                   ],
+                                                 ),
+                                               ),
+                                               SizedBox(width: 160,),
+                                               Icon(
+                                                 Icons.arrow_forward_ios,
+                                                 color: Color(0xffb8b8b8),
+                                               ),
+                                             ],
+                                           ),
+                                         ),
 
-                                 */
-                              ),
+                                         SizedBox(height: 3,),
 
-                          ),
-                        ),
-                      ),
-                    ),
-                // orderBy is compulsory to enable pagination
+                                         Text(
+                                           snapshot.data[index].category,
+                                           style: GoogleFonts.quicksand(
+                                             fontSize: 15,
+                                             color: Colors.black,
+                                           ),
+                                         ),
+                                         SizedBox(height: 10,),
+                                       ],
+                                     ),
+                                   ),
+                                 ],
+                               ),
+                             ),
+                           ),
+                         ),
+                       );
+                     }
+                 );
+               }
+               else if (snapshot.hasData && snapshot.data.isEmpty) {
+                 return Center(child: Text("No Data Found"));
+               }
+               else if (snapshot.data == null) {
+                 return Center(child: Text(""));
+               }
+               else if (snapshot.hasError) {
+                 return Center(child: Text(snapshot.error.toString()));
+               }
+               return Center(child: CircularProgressIndicator());
+             },
+           ),
 
-                query: FirebaseFirestore.instance.collection('auto_parts').orderBy('title'),
-                // to fetch real-time data
-                isLive: true,
-              ),
+//              PaginateFirestore(
+//                shrinkWrap: true,
+//                physics: NeverScrollableScrollPhysics(),
+//                itemBuilderType: PaginateBuilderType.listView,
+//                //Change types accordingly
+//                itemBuilder: (index, context, snapshot) =>
+//                    TextButton(
+//                      onPressed: (){
+//                        Navigator.push(context, MaterialPageRoute(
+//                            builder: (context) =>
+//                                SearchAutoPartDetailPage(
+//                                  partDetail: snapshot[index],
+//                                ),
+//                        ),
+//                        );
+//                      },
+//                      child: Padding(
+//                        padding: EdgeInsets.zero,
+//                        child: Card(
+//                          color: Color(0xfff7f7f7),
+//                          child: ListTile(
+//                              // leading: Container(
+//                              //     width: 90,
+//                              //     height: 90,
+//                              //     decoration: BoxDecoration(
+//                              //       // shape: BoxShape.rectangle,
+//                              //         image: DecorationImage(
+//                              //           fit: BoxFit.fill,
+//                              //           image: NetworkImage(
+//                              //             snapshot.get('image'),
+//                              //           ),)
+//                              //     )
+//                              // ),
+//                              title: Text(snapshot.data()['title']),
+//                              subtitle: Container(
+//                                /*
+//                                child: Column(
+//                                  mainAxisAlignment: MainAxisAlignment.start,
+//                                  crossAxisAlignment: CrossAxisAlignment.start,
+//                                  children: [
+//                                    Text(
+//                                      "PKR  ${snapshot.get('price').toString()}",
+//                                      style: GoogleFonts
+//                                          .quicksand(
+//                                        fontSize: 15,
+//                                        color: Colors.black,
+//                                        fontWeight: FontWeight
+//                                            .bold,
+//                                      ),
+//                                    ),
+//                                    /*
+//                                    Text(
+//                                      snapshot.get('category'),
+//                                      style: GoogleFonts.quicksand(
+//                                        fontSize: 15,
+//                                        color: Colors.black,
+//                                     ),
+//                                    ),
+//
+//                                     */
+//                                  ],
+//                                ),
+//
+//                                 */
+//                              ),
+//
+//                          ),
+//                        ),
+//                      ),
+//                    ),
+//                // orderBy is compulsory to enable pagination
+//
+//                query: FirebaseFirestore.instance.collection('auto_parts').orderBy('title'),
+//                // to fetch real-time data
+//                isLive: true,
+//              ),
 
             ],
           ),

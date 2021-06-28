@@ -406,14 +406,14 @@ class _LoginPageState extends State<LoginPage> {
           children: <Widget>[
             Text(
               'Don\'t have an account ?',
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+              style: GoogleFonts.quicksand(fontSize: 16, fontWeight: FontWeight.w600),
             ),
             SizedBox(
               width: 10,
             ),
             Text(
               'Register',
-              style: TextStyle(
+              style: GoogleFonts.quicksand(
                   color: Color(0xfff79c4f),
                   fontSize: 16,
                   fontWeight: FontWeight.w600),
@@ -498,9 +498,8 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   ),
                   _divider(),
-                  _facebookButton(),
-                  SizedBox(height: 15,),
                   _GoogleButton(),
+                  SizedBox(height: 15,),
                   _createAccountLabel(),
                 ],
               ),

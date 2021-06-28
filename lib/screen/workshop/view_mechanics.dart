@@ -129,32 +129,43 @@ class _ViewMechanicsState extends State<ViewMechanics> {
                                         ListTile(
                                           title: Row(
                                             children: [
-                                              CircleAvatar(
-                                                  child: Icon(Icons.person)),
                                               SizedBox(
-                                                width: 10,
-                                              ),
-                                              Text(
-                                                snapshot.data[index].name,
-                                                style: GoogleFonts.raleway(
-                                                  fontSize: 18,
-                                                  color: Color(0XFF012A4A),
+                                                child: CircleAvatar(
+                                                  radius: 25.0,
+                                                  backgroundColor: Colors.white,
+                                                  child:  CircleAvatar(
+                                                    child: Align(
+                                                      alignment: Alignment.bottomRight,
+                                                      child: CircleAvatar(
+                                                        backgroundColor: snapshot.data[index].mechanicStatus ? Colors.green : Colors.red,
+                                                        radius: 8,
+                                                      ),
+                                                    ),
+                                                    radius: 38.0,
+                                                  ),
                                                 ),
                                               ),
-                                            ],
-                                          ),
-                                          subtitle: Column(
-                                            children: [
-                                              Padding(
-                                                padding:
-                                                    const EdgeInsets.only(left: 50),
-                                                child: Text(
-                                                    snapshot.data[index].contact),
+                                              SizedBox(width: 15,),
+                                              Container(
+                                                child: Column(
+                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                  children: [
+                                                    Text(
+                                                      snapshot.data[index].name,
+                                                      style: GoogleFonts.raleway(
+                                                        fontSize: 18,
+                                                        fontWeight: FontWeight.bold,
+                                                        color: Color(0XFF012A4A),
+                                                      ),
+                                                    ),
+                                                    snapshot.data[index].mechanicStatus ? Text(
+                                                      "Avaliable",style: GoogleFonts.quicksand(fontSize: 15,color: Colors.black),
+                                                    ):Text(
+                                                      "Not Avaliable",style: GoogleFonts.quicksand(fontSize: 15,color: Colors.black),
+                                                    ),
+                                                  ],
+                                                ),
                                               ),
-                                              SizedBox(
-                                                width: 16,
-                                              ),
-                                              snapshot.data[index].mechanicStatus ? Text("Status Available") : Text("Status Not Available")
                                             ],
                                           ),
                                         ),

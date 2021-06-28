@@ -243,7 +243,6 @@ class _AddDetailState extends State<AddDetail>  with SingleTickerProviderStateMi
                         child: Row(
                           children: <Widget>[
                             Icon(FontAwesomeIcons.calendar),
-                            SizedBox(width: 5,),
                             SizedBox(width: 15,),
                             Container(
                               child: Column(

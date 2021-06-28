@@ -72,14 +72,14 @@ class _NormalUserWorkshopEmployeeState
                   text: TextSpan(
                     text: 'Workshop',
                     style: GoogleFonts.quicksand(
-                      fontSize: 30,
+                      fontSize: 25,
                       color: Color(0xfff7892b),
                     ),
                     children: [
                       TextSpan(
                           text: ' Mechanics',
                           style: GoogleFonts.quicksand(
-                            fontSize: 30,
+                            fontSize: 25,
                             color: Colors.black,
                           )),
                     ],
@@ -111,10 +111,17 @@ class _NormalUserWorkshopEmployeeState
                           color: Colors.white,
                           margin: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
                           child: ListTile(
-                            leading: CircleAvatar(
-                            radius: 30,
-                              backgroundImage: AssetImage("assets/mechanicavatar.jpg",),
+
+                          leading: SizedBox(
+                            child: CircleAvatar(
+                              radius: 25.0,
+                              backgroundColor: Colors.white,
+                              child:  CircleAvatar(
+                                backgroundImage: AssetImage("assets/mechanicavatar.jpg",),
+                                radius: 38.0,
+                              ),
                             ),
+                          ),
                             title: Container(
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -125,6 +132,11 @@ class _NormalUserWorkshopEmployeeState
                                       fontSize: 20,
                                       color: Colors.black,
                                     ),
+                                  ),
+                                  snapshot.data[index].mechanicStatus ? Text(
+                                    "Avaliable",style: GoogleFonts.quicksand(fontSize: 15,color: Colors.green,fontWeight: FontWeight.bold),
+                                  ):Text(
+                                    "Not Avaliable",style: GoogleFonts.quicksand(fontSize: 15,color: Colors.red, fontWeight: FontWeight.bold),
                                   ),
                                 ],
                               ),

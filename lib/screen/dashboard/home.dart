@@ -8,7 +8,6 @@ import 'package:bikersworld/services/bike_add_queries.dart';
 import 'package:bikersworld/services/part_store_queries/part_queries.dart';
 import 'package:bikersworld/services/part_store_queries/part_store_query.dart';
 import 'package:bikersworld/services/workshop_queries/workshop_queries.dart';
-import 'package:bubble_bottom_bar/bubble_bottom_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:bikersworld/screen/autoPartStore/auto_part_store_normal_user/auto_part_ptore_dashboard.dart';
@@ -512,7 +511,7 @@ class _HomeDashboardState extends State<HomeDashboard> {
                     builder: (BuildContext context, AsyncSnapshot<List<WorkshopDashboardModel>> snapshot) {
                       if(snapshot.hasData && snapshot.data.isNotEmpty){
                         return Container(
-                          height: 275,
+                          height: 285,
                           child: ListView.builder(
                             scrollDirection: Axis.horizontal,
                             shrinkWrap: true,
@@ -1158,7 +1157,7 @@ class _HomeDashboardState extends State<HomeDashboard> {
                       builder: (BuildContext context, AsyncSnapshot<List<AutoPartModel>> snapshot) {
                         if(snapshot.hasData && snapshot.data.isNotEmpty){
                           return  Container(
-                            height: 248,
+                            height: MediaQuery.of(context).size.height * .30,
                             child: ListView.builder(
                                 scrollDirection: Axis.horizontal,
                                 shrinkWrap: true,
@@ -1197,12 +1196,14 @@ class _HomeDashboardState extends State<HomeDashboard> {
                                                 ),
                                               ),
                                             ),
-                                            Padding(
-                                              padding: const EdgeInsets.only(left:5,top: 5),
-                                              child: Text(
-                                                snapshot.data[index].title,
-                                                style: GoogleFonts.mukta(
-                                                  fontSize:20,
+                                            Expanded(
+                                              child: Padding(
+                                                padding: const EdgeInsets.only(left:5,top: 5),
+                                                child: Text(
+                                                  snapshot.data[index].title,
+                                                  style: GoogleFonts.mukta(
+                                                    fontSize:20,
+                                                  ),
                                                 ),
                                               ),
                                             ),
@@ -1234,7 +1235,6 @@ class _HomeDashboardState extends State<HomeDashboard> {
                                                     ),
                                                   ),
                                                   Container(
-                                                    // margin: EdgeInsets.only(top: 20),
                                                     height: 40,
                                                     width: 40,
                                                     decoration: BoxDecoration(

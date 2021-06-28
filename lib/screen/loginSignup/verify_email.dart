@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'package:bikersworld/widgets/bezierContainer.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:bikersworld/screen/loginSignup/user_role_option.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -61,7 +60,6 @@ class _VerifyEmailState extends State<VerifyEmail> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: <Widget>[
                         SizedBox(height: height * .2),
-                        SizedBox(height: 20,),
                         Center(
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
@@ -72,7 +70,6 @@ class _VerifyEmailState extends State<VerifyEmail> {
                                 ),
                               ),
                               RichText(
-                                textAlign: TextAlign.center,
                                 text: TextSpan(
                                   text: 'Verify',
                                   style: GoogleFonts.quicksand(

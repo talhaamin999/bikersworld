@@ -182,7 +182,7 @@ class _ServiceCategoryInformationState extends State<ServiceCategoryInformation>
                                           child: Row(
                                             children: [
                                               Icon(
-                                                FontAwesomeIcons.userMinus,
+                                                FontAwesomeIcons.cogs,
                                                 size: 15,
                                                 color: Colors.white,
                                               ),

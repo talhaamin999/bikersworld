@@ -20,14 +20,14 @@ class _WorkshopProfilePhotoState extends State<WorkshopProfilePhoto> {
   bool _isButtonVisible = true;
 
   Future getImagefromcamera() async {
-    var image = await ImagePicker.pickImage(source: ImageSource.camera, imageQuality: 85,);
+    var image = await ImagePicker.pickImage(source: ImageSource.camera, imageQuality: 25,);
     setState(() {
       _image = image;
     });
   }
 
   Future getImagefromGallery() async {
-    var image = await ImagePicker.pickImage(source: ImageSource.gallery, imageQuality: 85,);
+    var image = await ImagePicker.pickImage(source: ImageSource.gallery, imageQuality: 25,);
     setState(() {
       _image = image;
     });

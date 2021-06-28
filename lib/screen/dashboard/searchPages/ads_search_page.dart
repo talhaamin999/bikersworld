@@ -8,6 +8,8 @@ import 'package:bikersworld/services/admin_data_queries/bike_add_search/bike_add
 import 'advance_add_search.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:bikersworld/services/string_extension.dart';
+import 'package:intl/intl.dart';
+
 
 class AdSearchPage extends StatefulWidget {
   @override
@@ -483,94 +485,41 @@ class _AdSearchPageState extends State<AdSearchPage> {
                                     SizedBox(width: 5,),
                                     Expanded(
                                       child: Container(
+                                        margin: EdgeInsets.only(left: 10),
                                         child: Column(
-                                          mainAxisAlignment: MainAxisAlignment.start,
                                           crossAxisAlignment: CrossAxisAlignment.start,
                                           children: <Widget>[
                                             Container(
-                                              margin:EdgeInsets.only(left:5, top: 10),
                                               child: Text(
                                                 snapshot.data[index].title,
                                                 style: GoogleFonts.quicksand(
-                                                  fontSize: 19,
+                                                  fontSize: 16,
                                                   color: Colors.black,
                                                 ),
                                               ),
                                             ),
                                             Container(
-                                              margin: EdgeInsets.only(top: 5, left: 10),
-                                              child: Row(
-                                                children: [
-                                                  Container(
-                                                    child:Row(
-                                                      mainAxisAlignment:MainAxisAlignment.start,
-                                                      children: [
-                                                        Text(
-                                                          "PKR",
-                                                          style: GoogleFonts.roboto(
-                                                            fontSize: 15,
-                                                            color: Colors.black,
-                                                            fontWeight: FontWeight.bold,
-                                                          ),
-                                                        ),
-                                                        SizedBox(width: 5,),
-                                                        Text(
-                                                          snapshot.data[index].price.toString(),
-                                                          style: GoogleFonts.roboto(
-                                                            fontSize: 15,
-                                                            fontWeight: FontWeight.bold,
-                                                            color: Colors.black,
-                                                          ),
-                                                        ),
-                                                        
-                                                      ],
-                                                    ),
-                                                  ),
-                                                ],
+                                              child: Text(
+                                                "PKR ${snapshot.data[index].price.toString()}",
+                                                style: GoogleFonts.quicksand(
+                                                  fontSize: 15,
+                                                  color: Colors.black,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
                                               ),
                                             ),
-                                            Padding(
-                                              padding: const EdgeInsets.only(left:10),
-                                              child: Text(
+                                            Container(
+                                              child:  Text(
                                                 snapshot.data[index].city,
                                                 style: TextStyle(
-                                                    fontSize: 16,
+                                                  fontSize: 16,
                                                   color: Colors.grey,
                                                 ),
                                               ),
                                             ),
                                             SizedBox(height: 5,),
-                                            Container(
-                                              margin: EdgeInsets.only(left: 10),
-                                              child: Row(
-                                                children: [
-                                                  Text(
-                                                    snapshot.data[index].model,
-                                                    style: TextStyle(
-                                                      fontSize: 16,
-                                                      color: Colors.grey,
-                                                    ),
-                                                  ),
-                                                  SizedBox(width: 5,),
-                                                  Text(
-                                                    "|",
-                                                    style: TextStyle(
-                                                      color: Colors.grey,
-                                                    ),
-                                                  ),
-                                                  SizedBox(width: 5,),
-
-                                                  Text(
-                                                    snapshot.data[index].year,
-                                                    style: TextStyle(
-                                                      fontSize: 16,
-                                                      color: Colors.grey,
-                                                    ),
-                                                  ),
-                                                  SizedBox(width: 5,),
-
-                                                ],
-                                              ),
+                                            Text(
+                                              "Ad Posted  ${DateFormat("dd-MM-yyyy").format(DateTime.parse(snapshot.data[index].date.toDate().toString()))}",
                                             ),
                                           ],
                                         ),

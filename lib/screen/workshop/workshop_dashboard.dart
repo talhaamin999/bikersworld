@@ -167,14 +167,18 @@ class _DashboardState extends State<Dashboard> {
                         children: [
                           Container(
                             alignment: Alignment.center,
-                            margin: EdgeInsets.only(top: 200),
+                            margin: EdgeInsets.only(top: 180),
                             child: FlatButton(
                               child: Positioned(
-                                bottom: -200,
+                                bottom: -180,
                                 child: CircleAvatar(
-                                  backgroundImage: image != null ? NetworkImage(image) : AssetImage("assets/avatar.jpg"),
-                                  backgroundColor: Colors.black,
-                                  radius: 80,
+                                  radius: 85,
+                                  backgroundColor: Colors.orange,
+                                  child: CircleAvatar(
+                                    backgroundImage: image != null ? NetworkImage(image) : AssetImage("assets/avatar.jpg"),
+                                    backgroundColor: Colors.black,
+                                    radius: 80,
+                                  ),
                                 ),
                               ),
                               onPressed: (){
@@ -763,42 +767,7 @@ class _DashboardState extends State<Dashboard> {
               ),
             ),
 
-
-
-            SizedBox(height: 20,),
-            Container(
-              margin: EdgeInsets.symmetric(horizontal: 30,),
-              alignment: Alignment.topLeft,
-              child: Text("Status", style: GoogleFonts.quicksand(
-                color: Colors.black,
-                fontSize: 22,
-                fontWeight: FontWeight.w500,
-
-              ),
-              ),
-            ),
-            SizedBox(height: 20,),
-            Container(
-              margin: EdgeInsets.only(left: 20, right: 20),
-              child: Card(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: ListTile(
-                  contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                  leading: CircleAvatar(
-                    backgroundColor: Color(0xffecf0f1),
-                    child: Icon(FontAwesomeIcons.clock, color: Colors.deepOrange,),
-                  ),
-                  title: Text("Status"),
-                  onTap: (){
-
-                  },
-                ),
-              ),
-            ),
-
-            SizedBox(height: 20,),
+            SizedBox(height: 10,),
             Container(
               margin: EdgeInsets.symmetric(horizontal: 23,),
               alignment: Alignment.topLeft,

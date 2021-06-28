@@ -7,7 +7,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:bikersworld/screen/dashboard/normalUser/reviews/reviews_normal_user.dart';
 import 'package:bikersworld/screen/dashboard/normalUser/normal_user_workshop_employee.dart';
 import 'package:bikersworld/screen/dashboard/normalUser/normal_user_workshop_services.dart';
-
+import 'package:auto_size_text/auto_size_text.dart';
 class NormalUserWorkshopDashboard extends StatefulWidget {
 
   final WorkshopDashboardModel workshopData;
@@ -472,7 +472,30 @@ class _NormalUserWorkshopDashboardState extends State<NormalUserWorkshopDashboar
                                  icon: Icon(FontAwesomeIcons.clock , size: 45, color: Colors.white,),
                                ),
                                onPressed: (){
+                                 showDialog(
+                                   context: context,
+                                   builder: (_) => new AlertDialog(
+                                     title: new Text("Working hours", style: GoogleFonts.quicksand(fontSize: 18 , fontWeight:FontWeight.bold),),
+                                     content: Container(
+                                       child: Row(
+                                         children: [
+                                           Text(
+                                             snapshot.data.openTime,
+                                           ),
+                                           SizedBox(width: 5,),
+                                           Text(
+                                               "to"
+                                           ),
+                                           SizedBox(width: 5,),
 
+                                           Text(
+                                             snapshot.data.closeTime,
+                                           ),
+                                         ],
+                                       ),
+                                     ),
+                                   ),
+                                 );
                                },
                              ),
                              // SizedBox(width: 20.0),
@@ -570,16 +593,20 @@ class _NormalUserWorkshopDashboardState extends State<NormalUserWorkshopDashboar
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: <Widget>[
-                                  Container(
-                                    child: Text(
+                                  SizedBox(
+                                    width: 200.0,
+                                    //height: 100.0,
+                                    child: AutoSizeText(
                                       widget.workshopData != null ? widget.workshopData.shopTitle : 'Workshop name',
                                       textAlign: TextAlign.start,
                                       style: GoogleFonts.quicksand(
-                                          fontSize: 22,
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.white),
+                                        fontSize:20,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.white,
+                                      ),
                                     ),
                                   ),
+
                                   SizedBox(height: 8,),
                                   Row(
                                     children: [
@@ -957,7 +984,30 @@ class _NormalUserWorkshopDashboardState extends State<NormalUserWorkshopDashboar
                           icon: Icon(FontAwesomeIcons.clock , size: 45, color: Colors.white,),
                         ),
                         onPressed: (){
+                          showDialog(
+                            context: context,
+                            builder: (_) => new AlertDialog(
+                              title: new Text("Working hours", style: GoogleFonts.quicksand(fontSize: 18 , fontWeight:FontWeight.bold),),
+                              content: Container(
+                                child: Row(
+                                  children: [
+                                    Text(
+                                      widget.workshopData.openTime,
+                                    ),
+                                    SizedBox(width: 5,),
+                                    Text(
+                                        "to"
+                                    ),
+                                    SizedBox(width: 5,),
 
+                                    Text(
+                                      widget.workshopData.closeTime,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          );
                         },
                       ),
                      // SizedBox(width: 20.0),

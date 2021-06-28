@@ -244,9 +244,9 @@ Widget _registerWorkshopWidget({@required TextEditingController nameController,@
     child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            EntryField(title: "Name",hintText: "Abdullah",controller: nameController,inputType: TextInputType.text,filter: FilteringTextInputFormatter.allow(RegExp("[a-zA-Z ]"))),
+            EntryField(title: "Name",controller: nameController,inputType: TextInputType.text,filter: FilteringTextInputFormatter.allow(RegExp("[a-zA-Z ]"))),
             SizedBox(height:15),
-            EntryField(title: "Contact",hintText: "0310345635",controller: contactController,inputType: TextInputType.number,filter: FilteringTextInputFormatter.digitsOnly),
+            EntryField(title: "Contact",controller: contactController,inputType: TextInputType.number,filter: FilteringTextInputFormatter.digitsOnly),
             SizedBox(height:15),
             Text(
                 "Speciality",
