@@ -171,13 +171,24 @@ class _DashboardState extends State<Dashboard> {
                             child: FlatButton(
                               child: Positioned(
                                 bottom: -180,
-                                child: CircleAvatar(
-                                  radius: 85,
+                                child:  CircleAvatar(
                                   backgroundColor: Colors.orange,
+                                  radius: 78,
                                   child: CircleAvatar(
                                     backgroundImage: image != null ? NetworkImage(image) : AssetImage("assets/avatar.jpg"),
-                                    backgroundColor: Colors.black,
-                                    radius: 80,
+                                    child: Align(
+                                      alignment: Alignment.bottomRight,
+                                      child: CircleAvatar(
+                                        backgroundColor: Color(0XFF012A4A),
+                                        radius: 17,
+                                        child: Icon(
+                                          FontAwesomeIcons.camera,
+                                          color: Colors.white,
+                                          size: 13,
+                                        ),
+                                      ),
+                                    ),
+                                    radius: 75,
                                   ),
                                 ),
                               ),
@@ -312,6 +323,154 @@ class _DashboardState extends State<Dashboard> {
                         ],
                       )
                     ),
+//                    SizedBox(
+//                      child: FlatButton(
+//                        child: CircleAvatar(
+//                          radius: 85.0,
+//                          backgroundColor: Colors.white,
+//                          child:  CircleAvatar(
+//                            backgroundImage: image != null ? NetworkImage(image) : AssetImage("assets/avatar.jpg"),
+//                            child: Align(
+//                              alignment: Alignment.bottomRight,
+//                              child: CircleAvatar(
+//                                backgroundColor: Colors.red,
+//                                radius: 8,
+//                                child: Icon(
+//                                  FontAwesomeIcons.camera,
+//                                ),
+//                              ),
+//                            ),
+//                            radius: 38.0,
+//                          ),
+//                        ),
+//                        onPressed: (){
+//                          showModalBottomSheet<void>(
+//                            context: context,
+//                            builder: (BuildContext context) {
+//                              return Container(
+//                                height: 320,
+//                                color: Color(0xffe8e8e8),
+//                                child: Column(
+//                                  crossAxisAlignment: CrossAxisAlignment.start,
+//                                  children: <Widget>[
+//                                    Padding(
+//                                      padding: const EdgeInsets.only(left: 15, top:15),
+//                                      child: Text(
+//                                        "Select Option",
+//                                        style: GoogleFonts.quicksand(
+//                                          fontSize: 20,
+//                                          color: Colors.black,
+//                                          fontWeight: FontWeight.bold,
+//                                        ),
+//                                      ),
+//                                    ),
+//                                    SizedBox(height: 15,),
+//                                    Visibility(
+//                                      visible: data.imageURL == null ? true : false,
+//                                      child: FlatButton(
+//                                        child: Padding(
+//                                          padding: const EdgeInsets.only(left:15),
+//                                          child: Container(
+//                                            child: Row(
+//                                              children: [
+//                                                CircleAvatar(
+//                                                  child: Icon(
+//                                                    FontAwesomeIcons.image,
+//                                                    color: Color(0XFF012A4A),
+//                                                  ),
+//                                                  backgroundColor: Color(0xffd6d6d6),
+//                                                ),
+//                                                SizedBox(width:20),
+//                                                Text(
+//                                                  "Upload Photo",
+//                                                  style: GoogleFonts.quicksand(
+//                                                    fontSize: 18,
+//                                                    color: Colors.black,
+//                                                  ),
+//                                                ),
+//                                              ],
+//                                            ),
+//                                          ),
+//                                        ),
+//                                        onPressed: (){
+//                                          Navigator.push(context, MaterialPageRoute(builder: (context) => WorkshopProfilePhoto()));
+//                                        },
+//                                      ),
+//                                    ),
+//                                    Visibility(
+//                                      visible:data.imageURL != null ? true:false,
+//                                      child: FlatButton(
+//                                        child: Padding(
+//                                          padding: const EdgeInsets.only(left:15, top:15),
+//                                          child: Container(
+//                                            child: Row(
+//                                              children: [
+//                                                CircleAvatar(
+//                                                  child: Icon(
+//                                                    FontAwesomeIcons.images,
+//                                                    color: Colors.orangeAccent,
+//                                                  ),
+//                                                  backgroundColor: Color(0xffd6d6d6),
+//
+//                                                ),
+//                                                SizedBox(width:20),
+//                                                Text(
+//                                                  "Update Photo",
+//                                                  style: GoogleFonts.quicksand(
+//                                                    fontSize: 18,
+//                                                    color: Colors.black,
+//                                                  ),
+//                                                ),
+//                                              ],
+//                                            ),
+//                                          ),
+//                                        ),
+//                                        onPressed: (){
+//                                          Navigator.push(context, MaterialPageRoute(builder: (context) => WorkshopProfilePhoto()));
+//
+//                                        },
+//                                      ),
+//                                    ),
+//                                    Visibility(
+//                                      visible:data.imageURL != null ? true:false,
+//                                      child: FlatButton(
+//                                        child: Padding(
+//                                          padding: const EdgeInsets.only(left:15, top:15),
+//                                          child: Container(
+//                                            child: Row(
+//                                              children: [
+//                                                CircleAvatar(
+//                                                  child: Icon(
+//                                                    FontAwesomeIcons.minus,
+//                                                    color: Colors.red,
+//                                                  ),
+//                                                  backgroundColor: Color(0xffd6d6d6),
+//                                                ),
+//                                                SizedBox(width:20),
+//                                                Text(
+//                                                  "Delete Photo",
+//                                                  style: GoogleFonts.quicksand(
+//                                                    fontSize: 18,
+//                                                    color: Colors.black,
+//                                                  ),
+//                                                ),
+//                                              ],
+//                                            ),
+//                                          ),
+//                                        ),
+//                                        onPressed: (){
+//                                          deleteImage();
+//                                        },
+//                                      ),
+//                                    ),
+//                                  ],
+//                                ),
+//                              );
+//                            },
+//                          );
+//                        },
+//                      ),
+//                    ),
                     Padding(
                       padding: const EdgeInsets.only(top:10, left:20),
                       child: SizedBox(
