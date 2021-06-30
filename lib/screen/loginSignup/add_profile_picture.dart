@@ -1,8 +1,8 @@
 import 'dart:io';
 import 'package:bikersworld/services/authenticate_service.dart';
 import 'package:bikersworld/services/toast_service.dart';
-import 'package:bikersworld/services/workshop_queries/workshop_queries.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter_native_image/flutter_native_image.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -15,6 +15,7 @@ class AddProfilePicture extends StatefulWidget {
 }
 
 class _AddProfilePictureState extends State<AddProfilePicture> {
+
   File _image;
   bool _isButtonVisible = true;
 
@@ -184,11 +185,14 @@ class _AddProfilePictureState extends State<AddProfilePicture> {
        _isButtonVisible = false;
      });
      if (image != null) {
-       var file = File(image.path);
+       print("FILE SIZE BEFORE: " + image.lengthSync().toString());
+       File compressedFile = await FlutterNativeImage.compressImage(image.path,
+         quality: 50,);
+       print("FILE SIZE  AFTER: " + compressedFile.lengthSync().toString());
        String imageName = path.basename(image.path);
        var snapshot = await _storage.ref()
            .child('userImages/$imageName')
-           .putFile(file)
+           .putFile(compressedFile)
            .whenComplete(() =>
        imageUploadComplete = "image is uploaded to firebase storage")
            .catchError((onError) =>

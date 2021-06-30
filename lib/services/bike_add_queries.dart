@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter_native_image/flutter_native_image.dart';
 import 'package:path/path.dart' as path;
 import 'package:bikersworld/services/toast_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -107,11 +108,14 @@ class PostAddQueries{
 
   Future<String> uploadImage(File image) async{
     try {
-      var file = File(image.path);
+      print("FILE SIZE BEFORE: " + image.lengthSync().toString());
+      File compressedFile = await FlutterNativeImage.compressImage(image.path,
+        quality: 50,);
+      print("FILE SIZE  AFTER: " + compressedFile.lengthSync().toString());
       String imageName = path.basename(image.path);
       var snapshot = await _storage.ref()
           .child('postAddImages/$imageName')
-          .putFile(file)
+          .putFile(compressedFile)
           .whenComplete(() =>
       imageUploaded = true)
           .catchError((onError) => _error.errorToastMessage(errorMessage: onError.toString()));

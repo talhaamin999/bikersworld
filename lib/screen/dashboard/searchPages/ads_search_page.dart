@@ -151,6 +151,7 @@ class _AdSearchPageState extends State<AdSearchPage> {
   }
 
   void goToAdvanceSearchPage(BuildContext context) async{
+
     setState(() {
       _serachByTitle = false;
       _makeSelected = false;
@@ -476,7 +477,7 @@ class _AdSearchPageState extends State<AdSearchPage> {
                                   children: <Widget>[
                                     Container(
                                       child: Image(
-                                          image:NetworkImage(snapshot.data[index].images.last),
+                                          image:NetworkImage(snapshot.data[index].images[0]),
                                           width: 130,
                                           height: 130,
                                           fit:BoxFit.fill

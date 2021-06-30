@@ -16,6 +16,8 @@ class SearchBikeAddQueries{
     try{
       return _collectionReference
           .where('title',isEqualTo: title)
+          .where('post_date',isLessThan: DateTime.now())
+          .orderBy('post_date',descending: true)
           .get()
           .then((snashots) => snashots.docs
           .map((doc) => BikeAddModel.fromJson(doc.data(), doc.reference.id))
@@ -50,6 +52,8 @@ class SearchBikeAddQueries{
           .where('model', isEqualTo: model)
           .where('year', isEqualTo: year)
           .where('city', isEqualTo: city)
+          .where('post_date',isLessThan: DateTime.now())
+          .orderBy('post_date',descending: true)
           .get()
           .then((snapshots) => snapshots.docs
           .map((doc) => BikeAddModel.fromJson(doc.data(), doc.reference.id))
@@ -116,6 +120,8 @@ class SearchBikeAddQueries{
           .where('make', isEqualTo: make)
           .where('model', isEqualTo: model)
           .where('year', isEqualTo: year)
+          .where('post_date',isLessThan: DateTime.now())
+          .orderBy('post_date',descending: true)
           .get()
           .then((snapshots) => snapshots.docs
           .map((doc) => BikeAddModel.fromJson(doc.data(), doc.reference.id))
@@ -131,6 +137,8 @@ class SearchBikeAddQueries{
           .where('make', isEqualTo: make)
           .where('model', isEqualTo: model)
           .where('city', isEqualTo: city)
+          .where('post_date',isLessThan: DateTime.now())
+          .orderBy('post_date',descending: true)
           .get()
           .then((snapshots) => snapshots.docs
           .map((doc) => BikeAddModel.fromJson(doc.data(), doc.reference.id))
@@ -178,6 +186,8 @@ class SearchBikeAddQueries{
           .where('make', isEqualTo: make)
           .where('year', isEqualTo: year)
           .where('city', isEqualTo: city)
+          .where('post_date',isLessThan: DateTime.now())
+          .orderBy('post_date',descending: true)
           .get()
           .then((snapshots) => snapshots.docs
           .map((doc) => BikeAddModel.fromJson(doc.data(), doc.reference.id))
@@ -208,6 +218,8 @@ class SearchBikeAddQueries{
       return _collectionReference
           .where('make', isEqualTo: make)
           .where('model', isEqualTo: model)
+          .where('post_date',isLessThan: DateTime.now())
+          .orderBy('post_date',descending: true)
           .get()
           .then((snapshots) => snapshots.docs
           .map((doc) => BikeAddModel.fromJson(doc.data(), doc.reference.id))
@@ -222,6 +234,8 @@ class SearchBikeAddQueries{
       return _collectionReference
           .where('make', isEqualTo: make)
           .where('year', isEqualTo: year)
+          .where('post_date',isLessThan: DateTime.now())
+          .orderBy('post_date',descending: true)
           .get()
           .then((snapshots) => snapshots.docs
           .map((doc) => BikeAddModel.fromJson(doc.data(), doc.reference.id))
@@ -236,6 +250,8 @@ class SearchBikeAddQueries{
       return _collectionReference
           .where('make', isEqualTo: make)
           .where('city', isEqualTo: city)
+          .where('post_date',isLessThan: DateTime.now())
+          .orderBy('post_date',descending: true)
           .get()
           .then((snapshots) => snapshots.docs
           .map((doc) => BikeAddModel.fromJson(doc.data(), doc.reference.id))
@@ -395,6 +411,8 @@ class SearchBikeAddQueries{
         return _collectionReference
             .where('year', isEqualTo: year)
             .where('city', isEqualTo: city)
+            .where('post_date',isLessThan: DateTime.now())
+            .orderBy('post_date',descending: true)
             .get()
             .then((snapshots) => snapshots.docs
             .map((doc) => BikeAddModel.fromJson(doc.data(), doc.reference.id))
@@ -441,6 +459,8 @@ class SearchBikeAddQueries{
       try {
         return _collectionReference
             .where('make', isEqualTo: make)
+            .where('post_date',isLessThan: DateTime.now())
+            .orderBy('post_date',descending: true)
             .get()
             .then((snapshots) => snapshots.docs
             .map((doc) => BikeAddModel.fromJson(doc.data(), doc.reference.id))
@@ -467,6 +487,8 @@ class SearchBikeAddQueries{
       try {
         return _collectionReference
             .where('year', isEqualTo: year)
+            .where('post_date',isLessThan: DateTime.now())
+            .orderBy('post_date',descending: true)
             .get()
             .then((snapshots) => snapshots.docs
             .map((doc) => BikeAddModel.fromJson(doc.data(), doc.reference.id))
@@ -480,6 +502,8 @@ class SearchBikeAddQueries{
       try {
         return _collectionReference
             .where('city', isEqualTo: city)
+            .where('post_date',isLessThan: DateTime.now())
+            .orderBy('post_date',descending: true)
             .get()
             .then((snapshots) => snapshots.docs
             .map((doc) => BikeAddModel.fromJson(doc.data(), doc.reference.id))
@@ -492,13 +516,14 @@ class SearchBikeAddQueries{
     Future<List<BikeAddModel>> searchAddByRange({@required double min,@required double max}) {
       try {
         return _collectionReference
-            .where('price', isGreaterThanOrEqualTo: min)
-            .where('price', isLessThanOrEqualTo: max)
+            .where('price',isGreaterThanOrEqualTo: min)
+            .where('price',isLessThanOrEqualTo: max)
             .get()
             .then((snapshots) => snapshots.docs
             .map((doc) => BikeAddModel.fromJson(doc.data(), doc.reference.id))
             .toList());
       }catch(e){
+        print(e);
         _error.errorToastMessage(errorMessage: e.toString());
       }
     }

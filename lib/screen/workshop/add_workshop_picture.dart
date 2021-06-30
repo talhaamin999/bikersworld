@@ -9,7 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart' as path;
 import 'package:dotted_border/dotted_border.dart';
-import 'package:compressimage/compressimage.dart';
+import 'package:flutter_native_image/flutter_native_image.dart';
 
 
 class WorkshopProfilePhoto extends StatefulWidget {
@@ -22,14 +22,14 @@ class _WorkshopProfilePhotoState extends State<WorkshopProfilePhoto> {
   bool _isButtonVisible = true;
 
   Future getImagefromcamera() async {
-    var image = await ImagePicker.pickImage(source: ImageSource.camera, imageQuality: 25,);
+    var image = await ImagePicker.pickImage(source: ImageSource.camera,);
     setState(() {
       _image = image;
     });
   }
 
   Future getImagefromGallery() async {
-    var image = await ImagePicker.pickImage(source: ImageSource.gallery, imageQuality: 25,);
+    var image = await ImagePicker.pickImage(source: ImageSource.gallery,);
     setState(() {
       _image = image;
     });
@@ -246,15 +246,14 @@ class _WorkshopProfilePhotoState extends State<WorkshopProfilePhoto> {
         _isButtonVisible = false;
       });
       if (image != null) {
-        image = await image;
         print("FILE SIZE BEFORE: " + image.lengthSync().toString());
-        await CompressImage.compress(imageSrc: image.path, desiredQuality: 80); //desiredQuality ranges from 0 to 100
-        print("FILE SIZE  AFTER: " + image.lengthSync().toString());
-        var file = File(image.path);
-        String imageName = path.basename(image.path);
+        File compressedFile = await FlutterNativeImage.compressImage(image.path,
+            quality: 50,);
+        print("FILE SIZE  AFTER: " + compressedFile.lengthSync().toString());
+        String imageName = path.basename(compressedFile.path);
           var snapshot = await _storage.ref()
               .child('workshopImages/$imageName')
-              .putFile(file)
+              .putFile(compressedFile)
               .whenComplete(() =>
           imageUploadComplete = "image is uploaded to firebase storage")
               .catchError((onError) =>
@@ -279,12 +278,15 @@ class _WorkshopProfilePhotoState extends State<WorkshopProfilePhoto> {
           } else {
             _error.errorToastMessage(errorMessage: imageUploadComplete);
           }
-        }// check for update or upload
+        }
+        // check for update or upload
       else {
         _error.errorToastMessage(errorMessage: 'No Image was Selected');
       }
+
     // end of try block
     }catch(e){
+
       _error.errorToastMessage(errorMessage: e.toString());
     }finally{
       setState(() {
