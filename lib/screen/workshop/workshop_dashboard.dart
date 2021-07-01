@@ -197,7 +197,7 @@ class _DashboardState extends State<Dashboard> {
                                   context: context,
                                   builder: (BuildContext context) {
                                     return Container(
-                                      height: 320,
+                                      height: 319,
                                       color: Color(0xffe8e8e8),
                                       child: Column(
                                         crossAxisAlignment: CrossAxisAlignment.start,
