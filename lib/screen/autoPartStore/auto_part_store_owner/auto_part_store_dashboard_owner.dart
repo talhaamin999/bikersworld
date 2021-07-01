@@ -6,6 +6,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:bikersworld/screen/autoPartStore/auto_part_store_owner/register_auto_parts.dart';
 import 'package:bikersworld/widgets/rating_bar.dart';
+import 'package:auto_size_text/auto_size_text.dart';
+import 'package:bikersworld/screen/workshop/add_workshop_picture.dart';
 import 'package:bikersworld/screen/autoPartStore/auto_part_store_owner/auto_part_dasboard.dart';
 import 'package:bikersworld/screen/autoPartStore/auto_part_store_owner/view_all_categories.dart';
 import 'package:bikersworld/screen/autoPartStore/auto_part_store_owner/register_auto_part_store.dart';
@@ -119,74 +121,219 @@ class InformationTab extends StatelessWidget {
                         child: Row(
                           children: [
                             Padding(
-                              padding: const EdgeInsets.only(left:10,top:15),
-                              child: CircleAvatar(
+                              padding: const EdgeInsets.only(top:8.0),
+                              child: FlatButton(
+                                onPressed: (){
+                                  showModalBottomSheet<void>(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return Container(
+                                        height: 320,
+                                        color: Color(0xffe8e8e8),
+                                        child: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: <Widget>[
+                                            Padding(
+                                              padding: const EdgeInsets.only(left: 15, top:15),
+                                              child: Text(
+                                                "Select Option",
+                                                style: GoogleFonts.quicksand(
+                                                  fontSize: 20,
+                                                  color: Colors.black,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              ),
+                                            ),
+                                            SizedBox(height: 15,),
+                                            Visibility(
+                                              //visible: data.imageURL == null ? true : false,
+                                              child: FlatButton(
+                                                child: Padding(
+                                                  padding: const EdgeInsets.only(left:15),
+                                                  child: Container(
+                                                    child: Row(
+                                                      children: [
+                                                        CircleAvatar(
+                                                          child: Icon(
+                                                            FontAwesomeIcons.image,
+                                                            color: Color(0XFF012A4A),
+                                                          ),
+                                                          backgroundColor: Color(0xffd6d6d6),
+                                                        ),
+                                                        SizedBox(width:20),
+                                                        Text(
+                                                          "Upload Photo",
+                                                          style: GoogleFonts.quicksand(
+                                                            fontSize: 18,
+                                                            color: Colors.black,
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ),
+                                                onPressed: (){
+                                                  Navigator.push(context, MaterialPageRoute(builder: (context) => WorkshopProfilePhoto()));
+                                                },
+                                              ),
+                                            ),
+                                            Visibility(
+                                              //visible:data.imageURL != null ? true:false,
+                                              child: FlatButton(
+                                                child: Padding(
+                                                  padding: const EdgeInsets.only(left:15, top:15),
+                                                  child: Container(
+                                                    child: Row(
+                                                      children: [
+                                                        CircleAvatar(
+                                                          child: Icon(
+                                                            FontAwesomeIcons.images,
+                                                            color: Colors.orangeAccent,
+                                                          ),
+                                                          backgroundColor: Color(0xffd6d6d6),
+
+                                                        ),
+                                                        SizedBox(width:20),
+                                                        Text(
+                                                          "Update Photo",
+                                                          style: GoogleFonts.quicksand(
+                                                            fontSize: 18,
+                                                            color: Colors.black,
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ),
+                                                onPressed: (){
+                                                  Navigator.push(context, MaterialPageRoute(builder: (context) => WorkshopProfilePhoto()));
+
+                                                },
+                                              ),
+                                            ),
+                                            Visibility(
+                                              //visible:data.imageURL != null ? true:false,
+                                              child: FlatButton(
+                                                child: Padding(
+                                                  padding: const EdgeInsets.only(left:15, top:15),
+                                                  child: Container(
+                                                    child: Row(
+                                                      children: [
+                                                        CircleAvatar(
+                                                          child: Icon(
+                                                            FontAwesomeIcons.minus,
+                                                            color: Colors.red,
+                                                          ),
+                                                          backgroundColor: Color(0xffd6d6d6),
+                                                        ),
+                                                        SizedBox(width:20),
+                                                        Text(
+                                                          "Delete Photo",
+                                                          style: GoogleFonts.quicksand(
+                                                            fontSize: 18,
+                                                            color: Colors.black,
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ),
+                                                onPressed: (){
+                                                  //deleteImage();
+                                                },
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      );
+                                    },
+                                  );
+                                },
                                 child: CircleAvatar(
+                                  backgroundColor: Colors.orange,
+                                  radius: 65,
+                                  child: CircleAvatar(
+                                    backgroundImage: AssetImage("assets/partstore.jpg"),
+                                    child: Align(
+                                      alignment: Alignment.bottomRight,
+                                      child: CircleAvatar(
+                                        backgroundColor: Colors.white,
+                                        radius: 17,
+                                        child: Icon(
+                                          FontAwesomeIcons.camera,
+                                          color: Color(0XFF012A4A),
+                                          size: 13,
+                                        ),
+                                      ),
+                                  ),
                                   radius: 60,
-                                  backgroundColor: Colors.white,
-                                  backgroundImage: AssetImage("assets/partstore.jpg"),
                                 ),
-                                radius: 65,
-                                backgroundColor: Colors.orange,
+                              ),
                               ),
                             ),
-                            Padding(
-                              padding: const EdgeInsets.all(15),
-                              child: Container(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.only(top:8.0),
-                                      child: Text(
+                            Container(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(top:10,),
+                                    child: SizedBox(
+                                      width: 210.0,
+                                      height: 50.0,
+                                      child: AutoSizeText(
                                         partStoreInfo.shopTitle,
                                         style: GoogleFonts.raleway(
                                           color: Colors.white70,
+                                          fontWeight:FontWeight.bold,
                                           fontSize: 25,
-                                          fontWeight: FontWeight.bold,
                                         ),
+                                        maxLines: 2,
                                       ),
                                     ),
-                                    SizedBox(height: 10,),
-                                    Container(
-                                      child: Row(
-                                        children: [
-                                          Icon(Icons.person, size: 30, color: Colors.grey,),
-                                          SizedBox(width: 10,),
-                                          Padding(
-                                            padding: const EdgeInsets.only(top:8.0),
-                                            child: Text(
-                                              partStoreInfo.ownerName,
-                                              style: GoogleFonts.raleway(
-                                                color: Colors.white70,
-                                                fontSize: 18,
-                                              ),
+                                  ),
+                                  SizedBox(height: 10,),
+                                  Container(
+                                    child: Row(
+                                      children: [
+                                        Icon(Icons.person, size: 20, color: Colors.grey,),
+                                        SizedBox(width: 10,),
+                                        SizedBox(
+                                          width: 200.0,
+                                          height: 20.0,
+                                          child: AutoSizeText(
+                                            partStoreInfo.ownerName,
+                                            style: GoogleFonts.raleway(
+                                              color: Colors.white70,
+                                              fontSize: 18,
                                             ),
+                                            maxLines: 2,
                                           ),
-                                        ],
-                                      ),
+                                        ),
+                                      ],
                                     ),
-                                    SizedBox(height: 10,),
-                                    Container(
-                                      child: Row(
-                                        children: [
-                                          Icon(Icons.location_on, size: 30, color: Colors.grey,),
-                                          SizedBox(width: 10,),
-                                          Padding(
-                                            padding: const EdgeInsets.only(top:8.0),
-                                            child: Text(
-                                              partStoreInfo.city,
-                                              style: GoogleFonts.raleway(
-                                                color: Colors.white70,
-                                                fontSize: 18,
-                                              ),
+                                  ),
+                                  SizedBox(height: 10,),
+                                  Container(
+                                    child: Row(
+                                      children: [
+                                        Icon(Icons.location_on, size: 20, color: Colors.grey,),
+                                        SizedBox(width: 10,),
+                                        SizedBox(
+                                          width: 200.0,
+                                          height: 20.0,
+                                          child: AutoSizeText(
+                                            partStoreInfo.city,
+                                            style: GoogleFonts.raleway(
+                                              color: Colors.white70,
+                                              fontSize: 18,
                                             ),
+                                            maxLines: 2,
                                           ),
-                                        ],
-                                      ),
+                                        ),
+                                      ],
                                     ),
-                                  ],
-                                ),
+                                  ),
+                                ],
                               ),
                             ),
                           ],

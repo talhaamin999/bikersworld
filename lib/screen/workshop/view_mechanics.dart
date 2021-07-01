@@ -132,16 +132,10 @@ class _ViewMechanicsState extends State<ViewMechanics> {
                                               SizedBox(
                                                 child: CircleAvatar(
                                                   radius: 25.0,
-                                                  backgroundColor: Colors.white,
-                                                  child:  CircleAvatar(
-                                                    child: Align(
-                                                      alignment: Alignment.bottomRight,
-                                                      child: CircleAvatar(
-                                                        backgroundColor: snapshot.data[index].mechanicStatus ? Colors.green : Colors.red,
-                                                        radius: 8,
-                                                      ),
-                                                    ),
-                                                    radius: 38.0,
+                                                  backgroundColor: Colors.indigo,
+                                                  child: Icon(
+                                                    FontAwesomeIcons.user,
+                                                    color: Colors.white,
                                                   ),
                                                 ),
                                               ),
@@ -154,14 +148,14 @@ class _ViewMechanicsState extends State<ViewMechanics> {
                                                       snapshot.data[index].name,
                                                       style: GoogleFonts.raleway(
                                                         fontSize: 18,
-                                                        fontWeight: FontWeight.bold,
+                                                        fontWeight: FontWeight.w500,
                                                         color: Color(0XFF012A4A),
                                                       ),
                                                     ),
                                                     snapshot.data[index].mechanicStatus ? Text(
-                                                      "Avaliable",style: GoogleFonts.quicksand(fontSize: 15,color: Colors.black),
+                                                      "Avaliable",style: GoogleFonts.quicksand(fontSize: 15,color: Colors.green,fontWeight: FontWeight.bold),
                                                     ):Text(
-                                                      "Not Avaliable",style: GoogleFonts.quicksand(fontSize: 15,color: Colors.black),
+                                                      "Not Avaliable",style: GoogleFonts.quicksand(fontSize: 15,color: Colors.red, fontWeight: FontWeight.bold),
                                                     ),
                                                   ],
                                                 ),

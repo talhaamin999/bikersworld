@@ -157,7 +157,7 @@ class _DashboardState extends State<Dashboard> {
                   overflow: Overflow.visible,
                   children: [
                     Container(
-                      height: 280,
+                      height: 260,
                       width: double.infinity,
                       color: Color(0XFF012A4A),
                     ),
@@ -170,7 +170,7 @@ class _DashboardState extends State<Dashboard> {
                             margin: EdgeInsets.only(top: 180),
                             child: FlatButton(
                               child: Positioned(
-                                bottom: -180,
+                                bottom: -190,
                                 child:  CircleAvatar(
                                   backgroundColor: Colors.orange,
                                   radius: 78,
@@ -473,16 +473,22 @@ class _DashboardState extends State<Dashboard> {
 //                    ),
                     Padding(
                       padding: const EdgeInsets.only(top:10, left:20),
+                    child: Padding(
+                      padding: const EdgeInsets.only(top:10,),
                       child: SizedBox(
-                          child: AutoSizeText(
-                            data.shopTitle,
-                            style: GoogleFonts.quicksand(
-                              fontSize: 30,
-                              color: Colors.white70,
-                              fontWeight: FontWeight.bold,
-                            ),
+                        width: 210.0,
+                        height: 50.0,
+                        child: AutoSizeText(
+                          data.shopTitle,
+                          style: GoogleFonts.quicksand(
+                            color: Colors.white70,
+                            fontWeight:FontWeight.bold,
+                            fontSize: 25,
                           ),
+                          maxLines: 2,
                         ),
+                      ),
+                    ),
                     ),
                     Container(
                       margin: EdgeInsets.only(top:60,left:20),
@@ -491,16 +497,18 @@ class _DashboardState extends State<Dashboard> {
                             Container(
                               child: Row(
                                 children: [
-                                  Icon(FontAwesomeIcons.userTie, color: Colors.white70,),
+                                  Icon(FontAwesomeIcons.userTie, color: Colors.white70,size: 20,),
                                   SizedBox(width: 20,),
-                                  Padding(
-                                    padding: const EdgeInsets.only(top:8.0),
-                                    child: Text(
+                                  SizedBox(
+                                    width: 210.0,
+                                    height: 20.0,
+                                    child: AutoSizeText(
                                       data.ownerName,
                                       style: GoogleFonts.raleway(
                                         color: Colors.white70,
                                         fontSize: 17,
                                       ),
+                                      maxLines: 2,
                                     ),
                                   ),
                                 ],
@@ -511,16 +519,18 @@ class _DashboardState extends State<Dashboard> {
                             Container(
                               child: Row(
                                 children: [
-                                  Icon(FontAwesomeIcons.mapMarkerAlt, color: Colors.white70,),
+                                  Icon(FontAwesomeIcons.mapMarkerAlt, color: Colors.white70,size: 20,),
                                   SizedBox(width: 20,),
-                                  Padding(
-                                    padding: const EdgeInsets.only(top:8.0),
-                                    child: Text(
+                                  SizedBox(
+                                    width: 210.0,
+                                    height: 20.0,
+                                    child: AutoSizeText(
                                       data.area,
                                       style: GoogleFonts.raleway(
                                         color: Colors.white70,
                                         fontSize: 17,
-                                     ),
+                                      ),
+                                      maxLines: 2,
                                     ),
                                   ),
                                 ],
@@ -530,16 +540,18 @@ class _DashboardState extends State<Dashboard> {
                             Container(
                               child: Row(
                                 children: [
-                                  Icon(FontAwesomeIcons.phone, color: Colors.white70,),
+                                  Icon(FontAwesomeIcons.phone, color: Colors.white70,size: 20,),
                                   SizedBox(width: 20,),
-                                  Padding(
-                                    padding: const EdgeInsets.only(top:8.0),
-                                    child: Text(
+                                  SizedBox(
+                                    width: 210.0,
+                                    height: 20.0,
+                                    child: AutoSizeText(
                                       data.ownerContact,
                                       style: GoogleFonts.raleway(
                                         color: Colors.white70,
                                         fontSize: 17,
                                       ),
+                                      maxLines: 2,
                                     ),
                                   ),
                                 ],
