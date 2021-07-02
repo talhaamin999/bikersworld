@@ -9,8 +9,8 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:bikersworld/screen/dashboard/searchPages/search_auto_part_detail_page.dart';
-import 'package:paginate_firestore/paginate_firestore.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:bikersworld/widgets/rating_bar.dart';
+
 
 
 class AutoPartSearchPage extends StatefulWidget {
@@ -453,90 +453,88 @@ class _AutoPartSearchPageState extends State<AutoPartSearchPage> {
                              child: Container(
                                child: Row(
                                  children: <Widget>[
-                                   Expanded(
-                                     child: Padding(
-                                       padding: const EdgeInsets.all(10),
-                                       child: Container(
-                                           width: 90,
-                                           height: 70,
-                                           decoration: BoxDecoration(
-                                               shape: BoxShape.rectangle,
-                                               image: DecorationImage(
-                                                 fit: BoxFit.fill,
-                                                 image: NetworkImage(
-                                                     snapshot.data[index]
-                                                         .imageURL),)
-                                           )
-                                       ),
-                                     ),
+                                   Container(
+                                       width: 100,
+                                       height: 100,
+                                       decoration: BoxDecoration(
+                                           shape: BoxShape.rectangle,
+                                           image: DecorationImage(
+                                             fit: BoxFit.fill,
+                                             image: NetworkImage(
+                                                 snapshot.data[index]
+                                                     .imageURL),)
+                                       )
                                    ),
-
-                                   SizedBox(width: 5,),
+                                   SizedBox(width: 15,),
                                    Container(
                                      child: Column(
                                        crossAxisAlignment: CrossAxisAlignment
                                            .start,
                                        children: <Widget>[
-                                         Container(
+                                         SizedBox(
+                                           width: 210.0,
+                                           height: 25.0,
                                            child: AutoSizeText(
                                              snapshot.data[index].title,
                                              style: GoogleFonts.quicksand(
                                                fontSize: 18,
                                                color: Colors.black,
                                              ),
+                                             maxLines: 2,
                                            ),
                                          ),
                                          SizedBox(height: 5,),
                                          Container(
                                            child: Row(
-                                             mainAxisAlignment: MainAxisAlignment
-                                                 .end,
                                              children: [
-                                               Container(
-                                                 child: Row(
-                                                   children: [
-                                                     Text(
-                                                       "PKR",
-                                                       style: GoogleFonts
-                                                           .quicksand(
-                                                         fontSize: 15,
-                                                         color: Colors.black,
-                                                         fontWeight: FontWeight
-                                                             .bold,
-                                                       ),
-                                                     ),
-                                                     SizedBox(width: 6,),
-                                                     Text(
-                                                       snapshot.data[index].price
-                                                           .toString(),
-                                                       style: GoogleFonts
-                                                           .quicksand(
-                                                         fontSize: 15,
-                                                         color: Colors.black,
-                                                         fontWeight: FontWeight
-                                                             .bold,
-                                                       ),
-                                                     ),
-                                                   ],
+                                               Text(
+                                                 "PKR",
+                                                 style: GoogleFonts
+                                                     .quicksand(
+                                                   fontSize: 15,
+                                                   color: Colors.black,
+                                                   fontWeight: FontWeight
+                                                       .bold,
                                                  ),
                                                ),
-                                               SizedBox(width: 160,),
-                                               Icon(
-                                                 Icons.arrow_forward_ios,
-                                                 color: Color(0xffb8b8b8),
+                                               SizedBox(width: 6,),
+                                               Text(
+                                                 snapshot.data[index].price
+                                                     .toString(),
+                                                 style: GoogleFonts
+                                                     .quicksand(
+                                                   fontSize: 15,
+                                                   color: Colors.black,
+                                                   fontWeight: FontWeight
+                                                       .bold,
+                                                 ),
                                                ),
                                              ],
                                            ),
                                          ),
 
                                          SizedBox(height: 3,),
-
-                                         Text(
-                                           snapshot.data[index].category,
-                                           style: GoogleFonts.quicksand(
-                                             fontSize: 15,
-                                             color: Colors.black,
+                                         SizedBox(
+                                           width: 210.0,
+                                           height: 25.0,
+                                           child: AutoSizeText(
+                                             snapshot.data[index].category,
+                                             style: GoogleFonts.quicksand(
+                                               fontSize: 15,
+                                               color: Colors.black,
+                                             ),
+                                             maxLines: 2,
                                            ),
+                                         ),
+                                         FutureBuilder(
+                                          // future: _workshopAVGReview.getAverageReviewOfWorksop(workshopId: _resultsList[index].id),
+                                           builder: (BuildContext context, AsyncSnapshot<double> snapshot) {
+                                             if(snapshot.hasData && (snapshot.data.sign == 1.0)){
+                                               return Container(alignment:Alignment.bottomRight,child: RatingsBar(20,userRating: snapshot.data,));
+                                             }else{
+                                               return Text("NO REVIEWS",style: GoogleFonts.raleway(fontSize: 12,color: Colors.red, fontWeight: FontWeight.w600),);
+                                             }
+                                           },
                                          ),
                                          SizedBox(height: 10,),
                                        ],

@@ -1157,7 +1157,7 @@ class _HomeDashboardState extends State<HomeDashboard> {
                       builder: (BuildContext context, AsyncSnapshot<List<AutoPartModel>> snapshot) {
                         if(snapshot.hasData && snapshot.data.isNotEmpty){
                           return  Container(
-                            height: MediaQuery.of(context).size.height * .30,
+                            height: MediaQuery.of(context).size.height * .28,
                             child: ListView.builder(
                                 scrollDirection: Axis.horizontal,
                                 shrinkWrap: true,
@@ -1165,7 +1165,7 @@ class _HomeDashboardState extends State<HomeDashboard> {
                                 itemCount: snapshot.data.length,
                                 itemBuilder: (BuildContext context, int index){
                                   return FlatButton(
-                                    padding: EdgeInsets.only(left:20,top:10, right: 10),
+                                    padding: EdgeInsets.only(left:20, right: 10),
                                     onPressed: (){
                                       Navigator.push(context, MaterialPageRoute(builder: (context) => SearchAutoPartDetailPage(partDetail: snapshot.data[index],)));
                                     },
@@ -1182,28 +1182,26 @@ class _HomeDashboardState extends State<HomeDashboard> {
                                           children: [
                                             Container(
                                               width: MediaQuery.of(context).size.width - 100,
-                                              height: 160,
+                                              height: 140,
                                               decoration: BoxDecoration(
                                                 borderRadius: BorderRadius.circular(10),
                                               ),
                                               child: ClipRRect(
                                                 borderRadius: BorderRadius.circular(10.0),
                                                 child: Image(
-                                                    image: NetworkImage(
-                                                      snapshot.data[index].imageURL,
-                                                    ),
+                                                  image: NetworkImage(
+                                                    snapshot.data[index].imageURL,
+                                                  ),
                                                   fit: BoxFit.fill,
                                                 ),
                                               ),
                                             ),
-                                            Expanded(
-                                              child: Padding(
-                                                padding: const EdgeInsets.only(left:5,top: 5),
-                                                child: Text(
-                                                  snapshot.data[index].title,
-                                                  style: GoogleFonts.mukta(
-                                                    fontSize:20,
-                                                  ),
+                                            Padding(
+                                              padding: const EdgeInsets.only(left:5,top: 5),
+                                              child: Text(
+                                                snapshot.data[index].title,
+                                                style: GoogleFonts.mukta(
+                                                  fontSize:20,
                                                 ),
                                               ),
                                             ),
@@ -1223,6 +1221,7 @@ class _HomeDashboardState extends State<HomeDashboard> {
                                                             fontWeight: FontWeight.bold,
                                                           ),
                                                         ),
+                                                        SizedBox(width: 5,),
                                                         Text(
                                                           snapshot.data[index].price.toString(),
                                                           style: GoogleFonts.quicksand(
@@ -1234,21 +1233,14 @@ class _HomeDashboardState extends State<HomeDashboard> {
                                                       ],
                                                     ),
                                                   ),
-                                                  Container(
-                                                    height: 40,
-                                                    width: 40,
-                                                    decoration: BoxDecoration(
-                                                      color: Color(0XFF012A4A),
-                                                      borderRadius: BorderRadius.only(
-                                                        bottomRight: Radius.circular(10),
-                                                        topLeft: Radius.circular(10),
-                                                      ),
-                                                    ),
+                                                  Padding(
+                                                    padding: const EdgeInsets.only(right:10),
                                                     child: Icon(
-                                                      Icons.arrow_forward,
-                                                      color: Colors.white,
+                                                      FontAwesomeIcons.arrowAltCircleRight,
+                                                      color: Colors.indigo,
                                                     ),
                                                   ),
+
                                                 ],
                                               ),
                                             ),

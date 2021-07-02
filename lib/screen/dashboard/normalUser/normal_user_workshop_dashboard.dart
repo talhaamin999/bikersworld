@@ -85,14 +85,17 @@ class _NormalUserWorkshopDashboardState extends State<NormalUserWorkshopDashboar
                                      Column(
                                        crossAxisAlignment: CrossAxisAlignment.start,
                                        children: <Widget>[
-                                         Container(
-                                           child: Text(
-                                            snapshot.data.shopTitle,
-                                             textAlign: TextAlign.start,
+                                         SizedBox(
+                                           width: 210.0,
+                                           height: 30.0,
+                                           child: AutoSizeText(
+                                             "snapshot.data.shopTitle",
                                              style: GoogleFonts.quicksand(
                                                  fontSize: 19,
                                                  fontWeight: FontWeight.bold,
-                                                 color: Colors.white),
+                                                 color: Colors.white,
+                                             ),
+                                             maxLines: 2,
                                            ),
                                          ),
                                          SizedBox(height: 8,),
@@ -615,11 +618,17 @@ class _NormalUserWorkshopDashboardState extends State<NormalUserWorkshopDashboar
                                         color: Colors.grey,
                                       ),
                                       SizedBox(width: 5,),
-                                      Text(
-                                        widget.workshopData != null ? widget.workshopData.city : 'City',
-                                        style: GoogleFonts.quicksand(
+                                      SizedBox(
+                                        width: 200.0,
+                                        //height: 100.0,
+                                        child: AutoSizeText(
+                                          widget.workshopData != null ? widget.workshopData.city : 'City',
+                                          textAlign: TextAlign.start,
+                                          style: GoogleFonts.quicksand(
                                             fontSize: 18,
-                                            color: Colors.white),
+                                            color: Colors.white,
+                                          ),
+                                        ),
                                       ),
                                     ],
                                   ),
@@ -631,11 +640,16 @@ class _NormalUserWorkshopDashboardState extends State<NormalUserWorkshopDashboar
                                         color: Colors.grey,
                                       ),
                                       SizedBox(width: 5,),
-                                      Text(
-                                        widget.workshopData != null ? widget.workshopData.ownerContact: 'Owner contact',
-                                        style: GoogleFonts.quicksand(
-                                            fontSize: 16,
-                                            color: Colors.white),
+                                      SizedBox(
+                                        width: 200.0,
+                                        //height: 100.0,
+                                        child: AutoSizeText(
+                                          widget.workshopData != null ? widget.workshopData.ownerContact: 'Owner contact',
+                                          textAlign: TextAlign.start,
+                                          style: GoogleFonts.quicksand(
+                                              fontSize: 16,
+                                              color: Colors.white),
+                                        ),
                                       ),
                                     ],
                                   ),

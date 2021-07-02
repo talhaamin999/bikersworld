@@ -322,6 +322,7 @@ class _WorkshopSearchPageState extends State<WorkshopSearchPage> {
                                                   fontSize: 13,
                                                 ),
                                               ),
+                                              SizedBox(width: 5,),
                                               Text(
                                                 "|",
                                               ),
@@ -335,14 +336,14 @@ class _WorkshopSearchPageState extends State<WorkshopSearchPage> {
                                             ],
                                           ),
                                         ),
-                                        SizedBox(height: 20,),
+                                        SizedBox(height: 3,),
                                         FutureBuilder(
                                           future: _workshopAVGReview.getAverageReviewOfWorksop(workshopId: _cityResultsList[index].id),
                                           builder: (BuildContext context, AsyncSnapshot<double> snapshot) {
                                             if(snapshot.hasData && (snapshot.data.sign == 1.0)){
                                               return RatingsBar(20,userRating: snapshot.data,);
                                             }else{
-                                              return Text("NO REVIEWS");
+                                              return Text("NO REVIEWS", style: GoogleFonts.quicksand(fontSize: 15,color: Colors.red),);
                                             }
                                           },
                                         ),
@@ -381,7 +382,7 @@ class _WorkshopSearchPageState extends State<WorkshopSearchPage> {
                                 padding: const EdgeInsets.all(10),
                                 child: Container(
                                   width: 90,
-                                  height: 70,
+                                  height: 80,
                                   decoration: BoxDecoration(
                                       shape: BoxShape.rectangle,
                                       image: DecorationImage(
@@ -392,40 +393,44 @@ class _WorkshopSearchPageState extends State<WorkshopSearchPage> {
                                 ),
                               ),
                             ),
+//                            Padding(
+//                              padding: const EdgeInsets.all(10),
+//                              child: Container(
+//                                width: 90,
+//                                height: 70,
+//                                decoration: BoxDecoration(
+//                                    shape: BoxShape.rectangle,
+//                                    image: DecorationImage(
+//                                        fit: BoxFit.fill,
+//                                        image: _resultsList[index].imageURL != null ? NetworkImage(_resultsList[index].imageURL) : AssetImage("assets/avatar.jpg",)
+//                                    )
+//                                ),
+//                              ),
+//                            ),
 
                             SizedBox(width: 5,),
                             Container(
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: <Widget>[
-                                  Container(
+                                  SizedBox(height: 5,),
+                                  SizedBox(
+                                    width: 210.0,
+                                    height: 30.0,
                                     child: AutoSizeText(
-                                      _resultsList[index] !=null ? _resultsList[index].shopTitle : "Automotive repair",
-                                      style: GoogleFonts.quicksand(
+                                      _resultsList[index] !=null ? _resultsList[index].shopTitle : "Automotive repair",                                      style: GoogleFonts.quicksand(
                                         fontSize: 18,
                                         color: Colors.black,
                                       ),
+                                      maxLines: 2,
                                     ),
                                   ),
-                                  SizedBox(height: 5,),
                                   Container(
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.end,
-                                      children: [
-                                        Container(
-                                          child: Text(
-                                            _resultsList[index] != null ? _resultsList[index].city: "Islamabad",
-                                            style: TextStyle(
-                                                fontSize: 15
-                                            ),
-                                          ),
-                                        ),
-                                        SizedBox(width: 160,),
-                                        Icon(
-                                          Icons.arrow_forward_ios,
-                                          color: Color(0xffb8b8b8),
-                                        ),
-                                      ],
+                                    child: Text(
+                                      _resultsList[index] != null ? _resultsList[index].city: "Islamabad",
+                                      style: TextStyle(
+                                          fontSize: 15
+                                      ),
                                     ),
                                   ),
 
@@ -440,6 +445,7 @@ class _WorkshopSearchPageState extends State<WorkshopSearchPage> {
                                             fontSize: 13,
                                           ),
                                         ),
+                                        SizedBox(width: 5,),
                                         Text(
                                           "|",
                                         ),
@@ -453,14 +459,14 @@ class _WorkshopSearchPageState extends State<WorkshopSearchPage> {
                                       ],
                                     ),
                                   ),
-                                  SizedBox(height: 20,),
+                                  SizedBox(height: 3,),
                                   FutureBuilder(
                                     future: _workshopAVGReview.getAverageReviewOfWorksop(workshopId: _resultsList[index].id),
                                     builder: (BuildContext context, AsyncSnapshot<double> snapshot) {
                                       if(snapshot.hasData && (snapshot.data.sign == 1.0)){
-                                        return RatingsBar(20,userRating: snapshot.data,);
+                                        return Container(alignment:Alignment.bottomRight,child: RatingsBar(20,userRating: snapshot.data,));
                                       }else{
-                                        return Text("NO REVIEWS");
+                                        return Text("NO REVIEWS",style: GoogleFonts.raleway(fontSize: 12,color: Colors.red, fontWeight: FontWeight.w600),);
                                       }
                                     },
                                   ),

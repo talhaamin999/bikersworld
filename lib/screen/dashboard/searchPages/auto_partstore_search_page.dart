@@ -330,7 +330,7 @@ class _AutoPartStoreSearchPageState extends State<AutoPartStoreSearchPage> {
                                             if(snapshot.hasData && (snapshot.data.sign == 1.0)){
                                               return RatingsBar(20,userRating: snapshot.data,);
                                             }else {
-                                              return Text("NO REVIEWS");
+                                              return Text("NO REVIEWS",style: GoogleFonts.raleway(fontSize: 12,color: Colors.red, fontWeight: FontWeight.w600),);
                                             }
                                           },
                                         ),
@@ -385,57 +385,38 @@ class _AutoPartStoreSearchPageState extends State<AutoPartStoreSearchPage> {
                                   child: Column(
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: <Widget>[
-                                      Container(
+                                      SizedBox(
+                                        width: 210.0,
+                                        height: 20.0,
                                         child: AutoSizeText(
                                           _resultsList[index] !=null ? _resultsList[index].shopTitle : "Automotive repair",
                                           style: GoogleFonts.quicksand(
                                             fontSize: 18,
                                             color: Colors.black,
                                           ),
+                                          maxLines: 2,
                                         ),
                                       ),
+
                                       SizedBox(height: 5,),
                                       Container(
-                                        child: Row(
-                                          mainAxisAlignment: MainAxisAlignment.end,
-                                          children: [
-                                            Container(
-                                              child: Text(
-                                                _resultsList[index] != null ? _resultsList[index].city: "Islamabad",
-                                                style: TextStyle(
-                                                    fontSize: 15
-                                                ),
-                                              ),
-                                            ),
-                                            SizedBox(width: 160,),
-                                            Icon(
-                                              Icons.arrow_forward_ios,
-                                              color: Color(0xffb8b8b8),
-                                            ),
-                                          ],
+                                        child: Text(
+                                          _resultsList[index] != null ? _resultsList[index].city: "Islamabad",
+                                          style: TextStyle(
+                                              fontSize: 15
+                                          ),
                                         ),
                                       ),
 
                                       SizedBox(height: 3,),
 
                                       Container(
-                                        child: Row(
-                                          children: <Widget>[
-                                            Text(
-                                              "Time",
-                                              style: TextStyle(
-                                                fontSize: 13,
-                                              ),
-                                            ),
-                                            SizedBox(width: 5,),
-                                            Text(
-                                              "${_resultsList[index].openTime} - ${_resultsList[index].closeTime}",
-                                              style: TextStyle(
-                                                fontSize: 13,
-                                                fontWeight: FontWeight.bold,
-                                              ),
-                                            ),
-                                          ],
+                                        child: Text(
+                                          "${_resultsList[index].openTime} - ${_resultsList[index].closeTime}",
+                                          style: TextStyle(
+                                            fontSize: 13,
+                                            fontWeight: FontWeight.bold,
+                                          ),
                                         ),
                                       ),
                                       SizedBox(height: 10,),
@@ -445,7 +426,7 @@ class _AutoPartStoreSearchPageState extends State<AutoPartStoreSearchPage> {
                                           if(snapshot.hasData && (snapshot.data.sign == 1.0)){
                                             return RatingsBar(20,userRating: snapshot.data,);
                                           }else {
-                                            return Text("NO REVIEWS");
+                                            return Text("NO REVIEWS",style: GoogleFonts.raleway(fontSize: 12,color: Colors.red, fontWeight: FontWeight.w600),);
                                           }
                                         },
                                       ),

@@ -505,7 +505,7 @@ class _AdSearchPageState extends State<AdSearchPage> {
                                                 style: GoogleFonts.quicksand(
                                                   fontSize: 15,
                                                   color: Colors.black,
-                                                  fontWeight: FontWeight.bold,
+                                                  fontWeight: FontWeight.w600,
                                                 ),
                                               ),
                                             ),
@@ -520,7 +520,7 @@ class _AdSearchPageState extends State<AdSearchPage> {
                                             ),
                                             SizedBox(height: 5,),
                                             Text(
-                                              "Ad Posted  ${DateFormat("dd-MM-yyyy").format(DateTime.parse(snapshot.data[index].date.toDate().toString()))}",
+                                              "${DateFormat("dd-MM-yyyy").format(DateTime.parse(snapshot.data[index].date.toDate().toString()))}",
                                             ),
                                           ],
                                         ),
