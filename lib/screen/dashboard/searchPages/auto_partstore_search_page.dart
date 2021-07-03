@@ -1,5 +1,6 @@
 import 'package:bikersworld/model/partstore_model.dart';
 import 'package:bikersworld/screen/dashboard/searchPages/refine_search_page.dart';
+import 'package:bikersworld/services/part_store_queries/part_store_review_query.dart';
 import 'package:bikersworld/services/search_queries/refine_search.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
@@ -8,6 +9,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:bikersworld/screen/autoPartStore/auto_part_store_normal_user/auto_part_ptore_dashboard.dart';
+import 'package:bikersworld/widgets/rating_bar.dart';
+
 class AutoPartStoreSearchPage extends StatefulWidget {
   @override
   _AutoPartStoreSearchPageState createState() => _AutoPartStoreSearchPageState();
@@ -23,6 +26,7 @@ class _AutoPartStoreSearchPageState extends State<AutoPartStoreSearchPage> {
   List<PartstoreDashboardModel> _allResults = [];
   List<PartstoreDashboardModel> _resultsList = [];
   List<PartstoreDashboardModel> _cityResultsList = [];
+  final _avgReview = ReviewPartstoreQueries();
 
   searchByCity(){
     List<PartstoreDashboardModel> showResults = [];
@@ -51,7 +55,7 @@ class _AutoPartStoreSearchPageState extends State<AutoPartStoreSearchPage> {
     }
   }
 
-  getWorkshops() async{
+  getPartstores() async{
     var data = await _collectionReference
         .get()
         .then((snapshots) =>  snapshots.docs
@@ -67,7 +71,7 @@ class _AutoPartStoreSearchPageState extends State<AutoPartStoreSearchPage> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    resultsLoaded = getWorkshops();
+    resultsLoaded = getPartstores();
   }
 
   @override
@@ -226,7 +230,7 @@ class _AutoPartStoreSearchPageState extends State<AutoPartStoreSearchPage> {
 
               SizedBox(height: 20,),
 
-              cityFilterOption ? Container(
+              if (cityFilterOption) Container(
                 child: ListView.builder(
                     physics: NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
@@ -303,14 +307,14 @@ class _AutoPartStoreSearchPageState extends State<AutoPartStoreSearchPage> {
                                           child: Row(
                                             children: <Widget>[
                                               Text(
-                                                "Status",
+                                                "Time",
                                                 style: TextStyle(
                                                   fontSize: 13,
                                                 ),
                                               ),
                                               SizedBox(width: 5,),
                                               Text(
-                                                "OPEN",
+                                                "${_cityResultsList[index].openTime} - ${_cityResultsList[index].closeTime}",
                                                 style: TextStyle(
                                                   fontSize: 13,
                                                   fontWeight: FontWeight.bold,
@@ -318,6 +322,17 @@ class _AutoPartStoreSearchPageState extends State<AutoPartStoreSearchPage> {
                                               ),
                                             ],
                                           ),
+                                        ),
+                                        SizedBox(height: 10,),
+                                        FutureBuilder(
+                                          future: _avgReview.getAverageReviewOfPartStore(partStoreId: _cityResultsList[index].id),
+                                          builder: (BuildContext context, AsyncSnapshot<double> snapshot) {
+                                            if(snapshot.hasData && (snapshot.data.sign == 1.0)){
+                                              return RatingsBar(20,userRating: snapshot.data,);
+                                            }else {
+                                              return Text("NO REVIEWS");
+                                            }
+                                          },
                                         ),
                                         SizedBox(height: 10,),
                                       ],
@@ -331,8 +346,7 @@ class _AutoPartStoreSearchPageState extends State<AutoPartStoreSearchPage> {
                       );
                     }
                 ),
-              ) :
-              ListView.builder(
+              ) else ListView.builder(
                   physics: NeverScrollableScrollPhysics(),
                   shrinkWrap: true,
                   itemCount: _resultsList.length,
@@ -408,14 +422,14 @@ class _AutoPartStoreSearchPageState extends State<AutoPartStoreSearchPage> {
                                         child: Row(
                                           children: <Widget>[
                                             Text(
-                                              "Status",
+                                              "Time",
                                               style: TextStyle(
                                                 fontSize: 13,
                                               ),
                                             ),
                                             SizedBox(width: 5,),
                                             Text(
-                                              "OPEN",
+                                              "${_resultsList[index].openTime} - ${_resultsList[index].closeTime}",
                                               style: TextStyle(
                                                 fontSize: 13,
                                                 fontWeight: FontWeight.bold,
@@ -423,6 +437,17 @@ class _AutoPartStoreSearchPageState extends State<AutoPartStoreSearchPage> {
                                             ),
                                           ],
                                         ),
+                                      ),
+                                      SizedBox(height: 10,),
+                                      FutureBuilder(
+                                        future: _avgReview.getAverageReviewOfPartStore(partStoreId: _resultsList[index].id),
+                                        builder: (BuildContext context, AsyncSnapshot<double> snapshot) {
+                                          if(snapshot.hasData && (snapshot.data.sign == 1.0)){
+                                            return RatingsBar(20,userRating: snapshot.data,);
+                                          }else {
+                                            return Text("NO REVIEWS");
+                                          }
+                                        },
                                       ),
                                       SizedBox(height: 10,),
                                     ],

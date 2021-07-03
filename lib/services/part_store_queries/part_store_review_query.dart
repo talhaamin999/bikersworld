@@ -43,4 +43,27 @@ class ReviewPartstoreQueries {
       _error.errorToastMessage(errorMessage: e.toString());
     }
   }
+  Future<double> getAverageReviewOfPartStore({@required String partStoreId}) async{
+     double avg = 0,total=0;
+     int count = 0;
+     
+    try{
+          final QuerySnapshot _query = await _firestoreInstance.collection(PARTSTORE_COLLECTION).doc(partStoreId)
+          .collection(PARTSTORE_REVIEW_COLLECTION)
+          .get();
+          
+          _query.docs.forEach((doc) { 
+             total = total + double.tryParse(doc.get('star_rating').toString());
+             count++;
+          });
+
+          if(count > 0){
+            return avg = total / count;
+          }
+         return -2.0;
+    }catch(e){
+      _error.errorToastMessage(errorMessage: e.toString());
+    }
+    return -2.0;
+  }
 }

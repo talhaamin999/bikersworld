@@ -1,5 +1,7 @@
 import 'package:bikersworld/model/workshop_model.dart';
 import 'package:bikersworld/services/search_queries/refine_search.dart';
+import 'package:bikersworld/services/search_queries/serach_workshop.dart';
+import 'package:bikersworld/widgets/rating_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -24,6 +26,7 @@ class _WorkshopSearchPageState extends State<WorkshopSearchPage> {
   List<WorkshopDashboardModel> _allResults = [];
   List<WorkshopDashboardModel> _resultsList = [];
   List<WorkshopDashboardModel> _cityResultsList = [];
+  final _workshopAVGReview = SearchWorkshop();
 
   searchByCity(){
       List<WorkshopDashboardModel> showResults = [];
@@ -314,21 +317,34 @@ class _WorkshopSearchPageState extends State<WorkshopSearchPage> {
                                           child: Row(
                                             children: <Widget>[
                                               Text(
-                                                "Status",
+                                                _cityResultsList[index] != null ? _cityResultsList[index].openTime: "open",
                                                 style: TextStyle(
                                                   fontSize: 13,
                                                 ),
                                               ),
+                                              Text(
+                                                "|",
+                                              ),
                                               SizedBox(width: 5,),
                                               Text(
-                                                "OPEN",
+                                                _cityResultsList[index] != null ? _cityResultsList[index].closeTime: "close",
                                                 style: TextStyle(
                                                   fontSize: 13,
-                                                  fontWeight: FontWeight.bold,
                                                 ),
                                               ),
                                             ],
                                           ),
+                                        ),
+                                        SizedBox(height: 20,),
+                                        FutureBuilder(
+                                          future: _workshopAVGReview.getAverageReviewOfWorksop(workshopId: _cityResultsList[index].id),
+                                          builder: (BuildContext context, AsyncSnapshot<double> snapshot) {
+                                            if(snapshot.hasData && (snapshot.data.sign == 1.0)){
+                                              return RatingsBar(20,userRating: snapshot.data,);
+                                            }else{
+                                              return Text("NO REVIEWS");
+                                            }
+                                          },
                                         ),
                                         SizedBox(height: 10,),
                                       ],
@@ -436,6 +452,17 @@ class _WorkshopSearchPageState extends State<WorkshopSearchPage> {
                                         ),
                                       ],
                                     ),
+                                  ),
+                                  SizedBox(height: 20,),
+                                  FutureBuilder(
+                                    future: _workshopAVGReview.getAverageReviewOfWorksop(workshopId: _resultsList[index].id),
+                                    builder: (BuildContext context, AsyncSnapshot<double> snapshot) {
+                                      if(snapshot.hasData && (snapshot.data.sign == 1.0)){
+                                        return RatingsBar(20,userRating: snapshot.data,);
+                                      }else{
+                                        return Text("NO REVIEWS");
+                                      }
+                                    },
                                   ),
                                   SizedBox(height: 10,),
                                 ],

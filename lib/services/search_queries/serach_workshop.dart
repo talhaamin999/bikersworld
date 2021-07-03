@@ -92,6 +92,29 @@ class SearchWorkshop{
       _error.errorToastMessage(errorMessage: e.toString());
     }
   }
+  Future<double> getAverageReviewOfWorksop({@required String workshopId}) async{
+    double avg = 0,total=0;
+    int count = 0;
+
+    try{
+      final QuerySnapshot _query = await _collectionReference.doc(workshopId)
+          .collection('workshop_reviews')
+          .get();
+
+      _query.docs.forEach((doc) {
+        total = total + double.tryParse(doc.get('star_rating').toString());
+        count++;
+      });
+
+      if(count > 0){
+        return avg = total / count;
+      }
+      return -2.0;
+    }catch(e){
+      _error.errorToastMessage(errorMessage: e.toString());
+    }
+    return -2.0;
+  }
   /*
   Stream<List<MechanicReviews>> fetchWorkshopMechanicReviews({@required String mechanicId,@required String workshopId}){
     try{

@@ -6,13 +6,13 @@ class RatingsBar extends StatelessWidget {
   RatingsBar(this.size, {this.userRating});
 
   double size;
-  static double ratings = 4.23;
+  static double ratings = 2.5;
   final double userRating;
   @override
   Widget build(BuildContext context) {
     return Container(
       child: RatingBar.builder(
-        initialRating: userRating != null ? userRating : 4.23,
+        initialRating: userRating != null ? userRating : 2.5,
         minRating: 1,
         direction: Axis.horizontal,
         allowHalfRating: true,
