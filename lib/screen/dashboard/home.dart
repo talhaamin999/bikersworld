@@ -707,7 +707,7 @@ class _HomeDashboardState extends State<HomeDashboard> {
                                         color: Color(0xfff2f2f2),
                                         margin: const EdgeInsets.only(left:10,top:10 , bottom: 10),
                                         shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(20),
+                                          borderRadius: BorderRadius.circular(10),
                                         ),
                                         child:Column(
                                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -716,10 +716,13 @@ class _HomeDashboardState extends State<HomeDashboard> {
                                               width: MediaQuery.of(context).size.width - 100,
                                               height: 180,
                                               decoration: BoxDecoration(
-                                                borderRadius: BorderRadius.circular(20),
+                                                borderRadius: BorderRadius.circular(10),
                                               ),
                                               child: ClipRRect(
-                                                borderRadius: BorderRadius.circular(20.0),
+                                                borderRadius: BorderRadius.only(
+                                                  topLeft: Radius.circular(10),
+                                                  topRight: Radius.circular(10),
+                                                ),
                                                 child: Image(
                                                   image: NetworkImage(
                                                     snapshot.data[index].images.first,
@@ -763,7 +766,7 @@ class _HomeDashboardState extends State<HomeDashboard> {
                                                     decoration: BoxDecoration(
                                                       color: Color(0XFF012A4A),
                                                       borderRadius: BorderRadius.only(
-                                                        bottomRight: Radius.circular(20),
+                                                        bottomRight: Radius.circular(10),
                                                         topLeft: Radius.circular(10),
                                                       ),
                                                     ),
@@ -1152,6 +1155,10 @@ class _HomeDashboardState extends State<HomeDashboard> {
                       ),
                     ),
                     SizedBox(height:10),
+                    /*
+                    *
+Navigator.push(context, MaterialPageRoute(builder: (context) => SearchAutoPartDetailPage(partDetail: snapshot.data[index],)));
+*/
                     FutureBuilder(
                       future: _autoPart.getLimitedAutoPart(),
                       builder: (BuildContext context, AsyncSnapshot<List<AutoPartModel>> snapshot) {
@@ -1171,13 +1178,95 @@ class _HomeDashboardState extends State<HomeDashboard> {
                                     },
                                     child: Container(
                                       width: MediaQuery.of(context).size.width -200,
-                                      child: Card(
-                                        color: Color(0xfff2f2f2),
-                                        margin: const EdgeInsets.only(left:10,),
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(10),
-                                        ),
-                                        child:Column(
+//                                      child: Card(
+//                                        color: Color(0xfff2f2f2),
+//                                        margin: const EdgeInsets.only(left:10,),
+//                                        shape: RoundedRectangleBorder(
+//                                          borderRadius: BorderRadius.circular(10),
+//                                        ),
+//                                      ),
+                                    child: Card(
+                                      margin: const EdgeInsets.all(10.0),
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          AspectRatio(
+                                            aspectRatio: 18.0 / 13.0,
+                                            child: Image.network(
+                                              snapshot.data[index].imageURL,
+                                              fit: BoxFit.fill,
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding: EdgeInsets.only(left: 10,top:5),
+                                            child: Column(
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  snapshot.data[index].title,
+                                                  style: GoogleFonts.mukta(
+                                                    fontSize:20,
+                                                  ),
+                                                ),
+                                                Container(
+                                                  margin: EdgeInsets.only(left: 5),
+                                                  child: Row(
+                                                    children: [
+                                                      Text(
+                                                        "PKR",
+                                                        style: GoogleFonts.quicksand(
+                                                          fontSize: 15,
+                                                          color: Colors.grey,
+                                                          fontWeight: FontWeight.bold,
+                                                        ),
+                                                      ),
+                                                      SizedBox(width: 5,),
+                                                      Text(
+                                                        snapshot.data[index].price.toString(),
+                                                        style: GoogleFonts.quicksand(
+                                                          fontSize: 15,
+                                                          color: Colors.grey,
+                                                          fontWeight: FontWeight.bold,
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),],
+                                      ),
+                                    ),
+                                    ),
+                                  );
+                                }
+                            ),
+                          );
+                        }
+                        else if(snapshot.hasData && snapshot.data.isEmpty){
+                          return Center(child: Text("No Parts currently Present"));
+                        }
+                        else if(snapshot.hasError){
+                          return Center(child: Text(snapshot.error.toString()));
+                        }
+                        return Center(child: CircularProgressIndicator());
+                      },
+                    ),
+                    SizedBox(height:15),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+      drawer: CustomDrawer(),
+
+    );
+  }
+}
+/*
+* Column(
                                           crossAxisAlignment: CrossAxisAlignment.start,
                                           children: [
                                             Container(
@@ -1207,145 +1296,56 @@ class _HomeDashboardState extends State<HomeDashboard> {
                                             ),
                                             Container(
                                               margin: EdgeInsets.only(left: 5),
-                                              child:Row(
-                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                              child: Row(
                                                 children: [
-                                                  Container(
-                                                    child: Row(
-                                                      children: [
-                                                        Text(
-                                                          "PKR",
-                                                          style: GoogleFonts.quicksand(
-                                                            fontSize: 15,
-                                                            color: Colors.grey,
-                                                            fontWeight: FontWeight.bold,
-                                                          ),
-                                                        ),
-                                                        SizedBox(width: 5,),
-                                                        Text(
-                                                          snapshot.data[index].price.toString(),
-                                                          style: GoogleFonts.quicksand(
-                                                            fontSize: 15,
-                                                            color: Colors.grey,
-                                                            fontWeight: FontWeight.bold,
-                                                          ),
-                                                        ),
-                                                      ],
+                                                  Text(
+                                                    "PKR",
+                                                    style: GoogleFonts.quicksand(
+                                                      fontSize: 15,
+                                                      color: Colors.grey,
+                                                      fontWeight: FontWeight.bold,
                                                     ),
                                                   ),
-                                                  Padding(
-                                                    padding: const EdgeInsets.only(right:10),
-                                                    child: Icon(
-                                                      FontAwesomeIcons.arrowAltCircleRight,
-                                                      color: Colors.indigo,
+                                                  SizedBox(width: 5,),
+                                                  Text(
+                                                    snapshot.data[index].price.toString(),
+                                                    style: GoogleFonts.quicksand(
+                                                      fontSize: 15,
+                                                      color: Colors.grey,
+                                                      fontWeight: FontWeight.bold,
                                                     ),
                                                   ),
-
                                                 ],
                                               ),
                                             ),
                                           ],
-                                        ),
-                                      ),
-                                    ),
-                                  );
-                                }
-                            ),
-                          );
-                        }
-                        else if(snapshot.hasData && snapshot.data.isEmpty){
-                          return Center(child: Text("No Parts currently Present"));
-                        }
-                        else if(snapshot.hasError){
-                          return Center(child: Text(snapshot.error.toString()));
-                        }
-                        return Center(child: CircularProgressIndicator());
-                      },
+                                        ),*/
+
+/*
+* Card(
+                margin: const EdgeInsets.all(10.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    AspectRatio(
+                      aspectRatio: 18.0 / 13.0,
+                      child: Image.network(
+                        _listViewDataImage[index],
+                        fit: BoxFit.fill,
+                      ),
                     ),
-                    SizedBox(height:15),
+                    Padding(
+                      padding: EdgeInsets.fromLTRB(16.0, 12.0, 16.0, 8.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            _listViewData[index],
+                            textAlign: TextAlign.center,
+                          ),
+                        ],
+                      ),
+                    ),
                   ],
                 ),
-              ),
-            ),
-          ],
-        ),
-      ),
-      drawer: CustomDrawer(),
-//      floatingActionButton: FloatingActionButton(
-//        onPressed:(){
-//          // for regsiter ads
-//          // lakin ads register krny sy phly user register hona chahhiyeh77
-//        },
-//        child: Icon(Icons.add),
-//        backgroundColor: Colors.red,
-//      ),
-//      floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
-//      bottomNavigationBar: BubbleBottomBar(
-//        hasNotch: true,
-//        fabLocation: BubbleBottomBarFabLocation.end,
-//        opacity: .2,
-//        currentIndex: currentIndex,
-//        onTap: changePage,
-//        borderRadius: BorderRadius.vertical(
-//            top: Radius.circular(
-//                16)), //border radius doesn't work when the notch is enabled.
-//        elevation: 8,
-//        items: <BubbleBottomBarItem>[
-//          BubbleBottomBarItem(
-//              backgroundColor: Colors.red,
-//              icon: Icon(
-//                Icons.home,
-//                size:20,
-//                color: Colors.black,
-//              ),
-//              activeIcon: Icon(
-//                Icons.home,
-//                size:20,
-//                color: Colors.red,
-//              ),
-//              title: Text("Workshop")),
-//          BubbleBottomBarItem(
-//              backgroundColor: Colors.deepPurple,
-//              icon: Icon(
-//                FontAwesomeIcons.storeAlt,
-//                size:20,
-//                color: Colors.black,
-//              ),
-//              activeIcon: Icon(
-//                FontAwesomeIcons.storeAlt,
-//                size:20,
-//                color: Colors.deepPurple,
-//              ),
-//              title: Text("Auto Store")),
-//          BubbleBottomBarItem(
-//              backgroundColor: Colors.indigo,
-//              icon: Icon(
-//                FontAwesomeIcons.cogs,
-//                size:20,
-//                color: Colors.black,
-//              ),
-//              activeIcon: Icon(
-//                FontAwesomeIcons.cogs,
-//                size:20,
-//                color: Colors.indigo,
-//              ),
-//              title: Text("Auto Parts")),
-//          BubbleBottomBarItem(
-//              backgroundColor: Colors.green,
-//              icon: Icon(
-//                FontAwesomeIcons.ad,
-//                size:20,
-//                color: Colors.black,
-//              ),
-//              activeIcon: Icon(
-//                FontAwesomeIcons.ad,
-//                size:20,
-//                color: Colors.green,
-//              ),
-//              title: Text("Ads"))
-//        ],
-//      ),
-    );
-  }
-}
-
+              );*/

@@ -11,6 +11,7 @@ import 'package:bikersworld/screen/autoPartStore/auto_part_store_normal_user/vie
 import 'package:bikersworld/screen/autoPartStore/auto_part_store_normal_user/normal_user_partstore_review.dart';
 import 'package:bikersworld/screen/autoPartStore/auto_part_store_normal_user/view_category_wise_auto_part.dart';
 import 'dart:math';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'auto_part_details.dart';
 
 class AutoPartStoreDashboardPageNormalUser extends StatefulWidget {
@@ -94,31 +95,47 @@ class _AutoPartStoreDashboardPageNormalUserState extends State<AutoPartStoreDash
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text(
-                                  snapshot.data.shopTitle,
-                                  style: GoogleFonts.quicksand(
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.grey,
+                                SizedBox(
+                                  width: 210.0,
+                                  height: 30.0,
+                                  child: AutoSizeText(
+                                    snapshot.data.shopTitle,
+                                    style: GoogleFonts.quicksand(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.grey,
+                                    ),
+                                    maxLines: 2,
                                   ),
                                 ),
                                 SizedBox(height: 8,),
-                                Text(
-                                  snapshot.data.city,
-                                  style: GoogleFonts.quicksand(
-                                    fontSize: 18,
-                                    color: Colors.white,
+                                SizedBox(
+                                  width: 210.0,
+                                  height: 20.0,
+                                  child: AutoSizeText(
+                                    snapshot.data.city,
+                                    style: GoogleFonts.quicksand(
+                                      fontSize: 18,
+                                      color: Colors.white,
+                                    ),
+                                    maxLines: 2,
                                   ),
                                 ),
                                 SizedBox(height: 8,),
-                                Text(
-                                  snapshot.data.ownerContact,
-                                  style: GoogleFonts.quicksand(
-                                    fontSize: 13,
-                                    color: Colors.white,
+                                SizedBox(
+                                  width: 210.0,
+                                  height: 20.0,
+                                  child: AutoSizeText(
+                                    snapshot.data.ownerContact,
+                                    style: GoogleFonts.quicksand(
+                                      fontSize: 13,
+                                      color: Colors.white,
+                                    ),
+                                    maxLines: 2,
                                   ),
                                 ),
-                                SizedBox(height: 15,),
+
+                                SizedBox(height: 5,),
                                 FadeAnimation(1.5,
                                   Container(
                                     child: Row(
@@ -610,15 +627,21 @@ class _AutoPartStoreDashboardPageNormalUserState extends State<AutoPartStoreDash
                                             child:Image.network(snapshot.data[index].imageURL,),
                                           ),
                                           Container(
+                                            margin:EdgeInsets.only(left:10),
                                            child:Column(
                                              crossAxisAlignment: CrossAxisAlignment.start,
                                              children: [
-                                               Text(
-                                                 snapshot.data[index].title,
-                                                 style: GoogleFonts.quicksand(
-                                                   color: Colors.black,
-                                                   fontWeight: FontWeight.bold,
-                                                   fontSize: 20,
+                                               SizedBox(
+                                                 width: 150.0,
+                                                 height: 20.0,
+                                                 child: AutoSizeText(
+                                                   snapshot.data[index].title,
+                                                   style: GoogleFonts.quicksand(
+                                                     color: Colors.black,
+                                                     fontWeight: FontWeight.bold,
+                                                     fontSize: 20,
+                                                   ),
+                                                   maxLines: 2,
                                                  ),
                                                ),
                                                SizedBox(height: 5,),
@@ -627,13 +650,19 @@ class _AutoPartStoreDashboardPageNormalUserState extends State<AutoPartStoreDash
                                                  width: 80,
                                                  color: Colors.indigo,
                                                ),
-                                               Text(
-                                                 snapshot.data[index].category,
-                                                 style: GoogleFonts.quicksand(
-                                                   color: Colors.black,
-                                                   fontSize: 16,
+                                               SizedBox(
+                                                 width: 150.0,
+                                                 height: 20.0,
+                                                 child: AutoSizeText(
+                                                   snapshot.data[index].category,
+                                                   style: GoogleFonts.quicksand(
+                                                     color: Colors.black,
+                                                     fontSize: 16,
+                                                   ),
+                                                   maxLines: 2,
                                                  ),
                                                ),
+
                                              ],
                                            ),
                                           ),
