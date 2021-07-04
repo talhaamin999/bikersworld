@@ -1,6 +1,7 @@
 import 'dart:core';
 import 'dart:core';
 
+import 'package:bikersworld/model/review_model.dart';
 import 'package:bikersworld/model/workshop_model.dart';
 import 'package:bikersworld/services/toast_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -81,12 +82,12 @@ class SearchWorkshop{
   }
 
    */
-  Stream<List<WorkshopReviews>> fetchWorkshopReviews({@required String workshopId}){
+  Stream<List<Reviews>> fetchWorkshopReviews({@required String workshopId}){
     try{
       return _collectionReference.doc(workshopId).collection('workshop_reviews')
           .snapshots()
           .map((querySnapshots) => querySnapshots.docs
-          .map((doc) => WorkshopReviews.fromJson(doc.data(), doc.id))
+          .map((doc) => Reviews.fromJson(doc.data(), doc.id))
           .toList());
     }catch(e){
       _error.errorToastMessage(errorMessage: e.toString());
@@ -131,12 +132,12 @@ class SearchWorkshop{
   }
 
    */
-  Future<List<MechanicReviews>> fetchWorkshopMechanicReviews({@required String mechanicId,@required String workshopId}){
+  Future<List<Reviews>> fetchWorkshopMechanicReviews({@required String mechanicId,@required String workshopId}){
     try{
       return _collectionReference.doc(workshopId).collection(MECHANIC_COLLECTION).doc(mechanicId).collection(MECHANIC_REVIEWS_COLLECTION)
           .get()
           .then((querySNapshots) => querySNapshots.docs
-          .map((doc) => MechanicReviews.fromJson(doc.data(),doc.id))
+          .map((doc) => Reviews.fromJson(doc.data(),doc.id))
           .toList())
           .catchError((onError) => _error.errorToastMessage(errorMessage: onError.toString()));
     }catch(e){

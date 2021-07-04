@@ -1,4 +1,5 @@
 import 'package:bikersworld/model/partstore_model.dart';
+import 'package:bikersworld/model/review_model.dart';
 import 'package:bikersworld/services/part_store_queries/part_review_query.dart';
 import 'package:bikersworld/services/toast_service.dart';
 import 'package:flutter/material.dart';
@@ -29,7 +30,7 @@ class _ReviewAutoPartState extends State<ReviewAutoPart> {
         _isButtonVisible = false;
       });
       if(_reviwerControler.text.isNotEmpty && _descriptionControler.text.isNotEmpty){
-        final _reviewData = AutoPartReviews(title: _reviwerControler.text.capitalizeFirstofEach,starRating: RatingsBar.ratings,description: _descriptionControler.text.firstinCaps);
+        final _reviewData = Reviews(title: _reviwerControler.text.capitalizeFirstofEach,starRating: RatingsBar.ratings,description: _descriptionControler.text.firstinCaps);
         bool result = await _reviewPart.reviewAutoPart(partId: widget.partId, data: _reviewData);
         if(result){
           _valid.validToastMessage(validMessage: 'Review Added');

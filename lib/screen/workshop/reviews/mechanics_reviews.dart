@@ -1,3 +1,4 @@
+import 'package:bikersworld/model/review_model.dart';
 import 'package:bikersworld/model/workshop_model.dart';
 import 'package:bikersworld/services/search_queries/search_workshop_mechanics.dart';
 import 'package:flutter/material.dart';
@@ -138,7 +139,7 @@ class _WorkshopkMechanicsReviewsState extends State<WorkshopkMechanicsReviews> {
 
                   StreamBuilder(
                   stream: _mechanicReviews.fetchWorkshopMechanicsReviews(mechanicId: widget.mechanic.id, workshopId: widget.workshopId),
-                  builder: (BuildContext context, AsyncSnapshot<List<MechanicReviews>> snapshot) {
+                  builder: (BuildContext context, AsyncSnapshot<List<Reviews>> snapshot) {
                     if(snapshot.hasData && snapshot.data.isNotEmpty){
                       return ListView.builder(
                         shrinkWrap: true,

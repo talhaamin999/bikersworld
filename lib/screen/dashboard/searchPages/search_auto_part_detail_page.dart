@@ -1,3 +1,4 @@
+import 'package:bikersworld/model/review_model.dart';
 import 'package:bikersworld/services/part_store_queries/part_review_query.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -194,7 +195,7 @@ class _SearchAutoPartDetailPageState extends State<SearchAutoPartDetailPage> {
 
               StreamBuilder(
                 stream: _partReviews.getAutoPartReviews(partId: widget.partDetail.docId),
-                builder: (BuildContext context, AsyncSnapshot<List<AutoPartReviews>> snapshot) {
+                builder: (BuildContext context, AsyncSnapshot<List<Reviews>> snapshot) {
                   if(snapshot.hasData && snapshot.data.isNotEmpty){
                     return ListView.builder(
                       shrinkWrap: true,

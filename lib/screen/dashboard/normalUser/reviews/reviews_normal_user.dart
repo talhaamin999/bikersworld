@@ -1,3 +1,4 @@
+import 'package:bikersworld/model/review_model.dart';
 import 'package:bikersworld/model/workshop_model.dart';
 import 'package:bikersworld/services/toast_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -33,7 +34,7 @@ class _ReviewFromUserState extends State<ReviewFromUser> {
     super.initState();
   }
 
-  Stream<List<WorkshopReviews>> getReviews(){
+  Stream<List<Reviews>> getReviews(){
     final CollectionReference _collectionReference = FirebaseFirestore.instance
         .collection(_workshopCollection)
         .doc(id)
@@ -42,7 +43,7 @@ class _ReviewFromUserState extends State<ReviewFromUser> {
       return _collectionReference
           .snapshots()
           .map((querySnapshot) => querySnapshot.docs
-          .map((doc) => WorkshopReviews.fromJson(doc.data(), doc.reference.id))
+          .map((doc) => Reviews.fromJson(doc.data(), doc.reference.id))
           .toList());
     }catch(e){
       _error.errorToastMessage(errorMessage: e.toString());
@@ -148,7 +149,7 @@ class _ReviewFromUserState extends State<ReviewFromUser> {
 
                   StreamBuilder(
                     stream: getReviews(),
-                    builder: (BuildContext context, AsyncSnapshot<List<WorkshopReviews>> snapshot) {
+                    builder: (BuildContext context, AsyncSnapshot<List<Reviews>> snapshot) {
                       if(snapshot.hasData && snapshot.data.isNotEmpty){
                         return ListView.builder(
                             physics: NeverScrollableScrollPhysics(),

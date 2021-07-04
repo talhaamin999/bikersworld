@@ -70,33 +70,6 @@ class PartstoreDashboardModel {
   }
 }
 
-class PartStoreReviews{
-
-  final String title;
-  final double starRating;
-  final String description;
-  final String id;
-
-  PartStoreReviews({this.title,this.starRating,this.description,this.id});
-
-  factory PartStoreReviews.fromJson(Map<String, dynamic> json,String docId){
-    return PartStoreReviews(
-      id: docId,
-      title: json['title'],
-      starRating: json['star_rating'],
-      description: json['description'],
-    );
-  }
-  Map<String, dynamic> toMap(){
-    return {
-      'title': title,
-      'star_rating': starRating,
-      'description': description,
-    };
-  }
-
-}
-
 class AutoPartModel {
 
   final String title;
@@ -131,33 +104,6 @@ class AutoPartModel {
       'image' : imageURL,
       'price': price,
       'partStoreId': partStoreId,
-    };
-  }
-
-}
-
-class AutoPartReviews{
-
-  final String title;
-  final double starRating;
-  final String description;
-  final String id;
-
-  AutoPartReviews({this.title,this.starRating,this.description,this.id});
-
-  factory AutoPartReviews.fromJson(Map<String, dynamic> json,String docId){
-    return AutoPartReviews(
-      id: docId,
-      title: json['title'],
-      starRating: json['star_rating'],
-      description: json['description'],
-    );
-  }
-  Map<String, dynamic> toMap(){
-    return {
-      'title': title,
-      'star_rating': starRating,
-      'description': description,
     };
   }
 

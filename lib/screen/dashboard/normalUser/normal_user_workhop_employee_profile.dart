@@ -1,3 +1,4 @@
+import 'package:bikersworld/model/review_model.dart';
 import 'package:bikersworld/model/workshop_model.dart';
 import 'package:bikersworld/services/search_queries/search_workshop_mechanics.dart';
 import 'package:bikersworld/services/toast_service.dart';
@@ -21,7 +22,7 @@ class _NormalUserWorkshopEmployeeProfileState extends State<NormalUserWorkshopEm
   final _error = ToastErrorMessage();
   final _mechanicReviews = SearchWorkshopMechanics();
 
-  Stream<List<MechanicReviews>> getMechanicReviews(){
+  Stream<List<Reviews>> getMechanicReviews(){
     try{
       if(widget.workshopId != null && widget.data.id != null) {
         return _mechanicReviews.fetchWorkshopMechanicsReviews(
@@ -154,7 +155,7 @@ class _NormalUserWorkshopEmployeeProfileState extends State<NormalUserWorkshopEm
               ),
               StreamBuilder(
                 stream: getMechanicReviews(),
-                builder: (BuildContext context, AsyncSnapshot<List<MechanicReviews>> snapshot) {
+                builder: (BuildContext context, AsyncSnapshot<List<Reviews>> snapshot) {
                   if(snapshot.hasData && snapshot.data.isNotEmpty){
                     return ListView.builder(
                       shrinkWrap: true,

@@ -1,4 +1,5 @@
 import 'package:bikersworld/model/partstore_model.dart';
+import 'package:bikersworld/model/review_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import '../authenticate_service.dart';
@@ -13,7 +14,7 @@ class ReviewPartstoreQueries {
   final FirebaseFirestore _firestoreInstance = FirebaseFirestore.instance;
   bool reviewStatus = false;
 
-  Future<bool> reviewPartstore({@required String partStoreId,@required PartStoreReviews data}) async {
+  Future<bool> reviewPartstore({@required String partStoreId,@required Reviews data}) async {
     try{
       if(_firebaseUser.getCurrentUser()){
         await _firestoreInstance.collection(PARTSTORE_COLLECTION).doc(partStoreId)
@@ -30,13 +31,13 @@ class ReviewPartstoreQueries {
       return reviewStatus;
     }
   }
-  Stream<List<PartStoreReviews>> getPartstoreReview({@required String partStoreId}) {
+  Stream<List<Reviews>> getPartstoreReview({@required String partStoreId}) {
     try{
         return _firestoreInstance.collection(PARTSTORE_COLLECTION).doc(partStoreId)
             .collection(PARTSTORE_REVIEW_COLLECTION)
             .snapshots()
             .map((querySnapshot) => querySnapshot.docs
-            .map((doc) => PartStoreReviews.fromJson(doc.data(),doc.reference.id))
+            .map((doc) => Reviews.fromJson(doc.data(),doc.reference.id))
             .toList());
 
     }catch(e){

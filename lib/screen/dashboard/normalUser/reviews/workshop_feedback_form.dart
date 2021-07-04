@@ -1,3 +1,4 @@
+import 'package:bikersworld/model/review_model.dart';
 import 'package:bikersworld/model/workshop_model.dart';
 import 'package:bikersworld/services/authenticate_service.dart';
 import 'package:bikersworld/services/toast_service.dart';
@@ -37,7 +38,7 @@ class _WorkshopFeedbackFormState extends State<WorkshopFeedbackForm> {
           if (_titleController.text.isNotEmpty &&
               _descriptionController.text.isNotEmpty) {
          final CollectionReference _collectionReference = FirebaseFirestore.instance.collection(_workshopCollection).doc(id).collection(_workshopReviewsCollection);
-         final _reviewModel = WorkshopReviews(title: _titleController.text.capitalizeFirstofEach, starRating: RatingsBar.ratings, description: _descriptionController.text);
+         final _reviewModel = Reviews(title: _titleController.text.capitalizeFirstofEach, starRating: RatingsBar.ratings, description: _descriptionController.text);
 
             await _collectionReference.add(_reviewModel.toMap())
                 .then((_) {clearFields();

@@ -1,4 +1,5 @@
 import 'package:bikersworld/model/partstore_model.dart';
+import 'package:bikersworld/model/review_model.dart';
 import 'package:bikersworld/services/part_store_queries/part_review_query.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -193,7 +194,7 @@ class _AutoPartDetailState extends State<AutoPartDetail> {
 
               StreamBuilder(
                 stream: _partReviews.getAutoPartReviews(partId: widget.autoPartDetails.docId),
-                builder: (BuildContext context, AsyncSnapshot<List<AutoPartReviews>> snapshot) {
+                builder: (BuildContext context, AsyncSnapshot<List<Reviews>> snapshot) {
                   if(snapshot.hasData && snapshot.data.isNotEmpty){
                     return ListView.builder(
                       shrinkWrap: true,

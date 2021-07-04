@@ -1,4 +1,5 @@
 import 'package:bikersworld/model/partstore_model.dart';
+import 'package:bikersworld/model/review_model.dart';
 import 'package:bikersworld/services/part_store_queries/part_store_query.dart';
 import 'package:bikersworld/services/part_store_queries/part_store_review_query.dart';
 import 'package:flutter/material.dart';
@@ -768,7 +769,7 @@ class ReviewsTab extends StatelessWidget {
           ),
            StreamBuilder(
              stream: _reviews.getPartstoreReview(partStoreId: partStoreId),
-             builder: (BuildContext context, AsyncSnapshot<List<PartStoreReviews>> snapshot) {
+             builder: (BuildContext context, AsyncSnapshot<List<Reviews>> snapshot) {
                if(snapshot.hasData && snapshot.data.isNotEmpty){
                  return ListView.builder(
                    shrinkWrap: true,

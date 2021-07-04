@@ -1,3 +1,4 @@
+import 'package:bikersworld/model/review_model.dart';
 import 'package:bikersworld/model/workshop_model.dart';
 import 'package:bikersworld/screen/workshop/reviews/mechanics_reviews.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -28,13 +29,13 @@ class SearchWorkshopMechanics {
      }
 
     }
-  Stream<List<MechanicReviews>> fetchWorkshopMechanicsReviews({@required String mechanicId,@required String workshopId}) {
+  Stream<List<Reviews>> fetchWorkshopMechanicsReviews({@required String mechanicId,@required String workshopId}) {
     try {
       return _collectionReference.doc(workshopId).collection(
           MECHANICS_COLLECTION).doc(mechanicId).collection('mechanic_reviews')
           .snapshots()
           .map((querySNapshots) => querySNapshots.docs
-          .map((doc) => MechanicReviews.fromJson(doc.data(),doc.id))
+          .map((doc) => Reviews.fromJson(doc.data(),doc.id))
           .toList());
     } catch (e) {
       _error.errorToastMessage(errorMessage: e.toString());

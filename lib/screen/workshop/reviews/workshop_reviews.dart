@@ -1,3 +1,4 @@
+import 'package:bikersworld/model/review_model.dart';
 import 'package:bikersworld/model/workshop_model.dart';
 import 'package:bikersworld/services/search_queries/serach_workshop.dart';
 import 'package:bikersworld/services/toast_service.dart';
@@ -31,7 +32,7 @@ class _WorkshopDashboardReviewsState extends State<WorkshopDashboardReviews> {
 
   }
 
-  Stream<List<WorkshopReviews>> getReviews(){
+  Stream<List<Reviews>> getReviews(){
     try{
       if(widget.id != null){
         return _shopReview.fetchWorkshopReviews(workshopId: widget.id);
@@ -114,7 +115,7 @@ class _WorkshopDashboardReviewsState extends State<WorkshopDashboardReviews> {
                   SizedBox(height: 10,),
                   StreamBuilder(
                     stream: getReviews(),
-                    builder: (BuildContext context, AsyncSnapshot<List<WorkshopReviews>> snapshot) {
+                    builder: (BuildContext context, AsyncSnapshot<List<Reviews>> snapshot) {
                       if(snapshot.hasData && snapshot.data.isNotEmpty){
                         return ListView.builder(
                             shrinkWrap: true,

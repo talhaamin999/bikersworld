@@ -1,3 +1,4 @@
+import 'package:bikersworld/model/review_model.dart';
 import 'package:bikersworld/model/workshop_model.dart';
 import 'package:bikersworld/services/authenticate_service.dart';
 import 'package:bikersworld/services/toast_service.dart';
@@ -49,7 +50,7 @@ class _EmployeeFeedbackFormState extends State<EmployeeFeedbackForm> {
               .collection(
               _mechanicReviewsCollection);
 
-          final _reviewModel = MechanicReviews(title: _titleController.text.capitalizeFirstofEach,
+          final _reviewModel = Reviews(title: _titleController.text.capitalizeFirstofEach,
               starRating: RatingsBar.ratings,
               description: _descriptionController.text);
 

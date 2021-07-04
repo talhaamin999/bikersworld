@@ -1,4 +1,5 @@
 import 'package:bikersworld/model/partstore_model.dart';
+import 'package:bikersworld/model/review_model.dart';
 import 'package:bikersworld/screen/autoPartStore/auto_part_store_normal_user/reviews_auto_part_form.dart';
 import 'package:bikersworld/services/part_store_queries/part_review_query.dart';
 import 'package:bikersworld/widgets/rating_bar.dart';
@@ -237,7 +238,7 @@ class AutoPartDetail extends StatelessWidget {
                           ),
                           StreamBuilder(
                             stream: _partReviews.getAutoPartReviews(partId: partDetails.docId),
-                            builder: (BuildContext context, AsyncSnapshot<List<AutoPartReviews>> snapshot) {
+                            builder: (BuildContext context, AsyncSnapshot<List<Reviews>> snapshot) {
                               if(snapshot.hasData && snapshot.data.isNotEmpty){
                                 return ListView.builder(
                                   shrinkWrap: true,
