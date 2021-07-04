@@ -191,8 +191,8 @@ class _AutoPartDetailState extends State<AutoPartDetail> {
                 ),
               ),
 
-              FutureBuilder(
-                future: _partReviews.getAutoPartReviews(partId: widget.autoPartDetails.docId),
+              StreamBuilder(
+                stream: _partReviews.getAutoPartReviews(partId: widget.autoPartDetails.docId),
                 builder: (BuildContext context, AsyncSnapshot<List<AutoPartReviews>> snapshot) {
                   if(snapshot.hasData && snapshot.data.isNotEmpty){
                     return ListView.builder(

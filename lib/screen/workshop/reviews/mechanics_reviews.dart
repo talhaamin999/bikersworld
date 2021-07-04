@@ -136,9 +136,8 @@ class _WorkshopkMechanicsReviewsState extends State<WorkshopkMechanicsReviews> {
                   ),
                   SizedBox(height: 10,),
 
-                  FutureBuilder(
-
-                  future: _mechanicReviews.fetchWorkshopMechanicsReviews(mechanicId: widget.mechanic.id, workshopId: widget.workshopId),
+                  StreamBuilder(
+                  stream: _mechanicReviews.fetchWorkshopMechanicsReviews(mechanicId: widget.mechanic.id, workshopId: widget.workshopId),
                   builder: (BuildContext context, AsyncSnapshot<List<MechanicReviews>> snapshot) {
                     if(snapshot.hasData && snapshot.data.isNotEmpty){
                       return ListView.builder(

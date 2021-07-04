@@ -7,6 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:bikersworld/widgets/rating_bar.dart';
+import 'package:bikersworld/services/string_extension.dart';
 
 class EmployeeFeedbackForm extends StatefulWidget {
 
@@ -48,7 +49,7 @@ class _EmployeeFeedbackFormState extends State<EmployeeFeedbackForm> {
               .collection(
               _mechanicReviewsCollection);
 
-          final _reviewModel = MechanicReviews(title: _titleController.text,
+          final _reviewModel = MechanicReviews(title: _titleController.text.capitalizeFirstofEach,
               starRating: RatingsBar.ratings,
               description: _descriptionController.text);
 

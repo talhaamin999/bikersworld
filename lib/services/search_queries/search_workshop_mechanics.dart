@@ -28,15 +28,14 @@ class SearchWorkshopMechanics {
      }
 
     }
-  Future<List<MechanicReviews>> fetchWorkshopMechanicsReviews({@required String mechanicId,@required String workshopId}) {
+  Stream<List<MechanicReviews>> fetchWorkshopMechanicsReviews({@required String mechanicId,@required String workshopId}) {
     try {
       return _collectionReference.doc(workshopId).collection(
           MECHANICS_COLLECTION).doc(mechanicId).collection('mechanic_reviews')
-          .get()
-          .then((querySNapshots) => querySNapshots.docs
+          .snapshots()
+          .map((querySNapshots) => querySNapshots.docs
           .map((doc) => MechanicReviews.fromJson(doc.data(),doc.id))
-          .toList())
-          .catchError((onError) => _error.errorToastMessage(errorMessage: onError.toString()));
+          .toList());
     } catch (e) {
       _error.errorToastMessage(errorMessage: e.toString());
     }

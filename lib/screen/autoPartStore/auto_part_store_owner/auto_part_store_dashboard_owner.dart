@@ -146,7 +146,7 @@ class InformationTab extends StatelessWidget {
                                             ),
                                             SizedBox(height: 15,),
                                             Visibility(
-                                              //visible: data.imageURL == null ? true : false,
+                                              visible: partStoreInfo.imageURL == null ? true : false,
                                               child: FlatButton(
                                                 child: Padding(
                                                   padding: const EdgeInsets.only(left:15),
@@ -173,12 +173,12 @@ class InformationTab extends StatelessWidget {
                                                   ),
                                                 ),
                                                 onPressed: (){
-                                                  Navigator.push(context, MaterialPageRoute(builder: (context) => WorkshopProfilePhoto()));
+                                                  Navigator.push(context, MaterialPageRoute(builder: (context) => WorkshopProfilePhoto(partStoreDocId: partStoreInfo.id,)));
                                                 },
                                               ),
                                             ),
                                             Visibility(
-                                              //visible:data.imageURL != null ? true:false,
+                                              visible: partStoreInfo.imageURL != null ? true:false,
                                               child: FlatButton(
                                                 child: Padding(
                                                   padding: const EdgeInsets.only(left:15, top:15),
@@ -206,40 +206,8 @@ class InformationTab extends StatelessWidget {
                                                   ),
                                                 ),
                                                 onPressed: (){
-                                                  Navigator.push(context, MaterialPageRoute(builder: (context) => WorkshopProfilePhoto()));
+                                                  Navigator.push(context, MaterialPageRoute(builder: (context) => WorkshopProfilePhoto(partStoreDocId: partStoreInfo.id,)));
 
-                                                },
-                                              ),
-                                            ),
-                                            Visibility(
-                                              //visible:data.imageURL != null ? true:false,
-                                              child: FlatButton(
-                                                child: Padding(
-                                                  padding: const EdgeInsets.only(left:15, top:15),
-                                                  child: Container(
-                                                    child: Row(
-                                                      children: [
-                                                        CircleAvatar(
-                                                          child: Icon(
-                                                            FontAwesomeIcons.minus,
-                                                            color: Colors.red,
-                                                          ),
-                                                          backgroundColor: Color(0xffd6d6d6),
-                                                        ),
-                                                        SizedBox(width:20),
-                                                        Text(
-                                                          "Delete Photo",
-                                                          style: GoogleFonts.quicksand(
-                                                            fontSize: 18,
-                                                            color: Colors.black,
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  ),
-                                                ),
-                                                onPressed: (){
-                                                  //deleteImage();
                                                 },
                                               ),
                                             ),
@@ -253,7 +221,9 @@ class InformationTab extends StatelessWidget {
                                   backgroundColor: Colors.orange,
                                   radius: 65,
                                   child: CircleAvatar(
-                                    backgroundImage: AssetImage("assets/partstore.jpg"),
+                                    backgroundImage: partStoreInfo.imageURL != null ?
+                                      NetworkImage(partStoreInfo.imageURL) :
+                                      AssetImage("assets/partstore.jpg"),
                                     child: Align(
                                       alignment: Alignment.bottomRight,
                                       child: CircleAvatar(
@@ -796,8 +766,8 @@ class ReviewsTab extends StatelessWidget {
               ),
             ),
           ),
-           FutureBuilder(
-             future: _reviews.getPartstoreReview(partStoreId: partStoreId),
+           StreamBuilder(
+             stream: _reviews.getPartstoreReview(partStoreId: partStoreId),
              builder: (BuildContext context, AsyncSnapshot<List<PartStoreReviews>> snapshot) {
                if(snapshot.hasData && snapshot.data.isNotEmpty){
                  return ListView.builder(

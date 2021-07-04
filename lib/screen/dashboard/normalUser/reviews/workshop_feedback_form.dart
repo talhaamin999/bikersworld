@@ -8,6 +8,7 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:bikersworld/widgets/rating_bar.dart';
+import 'package:bikersworld/services/string_extension.dart';
 
 class WorkshopFeedbackForm extends StatefulWidget {
   final String workshopDocId;
@@ -36,7 +37,7 @@ class _WorkshopFeedbackFormState extends State<WorkshopFeedbackForm> {
           if (_titleController.text.isNotEmpty &&
               _descriptionController.text.isNotEmpty) {
          final CollectionReference _collectionReference = FirebaseFirestore.instance.collection(_workshopCollection).doc(id).collection(_workshopReviewsCollection);
-         final _reviewModel = WorkshopReviews(title: _titleController.text, starRating: RatingsBar.ratings, description: _descriptionController.text);
+         final _reviewModel = WorkshopReviews(title: _titleController.text.capitalizeFirstofEach, starRating: RatingsBar.ratings, description: _descriptionController.text);
 
             await _collectionReference.add(_reviewModel.toMap())
                 .then((_) {clearFields();

@@ -1,6 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:bikersworld/model/partstore_model.dart';
 import 'package:bikersworld/screen/dashboard/searchPages/refine_search_page.dart';
+import 'package:bikersworld/services/part_store_queries/part_review_query.dart';
 import 'package:bikersworld/services/search_queries/refine_search.dart';
 import 'package:bikersworld/services/search_queries/search_part.dart';
 import 'package:bikersworld/services/toast_service.dart';
@@ -29,6 +30,7 @@ class _AutoPartSearchPageState extends State<AutoPartSearchPage> {
   bool filterTypeOption = false;
   bool filterSortOption = false;
   bool filterRange = false;
+  final _partAVGReview = ReviewAutoPartQueries();
   //PaginateRefreshedChangeListener refreshChangeListener = PaginateRefreshedChangeListener();
 
 
@@ -527,10 +529,12 @@ class _AutoPartSearchPageState extends State<AutoPartSearchPage> {
                                            ),
                                          ),
                                          FutureBuilder(
-                                          // future: _workshopAVGReview.getAverageReviewOfWorksop(workshopId: _resultsList[index].id),
+                                           future: _partAVGReview.getAverageReviewOfAutoParts(partId: snapshot.data[index].docId),
                                            builder: (BuildContext context, AsyncSnapshot<double> snapshot) {
                                              if(snapshot.hasData && (snapshot.data.sign == 1.0)){
-                                               return Container(alignment:Alignment.bottomRight,child: RatingsBar(20,userRating: snapshot.data,));
+                                               return Container(
+                                                   alignment:Alignment.bottomRight,
+                                                   child: RatingsBar(20,userRating: snapshot.data,));
                                              }else{
                                                return Text("NO REVIEWS",style: GoogleFonts.raleway(fontSize: 12,color: Colors.red, fontWeight: FontWeight.w600),);
                                              }
@@ -561,83 +565,6 @@ class _AutoPartSearchPageState extends State<AutoPartSearchPage> {
                return Center(child: CircularProgressIndicator());
              },
            ),
-
-//              PaginateFirestore(
-//                shrinkWrap: true,
-//                physics: NeverScrollableScrollPhysics(),
-//                itemBuilderType: PaginateBuilderType.listView,
-//                //Change types accordingly
-//                itemBuilder: (index, context, snapshot) =>
-//                    TextButton(
-//                      onPressed: (){
-//                        Navigator.push(context, MaterialPageRoute(
-//                            builder: (context) =>
-//                                SearchAutoPartDetailPage(
-//                                  partDetail: snapshot[index],
-//                                ),
-//                        ),
-//                        );
-//                      },
-//                      child: Padding(
-//                        padding: EdgeInsets.zero,
-//                        child: Card(
-//                          color: Color(0xfff7f7f7),
-//                          child: ListTile(
-//                              // leading: Container(
-//                              //     width: 90,
-//                              //     height: 90,
-//                              //     decoration: BoxDecoration(
-//                              //       // shape: BoxShape.rectangle,
-//                              //         image: DecorationImage(
-//                              //           fit: BoxFit.fill,
-//                              //           image: NetworkImage(
-//                              //             snapshot.get('image'),
-//                              //           ),)
-//                              //     )
-//                              // ),
-//                              title: Text(snapshot.data()['title']),
-//                              subtitle: Container(
-//                                /*
-//                                child: Column(
-//                                  mainAxisAlignment: MainAxisAlignment.start,
-//                                  crossAxisAlignment: CrossAxisAlignment.start,
-//                                  children: [
-//                                    Text(
-//                                      "PKR  ${snapshot.get('price').toString()}",
-//                                      style: GoogleFonts
-//                                          .quicksand(
-//                                        fontSize: 15,
-//                                        color: Colors.black,
-//                                        fontWeight: FontWeight
-//                                            .bold,
-//                                      ),
-//                                    ),
-//                                    /*
-//                                    Text(
-//                                      snapshot.get('category'),
-//                                      style: GoogleFonts.quicksand(
-//                                        fontSize: 15,
-//                                        color: Colors.black,
-//                                     ),
-//                                    ),
-//
-//                                     */
-//                                  ],
-//                                ),
-//
-//                                 */
-//                              ),
-//
-//                          ),
-//                        ),
-//                      ),
-//                    ),
-//                // orderBy is compulsory to enable pagination
-//
-//                query: FirebaseFirestore.instance.collection('auto_parts').orderBy('title'),
-//                // to fetch real-time data
-//                isLive: true,
-//              ),
 
             ],
           ),

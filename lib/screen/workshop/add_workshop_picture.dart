@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:bikersworld/services/part_store_queries/part_store_query.dart';
 import 'package:bikersworld/services/toast_service.dart';
 import 'package:bikersworld/services/workshop_queries/workshop_queries.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -13,6 +14,8 @@ import 'package:flutter_native_image/flutter_native_image.dart';
 
 
 class WorkshopProfilePhoto extends StatefulWidget {
+  final String partStoreDocId;
+  WorkshopProfilePhoto({this.partStoreDocId});
   @override
   _WorkshopProfilePhotoState createState() => _WorkshopProfilePhotoState();
 }
@@ -239,6 +242,7 @@ class _WorkshopProfilePhotoState extends State<WorkshopProfilePhoto> {
     final _error = ToastErrorMessage();
     final _valid = ToastValidMessage();
     final _upload = RegisterWorkshopQueries();
+    final _partStoreImage = RegisterPartStoreQueries();
     String imageUploadComplete;
 
     try {
@@ -261,21 +265,38 @@ class _WorkshopProfilePhotoState extends State<WorkshopProfilePhoto> {
 
           if (imageUploadComplete == "image is uploaded to firebase storage") {
             var imageUrl = await snapshot.ref.getDownloadURL();
-            await _upload.uploadWorkshopImage(imageUrl);
-            if (RegisterWorkshopQueries.imageResult == 'Image Uploaded') {
-              _valid.validToastMessage(
-                  validMessage: RegisterWorkshopQueries.imageResult);
-              Future.delayed(
-                  new Duration(seconds: 1),
-                      () {
-                    Navigator.pop(context);
-                  }
-              );
-            } else {
-              _error.errorToastMessage(
-                  errorMessage: RegisterWorkshopQueries.imageResult);
+            if(widget.partStoreDocId != null){
+               bool result = await _partStoreImage.uploadPartStoreImage(imageURL: imageUrl, docId: widget.partStoreDocId);
+               if(result){
+                 _valid.validToastMessage(
+                     validMessage: 'Image Uploaded');
+                 Future.delayed(
+                     new Duration(seconds: 1),
+                         () {
+                       Navigator.pop(context);
+                     }
+                 );
+               }
             }
-          } else {
+            else {
+              await _upload.uploadWorkshopImage(imageUrl);
+              if (RegisterWorkshopQueries.imageResult == 'Image Uploaded') {
+                _valid.validToastMessage(
+                    validMessage: RegisterWorkshopQueries.imageResult);
+                Future.delayed(
+                    new Duration(seconds: 1),
+                        () {
+                      Navigator.pop(context);
+                    }
+                );
+              }
+              else {
+                _error.errorToastMessage(
+                    errorMessage: RegisterWorkshopQueries.imageResult);
+              }
+            }
+          }
+          else {
             _error.errorToastMessage(errorMessage: imageUploadComplete);
           }
         }

@@ -30,12 +30,12 @@ class ReviewPartstoreQueries {
       return reviewStatus;
     }
   }
-  Future<List<PartStoreReviews>> getPartstoreReview({@required String partStoreId}) async {
+  Stream<List<PartStoreReviews>> getPartstoreReview({@required String partStoreId}) {
     try{
         return _firestoreInstance.collection(PARTSTORE_COLLECTION).doc(partStoreId)
             .collection(PARTSTORE_REVIEW_COLLECTION)
-            .get()
-            .then((querySnapshot) => querySnapshot.docs
+            .snapshots()
+            .map((querySnapshot) => querySnapshot.docs
             .map((doc) => PartStoreReviews.fromJson(doc.data(),doc.reference.id))
             .toList());
 

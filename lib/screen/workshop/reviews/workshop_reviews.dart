@@ -31,7 +31,7 @@ class _WorkshopDashboardReviewsState extends State<WorkshopDashboardReviews> {
 
   }
 
-  Future<List<WorkshopReviews>> getReviews(){
+  Stream<List<WorkshopReviews>> getReviews(){
     try{
       if(widget.id != null){
         return _shopReview.fetchWorkshopReviews(workshopId: widget.id);
@@ -112,8 +112,8 @@ class _WorkshopDashboardReviewsState extends State<WorkshopDashboardReviews> {
                     ),
                   ),
                   SizedBox(height: 10,),
-                  FutureBuilder(
-                    future: getReviews(),
+                  StreamBuilder(
+                    stream: getReviews(),
                     builder: (BuildContext context, AsyncSnapshot<List<WorkshopReviews>> snapshot) {
                       if(snapshot.hasData && snapshot.data.isNotEmpty){
                         return ListView.builder(

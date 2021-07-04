@@ -21,7 +21,7 @@ class _NormalUserWorkshopEmployeeProfileState extends State<NormalUserWorkshopEm
   final _error = ToastErrorMessage();
   final _mechanicReviews = SearchWorkshopMechanics();
 
-  Future<List<MechanicReviews>> getMechanicReviews(){
+  Stream<List<MechanicReviews>> getMechanicReviews(){
     try{
       if(widget.workshopId != null && widget.data.id != null) {
         return _mechanicReviews.fetchWorkshopMechanicsReviews(
@@ -152,8 +152,8 @@ class _NormalUserWorkshopEmployeeProfileState extends State<NormalUserWorkshopEm
                   ),
                 ),
               ),
-              FutureBuilder(
-                future: getMechanicReviews(),
+              StreamBuilder(
+                stream: getMechanicReviews(),
                 builder: (BuildContext context, AsyncSnapshot<List<MechanicReviews>> snapshot) {
                   if(snapshot.hasData && snapshot.data.isNotEmpty){
                     return ListView.builder(

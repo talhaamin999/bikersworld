@@ -30,17 +30,40 @@ class ReviewAutoPartQueries {
       return reviewStatus;
     }
   }
-  Future<List<AutoPartReviews>> getAutoPartReviews({@required String partId}) async {
+  Stream<List<AutoPartReviews>> getAutoPartReviews({@required String partId}) {
     try{
         return _firestoreInstance.collection(AUTOPART_COLLECTION)
             .doc(partId)
             .collection(AUTOPART_REVIEW_COLLECTION)
-            .get()
-            .then((querySnapshots) => querySnapshots.docs
+            .snapshots()
+            .map((querySnapshots) => querySnapshots.docs
             .map((doc) => AutoPartReviews.fromJson(doc.data(), doc.reference.id))
             .toList());
     }catch(e){
       _error.errorToastMessage(errorMessage: e.toString());
     }
+  }
+  Future<double> getAverageReviewOfAutoParts({@required String partId}) async{
+    double avg = 0,total=0;
+    int count = 0;
+    try{
+      final QuerySnapshot _query = await _firestoreInstance.collection(AUTOPART_COLLECTION)
+          .doc(partId)
+          .collection(AUTOPART_REVIEW_COLLECTION)
+          .get();
+
+      _query.docs.forEach((doc) {
+        total = total + double.tryParse(doc.get('star_rating').toString());
+        count++;
+      });
+
+      if(count > 0){
+        return avg = total / count;
+      }
+      return -2.0;
+    }catch(e){
+      _error.errorToastMessage(errorMessage: e.toString());
+    }
+    return -2.0;
   }
 }

@@ -33,14 +33,15 @@ class _ReviewFromUserState extends State<ReviewFromUser> {
     super.initState();
   }
 
-  Future<List<WorkshopReviews>> getReviews(){
+  Stream<List<WorkshopReviews>> getReviews(){
     final CollectionReference _collectionReference = FirebaseFirestore.instance
-        .collection(_workshopCollection).doc(id).collection(
-        _workshopReviewsCollection);
+        .collection(_workshopCollection)
+        .doc(id)
+        .collection(_workshopReviewsCollection);
     try {
       return _collectionReference
-          .get()
-          .then((querySnapshot) => querySnapshot.docs
+          .snapshots()
+          .map((querySnapshot) => querySnapshot.docs
           .map((doc) => WorkshopReviews.fromJson(doc.data(), doc.reference.id))
           .toList());
     }catch(e){
@@ -145,8 +146,8 @@ class _ReviewFromUserState extends State<ReviewFromUser> {
               ),
               SizedBox(height:15),
 
-                  FutureBuilder(
-                    future: getReviews(),
+                  StreamBuilder(
+                    stream: getReviews(),
                     builder: (BuildContext context, AsyncSnapshot<List<WorkshopReviews>> snapshot) {
                       if(snapshot.hasData && snapshot.data.isNotEmpty){
                         return ListView.builder(

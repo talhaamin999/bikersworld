@@ -235,8 +235,8 @@ class AutoPartDetail extends StatelessWidget {
                           SizedBox(
                             height: 10,
                           ),
-                          FutureBuilder(
-                            future: _partReviews.getAutoPartReviews(partId: partDetails.docId),
+                          StreamBuilder(
+                            stream: _partReviews.getAutoPartReviews(partId: partDetails.docId),
                             builder: (BuildContext context, AsyncSnapshot<List<AutoPartReviews>> snapshot) {
                               if(snapshot.hasData && snapshot.data.isNotEmpty){
                                 return ListView.builder(

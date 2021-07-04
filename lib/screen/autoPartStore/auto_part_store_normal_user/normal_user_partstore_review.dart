@@ -113,8 +113,8 @@ class _NormalUserPartStoreReivewState extends State<NormalUserPartStoreReivew> {
                 ),
               ),
               SizedBox(height:15),
-              FutureBuilder(
-                future: _partStoreReview.getPartstoreReview(partStoreId: widget.partStoreId),
+              StreamBuilder(
+                stream: _partStoreReview.getPartstoreReview(partStoreId: widget.partStoreId),
                 builder: (BuildContext context, AsyncSnapshot<List<PartStoreReviews>> snapshot) {
                   if(snapshot.hasData && snapshot.data.isNotEmpty) {
                     return ListView.builder(

@@ -81,11 +81,11 @@ class SearchWorkshop{
   }
 
    */
-  Future<List<WorkshopReviews>> fetchWorkshopReviews({@required String workshopId}){
+  Stream<List<WorkshopReviews>> fetchWorkshopReviews({@required String workshopId}){
     try{
       return _collectionReference.doc(workshopId).collection('workshop_reviews')
-          .get()
-          .then((querySnapshots) => querySnapshots.docs
+          .snapshots()
+          .map((querySnapshots) => querySnapshots.docs
           .map((doc) => WorkshopReviews.fromJson(doc.data(), doc.id))
           .toList());
     }catch(e){
