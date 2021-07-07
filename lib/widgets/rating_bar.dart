@@ -17,7 +17,7 @@ class RatingsBar extends StatelessWidget {
         direction: Axis.horizontal,
         allowHalfRating: true,
         itemCount: 5,
-        itemSize: 20,
+        itemSize: 19,
         itemBuilder: (context, _) => Icon(
           Icons.star,
           color: Colors.amber,
