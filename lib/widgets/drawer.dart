@@ -247,8 +247,8 @@ class _CustomDrawerState extends State<CustomDrawer> {
                     Visibility(
                       visible: snapshot.data == 'seller' ? true : false,
                       child: ListTile(
-                        leading: Icon(FontAwesomeIcons.ad),
-                        title: Text("Your Adds", style: GoogleFonts.montserrat(
+                        leading: Icon(Icons.dashboard),
+                        title: Text("Dashboard", style: GoogleFonts.montserrat(
                             fontSize: 15, color: Colors.black),),
                         trailing: Icon(Icons.arrow_forward_ios, size: 15.0,),
                         onTap: () {

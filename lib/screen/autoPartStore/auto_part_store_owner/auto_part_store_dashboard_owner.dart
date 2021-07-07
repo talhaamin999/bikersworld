@@ -806,7 +806,7 @@ class ReviewsTab extends StatelessWidget {
                                  ),
                                ),
                                SizedBox(height: 10,),
-                               RatingsBar(20,userRating: snapshot.data[index].starRating),
+                               StarDisplay(userRating: snapshot.data[index].starRating),
                                SizedBox(height: 10,),
                                Container(
                                  child: Text(

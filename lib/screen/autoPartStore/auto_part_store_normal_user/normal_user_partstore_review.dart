@@ -79,10 +79,9 @@ class _NormalUserPartStoreReivewState extends State<NormalUserPartStoreReivew> {
                       padding: const EdgeInsets.only(left:1),
                       child: Container(
                         child: Text(
-                              "${snapshot.data.toStringAsFixed(1)} out Off 5",
+                              "${snapshot.data.toStringAsFixed(1)} / 5",
                               style: GoogleFonts.quicksand(
-                                fontSize: 50,
-                                fontWeight: FontWeight.bold,
+                                fontSize: 30,
                               ),
                             ),
                       ),
@@ -170,7 +169,7 @@ class _NormalUserPartStoreReivewState extends State<NormalUserPartStoreReivew> {
                                     ),
                                   ),
                                   SizedBox(height: 10,),
-                                  RatingsBar(20,userRating: snapshot.data[index].starRating,),
+                                  StarDisplay(userRating: snapshot.data[index].starRating,),
                                   SizedBox(height: 10,),
                                   Container(
                                     child: Text(

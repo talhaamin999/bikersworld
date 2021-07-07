@@ -524,8 +524,6 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   ),
                   _divider(),
-                  _GoogleButton(),
-                  SizedBox(height: 15,),
                   _createAccountLabel(),
                 ],
               ),

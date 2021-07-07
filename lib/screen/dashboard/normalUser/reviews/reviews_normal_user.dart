@@ -112,10 +112,9 @@ class _ReviewFromUserState extends State<ReviewFromUser> {
                       padding: const EdgeInsets.only(left: 1),
                       child: Container(
                         child: Text(
-                              "${snapshot.data.toStringAsFixed(1)} out of 5",
+                              "${snapshot.data.toStringAsFixed(1)} / 5",
                               style: GoogleFonts.quicksand(
-                                fontSize: 50,
-                                fontWeight: FontWeight.bold,
+                                fontSize: 25,
                               ),
                             ),
                       ),
@@ -202,7 +201,7 @@ class _ReviewFromUserState extends State<ReviewFromUser> {
                                                   Text(snapshot.data[index].title, style:GoogleFonts.quicksand(fontSize:18, fontWeight: FontWeight.bold),),
                                                   Padding(
                                                     padding: const EdgeInsets.only(top:2,bottom: 5),
-                                                    child: RatingsBar(25,userRating: snapshot.data[index].starRating,),
+                                                    child: StarDisplay(userRating: snapshot.data[index].starRating,),
                                                   ),
                                                 ],
                                               ),

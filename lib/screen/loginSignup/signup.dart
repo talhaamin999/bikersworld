@@ -496,8 +496,7 @@ class _SignUpPageState extends State<SignUpPage> {
                       ),
                       _submitButton(),
                       _divider(),
-                      SizedBox(height: 15,),
-                      _GoogleButton(),
+
                       _loginAccountLabel(),
                     ],
                   ),

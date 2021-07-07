@@ -55,16 +55,12 @@ class _AddDetailState extends State<AddDetail>  with SingleTickerProviderStateMi
                 Column(
                   children: [
                     Container(
-                      margin: EdgeInsets.all(10),
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          border: Border.all(width: 2)),
                       child: ImageSlider(
-                        showTabIndicator: false,
-                        tabIndicatorColor: Colors.lightBlue,
-                        tabIndicatorSelectedColor: Color.fromARGB(255, 0, 0, 255),
-                        tabIndicatorHeight: 16,
-                        tabIndicatorSize: 16,
+                        showTabIndicator: true,
+                        tabIndicatorColor: Colors.white,
+                        tabIndicatorSelectedColor: Colors.white,
+                        tabIndicatorHeight: 8,
+                        tabIndicatorSize: 8,
                         tabController: tabController,
                         curve: Curves.fastOutSlowIn,
                         width: MediaQuery.of(context).size.width,
@@ -74,7 +70,6 @@ class _AddDetailState extends State<AddDetail>  with SingleTickerProviderStateMi
                         allowManualSlide: true,
                         children: links.map((String link) {
                           return new ClipRRect(
-                            borderRadius: BorderRadius.circular(8.0),
                             child: Image.network(
                               link,
                               width: MediaQuery.of(context).size.width,
