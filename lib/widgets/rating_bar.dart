@@ -30,3 +30,19 @@ class RatingsBar extends StatelessWidget {
   }
 }
 
+
+class StarDisplay extends StatelessWidget {
+  final double userRating;
+  StarDisplay({this.userRating,});
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: List.generate(userRating.toInt(), (index) {
+        return Icon(
+          index < userRating ? Icons.star : Icons.star_border, color: Color(0xffffbf00),
+        );
+      }),
+    );
+  }
+}

@@ -534,7 +534,7 @@ class _AutoPartSearchPageState extends State<AutoPartSearchPage> {
                                              if(snapshot.hasData && (snapshot.data.sign == 1.0)){
                                                return Container(
                                                    alignment:Alignment.bottomRight,
-                                                   child: RatingsBar(20,userRating: snapshot.data,));
+                                                   child: StarDisplay(userRating:snapshot.data));
                                              }else{
                                                return Text("NO REVIEWS",style: GoogleFonts.raleway(fontSize: 12,color: Colors.red, fontWeight: FontWeight.w600),);
                                              }

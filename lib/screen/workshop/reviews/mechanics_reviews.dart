@@ -115,7 +115,7 @@ class _WorkshopkMechanicsReviewsState extends State<WorkshopkMechanicsReviews> {
                       if(snapshot.hasData && snapshot.data.sign == 1.0){
                         return Container(
                           child: Text(
-                            "${snapshot.data.toStringAsFixed(1)} out off 5",
+                            "${snapshot.data.toStringAsFixed(1)} / 5",
                             style: GoogleFonts.hindSiliguri(
                               fontSize: 35,
                               fontWeight: FontWeight.bold,
@@ -125,11 +125,12 @@ class _WorkshopkMechanicsReviewsState extends State<WorkshopkMechanicsReviews> {
                       }
                       else{
                         return Container(
-                          child: Text(
-                            "NO REVIEWS ADDED YET",
-                            style: GoogleFonts.hindSiliguri(
-                              fontSize: 35,
-                              fontWeight: FontWeight.bold,
+                          child: Center(
+                            child: Text(
+                              "NO WORKSHOP REVIEW YET",
+                              style: GoogleFonts.quicksand(
+                                fontSize: 25,
+                              ),
                             ),
                           ),
                         );
@@ -195,7 +196,7 @@ class _WorkshopkMechanicsReviewsState extends State<WorkshopkMechanicsReviews> {
                                         ),
                                       ),
                                       SizedBox(height: 5,),
-                                      RatingsBar(25,userRating: snapshot.data[index].starRating,),
+                                      StarDisplay(userRating:snapshot.data[index].starRating),
                                       SizedBox(height: 5,),
                                       Container(
                                         child: Text(

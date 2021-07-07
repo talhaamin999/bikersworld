@@ -92,10 +92,9 @@ class _WorkshopDashboardReviewsState extends State<WorkshopDashboardReviews> {
                       if(snapshot.hasData && snapshot.data.sign == 1.0){
                         return Container(
                           child: Text(
-                            "${snapshot.data.toStringAsFixed(1)} out off 5",
-                            style: GoogleFonts.hindSiliguri(
+                            "${snapshot.data.toStringAsFixed(1)} / 5",
+                            style: GoogleFonts.quicksand(
                               fontSize: 35,
-                              fontWeight: FontWeight.bold,
                             ),
                           ),
                         );
@@ -168,7 +167,7 @@ class _WorkshopDashboardReviewsState extends State<WorkshopDashboardReviews> {
                                           ),
                                         ),
                                         SizedBox(height: 10,),
-                                        RatingsBar(20,userRating: snapshot.data[index].starRating,),
+                                        StarDisplay(userRating:snapshot.data[index].starRating),
                                         SizedBox(height: 10,),
                                         Container(
                                           child: Text(
