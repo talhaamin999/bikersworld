@@ -195,7 +195,7 @@ class _SearchAutoPartDetailPageState extends State<SearchAutoPartDetailPage> {
                       ),
                     ),
                     Text(
-                      "4.0 / 5",
+                      "4.1 / 5",
                       style: GoogleFonts.quicksand(
                         fontSize: 20,
                       ),
