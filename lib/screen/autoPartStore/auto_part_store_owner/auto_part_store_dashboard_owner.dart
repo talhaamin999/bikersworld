@@ -767,6 +767,8 @@ class ReviewsTab extends StatelessWidget {
               ),
             ),
           ),
+           /*
+           * */
            StreamBuilder(
              stream: _reviews.getPartstoreReview(partStoreId: partStoreId),
              builder: (BuildContext context, AsyncSnapshot<List<Reviews>> snapshot) {
@@ -806,6 +808,7 @@ class ReviewsTab extends StatelessWidget {
                                  ),
                                ),
                                SizedBox(height: 10,),
+
                                StarDisplay(userRating: snapshot.data[index].starRating),
                                SizedBox(height: 10,),
                                Container(
@@ -841,6 +844,33 @@ class ReviewsTab extends StatelessWidget {
   }
 }
 
+/*
+* FutureBuilder(
+                    future: _shopReview.getAverageReviewOfWorksop(workshopId: widget.id),
+                    builder: (BuildContext context, AsyncSnapshot<double> snapshot) {
+                      if(snapshot.hasData && snapshot.data.sign == 1.0){
+                        return Container(
+                          child: Text(
+                            "${snapshot.data.toStringAsFixed(1)} / 5",
+                            style: GoogleFonts.quicksand(
+                              fontSize: 35,
+                            ),
+                          ),
+                        );
+                      }
+                      else{
+                        return Container(
+                          child: Text(
+                            "NO REVIEWS ADDED YET",
+                            style: GoogleFonts.hindSiliguri(
+                              fontSize: 35,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        );
+                      }
+                    },
+                  ),*/
 
 class ActiveProjectsCard extends StatelessWidget {
   final Color cardColor;

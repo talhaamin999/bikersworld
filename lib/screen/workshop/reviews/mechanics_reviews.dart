@@ -116,9 +116,8 @@ class _WorkshopkMechanicsReviewsState extends State<WorkshopkMechanicsReviews> {
                         return Container(
                           child: Text(
                             "${snapshot.data.toStringAsFixed(1)} / 5",
-                            style: GoogleFonts.hindSiliguri(
-                              fontSize: 35,
-                              fontWeight: FontWeight.bold,
+                            style: GoogleFonts.quicksand(
+                              fontSize: 30,
                             ),
                           ),
                         );
