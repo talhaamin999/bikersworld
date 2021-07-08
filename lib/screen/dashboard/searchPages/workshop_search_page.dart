@@ -194,7 +194,7 @@ class _WorkshopSearchPageState extends State<WorkshopSearchPage> {
                             ),
                             SizedBox(width: 5,),
                             Text(
-                              "30",
+                              "20",
                               style: GoogleFonts.varelaRound(
                                 fontSize: 15,
                                 color: Colors.black,
@@ -393,20 +393,6 @@ class _WorkshopSearchPageState extends State<WorkshopSearchPage> {
                                 ),
                               ),
                             ),
-//                            Padding(
-//                              padding: const EdgeInsets.all(10),
-//                              child: Container(
-//                                width: 90,
-//                                height: 70,
-//                                decoration: BoxDecoration(
-//                                    shape: BoxShape.rectangle,
-//                                    image: DecorationImage(
-//                                        fit: BoxFit.fill,
-//                                        image: _resultsList[index].imageURL != null ? NetworkImage(_resultsList[index].imageURL) : AssetImage("assets/avatar.jpg",)
-//                                    )
-//                                ),
-//                              ),
-//                            ),
 
                             SizedBox(width: 5,),
                             Container(

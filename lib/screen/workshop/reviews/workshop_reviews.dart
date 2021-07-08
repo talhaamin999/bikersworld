@@ -135,6 +135,7 @@ class _WorkshopDashboardReviewsState extends State<WorkshopDashboardReviews> {
                       if(snapshot.hasData && snapshot.data.isNotEmpty){
                         return ListView.builder(
                             shrinkWrap: true,
+                            physics: NeverScrollableScrollPhysics(),
                             itemCount: snapshot.data.length,
                             itemBuilder: (context,index){
                               return Container(

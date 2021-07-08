@@ -1159,7 +1159,7 @@ class _HomeDashboardState extends State<HomeDashboard> {
                       builder: (BuildContext context, AsyncSnapshot<List<AutoPartModel>> snapshot) {
                         if(snapshot.hasData && snapshot.data.isNotEmpty){
                           return  Container(
-                            height: MediaQuery.of(context).size.width - 180,
+                             height:290,
                             child: ListView.builder(
                                 scrollDirection: Axis.horizontal,
                                 shrinkWrap: true,
@@ -1179,7 +1179,7 @@ class _HomeDashboardState extends State<HomeDashboard> {
                                         crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
                                           AspectRatio(
-                                            aspectRatio: 18.0 / 13.0,
+                                            aspectRatio: 10.0 / 10.0,
                                             child: Image.network(
                                               snapshot.data[index].imageURL,
                                               fit: BoxFit.fill,
@@ -1197,7 +1197,6 @@ class _HomeDashboardState extends State<HomeDashboard> {
                                                   ),
                                                 ),
                                                 Container(
-                                                  margin: EdgeInsets.only(left: 5),
                                                   child: Row(
                                                     children: [
                                                       Text(
