@@ -249,7 +249,7 @@ class InformationTab extends StatelessWidget {
                                   Padding(
                                     padding: const EdgeInsets.only(top:10,),
                                     child: SizedBox(
-                                      width: 210.0,
+                                      width: 165.0,
                                       height: 50.0,
                                       child: AutoSizeText(
                                         partStoreInfo.shopTitle,
@@ -269,7 +269,7 @@ class InformationTab extends StatelessWidget {
                                         Icon(Icons.person, size: 20, color: Colors.grey,),
                                         SizedBox(width: 10,),
                                         SizedBox(
-                                          width: 200.0,
+                                          width: 165.0,
                                           height: 20.0,
                                           child: AutoSizeText(
                                             partStoreInfo.ownerName,
@@ -290,7 +290,7 @@ class InformationTab extends StatelessWidget {
                                         Icon(Icons.location_on, size: 20, color: Colors.grey,),
                                         SizedBox(width: 10,),
                                         SizedBox(
-                                          width: 200.0,
+                                          width: 165.0,
                                           height: 20.0,
                                           child: AutoSizeText(
                                             partStoreInfo.city,
@@ -343,7 +343,7 @@ class InformationTab extends StatelessWidget {
                             FlatButton(
                               child: Container(
                                 height: 60,
-                                width: 70,
+                                width: 60,
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(15),
                                   color:Colors.red,
@@ -398,7 +398,7 @@ class InformationTab extends StatelessWidget {
                             FlatButton(
                               child: Container(
                                 height: 60,
-                                width: 70,
+                                width: 60,
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(15),
                                   color:Color(0XFF012A4A),
@@ -517,7 +517,7 @@ class InformationTab extends StatelessWidget {
                             FlatButton(
                               child: Container(
                                 height: 60,
-                                width: 70,
+                                width: 60,
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(15),
                                   color:Colors.orange,
@@ -744,26 +744,37 @@ class ReviewsTab extends StatelessWidget {
         children: <Widget>[
           SizedBox(height: 20,),
           Padding(
-            padding: const EdgeInsets.only(left:20),
+            padding: const EdgeInsets.only(left:20, right: 20),
             child: Container(
-              child:RichText(
-                textAlign: TextAlign.start,
-                text: TextSpan(
-                  text: 'Store',
-                  style: GoogleFonts.quicksand(
-                    fontSize: 30,
-                    color: Color(0xfff7892b),
-                  ),
-                  children: [
-                    TextSpan(
-                        text: ' Reviews',
-                        style: GoogleFonts.quicksand(
-                          fontSize: 30,
-                          color: Colors.black,
-                        )
+              child:Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  RichText(
+                    textAlign: TextAlign.start,
+                    text: TextSpan(
+                      text: 'Store',
+                      style: GoogleFonts.quicksand(
+                        fontSize: 30,
+                        color: Color(0xfff7892b),
+                      ),
+                      children: [
+                        TextSpan(
+                            text: ' Reviews',
+                            style: GoogleFonts.quicksand(
+                              fontSize: 30,
+                              color: Colors.black,
+                            )
+                        ),
+                      ],
                     ),
-                  ],
-                ),
+                  ),
+                  Text(
+                    "3.9 / 5",
+                    style: GoogleFonts.quicksand(
+                      fontSize: 20,
+                    ),
+                  ),
+                ],
               ),
             ),
           ),
@@ -888,10 +899,10 @@ class ActiveProjectsCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        margin: EdgeInsets.only(left:35,bottom: 15),
+        margin: EdgeInsets.only(left:15,bottom: 15),
         padding: EdgeInsets.only(bottom:15, top: 15),
         height: 140,
-        width: 140,
+        width: 135,
         decoration: BoxDecoration(
           color: cardColor,
           borderRadius: BorderRadius.circular(20),

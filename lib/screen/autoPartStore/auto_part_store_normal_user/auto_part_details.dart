@@ -205,18 +205,27 @@ class AutoPartDetail extends StatelessWidget {
                                         fontSize: 18,
                                         fontWeight: FontWeight.bold),
                                   ),
+                                  Text(
+                                    "4.0 / 5",
+                                    style: GoogleFonts.quicksand(
+                                      fontSize: 17,
+                                    ),
+                                  ),
                                   FlatButton(
                                     child: Container(
                                       height: 40,
-                                      width: 40,
+                                      width: 100,
                                       decoration: BoxDecoration(
                                           color: Colors.orange,
                                           borderRadius:
                                               BorderRadius.circular(5)),
                                       child: Center(
-                                        child: Icon(
-                                          Icons.plus_one,
-                                          color: Colors.white,
+                                        child: Text(
+                                          "Add Review",
+                                          style: GoogleFonts.quicksand(
+                                            color: Colors.white,
+                                            fontSize: 13,
+                                          ),
                                         ),
                                       ),
                                     ),
