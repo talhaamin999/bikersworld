@@ -96,7 +96,7 @@ class _AutoPartStoreDashboardPageNormalUserState extends State<AutoPartStoreDash
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 SizedBox(
-                                  width: 210.0,
+                                  width: 170.0,
                                   height: 30.0,
                                   child: AutoSizeText(
                                     snapshot.data.shopTitle,
@@ -110,7 +110,7 @@ class _AutoPartStoreDashboardPageNormalUserState extends State<AutoPartStoreDash
                                 ),
                                 SizedBox(height: 8,),
                                 SizedBox(
-                                  width: 210.0,
+                                  width: 170.0,
                                   height: 20.0,
                                   child: AutoSizeText(
                                     snapshot.data.city,
@@ -123,7 +123,7 @@ class _AutoPartStoreDashboardPageNormalUserState extends State<AutoPartStoreDash
                                 ),
                                 SizedBox(height: 8,),
                                 SizedBox(
-                                  width: 210.0,
+                                  width: 170.0,
                                   height: 20.0,
                                   child: AutoSizeText(
                                     snapshot.data.ownerContact,
@@ -143,10 +143,7 @@ class _AutoPartStoreDashboardPageNormalUserState extends State<AutoPartStoreDash
                                         FlatButton(
                                             padding: EdgeInsets.zero,
                                             child: Container(
-                                              width: MediaQuery
-                                                  .of(context)
-                                                  .size
-                                                  .width - 320,
+                                              width: 70,
                                               height: 40,
                                               decoration: BoxDecoration(
                                                 color: Colors.red,
@@ -370,14 +367,10 @@ class _AutoPartStoreDashboardPageNormalUserState extends State<AutoPartStoreDash
                                               );
                                             }
                                         ),
-                                        SizedBox(width: 5,),
                                         FlatButton(
                                             padding: EdgeInsets.zero,
                                             child: Container(
-                                              width: MediaQuery
-                                                  .of(context)
-                                                  .size
-                                                  .width - 320,
+                                              width: 70,
                                               height: 40,
                                               decoration: BoxDecoration(
                                                 color: Colors.blue,
@@ -666,7 +659,6 @@ class _AutoPartStoreDashboardPageNormalUserState extends State<AutoPartStoreDash
                                              ],
                                            ),
                                           ),
-                                          SizedBox(width: 50,),
                                           Container(
                                             child: Icon(
                                               Icons.arrow_forward_ios,

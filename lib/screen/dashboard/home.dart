@@ -897,18 +897,6 @@ class _HomeDashboardState extends State<HomeDashboard> {
                                                 ],
                                               )
                                           ),
-                                          Padding(
-                                            padding: const EdgeInsets.only(right:10,left:10),
-                                            child: Container(
-                                              child: Image(
-                                                height: 80,
-                                                width: 80,
-                                                image: AssetImage(
-                                                  "assets/trade.png",
-                                                ),
-                                              ),
-                                            ),
-                                          ),
 
                                         ],
                                       ),
@@ -1159,7 +1147,7 @@ class _HomeDashboardState extends State<HomeDashboard> {
                       builder: (BuildContext context, AsyncSnapshot<List<AutoPartModel>> snapshot) {
                         if(snapshot.hasData && snapshot.data.isNotEmpty){
                           return  Container(
-                             height:290,
+                             height:285,
                             child: ListView.builder(
                                 scrollDirection: Axis.horizontal,
                                 shrinkWrap: true,

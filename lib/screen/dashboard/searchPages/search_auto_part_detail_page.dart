@@ -184,12 +184,23 @@ class _SearchAutoPartDetailPageState extends State<SearchAutoPartDetailPage> {
               ),
 
               Padding(
-                padding: EdgeInsets.only(left: 20, right: 10),
-                child:  Text(
-                  "Reviews",
-                  style: GoogleFonts.varelaRound(
-                    fontSize: 20,
-                  ),
+                padding: EdgeInsets.only(left: 20, right: 20),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "Reviews",
+                      style: GoogleFonts.varelaRound(
+                        fontSize: 20,
+                      ),
+                    ),
+                    Text(
+                      "4.0 / 5",
+                      style: GoogleFonts.quicksand(
+                        fontSize: 20,
+                      ),
+                    ),
+                  ],
                 ),
               ),
 

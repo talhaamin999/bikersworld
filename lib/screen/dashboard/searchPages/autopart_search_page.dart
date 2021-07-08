@@ -474,7 +474,7 @@ class _AutoPartSearchPageState extends State<AutoPartSearchPage> {
                                            .start,
                                        children: <Widget>[
                                          SizedBox(
-                                           width: 210.0,
+                                           width: 150.0,
                                            height: 25.0,
                                            child: AutoSizeText(
                                              snapshot.data[index].title,
@@ -517,7 +517,7 @@ class _AutoPartSearchPageState extends State<AutoPartSearchPage> {
 
                                          SizedBox(height: 3,),
                                          SizedBox(
-                                           width: 210.0,
+                                           width: 150,
                                            height: 25.0,
                                            child: AutoSizeText(
                                              snapshot.data[index].category,

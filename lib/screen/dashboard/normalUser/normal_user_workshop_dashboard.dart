@@ -89,7 +89,7 @@ class _NormalUserWorkshopDashboardState extends State<NormalUserWorkshopDashboar
                                            width: 210.0,
                                            height: 30.0,
                                            child: AutoSizeText(
-                                             "snapshot.data.shopTitle",
+                                             snapshot.data.shopTitle,
                                              style: GoogleFonts.quicksand(
                                                  fontSize: 19,
                                                  fontWeight: FontWeight.bold,
@@ -597,7 +597,7 @@ class _NormalUserWorkshopDashboardState extends State<NormalUserWorkshopDashboar
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: <Widget>[
                                   SizedBox(
-                                    width: 200.0,
+                                    width: 170.0,
                                     //height: 100.0,
                                     child: AutoSizeText(
                                       widget.workshopData != null ? widget.workshopData.shopTitle : 'Workshop name',
@@ -619,7 +619,7 @@ class _NormalUserWorkshopDashboardState extends State<NormalUserWorkshopDashboar
                                       ),
                                       SizedBox(width: 5,),
                                       SizedBox(
-                                        width: 200.0,
+                                        width: 170.0,
                                         //height: 100.0,
                                         child: AutoSizeText(
                                           widget.workshopData != null ? widget.workshopData.city : 'City',
@@ -641,7 +641,7 @@ class _NormalUserWorkshopDashboardState extends State<NormalUserWorkshopDashboar
                                       ),
                                       SizedBox(width: 5,),
                                       SizedBox(
-                                        width: 200.0,
+                                        width: 170.0,
                                         //height: 100.0,
                                         child: AutoSizeText(
                                           widget.workshopData != null ? widget.workshopData.ownerContact: 'Owner contact',
@@ -1095,13 +1095,11 @@ class ActiveProjectsCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(left:8.0),
-      child: Container(
+    return  Container(
         margin: EdgeInsets.symmetric(vertical: 10),
-       padding: EdgeInsets.only(bottom:15, top: 15),
+      padding: EdgeInsets.only(bottom:15, top: 15),
         height: 140,
-        width: 140,
+        width: 130,
         decoration: BoxDecoration(
           color: cardColor,
           borderRadius: BorderRadius.circular(20),
@@ -1143,8 +1141,7 @@ class ActiveProjectsCard extends StatelessWidget {
             ),
           ],
         ),
-      ),
-    );
+      );
   }
 }
 

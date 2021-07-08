@@ -363,7 +363,7 @@ class _RefineRearchPageState extends State<RefineRearchPage> {
                     child: Row(
                       children: [
                         Container(
-                            width: 133,
+                            width: MediaQuery.of(context).size.width - 260,
                             child: TextField(
                               controller: _minController,
                               keyboardType: TextInputType.number,
@@ -384,7 +384,7 @@ class _RefineRearchPageState extends State<RefineRearchPage> {
                         ),
                         SizedBox(width: 10,),
                         Container(
-                            width: 134,
+                            width: MediaQuery.of(context).size.width - 260,
                             child: TextField(
                               controller: _maxController,
                               keyboardType: TextInputType.number,
