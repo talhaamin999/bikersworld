@@ -5,12 +5,10 @@ import 'package:bikersworld/services/toast_service.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:bikersworld/widgets/bezierContainer.dart';
 import 'package:bikersworld/screen/loginSignup/login_page.dart';
-import 'package:bikersworld/screen/loginSignup/user_role_option.dart';
 
 
 class SignUpPage extends StatefulWidget {
@@ -33,6 +31,8 @@ class _SignUpPageState extends State<SignUpPage> {
   ToastValidMessage valid = ToastValidMessage();
   AuthenticationService auth;
   final _firebaseAuth = FirebaseAuth.instance;
+  bool _isButtonVisible = true;
+  final _formKey = GlobalKey<FormState>();
 
   Widget _backButton() {
     return InkWell(
@@ -76,6 +76,12 @@ class _SignUpPageState extends State<SignUpPage> {
                   fillColor: Color(0xfff3f3f4),
                   filled: true,
               ),
+            validator: (value){
+              if(value.isEmpty){
+                return "$title is a Required Field";
+              }
+              return null;
+            },
           )
         ],
       ),
@@ -103,7 +109,14 @@ class _SignUpPageState extends State<SignUpPage> {
               decoration: InputDecoration(
                   border: InputBorder.none,
                   fillColor: Color(0xfff3f3f4),
-                  filled: true))
+                  filled: true),
+            validator: (value){
+              if(value.isEmpty){
+                return "$title is a Required Field";
+              }
+              return null;
+            },
+          )
         ],
       ),
     );
@@ -117,6 +130,13 @@ class _SignUpPageState extends State<SignUpPage> {
 //      print ("Password must contain at least 6 characters ");
 //    }
 //  }
+
+  void checkFormState(){
+    if(!_formKey.currentState.validate()){
+      return null;
+    }
+    validateFields();
+  }
 
   void validateFields(){
 
@@ -132,6 +152,9 @@ class _SignUpPageState extends State<SignUpPage> {
       else if(passwordController.text.length < 6){
         error.errorToastMessage(errorMessage: "Password should have at least 6 characters");
       }else{
+        setState(() {
+          _isButtonVisible = false;
+        });
         signUpWithEmailAndPassword();
       }
 
@@ -139,59 +162,56 @@ class _SignUpPageState extends State<SignUpPage> {
   }// end of function
 
   void signUpWithEmailAndPassword() async{
+   try {
+     auth = AuthenticationService();
+     String result = await auth.signUpWithEmailAndPasword(
+         email: emailController.text.trim(),
+         password: passwordController.text.trim()
+     );
 
-    auth = AuthenticationService();
-    String result = await auth.signUpWithEmailAndPasword(
-      email: emailController.text.trim(),
-      password: passwordController.text.trim()
-    );
-
-    if(result == AuthenticationService.signedUp){
-         await Future.delayed(
-             new Duration(
-               seconds: 1,
-             ),
-                 (){
-               Navigator.of(context).push(
-                 MaterialPageRoute(builder: (context) => VerifyEmail()),
-               );
-             }
-         );
-    }
-    else{
-      error.errorToastMessage(errorMessage: result);
-    }
+     if (result == AuthenticationService.signedUp) {
+       await Future.delayed(
+           new Duration(
+             seconds: 1,
+           ),
+               () {
+             Navigator.of(context).push(
+               MaterialPageRoute(builder: (context) => VerifyEmail()),
+             );
+           }
+       );
+     }
+     else {
+       error.errorToastMessage(errorMessage: result);
+     }
+   }catch(e){
+     error.errorToastMessage(errorMessage: e.toString());
+   }finally{
+     setState(() {
+       _isButtonVisible = true;
+     });
+   }
   }
 
   Widget _submitButton() {
-    return FlatButton(
+    return Center(
       child: Container(
-        width: MediaQuery.of(context).size.width,
-        padding: EdgeInsets.symmetric(vertical: 15),
-        alignment: Alignment.center,
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.all(Radius.circular(5)),
-            boxShadow: <BoxShadow>[
-              BoxShadow(
-                  color: Colors.grey.shade200,
-                  offset: Offset(2, 4),
-                  blurRadius: 5,
-                  spreadRadius: 2)
-            ],
-            gradient: LinearGradient(
-                begin: Alignment.centerLeft,
-                end: Alignment.centerRight,
-                colors: [Color(0xfffbb448), Color(0xfff7892b)])),
-        child: Text(
-          'Register Now',
-          style: GoogleFonts.krub(fontSize: 20, color: Colors.white),
+        width: MediaQuery.of(context).size.width - 30,
+        height: 60,
+        child: RaisedButton(
+          onPressed: _isButtonVisible ? () => {checkFormState()} : null,
+          child:Text(
+            'Register Now',
+            style: GoogleFonts.krub(
+              fontSize: 18,
+              color: Colors.white,
+            ),
+          ),
+          color: Color(0xfff7892b),
+          disabledColor: Colors.grey.shade400,
+          disabledTextColor: Colors.black,
         ),
       ),
-      onPressed: (){
-
-        validateFields();
-       // Navigator.push(context, MaterialPageRoute(builder: (context) => genericOptionScreen()));
-      },
     );
   }
 
@@ -250,12 +270,15 @@ class _SignUpPageState extends State<SignUpPage> {
   }
 
   Widget _emailPasswordWidget() {
-    return Column(
-        children: <Widget>[
-          _entryField("Email"),
-          _passwordentryField("Password"),
-        ],
-      );
+    return Form(
+      key: _formKey,
+      child: Column(
+          children: <Widget>[
+            _entryField("Email"),
+            _passwordentryField("Password"),
+          ],
+        ),
+    );
   }
 
 
@@ -459,27 +482,27 @@ class _SignUpPageState extends State<SignUpPage> {
               padding: EdgeInsets.symmetric(horizontal: 20),
               child: SingleChildScrollView(
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    SizedBox(height: height * .2),
-                    _title(),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    _emailPasswordWidget(),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    _submitButton(),
-                    _divider(),
-                    SizedBox(height: 15,),
-                    _GoogleButton(),
-                    _loginAccountLabel(),
-                  ],
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      SizedBox(height: height * .2),
+                      _title(),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      _emailPasswordWidget(),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      _submitButton(),
+                      _divider(),
+                      SizedBox(height: 15,),
+                      _GoogleButton(),
+                      _loginAccountLabel(),
+                    ],
+                  ),
                 ),
               ),
-            ),
             Positioned(top: 40, left: 0, child: _backButton()),
           ],
         ),

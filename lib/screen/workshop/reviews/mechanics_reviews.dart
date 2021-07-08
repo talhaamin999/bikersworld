@@ -109,16 +109,34 @@ class _WorkshopkMechanicsReviewsState extends State<WorkshopkMechanicsReviews> {
                   ),
                   SizedBox(height: 10,),
 
-                  Container(
-                    child: Text(
-                      "4.0",
-                      style: GoogleFonts.hindSiliguri(
-                        fontSize: 35,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
+                  FutureBuilder(
+                    future: _mechanicReviews.getAverageReviewOfMechanics(mechanicId: widget.mechanic.id, workshopId: widget.workshopId),
+                    builder: (BuildContext context, AsyncSnapshot<double> snapshot) {
+                      if(snapshot.hasData && snapshot.data.sign == 1.0){
+                        return Container(
+                          child: Text(
+                            "${snapshot.data.toStringAsFixed(1)} out off 5",
+                            style: GoogleFonts.hindSiliguri(
+                              fontSize: 35,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        );
+                      }
+                      else{
+                        return Container(
+                          child: Text(
+                            "NO REVIEWS ADDED YET",
+                            style: GoogleFonts.hindSiliguri(
+                              fontSize: 35,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        );
+                      }
+                    },
                   ),
-                  RatingsBar(30),
+
                   SizedBox(
                     height: 20,
                   ),

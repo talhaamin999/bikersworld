@@ -1,5 +1,6 @@
 import 'package:bikersworld/model/review_model.dart';
 import 'package:bikersworld/model/workshop_model.dart';
+import 'package:bikersworld/services/search_queries/serach_workshop.dart';
 import 'package:bikersworld/services/toast_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -22,6 +23,7 @@ class _ReviewFromUserState extends State<ReviewFromUser> {
   final _workshopCollection = 'workshop';
   final _workshopReviewsCollection = 'workshop_reviews';
   final _error = ToastErrorMessage();
+  final _workshopAvgReview = SearchWorkshop();
 
   void mapId(){
     if(widget.workshopDocId != null){
@@ -102,22 +104,37 @@ class _ReviewFromUserState extends State<ReviewFromUser> {
                 ),
               ),
               SizedBox(height: 20,),
-              Padding(
-                padding: const EdgeInsets.only(left:1),
-                child: Container(
-                  child: Column(
-                    children: [
-                      Text(
-                        "4.0",
-                        style: GoogleFonts.quicksand(
-                          fontSize: 50,
-                          fontWeight: FontWeight.bold,
-                        ),
+              FutureBuilder(
+                future: _workshopAvgReview.getAverageReviewOfWorksop(workshopId: widget.workshopDocId),
+                builder: (BuildContext context, AsyncSnapshot<double> snapshot) {
+                  if(snapshot.hasData && snapshot.data.sign == 1.0) {
+                    return Padding(
+                      padding: const EdgeInsets.only(left: 1),
+                      child: Container(
+                        child: Text(
+                              "${snapshot.data.toStringAsFixed(1)} out of 5",
+                              style: GoogleFonts.quicksand(
+                                fontSize: 50,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
                       ),
-                      RatingsBar(30),
-                    ],
-                  ),
-                ),
+                    );
+                  }else{
+                    return Padding(
+                      padding: const EdgeInsets.only(left: 1),
+                      child: Container(
+                        child: Text(
+                              "NO REVIEWS ADDED YET",
+                              style: GoogleFonts.quicksand(
+                                fontSize: 50,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                      ),
+                    );
+                  }
+                },
               ),
               SizedBox(height: 15,),
               Padding(

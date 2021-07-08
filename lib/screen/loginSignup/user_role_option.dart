@@ -1,16 +1,10 @@
 import 'dart:async';
 import 'package:bikersworld/services/user_role_queries/add_user_role.dart';
-import 'package:email_validator/email_validator.dart';
-import 'package:bikersworld/services/authenticate_service.dart';
 import 'package:bikersworld/services/toast_service.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:bikersworld/screen/loginSignup/signup.dart';
 import 'package:bikersworld/screen/dashboard/home.dart';
-
 import 'package:bikersworld/widgets/bezierContainer.dart';
 
 

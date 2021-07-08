@@ -1,6 +1,5 @@
 import 'package:bikersworld/services/authenticate_service.dart';
 import 'package:bikersworld/services/toast_service.dart';
-import 'package:bikersworld/widgets/dashboard.dart';
 import 'package:flutter/material.dart';
 import 'package:bikersworld/widgets/bezierContainer.dart';
 import 'package:bikersworld/screen/loginSignup/signup.dart';
@@ -24,12 +23,25 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
-
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   AuthenticationService auth;
   ToastErrorMessage error = ToastErrorMessage();
   ToastValidMessage valid = ToastValidMessage();
+  bool _isButtonVisible = true;
+
+
+  @override
+  dispose(){
+    emailController.dispose();
+    passwordController.dispose();
+    super.dispose();
+  }
+
+  void clear(){
+    emailController.clear();
+    passwordController.clear();
+  }
 
   Widget _backButton() {
     return InkWell(
@@ -65,8 +77,7 @@ class _LoginPageState extends State<LoginPage> {
             SizedBox(
               height: 10,
             ),
-            TextField(
-
+            TextFormField(
                 keyboardType: TextInputType.emailAddress,
                 controller: emailController,
                 decoration: InputDecoration(
@@ -74,6 +85,12 @@ class _LoginPageState extends State<LoginPage> {
                     fillColor: Color(0xfff3f3f4),
                     filled: true,
                 ),
+              validator: (value){
+                if(value.isEmpty){
+                  return "$title is a Required Field";
+                }
+                return null;
+              },
             ),
           ],
         ),
@@ -97,7 +114,7 @@ class _LoginPageState extends State<LoginPage> {
           SizedBox(
             height: 10,
           ),
-          TextField(
+          TextFormField(
             obscureText: true,
             controller: passwordController,
             decoration: InputDecoration(
@@ -114,7 +131,12 @@ class _LoginPageState extends State<LoginPage> {
 //                    },
 //                ),
             ),
-
+            validator: (value){
+              if(value.isEmpty){
+                return "$title is a Required Field";
+              }
+              return null;
+            },
           ),
         ],
       ),
@@ -122,41 +144,34 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   Widget _submitButton() {
-    return FlatButton(
-      child: Container(
-        width: MediaQuery.of(context).size.width,
-        padding: EdgeInsets.symmetric(vertical: 15),
-        alignment: Alignment.center,
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.all(Radius.circular(5)),
-            boxShadow: <BoxShadow>[
-              BoxShadow(
-                  color: Colors.grey.shade200,
-                  offset: Offset(2, 4),
-                  blurRadius: 5,
-                  spreadRadius: 2)
-            ],
-            gradient: LinearGradient(
-                begin: Alignment.centerLeft,
-                end: Alignment.centerRight,
-                colors: [Color(0xfffbb448), Color(0xfff7892b),
-                ],
+    return Center(
+        child: Container(
+          width: MediaQuery.of(context).size.width - 30,
+          height: 60,
+          child: RaisedButton(
+            onPressed: _isButtonVisible ? () => {checkFormState()} : null,
+            child:Text(
+              'Login',
+              style: GoogleFonts.krub(
+                fontSize: 18,
+                color: Colors.white,
+              ),
             ),
-        ),
-        child: Text(
-          'Login',
-          style: GoogleFonts.quicksand(
-              fontSize: 20,
-              color: Colors.white
+            color: Color(0xfff7892b),
+            disabledColor: Colors.grey.shade400,
+            disabledTextColor: Colors.black,
           ),
         ),
-      ),
-      onPressed: (){
-
-        validateFields();
-      },
-    );
+      );
   }
+
+  void checkFormState(){
+    if(!_formKey.currentState.validate()){
+      return null;
+    }
+    validateFields();
+  }
+
   void validateFields(){
 
     if (emailController.text.trim().isEmpty ||  passwordController.text.trim().isEmpty){
@@ -171,6 +186,9 @@ class _LoginPageState extends State<LoginPage> {
       else if(passwordController.text.length < 6){
         error.errorToastMessage(errorMessage: "Password should have at least 6 characters");
       }else{
+        setState(() {
+          _isButtonVisible = false;
+        });
         signInWithEmailAndPassword();
       }
 
@@ -179,34 +197,39 @@ class _LoginPageState extends State<LoginPage> {
 
 
   void signInWithEmailAndPassword() async{
-
-    auth = AuthenticationService();
-    String result = await auth.signInWithEmailAndPassword(
-        email: emailController.text.trim(),
-        password: passwordController.text.trim()
-    );
-
-    if(result == AuthenticationService.signedIn){
-
-      valid.validToastMessage(validMessage: "Signed In Successful");
-
-      await Future.delayed(
-          new Duration(
-            seconds: 1,
-          ),
-              (){
-            Navigator.of(context).push(
-              MaterialPageRoute(builder: (context) => HomeDashboard()),
-            );
-          }
+    try {
+      auth = AuthenticationService();
+      String result = await auth.signInWithEmailAndPassword(
+          email: emailController.text.trim(),
+          password: passwordController.text.trim()
       );
 
-    }
-    else{
-      error.errorToastMessage(errorMessage: result);
+      if (result == AuthenticationService.signedIn) {
+        valid.validToastMessage(validMessage: "Signed In Successful");
+        clear();
+        await Future.delayed(
+            new Duration(
+              seconds: 1,
+            ),
+                () {
+              Navigator.of(context).push(
+                MaterialPageRoute(builder: (context) => HomeDashboard()),
+              );
+            }
+        );
+      }
+      else {
+        error.errorToastMessage(errorMessage: result);
+      }
+
+    }catch(e){
+      error.errorToastMessage(errorMessage: e.toString());
+    }finally{
+      setState(() {
+        _isButtonVisible = true;
+      });
     }
   }
-
 
   Widget _divider() {
     return Container(
@@ -446,12 +469,15 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   Widget _emailPasswordWidget() {
-    return Column(
+    return Form(
+      key: _formKey,
+     child: Column(
       children: <Widget>[
         _entryField("Email"),
         _passwordentryField("Password")
       ],
-    );
+    ),
+   );
   }
 
   @override

@@ -179,33 +179,6 @@ class _CustomDrawerState extends State<CustomDrawer> {
                                           ),
                                           value: userOption.signOut,
                                         ),
-                                        new PopupMenuItem<userOption>(
-                                          child: Visibility(
-                                            visible: _firebaseUser
-                                                .currentUser == null
-                                                ? true
-                                                : false,
-                                            child: Container(
-                                              child: Row(
-                                                children: [
-                                                  Icon(
-                                                    FontAwesomeIcons.signInAlt,
-                                                    size: 15,
-                                                  ),
-                                                  SizedBox(width: 10),
-                                                  Text(
-                                                    "Login / Sign Up",
-                                                    style: GoogleFonts
-                                                        .quicksand(
-                                                      fontSize: 16,
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                          ),
-                                          value: userOption.logInSignOut,
-                                        ),
                                       ],
                                     ),
                                   ],
@@ -461,60 +434,6 @@ class _CustomDrawerState extends State<CustomDrawer> {
                                       new PopupMenuItem<userOption>(
                                         child: Visibility(
                                           visible: _firebaseUser
-                                              .currentUser != null
-                                              ? true
-                                              : false,
-                                          child: Container(
-                                            child: Row(
-                                              children: [
-                                                Icon(
-                                                  FontAwesomeIcons.edit,
-                                                  size: 15,
-                                                ),
-                                                SizedBox(width: 10),
-                                                Text(
-                                                  "Edit Profile",
-                                                  style: GoogleFonts
-                                                      .quicksand(
-                                                    fontSize: 16,
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                        value: userOption.updateProfile,
-                                      ),
-                                      new PopupMenuItem<userOption>(
-                                        child: Visibility(
-                                          visible: _firebaseUser
-                                              .currentUser != null
-                                              ? true
-                                              : false,
-                                          child: Container(
-                                            child: Row(
-                                              children: [
-                                                Icon(
-                                                  FontAwesomeIcons.signOutAlt,
-                                                  size: 15,
-                                                ),
-                                                SizedBox(width: 10),
-                                                Text(
-                                                  "Sign Out",
-                                                  style: GoogleFonts
-                                                      .quicksand(
-                                                    fontSize: 16,
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                        value: userOption.signOut,
-                                      ),
-                                      new PopupMenuItem<userOption>(
-                                        child: Visibility(
-                                          visible: _firebaseUser
                                               .currentUser == null
                                               ? true
                                               : false,
@@ -572,17 +491,6 @@ class _CustomDrawerState extends State<CustomDrawer> {
                           builder: (context) => RegisterWorkshop()));
                     },
                   ),
-                  ListTile(
-                    leading: Icon(FontAwesomeIcons.registered),
-                    title: Text("Workshop Dashboard",
-                      style: GoogleFonts.montserrat(
-                          fontSize: 15, color: Colors.black),),
-                    trailing: Icon(Icons.arrow_forward_ios, size: 15.0,),
-                    onTap: () {
-                      Navigator.push(context, MaterialPageRoute(
-                          builder: (context) => WorkshopDashboard()));
-                    },
-                  ),
 
                   ListTile(
                     leading: Icon(FontAwesomeIcons.ad),
@@ -606,19 +514,6 @@ class _CustomDrawerState extends State<CustomDrawer> {
                       Navigator.push(context, MaterialPageRoute(
                           builder: (context) => RegisterAutoPartStore()));
                     },
-                  ),
-                  ListTile(
-                    leading: Icon(FontAwesomeIcons.registered),
-                    title: Text("PartStore Dashboard",
-                      style: GoogleFonts.montserrat(
-                          fontSize: 15, color: Colors.black),),
-                    trailing: Icon(Icons.arrow_forward_ios, size: 15.0,),
-                    onTap: () {
-                      Navigator.push(context, MaterialPageRoute(
-                          builder: (context) =>
-                              AutoPartStoreDashboardOwner()));
-                    },
-
                   ),
                   Container(
                     margin: EdgeInsets.symmetric(vertical: 10),

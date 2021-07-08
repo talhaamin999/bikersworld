@@ -110,11 +110,41 @@ class _NormalUserWorkshopEmployeeProfileState extends State<NormalUserWorkshopEm
                               ),
                             ),
                             SizedBox(height: 5,),
-                            RatingsBar(20),
+                            FutureBuilder(
+                              future: _mechanicReviews.getAverageReviewOfMechanics(mechanicId: widget.data.id, workshopId: widget.workshopId),
+                              builder: (BuildContext context, AsyncSnapshot<double> snapshot) {
+                                if(snapshot.hasData && snapshot.data.sign == 1.0) {
+                                  return Padding(
+                                    padding: const EdgeInsets.only(left: 1),
+                                    child: Container(
+                                      child: Text(
+                                        "${snapshot.data.toStringAsFixed(1)} out of 5",
+                                        style: GoogleFonts.quicksand(
+                                          fontSize: 50,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    ),
+                                  );
+                                }else{
+                                  return Padding(
+                                    padding: const EdgeInsets.only(left: 1),
+                                    child: Container(
+                                      child: Text(
+                                        "NO REVIEWS ADDED YET",
+                                        style: GoogleFonts.quicksand(
+                                          fontSize: 50,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    ),
+                                  );
+                                }
+                              },
+                            ),
 
                             SizedBox(height: 10,),
                             FlatButton(
-
                               child: Container(
                                 height: 50,
                                 width: 120,

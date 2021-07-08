@@ -135,13 +135,13 @@ class _WorkshopFeedbackFormState extends State<WorkshopFeedbackForm> {
               Container(
                 margin: EdgeInsets.only(left: 20),
                 width: MediaQuery.of(context).size.width - 40,
-                child: ReviewsTextField("Title",_titleController,1,filter: FilteringTextInputFormatter.allow(RegExp("[a-zA-Z ]")),),
+                child: ReviewsTextField('Reviewer',_titleController,1,filter: FilteringTextInputFormatter.allow(RegExp("[a-zA-Z ]"))),
               ),
               SizedBox(height: 20,),
               Container(
                 margin: EdgeInsets.only(left: 20),
                 width: MediaQuery.of(context).size.width - 40,
-                child: ReviewsTextField("Description",_descriptionController,null),
+                child: ReviewsTextField("Description",_descriptionController,null,filter: FilteringTextInputFormatter.allow(RegExp("[a-zA-Z ]")),),
               ),
               SizedBox(height: 20,),
               Center(

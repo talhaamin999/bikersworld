@@ -71,22 +71,38 @@ class _NormalUserPartStoreReivewState extends State<NormalUserPartStoreReivew> {
                 ),
               ),
               SizedBox(height: 20,),
-              Padding(
-                padding: const EdgeInsets.only(left:1),
-                child: Container(
-                  child: Column(
-                    children: [
-                      Text(
-                        "4.0",
-                        style: GoogleFonts.quicksand(
-                          fontSize: 50,
-                          fontWeight: FontWeight.bold,
+              FutureBuilder(
+                future: _partStoreReview.getAverageReviewOfPartStore(partStoreId: widget.partStoreId),
+                builder: (BuildContext context, AsyncSnapshot<double> snapshot) {
+                  if(snapshot.hasData && snapshot.data.sign == 1.0){
+                    return Padding(
+                      padding: const EdgeInsets.only(left:1),
+                      child: Container(
+                        child: Text(
+                              "${snapshot.data.toStringAsFixed(1)} out Off 5",
+                              style: GoogleFonts.quicksand(
+                                fontSize: 50,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                      ),
+                    );
+                  }
+                  else{
+                    return Padding(
+                      padding: const EdgeInsets.only(left:1),
+                      child: Container(
+                        child: Text(
+                          "NO REVIEWS ADDED YET",
+                          style: GoogleFonts.quicksand(
+                            fontSize: 50,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ),
-                      RatingsBar(30),
-                    ],
-                  ),
-                ),
+                    );
+                  }
+                },
               ),
               SizedBox(height: 15,),
               Padding(
