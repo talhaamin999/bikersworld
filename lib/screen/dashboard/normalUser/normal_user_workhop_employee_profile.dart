@@ -118,10 +118,9 @@ class _NormalUserWorkshopEmployeeProfileState extends State<NormalUserWorkshopEm
                                     padding: const EdgeInsets.only(left: 1),
                                     child: Container(
                                       child: Text(
-                                        "${snapshot.data.toStringAsFixed(1)} out of 5",
+                                        "${snapshot.data.toStringAsFixed(1)} / 5",
                                         style: GoogleFonts.quicksand(
-                                          fontSize: 50,
-                                          fontWeight: FontWeight.bold,
+                                          fontSize: 30,
                                         ),
                                       ),
                                     ),

@@ -502,9 +502,8 @@ class _HomeDashboardState extends State<HomeDashboard> {
                             ),
                           ),
                         ),
-
-  ],
- ),
+                      ],
+                    ),
                   ),
                   FutureBuilder(
                     future: _workshops.getLimitedWorkshops(),
@@ -743,36 +742,35 @@ class _HomeDashboardState extends State<HomeDashboard> {
                                               ),
                                             ),
                                             Container(
-                                              margin:EdgeInsets.only(left:10,),
                                               child: Row(
-                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                 children: [
-                                                  Text(
-                                                    snapshot.data[index].city,
-                                                    style: GoogleFonts.mukta(fontSize: 16,color: Colors.grey),
-                                                  ),
-                                                  SizedBox(width: 5,),
-                                                  Text("|"),
-                                                  SizedBox(width: 5,),
-                                                  Text(
-                                                    "PKR ${snapshot.data[index].price}",
-                                                    style: GoogleFonts.varelaRound(fontSize: 16,color: Colors.black,fontWeight: FontWeight.bold),
-                                                  ),
-                                                  SizedBox(width: 20,),
-                                                  Container(
-                                                    // margin: EdgeInsets.only(top: 20),
-                                                    height: 40,
-                                                    width: 40,
-                                                    decoration: BoxDecoration(
-                                                      color: Color(0XFF012A4A),
-                                                      borderRadius: BorderRadius.only(
-                                                        bottomRight: Radius.circular(10),
-                                                        topLeft: Radius.circular(10),
+                                                  Padding(
+                                                    padding:EdgeInsets.only(left: 10,),
+                                                    child: Text(
+                                                      snapshot.data[index].city,
+                                                      style: GoogleFonts.mukta(
+                                                        fontSize:16,
+                                                        color: Colors.grey,
                                                       ),
+                                                      softWrap: true,
                                                     ),
-                                                    child: Icon(
-                                                      Icons.arrow_forward,
-                                                      color: Colors.white,
+                                                  ),
+                                                  Container(
+                                                    height: 20,
+                                                    width: 1.0,
+                                                    color: Colors.grey,
+                                                    margin: const EdgeInsets.only(left: 10.0, right: 10.0),
+                                                  ),
+
+                                                  Padding(
+                                                    padding:EdgeInsets.only(left: 1,),
+                                                    child: Text(
+                                                      snapshot.data[index].price.toString(),
+                                                      style: GoogleFonts.mukta(
+                                                        fontSize:16,
+                                                        color: Colors.grey,
+                                                      ),
+                                                      softWrap: true,
                                                     ),
                                                   ),
                                                 ],
@@ -1155,16 +1153,13 @@ class _HomeDashboardState extends State<HomeDashboard> {
                       ),
                     ),
                     SizedBox(height:10),
-                    /*
-                    *
-Navigator.push(context, MaterialPageRoute(builder: (context) => SearchAutoPartDetailPage(partDetail: snapshot.data[index],)));
-*/
+
                     FutureBuilder(
                       future: _autoPart.getLimitedAutoPart(),
                       builder: (BuildContext context, AsyncSnapshot<List<AutoPartModel>> snapshot) {
                         if(snapshot.hasData && snapshot.data.isNotEmpty){
                           return  Container(
-                            height: MediaQuery.of(context).size.height * .28,
+                            height: MediaQuery.of(context).size.width - 180,
                             child: ListView.builder(
                                 scrollDirection: Axis.horizontal,
                                 shrinkWrap: true,
@@ -1178,13 +1173,6 @@ Navigator.push(context, MaterialPageRoute(builder: (context) => SearchAutoPartDe
                                     },
                                     child: Container(
                                       width: MediaQuery.of(context).size.width -200,
-//                                      child: Card(
-//                                        color: Color(0xfff2f2f2),
-//                                        margin: const EdgeInsets.only(left:10,),
-//                                        shape: RoundedRectangleBorder(
-//                                          borderRadius: BorderRadius.circular(10),
-//                                        ),
-//                                      ),
                                     child: Card(
                                       margin: const EdgeInsets.all(10.0),
                                       child: Column(
@@ -1265,87 +1253,78 @@ Navigator.push(context, MaterialPageRoute(builder: (context) => SearchAutoPartDe
     );
   }
 }
-/*
-* Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          children: [
-                                            Container(
-                                              width: MediaQuery.of(context).size.width - 100,
-                                              height: 140,
-                                              decoration: BoxDecoration(
-                                                borderRadius: BorderRadius.circular(10),
-                                              ),
-                                              child: ClipRRect(
-                                                borderRadius: BorderRadius.circular(10.0),
-                                                child: Image(
-                                                  image: NetworkImage(
-                                                    snapshot.data[index].imageURL,
-                                                  ),
-                                                  fit: BoxFit.fill,
-                                                ),
-                                              ),
-                                            ),
-                                            Padding(
-                                              padding: const EdgeInsets.only(left:5,top: 5),
-                                              child: Text(
-                                                snapshot.data[index].title,
-                                                style: GoogleFonts.mukta(
-                                                  fontSize:20,
-                                                ),
-                                              ),
-                                            ),
-                                            Container(
-                                              margin: EdgeInsets.only(left: 5),
-                                              child: Row(
-                                                children: [
-                                                  Text(
-                                                    "PKR",
-                                                    style: GoogleFonts.quicksand(
-                                                      fontSize: 15,
-                                                      color: Colors.grey,
-                                                      fontWeight: FontWeight.bold,
-                                                    ),
-                                                  ),
-                                                  SizedBox(width: 5,),
-                                                  Text(
-                                                    snapshot.data[index].price.toString(),
-                                                    style: GoogleFonts.quicksand(
-                                                      fontSize: 15,
-                                                      color: Colors.grey,
-                                                      fontWeight: FontWeight.bold,
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                          ],
-                                        ),*/
+
 
 /*
-* Card(
-                margin: const EdgeInsets.all(10.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    AspectRatio(
-                      aspectRatio: 18.0 / 13.0,
-                      child: Image.network(
-                        _listViewDataImage[index],
-                        fit: BoxFit.fill,
-                      ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.fromLTRB(16.0, 12.0, 16.0, 8.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            _listViewData[index],
-                            textAlign: TextAlign.center,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              );*/
+* Container(
+                            height: MediaQuery.of(context).size.height * .28,
+                            child: ListView.builder(
+                                scrollDirection: Axis.horizontal,
+                                shrinkWrap: true,
+                                physics:AlwaysScrollableScrollPhysics(),
+                                itemCount: snapshot.data.length,
+                                itemBuilder: (BuildContext context, int index){
+                                  return FlatButton(
+                                    padding: EdgeInsets.only(left:20, right: 10),
+                                    onPressed: (){
+                                      Navigator.push(context, MaterialPageRoute(builder: (context) => SearchAutoPartDetailPage(partDetail: snapshot.data[index],)));
+                                    },
+                                    child: Container(
+                                      width: MediaQuery.of(context).size.width -200,
+                                    child: Card(
+                                      margin: const EdgeInsets.all(10.0),
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          AspectRatio(
+                                            aspectRatio: 18.0 / 13.0,
+                                            child: Image.network(
+                                              snapshot.data[index].imageURL,
+                                              fit: BoxFit.fill,
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding: EdgeInsets.only(left: 10,top:5),
+                                            child: Column(
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  snapshot.data[index].title,
+                                                  style: GoogleFonts.mukta(
+                                                    fontSize:20,
+                                                  ),
+                                                ),
+                                                Container(
+                                                  margin: EdgeInsets.only(left: 5),
+                                                  child: Row(
+                                                    children: [
+                                                      Text(
+                                                        "PKR",
+                                                        style: GoogleFonts.quicksand(
+                                                          fontSize: 15,
+                                                          color: Colors.grey,
+                                                          fontWeight: FontWeight.bold,
+                                                        ),
+                                                      ),
+                                                      SizedBox(width: 5,),
+                                                      Text(
+                                                        snapshot.data[index].price.toString(),
+                                                        style: GoogleFonts.quicksand(
+                                                          fontSize: 15,
+                                                          color: Colors.grey,
+                                                          fontWeight: FontWeight.bold,
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),],
+                                      ),
+                                    ),
+                                    ),
+                                  );
+                                }
+                            ),
+                          );*/

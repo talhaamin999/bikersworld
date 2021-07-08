@@ -152,6 +152,7 @@ class _EmployeeFeedbackFormState extends State<EmployeeFeedbackForm> {
               ),
               SizedBox(height: 15,),
               Container(
+                margin: EdgeInsets.only(left: 20),
                 child: RatingsBar(40),
               ),
               SizedBox(height: 20,),
