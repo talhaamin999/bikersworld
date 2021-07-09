@@ -195,7 +195,7 @@ class _WorkshopkMechanicsReviewsState extends State<WorkshopkMechanicsReviews> {
                                         ),
                                       ),
                                       SizedBox(height: 5,),
-                                      StarDisplay(userRating:snapshot.data[index].starRating),
+                                      RatingsBar(20,userRating: snapshot.data[index].starRating,),
                                       SizedBox(height: 5,),
                                       Container(
                                         child: Text(

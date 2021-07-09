@@ -201,7 +201,7 @@ class _ReviewFromUserState extends State<ReviewFromUser> {
                                                   Text(snapshot.data[index].title, style:GoogleFonts.quicksand(fontSize:18, fontWeight: FontWeight.bold),),
                                                   Padding(
                                                     padding: const EdgeInsets.only(top:2,bottom: 5),
-                                                    child: StarDisplay(userRating: snapshot.data[index].starRating,),
+                                                    child: RatingsBar(20,userRating: snapshot.data[index].starRating,),
                                                   ),
                                                 ],
                                               ),
@@ -211,7 +211,7 @@ class _ReviewFromUserState extends State<ReviewFromUser> {
                                                 crossAxisAlignment: CrossAxisAlignment.start,
                                                 children: [
                                                   Text("title"),
-                                                  RatingsBar(25),
+                                                  RatingsBar(20,userRating: snapshot.data[index].starRating,),
                                                 ],
                                               ),
                                             ),

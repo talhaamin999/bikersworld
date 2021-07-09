@@ -218,6 +218,7 @@ class _NormalUserWorkshopEmployeeProfileState extends State<NormalUserWorkshopEm
                                       ),
                                     ),
                                     SizedBox(height: 5,),
+                                    RatingsBar(20,userRating: snapshot.data[index].starRating,),
                                    // StarDisplay(userRating: snapshot.data,).i,
 
                                     SizedBox(height: 5,),

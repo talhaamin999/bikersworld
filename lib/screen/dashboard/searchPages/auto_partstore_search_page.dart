@@ -328,7 +328,7 @@ class _AutoPartStoreSearchPageState extends State<AutoPartStoreSearchPage> {
                                           future: _avgReview.getAverageReviewOfPartStore(partStoreId: _cityResultsList[index].id),
                                           builder: (BuildContext context, AsyncSnapshot<double> snapshot) {
                                             if(snapshot.hasData && (snapshot.data.sign == 1.0)){
-                                              return StarDisplay(userRating: snapshot.data,);
+                                              return RatingsBar(20,userRating: snapshot.data,);
                                             }else {
                                               return Text("NO REVIEWS",style: GoogleFonts.raleway(fontSize: 12,color: Colors.red, fontWeight: FontWeight.w600),);
                                             }
@@ -424,7 +424,7 @@ class _AutoPartStoreSearchPageState extends State<AutoPartStoreSearchPage> {
                                         future: _avgReview.getAverageReviewOfPartStore(partStoreId: _resultsList[index].id),
                                         builder: (BuildContext context, AsyncSnapshot<double> snapshot) {
                                           if(snapshot.hasData && (snapshot.data.sign == 1.0)){
-                                            return StarDisplay(userRating:snapshot.data);
+                                            return RatingsBar(20,userRating: snapshot.data,);
                                           }else {
                                             return Text("NO REVIEWS",style: GoogleFonts.raleway(fontSize: 12,color: Colors.red, fontWeight: FontWeight.w600),);
                                           }

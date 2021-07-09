@@ -742,33 +742,66 @@ class ReviewsTab extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          SizedBox(height: 20,),
-          Padding(
-            padding: const EdgeInsets.only(left:20),
-            child: Container(
-              child:RichText(
-                textAlign: TextAlign.start,
-                text: TextSpan(
-                  text: 'Store',
-                  style: GoogleFonts.quicksand(
-                    fontSize: 30,
-                    color: Color(0xfff7892b),
-                  ),
-                  children: [
-                    TextSpan(
-                        text: ' Reviews',
-                        style: GoogleFonts.quicksand(
-                          fontSize: 30,
-                          color: Colors.black,
-                        )
+          Center(
+            child: Padding(
+              padding: const EdgeInsets.only(left:15, top:15),
+              child: Container(
+                child: RichText(
+                  textAlign: TextAlign.start,
+                  text: TextSpan(
+                    text: 'Part Store',
+                    style: GoogleFonts.quicksand(
+                      fontSize: 30,
+                      color: Color(0xfff7892b),
                     ),
-                  ],
+                    children: [
+                      TextSpan(
+                          text: ' Reviews',
+                          style: GoogleFonts.quicksand(
+                            fontSize: 30,
+                            color: Colors.black,
+                          )),
+                    ],
+                  ),
                 ),
               ),
             ),
           ),
-           /*
-           * */
+          SizedBox(height: 20,),
+          FutureBuilder(
+            future: _reviews.getAverageReviewOfPartStore(partStoreId: partStoreId),
+            builder: (BuildContext context, AsyncSnapshot<double> snapshot) {
+              if(snapshot.hasData && snapshot.data.sign == 1.0){
+                return Center(
+                  child: Padding(
+                    padding: const EdgeInsets.only(left:1),
+                    child: Container(
+                      child: Text(
+                        "${snapshot.data.toStringAsFixed(1)} / 5",
+                        style: GoogleFonts.quicksand(
+                          fontSize: 30,
+                        ),
+                      ),
+                    ),
+                  ),
+                );
+              }
+              else{
+                return Padding(
+                  padding: const EdgeInsets.only(left:1),
+                  child: Container(
+                    child: Text(
+                      "NO REVIEWS ADDED YET",
+                      style: GoogleFonts.quicksand(
+                        fontSize: 50,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                );
+              }
+            },
+          ),
            StreamBuilder(
              stream: _reviews.getPartstoreReview(partStoreId: partStoreId),
              builder: (BuildContext context, AsyncSnapshot<List<Reviews>> snapshot) {
@@ -809,7 +842,7 @@ class ReviewsTab extends StatelessWidget {
                                ),
                                SizedBox(height: 10,),
 
-                               StarDisplay(userRating: snapshot.data[index].starRating),
+                               RatingsBar(20,userRating: snapshot.data[index].starRating,),
                                SizedBox(height: 10,),
                                Container(
                                  child: Text(

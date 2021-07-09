@@ -168,7 +168,7 @@ class _WorkshopDashboardReviewsState extends State<WorkshopDashboardReviews> {
                                           ),
                                         ),
                                         SizedBox(height: 10,),
-                                        StarDisplay(userRating:snapshot.data[index].starRating),
+                                        RatingsBar(20,userRating: snapshot.data[index].starRating,),
                                         SizedBox(height: 10,),
                                         Container(
                                           child: Text(

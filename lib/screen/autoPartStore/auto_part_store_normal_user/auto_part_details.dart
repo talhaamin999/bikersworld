@@ -283,7 +283,7 @@ class AutoPartDetail extends StatelessWidget {
                                                 SizedBox(
                                                   height: 5,
                                                 ),
-                                                StarDisplay(userRating: snapshot.data[index].starRating,),
+                                                RatingsBar(20,userRating: snapshot.data[index].starRating,),
                                                 SizedBox(
                                                   height: 10,
                                                 ),
