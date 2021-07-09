@@ -79,11 +79,11 @@ class _NormalUserPartStoreReivewState extends State<NormalUserPartStoreReivew> {
                       padding: const EdgeInsets.only(left:1),
                       child: Container(
                         child: Text(
-                              "${snapshot.data.toStringAsFixed(1)} / 5",
-                              style: GoogleFonts.quicksand(
-                                fontSize: 30,
-                              ),
-                            ),
+                          "${snapshot.data.toStringAsFixed(1)} / 5",
+                          style: GoogleFonts.quicksand(
+                            fontSize: 25,
+                          ),
+                        ),
                       ),
                     );
                   }
@@ -94,8 +94,8 @@ class _NormalUserPartStoreReivewState extends State<NormalUserPartStoreReivew> {
                         child: Text(
                           "NO REVIEWS ADDED YET",
                           style: GoogleFonts.quicksand(
-                            fontSize: 50,
-                            fontWeight: FontWeight.bold,
+                            fontSize: 15,
+                            fontWeight: FontWeight.w500,
                           ),
                         ),
                       ),

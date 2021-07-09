@@ -128,7 +128,7 @@ class _WorkshopkMechanicsReviewsState extends State<WorkshopkMechanicsReviews> {
                             child: Text(
                               "NO WORKSHOP REVIEW YET",
                               style: GoogleFonts.quicksand(
-                                fontSize: 25,
+                                fontSize: 18,
                               ),
                             ),
                           ),
@@ -140,9 +140,7 @@ class _WorkshopkMechanicsReviewsState extends State<WorkshopkMechanicsReviews> {
                   SizedBox(
                     height: 20,
                   ),
-                  Container(
 
-                  ),
                   Container(
                     margin: EdgeInsets.symmetric(horizontal: 30,),
                     alignment: Alignment.topLeft,

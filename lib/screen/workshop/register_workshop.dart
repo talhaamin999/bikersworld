@@ -466,7 +466,7 @@ Widget _registerWorkshopWidget({@required TextEditingController shopTitleControl
                         ),
                       ),
                     ),
-                    SizedBox(width: 30,),
+                    SizedBox(width: 10,),
                     Container(
                       child: Column(
                         children: [
@@ -599,7 +599,7 @@ class _TimePickerState extends State<TimePicker> {
           child: Text(
             'Time',
             style: GoogleFonts.quicksand(
-              fontSize: 18,
+              fontSize: 17,
               color: Colors.orange,
             ),
           ),

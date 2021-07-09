@@ -746,8 +746,8 @@ class ReviewsTab extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(left:20, right: 20),
             child: Container(
-              child:Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              child:Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   RichText(
                     textAlign: TextAlign.start,
@@ -768,17 +768,20 @@ class ReviewsTab extends StatelessWidget {
                       ],
                     ),
                   ),
+                  SizedBox(height: 10,),
                   FutureBuilder(
                     future: _reviews.getAverageReviewOfPartStore(partStoreId: partStoreId),
                     builder: (BuildContext context, AsyncSnapshot<double> snapshot) {
                       if(snapshot.hasData && snapshot.data.sign == 1.0){
                         return Padding(
                           padding: const EdgeInsets.only(left:1),
-                          child: Container(
-                            child: Text(
-                              "${snapshot.data.toStringAsFixed(1)} / 5",
-                              style: GoogleFonts.quicksand(
-                                fontSize: 30,
+                          child: Center(
+                            child: Container(
+                              child: Text(
+                                "${snapshot.data.toStringAsFixed(1)} / 5",
+                                style: GoogleFonts.quicksand(
+                                  fontSize: 25,
+                                ),
                               ),
                             ),
                           ),
@@ -791,8 +794,8 @@ class ReviewsTab extends StatelessWidget {
                             child: Text(
                               "NO REVIEWS ADDED YET",
                               style: GoogleFonts.quicksand(
-                                fontSize: 50,
-                                fontWeight: FontWeight.bold,
+                                fontSize: 15,
+                                fontWeight: FontWeight.w500,
                               ),
                             ),
                           ),

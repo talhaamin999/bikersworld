@@ -120,7 +120,7 @@ class _NormalUserWorkshopEmployeeProfileState extends State<NormalUserWorkshopEm
                                       child: Text(
                                         "${snapshot.data.toStringAsFixed(1)} / 5",
                                         style: GoogleFonts.quicksand(
-                                          fontSize: 30,
+                                          fontSize: 20,
                                         ),
                                       ),
                                     ),
@@ -130,10 +130,9 @@ class _NormalUserWorkshopEmployeeProfileState extends State<NormalUserWorkshopEm
                                     padding: const EdgeInsets.only(left: 1),
                                     child: Container(
                                       child: Text(
-                                        "NO REVIEWS ADDED YET",
+                                        "NO REVIEWS",
                                         style: GoogleFonts.quicksand(
-                                          fontSize: 50,
-                                          fontWeight: FontWeight.bold,
+                                          fontSize: 18,
                                         ),
                                       ),
                                     ),
@@ -240,7 +239,7 @@ class _NormalUserWorkshopEmployeeProfileState extends State<NormalUserWorkshopEm
                     );
                   }
                   else if(snapshot.hasData && snapshot.data.isEmpty){
-                    return Center(child: Text('NO REVIEWS FOUND'),);
+                    return Center(child: Text('NO REVIEWS FOUND',style: GoogleFonts.quicksand(fontSize: 18),),);
                   }
                   else if(snapshot.hasError){
                     return Center(child: Text(snapshot.error.toString()),);

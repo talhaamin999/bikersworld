@@ -94,7 +94,7 @@ class _WorkshopDashboardReviewsState extends State<WorkshopDashboardReviews> {
                           child: Text(
                             "${snapshot.data.toStringAsFixed(1)} / 5",
                             style: GoogleFonts.quicksand(
-                              fontSize: 35,
+                              fontSize: 30,
                             ),
                           ),
                         );
@@ -103,9 +103,8 @@ class _WorkshopDashboardReviewsState extends State<WorkshopDashboardReviews> {
                         return Container(
                           child: Text(
                             "NO REVIEWS ADDED YET",
-                            style: GoogleFonts.hindSiliguri(
-                              fontSize: 35,
-                              fontWeight: FontWeight.bold,
+                            style: GoogleFonts.quicksand(
+                              fontSize: 18,
                             ),
                           ),
                         );

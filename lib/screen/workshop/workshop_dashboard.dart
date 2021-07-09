@@ -565,12 +565,11 @@ class _DashboardState extends State<Dashboard> {
                 ),
               ],
             ),
-
             Padding(
               padding: const EdgeInsets.only(left:10, right:12, top: 20),
               child: Container(
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     FlatButton(
                       onPressed: (){
@@ -613,7 +612,7 @@ class _DashboardState extends State<Dashboard> {
                       },
                       child: Container(
                         height: 60,
-                        width: 150,
+                        width: MediaQuery.of(context).size.width - 250,
                         decoration: BoxDecoration(
                           color: Colors.blue,
                           borderRadius: BorderRadius.circular(10),
@@ -748,7 +747,7 @@ class _DashboardState extends State<Dashboard> {
                       },
                       child: Container(
                         height: 60,
-                        width: 150,
+                        width: MediaQuery.of(context).size.width - 250,
                         decoration: BoxDecoration(
                           color: Colors.red,
                           borderRadius: BorderRadius.circular(10),

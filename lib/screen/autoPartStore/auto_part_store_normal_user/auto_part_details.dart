@@ -207,14 +207,14 @@ class AutoPartDetail extends StatelessWidget {
                                           style: GoogleFonts.quicksand(
                                               color: Colors.black,
                                               fontSize: 18,
-                                              fontWeight: FontWeight.bold),
+                                          ),
                                         );
                                       }else{
                                         return Text(
                                           'Reviews NOT ADDED',
                                           style: GoogleFonts.quicksand(
                                               color: Colors.black,
-                                              fontSize: 18,
+                                              fontSize: 16,
                                               fontWeight: FontWeight.bold),
                                         );
                                       }
