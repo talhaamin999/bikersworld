@@ -752,7 +752,7 @@ class ReviewsTab extends StatelessWidget {
                   RichText(
                     textAlign: TextAlign.start,
                     text: TextSpan(
-                      text: 'Store',
+                      text: 'Part Store',
                       style: GoogleFonts.quicksand(
                         fontSize: 30,
                         color: Color(0xfff7892b),
@@ -768,11 +768,37 @@ class ReviewsTab extends StatelessWidget {
                       ],
                     ),
                   ),
-                  Text(
-                    "3.9 / 5",
-                    style: GoogleFonts.quicksand(
-                      fontSize: 20,
-                    ),
+                  FutureBuilder(
+                    future: _reviews.getAverageReviewOfPartStore(partStoreId: partStoreId),
+                    builder: (BuildContext context, AsyncSnapshot<double> snapshot) {
+                      if(snapshot.hasData && snapshot.data.sign == 1.0){
+                        return Padding(
+                          padding: const EdgeInsets.only(left:1),
+                          child: Container(
+                            child: Text(
+                              "${snapshot.data.toStringAsFixed(1)} / 5",
+                              style: GoogleFonts.quicksand(
+                                fontSize: 30,
+                              ),
+                            ),
+                          ),
+                        );
+                      }
+                      else{
+                        return Padding(
+                          padding: const EdgeInsets.only(left:1),
+                          child: Container(
+                            child: Text(
+                              "NO REVIEWS ADDED YET",
+                              style: GoogleFonts.quicksand(
+                                fontSize: 50,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        );
+                      }
+                    },
                   ),
                 ],
               ),
@@ -820,7 +846,7 @@ class ReviewsTab extends StatelessWidget {
                                ),
                                SizedBox(height: 10,),
 
-                               StarDisplay(userRating: snapshot.data[index].starRating),
+                               RatingsBar(20,userRating: snapshot.data[index].starRating,),
                                SizedBox(height: 10,),
                                Container(
                                  child: Text(

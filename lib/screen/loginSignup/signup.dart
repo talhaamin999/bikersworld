@@ -143,9 +143,7 @@ class _SignUpPageState extends State<SignUpPage> {
     if (emailController.text.trim().isEmpty ||  passwordController.text.trim().isEmpty){
       error.errorToastMessage(errorMessage: "Please Fill All The Fields");
     }// end of if for checking if fields are empty or not
-
     else{
-
       if(!EmailValidator.validate(emailController.text.trim())){
         error.errorToastMessage(errorMessage: "Enter Valid Email Address");
       }
@@ -157,7 +155,6 @@ class _SignUpPageState extends State<SignUpPage> {
         });
         signUpWithEmailAndPassword();
       }
-
     }//end of else of main if statement
   }// end of function
 

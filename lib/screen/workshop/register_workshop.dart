@@ -128,6 +128,7 @@ class _RegisterWorkshopState extends State<RegisterWorkshop> {
     });
     validateFields();
   }
+
   void validateFields(){
 
     if(fieldEmptyChecker == 1){
