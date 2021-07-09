@@ -198,18 +198,27 @@ class AutoPartDetail extends StatelessWidget {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Text(
-                                    'Reviews ',
-                                    style: GoogleFonts.quicksand(
-                                        color: Colors.black,
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                  Text(
-                                    "4.0 / 5",
-                                    style: GoogleFonts.quicksand(
-                                      fontSize: 17,
-                                    ),
+                                  FutureBuilder(
+                                    future: _partReviews.getAverageReviewOfAutoParts(partId: partDetails.docId),
+                                    builder: (BuildContext context, AsyncSnapshot<double> snapshot) {
+                                      if(snapshot.hasData && snapshot.data.sign == 1.0) {
+                                        return Text(
+                                          'Reviews ${snapshot.data.toStringAsFixed(1)} / 5',
+                                          style: GoogleFonts.quicksand(
+                                              color: Colors.black,
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.bold),
+                                        );
+                                      }else{
+                                        return Text(
+                                          'Reviews NOT ADDED',
+                                          style: GoogleFonts.quicksand(
+                                              color: Colors.black,
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.bold),
+                                        );
+                                      }
+                                    },
                                   ),
                                   FlatButton(
                                     child: Container(

@@ -183,25 +183,47 @@ class _SearchAutoPartDetailPageState extends State<SearchAutoPartDetailPage> {
                 ),
               ),
 
-              Padding(
-                padding: EdgeInsets.only(left: 20, right: 20),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      "Reviews",
-                      style: GoogleFonts.varelaRound(
-                        fontSize: 20,
-                      ),
-                    ),
-                    Text(
-                      "4.1 / 5",
-                      style: GoogleFonts.quicksand(
-                        fontSize: 20,
-                      ),
-                    ),
-                  ],
-                ),
+              FutureBuilder(
+                future: _partReviews.getAverageReviewOfAutoParts(partId: widget.partDetail.docId),
+                  builder: (BuildContext context, AsyncSnapshot<double> snapshot) {
+                   if(snapshot.hasData && snapshot.data.sign == 1.0) {
+                     return Padding(
+                       padding: EdgeInsets.only(left: 20, right: 20),
+                       child: Row(
+                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                         children: [
+                           Text(
+                             "Reviews",
+                             style: GoogleFonts.varelaRound(
+                               fontSize: 20,
+                             ),
+                           ),
+                           Text(
+                             "4.1 / 5",
+                             style: GoogleFonts.quicksand(
+                               fontSize: 20,
+                             ),
+                           ),
+                         ],
+                       ),
+                     );
+                   }else{
+                     return Padding(
+                       padding: EdgeInsets.only(left: 20, right: 20),
+                       child: Row(
+                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                         children: [
+                           Text(
+                             "Reviews NOT ADDED",
+                             style: GoogleFonts.varelaRound(
+                               fontSize: 20,
+                             ),
+                           ),
+                         ],
+                       ),
+                     );
+                   }
+                  },
               ),
 
               StreamBuilder(

@@ -182,14 +182,31 @@ class _AutoPartDetailState extends State<AutoPartDetail> {
                   ),
               ),
 
-              Padding(
-                padding: EdgeInsets.only(left: 20, right: 10),
-                child:  Text(
-                  "Reviews",
-                  style: GoogleFonts.varelaRound(
-                    fontSize: 20,
-                  ),
-                ),
+              FutureBuilder(
+                future: _partReviews.getAverageReviewOfAutoParts(partId: widget.autoPartDetails.docId),
+                  builder: (BuildContext context, AsyncSnapshot<double> snapshot) {
+                    if(snapshot.hasData && snapshot.data.sign == 1.0) {
+                      return Padding(
+                        padding: EdgeInsets.only(left: 20, right: 10),
+                        child: Text(
+                          "Reviews ${snapshot.data.toStringAsFixed(1)} / 5",
+                          style: GoogleFonts.varelaRound(
+                            fontSize: 20,
+                          ),
+                        ),
+                      );
+                    }else{
+                      return Padding(
+                        padding: EdgeInsets.only(left: 20, right: 10),
+                        child: Text(
+                          "Reviews NOT ADDED",
+                          style: GoogleFonts.varelaRound(
+                            fontSize: 20,
+                          ),
+                        ),
+                      );
+                    }
+                  },
               ),
 
               StreamBuilder(
