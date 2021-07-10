@@ -73,6 +73,7 @@ dependencies:
   intl: ^0.16.1
   flutter_native_image: ^0.0.5
 
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

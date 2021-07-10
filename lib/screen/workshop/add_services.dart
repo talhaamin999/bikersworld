@@ -12,6 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
+import 'package:bikersworld/services/string_extension.dart';
 
 ToastErrorMessage _error = ToastErrorMessage();
 ToastValidMessage _valid = ToastValidMessage();
@@ -143,7 +144,7 @@ class _AddServicesState extends State<AddServices> {
   }
   Future<void> addService(int price) async{
     try {
-      Services data = Services(title: _serviceTitleController.text.trim(), category: _currentCategorySelected, price: price, workshopCity: _cityName, workshopId: _firebaseUser.uid);
+      Services data = Services(title: _serviceTitleController.text.trim().capitalizeFirstofEach, category: _currentCategorySelected, price: price, workshopCity: _cityName, workshopId: _firebaseUser.uid);
       bool result = await _add.addWorkshopService(data);
       if(result){
         _valid.validToastMessage(validMessage: WorkshopServiceQueries.registerResultMessage);
