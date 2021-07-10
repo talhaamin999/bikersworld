@@ -143,7 +143,7 @@ class _RegisterAutoPartStoreState extends State<RegisterAutoPartStore> {
           sunday: sunday,
           imageURL: imageUrl);
       final register = RegisterPartStoreQueries();
-      bool result = await register.registerPartStore(_data);
+      bool result = await register.registerPartStore(_data,this.context);
       if (result) {
         clear();
         if (widget.storeDetails != null) {

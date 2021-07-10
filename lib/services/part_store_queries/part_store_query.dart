@@ -1,10 +1,14 @@
 
 
+import 'dart:js';
+
 import 'package:bikersworld/model/partstore_model.dart';
+import 'package:bikersworld/screen/loginSignup/user_role_option.dart';
 import 'package:bikersworld/services/user_role_queries/add_user_role.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 import '../toast_service.dart';
 
@@ -17,12 +21,12 @@ class RegisterPartStoreQueries {
   final _error = ToastErrorMessage();
   final _firebaseUser = FirebaseAuth.instance.currentUser;
   final FirebaseFirestore _firestoreInstance = FirebaseFirestore.instance;
-  final String roleErrorMessage = "You Don't Have a role OR Your Role Defined is different";
+  final String roleErrorMessage = "You Don't Have the role of partstore owner";
   bool partstoreRegisterd = false,imageUploaded = false;
   String resultMessage;
 
 
-  Future<bool> registerPartStore(PartstoreDashboardModel data) async {
+  Future<bool> registerPartStore(PartstoreDashboardModel data,BuildContext context) async {
     try {
       if(_firebaseUser != null) {
         bool result = await _userRole.checkUserRole(
@@ -40,6 +44,14 @@ class RegisterPartStoreQueries {
         }
       }else{
         _error.errorToastMessage(errorMessage: 'You are not Logged In');
+        Future.delayed(
+          new Duration(seconds: 2),
+              (){
+            Navigator.of(context)
+                .push(MaterialPageRoute(builder: (context) => GenericOptionScreen())
+            );
+          },
+        );
         return partstoreRegisterd;
       }
     } catch (e) {
