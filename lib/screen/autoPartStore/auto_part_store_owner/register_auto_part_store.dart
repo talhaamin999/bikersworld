@@ -2,6 +2,7 @@ import 'package:bikersworld/model/partstore_model.dart';
 import 'package:bikersworld/services/part_store_queries/part_store_query.dart';
 import 'package:bikersworld/services/toast_service.dart';
 import 'package:bikersworld/services/validate_service.dart';
+import 'package:bikersworld/widgets/address_field_widget.dart';
 import 'package:bikersworld/widgets/entry_field.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -278,10 +279,8 @@ class _RegisterAutoPartStoreState extends State<RegisterAutoPartStore> {
           SizedBox(height: 5,),
           CityDropDown(controller: _shopCityController,),
           SizedBox(height: 5,),
-          EntryField(title: 'Shop Address',
+          AdressFieldWidget(title: 'Shop Address',
             controller: _shopAdressController,
-            filter: FilteringTextInputFormatter.allow(
-                RegExp(r'^(?!\s*$)[a-zA-Z0-9-#,/ ]{1,30}$')),
             inputType: TextInputType.text,),
           SizedBox(height: 15,),
           Container(
