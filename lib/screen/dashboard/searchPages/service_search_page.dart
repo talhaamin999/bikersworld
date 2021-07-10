@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:bikersworld/screen/dashboard/searchPages/refine_search_page.dart';
-
+import 'package:bikersworld/services/string_extension.dart';
 
 class ServiceSearcPage extends StatefulWidget {
   @override
@@ -204,6 +204,7 @@ class _ServiceSearcPageState extends State<ServiceSearcPage> {
                         print(_controller.text);
                         if(_controller.text.isNotEmpty) {
                           setState(() {
+                            _controller.text = _controller.text.capitalizeFirstofEach;
                             serviceTitleSearchOption = true;
                             filterCityOption = false;
                             filterSortOption = false;
