@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:bikersworld/screen/dashboard/Ads/seller/sellerDashbaord.dart';
 import 'package:bikersworld/model/bike_add_model.dart';
+import 'package:bikersworld/screen/loginSignup/user_role_option.dart';
 import 'package:bikersworld/services/toast_service.dart';
 import 'package:bikersworld/services/validate_service.dart';
 import 'package:flutter/material.dart';
@@ -711,8 +712,8 @@ class _PostAddImagesState extends State<PostAddImages> {
                   images: urls,
                   postedBy: _currentUser.getUserId());
 
-              final bool result = await _postAdd.postAdd(bikeData);
-              if (result) {
+              final String result = await _postAdd.postAdd(bikeData);
+              if (result == _postAdd.adPosted) {
                 _valid.validToastMessage(validMessage: "Add has been Posted");
                 Future.delayed(
                     new Duration(seconds: 2),
@@ -721,6 +722,17 @@ class _PostAddImagesState extends State<PostAddImages> {
                           builder: (context) => SellerHomeScreen()));
                     }
                 );
+              }else if(result == _postAdd.roleErrorMessage){
+                _errorMessage.errorToastMessage(errorMessage: result);
+                Future.delayed(
+                    new Duration(seconds: 1),
+                        () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => GenericOptionScreen()));
+                    }
+                );
+              }else{
+                _errorMessage.errorToastMessage(errorMessage: result);
               }
             }
           }

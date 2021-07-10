@@ -1,4 +1,6 @@
 import 'dart:io';
+import 'package:bikersworld/services/authenticate_service.dart';
+import 'package:bikersworld/services/user_role_queries/add_user_role.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter_native_image/flutter_native_image.dart';
 import 'package:path/path.dart' as path;
@@ -10,23 +12,35 @@ class PostAddQueries{
 
   final _storage = FirebaseStorage.instance;
   final String BIKE_ADD_COLLECTION = "post_add";
-  bool imageUploaded = false,addPosted = false,updatedBikeInfo = false,updatedSllerInfo = false,updatedImages = false,deletedAdd = false;
+  bool imageUploaded = false,updatedBikeInfo = false,updatedSllerInfo = false,updatedImages = false,deletedAdd = false;
   final _error = ToastErrorMessage();
+  final _firebaseUser = AuthenticationService();
+  final _userRole = AddUserRoleQuerie();
   final FirebaseFirestore _firestoreInstance = FirebaseFirestore.instance;
+  final String roleErrorMessage = "You Don't Have the role of partstore owner";
+  final String adPosted = "Ad Posted";
+  String resultMessage;
 
-
-
-  Future<bool> postAdd(BikeAddModel data) async{
+  Future<String> postAdd(BikeAddModel data) async{
     try {
-      await _firestoreInstance.collection(BIKE_ADD_COLLECTION)
-          .add(data.toMap())
-          .then((_) => addPosted = true)
-          .catchError((onError) =>
-          _error.errorToastMessage(errorMessage: onError));
+      if(_firebaseUser.getCurrentUser()) {
+        bool result = await _userRole.checkUserRole(
+            _firebaseUser.getUserId(), 'seller');
+        if(result) {
+          await _firestoreInstance.collection(BIKE_ADD_COLLECTION)
+              .add(data.toMap())
+              .then((_) => resultMessage = adPosted)
+              .catchError((onError) => resultMessage = onError.toString());
+          return resultMessage;
+        }else{
+          return resultMessage = roleErrorMessage;
+        }
+      }else{
+        return resultMessage = "You'r Not Logged In";
+      }
     }catch(e){
-      _error.errorToastMessage(errorMessage: e.toString());
+      return resultMessage = e.toString();
     }
-    return addPosted;
   }
 
   Future<bool> updateBikeInfo(BikeAddModel data) async{
