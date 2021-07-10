@@ -86,7 +86,7 @@ class _AutoPartStoreDashboardOwnerState extends State<AutoPartStoreDashboardOwne
               ),
             );
           }
-          else if(snapshot.data == null){
+          else if(!snapshot.hasData && snapshot.data == null){
             return Center(child: Text("You Don't have A PartStore Registered"));
           }
           else if(snapshot.hasError){
