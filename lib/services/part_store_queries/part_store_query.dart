@@ -22,11 +22,12 @@ class RegisterPartStoreQueries {
   final _firebaseUser = FirebaseAuth.instance.currentUser;
   final FirebaseFirestore _firestoreInstance = FirebaseFirestore.instance;
   final String roleErrorMessage = "You Don't Have the role of partstore owner";
-  bool partstoreRegisterd = false,imageUploaded = false;
+  final String partSoreRegistered = "PartStore Registered";
+  bool imageUploaded = false;
   String resultMessage;
 
 
-  Future<bool> registerPartStore(PartstoreDashboardModel data,BuildContext context) async {
+  Future<String> registerPartStore(PartstoreDashboardModel data) async {
     try {
       if(_firebaseUser != null) {
         bool result = await _userRole.checkUserRole(
@@ -35,28 +36,17 @@ class RegisterPartStoreQueries {
           await _firestoreInstance.collection(PARTSTORE_COLLECTION).doc(
               _firebaseUser.uid).set(
               data.toMap(), SetOptions(merge: true))
-              .then((_) => partstoreRegisterd = true);
-          return partstoreRegisterd;
+              .then((_) => resultMessage = partSoreRegistered);
+          return resultMessage;
         }
         else {
-          _error.errorToastMessage(errorMessage: roleErrorMessage);
-          return partstoreRegisterd;
+          return resultMessage = roleErrorMessage;
         }
       }else{
-        _error.errorToastMessage(errorMessage: 'You are not Logged In');
-        Future.delayed(
-          new Duration(seconds: 2),
-              (){
-            Navigator.of(context)
-                .push(MaterialPageRoute(builder: (context) => GenericOptionScreen())
-            );
-          },
-        );
-        return partstoreRegisterd;
+        return resultMessage = "You'r Not Logged In";
       }
     } catch (e) {
-      _error.errorToastMessage(errorMessage: e.toString());
-      return partstoreRegisterd;
+      return resultMessage = e.toString();
     }
   }
   Future<bool> uploadPartStoreImage({@required String imageURL,@required String docId}) async{

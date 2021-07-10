@@ -1,4 +1,5 @@
 import 'package:bikersworld/model/partstore_model.dart';
+import 'package:bikersworld/screen/loginSignup/user_role_option.dart';
 import 'package:bikersworld/services/part_store_queries/part_store_query.dart';
 import 'package:bikersworld/services/toast_service.dart';
 import 'package:bikersworld/services/validate_service.dart';
@@ -105,7 +106,7 @@ class _RegisterAutoPartStoreState extends State<RegisterAutoPartStore> {
         _error.errorToastMessage(errorMessage: "You Need To Enter Valid City Name");
       }
       else if (!_validateShop.validateShopArea(_shopAdressController.text.trim())) {
-        _error.errorToastMessage(errorMessage: "You Need To Enter Valid Specific Area Title");
+        _error.errorToastMessage(errorMessage: "You Need To Enter Valid Shop Address");
       }
       else if (!_validateShop.validateOwnerName(_ownerNameController.text.trim())) {
         _error.errorToastMessage(errorMessage: "You Need To Enter Valid Owner Name");
@@ -144,8 +145,8 @@ class _RegisterAutoPartStoreState extends State<RegisterAutoPartStore> {
           sunday: sunday,
           imageURL: imageUrl);
       final register = RegisterPartStoreQueries();
-      bool result = await register.registerPartStore(_data,this.context);
-      if (result) {
+      String result = await register.registerPartStore(_data);
+      if (result == register.partSoreRegistered) {
         clear();
         if (widget.storeDetails != null) {
           _valid.validToastMessage(
@@ -166,6 +167,20 @@ class _RegisterAutoPartStoreState extends State<RegisterAutoPartStore> {
             );
           },
         );
+      }
+      else if(result == register.roleErrorMessage){
+        _error.errorToastMessage(errorMessage: result);
+        Future.delayed(
+          new Duration(seconds: 1),
+              () {
+            Navigator.of(this.context)
+                .push(MaterialPageRoute(
+                builder: (context) => GenericOptionScreen())
+            );
+          },
+        );
+      }else{
+        _error.errorToastMessage(errorMessage: result);
       }
     } catch (e) {
       _error.errorToastMessage(errorMessage: e.toString());
