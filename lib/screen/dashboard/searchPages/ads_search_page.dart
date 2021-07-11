@@ -416,13 +416,6 @@ class _AdSearchPageState extends State<AdSearchPage> {
                               ),
                             ),
                             SizedBox(width: 5,),
-                            Text(
-                              "30",
-                              style: GoogleFonts.varelaRound(
-                                fontSize: 15,
-                                color: Colors.black,
-                              ),
-                            ),
                           ],
                         ),
                       ),

@@ -264,13 +264,6 @@ class _ServiceSearcPageState extends State<ServiceSearcPage> {
                               ),
                             ),
                             SizedBox(width: 5,),
-                            Text(
-                              "30",
-                              style: GoogleFonts.varelaRound(
-                                fontSize: 15,
-                                color: Colors.black,
-                              ),
-                            ),
                           ],
                         ),
                       ),
@@ -340,7 +333,7 @@ class _ServiceSearcPageState extends State<ServiceSearcPage> {
                                             ),
                                           ),
                                           Text(
-                                            snapshot.data[index].workshopId,
+                                            snapshot.data[index].category,
                                             style: GoogleFonts.quicksand(
                                               fontSize: 15,
                                               color: Colors.grey,

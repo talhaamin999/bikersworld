@@ -397,13 +397,7 @@ class _AutoPartSearchPageState extends State<AutoPartSearchPage> {
                               ),
                             ),
                             SizedBox(width: 5,),
-                            Text(
-                              "30",
-                              style: GoogleFonts.varelaRound(
-                                fontSize: 15,
-                                color: Colors.black,
-                              ),
-                            ),
+
                           ],
                         ),
                       ),
