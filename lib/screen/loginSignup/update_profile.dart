@@ -16,12 +16,12 @@ class UpdateProfile extends StatefulWidget {
   _UpdateProfileState createState() => _UpdateProfileState();
 }
 
-enum userOption{updateProfile,}
 
 
 class _UpdateProfileState extends State<UpdateProfile> {
 
-  bool isVisible = false,_isButtonVisible = true;
+  bool isVisible = false,
+      _isButtonVisible = true;
   final oldPasswordController = TextEditingController();
   final newPasswordController = TextEditingController();
   final confirmPasswordController = TextEditingController();
@@ -29,23 +29,27 @@ class _UpdateProfileState extends State<UpdateProfile> {
   final _error = ToastErrorMessage();
   final _valid = ToastValidMessage();
 
-  Future<void> updatePassword() async{
-    if(newPasswordController.text.isNotEmpty && confirmPasswordController.text.isNotEmpty){
-      if(newPasswordController.text == confirmPasswordController.text) {
+  Future<void> updatePassword() async {
+    if (newPasswordController.text.isNotEmpty &&
+        confirmPasswordController.text.isNotEmpty) {
+      if (newPasswordController.text == confirmPasswordController.text) {
         bool result = await _firebaseUser.updatePassword(
             confirmPasswordController.text.trim());
-        if(result){
+        if (result) {
           clear();
-          _valid.validToastMessage(validMessage: 'Password Successfully Changed');
+          _valid.validToastMessage(
+              validMessage: 'Password Successfully Changed');
         }
-      }else{
-        _error.errorToastMessage(errorMessage: "You'r New and Confirm Password Don't match");
+      } else {
+        _error.errorToastMessage(
+            errorMessage: "You'r New and Confirm Password Don't match");
       }
-    }else{
+    } else {
       _error.errorToastMessage(errorMessage: 'Please Fill All The Fields');
     }
   }
-  void clear(){
+
+  void clear() {
     oldPasswordController.clear();
     newPasswordController.clear();
     confirmPasswordController.clear();
@@ -58,17 +62,11 @@ class _UpdateProfileState extends State<UpdateProfile> {
     confirmPasswordController.dispose();
     super.dispose();
   }
+
   @override
   void initState() {
     print('${_firebaseUser.getUserImageUrl()}');
     super.initState();
-  }
-
-  Future<void> navigateToOtherScreen(userOption option) async{
-    if(option == userOption.updateProfile) {
-      Navigator.push(context, MaterialPageRoute(builder: (context) => AddProfilePicture()));
-
-    }
   }
 
 
@@ -123,11 +121,9 @@ class _UpdateProfileState extends State<UpdateProfile> {
                        Container(
                          child: Column(
                            children: [
-
                              Container(
                                height: 150,
                                width: 150,
-                               // margin: EdgeInsets.only(top: kSpacingUnit.w * 3),
                                child: Stack(
                                  children: <Widget>[
                                    CircleAvatar(
@@ -139,69 +135,6 @@ class _UpdateProfileState extends State<UpdateProfile> {
                                      radius: 90,
                                      backgroundColor: Colors.orange,
                                    ),
-//                                   Align(
-//                                     alignment: Alignment.bottomRight,
-//                                     child: Container(
-//                                       height: 40,
-//                                       width: 40,
-//                                       decoration: BoxDecoration(
-//                                         color: Colors.orange,
-//                                         shape: BoxShape.circle,
-//                                       ),
-//                                       child: Center(
-//                                         heightFactor: 40,
-//                                         widthFactor: 40,
-//                                         child: Icon(
-//                                             FontAwesomeIcons.camera,
-//                                             color: Colors.white,
-//                                             size: 15
-//                                         ),
-//                                       ),
-//                                     ),
-//                                   ),
-                                   Align(
-                                     alignment: Alignment.bottomRight,
-                                     child: Container(
-                                       height: 40,
-                                       width: 40,
-                                       decoration: BoxDecoration(
-                                         color: Colors.orange,
-                                         borderRadius: BorderRadius.circular(30),
-                                       ),
-                                       child: PopupMenuButton(
-                                         icon: new Icon(FontAwesomeIcons.camera,size: 18,
-                                             color: Colors.white),
-                                         onSelected: (option) {
-                                           navigateToOtherScreen(option);
-                                         },
-                                         itemBuilder: (_) =>
-                                         <PopupMenuItem<userOption>>[
-                                           new PopupMenuItem<userOption>(
-                                             child: Container(
-                                                 child: Row(
-                                                   children: [
-                                                     Icon(
-                                                       FontAwesomeIcons.camera,
-                                                       size: 15,
-                                                     ),
-                                                     SizedBox(width: 10),
-                                                     Text(
-                                                       "Add Profile",
-                                                       style: GoogleFonts
-                                                           .quicksand(
-                                                         fontSize: 16,
-                                                       ),
-                                                     ),
-                                                   ],
-                                                 ),
-                                               ),
-                                             value: userOption.updateProfile,
-                                           ),
-                                         ],
-                                       ),
-                                     ),
-                                   ),
-
                                  ],
                                ),
                              ),
@@ -216,6 +149,40 @@ class _UpdateProfileState extends State<UpdateProfile> {
                            ],
                          ),
                        ),
+
+                        SizedBox(height: 20,),
+                        FlatButton(
+                          child: Container(
+                            height: 60,
+                            width: MediaQuery.of(context).size.width,
+                            decoration: BoxDecoration(
+                              color: Color(0xffdbdbdb),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.only(left:20,right: 10),
+                              child: Row(
+                                children: [
+                                  Icon(
+                                    FontAwesomeIcons.camera,
+                                    size: 18,
+                                  ),
+                                  SizedBox(width: 15,),
+                                  Text(
+                                    "Update Profile",
+                                    style: GoogleFonts.quicksand(
+                                      fontSize: 17,
+                                      color: Colors.black,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                          onPressed: (){
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => AddProfilePicture()));
+                          },
+                        ),
 
                         SizedBox(height: 20,),
                         Center(
