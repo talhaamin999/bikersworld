@@ -356,14 +356,12 @@ class _RefineRearchPageState extends State<RefineRearchPage> {
               Visibility(
                 visible: widget.workshopServiceSearchFilter != null || widget.partsSearchFilter != null ? true : false,
                 child: Container(
-                  width: MediaQuery.of(context).size.width -20,
-                  height: 80,
                   child: Padding(
-                    padding: const EdgeInsets.only(left:55),
+                    padding: const EdgeInsets.only(left:60,top: 20),
                     child: Row(
                       children: [
                         Container(
-                            width: MediaQuery.of(context).size.width - 260,
+                          width: 90,
                             child: TextField(
                               controller: _minController,
                               keyboardType: TextInputType.number,
@@ -375,16 +373,16 @@ class _RefineRearchPageState extends State<RefineRearchPage> {
                                   fillColor: Color(0xffe3e3e3)),
                             )
                         ),
-                        SizedBox(width: 10,),
+                        SizedBox(width: 5,),
                         Text(
                           "to",
                           style: GoogleFonts.quicksand(
                             fontSize: 18,
                           ),
                         ),
-                        SizedBox(width: 10,),
+                        SizedBox(width: 5,),
                         Container(
-                            width: MediaQuery.of(context).size.width - 260,
+                          width: 90,
                             child: TextField(
                               controller: _maxController,
                               keyboardType: TextInputType.number,
@@ -401,6 +399,8 @@ class _RefineRearchPageState extends State<RefineRearchPage> {
                   ),
                 ),
               ),
+
+
               Visibility(
                 visible: widget.workshopServiceSearchFilter != null || widget.partsSearchFilter != null ? true : false,
                 child: Padding(

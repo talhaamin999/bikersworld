@@ -1059,7 +1059,7 @@ class _NormalUserWorkshopDashboardState extends State<NormalUserWorkshopDashboar
                         child: ActiveProjectsCard(
                           cardColor: Color(0xFF6488E4),
                           title: 'View',
-                          icon: Icon(Icons.person , size: 65, color: Colors.white,),
+                          icon: Icon(Icons.person , size: 50, color: Colors.white,),
                           subtitle: 'Mechanics',
                         ),
                       ),
@@ -1105,7 +1105,7 @@ class ActiveProjectsCard extends StatelessWidget {
           borderRadius: BorderRadius.circular(20),
         ),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+         // mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Padding(

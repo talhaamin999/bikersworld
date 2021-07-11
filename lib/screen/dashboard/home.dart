@@ -65,7 +65,7 @@ class _HomeDashboardState extends State<HomeDashboard> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
-              height: 205,
+              height: 180,
               width: MediaQuery.of(context).size.width,
               child: FadeAnimation(
                 3.5,CustomPaint(
@@ -74,62 +74,30 @@ class _HomeDashboardState extends State<HomeDashboard> {
                 child: Container(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Padding(
                         padding: EdgeInsets.only(left: 25,top: 5),
                         child: Text(
-                          "Welcome",
+                          "Dashboard",
                           style: GoogleFonts.quicksand(
                             fontSize: 35,
                             color: Colors.white,
                           ),
                         ),
                       ),
+                      SizedBox(height: 10,),
                       Padding(
-                        padding: EdgeInsets.only(left: 25,top: 5),
+                        padding: EdgeInsets.only(left: 25,),
                         child: Text(
-                          "Dashboard",
+                          "Find everything related to Bikes at one point",
                           style: GoogleFonts.montserrat(
-                            fontSize: 23,
+                            fontSize: 22,
                             color: Color(0xfff7ce8f),
                           ),
                         ),
                       ),
-                      FlatButton(
-                        onPressed: (){
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => SignUpPage()));
-                        },
-                        child: Padding(
-                          padding: const EdgeInsets.only(right: 50,top: 10, left: 15),
-                          child: Container(
-                            height: 45,
-                            width: MediaQuery.of(context).size.width - 20,
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(6),
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.only(left:20),
-                              child: Row(
-                                children: [
-                                  Icon(
-                                    FontAwesomeIcons.signOutAlt,
-                                    color: Colors.grey,
-                                  ),
-                                  SizedBox(width: 15,),
-                                  Text(
-                                    "Join Now",
-                                    style: GoogleFonts.quicksand(
-                                      fontSize: 18,
-                                      color: Colors.grey,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
+
                     ],
                   ),
                 ),

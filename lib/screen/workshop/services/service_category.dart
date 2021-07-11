@@ -75,19 +75,21 @@ class _ServiceCategoryInformationState extends State<ServiceCategoryInformation>
                   height: 30,
                 ),
                 Container(
+                  alignment: Alignment.topLeft,
+                  margin: EdgeInsets.only(left: 29),
                   child: RichText(
                     textAlign: TextAlign.start,
                     text: TextSpan(
                       text: widget.serviceCategory != null ? widget.serviceCategory : '[]',
                       style: GoogleFonts.quicksand(
-                        fontSize: 30,
+                        fontSize: 25,
                         color: Color(0xfff7892b),
                       ),
                       children: [
                         TextSpan(
                             text: ' Services',
                             style: GoogleFonts.quicksand(
-                              fontSize: 30,
+                              fontSize: 25,
                               color: Colors.black,
                             )),
                       ],
@@ -235,7 +237,7 @@ class _ServiceCategoryInformationState extends State<ServiceCategoryInformation>
                                           title: Row(
                                             children: [
                                               CircleAvatar(
-                                                  child: Icon(Icons.person)),
+                                                  child: Icon(Icons.settings)),
                                               SizedBox(
                                                 width: 10,
                                               ),
