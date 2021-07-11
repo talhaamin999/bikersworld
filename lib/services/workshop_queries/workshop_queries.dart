@@ -4,6 +4,7 @@ import 'package:bikersworld/services/user_role_queries/add_user_role.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/material.dart';
 
 class RegisterWorkshopQueries {
 
@@ -16,6 +17,8 @@ class RegisterWorkshopQueries {
    final _firebaseUser = FirebaseAuth.instance.currentUser;
    final FirebaseFirestore _firestoreInstance = FirebaseFirestore.instance;
    final String roleErrorMessage = "You Don't Have a role OR Your Role Defined is different";
+   bool workshopExists = false;
+
 
    Future registerWorkshop(WorkshopDashboardModel data) async{
      try {
@@ -73,5 +76,22 @@ class RegisterWorkshopQueries {
      }catch(e){
        _error.errorToastMessage(errorMessage: e.toString());
      }
+   }
+   Future<bool> checkWorkshopExists({@required String userId}) async{
+     try {
+       await _firestoreInstance
+           .collection(WORKSHOP_COLLECTION)
+           .doc(userId)
+           .get()
+           .then((doc) => {
+             if(doc.exists){
+               workshopExists = true
+             }
+           }).catchError((onError) => _error.errorToastMessage(errorMessage: onError.toString()));
+       return workshopExists;
+     }catch(e){
+       _error.errorToastMessage(errorMessage: e.toString());
+     }
+     return workshopExists;
    }
 }

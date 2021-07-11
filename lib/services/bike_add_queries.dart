@@ -17,7 +17,7 @@ class PostAddQueries{
   final _firebaseUser = AuthenticationService();
   final _userRole = AddUserRoleQuerie();
   final FirebaseFirestore _firestoreInstance = FirebaseFirestore.instance;
-  final String roleErrorMessage = "You Don't Have the role of partstore owner";
+  final String roleErrorMessage = "You Don't Have the role of Seller";
   final String adPosted = "Ad Posted";
   String resultMessage;
 

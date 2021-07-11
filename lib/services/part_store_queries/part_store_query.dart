@@ -1,6 +1,4 @@
-
 import 'package:bikersworld/model/partstore_model.dart';
-import 'package:bikersworld/screen/loginSignup/user_role_option.dart';
 import 'package:bikersworld/services/user_role_queries/add_user_role.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -20,7 +18,7 @@ class RegisterPartStoreQueries {
   final FirebaseFirestore _firestoreInstance = FirebaseFirestore.instance;
   final String roleErrorMessage = "You Don't Have the role of partstore owner";
   final String partSoreRegistered = "PartStore Registered";
-  bool imageUploaded = false;
+  bool imageUploaded = false,partStoreExists = false;
   String resultMessage;
 
 
@@ -84,5 +82,22 @@ class RegisterPartStoreQueries {
     } catch (e) {
       _error.errorToastMessage(errorMessage: e.toString());
     }
+  }
+  Future<bool> checkPartStoreExists({@required String userId}) async{
+    try {
+      await _firestoreInstance
+          .collection(PARTSTORE_COLLECTION)
+          .doc(userId)
+          .get()
+          .then((doc) => {
+         if(doc.exists){
+           partStoreExists = true
+         }
+      }).catchError((onError) => _error.errorToastMessage(errorMessage: onError.toString()));
+      return partStoreExists;
+    }catch(e){
+      _error.errorToastMessage(errorMessage: e.toString());
+    }
+    return partStoreExists;
   }
 }

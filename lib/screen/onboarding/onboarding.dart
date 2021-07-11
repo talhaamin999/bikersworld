@@ -79,7 +79,7 @@ class _LoadingScreenState extends State<LoadingScreen> with SingleTickerProvider
           vsync: this, duration: const Duration(milliseconds: 1000)),
     );
 
-    Future.delayed(const Duration(seconds: 10), () async {
+    Future.delayed(const Duration(seconds: 5), () async {
       Navigator.pushReplacement(
           context, new MaterialPageRoute(builder: (context) => HomeDashboard()));
     });
