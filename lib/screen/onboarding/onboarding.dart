@@ -76,7 +76,7 @@ class _LoadingScreenState extends State<LoadingScreen> with SingleTickerProvider
       color: Color(0XFF244661),
       size: 80.0,
       controller: AnimationController(
-          vsync: this, duration: const Duration(milliseconds: 1000)),
+          vsync: this, duration: const Duration(seconds: 5)),
     );
 
     Future.delayed(const Duration(seconds: 10), () async {
