@@ -447,7 +447,7 @@ Widget _registerWorkshopWidget({@required TextEditingController shopTitleControl
                 child: Row(
                   children: [
                     Padding(
-                      padding: const EdgeInsets.only(left: 15),
+                      padding: const EdgeInsets.only(left: 10),
                       child: Container(
                         child: Column(
                           children: [
@@ -466,7 +466,6 @@ Widget _registerWorkshopWidget({@required TextEditingController shopTitleControl
                         ),
                       ),
                     ),
-                    SizedBox(width: 10,),
                     Container(
                       child: Column(
                         children: [
