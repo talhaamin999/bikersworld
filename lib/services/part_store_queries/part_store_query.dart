@@ -90,9 +90,9 @@ class RegisterPartStoreQueries {
           .doc(userId)
           .get()
           .then((doc) => {
-        if(doc.exists){
-          partStoreExists = true
-        }
+         if(doc.exists){
+           partStoreExists = true
+         }
       }).catchError((onError) => _error.errorToastMessage(errorMessage: onError.toString()));
       return partStoreExists;
     }catch(e){
