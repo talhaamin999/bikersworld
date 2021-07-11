@@ -361,7 +361,7 @@ class _RefineRearchPageState extends State<RefineRearchPage> {
                     child: Row(
                       children: [
                         Container(
-                          width: 90,
+                          width: 89,
                             child: TextField(
                               controller: _minController,
                               keyboardType: TextInputType.number,
