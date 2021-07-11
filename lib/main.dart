@@ -4,7 +4,7 @@ import 'package:bikersworld/screen/onboarding/onboarding.dart';
 Future<void> main() async{
 
   WidgetsFlutterBinding.ensureInitialized();
-  Firebase.initializeApp();
+  await Firebase.initializeApp();
   runApp(MyApp());
 
 }
