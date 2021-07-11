@@ -113,40 +113,28 @@ class _ViewCategoryWiseAutoPartState extends State<ViewCategoryWiseAutoPart> {
                                         crossAxisAlignment: CrossAxisAlignment.start,
                                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                         children: <Widget>[
-                                          Container(
+                                          SizedBox(
+                                            width: 150.0,
+                                            height: 25.0,
                                             child: AutoSizeText(
                                               snapshot.data[index].title,
                                               style: GoogleFonts.quicksand(
-                                                fontSize: 20,
                                                 color: Colors.black,
+                                                fontWeight: FontWeight.w600,
+                                                fontSize: 20,
                                               ),
+                                              maxLines: 2,
                                             ),
-                                          ),
-                                          SizedBox(
-                                            height: 5,
                                           ),
                                           Container(
-                                            child: Row(
-                                              children: [
-                                                Container(
-                                                  child: Text(
-                                                    snapshot
-                                                        .data[index].price.toString(),
-                                                    style: TextStyle(
-                                                      fontSize: 18,
-                                                      color: Colors.grey,
-                                                    ),
-                                                  ),
-                                                ),
-                                                Icon(
-                                                  Icons.arrow_forward_ios,
-                                                  color: Color(0xffb8b8b8),
-                                                ),
-                                              ],
+                                            child: Text(
+                                              "PKR ${snapshot.data[index].price.toString()}",
+                                              style: GoogleFonts.quicksand(
+                                                fontSize: 14,
+                                                color: Colors.grey,
+                                                fontWeight: FontWeight.w700,
+                                              ),
                                             ),
-                                          ),
-                                          SizedBox(
-                                            height: 10,
                                           ),
                                         ],
                                       ),

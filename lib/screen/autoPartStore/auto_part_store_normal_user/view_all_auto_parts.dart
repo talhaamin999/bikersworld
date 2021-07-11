@@ -68,6 +68,7 @@ class _ViewAllAutoPartsState extends State<ViewAllAutoParts> {
                     if(snapshot.hasData && snapshot.data.isNotEmpty){
                       return ListView.builder(
                         shrinkWrap: true,
+                        physics: NeverScrollableScrollPhysics(),
                         itemCount: snapshot.data.length,
                         itemBuilder: (BuildContext context, int index) {
                           return Padding(
@@ -98,42 +99,32 @@ class _ViewAllAutoPartsState extends State<ViewAllAutoParts> {
                                         child: Column(
                                           crossAxisAlignment: CrossAxisAlignment.start,
                                           children: <Widget>[
-                                            Container(
+                                            SizedBox(
+                                              width: 150.0,
+                                              height: 30.0,
                                               child: AutoSizeText(
                                                 snapshot.data[index].title,
                                                 style: GoogleFonts.quicksand(
-                                                  fontSize: 20,
                                                   color: Colors.black,
+                                                  fontWeight: FontWeight.w600,
+                                                  fontSize: 20,
                                                 ),
+                                                maxLines: 2,
                                               ),
                                             ),
-                                            SizedBox(height: 5,),
-                                            Container(
-                                              child: Row(
-                                                children: [
-                                                  Container(
-                                                    child: Text(
-                                                      snapshot.data[index].category,
-                                                      style: TextStyle(
-                                                        fontSize: 18,
-                                                        color: Colors.grey,
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ],
+                                            SizedBox(
+                                              width: 180.0,
+                                              height: 40.0,
+                                              child: AutoSizeText(
+                                                snapshot.data[index].category,
+                                                style: GoogleFonts.quicksand(
+                                                  color: Colors.black,
+                                                  fontSize: 17,
+                                                ),
+                                                maxLines: 2,
                                               ),
                                             ),
-
-                                            SizedBox(height: 10,),
                                           ],
-                                        ),
-                                      ),
-                                      SizedBox(width: 15,),
-                                      Container(
-                                        margin: EdgeInsets.only(right: 15),
-                                        child: Icon(
-                                          Icons.arrow_forward_ios,
-                                          color: Colors.grey,
                                         ),
                                       ),
                                     ],
