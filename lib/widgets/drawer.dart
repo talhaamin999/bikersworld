@@ -2,8 +2,10 @@ import 'package:bikersworld/screen/autoPartStore/auto_part_store_owner/auto_part
 import 'package:bikersworld/screen/autoPartStore/auto_part_store_owner/register_auto_part_store.dart';
 import 'package:bikersworld/screen/dashboard/searchPages/auto_partstore_search_page.dart';
 import 'package:bikersworld/screen/workshop/workshop_dashboard.dart';
+import 'package:bikersworld/services/part_store_queries/part_store_query.dart';
 import 'package:bikersworld/services/toast_service.dart';
 import 'package:bikersworld/services/user_role_queries/add_user_role.dart';
+import 'package:bikersworld/services/workshop_queries/workshop_queries.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -34,8 +36,11 @@ enum userOption{updateProfile,signOut,logInSignOut , partStore}
 class _CustomDrawerState extends State<CustomDrawer> {
 
   String user;
+  bool _workshopExists = false,_partStoreExists = false;
   final _userRole = AddUserRoleQuerie();
   final _firebaseUser = FirebaseAuth.instance;
+  final _workshop = RegisterWorkshopQueries();
+  final _partStore = RegisterPartStoreQueries();
 
   @override
   void initState() {
@@ -43,6 +48,14 @@ class _CustomDrawerState extends State<CustomDrawer> {
     super.initState();
   }
 
+  Future<bool> checkWorkshopExists({@required String userId}) async{
+    _workshopExists = await _workshop.checkWorkshopExists(userId: userId);
+    return _workshopExists;
+  }
+  Future<bool> checkPartStoreExists({@required String userId}) async{
+    _partStoreExists = await _partStore.checkPartStoreExists(userId: userId);
+    return _partStoreExists;
+  }
   Future<void> navigateToOtherScreen(userOption option) async{
     if(option == userOption.updateProfile) {
       Navigator.push(
@@ -201,19 +214,32 @@ class _CustomDrawerState extends State<CustomDrawer> {
                       },
                     ),
 
-                    Visibility(
-                      visible: snapshot.data == 'workshop_owner' ? true : false,
-                      child: ListTile(
-                        leading: Icon(FontAwesomeIcons.registered),
-                        title: Text("Register Workshop",
-                          style: GoogleFonts.montserrat(
-                              fontSize: 15, color: Colors.black),),
-                        trailing: Icon(Icons.arrow_forward_ios, size: 15.0,),
-                        onTap: () {
-                          Navigator.push(context, MaterialPageRoute(
-                              builder: (context) => RegisterWorkshop()));
-                        },
-                      ),
+                    FutureBuilder(
+                      future: checkWorkshopExists(userId: _firebaseUser.currentUser.uid),
+                      builder: (BuildContext context, AsyncSnapshot<bool> workshopSnapshot) {
+                        if(workshopSnapshot.hasData && workshopSnapshot.data == false) {
+                          return Visibility(
+                            visible: snapshot.data == 'workshop_owner'
+                                ? true
+                                : false,
+                            child: ListTile(
+                              leading: Icon(FontAwesomeIcons.registered),
+                              title: Text("Register Workshop",
+                                style: GoogleFonts.montserrat(
+                                    fontSize: 15, color: Colors.black),),
+                              trailing: Icon(
+                                Icons.arrow_forward_ios, size: 15.0,),
+                              onTap: () {
+                                Navigator.push(context, MaterialPageRoute(
+                                    builder: (context) => RegisterWorkshop()));
+                              },
+                            ),
+                          );
+                        }else if(workshopSnapshot.hasError){
+                          return Text(workshopSnapshot.error.toString());
+                        }
+                        return Container();
+                      },
                     ),
                     Visibility(
                       visible: snapshot.data == 'workshop_owner' ? true : false,
@@ -258,22 +284,34 @@ class _CustomDrawerState extends State<CustomDrawer> {
 
                       ),
                     ),
-                    Visibility(
-                      visible: snapshot.data == 'partstore_owner'
-                          ? true
-                          : false,
-                      child: ListTile(
-                        leading: Icon(FontAwesomeIcons.registered),
-                        title: Text("Register Part Store",
-                          style: GoogleFonts.montserrat(
-                              fontSize: 15, color: Colors.black),),
-                        trailing: Icon(Icons.arrow_forward_ios, size: 15.0,),
-                        onTap: () {
-                          Navigator.push(context, MaterialPageRoute(
-                              builder: (context) => RegisterAutoPartStore()));
-                        },
+                    FutureBuilder(
+                      future: checkPartStoreExists(userId: _firebaseUser.currentUser.uid),
+                      builder: (BuildContext context, AsyncSnapshot<bool> partStoreSnapshot) {
+                        if(partStoreSnapshot.hasData && partStoreSnapshot.data == false) {
+                          return Visibility(
+                            visible: snapshot.data == 'partstore_owner'
+                                ? true
+                                : false,
+                            child: ListTile(
+                              leading: Icon(FontAwesomeIcons.registered),
+                              title: Text("Register Part Store",
+                                style: GoogleFonts.montserrat(
+                                    fontSize: 15, color: Colors.black),),
+                              trailing: Icon(
+                                Icons.arrow_forward_ios, size: 15.0,),
+                              onTap: () {
+                                Navigator.push(context, MaterialPageRoute(
+                                    builder: (context) =>
+                                        RegisterAutoPartStore()));
+                              },
+                            ),
+                          );
+                        }else if(partStoreSnapshot.hasError){
+                          return Text(partStoreSnapshot.error.toString());
+                        }
+                        return Container();
+                      },
 
-                      ),
                     ),
                     Visibility(
                       visible: snapshot.data == 'partstore_owner'
