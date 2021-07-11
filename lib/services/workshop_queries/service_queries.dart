@@ -53,9 +53,10 @@ class WorkshopServiceQueries {
         _error.errorToastMessage(errorMessage: e.toString());
     }
   }
-  Stream<List<Services>> getServices({@required String serviceCategory}){
+  Stream<List<Services>> getServices({@required String serviceCategory,@required String workshopId}){
     try {
       return _firestore.collection(_Service_COLLECTION)
+          .where('workshopId',isEqualTo: workshopId)
           .where('category', isEqualTo: serviceCategory)
           .snapshots()
           .map((snapshot) =>

@@ -11,7 +11,8 @@ import 'package:google_fonts/google_fonts.dart';
 class ServiceCategoryInformation extends StatefulWidget {
 
   final String serviceCategory;
-  ServiceCategoryInformation({this.serviceCategory});
+  final String workshopId;
+  ServiceCategoryInformation({this.serviceCategory,@required this.workshopId});
 
   @override
   _ServiceCategoryInformationState createState() => _ServiceCategoryInformationState();
@@ -98,7 +99,7 @@ class _ServiceCategoryInformationState extends State<ServiceCategoryInformation>
                   height: 10,
                 ),
                 StreamBuilder<List<Services>>(
-                  stream: _servicesQuery.getServices(serviceCategory: widget.serviceCategory),
+                  stream: _servicesQuery.getServices(serviceCategory: widget.serviceCategory,workshopId: widget.workshopId),
                   builder: (context, snapshot) {
                     if (snapshot.hasData &&
                         snapshot.connectionState == ConnectionState.done) {
