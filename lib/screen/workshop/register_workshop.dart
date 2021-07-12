@@ -5,6 +5,7 @@ import 'package:bikersworld/screen/workshop/workshop_dashboard.dart';
 import 'package:bikersworld/services/toast_service.dart';
 import 'package:bikersworld/services/validate_service.dart';
 import 'package:bikersworld/services/workshop_queries/workshop_queries.dart';
+import 'package:bikersworld/widgets/address_field_widget.dart';
 import 'package:bikersworld/widgets/constants.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/cupertino.dart';
@@ -376,10 +377,7 @@ Widget _registerWorkshopWidget({@required TextEditingController shopTitleControl
         CityDropDown(controller: shopCityController,),
 
         SizedBox(height: 10,),
-        _entryField("Address", shopSpecificAreaController, TextInputType.text,
-            FilteringTextInputFormatter.allow(
-                RegExp(r'^(?!\s*$)[a-zA-Z0-9-#,/ ]{1,30}$')), _isAreaEmpty),
-
+        AdressFieldWidget(title: "Address", controller: shopSpecificAreaController, inputType: TextInputType.text,),
         SizedBox(height: 10),
         Container(
           child: Column(

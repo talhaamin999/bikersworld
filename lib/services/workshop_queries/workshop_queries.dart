@@ -22,21 +22,26 @@ class RegisterWorkshopQueries {
 
    Future registerWorkshop(WorkshopDashboardModel data) async{
      try {
-       bool result = await _userRole.checkUserRole(_firebaseUser.uid,'workshop_owner');
-       if(result) {
-         await _firestoreInstance.collection(WORKSHOP_COLLECTION).doc(
-             _firebaseUser.uid).set(
-             data.toMap(), SetOptions(merge: true))
-             .then((_) {
-           resultMessage = "Workshop Successfully Registered";
-         }).catchError((error) {
-           resultMessage = error.toString();
-         });
+       bool _roleExists = await _userRole.checkUserRole(_firebaseUser.uid,'workshop_owner');
+       if(_roleExists) {
+         bool _shopExists = await checkWorkshopExists(userId: _firebaseUser.uid);
+         if(_shopExists) {
+           await _firestoreInstance.collection(WORKSHOP_COLLECTION).doc(
+               _firebaseUser.uid).set(
+               data.toMap(), SetOptions(merge: true))
+               .then((_) {
+             resultMessage = "Workshop Successfully Registered";
+           }).catchError((error) {
+             resultMessage = error.toString();
+           });
+         }else{
+           resultMessage = "You Already Have a Shop Registered";
+         }
        }else{
          resultMessage = roleErrorMessage;
        }
      }catch(e){
-       _error.errorToastMessage(errorMessage: e.toString());
+       resultMessage = e.toString();
      }
    }
 

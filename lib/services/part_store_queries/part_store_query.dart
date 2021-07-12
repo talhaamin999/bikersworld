@@ -25,14 +25,19 @@ class RegisterPartStoreQueries {
   Future<String> registerPartStore(PartstoreDashboardModel data) async {
     try {
       if(_firebaseUser != null) {
-        bool result = await _userRole.checkUserRole(
+        bool _roleExists = await _userRole.checkUserRole(
             _firebaseUser.uid, 'partstore_owner');
-        if (result) {
-          await _firestoreInstance.collection(PARTSTORE_COLLECTION).doc(
-              _firebaseUser.uid).set(
-              data.toMap(), SetOptions(merge: true))
-              .then((_) => resultMessage = partSoreRegistered);
-          return resultMessage;
+        if (_roleExists) {
+          bool _shopExists = await checkPartStoreExists(userId: _firebaseUser.uid);
+          if(_shopExists) {
+            await _firestoreInstance.collection(PARTSTORE_COLLECTION).doc(
+                _firebaseUser.uid).set(
+                data.toMap(), SetOptions(merge: true))
+                .then((_) => resultMessage = partSoreRegistered);
+            return resultMessage;
+          }else{
+            return resultMessage = "You Already Have A Shop Registered";
+          }
         }
         else {
           return resultMessage = roleErrorMessage;
