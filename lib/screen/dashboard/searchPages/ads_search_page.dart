@@ -256,7 +256,7 @@ class _AdSearchPageState extends State<AdSearchPage> {
      else if((_result.make != null) && (_result.model != null)){
        setState(() {
          _makeSelected = true;
-         _modelSelected = true;
+         _modelSelected  = true;
        });
      }
      else if((_result.make != null) && (_result.year != null)){
