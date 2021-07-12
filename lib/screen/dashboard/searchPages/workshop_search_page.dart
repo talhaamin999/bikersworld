@@ -193,8 +193,16 @@ class _WorkshopSearchPageState extends State<WorkshopSearchPage> {
                               ),
                             ),
                             SizedBox(width: 5,),
+                            cityFilterOption ?
                             Text(
-                              "20",
+                              "${_cityResultsList.length}",
+                              style: GoogleFonts.varelaRound(
+                                fontSize: 15,
+                                color: Colors.black,
+                              ),
+                            ) :
+                            Text(
+                              "${_resultsList.length}",
                               style: GoogleFonts.varelaRound(
                                 fontSize: 15,
                                 color: Colors.black,

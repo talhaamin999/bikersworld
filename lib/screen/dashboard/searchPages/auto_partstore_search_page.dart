@@ -192,8 +192,16 @@ class _AutoPartStoreSearchPageState extends State<AutoPartStoreSearchPage> {
                               ),
                             ),
                             SizedBox(width: 5,),
+                            cityFilterOption ?
                             Text(
-                              "30",
+                              "${_cityResultsList.length}",
+                              style: GoogleFonts.varelaRound(
+                                fontSize: 15,
+                                color: Colors.black,
+                              ),
+                            ) :
+                            Text(
+                              "${_resultsList.length}",
                               style: GoogleFonts.varelaRound(
                                 fontSize: 15,
                                 color: Colors.black,
@@ -346,7 +354,8 @@ class _AutoPartStoreSearchPageState extends State<AutoPartStoreSearchPage> {
                       );
                     }
                 ),
-              ) else ListView.builder(
+              )
+              else ListView.builder(
                   physics: NeverScrollableScrollPhysics(),
                   shrinkWrap: true,
                   itemCount: _resultsList.length,
