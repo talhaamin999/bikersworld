@@ -165,6 +165,75 @@ class _WorkshopSearchPageState extends State<WorkshopSearchPage> {
                     ),
                   ),
               ),
+              Container(
+                height: 55,
+                decoration: BoxDecoration(
+                  boxShadow: <BoxShadow>[
+                    BoxShadow(
+                        color: Color(0xffb6b6b8),
+                        blurRadius: 10,
+                        offset: Offset(0.2, 0.75)
+                    )
+                  ],
+                  color: Colors.white,
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.only(left:15,right: 15),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Container(
+                        child: Row(
+                          children: [
+                            Text(
+                              "Results",
+                              style: GoogleFonts.varelaRound(
+                                fontSize: 15,
+                                color: Colors.black,
+                              ),
+                            ),
+                            SizedBox(width: 5,),
+                            cityFilterOption ? Text(
+                              "${_cityResultsList.length}",
+                              style: GoogleFonts.varelaRound(
+                                fontSize: 15,
+                                color: Colors.black,
+                              ),
+                            ) :
+                            Text(
+                              "${_resultsList.length}",
+                              style: GoogleFonts.varelaRound(
+                                fontSize: 15,
+                                color: Colors.black,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      FlatButton(
+                        onPressed: (){
+                          navigateToFilterPage(context);
+                        },
+                        child: Container(
+                          child: Row(
+                            children: [
+                              Text(
+                                "Filter",
+                                style: GoogleFonts.varelaRound(
+                                  fontSize: 15,
+                                ),
+                              ),
+                              SizedBox(width: 5,),
+                              Icon(FontAwesomeIcons.filter, size: 15,),
+
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
               SizedBox(height: 10,),
               Container(
                 margin: EdgeInsets.symmetric(horizontal: 23,),
@@ -179,368 +248,234 @@ class _WorkshopSearchPageState extends State<WorkshopSearchPage> {
 
               SizedBox(height: 20,),
               cityFilterOption ?
-              Column(
-                children: [
-                  Container(
-                    height: 55,
-                    decoration: BoxDecoration(
-                      boxShadow: <BoxShadow>[
-                        BoxShadow(
-                            color: Color(0xffb6b6b8),
-                            blurRadius: 10,
-                            offset: Offset(0.2, 0.75)
-                        )
-                      ],
-                      color: Colors.white,
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.only(left:15,right: 15),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Container(
-                            child: Row(
-                              children: [
-                                Text(
-                                  "Results",
-                                  style: GoogleFonts.varelaRound(
-                                    fontSize: 15,
-                                    color: Colors.black,
-                                  ),
-                                ),
-                                SizedBox(width: 5,),
-                                Text(
-                                  "20",
-                                  style: GoogleFonts.varelaRound(
-                                    fontSize: 15,
-                                    color: Colors.black,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          FlatButton(
-                            onPressed: (){
-                              navigateToFilterPage(context);
-                            },
+              Container(
+                child: ListView.builder(
+                    physics: NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    itemCount: _cityResultsList.length,
+                    itemBuilder: (context,index){
+                      return  Padding(
+                        padding: const EdgeInsets.only(bottom: 15),
+                        child: FlatButton(
+                          onPressed:(){
+                            Navigator.push(context, MaterialPageRoute( builder: (context) => NormalUserWorkshopDashboard(workshopData: _cityResultsList[index],),),
+                            );
+                          },
+                          child: Card(
+                            color: Color(0xfff7f7f7),
                             child: Container(
                               child: Row(
-                                children: [
-                                  Text(
-                                    "Filter",
-                                    style: GoogleFonts.varelaRound(
-                                      fontSize: 15,
+                                children: <Widget>[
+                                  Expanded(
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(10),
+                                      child: Container(
+                                        width: 90,
+                                        height: 70,
+                                        decoration: BoxDecoration(
+                                            shape: BoxShape.rectangle,
+                                            image: DecorationImage(
+                                                fit: BoxFit.fill,
+                                                image: _cityResultsList[index].imageURL != null ? NetworkImage(_cityResultsList[index].imageURL) : AssetImage("assets/avatar.jpg",)
+                                            )
+                                        ),
+                                      ),
                                     ),
                                   ),
-                                  SizedBox(width: 5,),
-                                  Icon(FontAwesomeIcons.filter, size: 15,),
 
-                                ],
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: 20,),
-                  Container(
-                    child: ListView.builder(
-                        physics: NeverScrollableScrollPhysics(),
-                        shrinkWrap: true,
-                        itemCount: _cityResultsList.length,
-                        itemBuilder: (context,index){
-                          return  Padding(
-                            padding: const EdgeInsets.only(bottom: 15),
-                            child: FlatButton(
-                              onPressed:(){
-                                Navigator.push(context, MaterialPageRoute( builder: (context) => NormalUserWorkshopDashboard(workshopData: _cityResultsList[index],),),
-                                );
-                              },
-                              child: Card(
-                                color: Color(0xfff7f7f7),
-                                child: Container(
-                                  child: Row(
-                                    children: <Widget>[
-                                      Expanded(
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(10),
-                                          child: Container(
-                                            width: 90,
-                                            height: 70,
-                                            decoration: BoxDecoration(
-                                                shape: BoxShape.rectangle,
-                                                image: DecorationImage(
-                                                    fit: BoxFit.fill,
-                                                    image: _cityResultsList[index].imageURL != null ? NetworkImage(_cityResultsList[index].imageURL) : AssetImage("assets/avatar.jpg",)
-                                                )
+                                  SizedBox(width: 5,),
+                                  Container(
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: <Widget>[
+                                        Container(
+                                          child: AutoSizeText(
+                                            _cityResultsList[index] !=null ? _cityResultsList[index].shopTitle : "Automotive repair",
+                                            style: GoogleFonts.quicksand(
+                                              fontSize: 18,
+                                              color: Colors.black,
                                             ),
                                           ),
                                         ),
-                                      ),
-
-                                      SizedBox(width: 5,),
-                                      Container(
-                                        child: Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          children: <Widget>[
-                                            Container(
-                                              child: AutoSizeText(
-                                                _cityResultsList[index] !=null ? _cityResultsList[index].shopTitle : "Automotive repair",
-                                                style: GoogleFonts.quicksand(
-                                                  fontSize: 18,
-                                                  color: Colors.black,
+                                        SizedBox(height: 5,),
+                                        Container(
+                                          child: Row(
+                                            mainAxisAlignment: MainAxisAlignment.end,
+                                            children: [
+                                              Container(
+                                                child: Text(
+                                                  _cityResultsList[index] != null ? _cityResultsList[index].city: "Islamabad",
+                                                  style: TextStyle(
+                                                      fontSize: 15
+                                                  ),
                                                 ),
                                               ),
-                                            ),
-                                            SizedBox(height: 5,),
-                                            Container(
-                                              child: Row(
-                                                mainAxisAlignment: MainAxisAlignment.end,
-                                                children: [
-                                                  Container(
-                                                    child: Text(
-                                                      _cityResultsList[index] != null ? _cityResultsList[index].city: "Islamabad",
-                                                      style: TextStyle(
-                                                          fontSize: 15
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  SizedBox(width: 160,),
-                                                  Icon(
-                                                    Icons.arrow_forward_ios,
-                                                    color: Color(0xffb8b8b8),
-                                                  ),
-                                                ],
+                                              SizedBox(width: 160,),
+                                              Icon(
+                                                Icons.arrow_forward_ios,
+                                                color: Color(0xffb8b8b8),
                                               ),
-                                            ),
-
-                                            SizedBox(height: 3,),
-
-                                            Container(
-                                              child: Row(
-                                                children: <Widget>[
-                                                  Text(
-                                                    _cityResultsList[index] != null ? _cityResultsList[index].openTime: "open",
-                                                    style: TextStyle(
-                                                      fontSize: 13,
-                                                    ),
-                                                  ),
-                                                  SizedBox(width: 5,),
-                                                  Text(
-                                                    "|",
-                                                  ),
-                                                  SizedBox(width: 5,),
-                                                  Text(
-                                                    _cityResultsList[index] != null ? _cityResultsList[index].closeTime: "close",
-                                                    style: TextStyle(
-                                                      fontSize: 13,
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                            SizedBox(height: 3,),
-                                            FutureBuilder(
-                                              future: _workshopAVGReview.getAverageReviewOfWorksop(workshopId: _cityResultsList[index].id),
-                                              builder: (BuildContext context, AsyncSnapshot<double> snapshot) {
-                                                if(snapshot.hasData && (snapshot.data.sign == 1.0)){
-                                                  return RatingsBar(20,userRating: snapshot.data,);
-                                                }else{
-                                                  return Text("NO REVIEWS", style: GoogleFonts.quicksand(fontSize: 15,color: Colors.red),);
-                                                }
-                                              },
-                                            ),
-                                            SizedBox(height: 10,),
-                                          ],
+                                            ],
+                                          ),
                                         ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ),
-                          );
-                        }
-                    ),
-                  ),
-                ],
-              ) :
-              Column(
-                children: [
-                  Container(
-                    height: 55,
-                    decoration: BoxDecoration(
-                      boxShadow: <BoxShadow>[
-                        BoxShadow(
-                            color: Color(0xffb6b6b8),
-                            blurRadius: 10,
-                            offset: Offset(0.2, 0.75)
-                        )
-                      ],
-                      color: Colors.white,
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.only(left:15,right: 15),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Container(
-                            child: Row(
-                              children: [
-                                Text(
-                                  "Results",
-                                  style: GoogleFonts.varelaRound(
-                                    fontSize: 15,
-                                    color: Colors.black,
-                                  ),
-                                ),
-                                SizedBox(width: 5,),
-                                Text(
-                                  "20",
-                                  style: GoogleFonts.varelaRound(
-                                    fontSize: 15,
-                                    color: Colors.black,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          FlatButton(
-                            onPressed: (){
-                              navigateToFilterPage(context);
-                            },
-                            child: Container(
-                              child: Row(
-                                children: [
-                                  Text(
-                                    "Filter",
-                                    style: GoogleFonts.varelaRound(
-                                      fontSize: 15,
+
+                                        SizedBox(height: 3,),
+
+                                        Container(
+                                          child: Row(
+                                            children: <Widget>[
+                                              Text(
+                                                _cityResultsList[index] != null ? _cityResultsList[index].openTime: "open",
+                                                style: TextStyle(
+                                                  fontSize: 13,
+                                                ),
+                                              ),
+                                              SizedBox(width: 5,),
+                                              Text(
+                                                "|",
+                                              ),
+                                              SizedBox(width: 5,),
+                                              Text(
+                                                _cityResultsList[index] != null ? _cityResultsList[index].closeTime: "close",
+                                                style: TextStyle(
+                                                  fontSize: 13,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        SizedBox(height: 3,),
+                                        FutureBuilder(
+                                          future: _workshopAVGReview.getAverageReviewOfWorksop(workshopId: _cityResultsList[index].id),
+                                          builder: (BuildContext context, AsyncSnapshot<double> snapshot) {
+                                            if(snapshot.hasData && (snapshot.data.sign == 1.0)){
+                                              return RatingsBar(20,userRating: snapshot.data,);
+                                            }else{
+                                              return Text("NO REVIEWS", style: GoogleFonts.quicksand(fontSize: 15,color: Colors.red),);
+                                            }
+                                          },
+                                        ),
+                                        SizedBox(height: 10,),
+                                      ],
                                     ),
                                   ),
-                                  SizedBox(width: 5,),
-                                  Icon(FontAwesomeIcons.filter, size: 15,),
-
                                 ],
                               ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: 20,),
-                  ListView.builder(
-                  physics: NeverScrollableScrollPhysics(),
-                  shrinkWrap: true,
-                  itemCount: _resultsList.length,
-                  itemBuilder: (context,index){
-                    return  Padding(
-                      padding: const EdgeInsets.only(bottom: 15),
-                      child: FlatButton(
-                        onPressed:(){
-                          Navigator.push(context, MaterialPageRoute( builder: (context) => NormalUserWorkshopDashboard(workshopData: _resultsList[index],),),
-                          );
-                        },
-                        child: Card(
-                          color: Color(0xfff7f7f7),
-                          child: Container(
-                            child: Row(
-                              children: <Widget>[
-                                Expanded(
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(10),
-                                    child: Container(
-                                      width: 90,
-                                      height: 80,
-                                      decoration: BoxDecoration(
-                                          shape: BoxShape.rectangle,
-                                          image: DecorationImage(
-                                              fit: BoxFit.fill,
-                                              image: _resultsList[index].imageURL != null ? NetworkImage(_resultsList[index].imageURL) : AssetImage("assets/avatar.jpg",)
-                                          )
-                                      ),
-                                    ),
-                                  ),
-                                ),
-
-                                SizedBox(width: 5,),
-                                Container(
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: <Widget>[
-                                      SizedBox(height: 5,),
-                                      SizedBox(
-                                        width: 210.0,
-                                        height: 30.0,
-                                        child: AutoSizeText(
-                                          _resultsList[index] !=null ? _resultsList[index].shopTitle : "Automotive repair",                                      style: GoogleFonts.quicksand(
-                                            fontSize: 18,
-                                            color: Colors.black,
-                                          ),
-                                          maxLines: 2,
-                                        ),
-                                      ),
-                                      Container(
-                                        child: Text(
-                                          _resultsList[index] != null ? _resultsList[index].city: "Islamabad",
-                                          style: TextStyle(
-                                              fontSize: 15
-                                          ),
-                                        ),
-                                      ),
-
-                                      SizedBox(height: 3,),
-
-                                      Container(
-                                        child: Row(
-                                          children: <Widget>[
-                                            Text(
-                                              _resultsList[index] != null ? _resultsList[index].openTime: "open",
-                                              style: TextStyle(
-                                                fontSize: 13,
-                                              ),
-                                            ),
-                                            SizedBox(width: 5,),
-                                            Text(
-                                              "|",
-                                            ),
-                                            SizedBox(width: 5,),
-                                            Text(
-                                              _resultsList[index] != null ? _resultsList[index].closeTime: "close",
-                                              style: TextStyle(
-                                                fontSize: 13,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                      SizedBox(height: 3,),
-                                      FutureBuilder(
-                                        future: _workshopAVGReview.getAverageReviewOfWorksop(workshopId: _resultsList[index].id),
-                                        builder: (BuildContext context, AsyncSnapshot<double> snapshot) {
-                                          if(snapshot.hasData && (snapshot.data.sign == 1.0)){
-                                            return RatingsBar(20,userRating: snapshot.data,);
-                                          }else{
-                                            return Text("NO REVIEWS",style: GoogleFonts.raleway(fontSize: 12,color: Colors.red, fontWeight: FontWeight.w600),);
-                                          }
-                                        },
-                                      ),
-                                      SizedBox(height: 10,),
-                                    ],
-                                  ),
-                                ),
-                              ],
                             ),
                           ),
                         ),
+                      );
+                    }
+                ),
+              ) :
+              ListView.builder(
+              physics: NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+              itemCount: _resultsList.length,
+              itemBuilder: (context,index){
+                return  Padding(
+                  padding: const EdgeInsets.only(bottom: 15),
+                  child: FlatButton(
+                    onPressed:(){
+                      Navigator.push(context, MaterialPageRoute( builder: (context) => NormalUserWorkshopDashboard(workshopData: _resultsList[index],),),
+                      );
+                    },
+                    child: Card(
+                      color: Color(0xfff7f7f7),
+                      child: Container(
+                        child: Row(
+                          children: <Widget>[
+                            Expanded(
+                              child: Padding(
+                                padding: const EdgeInsets.all(10),
+                                child: Container(
+                                  width: 90,
+                                  height: 80,
+                                  decoration: BoxDecoration(
+                                      shape: BoxShape.rectangle,
+                                      image: DecorationImage(
+                                          fit: BoxFit.fill,
+                                          image: _resultsList[index].imageURL != null ? NetworkImage(_resultsList[index].imageURL) : AssetImage("assets/avatar.jpg",)
+                                      )
+                                  ),
+                                ),
+                              ),
+                            ),
+
+                            SizedBox(width: 5,),
+                            Container(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  SizedBox(height: 5,),
+                                  SizedBox(
+                                    width: 210.0,
+                                    height: 30.0,
+                                    child: AutoSizeText(
+                                      _resultsList[index] !=null ? _resultsList[index].shopTitle : "Automotive repair",                                      style: GoogleFonts.quicksand(
+                                        fontSize: 18,
+                                        color: Colors.black,
+                                      ),
+                                      maxLines: 2,
+                                    ),
+                                  ),
+                                  Container(
+                                    child: Text(
+                                      _resultsList[index] != null ? _resultsList[index].city: "Islamabad",
+                                      style: TextStyle(
+                                          fontSize: 15
+                                      ),
+                                    ),
+                                  ),
+
+                                  SizedBox(height: 3,),
+
+                                  Container(
+                                    child: Row(
+                                      children: <Widget>[
+                                        Text(
+                                          _resultsList[index] != null ? _resultsList[index].openTime: "open",
+                                          style: TextStyle(
+                                            fontSize: 13,
+                                          ),
+                                        ),
+                                        SizedBox(width: 5,),
+                                        Text(
+                                          "|",
+                                        ),
+                                        SizedBox(width: 5,),
+                                        Text(
+                                          _resultsList[index] != null ? _resultsList[index].closeTime: "close",
+                                          style: TextStyle(
+                                            fontSize: 13,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  SizedBox(height: 3,),
+                                  FutureBuilder(
+                                    future: _workshopAVGReview.getAverageReviewOfWorksop(workshopId: _resultsList[index].id),
+                                    builder: (BuildContext context, AsyncSnapshot<double> snapshot) {
+                                      if(snapshot.hasData && (snapshot.data.sign == 1.0)){
+                                        return RatingsBar(20,userRating: snapshot.data,);
+                                      }else{
+                                        return Text("NO REVIEWS",style: GoogleFonts.raleway(fontSize: 12,color: Colors.red, fontWeight: FontWeight.w600),);
+                                      }
+                                    },
+                                  ),
+                                  SizedBox(height: 10,),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
-                    );
-                  }
+                    ),
+                  ),
+                );
+              }
           ),
-                ],
-              ),
 
             ],
           ),
