@@ -295,6 +295,12 @@ class _AutoPartSearchPageState extends State<AutoPartSearchPage> {
   }
 
   @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -375,7 +381,6 @@ class _AutoPartSearchPageState extends State<AutoPartSearchPage> {
                if (snapshot.hasData && snapshot.data.isNotEmpty) {
                  return Column(
                    children: [
-
                      Container(
                        height: 55,
                        decoration: BoxDecoration(
@@ -440,6 +445,7 @@ class _AutoPartSearchPageState extends State<AutoPartSearchPage> {
                      ),
                      SizedBox(height: 30,),
                      ListView.builder(
+                         physics: NeverScrollableScrollPhysics(),
                          shrinkWrap: true,
                          physics: NeverScrollableScrollPhysics(),
                          itemCount: snapshot.data.length,

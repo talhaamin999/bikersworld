@@ -29,7 +29,7 @@ class RegisterPartStoreQueries {
             _firebaseUser.uid, 'partstore_owner');
         if (_roleExists) {
           bool _shopExists = await checkPartStoreExists(userId: _firebaseUser.uid);
-          if(_shopExists) {
+          if(_shopExists == false) {
             await _firestoreInstance.collection(PARTSTORE_COLLECTION).doc(
                 _firebaseUser.uid).set(
                 data.toMap(), SetOptions(merge: true))
@@ -49,7 +49,24 @@ class RegisterPartStoreQueries {
       return resultMessage = e.toString();
     }
   }
-  Future<bool> uploadPartStoreImage({@required String imageURL,@required String docId}) async{
+  // Future<String> updatePartStore(PartstoreDashboardModel data) async {
+  //   try {
+  //     if(_firebaseUser != null) {
+  //           await _firestoreInstance.collection(PARTSTORE_COLLECTION).doc(
+  //               _firebaseUser.uid).set(
+  //               data.toMap(), SetOptions(merge: true))
+  //               .then((_) => resultMessage = partSoreRegistered);
+  //           return resultMessage;
+  //         }else{
+  //           return resultMessage = "You Already Have A Shop Registered";
+  //     }else{
+  //       return resultMessage = "You'r Not Logged In";
+  //     }
+  //   } catch (e) {
+  //     return resultMessage = e.toString();
+  //   }
+  // }
+   Future<bool> uploadPartStoreImage({@required String imageURL,@required String docId}) async{
     await _firestoreInstance.collection(PARTSTORE_COLLECTION)
         .doc(docId).set({
       'image' : imageURL,

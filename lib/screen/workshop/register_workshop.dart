@@ -168,43 +168,63 @@ class _RegisterWorkshopState extends State<RegisterWorkshop> {
     try {
       final _data = WorkshopDashboardModel(shopTitle: _shopTitleController.text.capitalizeFirstofEach,city: _shopCityController.text,area: _shopSpecificAreaController.text,openTime: openTime,closeTime: closeTime, ownerName: _ownerNameController.text,ownerContact: _ownerContactController.text,monday: monday,tuesday: tuesday,wednesday: wednesday,thursday: thursday,friday: friday,saturday: saturday,sunday: sunday,imageURL: imageUrl);
       final RegisterWorkshopQueries register = RegisterWorkshopQueries();
-      await register.registerWorkshop(_data);
-        if(register.resultMessage == "Workshop Successfully Registered"){
-          if(widget.data != null){
-            valid.validToastMessage(validMessage: 'Workshop Successfully Updated');
-          }
-          else{
-            valid.validToastMessage(
-                validMessage: register.resultMessage);
-           }
-          clear();
-          setState(() {
-            _isButtonVisible = true;
-          });
-          Future.delayed(
+        if(widget.data != null) {
+          await register.updateWorkshop(_data);
+          if (register.resultMessage == "Workshop Successfully Updated") {
+            clear();
+            valid.validToastMessage(validMessage: register.resultMessage);
+            setState(() {
+              _isButtonVisible = true;
+            });
+            Future.delayed(
               new Duration(seconds: 2),
-                (){
+                  () {
                 Navigator.of(this.context)
-                    .push(MaterialPageRoute(builder: (context) => WorkshopDashboard())
+                    .push(
+                    MaterialPageRoute(builder: (context) => WorkshopDashboard())
                 );
-          },
-          );
-        }
-        else if(register.resultMessage == register.roleErrorMessage){
-          error.errorToastMessage(errorMessage: register.resultMessage);
-          setState(() {
-            _isButtonVisible = true;
-          });
-          Future.delayed(
-            new Duration(seconds: 2),
-                (){
-              Navigator.of(this.context)
-                  .push(MaterialPageRoute(builder: (context) => GenericOptionScreen())
-              );
-            },
-          );
-        }else{
-          error.errorToastMessage(errorMessage: register.resultMessage);
+              },
+            );
+          }
+          else {
+            error.errorToastMessage(errorMessage: register.resultMessage);
+          }
+        }else {
+          await register.registerWorkshop(_data);
+          if (register.resultMessage == "Workshop Successfully Registered") {
+            valid.validToastMessage(validMessage: register.resultMessage);
+            clear();
+            setState(() {
+              _isButtonVisible = true;
+            });
+            Future.delayed(
+              new Duration(seconds: 2),
+                  () {
+                Navigator.of(this.context)
+                    .push(
+                    MaterialPageRoute(builder: (context) => WorkshopDashboard())
+                );
+              },
+            );
+          }
+          else if (register.resultMessage == register.roleErrorMessage) {
+            error.errorToastMessage(errorMessage: register.resultMessage);
+            setState(() {
+              _isButtonVisible = true;
+            });
+            Future.delayed(
+              new Duration(seconds: 2),
+                  () {
+                Navigator.of(this.context)
+                    .push(MaterialPageRoute(
+                    builder: (context) => GenericOptionScreen())
+                );
+              },
+            );
+          }
+          else {
+            error.errorToastMessage(errorMessage: register.resultMessage);
+          }
         }
     }catch(e){
       error.errorToastMessage(errorMessage: e.toString());
