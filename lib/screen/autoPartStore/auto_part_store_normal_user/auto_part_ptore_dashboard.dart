@@ -612,7 +612,7 @@ class _AutoPartStoreDashboardPageNormalUserState extends State<AutoPartStoreDash
                                     child:Padding(
                                       padding: const EdgeInsets.only(left:10,right: 20),
                                       child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                       // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                         children: <Widget>[
                                           Container(
                                             width: 100,
@@ -658,13 +658,6 @@ class _AutoPartStoreDashboardPageNormalUserState extends State<AutoPartStoreDash
 
                                              ],
                                            ),
-                                          ),
-                                          Container(
-                                            child: Icon(
-                                              Icons.arrow_forward_ios,
-                                              color: Colors.grey,
-
-                                            ),
                                           ),
 
                                         ],

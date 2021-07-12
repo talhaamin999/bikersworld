@@ -65,15 +65,15 @@ class _NormalUserWorkshopServicesState extends State<NormalUserWorkshopServices>
               bottom: TabBar(
                 tabs: <Widget>[
                   Tab(
-                    child:Text("Electrical" , style: GoogleFonts.quicksand(fontSize:18),),
+                    child:Text("Electrical" , style: GoogleFonts.quicksand(fontSize:15),),
                     icon: Icon(FontAwesomeIcons.bolt),
                   ),
                   Tab(
-                    child:Text("Mechanical",style: GoogleFonts.quicksand(fontSize:18),),
+                    child:Text("Mechanical",style: GoogleFonts.quicksand(fontSize:15),),
                     icon: Icon(FontAwesomeIcons.cogs),
                   ),
                   Tab(
-                    child:Text("Tuning",style: GoogleFonts.quicksand(fontSize:18),),
+                    child:Text("Tuning",style: GoogleFonts.quicksand(fontSize:15),),
                     icon: Icon(Icons.speed),
                   )
                 ],

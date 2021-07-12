@@ -24,11 +24,12 @@ class _AdSearchPageState extends State<AdSearchPage> {
   double _maxValue;
   final _titleController = TextEditingController();
   bool _serachByTitle = false,_makeSelected=false,_modelSelected=false,_yearSelected=false,_citySelected=false,_rangeSelected=false;
+
   double stringToDouble(String value){
     return double.tryParse(value);
   }
 
-  Future<List<BikeAddModel>> getAdds() async{
+  Future<List<BikeAddModel>> getAdds(){
     if(_serachByTitle){
       return _searchAdds.serachByTitle(title: _titleController.text.capitalizeFirstofEach);
     }
@@ -38,7 +39,7 @@ class _AdSearchPageState extends State<AdSearchPage> {
       return _searchAdds.searchAddByMakeAndModelAndYearAndCityAndRange(make: _result.make, model: _result.model, year: _result.year, city: _result.city, min: _minValue, max: _maxValue);
     }
     else if(_makeSelected && _modelSelected && _yearSelected && _citySelected){
-      return _searchAdds.searchAddByMakeAndModelAndYearAndCity(make: _result.make, model:_result.model, year: _result.year, city: _result.city);
+       return _searchAdds.searchAddByMakeAndModelAndYearAndCity(make: _result.make, model:_result.model, year: _result.year, city: _result.city);
      }
     else if(_makeSelected && _modelSelected && _yearSelected && _rangeSelected){
       print("mmyr");
@@ -387,7 +388,6 @@ class _AdSearchPageState extends State<AdSearchPage> {
                   ),
                 ),
               ),
-              /*
               Container(
                 height: 55,
                 decoration: BoxDecoration(
@@ -416,19 +416,12 @@ class _AdSearchPageState extends State<AdSearchPage> {
                               ),
                             ),
                             SizedBox(width: 5,),
-                              _resultShown != null ? Text(
-                              "$_resultShown",
-                                style: GoogleFonts.varelaRound(
+                            Text(
+                              "30",
+                              style: GoogleFonts.varelaRound(
                                 fontSize: 15,
                                 color: Colors.black,
-                                )
-                              ) :
-                               Text(
-                                  "0",
-                                  style: GoogleFonts.varelaRound(
-                                    fontSize: 15,
-                                    color: Colors.black,
-                              )
+                              ),
                             ),
                           ],
                         ),
@@ -459,161 +452,87 @@ class _AdSearchPageState extends State<AdSearchPage> {
                   ),
                 ),
               ),
-               */
-              Container(
-                height: 55,
-                decoration: BoxDecoration(
-                  boxShadow: <BoxShadow>[
-                    BoxShadow(
-                        color: Color(0xffb6b6b8),
-                        blurRadius: 10,
-                        offset: Offset(0.2, 0.75)
-                    )
-                  ],
-                  color: Colors.white,
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    FlatButton(
-                      onPressed: (){
-                        goToAdvanceSearchPage(context);
-                        //Navigator.push(context, MaterialPageRoute(builder: (context) => AdvanceSearchPage()));
-                      },
-                      child: Container(
-                        child: Row(
-                          children: [
-                            Text(
-                              "Advance Option",
-                              style: GoogleFonts.varelaRound(
-                                fontSize: 15,
-                              ),
-                            ),
-                            SizedBox(width: 5,),
-                            Icon(FontAwesomeIcons.filter, size: 15,),
-
-                          ],
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
               SizedBox(height: 20,),
               FutureBuilder(
                 future: getAdds(),
                 builder: (BuildContext context, AsyncSnapshot<List<BikeAddModel>> snapshot) {
                   if(snapshot.hasData && snapshot.data.isNotEmpty){
-                    return Column(
-                      children: [
-                        Padding(
-                            padding: const EdgeInsets.only(left:15,right: 15),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Container(
-                                  child: Row(
-                                    children: [
-                                      Text(
-                                        "Results",
-                                        style: GoogleFonts.varelaRound(
-                                          fontSize: 15,
-                                          color: Colors.black,
-                                        ),
+                    return ListView.builder(
+                      physics: NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      itemCount: snapshot.data.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return Padding(
+                          padding: const EdgeInsets.only(bottom: 15),
+                          child: FlatButton(
+                            onPressed:(){
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => AddDetail(data: snapshot.data[index],)));
+                            },
+                            child: Card(
+                              color: Color(0xfff7f7f7),
+                              child: Container(
+                                //height: 125,
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: <Widget>[
+                                    Container(
+                                      child: Image(
+                                          image:NetworkImage(snapshot.data[index].images[0]),
+                                          width: 130,
+                                          height: 130,
+                                          fit:BoxFit.fill
                                       ),
-                                      SizedBox(width: 5,),
-                                      Text(
-                                          "${snapshot.data.length}",
-                                          style: GoogleFonts.varelaRound(
-                                            fontSize: 15,
-                                            color: Colors.black,
-                                          )
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        SizedBox(height: 20),
-                        ListView.builder(
-                        physics: NeverScrollableScrollPhysics(),
-                        shrinkWrap: true,
-                        itemCount: snapshot.data.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          return Padding(
-                            padding: const EdgeInsets.only(bottom: 15),
-                            child: FlatButton(
-                              onPressed:(){
-                                Navigator.push(context, MaterialPageRoute(builder: (context) => AddDetail(data: snapshot.data[index],)));
-                              },
-                              child: Card(
-                                color: Color(0xfff7f7f7),
-                                child: Container(
-                                  //height: 125,
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children: <Widget>[
-                                      Container(
-                                        child: Image(
-                                            image:NetworkImage(snapshot.data[index].images[0]),
-                                            width: 130,
-                                            height: 130,
-                                            fit:BoxFit.fill
-                                        ),
-                                      ),
-                                      SizedBox(width: 5,),
-                                      Expanded(
-                                        child: Container(
-                                          margin: EdgeInsets.only(left: 10),
-                                          child: Column(
-                                            crossAxisAlignment: CrossAxisAlignment.start,
-                                            children: <Widget>[
-                                              Container(
-                                                child: Text(
-                                                  snapshot.data[index].title,
-                                                  style: GoogleFonts.quicksand(
-                                                    fontSize: 16,
-                                                    color: Colors.black,
-                                                  ),
+                                    ),
+                                    SizedBox(width: 5,),
+                                    Expanded(
+                                      child: Container(
+                                        margin: EdgeInsets.only(left: 10),
+                                        child: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: <Widget>[
+                                            Container(
+                                              child: Text(
+                                                snapshot.data[index].title,
+                                                style: GoogleFonts.quicksand(
+                                                  fontSize: 16,
+                                                  color: Colors.black,
                                                 ),
                                               ),
-                                              Container(
-                                                child: Text(
-                                                  "PKR ${snapshot.data[index].price.toString()}",
-                                                  style: GoogleFonts.quicksand(
-                                                    fontSize: 15,
-                                                    color: Colors.black,
-                                                    fontWeight: FontWeight.w600,
-                                                  ),
+                                            ),
+                                            Container(
+                                              child: Text(
+                                                "PKR ${snapshot.data[index].price.toString()}",
+                                                style: GoogleFonts.quicksand(
+                                                  fontSize: 15,
+                                                  color: Colors.black,
+                                                  fontWeight: FontWeight.w600,
                                                 ),
                                               ),
-                                              Container(
-                                                child:  Text(
-                                                  snapshot.data[index].city,
-                                                  style: TextStyle(
-                                                    fontSize: 16,
-                                                    color: Colors.grey,
-                                                  ),
+                                            ),
+                                            Container(
+                                              child:  Text(
+                                                snapshot.data[index].city,
+                                                style: TextStyle(
+                                                  fontSize: 16,
+                                                  color: Colors.grey,
                                                 ),
                                               ),
-                                              SizedBox(height: 5,),
-                                              Text(
-                                                "${DateFormat("dd-MM-yyyy").format(DateTime.parse(snapshot.data[index].date.toDate().toString()))}",
-                                              ),
-                                            ],
-                                          ),
+                                            ),
+                                            SizedBox(height: 5,),
+                                            Text(
+                                              "${DateFormat("dd-MM-yyyy").format(DateTime.parse(snapshot.data[index].date.toDate().toString()))}",
+                                            ),
+                                          ],
                                         ),
                                       ),
-                                    ],
-                                  ),
+                                    ),
+                                  ],
                                 ),
                               ),
                             ),
-                          );
-                        },
-                      ),
-                     ],
+                          ),
+                        );
+                      },
                     );
                   }
                   else if(snapshot.hasData && snapshot.data.isEmpty){

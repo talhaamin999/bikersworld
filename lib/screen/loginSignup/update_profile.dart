@@ -16,6 +16,9 @@ class UpdateProfile extends StatefulWidget {
   _UpdateProfileState createState() => _UpdateProfileState();
 }
 
+enum userOption{updateProfile,}
+
+
 class _UpdateProfileState extends State<UpdateProfile> {
 
   bool isVisible = false,_isButtonVisible = true;
@@ -60,6 +63,15 @@ class _UpdateProfileState extends State<UpdateProfile> {
     print('${_firebaseUser.getUserImageUrl()}');
     super.initState();
   }
+
+  Future<void> navigateToOtherScreen(userOption option) async{
+    if(option == userOption.updateProfile) {
+      Navigator.push(context, MaterialPageRoute(builder: (context) => AddProfilePicture()));
+
+    }
+  }
+
+
   @override
   Widget build(BuildContext context) {
 
@@ -111,103 +123,89 @@ class _UpdateProfileState extends State<UpdateProfile> {
                        Container(
                          child: Column(
                            children: [
-                             FlatButton(
-                               child: Container(
-                                 height: 150,
-                                 width: 150,
-                                // margin: EdgeInsets.only(top: kSpacingUnit.w * 3),
-                                 child: Stack(
-                                   children: <Widget>[
-                                     CircleAvatar(
-                                       child: CircleAvatar(
-                                         radius:70,
-                                         backgroundImage: _firebaseUser.getUserImageUrl() != null ?  NetworkImage(_firebaseUser.getUserImageUrl()) : AssetImage('assets/user.png'),
-                                         backgroundColor: Colors.white,
-                                       ),
-                                       radius: 90,
-                                       backgroundColor: Colors.orange,
+
+                             Container(
+                               height: 150,
+                               width: 150,
+                               // margin: EdgeInsets.only(top: kSpacingUnit.w * 3),
+                               child: Stack(
+                                 children: <Widget>[
+                                   CircleAvatar(
+                                     child: CircleAvatar(
+                                       radius:70,
+                                       backgroundImage: _firebaseUser.getUserImageUrl() != null ?  NetworkImage(_firebaseUser.getUserImageUrl()) : AssetImage('assets/user.png'),
+                                       backgroundColor: Colors.white,
                                      ),
-                                     Align(
-                                       alignment: Alignment.bottomRight,
-                                       child: Container(
-                                         height: 40,
-                                         width: 40,
-                                         decoration: BoxDecoration(
-                                           color: Colors.orange,
-                                           shape: BoxShape.circle,
-                                         ),
-                                         child: Center(
-                                           heightFactor: 40,
-                                           widthFactor: 40,
-                                           child: Icon(
-                                             FontAwesomeIcons.camera,
-                                             color: Colors.white,
-                                             size: 20
-                                           ),
-                                         ),
+                                     radius: 90,
+                                     backgroundColor: Colors.orange,
+                                   ),
+//                                   Align(
+//                                     alignment: Alignment.bottomRight,
+//                                     child: Container(
+//                                       height: 40,
+//                                       width: 40,
+//                                       decoration: BoxDecoration(
+//                                         color: Colors.orange,
+//                                         shape: BoxShape.circle,
+//                                       ),
+//                                       child: Center(
+//                                         heightFactor: 40,
+//                                         widthFactor: 40,
+//                                         child: Icon(
+//                                             FontAwesomeIcons.camera,
+//                                             color: Colors.white,
+//                                             size: 15
+//                                         ),
+//                                       ),
+//                                     ),
+//                                   ),
+                                   Align(
+                                     alignment: Alignment.bottomRight,
+                                     child: Container(
+                                       height: 40,
+                                       width: 40,
+                                       decoration: BoxDecoration(
+                                         color: Colors.orange,
+                                         borderRadius: BorderRadius.circular(30),
                                        ),
-                                     ),
-                                   ],
-                                 ),
-                               ),
-                               onPressed: (){
-                                 showModalBottomSheet<void>(
-                                   context: context,
-                                   builder: (BuildContext context) {
-                                     return Container(
-                                       height: 200,
-                                       color: Color(0xffe8e8e8),
-                                       child: Column(
-                                         crossAxisAlignment: CrossAxisAlignment.start,
-                                         children: <Widget>[
-                                           Padding(
-                                             padding: const EdgeInsets.only(left: 15, top:15),
-                                             child: Text(
-                                               "Select Option",
-                                               style: GoogleFonts.quicksand(
-                                                 fontSize: 20,
-                                                 color: Colors.black,
-                                                 fontWeight: FontWeight.bold,
-                                               ),
-                                             ),
-                                           ),
-                                           SizedBox(height: 20,),
-                                           FlatButton(
-                                             child: Padding(
-                                               padding: const EdgeInsets.only(left:15),
-                                               child: Container(
+                                       child: PopupMenuButton(
+                                         icon: new Icon(FontAwesomeIcons.camera,size: 18,
+                                             color: Colors.white),
+                                         onSelected: (option) {
+                                           navigateToOtherScreen(option);
+                                         },
+                                         itemBuilder: (_) =>
+                                         <PopupMenuItem<userOption>>[
+                                           new PopupMenuItem<userOption>(
+                                             child: Container(
                                                  child: Row(
                                                    children: [
-                                                     CircleAvatar(
-                                                       child: Icon(
-                                                         FontAwesomeIcons.image,
-                                                         color: Color(0XFF012A4A),
-                                                       ),
-                                                       backgroundColor: Color(0xffd6d6d6),
+                                                     Icon(
+                                                       FontAwesomeIcons.camera,
+                                                       size: 15,
                                                      ),
-                                                     SizedBox(width:20),
+                                                     SizedBox(width: 10),
                                                      Text(
-                                                       "Upload Photo",
-                                                       style: GoogleFonts.quicksand(
-                                                         fontSize: 18,
-                                                         color: Colors.black,
+                                                       "Add Profile",
+                                                       style: GoogleFonts
+                                                           .quicksand(
+                                                         fontSize: 16,
                                                        ),
                                                      ),
                                                    ],
                                                  ),
                                                ),
-                                             ),
-                                             onPressed: (){
-                                               Navigator.push(context, MaterialPageRoute(builder: (context) => AddProfilePicture()));
-                                             },
+                                             value: userOption.updateProfile,
                                            ),
                                          ],
                                        ),
-                                     );
-                                   },
-                                 );
-                               },
+                                     ),
+                                   ),
+
+                                 ],
+                               ),
                              ),
+
                              SizedBox(height: 15,),
                              Text(
                                _firebaseUser.getUserEmail() != null ? _firebaseUser.getUserEmail():'',
@@ -581,3 +579,149 @@ final kLightTheme = ThemeData(
     displayColor: kDarkSecondaryColor,
   ),
 );
+
+/*
+*                                     PopupMenuButton(
+                                      icon: new Icon(FontAwesomeIcons.ellipsisV,
+                                          color: Colors.white),
+                                      onSelected: (option) {
+                                        navigateToOtherScreen(option);
+                                      },
+                                      itemBuilder: (_) =>
+                                      <PopupMenuItem<userOption>>[
+                                        new PopupMenuItem<userOption>(
+                                          child: Visibility(
+                                            visible: _firebaseUser
+                                                .currentUser != null
+                                                ? true
+                                                : false,
+                                            child: Container(
+                                              child: Row(
+                                                children: [
+                                                  Icon(
+                                                    FontAwesomeIcons.edit,
+                                                    size: 15,
+                                                  ),
+                                                  SizedBox(width: 10),
+                                                  Text(
+                                                    "Edit Profile",
+                                                    style: GoogleFonts
+                                                        .quicksand(
+                                                      fontSize: 16,
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                          value: userOption.updateProfile,
+                                        ),
+                                        new PopupMenuItem<userOption>(
+                                          child: Visibility(
+                                            visible: _firebaseUser
+                                                .currentUser != null
+                                                ? true
+                                                : false,
+                                            child: Container(
+                                              child: Row(
+                                                children: [
+                                                  Icon(
+                                                    FontAwesomeIcons.signOutAlt,
+                                                    size: 15,
+                                                  ),
+                                                  SizedBox(width: 10),
+                                                  Text(
+                                                    "Sign Out",
+                                                    style: GoogleFonts
+                                                        .quicksand(
+                                                      fontSize: 16,
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                          value: userOption.signOut,
+                                        ),
+                                      ],
+                                    ),
+*/
+
+
+/*
+* showDialog(
+                                     context: context,
+                                     builder: (BuildContext context)
+                                     {
+                                       return AlertDialog(
+                                         content: Container(
+                                           height: 180,
+                                           child: Column(
+                                             crossAxisAlignment: CrossAxisAlignment.start,
+                                             mainAxisAlignment: MainAxisAlignment.start,
+                                             children: <Widget>[
+                                               Padding(
+                                                 padding: const EdgeInsets.only(top:15),
+                                                 child: Text(
+                                                   "Select Option",
+                                                   style: GoogleFonts.quicksand(
+                                                     fontSize: 20,
+                                                     color: Colors.black,
+                                                     fontWeight: FontWeight.bold,
+                                                   ),
+                                                 ),
+                                               ),
+                                               SizedBox(height: 20,),
+                                               FlatButton(
+                                                 child: Container(
+                                                   child: Row(
+                                                     children: [
+                                                       CircleAvatar(
+                                                         child: Icon(
+                                                           FontAwesomeIcons.image,
+                                                           color: Color(0XFF012A4A),
+                                                         ),
+                                                         backgroundColor: Color(0xffd6d6d6),
+                                                       ),
+                                                       SizedBox(width:20),
+                                                       Text(
+                                                         "Upload Photo",
+                                                         style: GoogleFonts.quicksand(
+                                                           fontSize: 18,
+                                                           color: Colors.black,
+                                                         ),
+                                                       ),
+                                                     ],
+                                                   ),
+                                                 ),
+                                                 onPressed: (){
+                                                   Navigator.push(context, MaterialPageRoute(builder: (context) => AddProfilePicture()));
+                                                 },
+                                               ),
+                                               SizedBox(height: 20,),
+                                               Center(
+                                                 child: Container(
+                                                   decoration: BoxDecoration(
+                                                     color: Colors.red,
+                                                     borderRadius: BorderRadius.circular(10),
+                                                   ),
+                                                   child: FlatButton(
+                                                     onPressed: (){
+                                                       Navigator.pop(context);
+                                                     },
+                                                     child: Text(
+                                                       "Cancel",
+                                                       style: GoogleFonts.quicksand(
+                                                         fontSize:18,
+                                                         color: Colors.white,
+                                                       ),
+                                                     ),
+                                                   ),
+                                                 ),
+                                               ),
+                                             ],
+                                           ),
+                                         ),
+                                       );
+                                     }
+                                 );*/

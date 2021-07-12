@@ -366,7 +366,7 @@ class _AdvanceSearchPageState extends State<AdvanceSearchPage> {
                   children: [
                     CircleAvatar(
                       child: Icon(
-                        FontAwesomeIcons.tag,
+                        Icons.location_on,
                         color: Colors.black,
                         size: 17,
                       ),
@@ -397,7 +397,7 @@ class _AdvanceSearchPageState extends State<AdvanceSearchPage> {
                   children: [
                     CircleAvatar(
                       child: Icon(
-                        FontAwesomeIcons.tag,
+                        FontAwesomeIcons.calendar,
                         color: Colors.black,
                         size: 17,
                       ),
@@ -477,7 +477,7 @@ class _AdvanceSearchPageState extends State<AdvanceSearchPage> {
                 child: Row(
                   children: [
                     Container(
-                        width: 133,
+                        width: 80,
                         child: TextField(
                           controller: _minController,
                           keyboardType: TextInputType.number,
@@ -489,16 +489,16 @@ class _AdvanceSearchPageState extends State<AdvanceSearchPage> {
                               fillColor: Color(0xffe3e3e3)),
                         )
                     ),
-                    SizedBox(width: 10,),
+                    SizedBox(width: 5,),
                     Text(
                       "to",
                       style: GoogleFonts.quicksand(
                         fontSize: 18,
                       ),
                     ),
-                    SizedBox(width: 10,),
+                    SizedBox(width: 5,),
                     Container(
-                        width: 134,
+                        width: 80,
                         child: TextField(
                           controller: _maxController,
                           keyboardType: TextInputType.number,

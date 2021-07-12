@@ -102,52 +102,48 @@ class _AutoPartDashboardState extends State<AutoPartDashboard> {
                             ),
                             SizedBox(height: 5,),
                             Expanded(
-                              child:Padding(
-                                padding: const EdgeInsets.only(left:5),
-                                child: Container(
-                                  child: Row(
-                                    children: [
-                                      FlatButton(
-                                        padding:EdgeInsets.zero,
-                                        materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                                        child: Container(
-                                          height: 40,
-                                          width: 60,
-                                          decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.circular(10),
-                                            color: Colors.redAccent,
-                                          ),
-                                          child: Icon(
-                                            Icons.remove,
-                                            color: Colors.white,
-                                          ),
+                              child:Container(
+                                child: Row(
+                                  children: [
+                                    FlatButton(
+                                      padding:EdgeInsets.zero,
+                                      materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                                      child: Container(
+                                        height: 40,
+                                        width: 40,
+                                        decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(10),
+                                          color: Colors.redAccent,
                                         ),
-                                        onPressed: (){
-                                          deleteAutoPart(snapshot.data[index].docId);
-                                        },
-                                      ),
-                                      FlatButton (
-                                        padding:EdgeInsets.all(0),
-                                        child: Container(
-                                          height: 40,
-                                          width: 60,
-                                          decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.circular(10),
-                                            color: Colors.blue,
-                                          ),
-                                          child: Icon(
-                                            Icons.edit,
-                                            color: Colors.white,
-                                          ),
+                                        child: Icon(
+                                          Icons.remove,
+                                          color: Colors.white,
                                         ),
-                                        onPressed: (){
-                                          Navigator.of(context)
-                                              .push(MaterialPageRoute(builder: (context) => RegisterAutoParts(autoPartInfo: snapshot.data[index],))); // ignore: missing_required_param
-                                        },
                                       ),
+                                      onPressed: (){
+                                        deleteAutoPart(snapshot.data[index].docId);
+                                      },
+                                    ),
+                                    FlatButton (
+                                      child: Container(
+                                        height: 40,
+                                        width: 40,
+                                        decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(10),
+                                          color: Colors.blue,
+                                        ),
+                                        child: Icon(
+                                          Icons.edit,
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                      onPressed: (){
+                                        Navigator.of(context)
+                                            .push(MaterialPageRoute(builder: (context) => RegisterAutoParts(autoPartInfo: snapshot.data[index],))); // ignore: missing_required_param
+                                      },
+                                    ),
 
-                                    ],
-                                  ),
+                                  ],
                                 ),
                               ),
                             ),],

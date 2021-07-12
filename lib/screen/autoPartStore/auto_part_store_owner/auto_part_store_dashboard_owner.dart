@@ -815,6 +815,7 @@ class ReviewsTab extends StatelessWidget {
                if(snapshot.hasData && snapshot.data.isNotEmpty){
                  return ListView.builder(
                    shrinkWrap: true,
+                   physics: NeverScrollableScrollPhysics(),
                    itemCount: snapshot.data.length,
                    itemBuilder: (BuildContext context, int index) {
                      return Container(
