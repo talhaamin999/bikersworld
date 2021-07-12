@@ -369,188 +369,192 @@ class _AutoPartSearchPageState extends State<AutoPartSearchPage> {
                   ),
                 ),
               ),
-              Container(
-                height: 55,
-                decoration: BoxDecoration(
-                    boxShadow: <BoxShadow>[
-                      BoxShadow(
-                          color: Color(0xffb6b6b8),
-                          blurRadius: 10,
-                          offset: Offset(0.2, 0.75)
-                      )
-                    ],
-                    color: Colors.white,
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.only(left:15,right: 15),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Container(
-                        child: Row(
-                          children: [
-                            Text(
-                              "Results",
-                              style: GoogleFonts.varelaRound(
-                                fontSize: 15,
-                                color: Colors.black,
-                              ),
-                            ),
-                            SizedBox(width: 5,),
-                            Text(
-                              "30",
-                              style: GoogleFonts.varelaRound(
-                                fontSize: 15,
-                                color: Colors.black,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      FlatButton(
-                        onPressed: (){
-                          navigateToFilterPage(context);
-                        },
-                        child: Container(
-                          child: Row(
-                            children: [
-                              Text(
-                                "Filter",
-                                style: GoogleFonts.varelaRound(
-                                  fontSize: 15,
-                                ),
-                              ),
-                              SizedBox(width: 5,),
-                              Icon(FontAwesomeIcons.filter, size: 15,),
-
-                            ],
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-          SizedBox(height: 30,),
-
            FutureBuilder(
              future: getAutoParts(),
              builder: (BuildContext context, AsyncSnapshot<List<AutoPartModel>> snapshot) {
                if (snapshot.hasData && snapshot.data.isNotEmpty) {
-                 return ListView.builder(
-                     shrinkWrap: true,
-                     itemCount: snapshot.data.length,
-                     itemBuilder: (context, index) {
-                       return Padding(
-                         padding: const EdgeInsets.only(bottom: 15),
-                         child: FlatButton(
-                           onPressed: () {
-                             Navigator.push(context, MaterialPageRoute(
-                                 builder: (context) =>
-                                     SearchAutoPartDetailPage(
-                                       partDetail: snapshot.data[index],)));
-                           },
-                           child: Card(
-                             color: Color(0xfff7f7f7),
-                             child: Container(
-                               child: Row(
-                                 children: <Widget>[
-                                   Container(
-                                       width: 100,
-                                       height: 100,
-                                       decoration: BoxDecoration(
-                                           shape: BoxShape.rectangle,
-                                           image: DecorationImage(
-                                             fit: BoxFit.fill,
-                                             image: NetworkImage(
-                                                 snapshot.data[index]
-                                                     .imageURL),)
-                                       )
-                                   ),
-                                   SizedBox(width: 15,),
-                                   Container(
-                                     child: Column(
-                                       crossAxisAlignment: CrossAxisAlignment
-                                           .start,
-                                       children: <Widget>[
-                                         SizedBox(
-                                           width: 150.0,
-                                           height: 25.0,
-                                           child: AutoSizeText(
-                                             snapshot.data[index].title,
-                                             style: GoogleFonts.quicksand(
-                                               fontSize: 18,
-                                               color: Colors.black,
-                                             ),
-                                             maxLines: 2,
-                                           ),
-                                         ),
-                                         SizedBox(height: 5,),
-                                         Container(
-                                           child: Row(
-                                             children: [
-                                               Text(
-                                                 "PKR",
-                                                 style: GoogleFonts
-                                                     .quicksand(
-                                                   fontSize: 15,
-                                                   color: Colors.black,
-                                                   fontWeight: FontWeight
-                                                       .bold,
-                                                 ),
-                                               ),
-                                               SizedBox(width: 6,),
-                                               Text(
-                                                 snapshot.data[index].price
-                                                     .toString(),
-                                                 style: GoogleFonts
-                                                     .quicksand(
-                                                   fontSize: 15,
-                                                   color: Colors.black,
-                                                   fontWeight: FontWeight
-                                                       .bold,
-                                                 ),
-                                               ),
-                                             ],
-                                           ),
-                                         ),
+                 return Column(
+                   children: [
 
-                                         SizedBox(height: 3,),
-                                         SizedBox(
-                                           width: 150,
-                                           height: 25.0,
-                                           child: AutoSizeText(
-                                             snapshot.data[index].category,
-                                             style: GoogleFonts.quicksand(
-                                               fontSize: 15,
-                                               color: Colors.black,
-                                             ),
-                                             maxLines: 2,
-                                           ),
-                                         ),
-                                         FutureBuilder(
-                                           future: _partAVGReview.getAverageReviewOfAutoParts(partId: snapshot.data[index].docId),
-                                           builder: (BuildContext context, AsyncSnapshot<double> snapshot) {
-                                             if(snapshot.hasData && (snapshot.data.sign == 1.0)){
-                                               return Container(
-                                                   alignment:Alignment.bottomRight,
-                                                   child: RatingsBar(20,userRating: snapshot.data,));
-                                             }else{
-                                               return Text("NO REVIEWS",style: GoogleFonts.raleway(fontSize: 12,color: Colors.red, fontWeight: FontWeight.w600),);
-                                             }
-                                           },
-                                         ),
-                                         SizedBox(height: 10,),
-                                       ],
+                     Container(
+                       height: 55,
+                       decoration: BoxDecoration(
+                         boxShadow: <BoxShadow>[
+                           BoxShadow(
+                               color: Color(0xffb6b6b8),
+                               blurRadius: 10,
+                               offset: Offset(0.2, 0.75)
+                           )
+                         ],
+                         color: Colors.white,
+                       ),
+                       child: Padding(
+                         padding: const EdgeInsets.only(left:15,right: 15),
+                         child: Row(
+                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                           children: [
+                             Container(
+                               child: Row(
+                                 children: [
+                                   Text(
+                                     "Results",
+                                     style: GoogleFonts.varelaRound(
+                                       fontSize: 15,
+                                       color: Colors.black,
+                                     ),
+                                   ),
+                                   SizedBox(width: 5,),
+                                   Text(
+                                     "${snapshot.data.length}",
+                                     style: GoogleFonts.varelaRound(
+                                       fontSize: 15,
+                                       color: Colors.black,
                                      ),
                                    ),
                                  ],
                                ),
                              ),
-                           ),
+                             FlatButton(
+                               onPressed: (){
+                                 navigateToFilterPage(context);
+                               },
+                               child: Container(
+                                 child: Row(
+                                   children: [
+                                     Text(
+                                       "Filter",
+                                       style: GoogleFonts.varelaRound(
+                                         fontSize: 15,
+                                       ),
+                                     ),
+                                     SizedBox(width: 5,),
+                                     Icon(FontAwesomeIcons.filter, size: 15,),
+
+                                   ],
+                                 ),
+                               ),
+                             ),
+                           ],
                          ),
-                       );
-                     }
+                       ),
+                     ),
+                     SizedBox(height: 30,),
+                     ListView.builder(
+                         shrinkWrap: true,
+                         itemCount: snapshot.data.length,
+                         itemBuilder: (context, index) {
+                           return Padding(
+                             padding: const EdgeInsets.only(bottom: 15),
+                             child: FlatButton(
+                               onPressed: () {
+                                 Navigator.push(context, MaterialPageRoute(
+                                     builder: (context) =>
+                                         SearchAutoPartDetailPage(
+                                           partDetail: snapshot.data[index],)));
+                               },
+                               child: Card(
+                                 color: Color(0xfff7f7f7),
+                                 child: Container(
+                                   child: Row(
+                                     children: <Widget>[
+                                       Container(
+                                           width: 100,
+                                           height: 100,
+                                           decoration: BoxDecoration(
+                                               shape: BoxShape.rectangle,
+                                               image: DecorationImage(
+                                                 fit: BoxFit.fill,
+                                                 image: NetworkImage(
+                                                     snapshot.data[index]
+                                                         .imageURL),)
+                                           )
+                                       ),
+                                       SizedBox(width: 15,),
+                                       Container(
+                                         child: Column(
+                                           crossAxisAlignment: CrossAxisAlignment
+                                               .start,
+                                           children: <Widget>[
+                                             SizedBox(
+                                               width: 150.0,
+                                               height: 25.0,
+                                               child: AutoSizeText(
+                                                 snapshot.data[index].title,
+                                                 style: GoogleFonts.quicksand(
+                                                   fontSize: 18,
+                                                   color: Colors.black,
+                                                 ),
+                                                 maxLines: 2,
+                                               ),
+                                             ),
+                                             SizedBox(height: 5,),
+                                             Container(
+                                               child: Row(
+                                                 children: [
+                                                   Text(
+                                                     "PKR",
+                                                     style: GoogleFonts
+                                                         .quicksand(
+                                                       fontSize: 15,
+                                                       color: Colors.black,
+                                                       fontWeight: FontWeight
+                                                           .bold,
+                                                     ),
+                                                   ),
+                                                   SizedBox(width: 6,),
+                                                   Text(
+                                                     snapshot.data[index].price
+                                                         .toString(),
+                                                     style: GoogleFonts
+                                                         .quicksand(
+                                                       fontSize: 15,
+                                                       color: Colors.black,
+                                                       fontWeight: FontWeight
+                                                           .bold,
+                                                     ),
+                                                   ),
+                                                 ],
+                                               ),
+                                             ),
+
+                                             SizedBox(height: 3,),
+                                             SizedBox(
+                                               width: 150,
+                                               height: 25.0,
+                                               child: AutoSizeText(
+                                                 snapshot.data[index].category,
+                                                 style: GoogleFonts.quicksand(
+                                                   fontSize: 15,
+                                                   color: Colors.black,
+                                                 ),
+                                                 maxLines: 2,
+                                               ),
+                                             ),
+                                             FutureBuilder(
+                                               future: _partAVGReview.getAverageReviewOfAutoParts(partId: snapshot.data[index].docId),
+                                               builder: (BuildContext context, AsyncSnapshot<double> snapshot) {
+                                                 if(snapshot.hasData && (snapshot.data.sign == 1.0)){
+                                                   return Container(
+                                                       alignment:Alignment.bottomRight,
+                                                       child: RatingsBar(20,userRating: snapshot.data,));
+                                                 }else{
+                                                   return Text("NO REVIEWS",style: GoogleFonts.raleway(fontSize: 12,color: Colors.red, fontWeight: FontWeight.w600),);
+                                                 }
+                                               },
+                                             ),
+                                             SizedBox(height: 10,),
+                                           ],
+                                         ),
+                                       ),
+                                     ],
+                                   ),
+                                 ),
+                               ),
+                             ),
+                           );
+                         }
+                     ),
+                   ],
                  );
                }
                else if (snapshot.hasData && snapshot.data.isEmpty) {

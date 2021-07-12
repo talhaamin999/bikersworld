@@ -405,27 +405,6 @@ class _AdSearchPageState extends State<AdSearchPage> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Container(
-                        child: Row(
-                          children: [
-                            Text(
-                              "Results",
-                              style: GoogleFonts.varelaRound(
-                                fontSize: 15,
-                                color: Colors.black,
-                              ),
-                            ),
-                            SizedBox(width: 5,),
-                            Text(
-                              "30",
-                              style: GoogleFonts.varelaRound(
-                                fontSize: 15,
-                                color: Colors.black,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
                       SizedBox(height: 50,),
                         FlatButton(
                           onPressed: (){
@@ -457,82 +436,111 @@ class _AdSearchPageState extends State<AdSearchPage> {
                 future: getAdds(),
                 builder: (BuildContext context, AsyncSnapshot<List<BikeAddModel>> snapshot) {
                   if(snapshot.hasData && snapshot.data.isNotEmpty){
-                    return ListView.builder(
-                      physics: NeverScrollableScrollPhysics(),
-                      shrinkWrap: true,
-                      itemCount: snapshot.data.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        return Padding(
-                          padding: const EdgeInsets.only(bottom: 15),
-                          child: FlatButton(
-                            onPressed:(){
-                              Navigator.push(context, MaterialPageRoute(builder: (context) => AddDetail(data: snapshot.data[index],)));
-                            },
-                            child: Card(
-                              color: Color(0xfff7f7f7),
-                              child: Container(
-                                //height: 125,
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: <Widget>[
-                                    Container(
-                                      child: Image(
-                                          image:NetworkImage(snapshot.data[index].images[0]),
-                                          width: 130,
-                                          height: 130,
-                                          fit:BoxFit.fill
-                                      ),
-                                    ),
-                                    SizedBox(width: 5,),
-                                    Expanded(
-                                      child: Container(
-                                        margin: EdgeInsets.only(left: 10),
-                                        child: Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          children: <Widget>[
-                                            Container(
-                                              child: Text(
-                                                snapshot.data[index].title,
-                                                style: GoogleFonts.quicksand(
-                                                  fontSize: 16,
-                                                  color: Colors.black,
-                                                ),
-                                              ),
-                                            ),
-                                            Container(
-                                              child: Text(
-                                                "PKR ${snapshot.data[index].price.toString()}",
-                                                style: GoogleFonts.quicksand(
-                                                  fontSize: 15,
-                                                  color: Colors.black,
-                                                  fontWeight: FontWeight.w600,
-                                                ),
-                                              ),
-                                            ),
-                                            Container(
-                                              child:  Text(
-                                                snapshot.data[index].city,
-                                                style: TextStyle(
-                                                  fontSize: 16,
-                                                  color: Colors.grey,
-                                                ),
-                                              ),
-                                            ),
-                                            SizedBox(height: 5,),
-                                            Text(
-                                              "${DateFormat("dd-MM-yyyy").format(DateTime.parse(snapshot.data[index].date.toDate().toString()))}",
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                  ],
+                    return Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(left:15,right: 15),
+                          child: Container(
+                            child: Row(
+                              children: [
+                                Text(
+                                  "Results",
+                                  style: GoogleFonts.varelaRound(
+                                    fontSize: 15,
+                                    color: Colors.black,
+                                  ),
                                 ),
-                              ),
+                                SizedBox(width: 5,),
+                                Text(
+                                  "${snapshot.data.length}",
+                                  style: GoogleFonts.varelaRound(
+                                    fontSize: 15,
+                                    color: Colors.black,
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
-                        );
-                      },
+                        ),
+                        SizedBox(height: 20,),
+                        ListView.builder(
+                          physics: NeverScrollableScrollPhysics(),
+                          shrinkWrap: true,
+                          itemCount: snapshot.data.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            return Padding(
+                              padding: const EdgeInsets.only(bottom: 15),
+                              child: FlatButton(
+                                onPressed:(){
+                                  Navigator.push(context, MaterialPageRoute(builder: (context) => AddDetail(data: snapshot.data[index],)));
+                                },
+                                child: Card(
+                                  color: Color(0xfff7f7f7),
+                                  child: Container(
+                                    //height: 125,
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: <Widget>[
+                                        Container(
+                                          child: Image(
+                                              image:NetworkImage(snapshot.data[index].images[0]),
+                                              width: 130,
+                                              height: 130,
+                                              fit:BoxFit.fill
+                                          ),
+                                        ),
+                                        SizedBox(width: 5,),
+                                        Expanded(
+                                          child: Container(
+                                            margin: EdgeInsets.only(left: 10),
+                                            child: Column(
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              children: <Widget>[
+                                                Container(
+                                                  child: Text(
+                                                    snapshot.data[index].title,
+                                                    style: GoogleFonts.quicksand(
+                                                      fontSize: 16,
+                                                      color: Colors.black,
+                                                    ),
+                                                  ),
+                                                ),
+                                                Container(
+                                                  child: Text(
+                                                    "PKR ${snapshot.data[index].price.toString()}",
+                                                    style: GoogleFonts.quicksand(
+                                                      fontSize: 15,
+                                                      color: Colors.black,
+                                                      fontWeight: FontWeight.w600,
+                                                    ),
+                                                  ),
+                                                ),
+                                                Container(
+                                                  child:  Text(
+                                                    snapshot.data[index].city,
+                                                    style: TextStyle(
+                                                      fontSize: 16,
+                                                      color: Colors.grey,
+                                                    ),
+                                                  ),
+                                                ),
+                                                SizedBox(height: 5,),
+                                                Text(
+                                                  "${DateFormat("dd-MM-yyyy").format(DateTime.parse(snapshot.data[index].date.toDate().toString()))}",
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            );
+                          },
+                        ),
+                      ],
                     );
                   }
                   else if(snapshot.hasData && snapshot.data.isEmpty){

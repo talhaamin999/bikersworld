@@ -192,8 +192,15 @@ class _AutoPartStoreSearchPageState extends State<AutoPartStoreSearchPage> {
                               ),
                             ),
                             SizedBox(width: 5,),
+                            cityFilterOption ? Text(
+                              "${_cityResultsList.length}",
+                              style: GoogleFonts.varelaRound(
+                                fontSize: 15,
+                                color: Colors.black,
+                              ),
+                            ) :
                             Text(
-                              "30",
+                              "${_resultsList.length}",
                               style: GoogleFonts.varelaRound(
                                 fontSize: 15,
                                 color: Colors.black,

@@ -234,7 +234,7 @@ class _WorkshopSearchPageState extends State<WorkshopSearchPage> {
                   ),
                 ),
               ),
-              SizedBox(height: 10,),
+              SizedBox(height: 20,),
               Container(
                 margin: EdgeInsets.symmetric(horizontal: 23,),
                 alignment: Alignment.topLeft,
