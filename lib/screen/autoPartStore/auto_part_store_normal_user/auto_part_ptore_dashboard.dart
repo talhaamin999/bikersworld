@@ -87,7 +87,7 @@ class _AutoPartStoreDashboardPageNormalUserState extends State<AutoPartStoreDash
                                 radius: 50,
                                 backgroundImage: snapshot.data.imageURL != null
                                     ? NetworkImage(snapshot.data.imageURL)
-                                    : AssetImage("assets/avatar.jpg",)
+                                    : AssetImage("assets/partstore.jpg",)
                             ),
                           ),
                           SizedBox(width: 15,),

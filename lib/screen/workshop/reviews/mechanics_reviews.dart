@@ -126,7 +126,7 @@ class _WorkshopkMechanicsReviewsState extends State<WorkshopkMechanicsReviews> {
                         return Container(
                           child: Center(
                             child: Text(
-                              "NO WORKSHOP REVIEW YET",
+                              "NO MECHANIC REVIEW YET",
                               style: GoogleFonts.quicksand(
                                 fontSize: 18,
                               ),
@@ -152,13 +152,14 @@ class _WorkshopkMechanicsReviewsState extends State<WorkshopkMechanicsReviews> {
                     ),
                   ),
                   SizedBox(height: 10,),
-
+// ammar.ahmad0168@gmal.com   ammar123
                   StreamBuilder(
                   stream: _mechanicReviews.fetchWorkshopMechanicsReviews(mechanicId: widget.mechanic.id, workshopId: widget.workshopId),
                   builder: (BuildContext context, AsyncSnapshot<List<Reviews>> snapshot) {
                     if(snapshot.hasData && snapshot.data.isNotEmpty){
                       return ListView.builder(
                         shrinkWrap: true,
+                        physics: NeverScrollableScrollPhysics(),
                         itemCount: snapshot.data.length,
                         itemBuilder: (context,index){
                           return Container(

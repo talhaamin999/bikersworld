@@ -380,7 +380,7 @@ class _AutoPartStoreSearchPageState extends State<AutoPartStoreSearchPage> {
                                           shape: BoxShape.rectangle,
                                           image: DecorationImage(
                                               fit: BoxFit.fill,
-                                              image: _resultsList[index].imageURL != null ? NetworkImage(_resultsList[index].imageURL) : AssetImage("assets/avatar.jpg",)
+                                              image: _resultsList[index].imageURL != null ? NetworkImage(_resultsList[index].imageURL) : AssetImage("assets/partstore.jpg",)
                                           )
                                       ),
                                     ),

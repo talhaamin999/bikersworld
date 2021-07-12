@@ -111,7 +111,7 @@ class _HomeDashboardState extends State<HomeDashboard> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "Categories",
+                    "Services",
                     style: GoogleFonts.poppins(
                         fontSize: 25,
                         color: Color(0xffadadad),
@@ -765,138 +765,6 @@ class _HomeDashboardState extends State<HomeDashboard> {
                     SizedBox(height:20),
 
                     Container(
-                      width: MediaQuery.of(context).size.width,
-                      color: Color(0xfff5f6f7),
-                      child: Container(
-                        margin: const EdgeInsets.all(15.0),
-                        padding: const EdgeInsets.all(3.0),
-                        decoration: BoxDecoration(
-                            border: Border.all(color: Color(0XFF012A4A)),
-                          borderRadius: BorderRadius.circular(5),
-                        ),
-                        child: Container(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Text(
-                                  "Sell you bike with bikers world",
-                                  style: GoogleFonts.varelaRound(
-                                    fontSize: 22,
-                                    color: Color(0XFF012A4A),
-                                  ),
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(left:10),
-                                child: Container(
-                                  child: Row(
-                                    children: [
-                                      Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Container(
-                                              child: Column(
-                                                children: [
-                                                  Container(
-                                                    child: Row(
-                                                      children: [
-                                                        Icon(
-                                                            FontAwesomeIcons.check,
-                                                          color:Color(0xff8a8a8a),
-                                                        ),
-                                                        SizedBox(width: 10,),
-                                                        Text(
-                                                          "Dedicted sale expert to \n sell your bike",
-                                                          style: GoogleFonts.krub(
-                                                            fontSize: 17,
-                                                            color: Color(0xff8a8a8a),
-                                                          ),
-                                                          softWrap: true,
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  ),
-                                                  SizedBox(height: 10,),
-                                                  Container(
-                                                    child: Row(
-                                                      children: [
-                                                        Icon(
-                                                            FontAwesomeIcons.check,
-                                                          color:Color(0xff8a8a8a),
-
-                                                        ),
-                                                        SizedBox(width: 10,),
-                                                        Text(
-                                                          "Dedicted sale expert to \n sell your bike",
-                                                          style: GoogleFonts.krub(
-                                                            fontSize: 17,
-                                                            color: Color(0xff8a8a8a),
-                                                          ),
-                                                          softWrap: true,
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  ),
-                                                  SizedBox(height:10,),
-
-                                                  Container(
-                                                    child: Row(
-                                                      children: [
-                                                        Icon(
-                                                            FontAwesomeIcons.check,
-                                                          color:Color(0xff8a8a8a),
-
-                                                        ),
-                                                        SizedBox(width: 10,),
-                                                        Text(
-                                                          "Dedicted sale expert to \n sell your bike",
-                                                          style: GoogleFonts.krub(
-                                                            fontSize: 17,
-                                                            color: Color(0xff8a8a8a),
-                                                          ),
-                                                          softWrap: true,
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  ),
-
-                                                ],
-                                              )
-                                          ),
-
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                              Container(
-                                margin: EdgeInsets.only(left:15,right:10,bottom: 15, top:15),
-                                height: 40,
-                                decoration: BoxDecoration(
-                                  color: Color(0XFF012A4A),
-                                  borderRadius: BorderRadius.circular(5),
-                                ),
-                                child: Center(
-                                  child: Text(
-                                    "Register you bike",
-                                    style: GoogleFonts.quicksand(
-                                      color: Colors.white,
-                                      fontSize: 17,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      )
-                    ),
-
-                    SizedBox(height: 20,),
-                    Container(
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -1071,7 +939,7 @@ class _HomeDashboardState extends State<HomeDashboard> {
                                   Padding(
                                     padding: const EdgeInsets.only(top:0),
                                     child: Text(
-                                      "Find the best we have",
+                                      "Find the best Bike Parts",
                                       style: GoogleFonts.varelaRound(
                                         fontSize: 16,
                                         color: Colors.grey,
