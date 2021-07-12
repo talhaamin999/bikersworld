@@ -334,15 +334,17 @@ class _ServiceSearcPageState extends State<ServiceSearcPage> {
                                           child: Column(
                                             crossAxisAlignment: CrossAxisAlignment.start,
                                             children: [
+                                              SizedBox(height: 15,),
                                               Text(
                                                 snapshot.data[index].title,
                                                 style: GoogleFonts.quicksand(
-                                                  fontSize: 20,
+                                                  fontSize: 15,
                                                   color: Colors.black,
+                                                  fontWeight: FontWeight.w500,
                                                 ),
                                               ),
                                               Text(
-                                                snapshot.data[index].workshopId,
+                                                snapshot.data[index].category,
                                                 style: GoogleFonts.quicksand(
                                                   fontSize: 15,
                                                   color: Colors.grey,
@@ -418,7 +420,10 @@ class _ServiceSearcPageState extends State<ServiceSearcPage> {
 
                   }
                   else if(snapshot.data == null){
-                    return Text('Search For Workshops Services');
+                    return Padding(
+                      padding: const EdgeInsets.only(top:30),
+                      child: Text('Search For Workshops Services',style: GoogleFonts.quicksand(fontSize: 15,fontWeight: FontWeight.w600),),
+                    );
                   }
                   else if(snapshot.hasData && snapshot.data.isEmpty){
                     return Text('No Data Found Matching Your Search');

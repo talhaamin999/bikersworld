@@ -126,14 +126,68 @@ class _UpdateProfileState extends State<UpdateProfile> {
                                width: 150,
                                child: Stack(
                                  children: <Widget>[
-                                   CircleAvatar(
+                                   FlatButton(
+                                     padding:EdgeInsets.zero,
+                                     onPressed:(){
+                                       showModalBottomSheet(
+                                           context: context,
+                                           builder: (context) {
+                                             return Container(
+                                               height: 200,
+                                               child: Column(
+                                                 children: <Widget>[
+                                                   SizedBox(height: 10,),
+                                                  Container(
+                                                    margin: EdgeInsets.only(left: 20,right: 30),
+                                                    child: Row(
+                                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                      children: [
+                                                        Text(
+                                                          "Select Profile Picture",
+                                                          style: GoogleFonts.quicksand(
+                                                            fontSize: 16,
+                                                          ),
+                                                        ),
+                                                        Container(
+                                                          decoration: BoxDecoration(
+                                                            color: Colors.red,
+                                                            borderRadius: BorderRadius.circular(10),
+                                                          ),
+                                                          child: Padding(
+                                                            padding: const EdgeInsets.all(8.0),
+                                                            child: Icon(
+                                                              Icons.close,
+                                                              size: 20,
+                                                              color: Colors.white,
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                   SizedBox(height: 5,),
+                                                   ListTile(
+                                                     leading: new Icon(Icons.photo),
+                                                     title: new Text('Add profile Picture',style: GoogleFonts.montserrat(fontSize: 15),),
+                                                     onTap: () {
+                                                       Navigator.push(context, MaterialPageRoute(builder: (context) => AddProfilePicture()));
+                                                     },
+                                                   ),
+                                                   SizedBox(height: 20,),
+                                                 ],
+                                               ),
+                                             );
+                                           });
+                                     },
                                      child: CircleAvatar(
-                                       radius:70,
-                                       backgroundImage: _firebaseUser.getUserImageUrl() != null ?  NetworkImage(_firebaseUser.getUserImageUrl()) : AssetImage('assets/user.png'),
-                                       backgroundColor: Colors.white,
+                                       child: CircleAvatar(
+                                         radius:70,
+                                         backgroundImage: _firebaseUser.getUserImageUrl() != null ?  NetworkImage(_firebaseUser.getUserImageUrl()) : AssetImage('assets/user.png'),
+                                         backgroundColor: Colors.white,
+                                       ),
+                                       radius: 90,
+                                       backgroundColor: Colors.orange,
                                      ),
-                                     radius: 90,
-                                     backgroundColor: Colors.orange,
                                    ),
                                  ],
                                ),
@@ -149,40 +203,6 @@ class _UpdateProfileState extends State<UpdateProfile> {
                            ],
                          ),
                        ),
-
-                        SizedBox(height: 20,),
-                        FlatButton(
-                          child: Container(
-                            height: 60,
-                            width: MediaQuery.of(context).size.width,
-                            decoration: BoxDecoration(
-                              color: Color(0xffdbdbdb),
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.only(left:20,right: 10),
-                              child: Row(
-                                children: [
-                                  Icon(
-                                    FontAwesomeIcons.camera,
-                                    size: 18,
-                                  ),
-                                  SizedBox(width: 15,),
-                                  Text(
-                                    "Update Profile",
-                                    style: GoogleFonts.quicksand(
-                                      fontSize: 17,
-                                      color: Colors.black,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                          onPressed: (){
-                            Navigator.push(context, MaterialPageRoute(builder: (context) => AddProfilePicture()));
-                          },
-                        ),
 
                         SizedBox(height: 20,),
                         Center(

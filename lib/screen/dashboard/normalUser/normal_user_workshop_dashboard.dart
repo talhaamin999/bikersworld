@@ -536,7 +536,7 @@ class _NormalUserWorkshopDashboardState extends State<NormalUserWorkshopDashboar
                                child: ActiveProjectsCard(
                                  cardColor: Color(0xFF6488E4),
                                  title: 'View',
-                                 icon: Icon(Icons.person , size: 65, color: Colors.white,),
+                                 icon: Icon(Icons.person , size: 50, color: Colors.white,),
                                  subtitle: 'Mechanics',
                                ),
                              ),
@@ -1032,7 +1032,7 @@ class _NormalUserWorkshopDashboardState extends State<NormalUserWorkshopDashboar
                         child: ActiveProjectsCard(
                           cardColor: Color(0xFFF9BE7C),
                           title: 'Give',
-                          icon: Icon(FontAwesomeIcons.commentDots , size: 55, color: Colors.white,),
+                          icon: Icon(FontAwesomeIcons.commentDots , size: 45, color: Colors.white,),
                           subtitle: ' Feedback',
                         ),
                       ),
@@ -1059,7 +1059,7 @@ class _NormalUserWorkshopDashboardState extends State<NormalUserWorkshopDashboar
                         child: ActiveProjectsCard(
                           cardColor: Color(0xFF6488E4),
                           title: 'View',
-                          icon: Icon(Icons.person , size: 50, color: Colors.white,),
+                          icon: Icon(Icons.person , size: 45, color: Colors.white,),
                           subtitle: 'Mechanics',
                         ),
                       ),

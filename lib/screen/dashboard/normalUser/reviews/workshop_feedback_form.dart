@@ -127,7 +127,7 @@ class _WorkshopFeedbackFormState extends State<WorkshopFeedbackForm> {
               SizedBox(height: 15,),
               Container(
                 child: Padding(
-                  padding: const EdgeInsets.only(left:15),
+                  padding: const EdgeInsets.only(left:20),
                   child: RatingsBar(40),
                 ),
               ),

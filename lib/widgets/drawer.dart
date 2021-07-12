@@ -375,6 +375,30 @@ class _CustomDrawerState extends State<CustomDrawer> {
                     ),
 
                     ListTile(
+                      leading: Icon(FontAwesomeIcons.storeAlt),
+                      title: Text("Find Auto Part Store",
+                        style: GoogleFonts.montserrat(
+                            fontSize: 15, color: Colors.black),),
+                      trailing: Icon(Icons.arrow_forward_ios, size: 15.0,),
+                      onTap: () {
+                        Navigator.push(context, MaterialPageRoute(
+                            builder: (context) => AutoPartStoreSearchPage()));
+                      },
+
+                    ),
+                    ListTile(
+                      leading: Icon(FontAwesomeIcons.cog),
+                      title: Text(
+                        "Find Auto Part", style: GoogleFonts.montserrat(
+                          fontSize: 15, color: Colors.black),),
+                      trailing: Icon(Icons.arrow_forward_ios, size: 15.0,),
+                      onTap: () {
+                        Navigator.push(context, MaterialPageRoute(
+                            builder: (context) => AutoPartSearchPage()));
+                      },
+                    ),
+
+                    ListTile(
                       leading: Icon(FontAwesomeIcons.tools),
                       title: Text(
                         "Find Services", style: GoogleFonts.montserrat(
@@ -396,30 +420,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
                       },
 
                     ),
-                    ListTile(
-                      leading: Icon(FontAwesomeIcons.cog),
-                      title: Text(
-                        "Find Auto Part", style: GoogleFonts.montserrat(
-                          fontSize: 15, color: Colors.black),),
-                      trailing: Icon(Icons.arrow_forward_ios, size: 15.0,),
-                      onTap: () {
-                        Navigator.push(context, MaterialPageRoute(
-                            builder: (context) => AutoPartSearchPage()));
-                      },
-                    ),
 
-                    ListTile(
-                      leading: Icon(FontAwesomeIcons.storeAlt),
-                      title: Text("Find Auto Part Store",
-                        style: GoogleFonts.montserrat(
-                            fontSize: 15, color: Colors.black),),
-                      trailing: Icon(Icons.arrow_forward_ios, size: 15.0,),
-                      onTap: () {
-                        Navigator.push(context, MaterialPageRoute(
-                            builder: (context) => AutoPartStoreSearchPage()));
-                      },
-
-                    ),
                   ]
               ),
             );

@@ -3,7 +3,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:carousel_pro/carousel_pro.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:bikersworld/screen/dashboard/searchPages/ads_search_page.dart';
 import 'package:image_slider/image_slider.dart';
@@ -165,12 +164,11 @@ class _AddDetailState extends State<AddDetail>  with SingleTickerProviderStateMi
                       ),
                       SizedBox(width: 60,),
                       Container(
-                        margin: EdgeInsets.only(left: 20),
                         child: Row(
                           children: <Widget>[
                             Icon(FontAwesomeIcons.mapMarkedAlt),
                             SizedBox(width: 8,),
-                            SizedBox(width: 18,),
+                            //SizedBox(width: 18,),
                             Container(
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -234,7 +232,7 @@ class _AddDetailState extends State<AddDetail>  with SingleTickerProviderStateMi
                       ),
                       SizedBox(width: 20,),
                       Container(
-                        margin: EdgeInsets.only(left: 20),
+                        margin: EdgeInsets.only(left: 30),
                         child: Row(
                           children: <Widget>[
                             Icon(FontAwesomeIcons.calendar),

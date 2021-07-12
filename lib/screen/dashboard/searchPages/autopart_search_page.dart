@@ -441,6 +441,7 @@ class _AutoPartSearchPageState extends State<AutoPartSearchPage> {
                      SizedBox(height: 30,),
                      ListView.builder(
                          shrinkWrap: true,
+                         physics: NeverScrollableScrollPhysics(),
                          itemCount: snapshot.data.length,
                          itemBuilder: (context, index) {
                            return Padding(
@@ -557,8 +558,12 @@ class _AutoPartSearchPageState extends State<AutoPartSearchPage> {
                    ],
                  );
                }
+               /**/
                else if (snapshot.hasData && snapshot.data.isEmpty) {
-                 return Center(child: Text("No Data Found"));
+                 return Padding(
+                   padding: const EdgeInsets.only(top:30),
+                   child: Text('No Data Found',style: GoogleFonts.quicksand(fontSize: 15,fontWeight: FontWeight.w600),),
+                 );
                }
                else if (snapshot.data == null) {
                  return Center(child: Text(""));

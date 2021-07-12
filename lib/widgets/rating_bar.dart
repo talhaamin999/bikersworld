@@ -3,7 +3,7 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 
 class RatingsBar extends StatelessWidget {
-  RatingsBar(this.size, {this.userRating});
+  RatingsBar(this.size,{this.userRating});
 
   double size;
   static double ratings = 2.5;

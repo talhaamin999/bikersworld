@@ -124,12 +124,12 @@ class _ReviewFromUserState extends State<ReviewFromUser> {
                       padding: const EdgeInsets.only(left: 1),
                       child: Container(
                         child: Text(
-                              "NO REVIEWS ADDED YET",
-                              style: GoogleFonts.quicksand(
-                                fontSize: 50,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
+                          "NO REVIEWS ADDED YET",
+                          style: GoogleFonts.quicksand(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
                       ),
                     );
                   }
@@ -215,7 +215,10 @@ class _ReviewFromUserState extends State<ReviewFromUser> {
                                                 ],
                                               ),
                                             ),
-                                            subtitle: snapshot.data != null ? Text(snapshot.data[index].description , style: GoogleFonts.quicksand(fontSize:18),) : Text("SA card is a sheet used to represent the information related to each other, such as an album, a geographical loca   heet used to represent the information related to each other, such as an album, a geographical location, contation, contact details,"),
+                                            subtitle: snapshot.data != null ? Padding(
+                                              padding: const EdgeInsets.only(bottom:8.0),
+                                              child: Text(snapshot.data[index].description , style: GoogleFonts.quicksand(fontSize:15),),
+                                            ) : Text("SA card is a sheet used to represent the information related to each other, such as an album, a geographical loca   heet used to represent the information related to each other, such as an album, a geographical location, contation, contact details,"),
                                           ),
                                         ),
                                       ],

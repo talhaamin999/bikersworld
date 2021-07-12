@@ -469,7 +469,7 @@ class _AdSearchPageState extends State<AdSearchPage> {
                           itemCount: snapshot.data.length,
                           itemBuilder: (BuildContext context, int index) {
                             return Padding(
-                              padding: const EdgeInsets.only(bottom: 15),
+                              padding: const EdgeInsets.only(bottom: 15,),
                               child: FlatButton(
                                 onPressed:(){
                                   Navigator.push(context, MaterialPageRoute(builder: (context) => AddDetail(data: snapshot.data[index],)));
@@ -478,6 +478,7 @@ class _AdSearchPageState extends State<AdSearchPage> {
                                   color: Color(0xfff7f7f7),
                                   child: Container(
                                     //height: 125,
+                                    margin: EdgeInsets.only(left: 10),
                                     child: Row(
                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: <Widget>[
@@ -544,10 +545,16 @@ class _AdSearchPageState extends State<AdSearchPage> {
                     );
                   }
                   else if(snapshot.hasData && snapshot.data.isEmpty){
-                    return Center(child: Text("NO ADDS FOUND"),);
+                    return Padding(
+                      padding: const EdgeInsets.only(top:30),
+                      child: Text('No Ads Found',style: GoogleFonts.quicksand(fontSize: 15,fontWeight: FontWeight.w600),),
+                    );
                   }
                   else if(snapshot.data == null){
-                    return Center(child: Text("Search For Adds"),);
+                    return Padding(
+                      padding: const EdgeInsets.only(top:30),
+                      child: Text('Search for Ads',style: GoogleFonts.quicksand(fontSize: 15,fontWeight: FontWeight.w600),),
+                    );
                   }
                   else if(snapshot.hasError){
                     return Center(child: Text(snapshot.error.toString()),);
@@ -565,7 +572,7 @@ class _AdSearchPageState extends State<AdSearchPage> {
                               child: Card(
                                 color: Color(0xfff7f7f7),
                                 child: Container(
-                                  //height: 125,
+                                  margin:EdgeInsets.only(left: 10),
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                     children: <Widget>[
@@ -585,7 +592,7 @@ class _AdSearchPageState extends State<AdSearchPage> {
                                             crossAxisAlignment: CrossAxisAlignment.start,
                                             children: <Widget>[
                                               Container(
-                                                margin:EdgeInsets.only(left:5, top: 10),
+                                                margin:EdgeInsets.only(left:5, top: 0),
                                                 child: Text(
                                                   '',
                                                   // snapshot.data[index].title,

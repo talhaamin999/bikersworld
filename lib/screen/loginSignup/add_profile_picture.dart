@@ -59,16 +59,16 @@ class _AddProfilePictureState extends State<AddProfilePicture> {
       ),
       body: SingleChildScrollView(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
             SizedBox(height: 30,),
             Center(
               child: Text(
                 "Select Profile Photo ",
                 style: GoogleFonts.quicksand(
-                  fontSize: 25,
+                  fontSize: 20,
                   color: Colors.black,
-                  fontWeight: FontWeight.bold,
+                  fontWeight: FontWeight.w500,
                 ),
               ),
             ),
@@ -80,7 +80,7 @@ class _AddProfilePictureState extends State<AddProfilePicture> {
                     .of(context)
                     .size
                     .width - 200,
-                height: 280,
+                height: 200,
                 color: Colors.grey,
                 child: Center(
                   child: _image == null
@@ -96,53 +96,51 @@ class _AddProfilePictureState extends State<AddProfilePicture> {
             ),
             SizedBox(height: 50,),
 
-            Row(
+            Column(
+              children: [
+                Container(),
+                Container(),
+              ],
+            ),
+            Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
-                Container(
-                  child: Column(
-                    children: [
-                      FloatingActionButton(
-                        backgroundColor: Color(0XFF012A4A),
-                        onPressed: getImagefromcamera,
-                        tooltip: "pickImage",
-                        child: Icon(Icons.add_a_photo),
-                      ),
-                      SizedBox(height: 15,),
-
-                      Text(
-                        "Select form Camera",
-                        style: GoogleFonts.quicksand(
-                          fontSize: 18,
-                          color: Colors.black,
+                TextButton(
+                  onPressed: getImagefromcamera,
+                  child: Card(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                         Padding(
+                           padding: const EdgeInsets.all(8.0),
+                           child: ListTile(
+                            leading: Icon(Icons.camera_alt, size: 50),
+                            title: Text('Select form camera',style: GoogleFonts.quicksand(fontSize: 15,fontWeight: FontWeight.w400),),
                         ),
-                      ),
-                    ],
+                         ),
+                      ],
+                    ),
                   ),
                 ),
-                Container(
-                  child: Column(
-                    children: [
-                      FloatingActionButton(
-                        backgroundColor: Color(0XFF012A4A),
-                        onPressed: getImagefromGallery,
-                        tooltip: "Pick Image",
-                        child: Icon(Icons.camera_alt),
-                      ),
-                      SizedBox(height: 15,),
-                      Text(
-                        "Select form Gallery",
-                        style: GoogleFonts.quicksand(
-                          fontSize: 18,
-                          color: Colors.black,
+                TextButton(
+                  onPressed: getImagefromGallery,
+                  child: Card(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                         Padding(
+                           padding: const EdgeInsets.all(8.0),
+                           child: ListTile(
+                            leading: Icon(Icons.album, size: 50),
+                            title: Text('Select form Gallery',style: GoogleFonts.quicksand(fontSize: 15,fontWeight: FontWeight.w400),),
                         ),
-                      ),
-                    ],
+                         ),
+                      ],
+                    ),
                   ),
                 ),
               ],
             ),
-            SizedBox(height: 30),
             Padding(
               padding: const EdgeInsets.all(25),
               child: Center(
