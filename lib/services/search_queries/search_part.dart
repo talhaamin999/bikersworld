@@ -11,19 +11,17 @@ class SearchAutoParts {
   final CollectionReference _collectionReference = FirebaseFirestore.instance
       .collection(PART_COLLECTION);
 
-
   Future<List<AutoPartModel>> searchPartByTitle({@required String title}) {
     try {
-      return _collectionReference
-          .where('title', isEqualTo: title.firstinCaps)
-          .get()
-          .then((querySanpshot) => querySanpshot.docs
-          .map((doc) => AutoPartModel.fromJson(doc.data(), doc.reference.id))
-          .toList());
-    } catch (e) {
+        return _collectionReference
+            .where('title', isEqualTo: title.firstinCaps)
+            .get()
+            .then((snapshot) => snapshot.docs
+            .map((e) => AutoPartModel.fromJson(e.data(), e.reference.id))
+            .toList());
+      }catch(e){
       _error.errorToastMessage(errorMessage: e.toString());
-      return null;
-    }
+      }
   }
   Future<List<AutoPartModel>> searchPartByCategory({@required String partStoreId,@required String category}){
     try {

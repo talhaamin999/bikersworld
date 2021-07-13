@@ -29,7 +29,7 @@ class RegisterPartStoreQueries {
             _firebaseUser.uid, 'partstore_owner');
         if (_roleExists) {
           bool _shopExists = await checkPartStoreExists(userId: _firebaseUser.uid);
-          if(_shopExists) {
+          if(_shopExists == false) {
             await _firestoreInstance.collection(PARTSTORE_COLLECTION).doc(
                 _firebaseUser.uid).set(
                 data.toMap(), SetOptions(merge: true))

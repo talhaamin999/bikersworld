@@ -25,7 +25,7 @@ class RegisterWorkshopQueries {
        bool _roleExists = await _userRole.checkUserRole(_firebaseUser.uid,'workshop_owner');
        if(_roleExists) {
          bool _shopExists = await checkWorkshopExists(userId: _firebaseUser.uid);
-         if(_shopExists) {
+         if(_shopExists == false) {
            await _firestoreInstance.collection(WORKSHOP_COLLECTION).doc(
                _firebaseUser.uid).set(
                data.toMap(), SetOptions(merge: true))
