@@ -167,7 +167,7 @@ class SellerHomeScreen extends StatelessWidget {
                                     child: ClipRRect(
                                       borderRadius: BorderRadius.circular(20.0),
                                       child: Image.network(
-                                        snapshot.data[index].images.first,
+                                        snapshot.data[index].images[0],
                                         fit: BoxFit.fill,
                                       ),
                                     ),

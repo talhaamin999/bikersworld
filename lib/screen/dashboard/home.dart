@@ -692,7 +692,7 @@ class _HomeDashboardState extends State<HomeDashboard> {
                                                 ),
                                                 child: Image(
                                                   image: NetworkImage(
-                                                    snapshot.data[index].images.first,
+                                                    snapshot.data[index].images[0],
                                                   ),
                                                   fit: BoxFit.fill,
                                                 ),
