@@ -13,8 +13,14 @@ import 'package:bikersworld/widgets/city_dropdown.dart';
 import 'package:bikersworld/screen/autoPartStore/auto_part_store_owner/auto_part_store_dashboard_owner.dart';
 import 'package:bikersworld/services/string_extension.dart';
 
-bool monday=false,tuesday=false,wednesday=false,thursday=false,friday=false,saturday=false,sunday=false;
-String openTime = '7:15 am',closeTime = '8:00 pm';
+bool monday = false,
+    tuesday = false,
+    wednesday = false,
+    thursday = false,
+    friday = false,
+    saturday = false,
+    sunday = false;
+String openTime = '7:15 am', closeTime = '8:00 pm';
 
 class RegisterAutoPartStore extends StatefulWidget {
   final PartstoreDashboardModel storeDetails;
@@ -24,7 +30,6 @@ class RegisterAutoPartStore extends StatefulWidget {
 }
 
 class _RegisterAutoPartStoreState extends State<RegisterAutoPartStore> {
-
   final _formKey = GlobalKey<FormState>();
   final _shopTitleController = TextEditingController();
   final _shopCityController = TextEditingController();
@@ -94,31 +99,46 @@ class _RegisterAutoPartStoreState extends State<RegisterAutoPartStore> {
 
   void validateFields() {
     try {
-      if (!_validateShop.validateShopTitle(_shopTitleController.text.trim()) && !_validateShop.validateShopCity(_shopCityController.text.trim()) &&
-          !_validateShop.validateShopArea(_shopAdressController.text.trim()) && !_validateShop.validateOwnerName(_ownerNameController.text.trim()) &&
-          !_validateShop.validateOwnerContact(_ownerContactController.text.trim())) {
-        _error.errorToastMessage(errorMessage: "You Need To Enter Valid Data in every Fields");
-      }
-      else if (!_validateShop.validateShopTitle(_shopTitleController.text.trim())) {
-        _error.errorToastMessage(errorMessage: "You Need To Enter Valid Shop Title");
-      }
-      else if (!_validateShop.validateShopCity(_shopCityController.text.trim())) {
-        _error.errorToastMessage(errorMessage: "You Need To Enter Valid City Name");
-      }
-      else if (!_validateShop.validateShopArea(_shopAdressController.text.trim())) {
-        _error.errorToastMessage(errorMessage: "You Need To Enter Valid Shop Address");
-      }
-      else if (!_validateShop.validateOwnerName(_ownerNameController.text.trim())) {
-        _error.errorToastMessage(errorMessage: "You Need To Enter Valid Owner Name");
-      }
-      else if (!_validateShop.validateOwnerContact(_ownerContactController.text.trim())) {
-        _error.errorToastMessage(errorMessage: "You Need To Enter Valid Pakistan Number");
-      }
-      else if (!monday && !tuesday && !wednesday && !thursday && !friday && !saturday && !sunday) {
+      if (!_validateShop.validateShopTitle(_shopTitleController.text.trim()) &&
+          !_validateShop.validateShopCity(_shopCityController.text.trim()) &&
+          !_validateShop.validateShopArea(_shopAdressController.text.trim()) &&
+          !_validateShop.validateOwnerName(_ownerNameController.text.trim()) &&
+          !_validateShop
+              .validateOwnerContact(_ownerContactController.text.trim())) {
+        _error.errorToastMessage(
+            errorMessage: "You Need To Enter Valid Data in every Fields");
+      } else if (!_validateShop
+          .validateShopTitle(_shopTitleController.text.trim())) {
+        _error.errorToastMessage(
+            errorMessage: "You Need To Enter Valid Shop Title");
+      } else if (!_validateShop
+          .validateShopCity(_shopCityController.text.trim())) {
+        _error.errorToastMessage(
+            errorMessage: "You Need To Enter Valid City Name");
+      } else if (!_validateShop
+          .validateShopArea(_shopAdressController.text.trim())) {
+        _error.errorToastMessage(
+            errorMessage: "You Need To Enter Valid Shop Address");
+      } else if (!_validateShop
+          .validateOwnerName(_ownerNameController.text.trim())) {
+        _error.errorToastMessage(
+            errorMessage: "You Need To Enter Valid Owner Name");
+      } else if (!_validateShop
+          .validateOwnerContact(_ownerContactController.text.trim())) {
+        _error.errorToastMessage(
+            errorMessage: "You Need To Enter Valid Pakistan Number");
+      } else if (!monday &&
+          !tuesday &&
+          !wednesday &&
+          !thursday &&
+          !friday &&
+          !saturday &&
+          !sunday) {
         _error.errorToastMessage(errorMessage: "Working days not selected");
-      }
-      else {
-        setState(() {_isButtonVisible = false;});
+      } else {
+        setState(() {
+          _isButtonVisible = false;
+        });
         registerPartStore();
       }
     } catch (e) {
@@ -145,42 +165,53 @@ class _RegisterAutoPartStoreState extends State<RegisterAutoPartStore> {
           sunday: sunday,
           imageURL: imageUrl);
       final register = RegisterPartStoreQueries();
-      String result = await register.registerPartStore(_data);
-      if (result == register.partSoreRegistered) {
-        clear();
-        if (widget.storeDetails != null) {
+      if (widget.storeDetails != null) {
+        String result = await register.updatePartStore(_data);
+        if (result == register.partStoreUpdated) {
+          clear();
           _valid.validToastMessage(
-              validMessage: 'PartStore Information Successfully Updated');
-        } else {
+              validMessage: 'PartStore Successfully Updated');
+          setState(() {
+            _isButtonVisible = true;
+          });
+          Future.delayed(new Duration(seconds: 1), () {
+            Navigator.of(this.context).pop();
+          });
+        }
+        else{
+          _error.errorToastMessage(errorMessage: result);
+        }
+      }
+      else {
+        String result = await register.registerPartStore(_data);
+        if (result == register.partSoreRegistered) {
+          clear();
           _valid.validToastMessage(
               validMessage: 'PartStore Successfully Registered');
+          setState(() {
+            _isButtonVisible = true;
+          });
+          Future.delayed(
+            new Duration(seconds: 1),
+            () {
+              Navigator.of(this.context).push(MaterialPageRoute(
+                  builder: (context) => AutoPartStoreDashboardOwner()));
+            },
+          );
         }
-        setState(() {
-          _isButtonVisible = true;
-        });
-        Future.delayed(
-          new Duration(seconds: 1),
-              () {
-            Navigator.of(this.context)
-                .push(MaterialPageRoute(
-                builder: (context) => AutoPartStoreDashboardOwner())
-            );
-          },
-        );
-      }
-      else if(result == register.roleErrorMessage){
-        _error.errorToastMessage(errorMessage: result);
-        Future.delayed(
-          new Duration(seconds: 1),
-              () {
-            Navigator.of(this.context)
-                .push(MaterialPageRoute(
-                builder: (context) => GenericOptionScreen())
-            );
-          },
-        );
-      }else{
-        _error.errorToastMessage(errorMessage: result);
+        else if (result == register.roleErrorMessage) {
+          _error.errorToastMessage(errorMessage: result);
+          Future.delayed(
+            new Duration(seconds: 1),
+            () {
+              Navigator.of(this.context).push(MaterialPageRoute(
+                  builder: (context) => GenericOptionScreen()));
+            },
+          );
+        }
+        else {
+          _error.errorToastMessage(errorMessage: result);
+        }
       }
     } catch (e) {
       _error.errorToastMessage(errorMessage: e.toString());
@@ -193,10 +224,7 @@ class _RegisterAutoPartStoreState extends State<RegisterAutoPartStore> {
 
   @override
   Widget build(BuildContext context) {
-    final height = MediaQuery
-        .of(context)
-        .size
-        .height;
+    final height = MediaQuery.of(context).size.height;
 
     return MaterialApp(
       home: Scaffold(
@@ -210,10 +238,12 @@ class _RegisterAutoPartStoreState extends State<RegisterAutoPartStore> {
             ),
             backgroundColor: Color(0XFF012A4A),
             leading: IconButton(
-              icon: Icon(Icons.arrow_back, color: Colors.white,),
+              icon: Icon(
+                Icons.arrow_back,
+                color: Colors.white,
+              ),
               onPressed: () => Navigator.pop(context),
-            )
-        ),
+            )),
         body: Container(
           height: height,
           child: Stack(
@@ -225,23 +255,21 @@ class _RegisterAutoPartStoreState extends State<RegisterAutoPartStore> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                      SizedBox(height: 20,),
+                      SizedBox(
+                        height: 20,
+                      ),
                       _title(),
                       SizedBox(height: 20),
                       _registerWorkshopWidget(),
                       SizedBox(height: 20),
                       Center(
                         child: Container(
-                          width: MediaQuery
-                              .of(context)
-                              .size
-                              .width - 30,
+                          width: MediaQuery.of(context).size.width - 30,
                           height: 60,
                           child: RaisedButton(
-                            onPressed: _isButtonVisible ? () =>
-                            {
-                              checkFormState()
-                            } : null,
+                            onPressed: _isButtonVisible
+                                ? () => {checkFormState()}
+                                : null,
                             child: Text(
                               widget.storeDetails != null
                                   ? 'Update'
@@ -257,9 +285,7 @@ class _RegisterAutoPartStoreState extends State<RegisterAutoPartStore> {
                           ),
                         ),
                       ),
-
                       SizedBox(height: 30),
-
                     ],
                   ),
                 ),
@@ -277,45 +303,59 @@ class _RegisterAutoPartStoreState extends State<RegisterAutoPartStore> {
       key: _formKey,
       child: Column(
         children: <Widget>[
-          EntryField(title: 'Shop Name',
+          EntryField(
+            title: 'Shop Name',
             controller: _shopTitleController,
             filter: FilteringTextInputFormatter.allow(RegExp("[a-zA-Z ]")),
-            inputType: TextInputType.text,),
-          SizedBox(height: 5,),
+            inputType: TextInputType.text,
+          ),
+          SizedBox(
+            height: 5,
+          ),
           Container(
             alignment: Alignment.bottomLeft,
-            child: Text (
+            child: Text(
               "City",
               style: GoogleFonts.quicksand(
                 fontSize: 18,
               ),
             ),
           ),
-          SizedBox(height: 5,),
-          CityDropDown(controller: _shopCityController,),
-          SizedBox(height: 5,),
-          AdressFieldWidget(title: 'Shop Address',
-            controller: _shopAdressController,
-            inputType: TextInputType.text,),
-          SizedBox(height: 15,),
-          Container(
-            child: Text(
-                "Day",
-                style: GoogleFonts.quicksand(
-                  fontSize: 18,
-                )
-            ),
+          SizedBox(
+            height: 5,
           ),
-          SizedBox(height: 10,),
-          BottomModalSheet(),
-          SizedBox(height: 20,),
+          CityDropDown(
+            controller: _shopCityController,
+          ),
+          SizedBox(
+            height: 5,
+          ),
+          AdressFieldWidget(
+            title: 'Shop Address',
+            controller: _shopAdressController,
+            inputType: TextInputType.text,
+          ),
+          SizedBox(
+            height: 15,
+          ),
           Container(
-            child: Text(
-                "Date",
+            child: Text("Day",
                 style: GoogleFonts.quicksand(
                   fontSize: 18,
-                )
-            ),
+                )),
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          BottomModalSheet(),
+          SizedBox(
+            height: 20,
+          ),
+          Container(
+            child: Text("Date",
+                style: GoogleFonts.quicksand(
+                  fontSize: 18,
+                )),
           ),
           Container(
             child: Row(
@@ -325,34 +365,45 @@ class _RegisterAutoPartStoreState extends State<RegisterAutoPartStore> {
                   child: Container(
                     child: Column(
                       children: [
-                        SizedBox(height: 20,),
+                        SizedBox(
+                          height: 20,
+                        ),
                         Text(
                           "Opening Time",
                           style: GoogleFonts.quicksand(
                             fontSize: 15,
                           ),
                         ),
-                        SizedBox(height: 10,),
+                        SizedBox(
+                          height: 10,
+                        ),
                         Container(
-                          child: TimePicker(time: 'open',),
+                          child: TimePicker(
+                            time: 'open',
+                          ),
                         ),
                       ],
                     ),
                   ),
                 ),
-
-                SizedBox(width: 12,),
+                SizedBox(
+                  width: 12,
+                ),
                 Container(
                   child: Column(
                     children: [
-                      SizedBox(height: 20,),
+                      SizedBox(
+                        height: 20,
+                      ),
                       Text(
                         "Closing Time",
                         style: GoogleFonts.quicksand(
                           fontSize: 15,
                         ),
                       ),
-                      SizedBox(height: 10,),
+                      SizedBox(
+                        height: 10,
+                      ),
                       Container(
                         child: TimePicker(),
                       ),
@@ -362,7 +413,9 @@ class _RegisterAutoPartStoreState extends State<RegisterAutoPartStore> {
               ],
             ),
           ),
-          SizedBox(height: 15,),
+          SizedBox(
+            height: 15,
+          ),
           Container(
             margin: EdgeInsets.symmetric(vertical: 10),
             child: Row(
@@ -370,7 +423,6 @@ class _RegisterAutoPartStoreState extends State<RegisterAutoPartStore> {
                 SizedBox(
                   width: 20,
                 ),
-
                 Expanded(
                   child: Padding(
                     padding: EdgeInsets.symmetric(horizontal: 10),
@@ -379,9 +431,10 @@ class _RegisterAutoPartStoreState extends State<RegisterAutoPartStore> {
                     ),
                   ),
                 ),
-
                 Text(
-                  'Store Status', style: GoogleFonts.quicksand(fontSize: 15),),
+                  'Store Status',
+                  style: GoogleFonts.quicksand(fontSize: 15),
+                ),
                 Expanded(
                   child: Padding(
                     padding: EdgeInsets.symmetric(horizontal: 10),
@@ -390,23 +443,24 @@ class _RegisterAutoPartStoreState extends State<RegisterAutoPartStore> {
                     ),
                   ),
                 ),
-
                 SizedBox(
                   width: 20,
                 ),
               ],
             ),
-
           ),
-
-          EntryField(title: 'Owner Name',
+          EntryField(
+            title: 'Owner Name',
             controller: _ownerNameController,
             filter: FilteringTextInputFormatter.allow(RegExp("[a-zA-Z ]")),
-            inputType: TextInputType.text,),
-          EntryField(title: 'Owner Contact',
+            inputType: TextInputType.text,
+          ),
+          EntryField(
+            title: 'Owner Contact',
             controller: _ownerContactController,
             filter: FilteringTextInputFormatter.digitsOnly,
-            inputType: TextInputType.number,),
+            inputType: TextInputType.number,
+          ),
         ],
       ),
     );
@@ -427,12 +481,12 @@ class _RegisterAutoPartStoreState extends State<RegisterAutoPartStore> {
                 style: GoogleFonts.quicksand(
                   fontSize: 30,
                   color: Colors.black,
-                )
-            ),
+                )),
           ]),
     );
   }
 }
+
 class TimePicker extends StatefulWidget {
   final String time;
   TimePicker({this.time});
@@ -441,42 +495,41 @@ class TimePicker extends StatefulWidget {
 }
 
 class _TimePickerState extends State<TimePicker> {
-
   TimeOfDay _openTimeSelected = TimeOfDay(hour: 7, minute: 15);
   TimeOfDay _closeTimeSelected = TimeOfDay(hour: 8, minute: 00);
 
- void _selectTime() async {
-
-   final TimeOfDay newTime = await showTimePicker(
-     context: context,
-     initialTime: widget.time == 'open' ? _openTimeSelected : _closeTimeSelected,
-   );
-   if (newTime != null) {
-     setState(() {
-       if(widget.time == 'open'){
-         _openTimeSelected = newTime;
-         openTime = _openTimeSelected.format(context);
-         print(openTime);
-       }else{
-         _closeTimeSelected = newTime;
-         closeTime = _closeTimeSelected.format(context);
-         print(closeTime);
-       }
-     });
-   }
- }
+  void _selectTime() async {
+    final TimeOfDay newTime = await showTimePicker(
+      context: context,
+      initialTime:
+          widget.time == 'open' ? _openTimeSelected : _closeTimeSelected,
+    );
+    if (newTime != null) {
+      setState(() {
+        if (widget.time == 'open') {
+          _openTimeSelected = newTime;
+          openTime = _openTimeSelected.format(context);
+          print(openTime);
+        } else {
+          _closeTimeSelected = newTime;
+          closeTime = _closeTimeSelected.format(context);
+          print(closeTime);
+        }
+      });
+    }
+  }
 
   @override
-  void initState(){
+  void initState() {
     super.initState();
   }
-  Widget build(BuildContext context ) {
+
+  Widget build(BuildContext context) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         FlatButton(
           color: Color(0XFF012A4A),
-
           onPressed: _selectTime,
           child: Text(
             'Time',
@@ -498,10 +551,7 @@ class _TimePickerState extends State<TimePicker> {
   }
 }
 
-
-
 class BottomModalSheet extends StatelessWidget {
-
   const BottomModalSheet({Key key}) : super(key: key);
 
   @override
@@ -525,7 +575,7 @@ class BottomModalSheet extends StatelessWidget {
               return Container(
                 height: 600,
                 color: Color(0xfff3f3f4),
-                child:Padding(
+                child: Padding(
                   padding: const EdgeInsets.all(15),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -537,9 +587,10 @@ class BottomModalSheet extends StatelessWidget {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-
                       MyCheckBox(),
-                      SizedBox(height: 20,),
+                      SizedBox(
+                        height: 20,
+                      ),
                       Center(
                         child: FlatButton(
                           color: Colors.orange,
@@ -550,7 +601,7 @@ class BottomModalSheet extends StatelessWidget {
                               color: Colors.white,
                             ),
                           ),
-                          onPressed: (){
+                          onPressed: () {
                             Navigator.of(context).pop();
                           },
                         ),
@@ -567,16 +618,12 @@ class BottomModalSheet extends StatelessWidget {
   }
 }
 
-
-
 class MyCheckBox extends StatefulWidget {
-
   @override
   _MyCheckBoxState createState() => _MyCheckBoxState();
 }
 
 class _MyCheckBoxState extends State<MyCheckBox> {
-
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -595,7 +642,10 @@ class _MyCheckBoxState extends State<MyCheckBox> {
                       });
                     },
                   ),
-                  Text("Monday", style: GoogleFonts.quicksand(fontSize: 16),),
+                  Text(
+                    "Monday",
+                    style: GoogleFonts.quicksand(fontSize: 16),
+                  ),
                 ],
               ),
               Padding(
@@ -606,16 +656,20 @@ class _MyCheckBoxState extends State<MyCheckBox> {
                       value: tuesday,
                       onChanged: (bool value) {
                         setState(() {
-                            tuesday = value;
+                          tuesday = value;
                         });
                       },
                     ),
                     Text(
-                      "Tuesday", style: GoogleFonts.quicksand(fontSize: 16),),
+                      "Tuesday",
+                      style: GoogleFonts.quicksand(fontSize: 16),
+                    ),
                   ],
                 ),
               ),
-              SizedBox(width: 40,),
+              SizedBox(
+                width: 40,
+              ),
             ],
           ),
         ),
@@ -629,12 +683,14 @@ class _MyCheckBoxState extends State<MyCheckBox> {
                     value: wednesday,
                     onChanged: (bool value) {
                       setState(() {
-                         wednesday = value;
+                        wednesday = value;
                       });
                     },
                   ),
                   Text(
-                    "Wednesday", style: GoogleFonts.quicksand(fontSize: 16),),
+                    "Wednesday",
+                    style: GoogleFonts.quicksand(fontSize: 16),
+                  ),
                 ],
               ),
               Row(
@@ -643,14 +699,19 @@ class _MyCheckBoxState extends State<MyCheckBox> {
                     value: thursday,
                     onChanged: (bool value) {
                       setState(() {
-                          thursday = value;
+                        thursday = value;
                       });
                     },
                   ),
-                  Text("Thursday", style: GoogleFonts.quicksand(fontSize: 16),),
+                  Text(
+                    "Thursday",
+                    style: GoogleFonts.quicksand(fontSize: 16),
+                  ),
                 ],
               ),
-              SizedBox(width: 40,),
+              SizedBox(
+                width: 40,
+              ),
             ],
           ),
         ),
@@ -668,7 +729,10 @@ class _MyCheckBoxState extends State<MyCheckBox> {
                       });
                     },
                   ),
-                  Text("Friday", style: GoogleFonts.quicksand(fontSize: 16),),
+                  Text(
+                    "Friday",
+                    style: GoogleFonts.quicksand(fontSize: 16),
+                  ),
                 ],
               ),
               Padding(
@@ -684,17 +748,18 @@ class _MyCheckBoxState extends State<MyCheckBox> {
                       },
                     ),
                     Text(
-                      "Saturday", style: GoogleFonts.quicksand(fontSize: 16),),
+                      "Saturday",
+                      style: GoogleFonts.quicksand(fontSize: 16),
+                    ),
                   ],
                 ),
               ),
-              SizedBox(width: 40,),
-
+              SizedBox(
+                width: 40,
+              ),
             ],
           ),
         ),
-
-
         Row(
           children: [
             Checkbox(
@@ -705,7 +770,10 @@ class _MyCheckBoxState extends State<MyCheckBox> {
                 });
               },
             ),
-            Text("Sunday", style: GoogleFonts.quicksand(fontSize: 16),),
+            Text(
+              "Sunday",
+              style: GoogleFonts.quicksand(fontSize: 16),
+            ),
           ],
         ),
       ],

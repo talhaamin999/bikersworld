@@ -18,6 +18,7 @@ class RegisterPartStoreQueries {
   final FirebaseFirestore _firestoreInstance = FirebaseFirestore.instance;
   final String roleErrorMessage = "You Don't Have the role of partstore owner";
   final String partSoreRegistered = "PartStore Registered";
+  final String partStoreUpdated = "PartStore Updated";
   bool imageUploaded = false,partStoreExists = false;
   String resultMessage;
 
@@ -42,6 +43,22 @@ class RegisterPartStoreQueries {
         else {
           return resultMessage = roleErrorMessage;
         }
+      }else{
+        return resultMessage = "You'r Not Logged In";
+      }
+    } catch (e) {
+      return resultMessage = e.toString();
+    }
+  }
+  Future<String> updatePartStore(PartstoreDashboardModel data) async {
+    try {
+      if(_firebaseUser != null) {
+          await _firestoreInstance.collection(PARTSTORE_COLLECTION)
+              .doc(_firebaseUser.uid)
+              .set(data.toMap(), SetOptions(merge: true))
+              .then((_) => resultMessage = partStoreUpdated)
+              .catchError((onError) => resultMessage = onError.toString());
+            return resultMessage;
       }else{
         return resultMessage = "You'r Not Logged In";
       }
