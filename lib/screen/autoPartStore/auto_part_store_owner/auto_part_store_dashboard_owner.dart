@@ -19,13 +19,13 @@ class AutoPartStoreDashboardOwner extends StatefulWidget {
   _AutoPartStoreDashboardOwnerState createState() => _AutoPartStoreDashboardOwnerState();
 }
 
-final _autoStore = RegisterPartStoreQueries();
 enum userOption{editProfile, workshopWorkingDays, workshopTiming}
 
 class _AutoPartStoreDashboardOwnerState extends State<AutoPartStoreDashboardOwner>
     with SingleTickerProviderStateMixin {
   TabController _tabController;
   ScrollController _scrollViewController;
+  final _autoStore = RegisterPartStoreQueries();
 
   @override
   void initState() {
