@@ -11,7 +11,7 @@ class AddDetail extends StatefulWidget {
 
 
   final BikeAddModel data;
-  final bool ownerDasBoard;
+  final String ownerDasBoard;
   AddDetail({@required this.data,@required this.ownerDasBoard});
   @override
   _AddDetailState createState() => _AddDetailState();
@@ -290,7 +290,7 @@ class _AddDetailState extends State<AddDetail>  with SingleTickerProviderStateMi
                 ),
                 SizedBox(height: 35,),
                 Visibility(
-                  visible: widget.ownerDasBoard ? true : false,
+                  visible: widget.ownerDasBoard != null ? true : false,
                   child: Container(
                     height: 180,
                     width: double.infinity,
@@ -345,7 +345,7 @@ class _AddDetailState extends State<AddDetail>  with SingleTickerProviderStateMi
        // drawer: Drawer(),
         floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
         bottomNavigationBar: Visibility(
-          visible: widget.ownerDasBoard ? true : false,
+          visible: widget.ownerDasBoard != null ? true : false,
           child: ListTile(
             //contentPadding: EdgeInsets.all(<some value here>),//change for side padding
             title: Padding(

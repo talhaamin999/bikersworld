@@ -149,13 +149,9 @@ class SellerHomeScreen extends StatelessWidget {
                           return FlatButton(
                             padding: EdgeInsets.zero,
                             onPressed: () {
-                              Navigator.push(
-                                  context,
+                              Navigator.of(context).push(
                                   MaterialPageRoute(
-                                      builder: (context) => AddDetail(
-                                            ownerDasBoard: true,
-                                            data: snapshot.data[index],
-                                          )));
+                                      builder: (context) => AddDetail(ownerDasBoard: "owner", data: snapshot.data[index],)));
                             },
                             child: Card(
                               color: Color(0xffdedede),

@@ -666,7 +666,7 @@ class _HomeDashboardState extends State<HomeDashboard> {
                                   return FlatButton(
                                     padding: EdgeInsets.only(left:20,top:10,  right: 10),
                                     onPressed: (){
-                                      Navigator.of(context).push(MaterialPageRoute(builder: (context) => AddDetail(data: snapshot.data[index],ownerDasBoard: false,)));
+                                      Navigator.of(context).push(MaterialPageRoute(builder: (context) => AddDetail(data: snapshot.data[index],)));
                                     },
                                     child: Container(
                                       width: MediaQuery.of(context).size.width - 100,

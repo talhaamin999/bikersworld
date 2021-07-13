@@ -472,7 +472,7 @@ class _AdSearchPageState extends State<AdSearchPage> {
                               padding: const EdgeInsets.only(bottom: 15,),
                               child: FlatButton(
                                 onPressed:(){
-                                  Navigator.push(context, MaterialPageRoute(builder: (context) => AddDetail(data: snapshot.data[index],ownerDasBoard: false,)));
+                                  Navigator.push(context, MaterialPageRoute(builder: (context) => AddDetail(data: snapshot.data[index],)));
                                 },
                                 child: Card(
                                   color: Color(0xfff7f7f7),
