@@ -172,6 +172,7 @@ class _RegisterWorkshopState extends State<RegisterWorkshop> {
           await register.updateWorkshop(_data);
           if (register.resultMessage == "Workshop Successfully Updated") {
             clear();
+            valid.validToastMessage(validMessage: register.resultMessage);
             setState(() {
               _isButtonVisible = true;
             });
@@ -191,6 +192,7 @@ class _RegisterWorkshopState extends State<RegisterWorkshop> {
         }else {
           await register.registerWorkshop(_data);
           if (register.resultMessage == "Workshop Successfully Registered") {
+            valid.validToastMessage(validMessage: register.resultMessage);
             clear();
             setState(() {
               _isButtonVisible = true;
