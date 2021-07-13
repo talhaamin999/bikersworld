@@ -447,7 +447,6 @@ class _AutoPartSearchPageState extends State<AutoPartSearchPage> {
                      ListView.builder(
                          physics: NeverScrollableScrollPhysics(),
                          shrinkWrap: true,
-                         physics: NeverScrollableScrollPhysics(),
                          itemCount: snapshot.data.length,
                          itemBuilder: (context, index) {
                            return Padding(
