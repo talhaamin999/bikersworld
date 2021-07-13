@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:bikersworld/model/workshop_model.dart';
 import 'package:bikersworld/screen/workshop/add_services.dart';
 import 'package:bikersworld/services/toast_service.dart';
@@ -12,7 +14,7 @@ class ServiceCategoryInformation extends StatefulWidget {
 
   final String serviceCategory;
   final String workshopId;
-  ServiceCategoryInformation({this.serviceCategory,@required this.workshopId});
+  ServiceCategoryInformation({this.serviceCategory,@required this.workshopId,});
 
   @override
   _ServiceCategoryInformationState createState() => _ServiceCategoryInformationState();
@@ -37,9 +39,9 @@ class _ServiceCategoryInformationState extends State<ServiceCategoryInformation>
       currentIndex = index;
     });
   }
-  Future<void> deleteService(String category,int index) async{
+  Future<void> deleteService(Services serviceData) async{
     try {
-      bool result = await _servicesQuery.deleteService(category: category,index: index);
+      bool result = await _servicesQuery.deleteService(docId: serviceData.id);
       if (result) {
         _valid.validToastMessage(
             validMessage: WorkshopServiceQueries.serviceDeletionMessage);
@@ -103,120 +105,7 @@ class _ServiceCategoryInformationState extends State<ServiceCategoryInformation>
                 StreamBuilder<List<Services>>(
                   stream: _servicesQuery.getServices(serviceCategory: widget.serviceCategory,workshopId: widget.workshopId),
                   builder: (context, snapshot) {
-                    if (snapshot.hasData &&
-                        snapshot.connectionState == ConnectionState.done) {
-                      return ListView.builder(
-                        shrinkWrap: true,
-                        itemCount: snapshot.data.length,
-                        itemBuilder: (context, index) {
-                          return Padding(
-                            padding: const EdgeInsets.only(
-                                top: 10, left: 15, right: 10),
-                            child: Card(
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              child: Column(
-                                children: <Widget>[
-                                  Container(
-                                    child: Column(
-                                      children: [
-                                        ListTile(
-                                          title: Row(
-                                            children: [
-                                              Text(
-                                                snapshot.data[index].title,
-                                                style: GoogleFonts.raleway(
-                                                  fontSize: 18,
-                                                  color: Color(0XFF012A4A),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                          subtitle: Padding(
-                                            padding:
-                                            const EdgeInsets.only(left: 50),
-                                            child: Text(
-                                                snapshot.data[index].price.toString()),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    height: 10,
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                        left: 8.0, bottom: 8, right: 8),
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.end,
-                                      children: <Widget>[
-                                        RaisedButton(
-                                          color: Colors.blue,
-                                          child: Row(
-                                            children: [
-                                              Icon(
-                                                Icons.edit,
-                                                size: 15,
-                                                color: Colors.white,
-                                              ),
-                                              SizedBox(
-                                                width: 5,
-                                              ),
-                                              Text(
-                                                "Edit",
-                                                style: GoogleFonts.raleway(
-                                                  fontSize: 17,
-                                                  color: Colors.white,
-                                                ),
-                                              )
-                                            ],
-                                          ),
-                                          onPressed: () {
-                                            final _service = Services(title: snapshot.data[index].title, category: snapshot.data[index].category, price: snapshot.data[index].price, workshopCity: snapshot.data[index].workshopCity, workshopId: snapshot.data[index].workshopId);
-                                            Navigator.of(context)
-                                                .push(MaterialPageRoute(builder: (context) => AddServices(service: _service,index: index,)));
-                                          },
-                                        ),
-                                        const SizedBox(width: 8),
-                                        RaisedButton(
-                                          color: Colors.red,
-                                          child: Row(
-                                            children: [
-                                              Icon(
-                                                FontAwesomeIcons.cogs,
-                                                size: 15,
-                                                color: Colors.white,
-                                              ),
-                                              SizedBox(
-                                                width: 16,
-                                              ),
-                                              Text(
-                                                "Delete",
-                                                style: GoogleFonts.raleway(
-                                                  fontSize: 17,
-                                                  color: Colors.white,
-                                                ),
-                                              )
-                                            ],
-                                          ),
-                                          onPressed: () {
-                                            deleteService(snapshot.data[index].category,index);
-                                          },
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          );
-                        },
-                      );
-                    }
-                    else if (snapshot.connectionState ==
-                        ConnectionState.active) {
+                    if (snapshot.hasData && snapshot.data.isNotEmpty) {
                       return ListView.builder(
                         physics: NeverScrollableScrollPhysics(),
                         shrinkWrap: true,
@@ -292,9 +181,9 @@ class _ServiceCategoryInformationState extends State<ServiceCategoryInformation>
                                             ],
                                           ),
                                           onPressed: () {
-                                            final _Service = Services(title: snapshot.data[index].title, category: snapshot.data[index].category, price: snapshot.data[index].price, workshopCity: snapshot.data[index].workshopCity, workshopId: snapshot.data[index].workshopId);
+                                            print(snapshot.data[index].id);
                                             Navigator.of(context)
-                                                .push(MaterialPageRoute(builder: (context) => AddServices(service: _Service,index: index,)));
+                                                .push(MaterialPageRoute(builder: (context) => AddServices(service: snapshot.data[index],index: index,)));
                                           },
                                         ),
                                         const SizedBox(width: 8),
@@ -320,7 +209,7 @@ class _ServiceCategoryInformationState extends State<ServiceCategoryInformation>
                                             ],
                                           ),
                                           onPressed: () {
-                                            deleteService(snapshot.data[index].category,index);
+                                            deleteService(snapshot.data[index]);
                                           },
                                         ),
                                       ],
@@ -332,6 +221,9 @@ class _ServiceCategoryInformationState extends State<ServiceCategoryInformation>
                           );
                         },
                       );
+                    }
+                    else if (snapshot.hasData && snapshot.data.isEmpty) {
+                      return Center(child: Text("No Services Found"),);
                     }
                     else if (snapshot.hasError) {
                       return Center(child: Text(snapshot.error.toString()));

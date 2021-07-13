@@ -61,20 +61,19 @@ class WorkshopServiceQueries {
           .snapshots()
           .map((snapshot) =>
           snapshot.docs
-              .map((doc) => Services.fromJson(doc.data()))
+              .map((doc) => Services.fromJson(doc.data(),doc.reference.id))
               .toList());
     }catch(e){
       _error.errorToastMessage(errorMessage: e.toString());
     }
   }
-  Future<bool> deleteService({@required String category,@required int index}) async{
+  Future<bool> deleteService({@required String docId}) async{
     try {
-      QuerySnapshot _querySnapshot = await _firestore.collection(_Service_COLLECTION)
-          .where('category',isEqualTo: category)
-          .get();
-          await _querySnapshot.docs[index].reference.delete()
-            .then((_) => deletionStatus = true)
-            .catchError((onError) => errorMessage = onError.toString());
+        await _firestore.collection(_Service_COLLECTION)
+        .doc(docId)
+        .delete()
+        .then((_) => deletionStatus = true)
+        .catchError((onError) => _error.errorToastMessage(errorMessage: onError.toString()));
      if(deletionStatus){
         return true;
       }
@@ -83,24 +82,24 @@ class WorkshopServiceQueries {
       _error.errorToastMessage(
           errorMessage: e.toString());
     }
+    return deletionStatus;
   }
-  Future<bool> updateService(Services data,int index) async {
+  Future<bool> updateService({Services serviceData}) async {
     try {
-      QuerySnapshot _querySnapshot = await _firestore.collection(_Service_COLLECTION)
-          .where('category', isEqualTo: data.category)
-          .get();
-         await _querySnapshot.docs[index].reference.update(data.toMap())
-          .then((_) => updateStatus = true)
-          .catchError((onError) => errorMessage = onError.toString());
-
+      print('${serviceData.id}');
+       await _firestore.collection(_Service_COLLECTION)
+       .doc(serviceData.id)
+       .update(serviceData.toMap())
+       .then((_) => updateStatus = true)
+       .catchError((onError) => _error.errorToastMessage(errorMessage: onError.toString()));
       if(updateStatus){
         return true;
       }
       return false;
-
     } on FirebaseException catch (e) {
       _error.errorToastMessage(
           errorMessage: e.toString());
     }
+    return updateStatus;
   }
 }

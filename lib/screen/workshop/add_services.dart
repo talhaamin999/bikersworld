@@ -98,48 +98,10 @@ class _AddServicesState extends State<AddServices> {
       _error.errorToastMessage(errorMessage: "Service Title Must Only contain Alphabets");
     }
     else{
-
-      if(_price > 2000) {
-        await Alert(
-          context: context,
-          type: AlertType.warning,
-          title: "Alert",
-          desc: "Services generally don't have price greater than 2000",
-          buttons: [
-            DialogButton(
-              width: 120,
-              child: Text(
-                "Cancel",
-                style: TextStyle(color: Colors.white, fontSize: 20),
-              ),
-              onPressed: () {
-                option = 'cancel';
-                Navigator.of(context,rootNavigator: true).pop();
-              },
-            ),
-            DialogButton(
-              width: 120,
-              child: Text(
-                "OK",
-                style: TextStyle(color: Colors.white, fontSize: 20),
-              ),
-              onPressed: () {
-                option = 'ok';
-                Navigator.of(context, rootNavigator: true).pop();
-              }
-            )
-          ],
-        ).show();
-        if(option == 'ok'){
-          widget.service != null ? await updateService(_price) : await addService(_price);
-        }
-      }
-      else{
         setState(() {
           _isButtonVisible = false;
         });
         widget.service != null ? await updateService(_price) : await addService(_price);
-      }
     }
   }
   Future<void> addService(int price) async{
@@ -172,8 +134,9 @@ class _AddServicesState extends State<AddServices> {
 }
   Future<void> updateService(int price) async{
     try {
-      final Services data = Services(title: _serviceTitleController.text.trim(), category: _currentCategorySelected, price: price, workshopCity: widget.service.workshopCity, workshopId: widget.service.workshopId);
-      bool result = await _add.updateService(data, documentIndex);
+      print("update");
+      final Services data = Services(title: _serviceTitleController.text.trim().capitalizeFirstofEach, category: _currentCategorySelected, price: price, workshopCity: widget.service.workshopCity, workshopId: widget.service.workshopId,id: widget.service.id);
+      bool result = await _add.updateService(serviceData: data);
       if(result){
         clear();
         _valid.validToastMessage(validMessage: WorkshopServiceQueries.updateResultMessage);
@@ -198,7 +161,6 @@ class _AddServicesState extends State<AddServices> {
       });
     }
   }
-
   void checkFormState(){
     if(!_formKey.currentState.validate()){
       return;
@@ -297,7 +259,7 @@ Widget _addServicesWidget({@required TextEditingController titleController,@requ
         SizedBox(height:15,),
         EntryField(title: "Title",hintText: 'wheel barring',controller: titleController,inputType: TextInputType.text,filter: FilteringTextInputFormatter.allow(RegExp("[a-zA-Z ]"))),
         SizedBox(height:15,),
-        EntryField(title: "Price",hintText: 'price < 2000',controller: priceController,inputType: TextInputType.number,filter:FilteringTextInputFormatter.digitsOnly),
+        EntryField(title: "Price",hintText: '200',controller: priceController,inputType: TextInputType.number,filter:FilteringTextInputFormatter.digitsOnly),
       ],
     ),
   );

@@ -106,12 +106,13 @@ class Services{
   final int price;
   final String workshopCity;
   final String workshopId;
+  String id;
 
+  Services({@required this.title,@required this.category,@required this.price,@required this.workshopCity,@required this.workshopId,this.id});
 
-  Services({@required this.title,@required this.category,@required this.price,@required this.workshopCity,@required this.workshopId});
-
-  factory Services.fromJson(Map<String, dynamic> json){
+  factory Services.fromJson(Map<String, dynamic> json,dociD){
     return Services(
+      id : dociD,
       title: json['title'],
       category: json['category'],
       price: json['price'],

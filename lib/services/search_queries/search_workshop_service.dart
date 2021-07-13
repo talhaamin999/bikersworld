@@ -21,7 +21,7 @@ class SearchWorkshopServices {
           .where('category',isEqualTo: category)
           .snapshots()
           .map((snapshot) =>
-          snapshot.docs.map((doc) => Services.fromJson(doc.data()))
+          snapshot.docs.map((doc) => Services.fromJson(doc.data(),doc.reference.id))
               .toList());
     } catch (e) {
       _error.errorToastMessage(errorMessage: e.toString());
@@ -33,7 +33,7 @@ class SearchWorkshopServices {
           .where('title', isEqualTo: title)
           .snapshots()
           .map((snapshot) =>
-          snapshot.docs.map((doc) => Services.fromJson(doc.data()))
+          snapshot.docs.map((doc) => Services.fromJson(doc.data(),doc.reference.id))
               .toList());
     } catch (e) {
       _error.errorToastMessage(errorMessage: e.toString());
@@ -51,7 +51,7 @@ class SearchWorkshopServices {
             .orderBy('price')
             .snapshots()
             .map((snapshot) =>
-            snapshot.docs.map((doc) => Services.fromJson(doc.data()))
+            snapshot.docs.map((doc) => Services.fromJson(doc.data(),doc.reference.id))
                 .toList());
       }else{
         return _collectionReference
@@ -61,7 +61,7 @@ class SearchWorkshopServices {
             .orderBy('price',descending: true)
             .snapshots()
             .map((snapshot) =>
-            snapshot.docs.map((doc) => Services.fromJson(doc.data()))
+            snapshot.docs.map((doc) => Services.fromJson(doc.data(),doc.reference.id))
                 .toList());
       }
     } catch (e) {
@@ -77,7 +77,7 @@ class SearchWorkshopServices {
           .where('price',isLessThanOrEqualTo: max)
           .snapshots()
           .map((snapshot) =>
-          snapshot.docs.map((doc) => Services.fromJson(doc.data()))
+          snapshot.docs.map((doc) => Services.fromJson(doc.data(),doc.reference.id))
               .toList());
     } catch (e) {
       _error.errorToastMessage(errorMessage: e.toString());
@@ -94,7 +94,7 @@ class SearchWorkshopServices {
             .orderBy('price')
             .snapshots()
             .map((snapshot) =>
-            snapshot.docs.map((doc) => Services.fromJson(doc.data()))
+            snapshot.docs.map((doc) => Services.fromJson(doc.data(),doc.reference.id))
                 .toList());
       }else{
         return _collectionReference
@@ -104,7 +104,7 @@ class SearchWorkshopServices {
             .orderBy('price',descending: true)
             .snapshots()
             .map((snapshot) =>
-            snapshot.docs.map((doc) => Services.fromJson(doc.data()))
+            snapshot.docs.map((doc) => Services.fromJson(doc.data(),doc.reference.id))
                 .toList());
       }
     } catch (e) {
@@ -121,7 +121,7 @@ class SearchWorkshopServices {
           .where('price',isLessThanOrEqualTo: max)
           .snapshots()
           .map((snapshot) =>
-          snapshot.docs.map((doc) => Services.fromJson(doc.data()))
+          snapshot.docs.map((doc) => Services.fromJson(doc.data(),doc.reference.id))
               .toList())
           .handleError((onError){
         _error.errorToastMessage(errorMessage: onError.toString());
@@ -137,7 +137,7 @@ class SearchWorkshopServices {
           .where('workshop_city', isEqualTo: city)
           .snapshots()
           .map((snapshot) =>
-          snapshot.docs.map((doc) => Services.fromJson(doc.data()))
+          snapshot.docs.map((doc) => Services.fromJson(doc.data(),doc.reference.id))
               .toList());
     } catch (e) {
       _error.errorToastMessage(errorMessage: e.toString());
@@ -152,7 +152,7 @@ class SearchWorkshopServices {
             .orderBy('price')
             .snapshots()
             .map((snapshot) =>
-            snapshot.docs.map((doc) => Services.fromJson(doc.data()))
+            snapshot.docs.map((doc) => Services.fromJson(doc.data(),doc.reference.id))
                 .toList());
       }else{
         return _collectionReference
@@ -161,7 +161,7 @@ class SearchWorkshopServices {
             .orderBy('price',descending: true)
             .snapshots()
             .map((snapshot) =>
-            snapshot.docs.map((doc) => Services.fromJson(doc.data()))
+            snapshot.docs.map((doc) => Services.fromJson(doc.data(),doc.reference.id))
                 .toList());
       }
     } catch (e) {
@@ -176,7 +176,7 @@ class SearchWorkshopServices {
             .orderBy('price')
             .snapshots()
             .map((snapshot) =>
-            snapshot.docs.map((doc) => Services.fromJson(doc.data()))
+            snapshot.docs.map((doc) => Services.fromJson(doc.data(),doc.reference.id))
                 .toList());
       }else{
         return _collectionReference
@@ -184,7 +184,7 @@ class SearchWorkshopServices {
             .orderBy('price',descending: true)
             .snapshots()
             .map((snapshot) =>
-            snapshot.docs.map((doc) => Services.fromJson(doc.data()))
+            snapshot.docs.map((doc) => Services.fromJson(doc.data(),doc.reference.id))
                 .toList());
       }
     } catch (e) {
