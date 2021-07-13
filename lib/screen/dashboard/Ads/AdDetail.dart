@@ -12,7 +12,7 @@ class AddDetail extends StatefulWidget {
 
   final BikeAddModel data;
   final bool ownerDasBoard;
-  AddDetail({@required this.data,this.ownerDasBoard});
+  AddDetail({@required this.data,@required this.ownerDasBoard});
   @override
   _AddDetailState createState() => _AddDetailState();
 }

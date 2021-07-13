@@ -153,6 +153,7 @@ class SellerHomeScreen extends StatelessWidget {
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) => AddDetail(
+                                            ownerDasBoard: true,
                                             data: snapshot.data[index],
                                           )));
                             },
