@@ -290,7 +290,7 @@ class _AddDetailState extends State<AddDetail>  with SingleTickerProviderStateMi
                 ),
                 SizedBox(height: 35,),
                 Visibility(
-                  visible: widget.ownerDasBoard != null ? true : false,
+                  visible: widget.ownerDasBoard != null ? false : true,
                   child: Container(
                     height: 180,
                     width: double.infinity,
@@ -345,7 +345,7 @@ class _AddDetailState extends State<AddDetail>  with SingleTickerProviderStateMi
        // drawer: Drawer(),
         floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
         bottomNavigationBar: Visibility(
-          visible: widget.ownerDasBoard != null ? true : false,
+          visible: widget.ownerDasBoard != null ? false : true,
           child: ListTile(
             //contentPadding: EdgeInsets.all(<some value here>),//change for side padding
             title: Padding(
