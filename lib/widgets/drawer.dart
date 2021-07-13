@@ -373,7 +373,17 @@ class _CustomDrawerState extends State<CustomDrawer> {
                             builder: (context) => WorkshopSearchPage()));
                       },
                     ),
-
+                    ListTile(
+                      leading: Icon(FontAwesomeIcons.tools),
+                      title: Text(
+                        "Find Services", style: GoogleFonts.montserrat(
+                          fontSize: 15, color: Colors.black),),
+                      trailing: Icon(Icons.arrow_forward_ios, size: 15.0,),
+                      onTap: () {
+                        Navigator.push(context, MaterialPageRoute(
+                            builder: (context) => ServiceSearcPage()));
+                      },
+                    ),
                     ListTile(
                       leading: Icon(FontAwesomeIcons.storeAlt),
                       title: Text("Find Auto Part Store",
@@ -398,17 +408,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
                       },
                     ),
 
-                    ListTile(
-                      leading: Icon(FontAwesomeIcons.tools),
-                      title: Text(
-                        "Find Services", style: GoogleFonts.montserrat(
-                          fontSize: 15, color: Colors.black),),
-                      trailing: Icon(Icons.arrow_forward_ios, size: 15.0,),
-                      onTap: () {
-                        Navigator.push(context, MaterialPageRoute(
-                            builder: (context) => ServiceSearcPage()));
-                      },
-                    ),
+
                     ListTile(
                       leading: Icon(FontAwesomeIcons.adversal),
                       title: Text("Find Ads", style: GoogleFonts.montserrat(
