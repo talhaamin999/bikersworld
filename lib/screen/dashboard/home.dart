@@ -337,7 +337,7 @@ class _HomeDashboardState extends State<HomeDashboard> {
             SizedBox(height: 20,),
             Container(
               width: double.infinity,
-              height:210,
+              height:160,
               color: Color(0XFF012A4A),
               child: Center(
                 child: Column(
@@ -364,37 +364,6 @@ class _HomeDashboardState extends State<HomeDashboard> {
                               textAlign: TextAlign.center,
                             ),
                           ],
-                        ),
-                      ),
-                    ),
-                    Center(
-                      child: FlatButton(
-                        onPressed: (){
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => findMore()));
-                        },
-                        child: Container(
-                          height: 50,
-                          width: 200,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(100.0),
-                            gradient: LinearGradient(
-                              begin: Alignment.topLeft,
-                              end: Alignment.bottomRight,
-                              colors: [
-                                Color(0xfffbb448),
-                                Color(0xffed740c),
-                              ],
-                            ),
-                          ),
-                          child: Center(
-                            child: Text(
-                              "Find More",
-                              style: GoogleFonts.raleway(
-                                fontSize: 20.0,
-                                color: Colors.white,
-                              ),
-                            ),
-                          ),
                         ),
                       ),
                     ),
