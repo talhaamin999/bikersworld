@@ -44,7 +44,24 @@ class RegisterWorkshopQueries {
        resultMessage = e.toString();
      }
    }
-
+   Future updateWorkshop(WorkshopDashboardModel data) async{
+     try {
+           if(_firebaseUser != null){
+           await _firestoreInstance.collection(WORKSHOP_COLLECTION)
+               .doc(_firebaseUser.uid)
+               .set(data.toMap(), SetOptions(merge: true))
+               .then((_) {
+             resultMessage = "Workshop Successfully Updated";
+           }).catchError((error) {
+             resultMessage = error.toString();
+           });
+         }else{
+           resultMessage = "You'r Not Logged In";
+         }
+     }catch(e){
+       resultMessage = e.toString();
+     }
+   }
    Future uploadWorkshopImage(String imageURL) async{
      await _firestoreInstance.collection(WORKSHOP_COLLECTION).doc(_firebaseUser.uid).set({
        'image' : imageURL,
