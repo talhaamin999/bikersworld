@@ -65,7 +65,9 @@ class _RegisterWorkshopState extends State<RegisterWorkshop> {
       friday = widget.data.friday;
       saturday = widget.data.saturday;
       sunday = widget.data.sunday;
-      imageUrl = widget.data.imageURL;
+      if(widget.data.imageURL != null) {
+        imageUrl = widget.data.imageURL;
+      }
     }
   }
 
