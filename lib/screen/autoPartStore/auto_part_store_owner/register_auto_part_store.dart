@@ -62,6 +62,9 @@ class _RegisterAutoPartStoreState extends State<RegisterAutoPartStore> {
       friday = widget.storeDetails.friday;
       saturday = widget.storeDetails.saturday;
       sunday = widget.storeDetails.sunday;
+      if(widget.storeDetails.imageURL != null){
+        imageUrl = widget.storeDetails.imageURL;
+      }
     }
   }
 
