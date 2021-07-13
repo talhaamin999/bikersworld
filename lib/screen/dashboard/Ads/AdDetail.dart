@@ -11,7 +11,8 @@ class AddDetail extends StatefulWidget {
 
 
   final BikeAddModel data;
-  AddDetail({@required this.data});
+  final bool ownerDasBoard;
+  AddDetail({@required this.data,this.ownerDasBoard});
   @override
   _AddDetailState createState() => _AddDetailState();
 }
@@ -26,8 +27,6 @@ class _AddDetailState extends State<AddDetail>  with SingleTickerProviderStateMi
   }
   TabController tabController;
   static List<String> links;
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -290,50 +289,53 @@ class _AddDetailState extends State<AddDetail>  with SingleTickerProviderStateMi
                   ),
                 ),
                 SizedBox(height: 35,),
-                Container(
-                  height: 180,
-                  width: double.infinity,
-                  color: Color(0XFF012A4A),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Text(
-                        "Search for more ads",
-                        style: GoogleFonts.montserrat(
-                          fontSize: 25,
-                          color: Colors.white,
+                Visibility(
+                  visible: widget.ownerDasBoard ? true : false,
+                  child: Container(
+                    height: 180,
+                    width: double.infinity,
+                    color: Color(0XFF012A4A),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Text(
+                          "Search for more ads",
+                          style: GoogleFonts.montserrat(
+                            fontSize: 25,
+                            color: Colors.white,
+                          ),
                         ),
-                      ),
-                      SizedBox(height: 20,),
-                      Text(
-                        "Find the best Ads on Bikers World...",
-                        style: GoogleFonts.montserrat(
-                          fontSize: 15,
-                          color: Colors.white,
+                        SizedBox(height: 20,),
+                        Text(
+                          "Find the best Ads on Bikers World...",
+                          style: GoogleFonts.montserrat(
+                            fontSize: 15,
+                            color: Colors.white,
+                          ),
                         ),
-                      ),
-                      SizedBox(height: 20,),
-                      Container(
-                        child:InkWell(
-                          onTap: (){
-                            Navigator.push(context, MaterialPageRoute(builder: (context) => AdSearchPage()));
-                          },
-                          child: Container(
-                            width: MediaQuery.of(context).size.width - 200,
-                            padding: EdgeInsets.symmetric(vertical: 13),
-                            alignment: Alignment.center,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.all(Radius.circular(5)),
-                              border: Border.all(color: Colors.orange, width: 2),
-                            ),
-                            child: Text(
-                              'Find more',
-                              style: TextStyle(fontSize: 20, color: Colors.orange),
+                        SizedBox(height: 20,),
+                        Container(
+                          child:InkWell(
+                            onTap: (){
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => AdSearchPage()));
+                            },
+                            child: Container(
+                              width: MediaQuery.of(context).size.width - 200,
+                              padding: EdgeInsets.symmetric(vertical: 13),
+                              alignment: Alignment.center,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.all(Radius.circular(5)),
+                                border: Border.all(color: Colors.orange, width: 2),
+                              ),
+                              child: Text(
+                                'Find more',
+                                style: TextStyle(fontSize: 20, color: Colors.orange),
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
               ],
@@ -342,69 +344,72 @@ class _AddDetailState extends State<AddDetail>  with SingleTickerProviderStateMi
         ),
        // drawer: Drawer(),
         floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
-        bottomNavigationBar: ListTile(
-          //contentPadding: EdgeInsets.all(<some value here>),//change for side padding
-          title: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: <Widget>[
-                Expanded(
-                    child:FlatButton(
-                      padding: EdgeInsets.zero,
-                      onPressed: (){
-                        launch(
-                            "whatsapp://send?phone=${widget.data.sellerContact}"
-                        );
-                      },
-                      child: Container(
-                        height:60,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(5)),
-                          border: Border.all(color: Color(0XFF128C7E),  width: 2),
-                          color: Color(0XFF128C7E),
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            Icon(FontAwesomeIcons.whatsapp, color: Colors.white,size: 30,),
-                            SizedBox(width: 10,),
-                            Text("Whatsapp",
-                              style: GoogleFonts.quicksand(fontSize: 18, color: Colors.white),),
-                          ],
-                        ),
-                      ),
-                    ),
-                ),
-                SizedBox(width: 10,),
-                Expanded(
-                    child:FlatButton(
-                      padding: EdgeInsets.zero,
-                      onPressed: (){
-                        launch(
-                            'tel://${widget.data.sellerContact}'
-                        );
-                      },
-                      child: Container(
-                        height:60,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(5)),
-                          border: Border.all(color: Color(0XFF396ca3),  width: 2),
-                          color: Color(0XFF396ca3),
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            Icon(FontAwesomeIcons.phoneAlt, color: Colors.white,),
-                            SizedBox(width: 10,),
-                            Text("Call Seller",
-                              style: GoogleFonts.quicksand(fontSize: 18, color: Colors.white),),
-                          ],
+        bottomNavigationBar: Visibility(
+          visible: widget.ownerDasBoard ? true : false,
+          child: ListTile(
+            //contentPadding: EdgeInsets.all(<some value here>),//change for side padding
+            title: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                  Expanded(
+                      child:FlatButton(
+                        padding: EdgeInsets.zero,
+                        onPressed: (){
+                          launch(
+                              "whatsapp://send?phone=${widget.data.sellerContact}"
+                          );
+                        },
+                        child: Container(
+                          height:60,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.all(Radius.circular(5)),
+                            border: Border.all(color: Color(0XFF128C7E),  width: 2),
+                            color: Color(0XFF128C7E),
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              Icon(FontAwesomeIcons.whatsapp, color: Colors.white,size: 30,),
+                              SizedBox(width: 10,),
+                              Text("Whatsapp",
+                                style: GoogleFonts.quicksand(fontSize: 18, color: Colors.white),),
+                            ],
+                          ),
                         ),
                       ),
-                    ),
-                ),
-              ],
+                  ),
+                  SizedBox(width: 10,),
+                  Expanded(
+                      child:FlatButton(
+                        padding: EdgeInsets.zero,
+                        onPressed: (){
+                          launch(
+                              'tel://${widget.data.sellerContact}'
+                          );
+                        },
+                        child: Container(
+                          height:60,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.all(Radius.circular(5)),
+                            border: Border.all(color: Color(0XFF396ca3),  width: 2),
+                            color: Color(0XFF396ca3),
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              Icon(FontAwesomeIcons.phoneAlt, color: Colors.white,),
+                              SizedBox(width: 10,),
+                              Text("Call Seller",
+                                style: GoogleFonts.quicksand(fontSize: 18, color: Colors.white),),
+                            ],
+                          ),
+                        ),
+                      ),
+                  ),
+                ],
+              ),
             ),
           ),
         )
