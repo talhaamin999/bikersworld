@@ -1,4 +1,5 @@
 import 'package:bikersworld/model/bike_add_model.dart';
+import 'package:bikersworld/services/toast_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -18,6 +19,8 @@ class AddDetail extends StatefulWidget {
 }
 
 class _AddDetailState extends State<AddDetail>  with SingleTickerProviderStateMixin  {
+
+  final _error = ToastErrorMessage();
 
   @override
   void initState() {
@@ -357,9 +360,14 @@ class _AddDetailState extends State<AddDetail>  with SingleTickerProviderStateMi
                       child:FlatButton(
                         padding: EdgeInsets.zero,
                         onPressed: (){
-                          launch(
-                              "whatsapp://send?phone=${widget.data.sellerContact}"
-                          );
+                          try {
+                            launch(
+                                "whatsapp://send?phone=${widget.data
+                                    .sellerContact}"
+                            );
+                          }catch(e){
+                            _error.errorToastMessage(errorMessage: e.toString());
+                          }
                         },
                         child: Container(
                           height:60,
@@ -385,9 +393,14 @@ class _AddDetailState extends State<AddDetail>  with SingleTickerProviderStateMi
                       child:FlatButton(
                         padding: EdgeInsets.zero,
                         onPressed: (){
-                          launch(
-                              'tel://${widget.data.sellerContact}'
-                          );
+                          try {
+                            launch(
+                                'tel://${widget.data.sellerContact}'
+                            );
+                          }catch(e){
+                            _error.errorToastMessage(errorMessage: e.toString());
+                          }
+
                         },
                         child: Container(
                           height:60,
